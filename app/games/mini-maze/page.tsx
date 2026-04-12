@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import MemoryHuntPage from '../../components/edu/MemoryHuntPage';
+import MiniMazeGame from './MiniMazeGame';
 
 export const metadata: Metadata = {
   title: 'Trò chơi ghi nhớ cho bé',
@@ -33,5 +33,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MemoryHuntPage />;
+  return <MiniMazeGame />;
 }

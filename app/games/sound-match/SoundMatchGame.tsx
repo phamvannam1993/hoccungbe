@@ -1,0 +1,802 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { soundMatchCategories, soundMatchData, type SoundMatchQuestion } from './data';
+
+type CategoryKey = keyof typeof soundMatchData;
+
+type StoredScore = {
+  categoryKey: string;
+  categoryLabel: string;
+  score: number;
+  total: number;
+  accuracy: number;
+  playedAt: string;
+};
+
+type PlayQuestion = SoundMatchQuestion & {
+  shuffledOptions: string[];
+};
+
+const LOCAL_STORAGE_KEY = 'hoc-cung-be-sound-match-scores';
+const SOUND_ENABLED_KEY = 'hoc-cung-be-sound-match-effects-enabled';
+const QUESTIONS_PER_GAME = 5;
+
+function shuffleArray<T>(items: T[]): T[] {
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildPlayQuestions(source: SoundMatchQuestion[], count: number): PlayQuestion[] {
+  return shuffleArray(source)
+    .slice(0, Math.min(count, source.length))
+    .map((question) => ({
+      ...question,
+      shuffledOptions: shuffleArray(question.options),
+    }));
+}
+
+function loadStoredScores(): StoredScore[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as StoredScore[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStoredScore(score: StoredScore) {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = loadStoredScores();
+    const next = [score, ...current].slice(0, 12);
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(next));
+  } catch {}
+}
+
+function loadSoundEnabled() {
+  if (typeof window === 'undefined') return true;
+  try {
+    const raw = window.localStorage.getItem(SOUND_ENABLED_KEY);
+    return raw ? JSON.parse(raw) : true;
+  } catch {
+    return true;
+  }
+}
+
+function saveSoundEnabled(enabled: boolean) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(SOUND_ENABLED_KEY, JSON.stringify(enabled));
+}
+
+function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
+  const vietnameseVoices = voices.filter((voice) =>
+    voice.lang.toLowerCase().startsWith('vi')
+  );
+
+  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
+
+  const preferredFemale = vietnameseVoices.find((voice) =>
+    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
+  );
+
+  return preferredFemale || vietnameseVoices[0] || null;
+}
+
+export default function SoundMatchGame() {
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(null);
+  const [questions, setQuestions] = useState<PlayQuestion[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voicesReady, setVoicesReady] = useState(false);
+  const [history, setHistory] = useState<StoredScore[]>([]);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  const hasSavedResultRef = useRef(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  const currentQuestion = questions[currentIndex];
+
+  const progress = useMemo(() => {
+    if (!questions.length) return 0;
+    return Math.round(((currentIndex + (finished ? 1 : 0)) / questions.length) * 100);
+  }, [currentIndex, finished, questions.length]);
+
+  useEffect(() => {
+    setHistory(loadStoredScores());
+    setSoundEnabled(loadSoundEnabled());
+  }, []);
+
+  useEffect(() => {
+    saveSoundEnabled(soundEnabled);
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    const synth = window.speechSynthesis;
+
+    const handleVoices = () => {
+      setVoicesReady(true);
+    };
+
+    handleVoices();
+    synth.onvoiceschanged = handleVoices;
+
+    return () => {
+      synth.cancel();
+      synth.onvoiceschanged = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!finished || !selectedCategory || hasSavedResultRef.current || !questions.length) return;
+
+    const categoryInfo = soundMatchData[selectedCategory];
+    const storedScore: StoredScore = {
+      categoryKey: selectedCategory,
+      categoryLabel: categoryInfo.label,
+      score,
+      total: questions.length,
+      accuracy: Math.round((score / questions.length) * 100),
+      playedAt: new Date().toISOString(),
+    };
+
+    saveStoredScore(storedScore);
+    setHistory(loadStoredScores());
+    hasSavedResultRef.current = true;
+
+    playFinishSound();
+  }, [finished, selectedCategory, score, questions.length]);
+
+  const getAudioContext = () => {
+    if (typeof window === 'undefined') return null;
+
+    if (!audioContextRef.current) {
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+      if (!AudioContextClass) return null;
+      audioContextRef.current = new AudioContextClass();
+    }
+
+    return audioContextRef.current;
+  };
+
+  const playTone = async (
+    frequency: number,
+    duration = 0.14,
+    type: OscillatorType = 'sine'
+  ) => {
+    if (!soundEnabled) return;
+
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+    }
+
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + duration);
+  };
+
+  const playListenSound = async () => {
+    await playTone(520, 0.08, 'triangle');
+  };
+
+  const playSelectSound = async () => {
+    await playTone(430, 0.08, 'triangle');
+  };
+
+  const playCorrectSound = async () => {
+    await playTone(700, 0.1, 'sine');
+    setTimeout(() => {
+      playTone(900, 0.12, 'sine');
+    }, 90);
+  };
+
+  const playWrongSound = async () => {
+    await playTone(300, 0.1, 'sawtooth');
+    setTimeout(() => {
+      playTone(180, 0.14, 'sawtooth');
+    }, 90);
+  };
+
+  const playFinishSound = async () => {
+    await playTone(523.25, 0.12, 'sine');
+    setTimeout(() => {
+      playTone(659.25, 0.12, 'sine');
+    }, 100);
+    setTimeout(() => {
+      playTone(783.99, 0.14, 'sine');
+    }, 220);
+    setTimeout(() => {
+      playTone(1046.5, 0.18, 'sine');
+    }, 340);
+  };
+
+  const speakWord = async (text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    await playListenSound();
+
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = synth.getVoices();
+    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
+
+    utterance.lang = 'vi-VN';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.15;
+    utterance.volume = 1;
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+      utterance.lang = preferredVoice.lang;
+    }
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    synth.speak(utterance);
+  };
+
+  const speakResult = (text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  
+    const synth = window.speechSynthesis;
+    synth.cancel();
+  
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = synth.getVoices();
+    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
+  
+    utterance.lang = 'vi-VN';
+    utterance.rate = 0.92;
+    utterance.pitch = 1.08;
+    utterance.volume = 1;
+  
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+      utterance.lang = preferredVoice.lang;
+    }
+  
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+  
+    synth.speak(utterance);
+  };
+
+  const startCategoryGame = (key: CategoryKey) => {
+    const sourceQuestions = soundMatchData[key].questions;
+    const nextQuestions = buildPlayQuestions(sourceQuestions, QUESTIONS_PER_GAME);
+
+    setSelectedCategory(key);
+    setQuestions(nextQuestions);
+    setCurrentIndex(0);
+    setSelected(null);
+    setShowResult(false);
+    setScore(0);
+    setFinished(false);
+    setIsSpeaking(false);
+    hasSavedResultRef.current = false;
+  };
+
+  const handleChoose = async (option: string) => {
+    if (showResult || !currentQuestion) return;
+  
+    await playSelectSound();
+  
+    setSelected(option);
+    setShowResult(true);
+  
+    if (option === currentQuestion.correct) {
+      setScore((prev) => prev + 1);
+  
+      setTimeout(() => {
+        playCorrectSound();
+      }, 80);
+  
+      setTimeout(() => {
+        speakResult(`Chính xác rồi. Âm thanh vừa nghe là ${currentQuestion.word}`);
+      }, 220);
+    } else {
+      setTimeout(() => {
+        playWrongSound();
+      }, 80);
+  
+      setTimeout(() => {
+        speakResult(
+          `Chưa đúng nhé. Đáp án đúng là ${currentQuestion.word}`
+        );
+      }, 220);
+    }
+  };
+
+  const handleNext = () => {
+    if (!questions.length) return;
+
+    if (currentIndex === questions.length - 1) {
+      setFinished(true);
+      return;
+    }
+
+    setCurrentIndex((prev) => prev + 1);
+    setSelected(null);
+    setShowResult(false);
+  };
+
+  const handleRestartSameCategory = () => {
+    if (!selectedCategory) return;
+    startCategoryGame(selectedCategory);
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+    setQuestions([]);
+    setCurrentIndex(0);
+    setSelected(null);
+    setShowResult(false);
+    setScore(0);
+    setFinished(false);
+    setIsSpeaking(false);
+    hasSavedResultRef.current = false;
+  };
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    saveSoundEnabled(next);
+
+    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  if (!selectedCategory) {
+    return (
+      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
+                Trò chơi âm thanh
+              </p>
+
+              <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                Chọn chủ đề trước khi bắt đầu
+              </h1>
+
+              <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+                Bé sẽ nghe từ được đọc lên, sau đó chọn đúng hình minh họa tương ứng.
+                Mỗi lần chơi hệ thống sẽ tự trộn câu hỏi và đáp án để bé luôn thấy mới mẻ.
+              </p>
+            </div>
+
+            <button
+              onClick={toggleSound}
+              className="rounded-full bg-slate-100 px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+            >
+              {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+            </button>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {soundMatchCategories.map((category) => (
+              <button
+                key={category.key}
+                onClick={() => startCategoryGame(category.key as CategoryKey)}
+                className="group rounded-[30px] bg-white p-5 text-left shadow-sm ring-1 ring-slate-100 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-[28px] bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[2px] shadow-[0_12px_30px_rgba(168,85,247,0.28)] transition duration-300 group-hover:scale-105 group-hover:rotate-[-4deg]">
+                  <div className="absolute inset-1 rounded-[24px] bg-white/20 blur-md" />
+                  <div className="relative flex h-full w-full items-center justify-center rounded-[26px] bg-gradient-to-br from-sky-400 via-cyan-300 to-violet-400 text-4xl shadow-inner">
+                    <span className="drop-shadow-[0_4px_8px_rgba(255,255,255,0.55)]">
+                      {category.icon}
+                    </span>
+                  </div>
+                </div>
+
+                <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-900">
+                  {category.label}
+                </h3>
+
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  {Math.min(QUESTIONS_PER_GAME, category.total)} câu mỗi lượt chơi, có trộn ngẫu nhiên.
+                </p>
+
+                <div className="mt-5 inline-flex rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 ring-1 ring-sky-100">
+                  Bắt đầu chủ đề
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+            <div className="rounded-[30px] bg-slate-50 p-6 ring-1 ring-slate-100">
+              <h2 className="text-2xl font-black tracking-tight text-slate-900">
+                Điểm nổi bật của trò chơi
+              </h2>
+
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                {[
+                  'Ưu tiên giọng nữ tiếng Việt khi phát âm',
+                  'Mỗi lần chơi sẽ trộn câu hỏi ngẫu nhiên',
+                  'Đáp án được đảo vị trí để tăng phản xạ',
+                  'Kết quả được lưu lại để phụ huynh xem nhanh',
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl bg-white px-4 py-4 text-sm font-medium leading-7 text-slate-700 ring-1 ring-slate-100"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] bg-emerald-50 p-6 shadow-sm ring-1 ring-emerald-100">
+              <h3 className="text-2xl font-black tracking-tight text-emerald-950">
+                Kết quả gần đây
+              </h3>
+
+              <div className="mt-5 space-y-3">
+                {history.length === 0 ? (
+                  <div className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-emerald-100">
+                    Chưa có lượt chơi nào được lưu. Hãy chọn một chủ đề để bắt đầu.
+                  </div>
+                ) : (
+                  history.slice(0, 4).map((item, index) => (
+                    <div
+                      key={`${item.playedAt}-${index}`}
+                      className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-700 ring-1 ring-emerald-100"
+                    >
+                      <div className="font-bold text-slate-900">{item.categoryLabel}</div>
+                      <div>
+                        Điểm: {item.score}/{item.total} · Chính xác: {item.accuracy}%
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (finished) {
+    const categoryInfo = soundMatchData[selectedCategory];
+    const accuracy = questions.length ? Math.round((score / questions.length) * 100) : 0;
+
+    return (
+      <section className="mx-auto max-w-5xl px-6 py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-white text-5xl">
+                🎉
+              </div>
+            </div>
+
+            <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
+              Hoàn thành chủ đề
+            </p>
+
+            <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+            </h1>
+
+            <p className="mt-4 text-base leading-8 text-slate-600">
+              Kết quả đã được lưu lại trên trình duyệt để phụ huynh xem nhanh trong những lần sau.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-3xl bg-sky-50 p-5 ring-1 ring-sky-100">
+                <p className="text-sm font-semibold text-sky-700">Điểm số</p>
+                <p className="mt-2 text-3xl font-black text-slate-900">
+                  {score}/{questions.length}
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-violet-50 p-5 ring-1 ring-violet-100">
+                <p className="text-sm font-semibold text-violet-700">Độ chính xác</p>
+                <p className="mt-2 text-3xl font-black text-slate-900">{accuracy}%</p>
+              </div>
+
+              <div className="rounded-3xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
+                <p className="text-sm font-semibold text-emerald-700">Đánh giá</p>
+                <p className="mt-2 text-3xl font-black text-slate-900">
+                  {accuracy >= 90 ? 'Rất tốt' : accuracy >= 60 ? 'Tốt' : 'Cố gắng thêm'}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <button
+                onClick={handleRestartSameCategory}
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
+              >
+                Chơi lại chủ đề này
+              </button>
+
+              <button
+                onClick={handleBackToCategories}
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+              >
+                Chọn chủ đề khác
+              </button>
+
+              <Link
+                href="/games"
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+              >
+                Về kho trò chơi
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 ring-1 ring-sky-100">
+                3-6 tuổi
+              </span>
+              <span className="rounded-full bg-violet-50 px-4 py-2 text-sm font-bold text-violet-700 ring-1 ring-violet-100">
+                {soundMatchData[selectedCategory].label}
+              </span>
+              <span className="rounded-full bg-amber-50 px-4 py-2 text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+                {questions.length} câu
+              </span>
+            </div>
+
+            <button
+              onClick={toggleSound}
+              className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+            >
+              {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+            </button>
+          </div>
+
+          <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+            Ghép cặp âm thanh
+          </h1>
+
+          <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+            Bé nghe từ được đọc lên và chọn đúng hình minh họa tương ứng. Mỗi lượt chơi
+            đều được trộn ngẫu nhiên để tăng hứng thú và khả năng phản xạ.
+          </p>
+
+          <div className="mt-8 rounded-[30px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-5">
+            <div className="rounded-[24px] bg-white p-5 shadow-inner">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Màn chơi hiện tại</p>
+                  <h3 className="mt-1 text-2xl font-black text-slate-900">
+                    Nghe âm thanh và chọn đúng hình
+                  </h3>
+                </div>
+
+                <div className="rounded-2xl bg-emerald-100 px-3 py-2 text-sm font-bold text-emerald-700">
+                  Câu {currentIndex + 1}/{questions.length}
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <div className="h-3 rounded-full bg-slate-200">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-sky-500 to-violet-500 transition-all duration-300"
+                    style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-3xl bg-sky-50 p-6 text-center ring-1 ring-sky-100">
+                <p className="text-sm font-semibold text-slate-500">Bé hãy bấm để nghe</p>
+
+                <button
+                  onClick={() => speakWord(currentQuestion.word)}
+                  className="mt-4 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-300 via-pink-400 to-violet-500 p-[2px] shadow-[0_12px_30px_rgba(168,85,247,0.28)] transition duration-300 hover:scale-105"
+                >
+                  <span className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-base font-black text-slate-900">
+                    <span className="text-2xl">{isSpeaking ? '🔊' : '🎧'}</span>
+                    {voicesReady ? 'Nghe âm thanh' : 'Đang tải giọng đọc'}
+                  </span>
+                </button>
+
+                <p className="mt-4 text-sm leading-7 text-slate-600">
+                  Hệ thống sẽ ưu tiên giọng nữ tiếng Việt nếu thiết bị có hỗ trợ.
+                </p>
+              </div>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {currentQuestion.shuffledOptions.map((option) => {
+                  const isCorrect = option === currentQuestion.correct;
+                  const isSelected = selected === option;
+
+                  let buttonClass =
+                    'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50';
+
+                  if (showResult && isCorrect) {
+                    buttonClass = 'bg-emerald-50 text-emerald-700 ring-emerald-200';
+                  } else if (showResult && isSelected && !isCorrect) {
+                    buttonClass = 'bg-rose-50 text-rose-700 ring-rose-200';
+                  }
+
+                  return (
+                    <button
+                      key={`${currentQuestion.id}-${option}`}
+                      onClick={() => handleChoose(option)}
+                      disabled={showResult}
+                      className={`rounded-[28px] px-4 py-5 text-center text-5xl shadow-sm ring-1 transition duration-300 ${buttonClass}`}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {showResult && (
+                <div
+                  className={`mt-6 rounded-2xl px-4 py-4 text-sm font-semibold ${
+                    selected === currentQuestion.correct
+                      ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'
+                      : 'bg-rose-50 text-rose-700 ring-1 ring-rose-100'
+                  }`}
+                >
+                  {selected === currentQuestion.correct
+                    ? `Chính xác rồi. Âm thanh vừa nghe là “${currentQuestion.word}”.`
+                    : `Chưa đúng nhé. Đáp án đúng là ${currentQuestion.correct} — “${currentQuestion.word}”.`}
+                </div>
+              )}
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button
+                  onClick={() => speakWord(currentQuestion.word)}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+                >
+                  Nghe lại
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  disabled={!showResult}
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {currentIndex === questions.length - 1 ? 'Xem kết quả' : 'Câu tiếp theo'}
+                </button>
+
+                <button
+                  onClick={handleBackToCategories}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+                >
+                  Đổi chủ đề
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
+            <h3 className="text-2xl font-black tracking-tight text-slate-900">
+              Chủ đề đang chơi
+            </h3>
+
+            <div className="mt-5 flex items-center gap-4 rounded-3xl bg-sky-50 p-5 ring-1 ring-sky-100">
+              <div className="flex h-16 w-16 items-center justify-center rounded-[24px] bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 text-3xl shadow-lg">
+                {soundMatchData[selectedCategory].icon}
+              </div>
+              <div>
+                <p className="text-lg font-black text-slate-900">
+                  {soundMatchData[selectedCategory].label}
+                </p>
+                <p className="mt-1 text-sm leading-7 text-slate-600">
+                  Câu hỏi và đáp án được trộn ngẫu nhiên.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
+            <h3 className="text-2xl font-black tracking-tight text-slate-900">
+              Tiến độ hiện tại
+            </h3>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <div className="mb-2 flex justify-between text-sm font-semibold text-slate-700">
+                  <span>Hoàn thành</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="h-3 rounded-full bg-slate-200">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-sky-500 to-violet-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
+                Điểm hiện tại: <span className="font-bold text-slate-900">{score}</span> /{' '}
+                {questions.length}
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[30px] bg-emerald-50 p-6 shadow-sm ring-1 ring-emerald-100">
+            <h3 className="text-2xl font-black tracking-tight text-emerald-950">
+              Kết quả gần đây
+            </h3>
+
+            <div className="mt-5 space-y-3">
+              {history.length === 0 ? (
+                <div className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-emerald-100">
+                  Chưa có dữ liệu lưu gần đây.
+                </div>
+              ) : (
+                history.slice(0, 3).map((item, index) => (
+                  <div
+                    key={`${item.playedAt}-${index}`}
+                    className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-700 ring-1 ring-emerald-100"
+                  >
+                    <div className="font-bold text-slate-900">{item.categoryLabel}</div>
+                    <div>
+                      Điểm: {item.score}/{item.total} · {item.accuracy}%
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <Link
+              href="/pricing"
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
+            >
+              Mở khóa toàn bộ bài học
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

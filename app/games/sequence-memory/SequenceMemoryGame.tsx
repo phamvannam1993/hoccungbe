@@ -1,0 +1,1130 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  sequenceMemoryCategories,
+  sequenceMemoryData,
+  type SequenceMemoryCategory,
+  type SequenceMemoryLevel,
+  type SequenceMemoryQuestion,
+} from './data';
+
+type CategoryKey = keyof typeof sequenceMemoryData;
+
+type StoredScore = {
+  categoryKey: string;
+  categoryLabel: string;
+  level: SequenceMemoryLevel;
+  score: number;
+  total: number;
+  accuracy: number;
+  playedAt: string;
+};
+
+type PlayQuestion = SequenceMemoryQuestion;
+
+type StickerItem = {
+  id: string;
+  emoji: string;
+  title: string;
+  description: string;
+};
+
+const LOCAL_STORAGE_KEY = 'hoc-cung-be-sequence-memory-scores';
+const SOUND_ENABLED_KEY = 'hoc-cung-be-sequence-memory-sound-enabled';
+const SPEECH_ENABLED_KEY = 'hoc-cung-be-sequence-memory-speech-enabled';
+const STICKERS_KEY = 'hoc-cung-be-sequence-memory-stickers';
+
+const QUESTIONS_PER_GAME = 5;
+
+const levelConfig: Record<
+  SequenceMemoryLevel,
+  {
+    label: string;
+    color: string;
+    previewMs: number;
+  }
+> = {
+  easy: {
+    label: 'Dễ',
+    color: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
+    previewMs: 1100,
+  },
+  medium: {
+    label: 'Trung bình',
+    color: 'bg-amber-50 text-amber-700 ring-amber-100',
+    previewMs: 900,
+  },
+  hard: {
+    label: 'Khó',
+    color: 'bg-rose-50 text-rose-700 ring-rose-100',
+    previewMs: 700,
+  },
+};
+
+const stickers: StickerItem[] = [
+  {
+    id: 'first-win',
+    emoji: '🌟',
+    title: 'Khởi đầu thật tốt',
+    description: 'Hoàn thành một màn đầu tiên.',
+  },
+  {
+    id: 'perfect',
+    emoji: '👑',
+    title: 'Trí nhớ rất tốt',
+    description: 'Đạt độ chính xác rất cao.',
+  },
+  {
+    id: 'combo-3',
+    emoji: '🔥',
+    title: 'Combo ghi nhớ',
+    description: 'Đạt 3 câu đúng liên tiếp.',
+  },
+  {
+    id: 'animals-master',
+    emoji: '🐻',
+    title: 'Bạn của con vật',
+    description: 'Hoàn thành chủ đề con vật.',
+  },
+  {
+    id: 'mixed-master',
+    emoji: '✨',
+    title: 'Bé nhớ siêu tốt',
+    description: 'Hoàn thành chủ đề tổng hợp.',
+  },
+];
+
+function shuffleArray<T>(items: T[]): T[] {
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildPlayQuestions(
+  source: SequenceMemoryQuestion[],
+  count: number,
+  level: SequenceMemoryLevel
+): PlayQuestion[] {
+  const filtered = source.filter((question) => question.level === level);
+  const sourceToUse = filtered.length ? filtered : source;
+  return shuffleArray(sourceToUse).slice(0, Math.min(count, sourceToUse.length));
+}
+
+function loadStoredScores(): StoredScore[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as StoredScore[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStoredScore(score: StoredScore) {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = loadStoredScores();
+    const next = [score, ...current].slice(0, 12);
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(next));
+  } catch {}
+}
+
+function loadBooleanSetting(key: string, fallback = true) {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveBooleanSetting(key: string, value: boolean) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+function loadUnlockedStickers(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(STICKERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveUnlockedStickers(values: string[]) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(STICKERS_KEY, JSON.stringify(values));
+}
+
+function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
+  const vietnameseVoices = voices.filter((voice) =>
+    voice.lang.toLowerCase().startsWith('vi')
+  );
+
+  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
+
+  const preferredFemale = vietnameseVoices.find((voice) =>
+    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
+  );
+
+  return preferredFemale || vietnameseVoices[0] || null;
+}
+
+export default function SequenceMemoryGame() {
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<SequenceMemoryLevel>('easy');
+  const [questions, setQuestions] = useState<PlayQuestion[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [isWin, setIsWin] = useState(false);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [history, setHistory] = useState<StoredScore[]>([]);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [speechEnabled, setSpeechEnabled] = useState(true);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+  const [unlockedStickerIds, setUnlockedStickerIds] = useState<string[]>([]);
+
+  const [showingPreview, setShowingPreview] = useState(true);
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const [userSequence, setUserSequence] = useState<string[]>([]);
+
+  const hasSavedResultRef = useRef(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const previewTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const currentQuestion = questions[currentIndex];
+
+  const accuracy = questions.length ? Math.round((score / questions.length) * 100) : 0;
+
+  const progress = useMemo(() => {
+    if (!questions.length) return 0;
+    return Math.round(((currentIndex + (finished ? 1 : 0)) / questions.length) * 100);
+  }, [currentIndex, finished, questions.length]);
+
+  useEffect(() => {
+    setHistory(loadStoredScores());
+    setSoundEnabled(loadBooleanSetting(SOUND_ENABLED_KEY, true));
+    setSpeechEnabled(loadBooleanSetting(SPEECH_ENABLED_KEY, true));
+    setUnlockedStickerIds(loadUnlockedStickers());
+  }, []);
+
+  useEffect(() => {
+    saveBooleanSetting(SOUND_ENABLED_KEY, soundEnabled);
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    saveBooleanSetting(SPEECH_ENABLED_KEY, speechEnabled);
+  }, [speechEnabled]);
+
+  useEffect(() => {
+    return () => {
+      if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!currentQuestion) return;
+
+    setUserSequence([]);
+    setShowResult(false);
+    setIsWin(false);
+    setShowingPreview(true);
+    setPreviewIndex(0);
+
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+
+    const previewMs = levelConfig[selectedLevel].previewMs;
+    let i = 0;
+
+    const runPreview = () => {
+      setPreviewIndex(i);
+
+      if (i < currentQuestion.sequence.length - 1) {
+        previewTimeoutRef.current = setTimeout(() => {
+          i += 1;
+          runPreview();
+        }, previewMs);
+      } else {
+        previewTimeoutRef.current = setTimeout(() => {
+          setShowingPreview(false);
+          setPreviewIndex(-1);
+        }, previewMs);
+      }
+    };
+
+    runPreview();
+  }, [currentQuestion, selectedLevel]);
+
+  useEffect(() => {
+    if (!finished || !selectedCategory || hasSavedResultRef.current || !questions.length) return;
+
+    const categoryInfo = sequenceMemoryData[selectedCategory];
+    const storedScore: StoredScore = {
+      categoryKey: selectedCategory,
+      categoryLabel: categoryInfo.label,
+      level: selectedLevel,
+      score,
+      total: questions.length,
+      accuracy: Math.round((score / questions.length) * 100),
+      playedAt: new Date().toISOString(),
+    };
+
+    saveStoredScore(storedScore);
+    setHistory(loadStoredScores());
+    hasSavedResultRef.current = true;
+
+    unlockSticker('first-win');
+    if (accuracy >= 90) unlockSticker('perfect');
+    if (selectedCategory === 'animals') unlockSticker('animals-master');
+    if (selectedCategory === 'mixed') unlockSticker('mixed-master');
+
+    playFinishSound();
+
+    setTimeout(() => {
+      speakVietnamese(
+        accuracy >= 90
+          ? `Bé đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
+          : accuracy >= 60
+          ? `Bé đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+          : `Bé đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+      );
+    }, 250);
+  }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
+
+  const getAudioContext = () => {
+    if (typeof window === 'undefined') return null;
+
+    if (!audioContextRef.current) {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+      if (!AudioCtx) return null;
+      audioContextRef.current = new AudioCtx();
+    }
+
+    return audioContextRef.current;
+  };
+
+  const playTone = async (
+    frequency: number,
+    duration = 0.18,
+    type: OscillatorType = 'sine'
+  ) => {
+    if (!soundEnabled) return;
+
+    const audioContext = getAudioContext();
+    if (!audioContext) return;
+
+    if (audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+    gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start();
+
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioContext.currentTime + duration
+    );
+
+    oscillator.stop(audioContext.currentTime + duration);
+  };
+
+  const playPromptSound = async () => {
+    await playTone(520, 0.08, 'triangle');
+  };
+
+  const playSelectSound = async () => {
+    await playTone(430, 0.08, 'triangle');
+  };
+
+  const playCorrectSound = async () => {
+    await playTone(660, 0.12, 'triangle');
+    setTimeout(() => playTone(880, 0.18, 'triangle'), 120);
+  };
+
+  const playWrongSound = async () => {
+    await playTone(220, 0.2, 'sawtooth');
+  };
+
+  const playFinishSound = async () => {
+    await playTone(523.25, 0.12, 'sine');
+    setTimeout(() => playTone(659.25, 0.12, 'sine'), 100);
+    setTimeout(() => playTone(783.99, 0.14, 'sine'), 220);
+    setTimeout(() => playTone(1046.5, 0.18, 'sine'), 340);
+  };
+
+  const speakVietnamese = (text: string) => {
+    if (!speechEnabled) return;
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = synth.getVoices();
+    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
+
+    utterance.lang = 'vi-VN';
+    utterance.rate = 0.92;
+    utterance.pitch = 1.08;
+    utterance.volume = 1;
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+      utterance.lang = preferredVoice.lang;
+    }
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    synth.speak(utterance);
+  };
+
+  const speakPrompt = async () => {
+    if (!currentQuestion) return;
+    await playPromptSound();
+    speakVietnamese(`${currentQuestion.prompt}. ${currentQuestion.hint}`);
+  };
+
+  const speakHint = async () => {
+    if (!currentQuestion) return;
+    await playPromptSound();
+    speakVietnamese(currentQuestion.hint);
+  };
+
+  const unlockSticker = (id: string) => {
+    setUnlockedStickerIds((prev) => {
+      if (prev.includes(id)) return prev;
+      const next = [...prev, id];
+      saveUnlockedStickers(next);
+      return next;
+    });
+  };
+
+  const startCategoryGame = (key: CategoryKey, level: SequenceMemoryLevel) => {
+    const sourceQuestions = sequenceMemoryData[key].questions;
+    const nextQuestions = buildPlayQuestions(sourceQuestions, QUESTIONS_PER_GAME, level);
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+
+    setSelectedCategory(key);
+    setSelectedLevel(level);
+    setQuestions(nextQuestions);
+    setCurrentIndex(0);
+    setScore(0);
+    setFinished(false);
+    setCombo(0);
+    setBestCombo(0);
+    setIsSpeaking(false);
+    hasSavedResultRef.current = false;
+  };
+
+  const handleChoose = async (value: string) => {
+    if (!currentQuestion || showingPreview || showResult) return;
+
+    await playSelectSound();
+
+    const nextSequence = [...userSequence, value];
+    setUserSequence(nextSequence);
+
+    const currentPosition = nextSequence.length - 1;
+    const expected = currentQuestion.sequence[currentPosition];
+
+    if (value !== expected) {
+      setShowResult(true);
+      setIsWin(false);
+      setCombo(0);
+
+      setTimeout(() => {
+        playWrongSound();
+      }, 80);
+
+      setTimeout(() => {
+        speakVietnamese('Chưa đúng thứ tự rồi. Mình xem lại và thử câu tiếp theo nhé');
+      }, 220);
+      return;
+    }
+
+    if (nextSequence.length === currentQuestion.sequence.length) {
+      setShowResult(true);
+      setIsWin(true);
+      setScore((prev) => prev + 1);
+      setCombo((prev) => {
+        const next = prev + 1;
+        setBestCombo((best) => Math.max(best, next));
+        if (next >= 3) unlockSticker('combo-3');
+        return next;
+      });
+
+      setTimeout(() => {
+        playCorrectSound();
+      }, 80);
+
+      setTimeout(() => {
+        speakVietnamese('Giỏi lắm. Bé đã nhớ đúng thứ tự xuất hiện');
+      }, 220);
+    }
+  };
+
+  const handleResetAnswer = () => {
+    if (showingPreview || showResult) return;
+    setUserSequence([]);
+  };
+
+  const handleReplayPreview = () => {
+    if (!currentQuestion || showResult) return;
+
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+
+    setUserSequence([]);
+    setShowingPreview(true);
+    setPreviewIndex(0);
+
+    const previewMs = levelConfig[selectedLevel].previewMs;
+    let i = 0;
+
+    const runPreview = () => {
+      setPreviewIndex(i);
+
+      if (i < currentQuestion.sequence.length - 1) {
+        previewTimeoutRef.current = setTimeout(() => {
+          i += 1;
+          runPreview();
+        }, previewMs);
+      } else {
+        previewTimeoutRef.current = setTimeout(() => {
+          setShowingPreview(false);
+          setPreviewIndex(-1);
+        }, previewMs);
+      }
+    };
+
+    runPreview();
+  };
+
+  const handleNext = () => {
+    if (!questions.length) return;
+
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    if (currentIndex === questions.length - 1) {
+      setFinished(true);
+      return;
+    }
+
+    setCurrentIndex((prev) => prev + 1);
+    setUserSequence([]);
+    setShowResult(false);
+    setIsWin(false);
+  };
+
+  const handleRestartSameCategory = () => {
+    if (!selectedCategory) return;
+    startCategoryGame(selectedCategory, selectedLevel);
+  };
+
+  const handleBackToCategories = () => {
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    setSelectedCategory(null);
+    setQuestions([]);
+    setCurrentIndex(0);
+    setShowResult(false);
+    setIsWin(false);
+    setScore(0);
+    setFinished(false);
+    setCombo(0);
+    setBestCombo(0);
+    setIsSpeaking(false);
+    setShowingPreview(true);
+    setPreviewIndex(0);
+    setUserSequence([]);
+    hasSavedResultRef.current = false;
+  };
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    saveBooleanSetting(SOUND_ENABLED_KEY, next);
+  };
+
+  const toggleSpeech = () => {
+    const next = !speechEnabled;
+    setSpeechEnabled(next);
+    saveBooleanSetting(SPEECH_ENABLED_KEY, next);
+
+    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  if (!selectedCategory) {
+    return (
+      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
+                Trò chơi ghi nhớ
+              </p>
+
+              <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                Nhớ thứ tự xuất hiện
+              </h1>
+
+              <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+                Bé nhìn chuỗi hình hiện ra lần lượt, sau đó bấm lại đúng theo thứ tự đã thấy.
+                Trò chơi giúp rèn trí nhớ ngắn hạn, sự tập trung và khả năng ghi nhớ trình tự.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={toggleSound}
+                className="rounded-full bg-slate-100 px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+              >
+                {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+              </button>
+              <button
+                onClick={toggleSpeech}
+                className="rounded-full bg-slate-100 px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+              >
+                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-xl font-black text-slate-900">Chọn chủ đề và mức độ</h2>
+
+            <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {sequenceMemoryCategories.map((category) => (
+                <div
+                  key={category.key}
+                  className="rounded-[30px] bg-white p-5 shadow-sm ring-1 ring-slate-100"
+                >
+                  <div className="relative flex h-20 w-20 items-center justify-center rounded-[28px] bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[2px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">
+                    <div className="absolute inset-1 rounded-[24px] bg-white/20 blur-md" />
+                    <div className="relative flex h-full w-full items-center justify-center rounded-[26px] bg-gradient-to-br from-sky-400 via-cyan-300 to-violet-400 text-4xl shadow-inner">
+                      <span>{category.icon}</span>
+                    </div>
+                  </div>
+
+                  <h3 className="mt-5 text-2xl font-black tracking-tight text-slate-900">
+                    {category.label}
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    {category.total} câu hỏi theo chủ đề này.
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {(['easy', 'medium', 'hard'] as SequenceMemoryLevel[]).map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => startCategoryGame(category.key as CategoryKey, level)}
+                        className={`rounded-full px-4 py-2 text-sm font-bold ring-1 transition ${levelConfig[level].color}`}
+                      >
+                        {levelConfig[level].label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+            <div className="rounded-[30px] bg-slate-50 p-6 ring-1 ring-slate-100">
+              <h2 className="text-2xl font-black tracking-tight text-slate-900">
+                Bé sẽ rèn được gì?
+              </h2>
+
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                {[
+                  'Ghi nhớ ngắn hạn',
+                  'Nhớ đúng thứ tự',
+                  'Tăng chú ý quan sát',
+                  'Phản xạ chọn lại trình tự',
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl bg-white px-4 py-4 text-sm font-medium leading-7 text-slate-700 ring-1 ring-slate-100"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] bg-emerald-50 p-6 shadow-sm ring-1 ring-emerald-100">
+              <h3 className="text-2xl font-black tracking-tight text-emerald-950">
+                Sticker đã mở
+              </h3>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {stickers.map((item) => {
+                  const unlocked = unlockedStickerIds.includes(item.id);
+                  return (
+                    <div
+                      key={item.id}
+                      className={`rounded-2xl px-4 py-4 text-sm leading-7 ring-1 ${
+                        unlocked
+                          ? 'bg-white text-slate-700 ring-emerald-100'
+                          : 'bg-slate-50 text-slate-400 ring-slate-100'
+                      }`}
+                    >
+                      <div className="text-2xl">{unlocked ? item.emoji : '🔒'}</div>
+                      <div className="mt-2 font-bold">{item.title}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (finished) {
+    const categoryInfo = sequenceMemoryData[selectedCategory];
+
+    return (
+      <section className="mx-auto max-w-5xl px-6 py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-white text-5xl">
+                🎉
+              </div>
+            </div>
+
+            <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
+              Hoàn thành chủ đề
+            </p>
+
+            <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+            </h1>
+
+            <p className="mt-4 text-base leading-8 text-slate-600">
+              Kết quả đã được lưu lại để phụ huynh theo dõi khả năng ghi nhớ thứ tự xuất hiện của bé.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-4">
+              <div className="rounded-3xl bg-sky-50 p-5 ring-1 ring-sky-100">
+                <p className="text-sm font-semibold text-sky-700">Điểm số</p>
+                <p className="mt-2 text-3xl font-black text-slate-900">
+                  {score}/{questions.length}
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-violet-50 p-5 ring-1 ring-violet-100">
+                <p className="text-sm font-semibold text-violet-700">Độ chính xác</p>
+                <p className="mt-2 text-3xl font-black text-slate-900">{accuracy}%</p>
+              </div>
+
+              <div className="rounded-3xl bg-amber-50 p-5 ring-1 ring-amber-100">
+                <p className="text-sm font-semibold text-amber-700">Mức độ</p>
+                <p className="mt-2 text-2xl font-black text-slate-900">
+                  {levelConfig[selectedLevel].label}
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
+                <p className="text-sm font-semibold text-emerald-700">Combo tốt nhất</p>
+                <p className="mt-2 text-2xl font-black text-slate-900">{bestCombo}</p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <button
+                onClick={handleRestartSameCategory}
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
+              >
+                Chơi lại chủ đề này
+              </button>
+
+              <button
+                onClick={handleBackToCategories}
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+              >
+                Chọn chủ đề khác
+              </button>
+
+              <Link
+                href="/games"
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+              >
+                Về kho trò chơi
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 ring-1 ring-sky-100">
+                4-7 tuổi
+              </span>
+              <span className="rounded-full bg-violet-50 px-4 py-2 text-sm font-bold text-violet-700 ring-1 ring-violet-100">
+                {sequenceMemoryData[selectedCategory].label}
+              </span>
+              <span
+                className={`rounded-full px-4 py-2 text-sm font-bold ring-1 ${levelConfig[selectedLevel].color}`}
+              >
+                {levelConfig[selectedLevel].label}
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={toggleSound}
+                className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+              >
+                {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+              </button>
+              <button
+                onClick={toggleSpeech}
+                className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+              >
+                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+              </button>
+            </div>
+          </div>
+
+          <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+            Nhớ thứ tự xuất hiện
+          </h1>
+
+          <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+            Bé hãy nhìn chuỗi hình hiện ra, sau đó bấm lại đúng thứ tự đã thấy.
+          </p>
+
+          {combo >= 2 && (
+            <div className="mt-4 rounded-2xl bg-gradient-to-r from-pink-500 to-orange-400 p-4 text-white shadow-sm">
+              <p className="text-sm font-bold uppercase tracking-[0.2em]">Combo</p>
+              <p className="mt-1 text-2xl font-black">🔥 {combo} câu đúng liên tiếp</p>
+            </div>
+          )}
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button
+              onClick={speakPrompt}
+              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+            >
+              {isSpeaking ? 'Đang đọc...' : '🔊 Đọc hướng dẫn'}
+            </button>
+
+            <button
+              onClick={speakHint}
+              className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700 transition hover:bg-emerald-200"
+            >
+              🔊 Gợi ý
+            </button>
+          </div>
+
+          <div className="mt-6 rounded-[30px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-5">
+            <div className="rounded-[24px] bg-white p-5 shadow-inner">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Câu hỏi hiện tại</p>
+                  <h3 className="mt-1 text-2xl font-black text-slate-900">
+                    {currentQuestion.prompt}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-500">{currentQuestion.hint}</p>
+                </div>
+
+                <div className="rounded-2xl bg-emerald-100 px-3 py-2 text-sm font-bold text-emerald-700">
+                  Câu {currentIndex + 1}/{questions.length}
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <div className="mb-2 flex justify-between text-sm font-semibold text-slate-700">
+                  <span>Tiến độ</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="h-3 rounded-full bg-slate-200">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-sky-500 to-violet-500 transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-3xl bg-sky-50 p-6 text-center ring-1 ring-sky-100">
+                <p className="text-sm font-semibold text-slate-500">
+                  {showingPreview ? 'Đang hiện chuỗi để bé ghi nhớ' : 'Bé hãy bấm lại theo đúng thứ tự'}
+                </p>
+
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                  {currentQuestion.sequence.map((item, index) => {
+                    const isActive = showingPreview && previewIndex === index;
+
+                    return (
+                      <div
+                        key={`${currentQuestion.id}-${index}`}
+                        className={`flex h-16 w-16 items-center justify-center rounded-2xl text-3xl shadow-sm ring-1 transition-all duration-300 ${
+                          isActive
+                            ? 'scale-110 bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 text-white ring-transparent'
+                            : 'bg-white text-slate-300 ring-slate-200'
+                        }`}
+                      >
+                        {showingPreview ? (isActive ? item : '•') : '•'}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-5">
+                  <button
+                    onClick={handleReplayPreview}
+                    disabled={showingPreview || showResult}
+                    className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 disabled:opacity-50"
+                  >
+                    🔄 Xem lại chuỗi
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100">
+                <p className="text-sm font-semibold text-slate-500">Thứ tự bé đã chọn</p>
+
+                <div className="mt-4 flex min-h-[68px] flex-wrap gap-3">
+                  {userSequence.length === 0 ? (
+                    <div className="text-sm text-slate-500">
+                      Chưa có lựa chọn nào.
+                    </div>
+                  ) : (
+                    userSequence.map((item, index) => (
+                      <div
+                        key={`${item}-${index}`}
+                        className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-3xl ring-1 ring-emerald-100"
+                      >
+                        {item}
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="mt-4">
+                  <button
+                    onClick={handleResetAnswer}
+                    disabled={showingPreview || showResult || userSequence.length === 0}
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 disabled:opacity-50"
+                  >
+                    🧹 Xóa lựa chọn
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {currentQuestion.options.map((value) => (
+                  <button
+                    key={value}
+                    onClick={() => handleChoose(value)}
+                    disabled={showingPreview || showResult}
+                    className="rounded-[28px] bg-white px-4 py-5 text-center shadow-sm ring-1 ring-slate-200 transition duration-300 hover:bg-slate-50 disabled:opacity-50"
+                  >
+                    <div className="text-5xl">{value}</div>
+                  </button>
+                ))}
+              </div>
+
+              {showResult && (
+                <div
+                  className={`mt-6 rounded-2xl px-4 py-4 text-sm font-semibold ${
+                    isWin
+                      ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'
+                      : 'bg-rose-50 text-rose-700 ring-1 ring-rose-100'
+                  }`}
+                >
+                  {isWin
+                    ? 'Chính xác rồi. Bé đã nhớ đúng thứ tự xuất hiện.'
+                    : 'Chưa đúng thứ tự rồi. Mình sang câu tiếp theo nhé.'}
+                </div>
+              )}
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <button
+                  onClick={handleNext}
+                  disabled={!showResult}
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {currentIndex === questions.length - 1 ? 'Xem kết quả' : 'Câu tiếp theo'}
+                </button>
+
+                <button
+                  onClick={handleBackToCategories}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
+                >
+                  Đổi chủ đề
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
+            <h3 className="text-2xl font-black tracking-tight text-slate-900">
+              Chủ đề đang chơi
+            </h3>
+
+            <div className="mt-5 flex items-center gap-4 rounded-3xl bg-sky-50 p-5 ring-1 ring-sky-100">
+              <div className="flex h-16 w-16 items-center justify-center rounded-[24px] bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 text-3xl shadow-lg">
+                {sequenceMemoryData[selectedCategory].icon}
+              </div>
+              <div>
+                <p className="text-lg font-black text-slate-900">
+                  {sequenceMemoryData[selectedCategory].label}
+                </p>
+                <p className="mt-1 text-sm leading-7 text-slate-600">
+                  Mức độ: {levelConfig[selectedLevel].label}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
+            <h3 className="text-2xl font-black tracking-tight text-slate-900">
+              Tiến độ hiện tại
+            </h3>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <div className="mb-2 flex justify-between text-sm font-semibold text-slate-700">
+                  <span>Hoàn thành</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="h-3 rounded-full bg-slate-200">
+                  <div
+                    className="h-3 rounded-full bg-gradient-to-r from-sky-500 to-violet-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
+                Điểm hiện tại: <span className="font-bold text-slate-900">{score}</span> /{' '}
+                {questions.length}
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
+                Combo tốt nhất: <span className="font-bold text-slate-900">{bestCombo}</span>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
+                Đã chọn: <span className="font-bold text-slate-900">{userSequence.length}</span> /{' '}
+                {currentQuestion.sequence.length}
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[30px] bg-emerald-50 p-6 shadow-sm ring-1 ring-emerald-100">
+            <h3 className="text-2xl font-black tracking-tight text-emerald-950">
+              Kết quả gần đây
+            </h3>
+
+            <div className="mt-5 space-y-3">
+              {history.length === 0 ? (
+                <div className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-emerald-100">
+                  Chưa có dữ liệu lưu gần đây.
+                </div>
+              ) : (
+                history.slice(0, 3).map((item, index) => (
+                  <div
+                    key={`${item.playedAt}-${index}`}
+                    className="rounded-2xl bg-white px-4 py-4 text-sm leading-7 text-slate-700 ring-1 ring-emerald-100"
+                  >
+                    <div className="font-bold text-slate-900">
+                      {item.categoryLabel} · {levelConfig[item.level].label}
+                    </div>
+                    <div>
+                      Điểm: {item.score}/{item.total} · {item.accuracy}%
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {stickers.map((item) => {
+                const unlocked = unlockedStickerIds.includes(item.id);
+                return (
+                  <div
+                    key={item.id}
+                    className={`rounded-2xl px-4 py-4 text-sm leading-7 ring-1 ${
+                      unlocked
+                        ? 'bg-white text-slate-700 ring-emerald-100'
+                        : 'bg-slate-50 text-slate-400 ring-slate-100'
+                    }`}
+                  >
+                    <div className="text-2xl">{unlocked ? item.emoji : '🔒'}</div>
+                    <div className="mt-2 font-bold">{item.title}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <Link
+              href="/pricing"
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
+            >
+              Mở khóa toàn bộ bài học
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

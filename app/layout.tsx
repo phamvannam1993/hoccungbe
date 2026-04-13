@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import SiteHeader from './components/edu/SiteHeader';
+import Footer from './components/edu/Footer';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://behayhoc.com'),
@@ -72,7 +73,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
         <SiteHeader />
         <main>{children}</main>
-
+        <Footer />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0SJ6BCCVGN"
           strategy="afterInteractive"

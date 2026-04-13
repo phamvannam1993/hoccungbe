@@ -16,12 +16,6 @@ const parentLinks = [
   { label: 'Điều khoản sử dụng', href: '/terms' },
 ];
 
-const socialLinks = [
-  { label: 'Facebook', href: 'https://facebook.com' },
-  { label: 'YouTube', href: 'https://youtube.com' },
-  { label: 'TikTok', href: 'https://tiktok.com' },
-];
-
 export default function Footer() {
   return (
     <footer className="border-t border-slate-100 bg-slate-50">
@@ -30,7 +24,7 @@ export default function Footer() {
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-violet-500 text-2xl text-white shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open" aria-hidden="true"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+                📘
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-sky-600">
@@ -45,18 +39,6 @@ export default function Footer() {
               kết hợp trò chơi giáo dục, bài học ngắn và theo dõi tiến độ rõ ràng
               để phụ huynh đồng hành cùng con dễ dàng hơn mỗi ngày.
             </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              {socialLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
           </div>
 
           <div className="lg:col-span-2">
@@ -122,22 +104,6 @@ export default function Footer() {
                   0123 456 789
                 </a>
               </p>
-
-              <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-100">
-                <p className="text-sm font-bold text-slate-900">
-                  Nhận cập nhật mới
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Đăng ký để nhận bài viết mới, tài liệu hữu ích và gợi ý học tập
-                  phù hợp cho bé.
-                </p>
-                <Link
-                  href="/register"
-                  className="mt-4 inline-flex items-center justify-center rounded-full bg-sky-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-sky-700"
-                >
-                  Đăng ký miễn phí
-                </Link>
-              </div>
             </div>
           </div>
         </div>

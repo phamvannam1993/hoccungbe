@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import SiteHeader from './components/edu/SiteHeader';
 
 export const metadata: Metadata = {
@@ -71,6 +72,19 @@ export default function RootLayout({
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
         <SiteHeader />
         <main>{children}</main>
+
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-0SJ6BCCVGN"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0SJ6BCCVGN');
+          `}
+        </Script>
       </body>
     </html>
   );

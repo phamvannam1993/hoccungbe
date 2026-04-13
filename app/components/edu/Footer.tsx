@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BookOpen } from 'lucide-react';
 
 const quickLinks = [
   { label: 'Trang chủ', href: '/' },
@@ -24,7 +25,7 @@ export default function Footer() {
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-violet-500 text-2xl text-white shadow-md">
-                📘
+                <BookOpen size={20} />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-sky-600">

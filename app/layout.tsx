@@ -4,7 +4,7 @@ import Script from 'next/script';
 import SiteHeader from './components/edu/SiteHeader';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://hoccungbe.vn'),
+  metadataBase: new URL('https://behayhoc.com'),
   title: {
     default: 'Học Cùng Bé - Nền tảng học tập vui cho trẻ em',
     template: '%s | Học Cùng Bé',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: 'Học Cùng Bé - Nền tảng học tập vui cho trẻ em',
     description:
       'Trò chơi giáo dục, bài học ngắn, nội dung trực quan và báo cáo tiến độ rõ ràng giúp bé học vui mỗi ngày.',
-    url: 'https://hoccungbe.vn',
+    url: 'https://behayhoc.com',
     siteName: 'Học Cùng Bé',
     locale: 'vi_VN',
     type: 'website',

@@ -1,230 +1,485 @@
 export type CourseLesson = {
-    id: string;
-    title: string;
-    description: string;
-    duration: string;
-    type: 'video' | 'game' | 'practice';
-    isFree: boolean;
-  };
-  
-  export type CourseDetail = {
-    slug: string;
-    title: string;
-    description: string;
-    tag: string;
-    age: string;
-    emoji: string;
-    lessons: CourseLesson[];
-  };
-  
-  export const courseLessonsData: CourseDetail[] = [
-    {
-      slug: 'lam-quen-mat-chu',
-      title: 'Làm quen mặt chữ',
-      description:
-        'Chuỗi bài học giúp bé nhận biết chữ cái, âm đầu và hình ảnh minh họa cơ bản để xây nền tảng ngôn ngữ sớm.',
-      tag: 'Ngôn ngữ',
-      age: '3-5 tuổi',
-      emoji: '🔤',
-      lessons: [
-        {
-          id: 'lqmc-01',
-          title: 'Nhận biết chữ A, Ă, Â',
-          description: 'Bé làm quen hình dạng và âm đọc của nhóm chữ A.',
-          duration: '8 phút',
-          type: 'video',
-          isFree: true,
-        },
-        {
-          id: 'lqmc-02',
-          title: 'Nhận biết chữ B, C, D',
-          description: 'Học nhóm chữ đầu tiên qua hình ảnh và từ quen thuộc.',
-          duration: '10 phút',
-          type: 'video',
-          isFree: true,
-        },
-        {
-          id: 'lqmc-03',
-          title: 'Ghép chữ với hình',
-          description: 'Chọn chữ cái phù hợp với hình minh họa.',
-          duration: '7 phút',
-          type: 'game',
-          isFree: true,
-        },
-        {
-          id: 'lqmc-04',
-          title: 'Chọn âm đầu giống nhau',
-          description: 'Luyện nghe và phân biệt âm đầu cơ bản.',
-          duration: '9 phút',
-          type: 'practice',
-          isFree: false,
-        },
-        {
-          id: 'lqmc-05',
-          title: 'Ôn tập mặt chữ tuần 1',
-          description: 'Tổng hợp lại các chữ đã học bằng bài luyện ngắn.',
-          duration: '6 phút',
-          type: 'practice',
-          isFree: false,
-        },
-      ],
-    },
-    {
-      slug: 'toan-vui-moi-ngay',
-      title: 'Toán vui mỗi ngày',
-      description:
-        'Nhóm bài học giúp bé làm quen với đếm số, nhận biết thứ tự, so sánh số lượng và các thao tác toán học cơ bản.',
-      tag: 'Toán học',
-      age: '4-6 tuổi',
-      emoji: '🔢',
-      lessons: [
-        {
-          id: 'tvmn-01',
-          title: 'Đếm số từ 1 đến 5',
-          description: 'Bé tập đếm số lượng đồ vật bằng hình ảnh trực quan.',
-          duration: '8 phút',
-          type: 'video',
-          isFree: true,
-        },
-        {
-          id: 'tvmn-02',
-          title: 'Nối số theo thứ tự',
-          description: 'Luyện nối số từ bé đến lớn qua trò chơi tương tác.',
-          duration: '7 phút',
-          type: 'game',
-          isFree: true,
-        },
-        {
-          id: 'tvmn-03',
-          title: 'So sánh nhiều hơn và ít hơn',
-          description: 'Làm quen với khái niệm nhiều, ít, bằng nhau.',
-          duration: '9 phút',
-          type: 'practice',
-          isFree: true,
-        },
-        {
-          id: 'tvmn-04',
-          title: 'Tách gộp số đơn giản',
-          description: 'Bé học cách chia và gộp nhóm số nhỏ.',
-          duration: '10 phút',
-          type: 'video',
-          isFree: false,
-        },
-        {
-          id: 'tvmn-05',
-          title: 'Ôn tập toán học tuần 1',
-          description: 'Tổng hợp bài tập nhanh về đếm và thứ tự số.',
-          duration: '6 phút',
-          type: 'practice',
-          isFree: false,
-        },
-      ],
-    },
-    {
-      slug: 'phan-xa-va-ghi-nho',
-      title: 'Phản xạ và ghi nhớ',
-      description:
-        'Chuỗi nội dung ngắn giúp bé phát triển chú ý, ghi nhớ hình ảnh, nhớ thứ tự và phản xạ nhanh khi xử lý nhiệm vụ.',
-      tag: 'Tư duy',
-      age: '4-7 tuổi',
-      emoji: '🧠',
-      lessons: [
-        {
-          id: 'pxgn-01',
-          title: 'Nhớ thứ tự xuất hiện',
-          description: 'Bé quan sát chuỗi hình rồi bấm lại đúng thứ tự.',
-          duration: '7 phút',
-          type: 'game',
-          isFree: true,
-        },
-        {
-          id: 'pxgn-02',
-          title: 'Ghi nhớ nhanh theo cặp',
-          description: 'Tìm cặp hình giống nhau trong thời gian ngắn.',
-          duration: '8 phút',
-          type: 'game',
-          isFree: true,
-        },
-        {
-          id: 'pxgn-03',
-          title: 'Nghe và làm theo',
-          description: 'Tăng phản xạ nghe hiểu qua chỉ dẫn ngắn.',
-          duration: '9 phút',
-          type: 'practice',
-          isFree: true,
-        },
-        {
-          id: 'pxgn-04',
-          title: 'Mê cung vui nhộn',
-          description: 'Rèn tư duy không gian và khả năng tìm đường.',
-          duration: '10 phút',
-          type: 'game',
-          isFree: false,
-        },
-        {
-          id: 'pxgn-05',
-          title: 'Ôn tập ghi nhớ tuần 1',
-          description: 'Tổng hợp các bài phản xạ và chú ý ngắn.',
-          duration: '6 phút',
-          type: 'practice',
-          isFree: false,
-        },
-      ],
-    },
-    {
-      slug: 'tieng-anh-dau-doi',
-      title: 'Tiếng Anh đầu đời',
-      description:
-        'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh, âm thanh, flashcard và trò chơi tương tác ngắn.',
-      tag: 'Ngoại ngữ',
-      age: '3-6 tuổi',
-      emoji: '🇬🇧',
-      lessons: [
-        {
-          id: 'tadd-01',
-          title: 'Từ vựng con vật quen thuộc',
-          description: 'Học các từ tiếng Anh cơ bản về con vật.',
-          duration: '8 phút',
-          type: 'video',
-          isFree: true,
-        },
-        {
-          id: 'tadd-02',
-          title: 'Từ vựng màu sắc',
-          description: 'Bé làm quen với các màu sắc phổ biến bằng tiếng Anh.',
-          duration: '7 phút',
-          type: 'video',
-          isFree: true,
-        },
-        {
-          id: 'tadd-03',
-          title: 'Flashcard tự học',
-          description: 'Ôn từ vựng nhanh bằng thẻ học và giọng đọc.',
-          duration: '6 phút',
-          type: 'game',
-          isFree: true,
-        },
-        {
-          id: 'tadd-04',
-          title: 'Nghe từ và chọn hình',
-          description: 'Phản xạ nghe tiếng Anh và chọn đáp án đúng.',
-          duration: '9 phút',
-          type: 'practice',
-          isFree: false,
-        },
-        {
-          id: 'tadd-05',
-          title: 'Ôn tập tiếng Anh tuần 1',
-          description: 'Tổng hợp từ vựng đã học theo chủ đề.',
-          duration: '6 phút',
-          type: 'practice',
-          isFree: false,
-        },
-      ],
-    },
-  ];
-  
-  export function getCourseBySlug(slug: string) {
-    return courseLessonsData.find((course) => course.slug === slug);
-  }
-  
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  type: 'video' | 'game' | 'practice';
+  isFree: boolean;
+};
+
+export type CourseDetail = {
+  slug: string;
+  title: string;
+  description: string;
+  tag: string;
+  age: string;
+  emoji: string;
+  lessons: CourseLesson[];
+};
+
+export const courseLessonsData: CourseDetail[] = [
+  {
+    slug: 'lam-quen-mat-chu',
+    title: 'Làm quen mặt chữ',
+    description:
+      'Chuỗi bài học giúp bé nhận biết chữ cái tiếng Việt từ nguyên âm đến phụ âm, kết hợp hình ảnh minh họa, trò chơi và luyện tập để xây nền tảng ngôn ngữ sớm.',
+    tag: 'Ngôn ngữ',
+    age: '3-5 tuổi',
+    emoji: '🔤',
+    lessons: [
+      {
+        id: 'lqmc-01',
+        title: 'Bài 1: Nhận biết chữ A - a',
+        description: 'Bé làm quen với chữ A viết hoa, a viết thường và phát âm âm a.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-02',
+        title: 'Bài 2: Nhận biết chữ Ă - ă',
+        description: 'Bé học mặt chữ Ă, ă và luyện phát âm qua ví dụ quen thuộc.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-03',
+        title: 'Bài 3: Nhận biết chữ Â - â',
+        description: 'Bé làm quen chữ Â, â và phân biệt với A, Ă.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-04',
+        title: 'Bài 4: Nhận biết chữ E - e',
+        description: 'Bé nhận diện chữ E, e qua hình ảnh và từ đơn giản.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-05',
+        title: 'Bài 5: Nhận biết chữ Ê - ê',
+        description: 'Bé học chữ Ê, ê và luyện nghe phát âm đúng.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-06',
+        title: 'Bài 6: Nhận biết chữ I - i',
+        description: 'Bé làm quen với chữ I, i và thực hành đọc theo mẫu.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'lqmc-07',
+        title: 'Bài 7: Nhận biết chữ O - o',
+        description: 'Bé nhận diện mặt chữ O, o và phát âm chính xác.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-08',
+        title: 'Bài 8: Nhận biết chữ Ô - ô',
+        description: 'Bé học chữ Ô, ô và phân biệt với O, Ơ.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-09',
+        title: 'Bài 9: Nhận biết chữ Ơ - ơ',
+        description: 'Bé luyện nhận diện chữ Ơ, ơ qua các ví dụ gần gũi.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-10',
+        title: 'Bài 10: Nhận biết chữ U - u',
+        description: 'Bé học mặt chữ U, u và đọc theo hướng dẫn.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-11',
+        title: 'Bài 11: Nhận biết chữ Ư - ư',
+        description: 'Bé làm quen chữ Ư, ư và luyện phân biệt với U.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-12',
+        title: 'Bài 12: Nhận biết chữ Y - y',
+        description: 'Bé học chữ Y, y và liên hệ với từ quen thuộc.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-13',
+        title: 'Bài 13: Nhận biết chữ B - b',
+        description: 'Bé làm quen với phụ âm B qua hình ảnh và phát âm mẫu.',
+        duration: '9 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-14',
+        title: 'Bài 14: Nhận biết chữ C - c và K - k',
+        description: 'Bé nhận diện hai chữ cái C, K trong các từ quen thuộc.',
+        duration: '10 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-15',
+        title: 'Bài 15: Nhận biết chữ D - d và Đ - đ',
+        description: 'Bé luyện phân biệt D và Đ qua ví dụ trực quan.',
+        duration: '10 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-16',
+        title: 'Bài 16: Nhận biết chữ G - g và Gh',
+        description: 'Bé học nhóm chữ G, Gh và cách nhận biết trong tiếng Việt.',
+        duration: '10 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-17',
+        title: 'Bài 17: Nhận biết chữ H - h',
+        description: 'Bé làm quen chữ H, h qua hình ảnh minh họa sinh động.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-18',
+        title: 'Bài 18: Nhận biết chữ L - l',
+        description: 'Bé nhận diện chữ L và luyện đọc theo mẫu.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-19',
+        title: 'Bài 19: Nhận biết chữ M - m',
+        description: 'Bé học chữ M, m và liên hệ với từ đơn giản.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-20',
+        title: 'Bài 20: Nhận biết chữ N - n',
+        description: 'Bé luyện nhận biết chữ N qua ví dụ gần gũi.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-21',
+        title: 'Bài 21: Nhận biết chữ P - p',
+        description: 'Bé làm quen chữ P, p và thực hành phát âm.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-22',
+        title: 'Bài 22: Nhận biết chữ Q - q',
+        description: 'Bé học chữ Q, q trong các tiếng quen thuộc như qua, quê.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-23',
+        title: 'Bài 23: Nhận biết chữ R - r',
+        description: 'Bé làm quen chữ R và luyện đọc rõ âm đầu.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-24',
+        title: 'Bài 24: Nhận biết chữ S - s',
+        description: 'Bé học chữ S, s và phân biệt với X.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-25',
+        title: 'Bài 25: Nhận biết chữ T - t',
+        description: 'Bé nhận diện chữ T, t qua từ quen thuộc.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-26',
+        title: 'Bài 26: Nhận biết chữ V - v',
+        description: 'Bé làm quen chữ V, v và luyện phát âm rõ.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-27',
+        title: 'Bài 27: Nhận biết chữ X - x',
+        description: 'Bé học chữ X, x và phân biệt với S.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-28',
+        title: 'Bài 28: Ghép âm đơn giản',
+        description: 'Bé tập ghép phụ âm và nguyên âm thành tiếng đơn giản như ba, bé, bò.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-29',
+        title: 'Bài 29: Làm quen dấu thanh',
+        description: 'Bé học các dấu thanh cơ bản qua ví dụ dễ hiểu.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-30',
+        title: 'Bài 30: Đọc từ đơn 1 đến 2 tiếng',
+        description: 'Bé tập đọc các từ ngắn quen thuộc để tăng phản xạ nhận diện chữ.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-31',
+        title: 'Bài 31: Học chữ qua hình ảnh',
+        description: 'Bé nối chữ cái với hình ảnh minh họa phù hợp.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-32',
+        title: 'Bài 32: Tìm chữ trong tranh',
+        description: 'Bé quan sát tranh và tìm ra chữ cái đã học.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-33',
+        title: 'Bài 33: Nối chữ với từ đúng',
+        description: 'Bé luyện ghép chữ cái với từ tương ứng.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-34',
+        title: 'Bài 34: Tô chữ cái',
+        description: 'Bé luyện tô theo nét để ghi nhớ mặt chữ tốt hơn.',
+        duration: '6 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-35',
+        title: 'Bài 35: Tìm chữ bị thiếu',
+        description: 'Bé điền chữ cái còn thiếu trong dãy hoặc từ đơn giản.',
+        duration: '6 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-36',
+        title: 'Bài 36: Ghép chữ thành từ',
+        description: 'Bé sắp xếp chữ cái để tạo thành từ quen thuộc.',
+        duration: '7 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'lqmc-37',
+        title: 'Bài 37: Nghe và chọn chữ đúng',
+        description: 'Bé nghe âm đọc và chọn đúng chữ cái tương ứng.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: false,
+      },
+    ],
+  },
+  {
+    slug: 'toan-vui-moi-ngay',
+    title: 'Toán vui mỗi ngày',
+    description:
+      'Nhóm bài học giúp bé làm quen với đếm số, nhận biết thứ tự, so sánh số lượng và các thao tác toán học cơ bản.',
+    tag: 'Toán học',
+    age: '4-6 tuổi',
+    emoji: '🔢',
+    lessons: [
+      {
+        id: 'tvmn-01',
+        title: 'Đếm số từ 1 đến 5',
+        description: 'Bé tập đếm số lượng đồ vật bằng hình ảnh trực quan.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'tvmn-02',
+        title: 'Nối số theo thứ tự',
+        description: 'Luyện nối số từ bé đến lớn qua trò chơi tương tác.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'tvmn-03',
+        title: 'So sánh nhiều hơn và ít hơn',
+        description: 'Làm quen với khái niệm nhiều, ít, bằng nhau.',
+        duration: '9 phút',
+        type: 'practice',
+        isFree: true,
+      },
+      {
+        id: 'tvmn-04',
+        title: 'Tách gộp số đơn giản',
+        description: 'Bé học cách chia và gộp nhóm số nhỏ.',
+        duration: '10 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'tvmn-05',
+        title: 'Ôn tập toán học tuần 1',
+        description: 'Tổng hợp bài tập nhanh về đếm và thứ tự số.',
+        duration: '6 phút',
+        type: 'practice',
+        isFree: false,
+      },
+    ],
+  },
+  {
+    slug: 'phan-xa-va-ghi-nho',
+    title: 'Phản xạ và ghi nhớ',
+    description:
+      'Chuỗi nội dung ngắn giúp bé phát triển chú ý, ghi nhớ hình ảnh, nhớ thứ tự và phản xạ nhanh khi xử lý nhiệm vụ.',
+    tag: 'Tư duy',
+    age: '4-7 tuổi',
+    emoji: '🧠',
+    lessons: [
+      {
+        id: 'pxgn-01',
+        title: 'Nhớ thứ tự xuất hiện',
+        description: 'Bé quan sát chuỗi hình rồi bấm lại đúng thứ tự.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'pxgn-02',
+        title: 'Ghi nhớ nhanh theo cặp',
+        description: 'Tìm cặp hình giống nhau trong thời gian ngắn.',
+        duration: '8 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'pxgn-03',
+        title: 'Nghe và làm theo',
+        description: 'Tăng phản xạ nghe hiểu qua chỉ dẫn ngắn.',
+        duration: '9 phút',
+        type: 'practice',
+        isFree: true,
+      },
+      {
+        id: 'pxgn-04',
+        title: 'Mê cung vui nhộn',
+        description: 'Rèn tư duy không gian và khả năng tìm đường.',
+        duration: '10 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'pxgn-05',
+        title: 'Ôn tập ghi nhớ tuần 1',
+        description: 'Tổng hợp các bài phản xạ và chú ý ngắn.',
+        duration: '6 phút',
+        type: 'practice',
+        isFree: false,
+      },
+    ],
+  },
+  {
+    slug: 'tieng-anh-dau-doi',
+    title: 'Tiếng Anh đầu đời',
+    description:
+      'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh, âm thanh, flashcard và trò chơi tương tác ngắn.',
+    tag: 'Ngoại ngữ',
+    age: '3-6 tuổi',
+    emoji: '🇬🇧',
+    lessons: [
+      {
+        id: 'tadd-01',
+        title: 'Từ vựng con vật quen thuộc',
+        description: 'Học các từ tiếng Anh cơ bản về con vật.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'tadd-02',
+        title: 'Từ vựng màu sắc',
+        description: 'Bé làm quen với các màu sắc phổ biến bằng tiếng Anh.',
+        duration: '7 phút',
+        type: 'video',
+        isFree: true,
+      },
+      {
+        id: 'tadd-03',
+        title: 'Flashcard tự học',
+        description: 'Ôn từ vựng nhanh bằng thẻ học và giọng đọc.',
+        duration: '6 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'tadd-04',
+        title: 'Nghe từ và chọn hình',
+        description: 'Phản xạ nghe tiếng Anh và chọn đáp án đúng.',
+        duration: '9 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tadd-05',
+        title: 'Ôn tập tiếng Anh tuần 1',
+        description: 'Tổng hợp từ vựng đã học theo chủ đề.',
+        duration: '6 phút',
+        type: 'practice',
+        isFree: false,
+      },
+    ],
+  },
+];
+
+export function getCourseBySlug(slug: string) {
+  return courseLessonsData.find((course) => course.slug === slug);
+}

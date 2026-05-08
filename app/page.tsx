@@ -2,40 +2,53 @@ import HomePage from './components/edu/HomePage';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Trang chủ',
+  title: 'Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+
   description:
-    'Học Cùng Bé là nền tảng học tập vui cho trẻ em với trò chơi giáo dục, bài học ngắn, nội dung trực quan và theo dõi tiến độ rõ ràng dành cho phụ huynh.',
+    'Học Cùng Bé giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
+
   keywords: [
-    'học cùng bé',
+    'Học Cùng Bé',
+    'Bé Hay Học',
     'nền tảng học tập cho bé',
+    'trò chơi giáo dục cho bé',
     'trò chơi giáo dục cho trẻ em',
     'học online cho bé',
-    'bài học cho trẻ em',
-    'phụ huynh theo dõi tiến độ học',
+    'học chữ cái cho bé',
+    'học toán vui cho bé',
+    'học tiếng Anh cho bé',
+    'trò chơi tư duy cho trẻ em',
+    'bài học ngắn cho trẻ em',
+    'phụ huynh theo dõi tiến độ học tập',
   ],
+
   alternates: {
     canonical: '/',
   },
+
   openGraph: {
-    title: 'Học Cùng Bé - Nền tảng học tập vui cho trẻ em',
+    title: 'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
-      'Trò chơi giáo dục ngắn, trực quan và phù hợp theo độ tuổi, giúp bé học hứng thú hơn mỗi ngày.',
+      'Giúp bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, vui, trực quan; phụ huynh dễ dàng theo dõi tiến độ học tập mỗi ngày.',
     url: '/',
+    siteName: 'Học Cùng Bé',
+    locale: 'vi_VN',
     type: 'website',
     images: [
       {
         url: '/og-home.jpg',
         width: 1200,
         height: 630,
-        alt: 'Học Cùng Bé - Nền tảng học tập cho trẻ em',
+        alt: 'Học Cùng Bé - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
       },
     ],
   },
+
   twitter: {
     card: 'summary_large_image',
-    title: 'Học Cùng Bé - Nền tảng học tập vui cho trẻ em',
+    title: 'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
-      'Giúp bé học vui mỗi ngày, phụ huynh theo dõi dễ dàng với trò chơi và bài học trực quan.',
+      'Trò chơi giáo dục, bài học ngắn và báo cáo tiến độ rõ ràng giúp bé học vui mỗi ngày.',
     images: ['/og-home.jpg'],
   },
 };

@@ -28,7 +28,7 @@ export default function SiteHeader() {
     () => [
       { href: '/lesson', label: 'Chi tiết bài học' },
       { href: '/dashboard', label: 'Dashboard' },
-      { href: '/pricing', label: 'Bảng giá' },
+      // { href: '/pricing', label: 'Bảng giá' },
       { href: '/support', label: 'Hỗ trợ' },
     ],
     []

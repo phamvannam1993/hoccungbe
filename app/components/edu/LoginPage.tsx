@@ -71,13 +71,6 @@ export default function LoginPage() {
               <button className="w-full rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl hover:shadow-sky-200">
                 Đăng nhập
               </button>
-
-              <Link
-                href="/pricing"
-                className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
-              >
-                Chưa có tài khoản? Xem gói học
-              </Link>
             </div>
           </div>
         </div>

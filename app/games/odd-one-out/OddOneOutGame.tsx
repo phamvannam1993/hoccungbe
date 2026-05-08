@@ -976,13 +976,6 @@ export default function OddOneOutGame() {
                 );
               })}
             </div>
-
-            <Link
-              href="/pricing"
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
-            >
-              Mở khóa toàn bộ bài học
-            </Link>
           </div>
         </div>
       </div>

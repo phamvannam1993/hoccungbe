@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
-import type { PageKey } from './types';
 import {
   englishVocabularyData,
   englishCategoryLabels,
@@ -19,10 +17,6 @@ import EnglishProfileCard from './EnglishProfileCard';
 import EnglishFlashcardPanel from './EnglishFlashcardPanel';
 import EnglishLeaderboard from './EnglishLeaderboard';
 import Link from 'next/link';
-
-type Props = {
-  setPage: Dispatch<SetStateAction<PageKey>>;
-};
 
 type BuiltEnglishQuestion = EnglishWordItem & {
   options: string[];
@@ -151,15 +145,24 @@ const avatarOptions = ['🦊', '🐼', '🐯', '🐰', '🐻', '🦁'];
 
 function shuffleArray<T>(items: T[]): T[] {
   const cloned = [...items];
+
   for (let i = cloned.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
   }
+
   return cloned;
 }
 
-function buildWordOptions(word: string, distractors: string[], optionsCount: number): string[] {
-  return shuffleArray([word, ...shuffleArray(distractors).slice(0, optionsCount - 1)]);
+function buildWordOptions(
+  word: string,
+  distractors: string[],
+  optionsCount: number
+): string[] {
+  return shuffleArray([
+    word,
+    ...shuffleArray(distractors).slice(0, optionsCount - 1),
+  ]);
 }
 
 function buildMeaningOptions(
@@ -171,7 +174,10 @@ function buildMeaningOptions(
     .filter((item) => item.id !== currentId)
     .map((item) => item.meaning);
 
-  return shuffleArray([meaning, ...shuffleArray(otherMeanings).slice(0, optionsCount - 1)]);
+  return shuffleArray([
+    meaning,
+    ...shuffleArray(otherMeanings).slice(0, optionsCount - 1),
+  ]);
 }
 
 function getRandomThemeForLevel(level: EnglishVocabularyLevel): ThemeInfo {
@@ -191,7 +197,8 @@ function getRandomThemeForLevel(level: EnglishVocabularyLevel): ThemeInfo {
   );
 
   const randomCategory =
-    availableCategories[Math.floor(Math.random() * availableCategories.length)] ?? 'animals';
+    availableCategories[Math.floor(Math.random() * availableCategories.length)] ??
+    'animals';
 
   return {
     key: randomCategory,
@@ -199,8 +206,13 @@ function getRandomThemeForLevel(level: EnglishVocabularyLevel): ThemeInfo {
   };
 }
 
-function buildQuestions(level: EnglishVocabularyLevel, theme: ThemeInfo): BuiltEnglishQuestion[] {
-  let filtered = englishVocabularyData.filter((item) => item.difficulty === level.difficulty);
+function buildQuestions(
+  level: EnglishVocabularyLevel,
+  theme: ThemeInfo
+): BuiltEnglishQuestion[] {
+  let filtered = englishVocabularyData.filter(
+    (item) => item.difficulty === level.difficulty
+  );
 
   if (theme.key !== 'mixed') {
     filtered = filtered.filter((item) => item.category === theme.key);
@@ -211,15 +223,21 @@ function buildQuestions(level: EnglishVocabularyLevel, theme: ThemeInfo): BuiltE
     .map((item) => ({
       ...item,
       options: buildWordOptions(item.word, item.distractors, level.optionsCount),
-      meaningOptions: buildMeaningOptions(item.meaning, item.id, level.optionsCount),
+      meaningOptions: buildMeaningOptions(
+        item.meaning,
+        item.id,
+        level.optionsCount
+      ),
     }));
 }
 
 function getStars(score: number, total: number): number {
   const ratio = total === 0 ? 0 : score / total;
+
   if (ratio >= 0.9) return 3;
   if (ratio >= 0.6) return 2;
   if (ratio >= 0.3) return 1;
+
   return 0;
 }
 
@@ -241,9 +259,13 @@ function buildInitialProgress(): EnglishProgressMap {
 
 function loadProgress(): EnglishProgressMap {
   if (typeof window === 'undefined') return buildInitialProgress();
+
   try {
     const raw = window.localStorage.getItem(ENGLISH_PROGRESS_KEY);
-    return raw ? { ...buildInitialProgress(), ...JSON.parse(raw) } : buildInitialProgress();
+
+    return raw
+      ? { ...buildInitialProgress(), ...JSON.parse(raw) }
+      : buildInitialProgress();
   } catch {
     return buildInitialProgress();
   }
@@ -256,8 +278,10 @@ function saveProgress(progress: EnglishProgressMap) {
 
 function loadUnlockedStickers(): string[] {
   if (typeof window === 'undefined') return [];
+
   try {
     const raw = window.localStorage.getItem(ENGLISH_STICKERS_KEY);
+
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -271,8 +295,10 @@ function saveUnlockedStickers(stickers: string[]) {
 
 function loadHistory(): EnglishHistoryItem[] {
   if (typeof window === 'undefined') return [];
+
   try {
     const raw = window.localStorage.getItem(ENGLISH_HISTORY_KEY);
+
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -287,14 +313,18 @@ function saveHistory(history: EnglishHistoryItem[]) {
 function pushHistoryItem(item: EnglishHistoryItem) {
   const current = loadHistory();
   const updated = [item, ...current].slice(0, 10);
+
   saveHistory(updated);
+
   return updated;
 }
 
 function loadSoundEnabled(): boolean {
   if (typeof window === 'undefined') return true;
+
   try {
     const raw = window.localStorage.getItem(ENGLISH_SOUND_KEY);
+
     return raw ? JSON.parse(raw) : true;
   } catch {
     return true;
@@ -308,8 +338,10 @@ function saveSoundEnabled(enabled: boolean) {
 
 function loadSpeechEnabled(): boolean {
   if (typeof window === 'undefined') return true;
+
   try {
     const raw = window.localStorage.getItem(ENGLISH_SPEECH_KEY);
+
     return raw ? JSON.parse(raw) : true;
   } catch {
     return true;
@@ -328,6 +360,7 @@ function loadProfile(): ChildProfile {
 
   try {
     const raw = window.localStorage.getItem(ENGLISH_PROFILE_KEY);
+
     return raw ? JSON.parse(raw) : { name: 'Bé Miu', avatar: '🦊' };
   } catch {
     return { name: 'Bé Miu', avatar: '🦊' };
@@ -347,6 +380,7 @@ function loadStudyStreak(): number {
     if (!raw) return 0;
 
     const parsed = JSON.parse(raw) as { streak: number; lastDate: string };
+
     return parsed.streak;
   } catch {
     return 0;
@@ -381,16 +415,19 @@ function updateStudyStreak(): number {
     const value = { streak: nextStreak, lastDate: todayKey };
 
     window.localStorage.setItem(ENGLISH_STREAK_KEY, JSON.stringify(value));
+
     return nextStreak;
   } catch {
     const value = { streak: 1, lastDate: todayKey };
     window.localStorage.setItem(ENGLISH_STREAK_KEY, JSON.stringify(value));
+
     return 1;
   }
 }
 
 export default function EnglishVocabularyPage() {
-  const [selectedLevel, setSelectedLevel] = useState<EnglishVocabularyLevel | null>(null);
+  const [selectedLevel, setSelectedLevel] =
+    useState<EnglishVocabularyLevel | null>(null);
   const [currentTheme, setCurrentTheme] = useState<ThemeInfo | null>(null);
   const [questions, setQuestions] = useState<BuiltEnglishQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -398,7 +435,8 @@ export default function EnglishVocabularyPage() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [progressMap, setProgressMap] = useState<EnglishProgressMap>(buildInitialProgress());
+  const [progressMap, setProgressMap] =
+    useState<EnglishProgressMap>(buildInitialProgress());
   const [unlockedStickerIds, setUnlockedStickerIds] = useState<string[]>([]);
   const [history, setHistory] = useState<EnglishHistoryItem[]>([]);
   const [speechSupported, setSpeechSupported] = useState(false);
@@ -415,7 +453,9 @@ export default function EnglishVocabularyPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
 
-  const [wrongQuestions, setWrongQuestions] = useState<BuiltEnglishQuestion[]>([]);
+  const [wrongQuestions, setWrongQuestions] = useState<BuiltEnglishQuestion[]>(
+    []
+  );
 
   const [showFlashcardMode, setShowFlashcardMode] = useState(false);
   const [flashcardIndex, setFlashcardIndex] = useState(0);
@@ -436,15 +476,48 @@ export default function EnglishVocabularyPage() {
   const audioChunksRef = useRef<Blob[]>([]);
   const audioContextRef = useRef<AudioContext | null>(null);
 
+  const currentQuestion = useMemo(
+    () => questions[currentIndex],
+    [questions, currentIndex]
+  );
+
+  const currentLevelProgress = selectedLevel
+    ? progressMap[selectedLevel.id]
+    : null;
+
+  const currentStars =
+    selectedLevel?.mode === 'quick-challenge'
+      ? getStars(score, Math.max(5, score))
+      : getStars(score, questions.length);
+
+  const answerOptions =
+    selectedLevel?.mode === 'match-meaning'
+      ? currentQuestion?.meaningOptions ?? []
+      : currentQuestion?.options ?? [];
+
+  const correctAnswer =
+    selectedLevel?.mode === 'match-meaning'
+      ? currentQuestion?.meaning ?? ''
+      : currentQuestion?.word ?? '';
+
+  const progressPercent =
+    selectedLevel?.mode === 'quick-challenge'
+      ? ((30 - quickTimeLeft) / 30) * 100
+      : questions.length > 0
+        ? ((currentIndex + 1) / questions.length) * 100
+        : 0;
+
   const getAudioContext = () => {
     if (typeof window === 'undefined') return null;
 
     if (!audioContextRef.current) {
       const AudioContextClass =
         window.AudioContext ||
-        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+          .webkitAudioContext;
 
       if (!AudioContextClass) return null;
+
       audioContextRef.current = new AudioContextClass();
     }
 
@@ -480,6 +553,26 @@ export default function EnglishVocabularyPage() {
 
     oscillator.start();
     oscillator.stop(ctx.currentTime + duration);
+  };
+
+  const playQuestionSound = async () => {
+    if (!soundEnabled) return;
+
+    await playTone(520, 0.08, 'sine');
+
+    setTimeout(() => {
+      playTone(760, 0.1, 'sine');
+    }, 90);
+  };
+
+  const playAnswerOptionSound = async () => {
+    if (!soundEnabled) return;
+
+    await playTone(440, 0.06, 'triangle');
+
+    setTimeout(() => {
+      playTone(560, 0.06, 'triangle');
+    }, 70);
   };
 
   const playGameSound = async (
@@ -532,105 +625,6 @@ export default function EnglishVocabularyPage() {
     }, 340);
   };
 
-  useEffect(() => {
-    setProgressMap(loadProgress());
-    setUnlockedStickerIds(loadUnlockedStickers());
-    setHistory(loadHistory());
-    setSpeechSupported(typeof window !== 'undefined' && 'speechSynthesis' in window);
-    setSoundEnabled(loadSoundEnabled());
-    setSpeechEnabled(loadSpeechEnabled());
-    setRecordingSupported(
-      typeof window !== 'undefined' &&
-        typeof navigator !== 'undefined' &&
-        !!navigator.mediaDevices &&
-        'MediaRecorder' in window
-    );
-
-    const profile = loadProfile();
-    setChildProfile(profile);
-    setProfileDraftName(profile.name);
-    setStudyStreakDays(loadStudyStreak());
-  }, []);
-
-  useEffect(() => {
-    saveSoundEnabled(soundEnabled);
-  }, [soundEnabled]);
-
-  useEffect(() => {
-    saveSpeechEnabled(speechEnabled);
-  }, [speechEnabled]);
-
-  useEffect(() => {
-    if (!showFlashcardMode) return;
-
-    flashcardTimerRef.current = setInterval(() => {
-      setFlashcardFlipped((prev) => !prev);
-    }, 2000);
-
-    return () => {
-      if (flashcardTimerRef.current) {
-        clearInterval(flashcardTimerRef.current);
-        flashcardTimerRef.current = null;
-      }
-    };
-  }, [showFlashcardMode]);
-
-  useEffect(() => {
-    if (!selectedLevel || selectedLevel.mode !== 'quick-challenge' || showResult) return;
-
-    quickTimerRef.current = setInterval(() => {
-      setQuickTimeLeft((prev) => {
-        if (prev <= 1) {
-          if (quickTimerRef.current) {
-            clearInterval(quickTimerRef.current);
-            quickTimerRef.current = null;
-          }
-          setShowResult(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (quickTimerRef.current) {
-        clearInterval(quickTimerRef.current);
-        quickTimerRef.current = null;
-      }
-    };
-  }, [selectedLevel, showResult]);
-
-  useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      if (recordedAudioUrl) {
-        URL.revokeObjectURL(recordedAudioUrl);
-      }
-    };
-  }, [recordedAudioUrl]);
-
-  const currentQuestion = useMemo(
-    () => questions[currentIndex],
-    [questions, currentIndex]
-  );
-
-  const currentLevelProgress = selectedLevel ? progressMap[selectedLevel.id] : null;
-  const currentStars =
-    selectedLevel?.mode === 'quick-challenge'
-      ? getStars(score, Math.max(5, score))
-      : getStars(score, questions.length);
-
-  const addSticker = (stickerId: string) => {
-    setUnlockedStickerIds((prev) => {
-      if (prev.includes(stickerId)) return prev;
-      const updated = [...prev, stickerId];
-      saveUnlockedStickers(updated);
-      return updated;
-    });
-  };
-
   const speakEnglish = (text: string) => {
     if (!speechEnabled) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -645,6 +639,7 @@ export default function EnglishVocabularyPage() {
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => setIsSpeaking(false);
     utterance.onerror = () => setIsSpeaking(false);
+
     window.speechSynthesis.speak(utterance);
   };
 
@@ -662,6 +657,7 @@ export default function EnglishVocabularyPage() {
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => setIsSpeaking(false);
     utterance.onerror = () => setIsSpeaking(false);
+
     window.speechSynthesis.speak(utterance);
   };
 
@@ -673,31 +669,71 @@ export default function EnglishVocabularyPage() {
     speakVietnamese(text);
   };
 
-  const speakQuestionGuide = () => {
+  const speakAnswerOption = async (answer: string) => {
+    await playAnswerOptionSound();
+
+    setTimeout(() => {
+      if (selectedLevel?.mode === 'match-meaning') {
+        speakVietnamese(answer);
+        return;
+      }
+
+      speakEnglish(answer);
+    }, 120);
+  };
+
+  const speakQuestionGuide = async () => {
     if (!selectedLevel || !currentQuestion) return;
 
-    if (selectedLevel.mode === 'listen-and-choose') {
-      speakVietnamese('Bé hãy nghe từ tiếng Anh rồi chọn đáp án đúng');
-      setTimeout(() => {
-        speakEnglish(currentQuestion.word);
-      }, 800);
-      return;
-    }
+    await playQuestionSound();
 
-    if (selectedLevel.mode === 'match-meaning') {
-      speakVietnamese(`Bé hãy chọn nghĩa tiếng Việt đúng cho từ ${currentQuestion.word}`);
-      setTimeout(() => {
-        speakEnglish(currentQuestion.word);
-      }, 800);
-      return;
-    }
+    setTimeout(() => {
+      if (selectedLevel.mode === 'listen-and-choose') {
+        speakVietnamese('Bé hãy nghe từ tiếng Anh rồi chọn đáp án đúng');
 
-    if (selectedLevel.mode === 'quick-challenge') {
-      speakVietnamese(`Bé hãy nhìn hình và chọn từ tiếng Anh đúng. Nghĩa là ${currentQuestion.meaning}`);
-      return;
-    }
+        setTimeout(() => {
+          speakEnglish(currentQuestion.word);
+        }, 900);
 
-    speakVietnamese(`Bé hãy nhìn hình và chọn từ tiếng Anh đúng. Nghĩa là ${currentQuestion.meaning}`);
+        return;
+      }
+
+      if (selectedLevel.mode === 'match-meaning') {
+        speakVietnamese(
+          `Bé hãy chọn nghĩa tiếng Việt đúng cho từ ${currentQuestion.word}`
+        );
+
+        setTimeout(() => {
+          speakEnglish(currentQuestion.word);
+        }, 900);
+
+        return;
+      }
+
+      if (selectedLevel.mode === 'quick-challenge') {
+        speakVietnamese(
+          `Bé hãy nhìn hình và chọn từ tiếng Anh đúng. Nghĩa là ${currentQuestion.meaning}`
+        );
+
+        return;
+      }
+
+      speakVietnamese(
+        `Bé hãy nhìn hình và chọn từ tiếng Anh đúng. Nghĩa là ${currentQuestion.meaning}`
+      );
+    }, 250);
+  };
+
+  const addSticker = (stickerId: string) => {
+    setUnlockedStickerIds((prev) => {
+      if (prev.includes(stickerId)) return prev;
+
+      const updated = [...prev, stickerId];
+
+      saveUnlockedStickers(updated);
+
+      return updated;
+    });
   };
 
   const startLevel = (level: EnglishVocabularyLevel) => {
@@ -727,36 +763,22 @@ export default function EnglishVocabularyPage() {
       URL.revokeObjectURL(recordedAudioUrl);
       setRecordedAudioUrl(null);
     }
-
-    if (level.mode === 'listen-and-choose' && builtQuestions[0]) {
-      setTimeout(() => {
-        speakWord(builtQuestions[0].word);
-      }, 250);
-    }
   };
-
-  useEffect(() => {
-    if (!selectedLevel || !currentQuestion || showResult) return;
-
-    const timer = setTimeout(() => {
-      speakQuestionGuide();
-    }, 450);
-
-    return () => clearTimeout(timer);
-  }, [selectedLevel, currentQuestion, showResult]);
 
   const handleChooseAnswer = async (answer: string) => {
     if (!currentQuestion || selectedAnswer) return;
-  
+
     await playGameSound('select', soundEnabled);
     setSelectedAnswer(answer);
-  
-    const correctAnswer =
-      selectedLevel?.mode === 'match-meaning' ? currentQuestion.meaning : currentQuestion.word;
-  
-    if (answer === correctAnswer) {
+
+    const expectedAnswer =
+      selectedLevel?.mode === 'match-meaning'
+        ? currentQuestion.meaning
+        : currentQuestion.word;
+
+    if (answer === expectedAnswer) {
       await playGameSound('correct', soundEnabled);
-  
+
       setIsCorrect(true);
       setScore((prev) => prev + 1);
       setCombo((prev) => {
@@ -764,15 +786,17 @@ export default function EnglishVocabularyPage() {
         setBestCombo((best) => Math.max(best, next));
         return next;
       });
-  
+
       setTimeout(() => {
         if (selectedLevel?.mode === 'match-meaning') {
-          speakVietnamese(`Chính xác. ${currentQuestion.word} có nghĩa là ${currentQuestion.meaning}`);
+          speakVietnamese(
+            `Chính xác. ${currentQuestion.word} có nghĩa là ${currentQuestion.meaning}`
+          );
         } else {
           speakVietnamese(
             `Chính xác. ${currentQuestion.word} nghĩa là ${currentQuestion.meaning}`
           );
-  
+
           setTimeout(() => {
             speakEnglish(currentQuestion.word);
           }, 1400);
@@ -780,15 +804,16 @@ export default function EnglishVocabularyPage() {
       }, 250);
     } else {
       await playGameSound('wrong', soundEnabled);
-  
+
       setIsCorrect(false);
       setCombo(0);
-  
+
       setWrongQuestions((prev) => {
         const exists = prev.some((item) => item.id === currentQuestion.id);
+
         return exists ? prev : [...prev, currentQuestion];
       });
-  
+
       setTimeout(() => {
         if (selectedLevel?.mode === 'match-meaning') {
           speakVietnamese(`Chưa đúng. Đáp án đúng là ${currentQuestion.meaning}`);
@@ -796,7 +821,7 @@ export default function EnglishVocabularyPage() {
           speakVietnamese(
             `Chưa đúng. Đáp án đúng là ${currentQuestion.word}, nghĩa là ${currentQuestion.meaning}`
           );
-  
+
           setTimeout(() => {
             speakEnglish(currentQuestion.word);
           }, 1600);
@@ -855,6 +880,7 @@ export default function EnglishVocabularyPage() {
 
   const handleStopRecording = () => {
     if (!mediaRecorderRef.current || !isRecording) return;
+
     mediaRecorderRef.current.stop();
     setIsRecording(false);
     speakVietnamese('Đã dừng ghi âm');
@@ -879,28 +905,157 @@ export default function EnglishVocabularyPage() {
       setCurrentIndex(safeIndex);
       setSelectedAnswer(null);
       setIsCorrect(null);
+
       return;
     }
 
     if (currentIndex < questions.length - 1) {
       const nextIndex = currentIndex + 1;
+
       setCurrentIndex(nextIndex);
       setSelectedAnswer(null);
       setIsCorrect(null);
 
-      if (selectedLevel.mode === 'listen-and-choose' && questions[nextIndex]) {
-        setTimeout(() => {
-          speakWord(questions[nextIndex].word);
-        }, 250);
-      }
       return;
     }
 
     setShowResult(true);
   };
 
+  const toggleSound = () => {
+    const next = !soundEnabled;
+
+    setSoundEnabled(next);
+    saveSoundEnabled(next);
+
+    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  const toggleSpeech = () => {
+    const next = !speechEnabled;
+
+    setSpeechEnabled(next);
+    saveSpeechEnabled(next);
+
+    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  const saveChildProfile = () => {
+    const nextProfile = {
+      name: profileDraftName.trim() || 'Bé Miu',
+      avatar: childProfile.avatar,
+    };
+
+    setChildProfile(nextProfile);
+    saveProfile(nextProfile);
+    setEditingProfile(false);
+  };
+
+  useEffect(() => {
+    setProgressMap(loadProgress());
+    setUnlockedStickerIds(loadUnlockedStickers());
+    setHistory(loadHistory());
+    setSpeechSupported(
+      typeof window !== 'undefined' && 'speechSynthesis' in window
+    );
+    setSoundEnabled(loadSoundEnabled());
+    setSpeechEnabled(loadSpeechEnabled());
+    setRecordingSupported(
+      typeof window !== 'undefined' &&
+        typeof navigator !== 'undefined' &&
+        !!navigator.mediaDevices &&
+        'MediaRecorder' in window
+    );
+
+    const profile = loadProfile();
+
+    setChildProfile(profile);
+    setProfileDraftName(profile.name);
+    setStudyStreakDays(loadStudyStreak());
+  }, []);
+
+  useEffect(() => {
+    saveSoundEnabled(soundEnabled);
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    saveSpeechEnabled(speechEnabled);
+  }, [speechEnabled]);
+
+  useEffect(() => {
+    if (!showFlashcardMode) return;
+
+    flashcardTimerRef.current = setInterval(() => {
+      setFlashcardFlipped((prev) => !prev);
+    }, 2000);
+
+    return () => {
+      if (flashcardTimerRef.current) {
+        clearInterval(flashcardTimerRef.current);
+        flashcardTimerRef.current = null;
+      }
+    };
+  }, [showFlashcardMode]);
+
+  useEffect(() => {
+    if (!selectedLevel || selectedLevel.mode !== 'quick-challenge' || showResult) {
+      return;
+    }
+
+    quickTimerRef.current = setInterval(() => {
+      setQuickTimeLeft((prev) => {
+        if (prev <= 1) {
+          if (quickTimerRef.current) {
+            clearInterval(quickTimerRef.current);
+            quickTimerRef.current = null;
+          }
+
+          setShowResult(true);
+
+          return 0;
+        }
+
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (quickTimerRef.current) {
+        clearInterval(quickTimerRef.current);
+        quickTimerRef.current = null;
+      }
+    };
+  }, [selectedLevel, showResult]);
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+
+      if (recordedAudioUrl) {
+        URL.revokeObjectURL(recordedAudioUrl);
+      }
+    };
+  }, [recordedAudioUrl]);
+
+  useEffect(() => {
+    if (!selectedLevel || !currentQuestion || showResult) return;
+
+    const timer = setTimeout(() => {
+      speakQuestionGuide();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [selectedLevel, currentQuestion, showResult]);
+
   useEffect(() => {
     if (!showResult || !selectedLevel || resultHandledRef.current) return;
+
     resultHandledRef.current = true;
 
     const stars =
@@ -953,17 +1108,21 @@ export default function EnglishVocabularyPage() {
       }
 
       saveProgress(updated);
+
       return updated;
     });
 
     const nextStudyStreak = updateStudyStreak();
+
     setStudyStreakDays(nextStudyStreak);
 
     addSticker('english-first-win');
+
     if (stars === 3) {
       playGameSound('three_stars', soundEnabled);
       addSticker('english-perfect');
     }
+
     if (selectedLevel.mode === 'listen-and-choose') addSticker('english-listener');
     if (selectedLevel.mode === 'match-meaning') addSticker('english-matcher');
     if (selectedLevel.mode === 'quick-challenge') addSticker('english-quick');
@@ -981,7 +1140,10 @@ export default function EnglishVocabularyPage() {
       mode: selectedLevel.mode,
       theme: currentTheme?.label ?? 'Không rõ',
       score,
-      total: selectedLevel.mode === 'quick-challenge' ? Math.max(5, score) : questions.length,
+      total:
+        selectedLevel.mode === 'quick-challenge'
+          ? Math.max(5, score)
+          : questions.length,
       stars,
       combo: bestCombo,
     });
@@ -991,84 +1153,51 @@ export default function EnglishVocabularyPage() {
     setTimeout(() => {
       speakVietnamese(`Bé đã hoàn thành màn ${selectedLevel.title}`);
     }, 300);
-  }, [showResult, selectedLevel, score, questions.length, currentTheme, bestCombo, soundEnabled]);
-
-  const progressPercent =
-    selectedLevel?.mode === 'quick-challenge'
-      ? ((30 - quickTimeLeft) / 30) * 100
-      : questions.length > 0
-      ? ((currentIndex + 1) / questions.length) * 100
-      : 0;
-
-  const toggleSound = () => {
-    const next = !soundEnabled;
-    setSoundEnabled(next);
-    saveSoundEnabled(next);
-
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  };
-
-  const toggleSpeech = () => {
-    const next = !speechEnabled;
-    setSpeechEnabled(next);
-    saveSpeechEnabled(next);
-
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  };
-
-  const saveChildProfile = () => {
-    const nextProfile = {
-      name: profileDraftName.trim() || 'Bé Miu',
-      avatar: childProfile.avatar,
-    };
-    setChildProfile(nextProfile);
-    saveProfile(nextProfile);
-    setEditingProfile(false);
-  };
-
-  const answerOptions =
-    selectedLevel?.mode === 'match-meaning'
-      ? currentQuestion?.meaningOptions ?? []
-      : currentQuestion?.options ?? [];
-
-  const correctAnswer =
-    selectedLevel?.mode === 'match-meaning'
-      ? currentQuestion?.meaning ?? ''
-      : currentQuestion?.word ?? '';
+  }, [
+    showResult,
+    selectedLevel,
+    score,
+    questions.length,
+    currentTheme,
+    bestCombo,
+    soundEnabled,
+  ]);
 
   if (!selectedLevel) {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mb-6 rounded-[28px] bg-gradient-to-r from-emerald-500 to-sky-500 p-6 text-white shadow-lg">
+      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <div className="mb-4 rounded-[24px] bg-gradient-to-r from-emerald-500 to-sky-500 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
+              <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-semibold sm:text-sm">
                 Trò chơi tiếng Anh
               </p>
-              <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+
+              <h1 className="text-2xl font-black tracking-tight sm:text-4xl">
                 Từ vựng tiếng Anh
               </h1>
-              <p className="mt-2 max-w-2xl text-sm text-white/90 sm:text-base">
-                Bé nhìn hình, nghe phát âm, ghép nghĩa và thi nhanh để học tiếng Anh thú vị hơn.
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/90 sm:text-base">
+                Bé nhìn hình, nghe phát âm, ghép nghĩa và thi nhanh để học tiếng
+                Anh thú vị hơn.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-col sm:gap-3">
               <button
+                type="button"
                 onClick={toggleSound}
-                className="rounded-full bg-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/30"
+                className="rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white transition hover:bg-white/30 sm:px-5 sm:py-3 sm:text-sm"
               >
-                {soundEnabled ? '🔊 Bật âm thanh' : '🔇 Tắt âm thanh'}
+                {soundEnabled ? '🔊 Âm thanh' : '🔇 Âm thanh'}
               </button>
+
               <button
+                type="button"
                 onClick={toggleSpeech}
-                className="rounded-full bg-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/30"
+                className="rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white transition hover:bg-white/30 sm:px-5 sm:py-3 sm:text-sm"
               >
-                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+                {speechEnabled ? '🗣️ Giọng đọc' : '🤫 Giọng đọc'}
               </button>
             </div>
           </div>
@@ -1098,26 +1227,42 @@ export default function EnglishVocabularyPage() {
           setFlashcardFlipped={setFlashcardFlipped}
         />
 
-        <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-[24px] bg-white p-5 shadow-sm ring-1 ring-slate-100">
-            <p className="text-sm font-semibold text-slate-500">Sticker đã mở</p>
-            <p className="mt-2 text-3xl font-black text-slate-900">{unlockedStickerIds.length}</p>
-          </div>
-          <div className="rounded-[24px] bg-white p-5 shadow-sm ring-1 ring-slate-100">
-            <p className="text-sm font-semibold text-slate-500">Màn đã chơi</p>
-            <p className="mt-2 text-3xl font-black text-slate-900">
-              {Object.values(progressMap).reduce((sum, item) => sum + item.playedCount, 0)}
+        <div className="mb-4 grid grid-cols-2 gap-3 sm:mb-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
+          <div className="rounded-[20px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[24px] sm:p-5">
+            <p className="text-xs font-semibold text-slate-500 sm:text-sm">
+              Sticker đã mở
+            </p>
+            <p className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+              {unlockedStickerIds.length}
             </p>
           </div>
-          <div className="rounded-[24px] bg-white p-5 shadow-sm ring-1 ring-slate-100">
-            <p className="text-sm font-semibold text-slate-500">Thiết bị hỗ trợ phát âm</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+
+          <div className="rounded-[20px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[24px] sm:p-5">
+            <p className="text-xs font-semibold text-slate-500 sm:text-sm">
+              Màn đã chơi
+            </p>
+            <p className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+              {Object.values(progressMap).reduce(
+                (sum, item) => sum + item.playedCount,
+                0
+              )}
+            </p>
+          </div>
+
+          <div className="rounded-[20px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[24px] sm:p-5">
+            <p className="text-xs font-semibold text-slate-500 sm:text-sm">
+              Phát âm
+            </p>
+            <p className="mt-2 text-xl font-black text-slate-900 sm:text-2xl">
               {speechSupported ? 'Có' : 'Không'}
             </p>
           </div>
-          <div className="rounded-[24px] bg-white p-5 shadow-sm ring-1 ring-slate-100">
-            <p className="text-sm font-semibold text-slate-500">Ghi âm phát âm</p>
-            <p className="mt-2 text-2xl font-black text-slate-900">
+
+          <div className="rounded-[20px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[24px] sm:p-5">
+            <p className="text-xs font-semibold text-slate-500 sm:text-sm">
+              Ghi âm
+            </p>
+            <p className="mt-2 text-xl font-black text-slate-900 sm:text-2xl">
               {recordingSupported ? 'Có' : 'Không'}
             </p>
           </div>
@@ -1125,7 +1270,7 @@ export default function EnglishVocabularyPage() {
 
         <EnglishLeaderboard progressMap={progressMap} />
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
           {englishVocabularyLevels.map((level) => {
             const item = progressMap[level.id];
             const isUnlocked = item?.unlocked ?? false;
@@ -1133,56 +1278,69 @@ export default function EnglishVocabularyPage() {
             return (
               <button
                 key={level.id}
+                type="button"
                 onClick={() => isUnlocked && startLevel(level)}
                 disabled={!isUnlocked}
-                className={`rounded-[28px] p-5 text-left shadow-sm ring-1 transition ${
+                className={`rounded-[22px] p-4 text-left shadow-sm ring-1 transition sm:rounded-[28px] sm:p-5 ${
                   isUnlocked
                     ? 'bg-white ring-slate-100 hover:-translate-y-1 hover:shadow-lg'
                     : 'cursor-not-allowed bg-slate-100 ring-slate-200 opacity-70'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-2xl">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-2xl sm:h-14 sm:w-14">
                     {level.mode === 'listen-and-choose'
                       ? '🎧'
                       : level.mode === 'match-meaning'
-                      ? '🧩'
-                      : level.mode === 'quick-challenge'
-                      ? '⚡'
-                      : '🌍'}
+                        ? '🧩'
+                        : level.mode === 'quick-challenge'
+                          ? '⚡'
+                          : '🌍'}
                   </div>
+
                   <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
                     {isUnlocked ? 'Đã mở' : 'Đã khóa'}
                   </span>
                 </div>
 
-                <h3 className="mt-4 text-xl font-black text-slate-900">{level.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{level.description}</p>
+                <h3 className="mt-4 text-lg font-black text-slate-900 sm:text-xl">
+                  {level.title}
+                </h3>
 
-                <div className="mt-4 flex flex-wrap gap-2 text-sm">
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {level.description}
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2 text-xs sm:text-sm">
                   <span className="rounded-full bg-emerald-50 px-3 py-1.5 font-semibold text-emerald-700">
                     {level.category === 'mixed'
                       ? 'Chủ đề ngẫu nhiên'
                       : englishCategoryLabels[level.category]}
                   </span>
+
                   <span className="rounded-full bg-sky-50 px-3 py-1.5 font-semibold text-sky-700">
-                    {level.mode === 'quick-challenge' ? '30 giây' : `${level.questionCount} câu`}
+                    {level.mode === 'quick-challenge'
+                      ? '30 giây'
+                      : `${level.questionCount} câu`}
                   </span>
                 </div>
 
                 <div className="mt-4 rounded-2xl bg-slate-50 p-3 text-sm text-slate-600">
                   <p>
-                    Điểm cao nhất: <span className="font-bold">{item?.highScore ?? 0}</span>
+                    Điểm cao nhất:{' '}
+                    <span className="font-bold">{item?.highScore ?? 0}</span>
                   </p>
                   <p>
-                    Số lần chơi: <span className="font-bold">{item?.playedCount ?? 0}</span>
+                    Số lần chơi:{' '}
+                    <span className="font-bold">{item?.playedCount ?? 0}</span>
                   </p>
                   <p>
-                    Sao tốt nhất: <span className="font-bold">{item?.bestStars ?? 0}/3</span>
+                    Sao tốt nhất:{' '}
+                    <span className="font-bold">{item?.bestStars ?? 0}/3</span>
                   </p>
                 </div>
 
-                <div className="mt-5 rounded-full bg-slate-900 px-4 py-3 text-center text-sm font-bold text-white">
+                <div className="mt-5 rounded-full bg-slate-900 px-4 py-2.5 text-center text-sm font-bold text-white sm:py-3">
                   {isUnlocked ? 'Bắt đầu học' : 'Mở khi đạt 2 sao cấp trước'}
                 </div>
               </button>
@@ -1190,9 +1348,12 @@ export default function EnglishVocabularyPage() {
           })}
         </div>
 
-        <div className="mt-8 rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
-          <h2 className="text-2xl font-black text-slate-900">Bộ sticker tiếng Anh</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-6 rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:mt-8 sm:rounded-[28px] sm:p-6">
+          <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
+            Bộ sticker tiếng Anh
+          </h2>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
             {englishStickers.map((sticker) => {
               const unlocked = unlockedStickerIds.includes(sticker.id);
 
@@ -1205,9 +1366,15 @@ export default function EnglishVocabularyPage() {
                       : 'bg-slate-50 ring-slate-100 opacity-70'
                   }`}
                 >
-                  <div className="text-4xl">{unlocked ? sticker.emoji : '🔒'}</div>
-                  <p className="mt-3 font-black text-slate-900">{sticker.title}</p>
-                  <p className="mt-1 text-sm text-slate-600">
+                  <div className="text-3xl sm:text-4xl">
+                    {unlocked ? sticker.emoji : '🔒'}
+                  </div>
+
+                  <p className="mt-3 font-black text-slate-900">
+                    {sticker.title}
+                  </p>
+
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
                     {unlocked ? sticker.description : 'Chưa mở khóa'}
                   </p>
                 </div>
@@ -1216,21 +1383,30 @@ export default function EnglishVocabularyPage() {
           </div>
         </div>
 
-        <div className="mt-8 rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
-          <h2 className="text-2xl font-black text-slate-900">Lịch sử 10 màn gần nhất</h2>
+        <div className="mt-6 rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:mt-8 sm:rounded-[28px] sm:p-6">
+          <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
+            Lịch sử 10 màn gần nhất
+          </h2>
+
           <div className="mt-4 space-y-3">
             {history.length === 0 ? (
-              <p className="text-slate-600">Chưa có lịch sử màn chơi nào.</p>
+              <p className="text-sm text-slate-600 sm:text-base">
+                Chưa có lịch sử màn chơi nào.
+              </p>
             ) : (
               history.map((item) => (
                 <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="font-black text-slate-900">{item.levelTitle}</p>
+                      <p className="font-black text-slate-900">
+                        {item.levelTitle}
+                      </p>
+
                       <p className="text-sm text-slate-500">
                         Chủ đề: {item.theme} • Chế độ: {item.mode}
                       </p>
                     </div>
+
                     <div className="text-sm text-slate-600">
                       {new Date(item.createdAt).toLocaleString('vi-VN')}
                     </div>
@@ -1240,9 +1416,11 @@ export default function EnglishVocabularyPage() {
                     <span className="rounded-full bg-white px-3 py-1.5 font-semibold text-slate-700 ring-1 ring-slate-200">
                       Điểm: {item.score}/{item.total}
                     </span>
+
                     <span className="rounded-full bg-white px-3 py-1.5 font-semibold text-slate-700 ring-1 ring-slate-200">
                       Sao: {item.stars}/3
                     </span>
+
                     <span className="rounded-full bg-white px-3 py-1.5 font-semibold text-slate-700 ring-1 ring-slate-200">
                       Combo: {item.combo}
                     </span>
@@ -1258,10 +1436,14 @@ export default function EnglishVocabularyPage() {
 
   if (!currentQuestion) {
     return (
-      <section className="mx-auto max-w-4xl px-4 py-8">
-        <div className="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-100">
-          <h2 className="text-2xl font-black text-slate-900">Chưa có câu hỏi</h2>
+      <section className="mx-auto max-w-4xl px-3 py-4 sm:px-6 sm:py-8">
+        <div className="rounded-3xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-100 sm:p-8">
+          <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
+            Chưa có câu hỏi
+          </h2>
+
           <button
+            type="button"
             onClick={() => setSelectedLevel(null)}
             className="mt-6 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white"
           >
@@ -1282,7 +1464,9 @@ export default function EnglishVocabularyPage() {
         currentStars={currentStars}
         score={score}
         totalQuestions={
-          selectedLevel.mode === 'quick-challenge' ? Math.max(5, score) : questions.length
+          selectedLevel.mode === 'quick-challenge'
+            ? Math.max(5, score)
+            : questions.length
         }
         highScore={Math.max(currentLevelProgress?.highScore ?? 0, score)}
         bestCombo={bestCombo}
@@ -1307,72 +1491,80 @@ export default function EnglishVocabularyPage() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mb-6 rounded-[28px] bg-gradient-to-r from-emerald-500 to-sky-500 p-6 text-white shadow-lg">
+    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <div className="mb-4 rounded-[24px] bg-gradient-to-r from-emerald-500 to-sky-500 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
+            <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-semibold sm:text-sm">
               Trò chơi tiếng Anh
             </p>
-            <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
+
+            <h1 className="text-2xl font-black tracking-tight sm:text-4xl">
               {selectedLevel.title}
             </h1>
-            <p className="mt-2 max-w-2xl text-sm text-white/90 sm:text-base">
+
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/90 sm:text-base">
               {selectedLevel.description}
             </p>
 
             <div className="mt-3 flex flex-wrap gap-2">
               {currentTheme && (
-                <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white">
+                <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white sm:px-4 sm:py-2 sm:text-sm">
                   Chủ đề: {currentTheme.label}
                 </span>
               )}
-              <span className="rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white">
+
+              <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white sm:px-4 sm:py-2 sm:text-sm">
                 {selectedLevel.mode === 'listen-and-choose'
                   ? 'Nghe rồi chọn'
                   : selectedLevel.mode === 'match-meaning'
-                  ? 'Ghép từ với nghĩa'
-                  : selectedLevel.mode === 'quick-challenge'
-                  ? 'Thi nhanh 30 giây'
-                  : 'Nhìn rồi chọn'}
+                    ? 'Ghép nghĩa'
+                    : selectedLevel.mode === 'quick-challenge'
+                      ? 'Thi nhanh'
+                      : 'Nhìn rồi chọn'}
               </span>
             </div>
           </div>
 
           <div className="flex flex-col gap-3 sm:items-end">
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
               <button
+                type="button"
                 onClick={toggleSound}
-                className="rounded-full bg-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/30"
+                className="rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white transition hover:bg-white/30 sm:px-5 sm:py-3 sm:text-sm"
               >
-                {soundEnabled ? '🔊 Bật âm thanh' : '🔇 Tắt âm thanh'}
+                {soundEnabled ? '🔊 Âm thanh' : '🔇 Âm thanh'}
               </button>
+
               <button
+                type="button"
                 onClick={toggleSpeech}
-                className="rounded-full bg-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/30"
+                className="rounded-full bg-white/20 px-3 py-2 text-xs font-bold text-white transition hover:bg-white/30 sm:px-5 sm:py-3 sm:text-sm"
               >
-                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+                {speechEnabled ? '🗣️ Giọng đọc' : '🤫 Giọng đọc'}
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 sm:min-w-[320px]">
-              <div className="rounded-2xl bg-white/20 p-4 backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
-                  Điểm số
+            <div className="grid grid-cols-3 gap-2 sm:min-w-[320px] sm:gap-3">
+              <div className="rounded-2xl bg-white/20 p-3 backdrop-blur sm:p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-white/80 sm:text-xs">
+                  Điểm
                 </p>
-                <p className="mt-1 text-2xl font-black">{score}</p>
+                <p className="mt-1 text-xl font-black sm:text-2xl">{score}</p>
               </div>
-              <div className="rounded-2xl bg-white/20 p-4 backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
+
+              <div className="rounded-2xl bg-white/20 p-3 backdrop-blur sm:p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-white/80 sm:text-xs">
                   Combo
                 </p>
-                <p className="mt-1 text-2xl font-black">{combo}</p>
+                <p className="mt-1 text-xl font-black sm:text-2xl">{combo}</p>
               </div>
-              <div className="rounded-2xl bg-white/20 p-4 backdrop-blur">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
-                  {selectedLevel.mode === 'quick-challenge' ? 'Thời gian' : 'Câu'}
+
+              <div className="rounded-2xl bg-white/20 p-3 backdrop-blur sm:p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-white/80 sm:text-xs">
+                  {selectedLevel.mode === 'quick-challenge' ? 'Giờ' : 'Câu'}
                 </p>
-                <p className="mt-1 text-2xl font-black">
+                <p className="mt-1 text-xl font-black sm:text-2xl">
                   {selectedLevel.mode === 'quick-challenge'
                     ? `${quickTimeLeft}s`
                     : `${currentIndex + 1}/${questions.length}`}
@@ -1384,43 +1576,51 @@ export default function EnglishVocabularyPage() {
       </div>
 
       {combo >= 2 && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-pink-500 to-orange-400 p-4 text-white shadow-sm">
-          <p className="text-sm font-bold uppercase tracking-[0.2em]">Combo</p>
-          <p className="mt-1 text-2xl font-black">🔥 {combo} câu đúng liên tiếp</p>
+        <div className="mb-4 rounded-2xl bg-gradient-to-r from-pink-500 to-orange-400 p-3 text-white shadow-sm sm:mb-6 sm:p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] sm:text-sm">
+            Combo
+          </p>
+          <p className="mt-1 text-xl font-black sm:text-2xl">
+            🔥 {combo} câu đúng liên tiếp
+          </p>
         </div>
       )}
 
-      <div className="mb-4 flex flex-wrap gap-3">
+      <div className="mb-4 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-3">
         <button
+          type="button"
           onClick={speakQuestionGuide}
-          className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+          className="rounded-full bg-white px-2.5 py-2 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50 sm:px-4 sm:text-sm"
         >
-          {isSpeaking ? 'Đang đọc...' : '🔊 Nghe hướng dẫn'}
+          {isSpeaking ? 'Đang đọc...' : '🔊 Câu hỏi'}
         </button>
 
         {selectedLevel.mode !== 'match-meaning' && (
           <button
+            type="button"
             onClick={handleReplayAudio}
-            className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700 transition hover:bg-emerald-200"
+            className="rounded-full bg-emerald-100 px-2.5 py-2 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-200 sm:px-4 sm:text-sm"
           >
-            🔊 Nghe từ
+            🔊 Từ
           </button>
         )}
 
         <button
+          type="button"
           onClick={handleSpeakMeaning}
-          className="rounded-full bg-sky-100 px-4 py-2 text-sm font-bold text-sky-700 transition hover:bg-sky-200"
+          className="rounded-full bg-sky-100 px-2.5 py-2 text-[11px] font-bold text-sky-700 transition hover:bg-sky-200 sm:px-4 sm:text-sm"
         >
-          🇻🇳 Nghe nghĩa
+          🇻🇳 Nghĩa
         </button>
       </div>
 
-      <div className="mb-6 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
-        <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-600">
+      <div className="mb-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-100 sm:mb-6 sm:rounded-3xl sm:p-4">
+        <div className="mb-2 flex items-center justify-between text-xs font-semibold text-slate-600 sm:text-sm">
           <span>Tiến độ</span>
           <span>{Math.round(progressPercent)}%</span>
         </div>
-        <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+
+        <div className="h-2.5 overflow-hidden rounded-full bg-slate-100 sm:h-3">
           <div
             className="h-full rounded-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
@@ -1428,82 +1628,89 @@ export default function EnglishVocabularyPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[32px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
-          <div className="mb-4 flex items-center justify-between">
+      <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
+        <div className="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[32px] sm:p-6">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-bold text-emerald-600">
                 {selectedLevel.mode === 'listen-and-choose'
                   ? 'Nghe từ'
                   : selectedLevel.mode === 'match-meaning'
-                  ? 'Ghép từ với nghĩa'
-                  : selectedLevel.mode === 'quick-challenge'
-                  ? 'Trả lời thật nhanh'
-                  : 'Quan sát hình'}
+                    ? 'Ghép từ với nghĩa'
+                    : selectedLevel.mode === 'quick-challenge'
+                      ? 'Trả lời thật nhanh'
+                      : 'Quan sát hình'}
               </p>
-              <h2 className="text-2xl font-black text-slate-900">
+
+              <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
                 {selectedLevel.mode === 'listen-and-choose'
                   ? 'Listen and choose'
                   : selectedLevel.mode === 'match-meaning'
-                  ? 'Match word with meaning'
-                  : selectedLevel.mode === 'quick-challenge'
-                  ? 'Quick challenge'
-                  : 'What is this?'}
+                    ? 'Match meaning'
+                    : selectedLevel.mode === 'quick-challenge'
+                      ? 'Quick challenge'
+                      : 'What is this?'}
               </h2>
             </div>
 
-            <div className="flex gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:flex">
               <button
+                type="button"
                 onClick={() => setSelectedLevel(null)}
-                className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+                className="inline-flex items-center justify-center rounded-full bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-200 sm:px-4 sm:text-sm"
               >
                 Quay lại
               </button>
+
               <Link
                 href="/games"
-                className="inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-800 sm:px-5 sm:py-3 sm:text-sm"
               >
-                Về kho trò chơi
+                Kho trò chơi
               </Link>
             </div>
           </div>
 
-          <div className="flex min-h-[320px] items-center justify-center rounded-[28px] border-2 border-dashed border-emerald-200 bg-emerald-50">
+          <div className="flex min-h-[220px] items-center justify-center rounded-[24px] border-2 border-dashed border-emerald-200 bg-emerald-50 px-3 py-6 sm:min-h-[320px] sm:rounded-[28px] sm:py-8">
             <div className="text-center">
               {selectedLevel.mode === 'match-meaning' ? (
                 <>
-                  <div className="mb-4 text-4xl font-black tracking-tight text-slate-900 sm:text-6xl">
+                  <div className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:mb-4 sm:text-6xl">
                     {currentQuestion.word}
                   </div>
-                  <p className="text-lg font-bold text-slate-700">
+
+                  <p className="text-base font-bold text-slate-700 sm:text-lg">
                     Bé hãy chọn nghĩa tiếng Việt đúng nhé
                   </p>
                 </>
               ) : (
                 <>
-                  <div className="mb-4 text-[110px] leading-none sm:text-[140px]">
+                  <div className="mb-3 text-[88px] leading-none sm:mb-4 sm:text-[140px]">
                     {currentQuestion.image}
                   </div>
 
                   {selectedLevel.mode === 'look-and-choose' ||
                   selectedLevel.mode === 'quick-challenge' ? (
                     <>
-                      <p className="text-lg font-bold text-slate-700">
+                      <p className="text-base font-bold text-slate-700 sm:text-lg">
                         Bé hãy chọn từ tiếng Anh đúng nhé
                       </p>
-                      <p className="mt-2 text-sm text-slate-500">
+
+                      <p className="mt-2 text-xs text-slate-500 sm:text-sm">
                         Nghĩa tiếng Việt: {currentQuestion.meaning}
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="text-lg font-bold text-slate-700">
+                      <p className="text-base font-bold text-slate-700 sm:text-lg">
                         Bé hãy nghe từ rồi chọn đáp án đúng nhé
                       </p>
-                      <div className="mt-4 flex flex-wrap justify-center gap-3">
+
+                      <div className="mt-4 flex flex-wrap justify-center gap-2 sm:gap-3">
                         <button
+                          type="button"
                           onClick={handleReplayAudio}
-                          className="rounded-full bg-emerald-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-600"
+                          className="rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-600 sm:px-5 sm:py-3"
                         >
                           🔊 Nghe lại
                         </button>
@@ -1512,15 +1719,17 @@ export default function EnglishVocabularyPage() {
                           <>
                             {!isRecording ? (
                               <button
+                                type="button"
                                 onClick={handleStartRecording}
-                                className="rounded-full bg-sky-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-sky-600"
+                                className="rounded-full bg-sky-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-sky-600 sm:px-5 sm:py-3"
                               >
                                 🎙 Ghi âm
                               </button>
                             ) : (
                               <button
+                                type="button"
                                 onClick={handleStopRecording}
-                                className="rounded-full bg-rose-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-600"
+                                className="rounded-full bg-rose-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-rose-600 sm:px-5 sm:py-3"
                               >
                                 ⏹ Dừng ghi
                               </button>
@@ -1529,7 +1738,11 @@ export default function EnglishVocabularyPage() {
                         )}
 
                         {recordedAudioUrl && (
-                          <audio controls src={recordedAudioUrl} className="mt-2 w-full max-w-xs" />
+                          <audio
+                            controls
+                            src={recordedAudioUrl}
+                            className="mt-2 w-full max-w-xs"
+                          />
                         )}
                       </div>
                     </>
@@ -1540,105 +1753,134 @@ export default function EnglishVocabularyPage() {
           </div>
         </div>
 
-        <div className="rounded-[32px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
-          <div className="mb-5 rounded-3xl bg-emerald-50 p-4 ring-1 ring-emerald-100">
+        <div className="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[32px] sm:p-6">
+          <div className="mb-4 rounded-2xl bg-emerald-50 p-3 ring-1 ring-emerald-100 sm:mb-5 sm:rounded-3xl sm:p-4">
             <div className="flex items-start gap-3">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm sm:h-14 sm:w-14 sm:text-3xl">
                 🐻
               </div>
+
               <div>
-                <p className="text-sm font-bold text-emerald-600">Gấu nhỏ nhắn bé</p>
+                <p className="text-sm font-bold text-emerald-600">
+                  Gấu nhỏ nhắn bé
+                </p>
+
                 <p className="mt-1 text-sm leading-6 text-slate-700">
                   {selectedLevel.mode === 'listen-and-choose'
                     ? 'Mình cùng nghe thật kỹ rồi chọn từ đúng nhé.'
                     : selectedLevel.mode === 'match-meaning'
-                    ? 'Mình cùng ghép từ tiếng Anh với nghĩa tiếng Việt nhé.'
-                    : selectedLevel.mode === 'quick-challenge'
-                    ? 'Trả lời thật nhanh để ghi điểm cao nhất nhé.'
-                    : 'Mình cùng nhìn hình và học từ mới tiếng Anh nhé.'}
+                      ? 'Mình cùng ghép từ tiếng Anh với nghĩa tiếng Việt nhé.'
+                      : selectedLevel.mode === 'quick-challenge'
+                        ? 'Trả lời thật nhanh để ghi điểm cao nhất nhé.'
+                        : 'Mình cùng nhìn hình và học từ mới tiếng Anh nhé.'}
                 </p>
               </div>
             </div>
           </div>
 
-          <p className="mb-2 text-sm font-bold text-emerald-600">Chọn đáp án</p>
-          <h3 className="mb-5 text-2xl font-black text-slate-900">
-            {selectedLevel.mode === 'match-meaning' ? 'Nghĩa tiếng Việt' : 'English word'}
+          <p className="mb-1 text-sm font-bold text-emerald-600">Chọn đáp án</p>
+
+          <h3 className="mb-4 text-xl font-black text-slate-900 sm:mb-5 sm:text-2xl">
+            {selectedLevel.mode === 'match-meaning'
+              ? 'Nghĩa tiếng Việt'
+              : 'English word'}
           </h3>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5 sm:space-y-3">
             {answerOptions.map((answer) => {
               const isSelected = selectedAnswer === answer;
               const isRightAnswer = answer === correctAnswer;
 
               let buttonClass =
-                'w-full rounded-2xl border px-4 py-4 text-left text-lg font-bold transition duration-200';
+                'min-h-[52px] w-full rounded-2xl border px-4 py-3 text-left text-base font-bold transition duration-200 sm:min-h-[60px] sm:py-4 sm:text-lg';
 
               if (!selectedAnswer) {
                 buttonClass +=
                   ' border-slate-200 bg-slate-50 text-slate-800 hover:border-emerald-300 hover:bg-emerald-50';
               } else if (isSelected && isCorrect) {
-                buttonClass += ' border-emerald-300 bg-emerald-50 text-emerald-700';
+                buttonClass +=
+                  ' border-emerald-300 bg-emerald-50 text-emerald-700';
               } else if (isSelected && !isCorrect) {
                 buttonClass += ' border-rose-300 bg-rose-50 text-rose-700';
               } else if (!isSelected && isRightAnswer && !isCorrect) {
-                buttonClass += ' border-emerald-300 bg-emerald-50 text-emerald-700';
+                buttonClass +=
+                  ' border-emerald-300 bg-emerald-50 text-emerald-700';
               } else {
                 buttonClass += ' border-slate-200 bg-slate-100 text-slate-400';
               }
 
               return (
-                <button
-                  key={answer}
-                  onClick={() => handleChooseAnswer(answer)}
-                  disabled={!!selectedAnswer}
-                  className={buttonClass}
-                >
-                  {answer}
-                </button>
+                <div key={answer} className="flex items-stretch gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleChooseAnswer(answer)}
+                    disabled={!!selectedAnswer}
+                    className={buttonClass}
+                  >
+                    {answer}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => speakAnswerOption(answer)}
+                    className="flex min-h-[52px] w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-base transition hover:bg-slate-50 sm:min-h-[60px] sm:w-14 sm:text-lg"
+                    aria-label={`Nghe đáp án ${answer}`}
+                  >
+                    🔊
+                  </button>
+                </div>
               );
             })}
           </div>
 
-          <div className="mt-6 rounded-2xl bg-slate-50 p-4">
+          <div className="mt-4 rounded-2xl bg-slate-50 p-3 sm:mt-6 sm:p-4">
             {isCorrect === null && (
-              <p className="text-sm font-medium text-slate-600">
+              <p className="text-sm font-medium leading-6 text-slate-600">
                 {selectedLevel.mode === 'listen-and-choose'
                   ? 'Bé hãy nghe từ và chọn đáp án đúng nhé.'
                   : selectedLevel.mode === 'match-meaning'
-                  ? 'Bé hãy chọn nghĩa tiếng Việt phù hợp nhé.'
-                  : 'Bé hãy nhìn hình và chọn từ tiếng Anh phù hợp nhé.'}
+                    ? 'Bé hãy chọn nghĩa tiếng Việt phù hợp nhé.'
+                    : 'Bé hãy nhìn hình và chọn từ tiếng Anh phù hợp nhé.'}
               </p>
             )}
 
             {isCorrect === true && (
               <div>
-                <p className="text-base font-bold text-emerald-600">Correct! 🎉</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Đáp án đúng là <span className="font-bold">{correctAnswer}</span>.
+                <p className="text-base font-bold text-emerald-600">
+                  Correct! 🎉
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Đáp án đúng là{' '}
+                  <span className="font-bold">{correctAnswer}</span>.
                 </p>
               </div>
             )}
 
             {isCorrect === false && (
               <div>
-                <p className="text-base font-bold text-rose-600">Oops, chưa đúng 😊</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Đáp án đúng là <span className="font-bold">{correctAnswer}</span>.
+                <p className="text-base font-bold text-rose-600">
+                  Oops, chưa đúng 😊
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Đáp án đúng là{' '}
+                  <span className="font-bold">{correctAnswer}</span>.
                 </p>
               </div>
             )}
           </div>
 
           <button
+            type="button"
             onClick={handleNext}
-            className="mt-6 w-full rounded-2xl bg-emerald-500 px-5 py-4 text-base font-bold text-white shadow-sm transition hover:bg-emerald-600"
+            className="mt-4 w-full rounded-2xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-600 sm:mt-6 sm:py-4 sm:text-base"
           >
             {selectedLevel.mode === 'quick-challenge'
               ? 'Câu tiếp theo'
               : currentIndex < questions.length - 1
-              ? 'Câu tiếp theo'
-              : 'Xem kết quả'}
+                ? 'Câu tiếp theo'
+                : 'Xem kết quả'}
           </button>
         </div>
       </div>

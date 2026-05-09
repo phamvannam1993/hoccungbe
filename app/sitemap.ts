@@ -1,33 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { gamesData } from './components/edu/data/gamesData';
 
-const baseUrl = 'https://behayhoc.com';
-
-const gameSlugs = [
-  'color-sort',
-  'connect-numbers',
-  'count-animals',
-  'english-vocab',
-  'first-letter',
-  'group-match',
-  'half-match',
-  'initial-sound',
-  'listen-and-do',
-  'match-word',
-  'math-fun',
-  'memory-hunt',
-  'mini-maze',
-  'missing-number',
-  'number-quantity-match',
-  'odd-one-out',
-  'opposite-pairs',
-  'pattern-complete',
-  'quick-pick',
-  'rhyme-match',
-  'sequence-memory',
-  'sequence-sort',
-  'shadow-match',
-  'sound-match',
-];
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date();
@@ -101,12 +75,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const gamePages: MetadataRoute.Sitemap = gameSlugs.map((slug) => ({
-    url: `${baseUrl}/games/${slug}`,
-    lastModified: currentDate,
-    changeFrequency: 'monthly',
-    priority: 0.75,
-  }));
+  const gamePages: MetadataRoute.Sitemap = gamesData
+    .filter((game) => game.status === 'ready')
+    .map((game) => ({
+      url: `${baseUrl}/games/${game.page}`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: game.isFeatured ? 0.8 : 0.7,
+    }));
 
   return [...staticPages, ...gamePages];
 }

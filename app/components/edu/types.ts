@@ -32,6 +32,9 @@ export type PageKey =
   | 'half-match'
   | 'sequence-memory'
   | 'rhyme-match'
+  | 'apple-pick'
+  | 'animal-feed'
+  | 'bubble-math'
   | 'connect-numbers';
 
 export type SetPage = (page: PageKey) => void;

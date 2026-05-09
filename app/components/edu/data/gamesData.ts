@@ -1,5 +1,14 @@
 import type { PageKey } from '../types';
 
+export type GameGroupKey =
+  | 'math-counting'
+  | 'math-logic'
+  | 'language'
+  | 'memory'
+  | 'listening'
+  | 'thinking-observation'
+  | 'english';
+
 export type GameItem = {
   id: string;
   title: string;
@@ -12,7 +21,15 @@ export type GameItem = {
   durationMinutes: number;
   badge: string;
   emoji: string;
-  category: 'Ngôn ngữ' | 'Toán học' | 'Ghi nhớ' | 'Tiếng Anh' | 'Âm thanh' | 'Phản xạ' | 'Tư duy';
+  category:
+    | 'Ngôn ngữ'
+    | 'Toán học'
+    | 'Ghi nhớ'
+    | 'Tiếng Anh'
+    | 'Âm thanh'
+    | 'Phản xạ'
+    | 'Tư duy';
+  groupKey: GameGroupKey;
   difficulty: 'Dễ' | 'Trung bình' | 'Nâng cao';
   skills: string[];
   isFeatured: boolean;
@@ -20,6 +37,64 @@ export type GameItem = {
   page: PageKey;
   status: 'ready' | 'coming-soon';
 };
+
+export const gameGroups: {
+  key: GameGroupKey;
+  title: string;
+  subtitle: string;
+  emoji: string;
+  colorClass: string;
+}[] = [
+  {
+    key: 'math-counting',
+    title: 'Toán đếm số & số lượng',
+    subtitle: 'Các trò chơi giúp bé đếm, nhận biết số lượng và làm quen với số.',
+    emoji: '🔢',
+    colorClass: 'from-sky-400 to-cyan-400',
+  },
+  {
+    key: 'math-logic',
+    title: 'Toán tư duy & quy luật',
+    subtitle: 'Các trò chơi rèn suy luận, dãy số, thứ tự và quy luật đơn giản.',
+    emoji: '🧠',
+    colorClass: 'from-violet-400 to-fuchsia-400',
+  },
+  {
+    key: 'language',
+    title: 'Ngôn ngữ & đọc sớm',
+    subtitle: 'Các trò chơi giúp bé nhận diện chữ, âm, vần và phát triển vốn từ.',
+    emoji: '🔤',
+    colorClass: 'from-pink-400 to-rose-400',
+  },
+  {
+    key: 'memory',
+    title: 'Ghi nhớ & tập trung',
+    subtitle: 'Các trò chơi rèn trí nhớ ngắn hạn, quan sát và khả năng tập trung.',
+    emoji: '🧩',
+    colorClass: 'from-amber-400 to-orange-400',
+  },
+  {
+    key: 'listening',
+    title: 'Nghe hiểu & âm thanh',
+    subtitle: 'Các trò chơi giúp bé nghe yêu cầu, nhận diện âm thanh và làm theo chỉ dẫn.',
+    emoji: '🔊',
+    colorClass: 'from-emerald-400 to-teal-400',
+  },
+  {
+    key: 'thinking-observation',
+    title: 'Quan sát, phân loại & tư duy',
+    subtitle: 'Các trò chơi giúp bé so sánh, phân loại, nhận biết hình dạng và điểm khác biệt.',
+    emoji: '👀',
+    colorClass: 'from-indigo-400 to-sky-400',
+  },
+  {
+    key: 'english',
+    title: 'Tiếng Anh cho bé',
+    subtitle: 'Các trò chơi giúp bé làm quen từ vựng tiếng Anh qua hình ảnh trực quan.',
+    emoji: '🌍',
+    colorClass: 'from-lime-400 to-emerald-400',
+  },
+];
 
 export const gamesData: GameItem[] = [
   {
@@ -36,6 +111,7 @@ export const gamesData: GameItem[] = [
     badge: 'Phổ biến',
     emoji: '🔤',
     category: 'Ngôn ngữ',
+    groupKey: 'language',
     difficulty: 'Dễ',
     skills: ['Nhận diện từ', 'Ghi nhớ hình ảnh', 'Phản xạ ngôn ngữ'],
     isFeatured: true,
@@ -57,12 +133,13 @@ export const gamesData: GameItem[] = [
     badge: 'Mới',
     emoji: '➕',
     category: 'Toán học',
+    groupKey: 'math-logic',
     difficulty: 'Trung bình',
     skills: ['Cộng trừ cơ bản', 'Tư duy logic', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
     page: 'math-fun',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-003',
@@ -78,12 +155,13 @@ export const gamesData: GameItem[] = [
     badge: 'Hot',
     emoji: '🧠',
     category: 'Ghi nhớ',
+    groupKey: 'memory',
     difficulty: 'Dễ',
     skills: ['Ghi nhớ', 'Quan sát', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
     page: 'memory-hunt',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-004',
@@ -99,12 +177,13 @@ export const gamesData: GameItem[] = [
     badge: 'Đề xuất',
     emoji: '🌍',
     category: 'Tiếng Anh',
+    groupKey: 'english',
     difficulty: 'Trung bình',
     skills: ['Từ vựng tiếng Anh', 'Ghi nhớ', 'Phát âm cơ bản'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'english-vocab',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-005',
@@ -120,12 +199,13 @@ export const gamesData: GameItem[] = [
     badge: 'Dễ chơi',
     emoji: '🔊',
     category: 'Âm thanh',
+    groupKey: 'listening',
     difficulty: 'Dễ',
     skills: ['Lắng nghe', 'Nhận diện âm thanh', 'Ghi nhớ'],
-    isFeatured: false,
-    hasReport: false,
+    isFeatured: true,
+    hasReport: true,
     page: 'sound-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-006',
@@ -141,12 +221,13 @@ export const gamesData: GameItem[] = [
     badge: 'Tăng phản xạ',
     emoji: '⚡',
     category: 'Phản xạ',
+    groupKey: 'thinking-observation',
     difficulty: 'Trung bình',
     skills: ['Phản xạ', 'Quan sát', 'Tập trung'],
     isFeatured: true,
-    hasReport: false,
+    hasReport: true,
     page: 'quick-pick',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-007',
@@ -162,12 +243,13 @@ export const gamesData: GameItem[] = [
     badge: 'Tư duy',
     emoji: '🔢',
     category: 'Toán học',
+    groupKey: 'math-logic',
     difficulty: 'Trung bình',
     skills: ['Nhận diện số', 'Quy luật', 'Tư duy logic'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'missing-number',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-008',
@@ -183,12 +265,13 @@ export const gamesData: GameItem[] = [
     badge: 'Quan sát',
     emoji: '🌓',
     category: 'Tư duy',
+    groupKey: 'thinking-observation',
     difficulty: 'Dễ',
     skills: ['Quan sát hình khối', 'So sánh', 'Tư duy không gian'],
-    isFeatured: false,
-    hasReport: false,
+    isFeatured: true,
+    hasReport: true,
     page: 'shadow-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-009',
@@ -204,12 +287,13 @@ export const gamesData: GameItem[] = [
     badge: 'Cơ bản',
     emoji: '🌈',
     category: 'Tư duy',
+    groupKey: 'thinking-observation',
     difficulty: 'Dễ',
     skills: ['Nhận diện màu sắc', 'Phân loại', 'Quan sát'],
-    isFeatured: false,
-    hasReport: false,
+    isFeatured: true,
+    hasReport: true,
     page: 'color-sort',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-010',
@@ -225,12 +309,13 @@ export const gamesData: GameItem[] = [
     badge: 'Đề xuất',
     emoji: '🐻',
     category: 'Toán học',
+    groupKey: 'math-counting',
     difficulty: 'Dễ',
     skills: ['Đếm số', 'Quan sát', 'Tập trung', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
     page: 'count-animals',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-011',
@@ -246,12 +331,13 @@ export const gamesData: GameItem[] = [
     badge: 'Ngôn ngữ',
     emoji: '🅰️',
     category: 'Ngôn ngữ',
+    groupKey: 'language',
     difficulty: 'Trung bình',
     skills: ['Mặt chữ', 'Từ vựng', 'Phản xạ ngôn ngữ', 'Quan sát'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'first-letter',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-012',
@@ -267,12 +353,13 @@ export const gamesData: GameItem[] = [
     badge: 'Rèn tư duy',
     emoji: '🧩',
     category: 'Tư duy',
+    groupKey: 'thinking-observation',
     difficulty: 'Trung bình',
     skills: ['Phân loại', 'Tư duy logic', 'Quan sát', 'Ghi nhớ'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'group-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-013',
@@ -288,12 +375,13 @@ export const gamesData: GameItem[] = [
     badge: 'So sánh',
     emoji: '↔️',
     category: 'Ngôn ngữ',
+    groupKey: 'language',
     difficulty: 'Trung bình',
     skills: ['So sánh', 'Từ vựng', 'Tư duy ngôn ngữ', 'Quan sát'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'opposite-pairs',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-014',
@@ -309,12 +397,13 @@ export const gamesData: GameItem[] = [
     badge: 'Logic',
     emoji: '📏',
     category: 'Tư duy',
+    groupKey: 'math-logic',
     difficulty: 'Trung bình',
     skills: ['Sắp xếp', 'So sánh', 'Tư duy logic', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
     page: 'sequence-sort',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-015',
@@ -330,12 +419,13 @@ export const gamesData: GameItem[] = [
     badge: 'Phân loại',
     emoji: '🚫',
     category: 'Tư duy',
+    groupKey: 'thinking-observation',
     difficulty: 'Dễ',
     skills: ['Phân loại', 'Quan sát', 'Tư duy logic', 'Nhận biết khác biệt'],
     isFeatured: true,
     hasReport: true,
     page: 'odd-one-out',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-016',
@@ -351,12 +441,13 @@ export const gamesData: GameItem[] = [
     badge: 'Đọc sớm',
     emoji: '🔠',
     category: 'Ngôn ngữ',
+    groupKey: 'language',
     difficulty: 'Trung bình',
     skills: ['Nhận biết âm đầu', 'Nghe hiểu', 'Từ vựng', 'Phản xạ ngôn ngữ'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'initial-sound',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-017',
@@ -372,12 +463,13 @@ export const gamesData: GameItem[] = [
     badge: 'Mầm non',
     emoji: '🔢',
     category: 'Toán học',
+    groupKey: 'math-counting',
     difficulty: 'Dễ',
     skills: ['Đếm số', 'Nhận diện số', 'Ghép tương ứng', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
     page: 'number-quantity-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-018',
@@ -393,12 +485,13 @@ export const gamesData: GameItem[] = [
     badge: 'Quy luật',
     emoji: '🟠',
     category: 'Tư duy',
+    groupKey: 'math-logic',
     difficulty: 'Trung bình',
     skills: ['Nhận diện quy luật', 'Suy luận', 'Quan sát', 'Tư duy logic'],
     isFeatured: true,
     hasReport: true,
     page: 'pattern-complete',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-019',
@@ -414,12 +507,13 @@ export const gamesData: GameItem[] = [
     badge: 'Nghe hiểu',
     emoji: '👂',
     category: 'Âm thanh',
+    groupKey: 'listening',
     difficulty: 'Dễ',
     skills: ['Nghe hiểu', 'Làm theo hướng dẫn', 'Tập trung', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
     page: 'listen-and-do',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-020',
@@ -435,12 +529,13 @@ export const gamesData: GameItem[] = [
     badge: 'Không gian',
     emoji: '🌀',
     category: 'Tư duy',
+    groupKey: 'thinking-observation',
     difficulty: 'Trung bình',
     skills: ['Định hướng không gian', 'Giải quyết vấn đề', 'Quan sát', 'Kiên nhẫn'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'mini-maze',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-021',
@@ -456,12 +551,13 @@ export const gamesData: GameItem[] = [
     badge: 'Hình khối',
     emoji: '🧩',
     category: 'Ghi nhớ',
+    groupKey: 'memory',
     difficulty: 'Dễ',
     skills: ['Nhận diện hình', 'Quan sát', 'Ghép nối', 'Tư duy trực quan'],
-    isFeatured: false,
-    hasReport: false,
+    isFeatured: true,
+    hasReport: true,
     page: 'half-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-022',
@@ -477,12 +573,13 @@ export const gamesData: GameItem[] = [
     badge: 'Trí nhớ',
     emoji: '🧠',
     category: 'Ghi nhớ',
+    groupKey: 'memory',
     difficulty: 'Trung bình',
     skills: ['Ghi nhớ chuỗi', 'Tập trung', 'Quan sát', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
     page: 'sequence-memory',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-023',
@@ -498,12 +595,13 @@ export const gamesData: GameItem[] = [
     badge: 'Âm vần',
     emoji: '🎵',
     category: 'Ngôn ngữ',
+    groupKey: 'language',
     difficulty: 'Trung bình',
     skills: ['Nhận biết vần', 'Nghe âm', 'Ngôn ngữ', 'Đọc sớm'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'rhyme-match',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     id: 'game-024',
@@ -519,11 +617,78 @@ export const gamesData: GameItem[] = [
     badge: 'Thứ tự số',
     emoji: '📍',
     category: 'Toán học',
+    groupKey: 'math-counting',
     difficulty: 'Dễ',
     skills: ['Thứ tự số', 'Đếm số', 'Quan sát', 'Phối hợp tay mắt'],
-    isFeatured: false,
+    isFeatured: true,
     hasReport: true,
     page: 'connect-numbers',
-    status: 'coming-soon',
+    status: 'ready',
+  },
+  {
+    id: 'game-025',
+    title: 'Nhặt táo theo số',
+    slug: 'nhat-tao-theo-so',
+    shortDescription: 'Bé nhặt đúng số quả táo theo yêu cầu.',
+    description:
+      'Bé quan sát vườn táo và nhặt đúng số lượng quả theo nhiệm vụ, qua đó luyện kỹ năng đếm số, nhận diện số lượng, tập trung và phản xạ toán học một cách vui nhộn.',
+    age: '4-6 tuổi',
+    ageGroup: '4-6',
+    time: '5 phút',
+    durationMinutes: 5,
+    badge: 'Toán vui',
+    emoji: '🍎',
+    category: 'Toán học',
+    groupKey: 'math-counting',
+    difficulty: 'Dễ',
+    skills: ['Đếm số', 'Nhận diện số lượng', 'Quan sát', 'Tập trung'],
+    isFeatured: true,
+    hasReport: true,
+    page: 'apple-pick',
+    status: 'ready',
+  },
+  {
+    id: 'game-026',
+    title: 'Cho thú ăn đúng số lượng',
+    slug: 'cho-thu-an-dung-so-luong',
+    shortDescription: 'Bé cho con vật ăn đúng số lượng theo nhiệm vụ.',
+    description:
+      'Bé nghe nhiệm vụ và chọn đúng số lượng đồ ăn cho từng con vật, qua đó luyện đếm số, nhận biết số lượng, tập trung và làm theo hướng dẫn một cách trực quan.',
+    age: '4-6 tuổi',
+    ageGroup: '4-6',
+    time: '5 phút',
+    durationMinutes: 5,
+    badge: 'Toán vui',
+    emoji: '🐰',
+    category: 'Toán học',
+    groupKey: 'math-counting',
+    difficulty: 'Dễ',
+    skills: ['Đếm số', 'Nhận diện số lượng', 'Làm theo hướng dẫn', 'Tập trung'],
+    isFeatured: true,
+    hasReport: true,
+    page: 'animal-feed',
+    status: 'ready',
+  },
+  {
+    id: 'game-027',
+    title: 'Bắn bong bóng kết quả',
+    slug: 'ban-bong-bong-ket-qua',
+    shortDescription: 'Bé chọn bong bóng có kết quả đúng của phép tính.',
+    description:
+      'Bé quan sát phép tính cộng trừ đơn giản, sau đó bấm vào bong bóng mang kết quả đúng. Trò chơi giúp bé luyện tính nhẩm, phản xạ nhanh, tập trung và làm quen với toán học theo cách vui nhộn.',
+    age: '5-7 tuổi',
+    ageGroup: '5-7',
+    time: '5 phút',
+    durationMinutes: 5,
+    badge: 'Tính nhẩm',
+    emoji: '🎈',
+    category: 'Toán học',
+    groupKey: 'math-logic',
+    difficulty: 'Trung bình',
+    skills: ['Cộng trừ cơ bản', 'Tính nhẩm', 'Phản xạ nhanh', 'Tập trung'],
+    isFeatured: true,
+    hasReport: true,
+    page: 'bubble-math',
+    status: 'ready',
   },
 ];

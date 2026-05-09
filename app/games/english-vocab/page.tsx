@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Trang học từ vựng tiếng Anh cho bé giúp làm quen với các từ cơ bản, ghi nhớ từ mới qua hình ảnh trực quan và hoạt động học tập vui nhộn.',
   alternates: {
-    canonical: '/games/english-vocabulary',
+    canonical: '/games/english-vocab',
   },
   openGraph: {
     title: 'Từ vựng tiếng Anh cho bé | Học Cùng Bé',
     description:
       'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh sinh động, dễ nhớ và phù hợp với lứa tuổi mầm non, tiểu học.',
-    url: '/games/english-vocabulary',
+    url: '/games/english-vocab',
     type: 'website',
     images: [
       {

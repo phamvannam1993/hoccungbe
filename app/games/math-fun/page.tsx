@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'học cùng bé',
   ],
   alternates: {
-    canonical: '/math-fun',
+    canonical: '/game/math-fun',
   },
   openGraph: {
     title: 'Toán vui cho bé | Học Cùng Bé',
     description:
       'Bé học toán qua các bài học ngắn, trực quan và dễ hiểu như đếm số, nối số và so sánh số lượng.',
-    url: '/math-fun',
+    url: '/game/math-fun',
     type: 'website',
     images: [
       {

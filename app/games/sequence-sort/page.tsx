@@ -2,16 +2,16 @@ import type { Metadata } from 'next';
 import SequenceSortGame from './SequenceSortGame';
 
 export const metadata: Metadata = {
-  title: 'Sắp xếp theo thứ tự',
+  title: 'Sắp xếp số theo thứ tự',
   description:
-    'Trò chơi sắp xếp theo thứ tự giúp bé nhận biết trình tự trước sau, rèn tư duy logic và sắp xếp các đối tượng theo đúng quy trình hoặc thứ tự hợp lý.',
+    'Trò chơi Sắp xếp số theo thứ tự giúp bé biết số nào lớn hơn, nhỏ hơn và sắp xếp dãy số theo thứ tự từ bé đến lớn hoặc từ lớn đến bé.',
   alternates: {
     canonical: '/games/sequence-sort',
   },
   openGraph: {
-    title: 'Sắp xếp theo thứ tự | Học Cùng Bé',
+    title: 'Sắp xếp số theo thứ tự | Học Cùng Bé',
     description:
-      'Bé quan sát các hình ảnh hoặc sự việc và sắp xếp đúng thứ tự để phát triển tư duy logic, khả năng suy luận và nhận biết trình tự.',
+      'Bé quan sát dãy số, so sánh các số và sắp xếp lại theo thứ tự tăng dần hoặc giảm dần.',
     url: '/games/sequence-sort',
     type: 'website',
     images: [
@@ -19,19 +19,19 @@ export const metadata: Metadata = {
         url: '/og-sequence-sort.jpg',
         width: 1200,
         height: 630,
-        alt: 'Sắp xếp theo thứ tự - Học Cùng Bé',
+        alt: 'Sắp xếp số theo thứ tự - Học Cùng Bé',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sắp xếp theo thứ tự | Học Cùng Bé',
+    title: 'Sắp xếp số theo thứ tự | Học Cùng Bé',
     description:
-      'Trò chơi giúp bé rèn tư duy logic, nhận biết trình tự và sắp xếp đúng thứ tự các sự vật hoặc sự việc.',
+      'Trò chơi giúp bé luyện so sánh số, nhận biết số lớn hơn nhỏ hơn và sắp xếp dãy số.',
     images: ['/og-sequence-sort.jpg'],
   },
 };
 
-export default function SequenceSortPage() {
+export default function Page() {
   return <SequenceSortGame />;
 }

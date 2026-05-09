@@ -19,6 +19,233 @@ export type CourseDetail = {
 
 export const courseLessonsData: CourseDetail[] = [
   {
+    slug: 'toan-lop-1-theo-chu-de',
+    title: 'Toán lớp 1 theo chủ đề',
+    description:
+      'Khóa học giúp bé lớp 1 nắm chắc nền tảng toán học qua từng chủ đề nhỏ: đếm số, so sánh số, sắp xếp số, viết dãy số, cộng trừ, tìm số còn thiếu và bài toán có lời văn. Mỗi bài học được thiết kế ngắn gọn, có luyện tập và trò chơi củng cố để bé học đều mà không bị quá tải.',
+    tag: 'Toán học lớp 1',
+    age: '6-7 tuổi',
+    emoji: '🔢',
+    lessons: [
+      {
+        id: 'tl1-01',
+        title: 'Bài 1: Đếm số lượng đồ vật',
+        description:
+          'Bé luyện đếm số lượng đồ vật, con vật và hình ảnh quen thuộc trong phạm vi 10.',
+        duration: '8 phút',
+        type: 'practice',
+        isFree: true,
+      },
+      {
+        id: 'tl1-02',
+        title: 'Bài 2: Ghép số với số lượng',
+        description:
+          'Bé nhìn chữ số và chọn nhóm đồ vật có số lượng tương ứng để hiểu mối liên hệ giữa số và lượng.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'tl1-03',
+        title: 'Bài 3: Viết dãy số',
+        description:
+          'Bé điền số còn thiếu trong dãy số, luyện số liền trước, số liền sau và quy luật đếm cách đều.',
+        duration: '8 phút',
+        type: 'practice',
+        isFree: true,
+      },
+      {
+        id: 'tl1-04',
+        title: 'Bài 4: So sánh số',
+        description:
+          'Bé học cách nhận biết số lớn hơn, số bé hơn, hai số bằng nhau và chọn đúng dấu >, <, =.',
+        duration: '8 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'tl1-05',
+        title: 'Bài 5: Sắp xếp số theo thứ tự',
+        description:
+          'Bé sắp xếp các số từ bé đến lớn hoặc từ lớn đến bé để hiểu rõ thứ tự số.',
+        duration: '8 phút',
+        type: 'game',
+        isFree: true,
+      },
+      {
+        id: 'tl1-06',
+        title: 'Bài 6: Ôn tập số và thứ tự số',
+        description:
+          'Bé ôn lại đếm số, viết dãy số, so sánh và sắp xếp số qua bài luyện tập ngắn.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-07',
+        title: 'Bài 7: Làm quen phép cộng',
+        description:
+          'Bé hiểu phép cộng là thêm vào, gộp lại và tìm tất cả thông qua hình ảnh trực quan.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'tl1-08',
+        title: 'Bài 8: Cộng trong phạm vi 10',
+        description:
+          'Bé luyện các phép cộng đơn giản trong phạm vi 10 bằng hình ảnh và bài tập ngắn.',
+        duration: '8 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-09',
+        title: 'Bài 9: Cộng trên trục số',
+        description:
+          'Bé học cách bắt đầu từ một số và nhảy thêm các bước trên trục số để tìm kết quả phép cộng.',
+        duration: '8 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'tl1-10',
+        title: 'Bài 10: Cộng trong phạm vi 20',
+        description:
+          'Bé luyện cộng các số trong phạm vi 20, tăng dần độ khó để củng cố khả năng tính nhẩm.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-11',
+        title: 'Bài 11: Cộng số tròn chục',
+        description:
+          'Bé làm quen với các phép cộng số tròn chục như 20 + 30, 40 + 50.',
+        duration: '8 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-12',
+        title: 'Bài 12: Ôn tập phép cộng',
+        description:
+          'Bé luyện tổng hợp các dạng phép cộng đã học qua câu hỏi ngắn và phản hồi trực tiếp.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-13',
+        title: 'Bài 13: Làm quen phép trừ',
+        description:
+          'Bé hiểu phép trừ là bớt đi, lấy ra hoặc tìm phần còn lại qua ví dụ gần gũi.',
+        duration: '8 phút',
+        type: 'video',
+        isFree: false,
+      },
+      {
+        id: 'tl1-14',
+        title: 'Bài 14: Trừ trong phạm vi 10',
+        description:
+          'Bé luyện các phép trừ đơn giản trong phạm vi 10 bằng hình ảnh trực quan.',
+        duration: '8 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-15',
+        title: 'Bài 15: Trừ trong phạm vi 20',
+        description:
+          'Bé luyện trừ trong phạm vi 20, hiểu mối liên hệ giữa phép cộng và phép trừ.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-16',
+        title: 'Bài 16: Cộng trừ trong phạm vi 100',
+        description:
+          'Bé luyện cộng trừ số tròn chục và các phép tính đơn giản trong phạm vi 100.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-17',
+        title: 'Bài 17: Bắn bong bóng kết quả',
+        description:
+          'Bé chọn bong bóng có kết quả đúng của phép cộng hoặc phép trừ để rèn tính nhẩm.',
+        duration: '7 phút',
+        type: 'game',
+        isFree: false,
+      },
+      {
+        id: 'tl1-18',
+        title: 'Bài 18: Ôn tập cộng trừ',
+        description:
+          'Bé luyện tổng hợp các phép cộng trừ cơ bản, từ dễ đến khó, để củng cố phản xạ tính toán.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-19',
+        title: 'Bài 19: Tìm số còn thiếu trong phép cộng',
+        description:
+          'Bé làm quen dạng bài ô trống như ... + 26 = 46 và tìm số còn thiếu.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-20',
+        title: 'Bài 20: Tìm số còn thiếu trong phép trừ',
+        description:
+          'Bé luyện các dạng phép trừ có ô trống như 98 - ... = 38 hoặc ... - 71 = 12.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-21',
+        title: 'Bài 21: Ôn tập tìm số còn thiếu',
+        description:
+          'Bé luyện tổng hợp các dạng tìm thành phần chưa biết trong phép cộng và phép trừ.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-22',
+        title: 'Bài 22: Bài toán thêm vào',
+        description:
+          'Bé đọc bài toán ngắn có tình huống thêm vào và chọn phép cộng phù hợp.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-23',
+        title: 'Bài 23: Bài toán bớt đi',
+        description:
+          'Bé đọc bài toán ngắn có tình huống bớt đi và chọn phép trừ phù hợp.',
+        duration: '10 phút',
+        type: 'practice',
+        isFree: false,
+      },
+      {
+        id: 'tl1-24',
+        title: 'Bài 24: Kiểm tra cuối khóa',
+        description:
+          'Bé làm bài kiểm tra tổng hợp gồm đếm số, so sánh, sắp xếp, cộng trừ, tìm số còn thiếu và toán có lời văn.',
+        duration: '15 phút',
+        type: 'practice',
+        isFree: false,
+      },
+    ],
+  },
+  {
     slug: 'lam-quen-mat-chu',
     title: 'Làm quen mặt chữ',
     description:

@@ -5,7 +5,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { speakText, stopSpeaking } from '../../components/edu/utils/speech';
 
 type LevelKey = 'easy' | 'medium' | 'hard';
-type SortDirection = 'asc' | 'desc';
 
 type LevelConfig = {
   key: LevelKey;
@@ -15,16 +14,19 @@ type LevelConfig = {
   age: string;
   description: string;
   totalRounds: number;
-  minNumber: number;
-  maxNumber: number;
-  itemCount: number;
-  directions: SortDirection[];
+  minStart: number;
+  maxStart: number;
+  maxValue: number;
+  sequenceLength: number;
+  blankCount: number;
+  steps: number[];
 };
 
-type SortQuestion = {
-  numbers: number[];
-  direction: SortDirection;
-  answer: number[];
+type SequenceQuestion = {
+  start: number;
+  step: number;
+  values: number[];
+  blankIndexes: number[];
 };
 
 type StoredScore = {
@@ -38,22 +40,24 @@ type StoredScore = {
   playedAt: string;
 };
 
-const LOCAL_STORAGE_KEY = 'hoc-cung-be-sequence-sort-scores';
+const LOCAL_STORAGE_KEY = 'hoc-cung-be-number-sequence-write-scores';
 
 const levels: LevelConfig[] = [
   {
     key: 'easy',
     label: 'Mức 1: Làm quen',
-    icon: '📏',
+    icon: '✍️',
     badge: 'Dễ',
     age: '5-6 tuổi',
     description:
-      'Bé sắp xếp 4 số trong phạm vi 1 đến 10, phù hợp để làm quen với thứ tự tăng dần và giảm dần.',
+      'Bé hoàn thành dãy số đếm thêm 1 trong phạm vi 20, mỗi câu có 1 ô trống.',
     totalRounds: 5,
-    minNumber: 1,
-    maxNumber: 10,
-    itemCount: 4,
-    directions: ['asc', 'desc'],
+    minStart: 1,
+    maxStart: 12,
+    maxValue: 20,
+    sequenceLength: 5,
+    blankCount: 1,
+    steps: [1],
   },
   {
     key: 'medium',
@@ -62,12 +66,14 @@ const levels: LevelConfig[] = [
     badge: 'Trung bình',
     age: '5-7 tuổi',
     description:
-      'Bé sắp xếp 6 số trong phạm vi 1 đến 20, giúp rèn khả năng so sánh và ghi nhớ thứ tự số.',
+      'Bé hoàn thành dãy số đếm cách 1 hoặc 2 trong phạm vi 50, mỗi câu có 2 ô trống.',
     totalRounds: 6,
-    minNumber: 1,
-    maxNumber: 20,
-    itemCount: 6,
-    directions: ['asc', 'desc'],
+    minStart: 1,
+    maxStart: 30,
+    maxValue: 50,
+    sequenceLength: 6,
+    blankCount: 2,
+    steps: [1, 2],
   },
   {
     key: 'hard',
@@ -76,12 +82,14 @@ const levels: LevelConfig[] = [
     badge: 'Nâng cao',
     age: '6-8 tuổi',
     description:
-      'Bé sắp xếp 7 số trong phạm vi 1 đến 50, các số có thể gần nhau hơn để tăng độ thử thách.',
+      'Bé hoàn thành dãy số đếm cách 2, 5 hoặc 10 trong phạm vi 100, mỗi câu có nhiều ô trống hơn.',
     totalRounds: 7,
-    minNumber: 1,
-    maxNumber: 50,
-    itemCount: 7,
-    directions: ['asc', 'desc'],
+    minStart: 0,
+    maxStart: 50,
+    maxValue: 100,
+    sequenceLength: 6,
+    blankCount: 3,
+    steps: [2, 5, 10],
   },
 ];
 
@@ -104,47 +112,44 @@ function shuffleArray<T>(items: T[]): T[] {
   return arr;
 }
 
-function createUniqueNumbers(level: LevelConfig) {
-  const values = new Set<number>();
+function createQuestion(level: LevelConfig): SequenceQuestion {
+  const step = level.steps[Math.floor(Math.random() * level.steps.length)];
+  const maxStartAllowed = Math.min(
+    level.maxStart,
+    level.maxValue - step * (level.sequenceLength - 1)
+  );
+  const start = randomBetween(level.minStart, Math.max(level.minStart, maxStartAllowed));
 
-  while (values.size < level.itemCount) {
-    values.add(randomBetween(level.minNumber, level.maxNumber));
-  }
-
-  return shuffleArray(Array.from(values));
-}
-
-function createQuestion(level: LevelConfig): SortQuestion {
-  const numbers = createUniqueNumbers(level);
-  const direction = level.directions[Math.floor(Math.random() * level.directions.length)];
-
-  const answer = [...numbers].sort((a, b) =>
-    direction === 'asc' ? a - b : b - a
+  const values = Array.from(
+    { length: level.sequenceLength },
+    (_, index) => start + index * step
   );
 
+  const candidateIndexes = Array.from(
+    { length: level.sequenceLength },
+    (_, index) => index
+  ).filter((index) => index !== 0);
+
+  const blankIndexes = shuffleArray(candidateIndexes).slice(0, level.blankCount).sort((a, b) => a - b);
+
   return {
-    numbers,
-    direction,
-    answer,
+    start,
+    step,
+    values,
+    blankIndexes,
   };
 }
 
-function getDirectionLabel(direction: SortDirection) {
-  return direction === 'asc' ? 'từ bé đến lớn' : 'từ lớn đến bé';
-}
-
-function buildQuestionSpeech(question: SortQuestion) {
-  return `Bạn nhỏ hãy sắp xếp các số ${question.numbers.join(', ')} theo thứ tự ${getDirectionLabel(
-    question.direction
-  )}.`;
+function buildQuestionSpeech(question: SequenceQuestion) {
+  return `Bạn nhỏ hãy viết các số còn thiếu để hoàn thành dãy số. Dãy này đếm thêm ${question.step}.`;
 }
 
 function buildCorrectSpeech() {
-  return 'Chính xác rồi. Bạn nhỏ đã sắp xếp đúng dãy số.';
+  return 'Chính xác rồi. Bạn nhỏ đã hoàn thành dãy số.';
 }
 
 function buildWrongSpeech() {
-  return 'Chưa đúng nhé. Bạn nhỏ hãy kiểm tra lại thứ tự các số.';
+  return 'Chưa đúng nhé. Bạn nhỏ hãy kiểm tra lại các ô còn thiếu.';
 }
 
 function buildFinishSpeech(levelLabel: string, score: number, total: number) {
@@ -243,12 +248,12 @@ function playFinishSound() {
   setTimeout(() => playTone(1046, 0.22, 'triangle', 0.05), 380);
 }
 
-export default function SequenceSortGame() {
+export default function NumberSequenceWriteGame() {
   const [selectedLevel, setSelectedLevel] = useState<LevelKey | null>(null);
   const [round, setRound] = useState(1);
   const [score, setScore] = useState(0);
-  const [question, setQuestion] = useState<SortQuestion | null>(null);
-  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const [question, setQuestion] = useState<SequenceQuestion | null>(null);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
   const [message, setMessage] = useState('Hãy chọn mức độ để bắt đầu nhé!');
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -271,17 +276,11 @@ export default function SequenceSortGame() {
     return Math.round((score / levelInfo.totalRounds) * 100);
   }, [score, levelInfo]);
 
-  const isComplete = useMemo(() => {
+  const isAnswerFilled = useMemo(() => {
     if (!question) return false;
 
-    return selectedNumbers.length === question.numbers.length;
-  }, [question, selectedNumbers]);
-
-  const remainingNumbers = useMemo(() => {
-    if (!question) return [];
-
-    return question.numbers.filter((num) => !selectedNumbers.includes(num));
-  }, [question, selectedNumbers]);
+    return question.blankIndexes.every((index) => answers[index]?.trim() !== '');
+  }, [answers, question]);
 
   useEffect(() => {
     setHistory(loadStoredScores());
@@ -291,7 +290,7 @@ export default function SequenceSortGame() {
     const nextQuestion = createQuestion(level);
 
     setQuestion(nextQuestion);
-    setSelectedNumbers([]);
+    setAnswers({});
     setShowResult(false);
     setMessage('Nhiệm vụ mới đã sẵn sàng!');
 
@@ -325,8 +324,8 @@ export default function SequenceSortGame() {
     hasSavedResultRef.current = true;
 
     const result: StoredScore = {
-      gameKey: 'sequence-sort',
-      gameLabel: 'Sắp xếp số theo thứ tự',
+      gameKey: 'number-sequence-write',
+      gameLabel: 'Viết dãy số',
       levelKey: selectedLevel,
       levelLabel: levelInfo.label,
       score: finalScore,
@@ -339,53 +338,15 @@ export default function SequenceSortGame() {
     setHistory(loadStoredScores());
   };
 
-  const handlePickNumber = (num: number) => {
-    if (!question) return;
-    if (finished || showResult) return;
-    if (selectedNumbers.includes(num)) return;
-
-    playTapSound();
-
-    setSelectedNumbers((prev) => [...prev, num]);
-    setMessage('Bé hãy tiếp tục chọn số theo đúng thứ tự nhé!');
-  };
-
-  const handleRemoveLast = () => {
+  const handleAnswerChange = (index: number, value: string) => {
     if (showResult) return;
 
-    playResetSound();
+    const cleaned = value.replace(/[^\d]/g, '').slice(0, 3);
 
-    setSelectedNumbers((prev) => prev.slice(0, -1));
-    setMessage('Đã xóa số vừa chọn. Bé chọn lại nhé!');
-  };
-
-  const handleRemoveSelectedNumber = (indexToRemove: number) => {
-    if (showResult) return;
-  
-    playResetSound();
-  
-    setSelectedNumbers((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
-  
-    setMessage('Đã đưa số về lại danh sách chọn. Bé chọn tiếp nhé!');
-  };
-
-  const handleResetRound = () => {
-    if (!question) return;
-
-    stopSpeaking();
-    playResetSound();
-
-    setSelectedNumbers([]);
-    setShowResult(false);
-    setMessage('Mình thử lại câu này nhé!');
-
-    speakText(buildQuestionSpeech(question), {
-      lang: 'vi-VN',
-      rate: 0.9,
-      pitch: 1.05,
-    });
+    setAnswers((prev) => ({
+      ...prev,
+      [index]: cleaned,
+    }));
   };
 
   const checkAnswer = () => {
@@ -395,8 +356,8 @@ export default function SequenceSortGame() {
     stopSpeaking();
     playTapSound();
 
-    const isCorrect = question.answer.every(
-      (num, index) => selectedNumbers[index] === num
+    const isCorrect = question.blankIndexes.every(
+      (index) => Number(answers[index]) === question.values[index]
     );
 
     const nextScore = isCorrect ? score + 1 : score;
@@ -405,7 +366,7 @@ export default function SequenceSortGame() {
 
     if (isCorrect) {
       setScore(nextScore);
-      setMessage('Chính xác rồi! Bé đã sắp xếp đúng dãy số.');
+      setMessage('Chính xác rồi! Bé đã hoàn thành dãy số.');
       playCorrectSound();
 
       speakText(buildCorrectSpeech(), {
@@ -417,7 +378,7 @@ export default function SequenceSortGame() {
       return;
     }
 
-    setMessage(`Chưa đúng nhé. Thứ tự đúng là: ${question.answer.join(', ')}.`);
+    setMessage('Chưa đúng nhé. Bé hãy xem lại các số còn thiếu.');
     playWrongSound();
 
     speakText(buildWrongSpeech(), {
@@ -454,6 +415,23 @@ export default function SequenceSortGame() {
     prepareRound(levelInfo);
   };
 
+  const handleResetRound = () => {
+    if (!levelInfo || !question) return;
+
+    stopSpeaking();
+    playResetSound();
+
+    setAnswers({});
+    setShowResult(false);
+    setMessage('Mình thử lại câu này nhé!');
+
+    speakText(buildQuestionSpeech(question), {
+      lang: 'vi-VN',
+      rate: 0.9,
+      pitch: 1.05,
+    });
+  };
+
   const handleRestartSameLevel = () => {
     if (!selectedLevel) return;
 
@@ -467,7 +445,7 @@ export default function SequenceSortGame() {
     setRound(1);
     setScore(0);
     setQuestion(null);
-    setSelectedNumbers([]);
+    setAnswers({});
     setMessage('Hãy chọn mức độ để bắt đầu nhé!');
     setShowResult(false);
     setFinished(false);
@@ -486,13 +464,13 @@ export default function SequenceSortGame() {
               </p>
 
               <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-                Sắp xếp số theo thứ tự
+                Viết dãy số
               </h1>
 
               <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-                Bé quan sát một dãy số chưa đúng thứ tự, sau đó chọn lần lượt các số
-                để sắp xếp theo yêu cầu từ bé đến lớn hoặc từ lớn đến bé. Trò chơi
-                giúp bé biết số nào lớn hơn, nhỏ hơn và đặt đúng thứ tự.
+                Bé quan sát dãy số có vài ô bị trống, sau đó nhập số còn thiếu
+                để hoàn thành dãy. Trò chơi giúp bé luyện thứ tự số, số liền trước
+                – liền sau và quy luật đếm cách đều.
               </p>
             </div>
 
@@ -541,7 +519,7 @@ export default function SequenceSortGame() {
                   </span>
 
                   <span className="rounded-full bg-violet-50 px-3 py-1.5 font-semibold text-violet-700">
-                    {level.itemCount} số
+                    0-{level.maxValue}
                   </span>
                 </div>
 
@@ -564,10 +542,10 @@ export default function SequenceSortGame() {
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {[
-                  'Biết số nào lớn hơn, nhỏ hơn',
-                  'Sắp xếp từ bé đến lớn',
-                  'Sắp xếp từ lớn đến bé',
-                  'Tăng khả năng so sánh và tư duy thứ tự',
+                  'Hoàn thành dãy số',
+                  'Nhận biết số liền trước – liền sau',
+                  'Đếm cách đều theo quy luật',
+                  'Tập nhập số chính xác',
                 ].map((item) => (
                   <div
                     key={item}
@@ -706,13 +684,9 @@ export default function SequenceSortGame() {
 
   if (!question) return null;
 
-  const isCorrectAnswer =
-    showResult &&
-    question.answer.every((num, index) => selectedNumbers[index] === num);
-
   return (
     <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
-     <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between"> 
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <button
           type="button"
           onClick={handleBackToLevels}
@@ -736,37 +710,32 @@ export default function SequenceSortGame() {
         </div>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[380px_1fr] xl:gap-6">
+      <div className="grid gap-4 lg:gap-6 xl:grid-cols-[390px_1fr]">
         <aside className="rounded-[26px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[32px] sm:p-6">
           <div className="inline-flex rounded-full bg-sky-50 px-4 py-2 text-sm font-black uppercase tracking-[0.18em] text-sky-600">
-            📏 Sắp xếp số
+            ✍️ Viết dãy số
           </div>
 
-          <h1 className="mt-4 text-2xl font-black tracking-tight text-slate-900 sm:mt-5 sm:text-3xl">
-            Bé hãy sắp xếp đúng thứ tự
+          <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-900">
+            Bé hãy điền số còn thiếu
           </h1>
 
           <p className="mt-3 text-base leading-7 text-slate-600">
-            Bé chọn lần lượt các số để tạo thành dãy đúng theo yêu cầu.
+            Bé quan sát dãy số, tìm quy luật rồi nhập các số còn thiếu vào ô trống.
           </p>
 
-          <div className="mt-4 rounded-[22px] bg-gradient-to-br from-sky-100 via-cyan-50 to-violet-50 p-3 ring-1 ring-sky-100 sm:mt-6 sm:rounded-[28px] sm:p-5">
+          <div className="mt-5 rounded-[24px] bg-gradient-to-br from-sky-100 via-cyan-50 to-violet-50 p-4 ring-1 ring-sky-100 sm:mt-6 sm:rounded-[28px] sm:p-5">
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-sky-600">
-              Yêu cầu
+              Quy luật
             </p>
 
-            <div className="mt-4 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-sky-100">
-              <p className="text-sm font-bold text-slate-500">
-                Sắp xếp các số:
-              </p>
-
-              <p className="mt-2 break-words text-2xl font-black leading-tight text-slate-900 sm:text-3xl">
-                {question.numbers.join(', ')}
-              </p>
-
-              <p className="mt-4 rounded-2xl bg-sky-50 px-4 py-3 text-lg font-black text-sky-700 ring-1 ring-sky-100">
-                {getDirectionLabel(question.direction)}
-              </p>
+            <div className="mt-4 rounded-[28px] bg-white p-5 text-center shadow-sm ring-1 ring-sky-100">
+              <span className="text-xl font-black text-slate-700">
+                Đếm thêm{' '}
+              </span>
+              <span className="text-5xl font-black text-sky-500">
+                {question.step}
+              </span>
             </div>
 
             <button
@@ -827,9 +796,9 @@ export default function SequenceSortGame() {
                   <button
                     type="button"
                     onClick={checkAnswer}
-                    disabled={!isComplete}
+                    disabled={!isAnswerFilled}
                     className={`rounded-full px-6 py-3 text-sm font-black shadow-lg transition ${
-                      isComplete
+                      isAnswerFilled
                         ? 'bg-gradient-to-r from-sky-500 to-violet-500 text-white shadow-sky-100 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl'
                         : 'cursor-not-allowed bg-slate-100 text-slate-400 shadow-slate-100'
                     }`}
@@ -839,11 +808,16 @@ export default function SequenceSortGame() {
 
                   <button
                     type="button"
-                    onClick={handleRemoveLast}
-                    disabled={selectedNumbers.length === 0}
-                    className="rounded-full bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-300"
+                    onClick={() =>
+                      speakText(buildQuestionSpeech(question), {
+                        lang: 'vi-VN',
+                        rate: 0.9,
+                        pitch: 1.05,
+                      })
+                    }
+                    className="rounded-full bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
                   >
-                    Xóa số vừa chọn
+                    Nghe lại câu hỏi
                   </button>
                 </>
               )}
@@ -851,104 +825,104 @@ export default function SequenceSortGame() {
           </div>
         </aside>
 
-        <div className="relative min-h-[500px] overflow-hidden rounded-[24px] bg-gradient-to-b from-sky-100 via-violet-50 to-pink-100 p-3 shadow-sm ring-1 ring-slate-100 sm:min-h-[620px] sm:rounded-[36px] sm:p-6">
+        <div className="relative min-h-[540px] overflow-hidden rounded-[28px] bg-gradient-to-b from-sky-100 via-violet-50 to-pink-100 p-4 shadow-sm ring-1 ring-slate-100 sm:min-h-[640px] sm:rounded-[36px] sm:p-6">
           <div className="absolute left-8 top-8 h-24 w-24 rounded-full bg-yellow-200/70 blur-sm" />
           <div className="absolute right-10 top-20 h-28 w-28 rounded-full bg-pink-200/60 blur-md" />
 
           <div className="relative z-10 mx-auto max-w-5xl">
-            <div className="rounded-[22px] bg-white/90 p-3 text-center shadow-lg backdrop-blur ring-1 ring-white sm:rounded-[28px] sm:p-6">
+            <div className="rounded-[28px] bg-white/85 p-4 text-center shadow-lg backdrop-blur ring-1 ring-white sm:p-6">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-600">
-                {getDirectionLabel(question.direction)}
+                Hoàn thành dãy số
               </p>
 
-              <h2 className="mt-2 break-words text-2xl font-black leading-tight text-slate-900 sm:text-5xl">
-                {question.numbers.join(', ')}
+              <h2 className="mt-2 text-2xl font-black text-slate-900 sm:text-4xl">
+                Điền các số còn thiếu
               </h2>
             </div>
 
-            <div className="mt-4 rounded-[24px] bg-white/85 p-3 shadow-inner ring-1 ring-white sm:mt-6 sm:rounded-[32px] sm:p-6">
-              <p className="text-xs font-bold leading-5 text-slate-500 sm:text-sm">
-                Dãy bé đang sắp xếp · Bấm vào số đã chọn để đưa quay lại
-              </p>
+            <div className="mt-8 rounded-[32px] bg-white/80 p-4 shadow-inner ring-1 ring-white sm:p-8">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                {question.values.map((value, index) => {
+                  const isBlank = question.blankIndexes.includes(index);
+                  const userValue = answers[index] ?? '';
+                  const isCorrect = Number(userValue) === value;
 
-              <div className="mt-3 grid grid-cols-4 gap-2 sm:mt-4 sm:grid-cols-4 sm:gap-3 lg:grid-cols-7">
-                {Array.from({ length: question.numbers.length }, (_, index) => {
-                  const value = selectedNumbers[index];
-
-                  let boxClass = 'bg-white text-slate-900 ring-slate-100';
-
-                  if (showResult) {
-                    boxClass =
-                      value === question.answer[index]
-                        ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
-                        : 'bg-rose-50 text-rose-700 ring-rose-200';
-                  }
-
-                  if (value === undefined || value === null) {
+                  if (!isBlank) {
                     return (
                       <div
                         key={index}
-                        className="flex min-h-[64px] items-center justify-center rounded-[18px] bg-white/70 text-3xl font-black text-slate-300 shadow-sm ring-2 ring-dashed ring-slate-200 transition sm:min-h-[100px] sm:rounded-[26px] sm:text-5xl"
+                        className="flex min-h-[88px] items-center justify-center rounded-[26px] bg-white text-4xl font-black text-slate-900 shadow-sm ring-1 ring-slate-100 sm:min-h-[110px] sm:text-5xl"
                       >
-                        ?
+                        {value}
                       </div>
                     );
                   }
 
                   return (
-                    <button
+                    <div
                       key={index}
-                      type="button"
-                      disabled={showResult}
-                      onClick={() => handleRemoveSelectedNumber(index)}
-                      className={`relative flex min-h-[64px] items-center justify-center rounded-[18px] text-3xl font-black shadow-sm ring-2 transition hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-default sm:min-h-[100px] sm:rounded-[26px] sm:text-5xl ${boxClass}`}
-                      aria-label={`Bỏ số ${value} khỏi dãy đã chọn`}
-                      title="Bấm để đưa số này quay lại"
+                      className={`rounded-[26px] p-2 shadow-sm ring-2 transition ${
+                        showResult
+                          ? isCorrect
+                            ? 'bg-emerald-50 ring-emerald-200'
+                            : 'bg-rose-50 ring-rose-200'
+                          : 'bg-sky-50 ring-sky-200'
+                      }`}
                     >
-                      {value}
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={userValue}
+                        disabled={showResult}
+                        onChange={(event) => handleAnswerChange(index, event.target.value)}
+                        className="h-full min-h-[72px] w-full rounded-[22px] border-0 bg-white text-center text-4xl font-black text-slate-900 outline-none ring-1 ring-white placeholder:text-slate-300 focus:ring-2 focus:ring-sky-300 sm:min-h-[94px] sm:text-5xl"
+                        placeholder="?"
+                        aria-label={`Ô số còn thiếu vị trí ${index + 1}`}
+                      />
 
-                      {!showResult && (
-                       <span className="absolute -right-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-[10px] font-black text-white shadow-md sm:-right-2 sm:-top-2 sm:h-7 sm:w-7 sm:text-xs">
-                          ↩
-                        </span>
+                      {showResult && !isCorrect && (
+                        <div className="mt-2 rounded-full bg-white px-3 py-1 text-center text-xs font-bold text-rose-700">
+                          Đúng: {value}
+                        </div>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
             </div>
 
-            <div className="mt-4 rounded-[24px] bg-white/85 p-3 shadow-inner ring-1 ring-white sm:mt-6 sm:rounded-[32px] sm:p-6">
-              <p className="text-xs font-bold text-slate-500 sm:text-sm">
-                Chọn số
-              </p>
+            <div className="mt-6 rounded-[28px] bg-white/85 p-4 shadow-sm ring-1 ring-white">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm font-bold text-slate-600">
+                  Gợi ý: mỗi số sau tăng thêm{' '}
+                  <span className="text-sky-600">{question.step}</span>
+                </p>
 
-              <div className="mt-3 grid grid-cols-4 gap-2 sm:mt-4 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
-                {remainingNumbers.map((num) => (
-                  <button
-                    key={num}
-                    type="button"
-                    disabled={showResult}
-                    onClick={() => handlePickNumber(num)}
-                    className="rounded-[18px] bg-white px-3 py-4 text-3xl font-black text-slate-900 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-[24px] sm:px-4 sm:py-5 sm:text-5xl"
-                  >
-                    {num}
-                  </button>
-                ))}
+                <button
+                  type="button"
+                  onClick={handleResetRound}
+                  className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
+                >
+                  Xóa và làm lại
+                </button>
               </div>
             </div>
 
             {showResult && (
               <div
-                className={`mt-4 rounded-[22px] px-4 py-3 text-sm font-bold leading-7 shadow-sm ring-1 sm:mt-5 sm:rounded-[24px] sm:py-4 ${
-                  isCorrectAnswer
+                className={`mt-5 rounded-[24px] px-4 py-4 text-sm font-bold leading-7 shadow-sm ring-1 ${
+                  question.blankIndexes.every(
+                    (index) => Number(answers[index]) === question.values[index]
+                  )
                     ? 'bg-emerald-50 text-emerald-700 ring-emerald-100'
                     : 'bg-rose-50 text-rose-700 ring-rose-100'
                 }`}
               >
-                {isCorrectAnswer
-                  ? 'Chính xác rồi. Bé đã sắp xếp đúng dãy số.'
-                  : `Chưa đúng nhé. Thứ tự đúng là: ${question.answer.join(', ')}.`}
+                {question.blankIndexes.every(
+                  (index) => Number(answers[index]) === question.values[index]
+                )
+                  ? 'Chính xác rồi. Bé đã hoàn thành dãy số.'
+                  : 'Chưa đúng nhé. Bé hãy xem lại các số còn thiếu được gợi ý phía trên.'}
               </div>
             )}
           </div>

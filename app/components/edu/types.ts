@@ -35,6 +35,9 @@ export type PageKey =
   | 'apple-pick'
   | 'animal-feed'
   | 'bubble-math'
+  | 'number-line-addition'
+  | 'compare-numbers'
+  | 'number-sequence-write'
   | 'connect-numbers';
 
 export type SetPage = (page: PageKey) => void;

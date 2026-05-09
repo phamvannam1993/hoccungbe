@@ -14,7 +14,7 @@ function buildQuestionSpeech(question: ColorSortQuestion) {
   }
   
   function buildCorrectSpeech(color: string) {
-    return `Giỏi lắm. Bé đã chọn đúng đồ vật màu ${color}.`;
+    return `Giỏi lắm. Bạn nhỏ đã chọn đúng đồ vật màu ${color}.`;
   }
   
   function buildWrongSpeech(color: string, correctLabel: string) {
@@ -22,7 +22,7 @@ function buildQuestionSpeech(question: ColorSortQuestion) {
   }
   
   function buildFinishSpeech(categoryLabel: string, score: number, total: number) {
-    return `Bé đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
+    return `Bạn nhỏ đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
   }
 
 type CategoryKey = keyof typeof colorSortData;
@@ -415,7 +415,7 @@ export default function ColorSortGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -611,7 +611,7 @@ export default function ColorSortGame() {
                   }`}
                 >
                   {selected === currentQuestion.correct
-                    ? `Chính xác rồi. Bé đã chọn đúng đồ vật màu ${currentQuestion.targetLabel}.`
+                    ? `Chính xác rồi. Bạn nhỏ đã chọn đúng đồ vật màu ${currentQuestion.targetLabel}.`
                     : `Chưa đúng nhé. Đáp án đúng là ${currentQuestion.correct}.`}
                 </div>
               )}

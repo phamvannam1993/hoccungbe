@@ -80,7 +80,7 @@ const faqs = [
     icon: BarChart3,
     question: 'Phụ huynh có theo dõi được tiến độ học của bé không?',
     answer:
-      'Có. Học Cùng Bé hướng tới việc giúp phụ huynh quan sát quá trình học tập của con, biết bé đã học nội dung nào, đang mạnh ở kỹ năng nào và phần nào cần rèn thêm. Nhờ đó, phụ huynh có thể đồng hành cùng con rõ ràng hơn thay vì chỉ cho bé học một cách ngẫu nhiên.',
+      'Có. Học Cùng Bé hướng tới việc giúp phụ huynh quan sát quá trình học tập của con, biết bạn nhỏ đã học nội dung nào, đang mạnh ở kỹ năng nào và phần nào cần rèn thêm. Nhờ đó, phụ huynh có thể đồng hành cùng con rõ ràng hơn thay vì chỉ cho bé học một cách ngẫu nhiên.',
   },
   {
     icon: HelpCircle,

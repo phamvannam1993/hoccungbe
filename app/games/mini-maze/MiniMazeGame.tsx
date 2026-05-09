@@ -282,10 +282,10 @@ export default function MiniMazeGame() {
     setTimeout(() => {
       speakVietnamese(
         accuracy >= 90
-          ? `Bé đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
-          ? `Bé đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
-          : `Bé đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+          : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
       );
     }, 250);
   }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
@@ -487,7 +487,7 @@ export default function MiniMazeGame() {
       }, 100);
 
       setTimeout(() => {
-        speakVietnamese('Giỏi lắm. Bé đã tìm tới đích rồi');
+        speakVietnamese('Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi');
       }, 220);
     }
   };
@@ -754,7 +754,7 @@ export default function MiniMazeGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -1004,7 +1004,7 @@ export default function MiniMazeGame() {
                   }`}
                 >
                   {isWin
-                    ? `Giỏi lắm. Bé đã tới đích sau ${stepCount} bước đi.`
+                    ? `Giỏi lắm. Bạn nhỏ đã tới đích sau ${stepCount} bước đi.`
                     : 'Mình chuyển sang màn tiếp theo nhé.'}
                 </div>
               )}

@@ -128,7 +128,7 @@ function buildWrongSpeech(count: number, label: string) {
 }
 
 function buildFinishSpeech(categoryLabel: string, score: number, total: number) {
-  return `Bé đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
+  return `Bạn nhỏ đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
 }
 
 export default function CountAnimalsGame() {
@@ -415,7 +415,7 @@ export default function CountAnimalsGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">

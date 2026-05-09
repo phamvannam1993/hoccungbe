@@ -299,10 +299,10 @@ export default function SequenceMemoryGame() {
     setTimeout(() => {
       speakVietnamese(
         accuracy >= 90
-          ? `Bé đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
-          ? `Bé đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
-          : `Bé đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+          : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
       );
     }, 250);
   }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
@@ -493,7 +493,7 @@ export default function SequenceMemoryGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese('Giỏi lắm. Bé đã nhớ đúng thứ tự xuất hiện');
+        speakVietnamese('Giỏi lắm. Bạn nhỏ đã nhớ đúng thứ tự xuất hiện');
       }, 220);
     }
   };
@@ -745,7 +745,7 @@ export default function SequenceMemoryGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -937,7 +937,7 @@ export default function SequenceMemoryGame() {
               </div>
 
               <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100">
-                <p className="text-sm font-semibold text-slate-500">Thứ tự bé đã chọn</p>
+                <p className="text-sm font-semibold text-slate-500">Thứ tự bạn nhỏ đã chọn</p>
 
                 <div className="mt-4 flex min-h-[68px] flex-wrap gap-3">
                   {userSequence.length === 0 ? (
@@ -989,7 +989,7 @@ export default function SequenceMemoryGame() {
                   }`}
                 >
                   {isWin
-                    ? 'Chính xác rồi. Bé đã nhớ đúng thứ tự xuất hiện.'
+                    ? 'Chính xác rồi. Bạn nhỏ đã nhớ đúng thứ tự xuất hiện.'
                     : 'Chưa đúng thứ tự rồi. Mình sang câu tiếp theo nhé.'}
                 </div>
               )}

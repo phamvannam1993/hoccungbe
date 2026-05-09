@@ -366,7 +366,7 @@ export default function HomePage() {
             <ul className="mt-8 space-y-4 text-slate-700">
               <li className="flex gap-3">
                 <span className="mt-1 text-sky-600">✓</span>
-                <span>Xem số hoạt động bé đã hoàn thành</span>
+                <span>Xem số hoạt động bạn nhỏ đã hoàn thành</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-1 text-sky-600">✓</span>

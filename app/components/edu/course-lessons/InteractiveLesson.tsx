@@ -681,7 +681,7 @@ function RewardModal({
         <div className="text-6xl">⭐</div>
         <h3 className="mt-4 text-3xl font-black text-slate-900">Giỏi quá!</h3>
         <p className="mt-3 text-base leading-8 text-slate-600">
-          Bé đã hoàn thành bài học và nhận được sticker mới.
+          Bạn nhỏ đã hoàn thành bài học và nhận được sticker mới.
         </p>
 
         <div className="mt-6 flex items-center justify-center gap-3">

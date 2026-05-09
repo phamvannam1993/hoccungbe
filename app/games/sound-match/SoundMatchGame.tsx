@@ -516,7 +516,7 @@ export default function SoundMatchGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">

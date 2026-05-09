@@ -283,10 +283,10 @@ export default function ConnectNumberOrderGame() {
     setTimeout(() => {
       speakVietnamese(
         accuracy >= 90
-          ? `Bé đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
-          ? `Bé đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
-          : `Bé đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+          : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
       );
     }, 250);
   }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
@@ -492,7 +492,7 @@ export default function ConnectNumberOrderGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese('Giỏi lắm. Bé đã nối đúng theo thứ tự');
+        speakVietnamese('Giỏi lắm. Bạn nhỏ đã nối đúng theo thứ tự');
       }, 220);
     }
   };
@@ -732,7 +732,7 @@ export default function ConnectNumberOrderGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -949,7 +949,7 @@ export default function ConnectNumberOrderGame() {
               </div>
 
               <div className="mt-6 rounded-3xl bg-emerald-50 p-4 ring-1 ring-emerald-100">
-                <p className="text-sm font-semibold text-slate-500">Dãy bé đã nối</p>
+                <p className="text-sm font-semibold text-slate-500">Dãy bạn nhỏ đã nối</p>
                 <div className="mt-3 flex min-h-[48px] flex-wrap gap-2">
                   {selectedNodes.length === 0 ? (
                     <span className="text-sm text-slate-500">Chưa có số nào được chọn.</span>
@@ -985,7 +985,7 @@ export default function ConnectNumberOrderGame() {
                   }`}
                 >
                   {isWin
-                    ? 'Chính xác rồi. Bé đã nối đúng theo thứ tự.'
+                    ? 'Chính xác rồi. Bạn nhỏ đã nối đúng theo thứ tự.'
                     : `Chưa đúng rồi. Số tiếp theo cần chọn là ${expectedNextNumber}.`}
                 </div>
               )}

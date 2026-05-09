@@ -911,7 +911,7 @@ export default function MemoryHuntPage() {
     });
     setHistory(newHistory);
 
-    speakText('Chúc mừng bé. Bé đã hoàn thành màn chơi ghi nhớ');
+    speakText('Chúc mừng bé. Bạn nhỏ đã hoàn thành màn chơi ghi nhớ');
   }, [
     isWin,
     selectedDifficulty,
@@ -1195,7 +1195,7 @@ export default function MemoryHuntPage() {
           </p>
           <h1 className="text-3xl font-black tracking-tight sm:text-4xl">Sticker ghi nhớ</h1>
           <p className="mt-2 text-white/90">
-            Bé đã mở {unlockedStickerIds.length}/{stickerCatalog.length} sticker.
+            Bạn nhỏ đã mở {unlockedStickerIds.length}/{stickerCatalog.length} sticker.
           </p>
         </div>
 
@@ -1670,7 +1670,7 @@ export default function MemoryHuntPage() {
             </p>
           ) : showWin ? (
             <p className="text-sm font-semibold text-emerald-700">
-              Hoàn thành xuất sắc. Bé đã rèn rất tốt khả năng ghi nhớ và quan sát.
+              Hoàn thành xuất sắc. Bạn nhỏ đã rèn rất tốt khả năng ghi nhớ và quan sát.
             </p>
           ) : (
             <p className="text-sm font-semibold text-rose-700">

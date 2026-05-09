@@ -124,7 +124,7 @@ function buildQuestionSpeech(question: GroupMatchQuestion) {
 }
 
 function buildCorrectSpeech(groupLabel: string) {
-  return `Giỏi lắm. Bé đã chọn đúng các hình thuộc nhóm ${groupLabel}.`;
+  return `Giỏi lắm. Bạn nhỏ đã chọn đúng các hình thuộc nhóm ${groupLabel}.`;
 }
 
 function buildWrongSpeech(groupLabel: string) {
@@ -132,7 +132,7 @@ function buildWrongSpeech(groupLabel: string) {
 }
 
 function buildFinishSpeech(categoryLabel: string, score: number, total: number) {
-  return `Bé đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
+  return `Bạn nhỏ đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
 }
 
 export default function GroupMatchGame() {
@@ -407,7 +407,7 @@ export default function GroupMatchGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -579,7 +579,7 @@ export default function GroupMatchGame() {
                   }`}
                 >
                   {isAnswerCorrect
-                    ? `Chính xác rồi. Bé đã chọn đúng nhóm ${currentQuestion.groupLabel}.`
+                    ? `Chính xác rồi. Bạn nhỏ đã chọn đúng nhóm ${currentQuestion.groupLabel}.`
                     : `Chưa đúng nhé. Bé cần chọn đủ các hình thuộc nhóm ${currentQuestion.groupLabel}.`}
                 </div>
               )}

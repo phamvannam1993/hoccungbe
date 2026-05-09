@@ -403,7 +403,7 @@ export default function WordPictureMatchPage() {
                 </p>
 
                 <p className="mt-1 text-sm leading-6 text-slate-600">
-                  Bé đã ghép đúng hình với chữ{' '}
+                  Bạn nhỏ đã ghép đúng hình với chữ{' '}
                   <span className="font-bold">
                     {currentQuestion.correctWord}
                   </span>

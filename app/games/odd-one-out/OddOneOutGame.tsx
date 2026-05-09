@@ -264,10 +264,10 @@ export default function OddOneOutGame() {
     setTimeout(() => {
       speakVietnamese(
         accuracy >= 90
-          ? `Bé đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
-          ? `Bé đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
-          : `Bé đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+          ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+          : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
       );
     }, 250);
   }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
@@ -444,7 +444,7 @@ export default function OddOneOutGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese('Chính xác rồi. Bé đã tìm đúng vật khác nhóm');
+        speakVietnamese('Chính xác rồi. Bạn nhỏ đã tìm đúng vật khác nhóm');
       }, 220);
     } else {
       setCombo(0);
@@ -665,7 +665,7 @@ export default function OddOneOutGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -855,7 +855,7 @@ export default function OddOneOutGame() {
                   {selected &&
                   currentQuestion.shuffledItems.find((x) => x.id === selected)?.emoji ===
                     currentQuestion.correct
-                    ? 'Chính xác rồi. Bé đã tìm đúng vật khác nhóm.'
+                    ? 'Chính xác rồi. Bạn nhỏ đã tìm đúng vật khác nhóm.'
                     : `Chưa đúng nhé. Đáp án đúng là ${correctItem?.label ?? 'hình đúng'}.`}
                 </div>
               )}

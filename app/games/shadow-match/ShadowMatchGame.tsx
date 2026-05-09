@@ -23,7 +23,7 @@ function buildWrongSpeech(correct: string) {
 }
 
 function buildFinishSpeech(categoryLabel: string, score: number, total: number) {
-    return `Bé đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
+    return `Bạn nhỏ đã hoàn thành chủ đề ${categoryLabel}. Điểm số của bé là ${score} trên ${total}.`;
 }
 
 type CategoryKey = keyof typeof shadowMatchData;
@@ -392,7 +392,7 @@ export default function ShadowMatchGame() {
             </p>
 
             <h1 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Bé đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
+              Bạn nhỏ đã hoàn thành chủ đề {categoryInfo.label.toLowerCase()}
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
@@ -560,7 +560,7 @@ export default function ShadowMatchGame() {
                   }`}
                 >
                   {selected === currentQuestion.correct
-                    ? 'Chính xác rồi. Bé đã ghép đúng hình bóng với đồ vật.'
+                    ? 'Chính xác rồi. Bạn nhỏ đã ghép đúng hình bóng với đồ vật.'
                     : `Chưa đúng nhé. Đáp án đúng là ${currentQuestion.correct}.`}
                 </div>
               )}

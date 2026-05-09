@@ -1151,7 +1151,7 @@ export default function EnglishVocabularyPage() {
     setHistory(updatedHistory);
 
     setTimeout(() => {
-      speakVietnamese(`Bé đã hoàn thành màn ${selectedLevel.title}`);
+      speakVietnamese(`Bạn nhỏ đã hoàn thành màn ${selectedLevel.title}`);
     }, 300);
   }, [
     showResult,

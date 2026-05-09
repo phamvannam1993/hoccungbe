@@ -659,7 +659,7 @@ export default function MathFunPage() {
       addSticker(getStickerByStars(stars).id);
       setShowResult(true);
       setShowCelebration(true);
-      speakText(`Bé đã hoàn thành thi nhanh với ${finalScore} điểm`);
+      speakText(`Bạn nhỏ đã hoàn thành thi nhanh với ${finalScore} điểm`);
 
       return;
     }
@@ -713,7 +713,7 @@ export default function MathFunPage() {
 
     setShowResult(true);
     setShowCelebration(true);
-    speakText(`Bé đã hoàn thành cấp độ ${selectedLevel.title}`);
+    speakText(`Bạn nhỏ đã hoàn thành cấp độ ${selectedLevel.title}`);
   };
 
   const handleChooseAnswer = async (answer: number) => {
@@ -999,7 +999,7 @@ export default function MathFunPage() {
               </h1>
 
               <p className="mt-2 text-sm text-white/90 sm:text-base">
-                Bé đã mở được {unlockedStickerIds.length}/{allStickers.length}{' '}
+                Bạn nhỏ đã mở được {unlockedStickerIds.length}/{allStickers.length}{' '}
                 sticker.
               </p>
             </div>
@@ -1331,7 +1331,7 @@ export default function MathFunPage() {
               </h3>
 
               <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
-                Bé đã mở được cấp độ mới. Mình vào thử ngay nhé.
+                Bạn nhỏ đã mở được cấp độ mới. Mình vào thử ngay nhé.
               </p>
 
               <div className="mt-6 grid gap-2 sm:flex sm:justify-center sm:gap-3">
@@ -1495,7 +1495,7 @@ export default function MathFunPage() {
               </p>
 
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Bé đã nhận được {earnedStars} sao ở lượt chơi này.
+                Bạn nhỏ đã nhận được {earnedStars} sao ở lượt chơi này.
               </p>
             </div>
           </div>
@@ -1846,7 +1846,7 @@ export default function MathFunPage() {
                 </p>
 
                 <p className="mt-1 text-sm leading-6 text-slate-600">
-                  Bé đã trả lời đúng. Kết quả là{' '}
+                  Bạn nhỏ đã trả lời đúng. Kết quả là{' '}
                   <span className="font-bold">
                     {currentQuestion.correctAnswer}
                   </span>

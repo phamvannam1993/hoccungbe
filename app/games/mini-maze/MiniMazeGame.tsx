@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   mazeCategories,
   mazeData,
   type MazeLevel,
   type MazeQuestion,
   type MazeCell,
-} from './data';
+} from "./data";
 
 type CategoryKey = keyof typeof mazeData;
 
@@ -36,12 +36,14 @@ type StickerItem = {
   description: string;
 };
 
-const LOCAL_STORAGE_KEY = 'hoc-cung-be-mini-maze-scores';
-const SOUND_ENABLED_KEY = 'hoc-cung-be-mini-maze-sound-enabled';
-const SPEECH_ENABLED_KEY = 'hoc-cung-be-mini-maze-speech-enabled';
-const STICKERS_KEY = 'hoc-cung-be-mini-maze-stickers';
+const LOCAL_STORAGE_KEY = "hoc-cung-be-mini-maze-scores";
+const SOUND_ENABLED_KEY = "hoc-cung-be-mini-maze-sound-enabled";
+const SPEECH_ENABLED_KEY = "hoc-cung-be-mini-maze-speech-enabled";
+const STICKERS_KEY = "hoc-cung-be-mini-maze-stickers";
 
 const QUESTIONS_PER_GAME = 5;
+const HARD_QUESTIONS_PER_GAME = 10;
+const HARD_MAX_MISTAKES = 1;
 
 const levelConfig: Record<
   MazeLevel,
@@ -51,49 +53,49 @@ const levelConfig: Record<
   }
 > = {
   easy: {
-    label: 'Dễ',
-    color: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
+    label: "Dễ",
+    color: "bg-emerald-50 text-emerald-700 ring-emerald-100",
   },
   medium: {
-    label: 'Trung bình',
-    color: 'bg-amber-50 text-amber-700 ring-amber-100',
+    label: "Trung bình",
+    color: "bg-amber-50 text-amber-700 ring-amber-100",
   },
   hard: {
-    label: 'Khó',
-    color: 'bg-rose-50 text-rose-700 ring-rose-100',
+    label: "Khó+",
+    color: "bg-rose-50 text-rose-700 ring-rose-100",
   },
 };
 
 const stickers: StickerItem[] = [
   {
-    id: 'first-win',
-    emoji: '🌟',
-    title: 'Khởi đầu thật tốt',
-    description: 'Hoàn thành một màn đầu tiên.',
+    id: "first-win",
+    emoji: "🌟",
+    title: "Khởi đầu thật tốt",
+    description: "Hoàn thành một màn đầu tiên.",
   },
   {
-    id: 'perfect',
-    emoji: '👑',
-    title: 'Đi mê cung rất giỏi',
-    description: 'Đạt độ chính xác rất cao.',
+    id: "perfect",
+    emoji: "👑",
+    title: "Đi mê cung rất giỏi",
+    description: "Đạt độ chính xác rất cao.",
   },
   {
-    id: 'combo-3',
-    emoji: '🔥',
-    title: 'Combo định hướng',
-    description: 'Đạt 3 màn đúng liên tiếp.',
+    id: "combo-3",
+    emoji: "🔥",
+    title: "Combo định hướng",
+    description: "Đạt 3 màn đúng liên tiếp.",
   },
   {
-    id: 'forest-master',
-    emoji: '🌳',
-    title: 'Bạn của rừng xanh',
-    description: 'Hoàn thành chủ đề rừng xanh.',
+    id: "forest-master",
+    emoji: "🌳",
+    title: "Bạn của rừng xanh",
+    description: "Hoàn thành chủ đề rừng xanh.",
   },
   {
-    id: 'mixed-master',
-    emoji: '✨',
-    title: 'Bé siêu tìm đường',
-    description: 'Hoàn thành chủ đề tổng hợp.',
+    id: "mixed-master",
+    emoji: "✨",
+    title: "Bé siêu tìm đường",
+    description: "Hoàn thành chủ đề tổng hợp.",
   },
 ];
 
@@ -109,15 +111,18 @@ function shuffleArray<T>(items: T[]): T[] {
 function buildPlayQuestions(
   source: MazeQuestion[],
   count: number,
-  level: MazeLevel
+  level: MazeLevel,
 ): PlayQuestion[] {
   const filtered = source.filter((question) => question.level === level);
   const sourceToUse = filtered.length ? filtered : source;
-  return shuffleArray(sourceToUse).slice(0, Math.min(count, sourceToUse.length));
+  return shuffleArray(sourceToUse).slice(
+    0,
+    Math.min(count, sourceToUse.length),
+  );
 }
 
 function loadStoredScores(): StoredScore[] {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!raw) return [];
@@ -129,7 +134,7 @@ function loadStoredScores(): StoredScore[] {
 }
 
 function saveStoredScore(score: StoredScore) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   try {
     const current = loadStoredScores();
     const next = [score, ...current].slice(0, 12);
@@ -138,7 +143,7 @@ function saveStoredScore(score: StoredScore) {
 }
 
 function loadBooleanSetting(key: string, fallback = true) {
-  if (typeof window === 'undefined') return fallback;
+  if (typeof window === "undefined") return fallback;
   try {
     const raw = window.localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
@@ -148,12 +153,12 @@ function loadBooleanSetting(key: string, fallback = true) {
 }
 
 function saveBooleanSetting(key: string, value: boolean) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
 function loadUnlockedStickers(): string[] {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STICKERS_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -163,19 +168,28 @@ function loadUnlockedStickers(): string[] {
 }
 
 function saveUnlockedStickers(values: string[]) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   window.localStorage.setItem(STICKERS_KEY, JSON.stringify(values));
 }
 
 function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
   const vietnameseVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith('vi')
+    voice.lang.toLowerCase().startsWith("vi"),
   );
 
-  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
+  const femaleHints = [
+    "female",
+    "woman",
+    "girl",
+    "linh",
+    "mai",
+    "han",
+    "oanh",
+    "vy",
+  ];
 
   const preferredFemale = vietnameseVoices.find((voice) =>
-    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
+    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint)),
   );
 
   return preferredFemale || vietnameseVoices[0] || null;
@@ -191,12 +205,14 @@ function findPosition(grid: MazeCell[][], target: MazeCell): Position | null {
 }
 
 function getShortestPathLength(grid: MazeCell[][]) {
-  const start = findPosition(grid, 'S');
-  const goal = findPosition(grid, 'G');
+  const start = findPosition(grid, "S");
+  const goal = findPosition(grid, "G");
 
   if (!start || !goal) return null;
 
-  const queue: Array<Position & { distance: number }> = [{ ...start, distance: 0 }];
+  const queue: Array<Position & { distance: number }> = [
+    { ...start, distance: 0 },
+  ];
   const visited = new Set<string>([`${start.row}-${start.col}`]);
   const directions = [
     { row: -1, col: 0 },
@@ -224,22 +240,115 @@ function getShortestPathLength(grid: MazeCell[][]) {
         nextRow >= grid.length ||
         nextCol >= grid[0].length ||
         visited.has(key) ||
-        grid[nextRow][nextCol] === 'W'
+        grid[nextRow][nextCol] === "W"
       ) {
         return;
       }
 
       visited.add(key);
-      queue.push({ row: nextRow, col: nextCol, distance: current.distance + 1 });
+      queue.push({
+        row: nextRow,
+        col: nextCol,
+        distance: current.distance + 1,
+      });
     });
   }
 
   return null;
 }
 
+function getShortestPathKeys(grid: MazeCell[][]) {
+  const start = findPosition(grid, "S");
+  const goal = findPosition(grid, "G");
+
+  if (!start || !goal) return new Set<string>();
+
+  const queue: Position[] = [start];
+  const visited = new Set<string>([`${start.row}-${start.col}`]);
+  const parent = new Map<string, string>();
+  const directions = [
+    { row: -1, col: 0 },
+    { row: 1, col: 0 },
+    { row: 0, col: -1 },
+    { row: 0, col: 1 },
+  ];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (!current) break;
+
+    if (current.row === goal.row && current.col === goal.col) {
+      const path = new Set<string>();
+      let currentKey = `${goal.row}-${goal.col}`;
+      path.add(currentKey);
+
+      while (parent.has(currentKey)) {
+        currentKey = parent.get(currentKey) as string;
+        path.add(currentKey);
+      }
+
+      return path;
+    }
+
+    directions.forEach((direction) => {
+      const nextRow = current.row + direction.row;
+      const nextCol = current.col + direction.col;
+      const key = `${nextRow}-${nextCol}`;
+
+      if (
+        nextRow < 0 ||
+        nextCol < 0 ||
+        nextRow >= grid.length ||
+        nextCol >= grid[0].length ||
+        visited.has(key) ||
+        grid[nextRow][nextCol] === "W"
+      ) {
+        return;
+      }
+
+      visited.add(key);
+      parent.set(key, `${current.row}-${current.col}`);
+      queue.push({ row: nextRow, col: nextCol });
+    });
+  }
+
+  return new Set<string>();
+}
+
+function getHardTrapKeys(grid: MazeCell[][], questionIndex: number) {
+  const shortestPathKeys = getShortestPathKeys(grid);
+  const candidates: string[] = [];
+
+  grid.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      const key = `${rowIndex}-${colIndex}`;
+      if (
+        cell !== "W" &&
+        cell !== "S" &&
+        cell !== "G" &&
+        !shortestPathKeys.has(key)
+      ) {
+        candidates.push(key);
+      }
+    });
+  });
+
+  if (!candidates.length) return new Set<string>();
+
+  const trapCount = Math.min(3, Math.max(1, Math.floor(candidates.length / 4)));
+  const traps = new Set<string>();
+
+  for (let i = 0; i < trapCount; i += 1) {
+    const index = (questionIndex * 3 + i * 5) % candidates.length;
+    traps.add(candidates[index]);
+  }
+
+  return traps;
+}
+
 function getQuestionCountByLevel(level: MazeLevel) {
-  if (level === 'hard') return 7;
-  if (level === 'medium') return 6;
+  if (level === "hard") return HARD_QUESTIONS_PER_GAME;
+  if (level === "medium") return 6;
   return QUESTIONS_PER_GAME;
 }
 
@@ -247,23 +356,33 @@ function getStepLimit(grid: MazeCell[][], level: MazeLevel) {
   const shortestPathLength = getShortestPathLength(grid);
   if (!shortestPathLength) return null;
 
-  if (level === 'hard') return Math.max(shortestPathLength + 2, Math.ceil(shortestPathLength * 1.2));
-  if (level === 'medium') return Math.max(shortestPathLength + 5, Math.ceil(shortestPathLength * 1.55));
+  if (level === "hard")
+    return Math.max(
+      shortestPathLength + 1,
+      Math.ceil(shortestPathLength * 1.05),
+    );
+  if (level === "medium")
+    return Math.max(
+      shortestPathLength + 5,
+      Math.ceil(shortestPathLength * 1.55),
+    );
   return null;
 }
 
 function getStepRating(stepCount: number, stepLimit: number | null) {
-  if (!stepLimit) return 'Không giới hạn';
+  if (!stepLimit) return "Không giới hạn";
   const remaining = stepLimit - stepCount;
-  if (remaining <= 0) return 'Hết lượt';
-  if (remaining <= 2) return 'Rất căng';
-  if (remaining <= 5) return 'Cần cẩn thận';
-  return 'Còn an toàn';
+  if (remaining <= 0) return "Hết lượt";
+  if (remaining <= 2) return "Rất căng";
+  if (remaining <= 5) return "Cần cẩn thận";
+  return "Còn an toàn";
 }
 
 export default function MiniMazeGame() {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<MazeLevel>('easy');
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(
+    null,
+  );
+  const [selectedLevel, setSelectedLevel] = useState<MazeLevel>("easy");
   const [questions, setQuestions] = useState<PlayQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [playerPos, setPlayerPos] = useState<Position | null>(null);
@@ -279,27 +398,39 @@ export default function MiniMazeGame() {
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
   const [unlockedStickerIds, setUnlockedStickerIds] = useState<string[]>([]);
+  const [mistakeCount, setMistakeCount] = useState(0);
+  const [failureReason, setFailureReason] = useState("");
+  const [pathHistory, setPathHistory] = useState<Position[]>([]);
 
   const hasSavedResultRef = useRef(false);
   const audioContextRef = useRef<AudioContext | null>(null);
 
   const currentQuestion = questions[currentIndex];
 
-  const accuracy = questions.length ? Math.round((score / questions.length) * 100) : 0;
+  const accuracy = questions.length
+    ? Math.round((score / questions.length) * 100)
+    : 0;
 
   const progress = useMemo(() => {
     if (!questions.length) return 0;
-    return Math.round(((currentIndex + (finished ? 1 : 0)) / questions.length) * 100);
+    return Math.round(
+      ((currentIndex + (finished ? 1 : 0)) / questions.length) * 100,
+    );
   }, [currentIndex, finished, questions.length]);
-
 
   const stepLimit = useMemo(() => {
     if (!currentQuestion) return null;
     return getStepLimit(currentQuestion.grid, selectedLevel);
   }, [currentQuestion, selectedLevel]);
 
+  const hardTrapKeys = useMemo(() => {
+    if (!currentQuestion || selectedLevel !== "hard") return new Set<string>();
+    return getHardTrapKeys(currentQuestion.grid, currentIndex);
+  }, [currentQuestion, currentIndex, selectedLevel]);
+
   const remainingSteps = stepLimit ? Math.max(stepLimit - stepCount, 0) : null;
   const stepRating = getStepRating(stepCount, stepLimit);
+  const isHardMode = selectedLevel === "hard";
 
   useEffect(() => {
     setHistory(loadStoredScores());
@@ -318,7 +449,7 @@ export default function MiniMazeGame() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
         window.speechSynthesis.cancel();
       }
     };
@@ -326,15 +457,24 @@ export default function MiniMazeGame() {
 
   useEffect(() => {
     if (!currentQuestion) return;
-    const start = findPosition(currentQuestion.grid, 'S');
+    const start = findPosition(currentQuestion.grid, "S");
     setPlayerPos(start);
     setStepCount(0);
     setShowResult(false);
     setIsWin(false);
+    setMistakeCount(0);
+    setFailureReason("");
+    setPathHistory(start ? [start] : []);
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (!finished || !selectedCategory || hasSavedResultRef.current || !questions.length) return;
+    if (
+      !finished ||
+      !selectedCategory ||
+      hasSavedResultRef.current ||
+      !questions.length
+    )
+      return;
 
     const categoryInfo = mazeData[selectedCategory];
     const storedScore: StoredScore = {
@@ -351,10 +491,10 @@ export default function MiniMazeGame() {
     setHistory(loadStoredScores());
     hasSavedResultRef.current = true;
 
-    unlockSticker('first-win');
-    if (accuracy >= 90) unlockSticker('perfect');
-    if (selectedCategory === 'forest') unlockSticker('forest-master');
-    if (selectedCategory === 'mixed') unlockSticker('mixed-master');
+    unlockSticker("first-win");
+    if (accuracy >= 90) unlockSticker("perfect");
+    if (selectedCategory === "forest") unlockSticker("forest-master");
+    if (selectedCategory === "mixed") unlockSticker("mixed-master");
 
     playFinishSound();
 
@@ -363,11 +503,18 @@ export default function MiniMazeGame() {
         accuracy >= 90
           ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
-          ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
-          : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`
+            ? `Bạn nhỏ đã hoàn thành tốt với độ chính xác ${accuracy} phần trăm`
+            : `Bạn nhỏ đã hoàn thành trò chơi với độ chính xác ${accuracy} phần trăm`,
       );
     }, 250);
-  }, [finished, selectedCategory, selectedLevel, score, questions.length, accuracy]);
+  }, [
+    finished,
+    selectedCategory,
+    selectedLevel,
+    score,
+    questions.length,
+    accuracy,
+  ]);
 
   useEffect(() => {
     if (!currentQuestion || showResult || finished) return;
@@ -380,12 +527,13 @@ export default function MiniMazeGame() {
   }, [currentQuestion, showResult, finished]);
 
   const getAudioContext = () => {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === "undefined") return null;
 
     if (!audioContextRef.current) {
       const AudioCtx =
         window.AudioContext ||
-        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+          .webkitAudioContext;
 
       if (!AudioCtx) return null;
       audioContextRef.current = new AudioCtx();
@@ -397,14 +545,14 @@ export default function MiniMazeGame() {
   const playTone = async (
     frequency: number,
     duration = 0.18,
-    type: OscillatorType = 'sine'
+    type: OscillatorType = "sine",
   ) => {
     if (!soundEnabled) return;
 
     const audioContext = getAudioContext();
     if (!audioContext) return;
 
-    if (audioContext.state === 'suspended') {
+    if (audioContext.state === "suspended") {
       await audioContext.resume();
     }
 
@@ -422,39 +570,39 @@ export default function MiniMazeGame() {
 
     gainNode.gain.exponentialRampToValueAtTime(
       0.0001,
-      audioContext.currentTime + duration
+      audioContext.currentTime + duration,
     );
 
     oscillator.stop(audioContext.currentTime + duration);
   };
 
   const playPromptSound = async () => {
-    await playTone(520, 0.08, 'triangle');
+    await playTone(520, 0.08, "triangle");
   };
 
   const playMoveSound = async () => {
-    await playTone(440, 0.08, 'triangle');
+    await playTone(440, 0.08, "triangle");
   };
 
   const playBlockedSound = async () => {
-    await playTone(220, 0.14, 'square');
+    await playTone(220, 0.14, "square");
   };
 
   const playCorrectSound = async () => {
-    await playTone(660, 0.12, 'triangle');
-    setTimeout(() => playTone(880, 0.18, 'triangle'), 120);
+    await playTone(660, 0.12, "triangle");
+    setTimeout(() => playTone(880, 0.18, "triangle"), 120);
   };
 
   const playFinishSound = async () => {
-    await playTone(523.25, 0.12, 'sine');
-    setTimeout(() => playTone(659.25, 0.12, 'sine'), 100);
-    setTimeout(() => playTone(783.99, 0.14, 'sine'), 220);
-    setTimeout(() => playTone(1046.5, 0.18, 'sine'), 340);
+    await playTone(523.25, 0.12, "sine");
+    setTimeout(() => playTone(659.25, 0.12, "sine"), 100);
+    setTimeout(() => playTone(783.99, 0.14, "sine"), 220);
+    setTimeout(() => playTone(1046.5, 0.18, "sine"), 340);
   };
 
   const speakVietnamese = (text: string) => {
     if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
 
     const synth = window.speechSynthesis;
     synth.cancel();
@@ -463,7 +611,7 @@ export default function MiniMazeGame() {
     const voices = synth.getVoices();
     const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
 
-    utterance.lang = 'vi-VN';
+    utterance.lang = "vi-VN";
     utterance.rate = 0.92;
     utterance.pitch = 1.08;
     utterance.volume = 1;
@@ -483,11 +631,15 @@ export default function MiniMazeGame() {
   const speakPrompt = async () => {
     if (!currentQuestion) return;
     await playPromptSound();
-    speakVietnamese(`${currentQuestion.prompt}. ${currentQuestion.hint}`);
+    speakVietnamese(
+      isHardMode
+        ? `${currentQuestion.prompt}. Đây là màn Khó cộng. Hãy tự quan sát, tránh ô bẫy và đi thật tiết kiệm bước.`
+        : `${currentQuestion.prompt}. ${currentQuestion.hint}`,
+    );
   };
 
   const speakHint = async () => {
-    if (!currentQuestion) return;
+    if (!currentQuestion || isHardMode) return;
     await playPromptSound();
     speakVietnamese(currentQuestion.hint);
   };
@@ -503,9 +655,13 @@ export default function MiniMazeGame() {
 
   const startCategoryGame = (key: CategoryKey, level: MazeLevel) => {
     const sourceQuestions = mazeData[key].questions;
-    const nextQuestions = buildPlayQuestions(sourceQuestions, getQuestionCountByLevel(level), level);
+    const nextQuestions = buildPlayQuestions(
+      sourceQuestions,
+      getQuestionCountByLevel(level),
+      level,
+    );
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
 
@@ -517,8 +673,41 @@ export default function MiniMazeGame() {
     setFinished(false);
     setCombo(0);
     setBestCombo(0);
+    setMistakeCount(0);
+    setFailureReason("");
+    setPathHistory([]);
     setIsSpeaking(false);
     hasSavedResultRef.current = false;
+  };
+
+  const failCurrentMaze = (reason: string, voiceText: string) => {
+    setCombo(0);
+    setFailureReason(reason);
+    setShowResult(true);
+    setIsWin(false);
+    setTimeout(() => {
+      playBlockedSound();
+      speakVietnamese(voiceText);
+    }, 120);
+  };
+
+  const registerHardMistake = (reason: string, voiceText: string) => {
+    if (!isHardMode) return false;
+
+    const nextMistakeCount = mistakeCount + 1;
+    setMistakeCount(nextMistakeCount);
+
+    if (nextMistakeCount > HARD_MAX_MISTAKES) {
+      failCurrentMaze(reason, voiceText);
+      return true;
+    }
+
+    setTimeout(() => {
+      playBlockedSound();
+      speakVietnamese("Cẩn thận nhé. Màn khó chỉ cho phép sai một lần thôi");
+    }, 80);
+
+    return true;
   };
 
   const tryMove = async (dRow: number, dCol: number) => {
@@ -533,32 +722,69 @@ export default function MiniMazeGame() {
       nextRow >= currentQuestion.grid.length ||
       nextCol >= currentQuestion.grid[0].length
     ) {
+      if (
+        registerHardMistake(
+          "Đi ra ngoài bản đồ.",
+          "Đi ra ngoài bản đồ nên màn này bị tính lỗi rồi",
+        )
+      )
+        return;
       await playBlockedSound();
       return;
     }
 
     const nextCell = currentQuestion.grid[nextRow][nextCol];
 
-    if (nextCell === 'W') {
+    if (nextCell === "W") {
+      if (
+        registerHardMistake(
+          "Đụng vật cản.",
+          "Đụng vật cản nên màn này bị tính lỗi rồi",
+        )
+      )
+        return;
       await playBlockedSound();
+      return;
+    }
+
+    const nextPos = { row: nextRow, col: nextCol };
+    const previousPosition = pathHistory[pathHistory.length - 2];
+    const isGoingBack =
+      isHardMode &&
+      previousPosition?.row === nextPos.row &&
+      previousPosition?.col === nextPos.col;
+
+    if (isGoingBack) {
+      failCurrentMaze(
+        "Không được quay lại ô vừa đi trong màn Khó.",
+        "Màn khó không cho quay lại ô vừa đi. Mình thử màn tiếp theo nhé",
+      );
+      return;
+    }
+
+    if (isHardMode && hardTrapKeys.has(`${nextRow}-${nextCol}`)) {
+      failCurrentMaze(
+        "Dẫm vào ô bẫy.",
+        "Bạn nhỏ đã dẫm vào ô bẫy rồi. Mình thử màn tiếp theo nhé",
+      );
       return;
     }
 
     await playMoveSound();
 
-    const nextPos = { row: nextRow, col: nextCol };
     const nextStepCount = stepCount + 1;
     setPlayerPos(nextPos);
+    setPathHistory((prev) => [...prev, nextPos]);
     setStepCount(nextStepCount);
 
-    if (nextCell === 'G') {
+    if (nextCell === "G") {
       setShowResult(true);
       setIsWin(true);
       setScore((prev) => prev + 1);
       setCombo((prev) => {
         const next = prev + 1;
         setBestCombo((best) => Math.max(best, next));
-        if (next >= 3) unlockSticker('combo-3');
+        if (next >= 3) unlockSticker("combo-3");
         return next;
       });
 
@@ -567,7 +793,7 @@ export default function MiniMazeGame() {
       }, 100);
 
       setTimeout(() => {
-        speakVietnamese('Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi');
+        speakVietnamese("Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi");
       }, 220);
       return;
     }
@@ -578,16 +804,26 @@ export default function MiniMazeGame() {
       setIsWin(false);
       setTimeout(() => {
         playBlockedSound();
-        speakVietnamese('Hết số bước rồi. Mình thử màn tiếp theo nhé');
+        speakVietnamese("Hết số bước rồi. Mình thử màn tiếp theo nhé");
       }, 120);
     }
   };
 
   const handleResetMaze = () => {
     if (!currentQuestion) return;
-    const start = findPosition(currentQuestion.grid, 'S');
+
+    if (isHardMode) {
+      failCurrentMaze(
+        "Màn Khó không cho dùng nút về điểm đầu.",
+        "Màn khó không cho quay về điểm đầu. Mình thử màn tiếp theo nhé",
+      );
+      return;
+    }
+
+    const start = findPosition(currentQuestion.grid, "S");
     setPlayerPos(start);
     setStepCount(0);
+    setPathHistory(start ? [start] : []);
   };
 
   const handleSkip = () => {
@@ -596,14 +832,14 @@ export default function MiniMazeGame() {
     setShowResult(true);
     setIsWin(false);
     setTimeout(() => {
-      speakVietnamese('Mình xem đáp án rồi sang màn tiếp theo nhé');
+      speakVietnamese("Mình xem đáp án rồi sang màn tiếp theo nhé");
     }, 180);
   };
 
   const handleNext = () => {
     if (!questions.length) return;
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
 
@@ -621,7 +857,7 @@ export default function MiniMazeGame() {
   };
 
   const handleBackToCategories = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
 
@@ -636,6 +872,9 @@ export default function MiniMazeGame() {
     setFinished(false);
     setCombo(0);
     setBestCombo(0);
+    setMistakeCount(0);
+    setFailureReason("");
+    setPathHistory([]);
     setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
@@ -651,7 +890,7 @@ export default function MiniMazeGame() {
     setSpeechEnabled(next);
     saveBooleanSetting(SPEECH_ENABLED_KEY, next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
   };
@@ -659,7 +898,7 @@ export default function MiniMazeGame() {
   const renderCell = (cell: MazeCell, row: number, col: number) => {
     const isPlayer = playerPos?.row === row && playerPos?.col === col;
     const baseCellClass =
-      'flex aspect-square w-full min-w-0 items-center justify-center rounded-xl text-[clamp(1rem,6vw,1.55rem)] font-black leading-none shadow-sm sm:rounded-2xl sm:text-2xl';
+      "flex aspect-square w-full min-w-0 items-center justify-center rounded-xl text-[clamp(1rem,6vw,1.55rem)] font-black leading-none shadow-sm sm:rounded-2xl sm:text-2xl";
 
     if (isPlayer) {
       return (
@@ -672,7 +911,18 @@ export default function MiniMazeGame() {
       );
     }
 
-    if (cell === 'W') {
+    if (isHardMode && hardTrapKeys.has(`${row}-${col}`)) {
+      return (
+        <div
+          aria-label="Ô bẫy"
+          className={`${baseCellClass} bg-rose-100 text-rose-600 ring-1 ring-rose-200`}
+        >
+          🌀
+        </div>
+      );
+    }
+
+    if (cell === "W") {
       return (
         <div
           aria-label="Vật cản"
@@ -683,7 +933,7 @@ export default function MiniMazeGame() {
       );
     }
 
-    if (cell === 'G') {
+    if (cell === "G") {
       return (
         <div
           aria-label="Đích đến"
@@ -694,7 +944,7 @@ export default function MiniMazeGame() {
       );
     }
 
-    if (cell === 'S') {
+    if (cell === "S") {
       return (
         <div
           aria-label="Điểm bắt đầu"
@@ -730,8 +980,9 @@ export default function MiniMazeGame() {
               </h1>
 
               <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-                Bé tìm đường đi đúng để nhân vật tới đích. Trò chơi giúp phát triển định hướng
-                không gian, sự tập trung và khả năng giải quyết vấn đề đơn giản.
+                Bé tìm đường đi đúng để nhân vật tới đích. Trò chơi giúp phát
+                triển định hướng không gian, sự tập trung và khả năng giải quyết
+                vấn đề đơn giản.
               </p>
             </div>
 
@@ -740,19 +991,21 @@ export default function MiniMazeGame() {
                 onClick={toggleSound}
                 className="rounded-full bg-slate-100 px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
               >
-                {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+                {soundEnabled ? "🔊 Bật hiệu ứng" : "🔇 Tắt hiệu ứng"}
               </button>
               <button
                 onClick={toggleSpeech}
                 className="rounded-full bg-slate-100 px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
               >
-                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+                {speechEnabled ? "🗣️ Bật giọng đọc" : "🤫 Tắt giọng đọc"}
               </button>
             </div>
           </div>
 
           <div className="mt-8">
-            <h2 className="text-xl font-black text-slate-900">Chọn chủ đề và mức độ</h2>
+            <h2 className="text-xl font-black text-slate-900">
+              Chọn chủ đề và mức độ
+            </h2>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {mazeCategories.map((category) => (
@@ -776,15 +1029,22 @@ export default function MiniMazeGame() {
                   </p>
 
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {(['easy', 'medium', 'hard'] as MazeLevel[]).map((level) => (
-                      <button
-                        key={level}
-                        onClick={() => startCategoryGame(category.key as CategoryKey, level)}
-                        className={`rounded-full px-4 py-2 text-sm font-bold ring-1 transition ${levelConfig[level].color}`}
-                      >
-                        {levelConfig[level].label}
-                      </button>
-                    ))}
+                    {(["easy", "medium", "hard"] as MazeLevel[]).map(
+                      (level) => (
+                        <button
+                          key={level}
+                          onClick={() =>
+                            startCategoryGame(
+                              category.key as CategoryKey,
+                              level,
+                            )
+                          }
+                          className={`rounded-full px-4 py-2 text-sm font-bold ring-1 transition ${levelConfig[level].color}`}
+                        >
+                          {levelConfig[level].label}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
               ))}
@@ -799,10 +1059,10 @@ export default function MiniMazeGame() {
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {[
-                  'Định hướng không gian',
-                  'Tìm đường tới đích',
-                  'Quan sát và tập trung',
-                  'Giải quyết vấn đề đơn giản',
+                  "Định hướng không gian",
+                  "Tìm đường tới đích",
+                  "Quan sát và tập trung",
+                  "Giải quyết vấn đề đơn giản",
                 ].map((item) => (
                   <div
                     key={item}
@@ -827,11 +1087,13 @@ export default function MiniMazeGame() {
                       key={item.id}
                       className={`rounded-2xl px-4 py-4 text-sm leading-7 ring-1 ${
                         unlocked
-                          ? 'bg-white text-slate-700 ring-emerald-100'
-                          : 'bg-slate-50 text-slate-400 ring-slate-100'
+                          ? "bg-white text-slate-700 ring-emerald-100"
+                          : "bg-slate-50 text-slate-400 ring-slate-100"
                       }`}
                     >
-                      <div className="text-2xl">{unlocked ? item.emoji : '🔒'}</div>
+                      <div className="text-2xl">
+                        {unlocked ? item.emoji : "🔒"}
+                      </div>
                       <div className="mt-2 font-bold">{item.title}</div>
                     </div>
                   );
@@ -866,7 +1128,8 @@ export default function MiniMazeGame() {
             </h1>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
-              Kết quả đã được lưu lại để phụ huynh theo dõi khả năng định hướng và tìm đường của bé.
+              Kết quả đã được lưu lại để phụ huynh theo dõi khả năng định hướng
+              và tìm đường của bé.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-4">
@@ -878,8 +1141,12 @@ export default function MiniMazeGame() {
               </div>
 
               <div className="rounded-3xl bg-violet-50 p-5 ring-1 ring-violet-100">
-                <p className="text-sm font-semibold text-violet-700">Độ chính xác</p>
-                <p className="mt-2 text-3xl font-black text-slate-900">{accuracy}%</p>
+                <p className="text-sm font-semibold text-violet-700">
+                  Độ chính xác
+                </p>
+                <p className="mt-2 text-3xl font-black text-slate-900">
+                  {accuracy}%
+                </p>
               </div>
 
               <div className="rounded-3xl bg-amber-50 p-5 ring-1 ring-amber-100">
@@ -890,8 +1157,12 @@ export default function MiniMazeGame() {
               </div>
 
               <div className="rounded-3xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
-                <p className="text-sm font-semibold text-emerald-700">Combo tốt nhất</p>
-                <p className="mt-2 text-2xl font-black text-slate-900">{bestCombo}</p>
+                <p className="text-sm font-semibold text-emerald-700">
+                  Combo tốt nhất
+                </p>
+                <p className="mt-2 text-2xl font-black text-slate-900">
+                  {bestCombo}
+                </p>
               </div>
             </div>
 
@@ -947,13 +1218,13 @@ export default function MiniMazeGame() {
                 onClick={toggleSound}
                 className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
               >
-                {soundEnabled ? '🔊 Bật hiệu ứng' : '🔇 Tắt hiệu ứng'}
+                {soundEnabled ? "🔊 Bật hiệu ứng" : "🔇 Tắt hiệu ứng"}
               </button>
               <button
                 onClick={toggleSpeech}
                 className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-200"
               >
-                {speechEnabled ? '🗣️ Bật giọng đọc' : '🤫 Tắt giọng đọc'}
+                {speechEnabled ? "🗣️ Bật giọng đọc" : "🤫 Tắt giọng đọc"}
               </button>
             </div>
           </div>
@@ -968,8 +1239,12 @@ export default function MiniMazeGame() {
 
           {combo >= 2 && (
             <div className="mt-4 rounded-2xl bg-gradient-to-r from-pink-500 to-orange-400 p-4 text-white shadow-sm">
-              <p className="text-sm font-bold uppercase tracking-[0.2em]">Combo</p>
-              <p className="mt-1 text-2xl font-black">🔥 {combo} màn thắng liên tiếp</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em]">
+                Combo
+              </p>
+              <p className="mt-1 text-2xl font-black">
+                🔥 {combo} màn thắng liên tiếp
+              </p>
             </div>
           )}
 
@@ -978,26 +1253,41 @@ export default function MiniMazeGame() {
               onClick={speakPrompt}
               className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
             >
-              {isSpeaking ? 'Đang đọc...' : '🔊 Đọc hướng dẫn'}
+              {isSpeaking ? "Đang đọc..." : "🔊 Đọc hướng dẫn"}
             </button>
 
             <button
               onClick={speakHint}
-              className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700 transition hover:bg-emerald-200"
+              disabled={isHardMode}
+              className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700 transition hover:bg-emerald-200 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              🔊 Gợi ý
+              {isHardMode ? "🔒 Khóa gợi ý" : "🔊 Gợi ý"}
             </button>
           </div>
+
+          {isHardMode && (
+            <div className="mt-4 rounded-2xl bg-rose-50 p-4 text-sm leading-7 text-rose-800 ring-1 ring-rose-100">
+              <span className="font-black">Luật Khó+:</span> chỉ được sai tối đa{" "}
+              {HARD_MAX_MISTAKES} lần, không được quay lại ô vừa đi, không được
+              về điểm đầu, tránh ô bẫy 🌀 và phải tới đích trong giới hạn bước.
+            </div>
+          )}
 
           <div className="mt-5 rounded-[22px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-2.5 sm:mt-6 sm:rounded-[30px] sm:p-5">
             <div className="rounded-[20px] bg-white p-3 shadow-inner sm:rounded-[24px] sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-slate-500">Màn hiện tại</p>
+                  <p className="text-sm font-semibold text-slate-500">
+                    Màn hiện tại
+                  </p>
                   <h3 className="mt-1 text-2xl font-black text-slate-900">
                     {currentQuestion.prompt}
                   </h3>
-                  <p className="mt-2 text-sm text-slate-500">{currentQuestion.hint}</p>
+                  <p className="mt-2 text-sm text-slate-500">
+                    {isHardMode
+                      ? "Màn Khó+ không hiện gợi ý trực tiếp. Bé hãy tự quan sát đường đi nhé."
+                      : currentQuestion.hint}
+                  </p>
                 </div>
 
                 <div className="rounded-2xl bg-emerald-100 px-3 py-2 text-sm font-bold text-emerald-700">
@@ -1019,24 +1309,38 @@ export default function MiniMazeGame() {
               </div>
 
               {stepLimit && (
-                <div className="mt-4 grid gap-2 rounded-2xl bg-rose-50 p-3 text-sm ring-1 ring-rose-100 sm:grid-cols-3 sm:p-4">
+                <div className="mt-4 grid gap-2 rounded-2xl bg-rose-50 p-3 text-sm ring-1 ring-rose-100 sm:grid-cols-4 sm:p-4">
                   <div>
                     <p className="font-semibold text-rose-700">Giới hạn bước</p>
-                    <p className="mt-1 text-xl font-black text-slate-900">{stepLimit}</p>
+                    <p className="mt-1 text-xl font-black text-slate-900">
+                      {stepLimit}
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold text-rose-700">Còn lại</p>
-                    <p className="mt-1 text-xl font-black text-slate-900">{remainingSteps}</p>
+                    <p className="mt-1 text-xl font-black text-slate-900">
+                      {remainingSteps}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-rose-700">Lỗi</p>
+                    <p className="mt-1 text-xl font-black text-slate-900">
+                      {mistakeCount}/{HARD_MAX_MISTAKES}
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold text-rose-700">Trạng thái</p>
-                    <p className="mt-1 text-base font-black text-slate-900">{stepRating}</p>
+                    <p className="mt-1 text-base font-black text-slate-900">
+                      {stepRating}
+                    </p>
                   </div>
                 </div>
               )}
 
               <div className="mt-5 rounded-2xl bg-sky-50 p-3 ring-1 ring-sky-100 sm:mt-6 sm:rounded-3xl sm:p-6">
-                <p className="text-sm font-semibold text-slate-500">Bản đồ mê cung</p>
+                <p className="text-sm font-semibold text-slate-500">
+                  Bản đồ mê cung
+                </p>
 
                 <div className="mt-4 flex justify-center overflow-hidden sm:mt-5">
                   <div
@@ -1047,10 +1351,13 @@ export default function MiniMazeGame() {
                   >
                     {currentQuestion.grid.flatMap((row, rowIndex) =>
                       row.map((cell, colIndex) => (
-                        <div key={`cell-${rowIndex}-${colIndex}`} className="min-w-0">
+                        <div
+                          key={`cell-${rowIndex}-${colIndex}`}
+                          className="min-w-0"
+                        >
                           {renderCell(cell, rowIndex, colIndex)}
                         </div>
-                      ))
+                      )),
                     )}
                   </div>
                 </div>
@@ -1060,11 +1367,14 @@ export default function MiniMazeGame() {
                   <span>⭐ Đích đến</span>
                   <span>⛰️ Vật cản</span>
                   <span>🧒 Nhân vật</span>
+                  {isHardMode && <span>🌀 Ô bẫy</span>}
                 </div>
               </div>
 
               <div className="mt-5 rounded-2xl bg-emerald-50 p-4 ring-1 ring-emerald-100 sm:mt-6 sm:rounded-3xl sm:p-6">
-                <p className="text-sm font-semibold text-slate-500">Điều khiển</p>
+                <p className="text-sm font-semibold text-slate-500">
+                  Điều khiển
+                </p>
 
                 <div className="mt-4 flex flex-col items-center gap-3">
                   <button
@@ -1108,7 +1418,7 @@ export default function MiniMazeGame() {
                     disabled={showResult}
                     className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 disabled:opacity-50"
                   >
-                    🔄 Về điểm đầu
+                    {isHardMode ? "🚫 Không được về đầu" : "🔄 Về điểm đầu"}
                   </button>
 
                   <button
@@ -1121,7 +1431,8 @@ export default function MiniMazeGame() {
                 </div>
 
                 <div className="mt-4 text-center text-sm text-slate-600">
-                  Số bước đã đi: <span className="font-bold text-slate-900">{stepCount}</span>
+                  Số bước đã đi:{" "}
+                  <span className="font-bold text-slate-900">{stepCount}</span>
                 </div>
               </div>
 
@@ -1129,15 +1440,17 @@ export default function MiniMazeGame() {
                 <div
                   className={`mt-6 rounded-2xl px-4 py-4 text-sm font-semibold ${
                     isWin
-                      ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'
-                      : 'bg-amber-50 text-amber-700 ring-1 ring-amber-100'
+                      ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100"
+                      : "bg-amber-50 text-amber-700 ring-1 ring-amber-100"
                   }`}
                 >
                   {isWin
                     ? `Giỏi lắm. Bạn nhỏ đã tới đích sau ${stepCount} bước đi.`
-                    : stepLimit && stepCount >= stepLimit
-                    ? 'Hết số bước rồi. Mình thử màn tiếp theo nhé.'
-                    : 'Mình chuyển sang màn tiếp theo nhé.'}
+                    : failureReason
+                      ? failureReason
+                      : stepLimit && stepCount >= stepLimit
+                        ? "Hết số bước rồi. Mình thử màn tiếp theo nhé."
+                        : "Mình chuyển sang màn tiếp theo nhé."}
                 </div>
               )}
 
@@ -1147,7 +1460,9 @@ export default function MiniMazeGame() {
                   disabled={!showResult}
                   className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {currentIndex === questions.length - 1 ? 'Xem kết quả' : 'Màn tiếp theo'}
+                  {currentIndex === questions.length - 1
+                    ? "Xem kết quả"
+                    : "Màn tiếp theo"}
                 </button>
 
                 <button
@@ -1202,21 +1517,41 @@ export default function MiniMazeGame() {
               </div>
 
               <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
-                Điểm hiện tại: <span className="font-bold text-slate-900">{score}</span> /{' '}
+                Điểm hiện tại:{" "}
+                <span className="font-bold text-slate-900">{score}</span> /{" "}
                 {questions.length}
               </div>
 
               <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
-                Combo tốt nhất: <span className="font-bold text-slate-900">{bestCombo}</span>
+                Combo tốt nhất:{" "}
+                <span className="font-bold text-slate-900">{bestCombo}</span>
               </div>
 
               <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
-                Số bước màn này: <span className="font-bold text-slate-900">{stepCount}</span>
+                Số bước màn này:{" "}
+                <span className="font-bold text-slate-900">{stepCount}</span>
               </div>
 
               {stepLimit && (
                 <div className="rounded-2xl bg-rose-50 px-4 py-4 text-sm leading-7 text-rose-700 ring-1 ring-rose-100">
-                  Còn lại: <span className="font-bold text-slate-900">{remainingSteps}</span> / {stepLimit} bước
+                  Còn lại:{" "}
+                  <span className="font-bold text-slate-900">
+                    {remainingSteps}
+                  </span>{" "}
+                  / {stepLimit} bước
+                </div>
+              )}
+
+              {isHardMode && (
+                <div className="rounded-2xl bg-rose-50 px-4 py-4 text-sm leading-7 text-rose-700 ring-1 ring-rose-100">
+                  Lỗi đã phạm:{" "}
+                  <span className="font-bold text-slate-900">
+                    {mistakeCount}
+                  </span>{" "}
+                  / {HARD_MAX_MISTAKES}. Ô bẫy:{" "}
+                  <span className="font-bold text-slate-900">
+                    {hardTrapKeys.size}
+                  </span>
                 </div>
               )}
             </div>
@@ -1257,23 +1592,18 @@ export default function MiniMazeGame() {
                     key={item.id}
                     className={`rounded-2xl px-4 py-4 text-sm leading-7 ring-1 ${
                       unlocked
-                        ? 'bg-white text-slate-700 ring-emerald-100'
-                        : 'bg-slate-50 text-slate-400 ring-slate-100'
+                        ? "bg-white text-slate-700 ring-emerald-100"
+                        : "bg-slate-50 text-slate-400 ring-slate-100"
                     }`}
                   >
-                    <div className="text-2xl">{unlocked ? item.emoji : '🔒'}</div>
+                    <div className="text-2xl">
+                      {unlocked ? item.emoji : "🔒"}
+                    </div>
                     <div className="mt-2 font-bold">{item.title}</div>
                   </div>
                 );
               })}
             </div>
-
-            <Link
-              href="/pricing"
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
-            >
-              Mở khóa toàn bộ bài học
-            </Link>
           </div>
         </div>
       </div>

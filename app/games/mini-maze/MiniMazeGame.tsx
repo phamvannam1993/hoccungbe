@@ -5,7 +5,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   mazeCategories,
   mazeData,
-  type MazeCategory,
   type MazeLevel,
   type MazeQuestion,
   type MazeCell,
@@ -191,6 +190,77 @@ function findPosition(grid: MazeCell[][], target: MazeCell): Position | null {
   return null;
 }
 
+function getShortestPathLength(grid: MazeCell[][]) {
+  const start = findPosition(grid, 'S');
+  const goal = findPosition(grid, 'G');
+
+  if (!start || !goal) return null;
+
+  const queue: Array<Position & { distance: number }> = [{ ...start, distance: 0 }];
+  const visited = new Set<string>([`${start.row}-${start.col}`]);
+  const directions = [
+    { row: -1, col: 0 },
+    { row: 1, col: 0 },
+    { row: 0, col: -1 },
+    { row: 0, col: 1 },
+  ];
+
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (!current) break;
+
+    if (current.row === goal.row && current.col === goal.col) {
+      return current.distance;
+    }
+
+    directions.forEach((direction) => {
+      const nextRow = current.row + direction.row;
+      const nextCol = current.col + direction.col;
+      const key = `${nextRow}-${nextCol}`;
+
+      if (
+        nextRow < 0 ||
+        nextCol < 0 ||
+        nextRow >= grid.length ||
+        nextCol >= grid[0].length ||
+        visited.has(key) ||
+        grid[nextRow][nextCol] === 'W'
+      ) {
+        return;
+      }
+
+      visited.add(key);
+      queue.push({ row: nextRow, col: nextCol, distance: current.distance + 1 });
+    });
+  }
+
+  return null;
+}
+
+function getQuestionCountByLevel(level: MazeLevel) {
+  if (level === 'hard') return 7;
+  if (level === 'medium') return 6;
+  return QUESTIONS_PER_GAME;
+}
+
+function getStepLimit(grid: MazeCell[][], level: MazeLevel) {
+  const shortestPathLength = getShortestPathLength(grid);
+  if (!shortestPathLength) return null;
+
+  if (level === 'hard') return Math.max(shortestPathLength + 2, Math.ceil(shortestPathLength * 1.2));
+  if (level === 'medium') return Math.max(shortestPathLength + 5, Math.ceil(shortestPathLength * 1.55));
+  return null;
+}
+
+function getStepRating(stepCount: number, stepLimit: number | null) {
+  if (!stepLimit) return 'Không giới hạn';
+  const remaining = stepLimit - stepCount;
+  if (remaining <= 0) return 'Hết lượt';
+  if (remaining <= 2) return 'Rất căng';
+  if (remaining <= 5) return 'Cần cẩn thận';
+  return 'Còn an toàn';
+}
+
 export default function MiniMazeGame() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<MazeLevel>('easy');
@@ -221,6 +291,15 @@ export default function MiniMazeGame() {
     if (!questions.length) return 0;
     return Math.round(((currentIndex + (finished ? 1 : 0)) / questions.length) * 100);
   }, [currentIndex, finished, questions.length]);
+
+
+  const stepLimit = useMemo(() => {
+    if (!currentQuestion) return null;
+    return getStepLimit(currentQuestion.grid, selectedLevel);
+  }, [currentQuestion, selectedLevel]);
+
+  const remainingSteps = stepLimit ? Math.max(stepLimit - stepCount, 0) : null;
+  const stepRating = getStepRating(stepCount, stepLimit);
 
   useEffect(() => {
     setHistory(loadStoredScores());
@@ -424,7 +503,7 @@ export default function MiniMazeGame() {
 
   const startCategoryGame = (key: CategoryKey, level: MazeLevel) => {
     const sourceQuestions = mazeData[key].questions;
-    const nextQuestions = buildPlayQuestions(sourceQuestions, QUESTIONS_PER_GAME, level);
+    const nextQuestions = buildPlayQuestions(sourceQuestions, getQuestionCountByLevel(level), level);
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
@@ -468,8 +547,9 @@ export default function MiniMazeGame() {
     await playMoveSound();
 
     const nextPos = { row: nextRow, col: nextCol };
+    const nextStepCount = stepCount + 1;
     setPlayerPos(nextPos);
-    setStepCount((prev) => prev + 1);
+    setStepCount(nextStepCount);
 
     if (nextCell === 'G') {
       setShowResult(true);
@@ -489,6 +569,17 @@ export default function MiniMazeGame() {
       setTimeout(() => {
         speakVietnamese('Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi');
       }, 220);
+      return;
+    }
+
+    if (stepLimit && nextStepCount >= stepLimit) {
+      setCombo(0);
+      setShowResult(true);
+      setIsWin(false);
+      setTimeout(() => {
+        playBlockedSound();
+        speakVietnamese('Hết số bước rồi. Mình thử màn tiếp theo nhé');
+      }, 120);
     }
   };
 
@@ -567,10 +658,15 @@ export default function MiniMazeGame() {
 
   const renderCell = (cell: MazeCell, row: number, col: number) => {
     const isPlayer = playerPos?.row === row && playerPos?.col === col;
+    const baseCellClass =
+      'flex aspect-square w-full min-w-0 items-center justify-center rounded-xl text-[clamp(1rem,6vw,1.55rem)] font-black leading-none shadow-sm sm:rounded-2xl sm:text-2xl';
 
     if (isPlayer) {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 text-2xl shadow-md">
+        <div
+          aria-label="Nhân vật đang đứng"
+          className={`${baseCellClass} bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 shadow-md`}
+        >
           🧒
         </div>
       );
@@ -578,7 +674,10 @@ export default function MiniMazeGame() {
 
     if (cell === 'W') {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-300 text-lg">
+        <div
+          aria-label="Vật cản"
+          className={`${baseCellClass} bg-slate-300 text-[clamp(0.9rem,5vw,1.35rem)]`}
+        >
           ⛰️
         </div>
       );
@@ -586,7 +685,10 @@ export default function MiniMazeGame() {
 
     if (cell === 'G') {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-2xl ring-1 ring-emerald-200">
+        <div
+          aria-label="Đích đến"
+          className={`${baseCellClass} bg-emerald-100 ring-1 ring-emerald-200`}
+        >
           ⭐
         </div>
       );
@@ -594,14 +696,20 @@ export default function MiniMazeGame() {
 
     if (cell === 'S') {
       return (
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-xl ring-1 ring-sky-200">
+        <div
+          aria-label="Điểm bắt đầu"
+          className={`${baseCellClass} bg-sky-100 ring-1 ring-sky-200`}
+        >
           🚩
         </div>
       );
     }
 
     return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
+      <div
+        aria-label="Đường đi"
+        className={`${baseCellClass} bg-white text-slate-300 ring-1 ring-slate-200`}
+      >
         ·
       </div>
     );
@@ -609,8 +717,8 @@ export default function MiniMazeGame() {
 
   if (!selectedCategory) {
     return (
-      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+      <section className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[26px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
@@ -740,8 +848,8 @@ export default function MiniMazeGame() {
     const categoryInfo = mazeData[selectedCategory];
 
     return (
-      <section className="mx-auto max-w-5xl px-6 py-8 lg:px-8 lg:py-12">
-        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+      <section className="mx-auto max-w-5xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+        <div className="rounded-[26px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">
               <div className="flex h-full w-full items-center justify-center rounded-full bg-white text-5xl">
@@ -816,9 +924,9 @@ export default function MiniMazeGame() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
-      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
+    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+      <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+        <div className="rounded-[26px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-3">
               <span className="rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 ring-1 ring-sky-100">
@@ -850,7 +958,7 @@ export default function MiniMazeGame() {
             </div>
           </div>
 
-          <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+          <h1 className="mt-4 text-2xl font-black tracking-tight text-slate-900 sm:mt-5 sm:text-4xl">
             Mê cung vui nhộn
           </h1>
 
@@ -881,8 +989,8 @@ export default function MiniMazeGame() {
             </button>
           </div>
 
-          <div className="mt-6 rounded-[30px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-5">
-            <div className="rounded-[24px] bg-white p-5 shadow-inner">
+          <div className="mt-5 rounded-[22px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-2.5 sm:mt-6 sm:rounded-[30px] sm:p-5">
+            <div className="rounded-[20px] bg-white p-3 shadow-inner sm:rounded-[24px] sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-slate-500">Màn hiện tại</p>
@@ -897,7 +1005,7 @@ export default function MiniMazeGame() {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-5 sm:mt-6">
                 <div className="mb-2 flex justify-between text-sm font-semibold text-slate-700">
                   <span>Tiến độ</span>
                   <span>{progress}%</span>
@@ -910,19 +1018,41 @@ export default function MiniMazeGame() {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-3xl bg-sky-50 p-6 ring-1 ring-sky-100">
+              {stepLimit && (
+                <div className="mt-4 grid gap-2 rounded-2xl bg-rose-50 p-3 text-sm ring-1 ring-rose-100 sm:grid-cols-3 sm:p-4">
+                  <div>
+                    <p className="font-semibold text-rose-700">Giới hạn bước</p>
+                    <p className="mt-1 text-xl font-black text-slate-900">{stepLimit}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-rose-700">Còn lại</p>
+                    <p className="mt-1 text-xl font-black text-slate-900">{remainingSteps}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-rose-700">Trạng thái</p>
+                    <p className="mt-1 text-base font-black text-slate-900">{stepRating}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-5 rounded-2xl bg-sky-50 p-3 ring-1 ring-sky-100 sm:mt-6 sm:rounded-3xl sm:p-6">
                 <p className="text-sm font-semibold text-slate-500">Bản đồ mê cung</p>
 
-                <div className="mt-5 flex flex-col items-center gap-2">
-                  {currentQuestion.grid.map((row, rowIndex) => (
-                    <div key={`row-${rowIndex}`} className="flex gap-2">
-                      {row.map((cell, colIndex) => (
-                        <div key={`cell-${rowIndex}-${colIndex}`}>
+                <div className="mt-4 flex justify-center overflow-hidden sm:mt-5">
+                  <div
+                    className="grid w-full max-w-[min(100%,430px)] gap-1.5 sm:gap-2"
+                    style={{
+                      gridTemplateColumns: `repeat(${currentQuestion.grid[0]?.length ?? 1}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {currentQuestion.grid.flatMap((row, rowIndex) =>
+                      row.map((cell, colIndex) => (
+                        <div key={`cell-${rowIndex}-${colIndex}`} className="min-w-0">
                           {renderCell(cell, rowIndex, colIndex)}
                         </div>
-                      ))}
-                    </div>
-                  ))}
+                      ))
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm text-slate-600">
@@ -933,14 +1063,14 @@ export default function MiniMazeGame() {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-3xl bg-emerald-50 p-6 ring-1 ring-emerald-100">
+              <div className="mt-5 rounded-2xl bg-emerald-50 p-4 ring-1 ring-emerald-100 sm:mt-6 sm:rounded-3xl sm:p-6">
                 <p className="text-sm font-semibold text-slate-500">Điều khiển</p>
 
                 <div className="mt-4 flex flex-col items-center gap-3">
                   <button
                     onClick={() => tryMove(-1, 0)}
                     disabled={showResult}
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm ring-1 ring-slate-200 disabled:opacity-50"
+                    className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-2xl bg-white text-3xl shadow-sm ring-1 ring-slate-200 active:scale-95 disabled:opacity-50 sm:h-14 sm:w-14 sm:text-2xl"
                   >
                     ⬆️
                   </button>
@@ -949,7 +1079,7 @@ export default function MiniMazeGame() {
                     <button
                       onClick={() => tryMove(0, -1)}
                       disabled={showResult}
-                      className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm ring-1 ring-slate-200 disabled:opacity-50"
+                      className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-2xl bg-white text-3xl shadow-sm ring-1 ring-slate-200 active:scale-95 disabled:opacity-50 sm:h-14 sm:w-14 sm:text-2xl"
                     >
                       ⬅️
                     </button>
@@ -957,7 +1087,7 @@ export default function MiniMazeGame() {
                     <button
                       onClick={() => tryMove(1, 0)}
                       disabled={showResult}
-                      className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm ring-1 ring-slate-200 disabled:opacity-50"
+                      className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-2xl bg-white text-3xl shadow-sm ring-1 ring-slate-200 active:scale-95 disabled:opacity-50 sm:h-14 sm:w-14 sm:text-2xl"
                     >
                       ⬇️
                     </button>
@@ -965,7 +1095,7 @@ export default function MiniMazeGame() {
                     <button
                       onClick={() => tryMove(0, 1)}
                       disabled={showResult}
-                      className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm ring-1 ring-slate-200 disabled:opacity-50"
+                      className="flex h-16 w-16 touch-manipulation items-center justify-center rounded-2xl bg-white text-3xl shadow-sm ring-1 ring-slate-200 active:scale-95 disabled:opacity-50 sm:h-14 sm:w-14 sm:text-2xl"
                     >
                       ➡️
                     </button>
@@ -1005,6 +1135,8 @@ export default function MiniMazeGame() {
                 >
                   {isWin
                     ? `Giỏi lắm. Bạn nhỏ đã tới đích sau ${stepCount} bước đi.`
+                    : stepLimit && stepCount >= stepLimit
+                    ? 'Hết số bước rồi. Mình thử màn tiếp theo nhé.'
                     : 'Mình chuyển sang màn tiếp theo nhé.'}
                 </div>
               )}
@@ -1081,6 +1213,12 @@ export default function MiniMazeGame() {
               <div className="rounded-2xl bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600 ring-1 ring-slate-100">
                 Số bước màn này: <span className="font-bold text-slate-900">{stepCount}</span>
               </div>
+
+              {stepLimit && (
+                <div className="rounded-2xl bg-rose-50 px-4 py-4 text-sm leading-7 text-rose-700 ring-1 ring-rose-100">
+                  Còn lại: <span className="font-bold text-slate-900">{remainingSteps}</span> / {stepLimit} bước
+                </div>
+              )}
             </div>
           </div>
 

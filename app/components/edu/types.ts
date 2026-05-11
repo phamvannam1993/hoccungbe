@@ -30,6 +30,7 @@ export type PageKey =
   | 'listen-and-do'
   | 'mini-maze'
   | 'half-match'
+  | 'falling-number'
   | 'sequence-memory'
   | 'rhyme-match'
   | 'apple-pick'

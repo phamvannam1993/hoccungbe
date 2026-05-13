@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CountAnimalsGame from './CountAnimalsGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Đếm con vật',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CountAnimalsGame />;
+  return (
+    <>
+      <GameStructuredData slug="count-animals" />
+      <CountAnimalsGame />
+    </>
+  );
 }

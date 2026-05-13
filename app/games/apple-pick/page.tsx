@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ApplePickGame from './ApplePickGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Nhặt táo theo số',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ApplePickGame />;
+  return (
+    <>
+      <GameStructuredData slug="apple-pick" />
+      <ApplePickGame />
+    </>
+  );
 }

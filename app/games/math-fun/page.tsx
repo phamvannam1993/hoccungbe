@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import MathFunPage from '../../components/edu/MathFunPage';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Toán vui cho bé | Học Cùng Bé',
@@ -41,5 +42,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MathFunPage />;
+  return (
+    <>
+      <GameStructuredData slug="math-fun" />
+      <MathFunPage />
+    </>
+  );
 }

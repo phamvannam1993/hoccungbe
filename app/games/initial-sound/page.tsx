@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import InitialSoundGame from './InitialSoundGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Nhận biết âm đầu',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function InitialSoundPage() {
-  return <InitialSoundGame />;
+  return (
+    <>
+      <GameStructuredData slug="initial-sound" />
+      <InitialSoundGame />
+    </>
+  );
 }

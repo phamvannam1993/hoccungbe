@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NumberLineAdditionGame from './NumberLineAdditionGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Cộng trên trục số',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <NumberLineAdditionGame />;
+  return (
+    <>
+      <GameStructuredData slug="number-line-addition" />
+      <NumberLineAdditionGame />
+    </>
+  );
 }

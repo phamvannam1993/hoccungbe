@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import MiniMazeGame from './MiniMazeGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Trò chơi ghi nhớ cho bé',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MiniMazeGame />;
+  return (
+    <>
+      <GameStructuredData slug="mini-maze" />
+      <MiniMazeGame />
+    </>
+  );
 }

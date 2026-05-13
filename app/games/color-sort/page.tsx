@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ColorSortGame from './ColorSortGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Phân loại màu sắc',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ColorSortGame />;
+  return (
+    <>
+      <GameStructuredData slug="color-sort" />
+      <ColorSortGame />
+    </>
+  );
 }

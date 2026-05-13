@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import EnglishVocabularyPage from '../../components/edu/EnglishVocabularyPage';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Từ vựng tiếng Anh cho bé',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <EnglishVocabularyPage />;
+  return (
+    <>
+      <GameStructuredData slug="english-vocab" />
+      <EnglishVocabularyPage />
+    </>
+  );
 }

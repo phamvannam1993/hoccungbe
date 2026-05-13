@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import AnimalFeedGame from './AnimalFeedGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Cho thú ăn đúng số lượng',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <AnimalFeedGame />;
+  return (
+    <>
+      <GameStructuredData slug="animal-feed" />
+      <AnimalFeedGame />
+    </>
+  );
 }

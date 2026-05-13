@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import OppositePairsGame from './OppositePairsGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép cặp từ trái nghĩa',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function OppositePairsPage() {
-  return <OppositePairsGame />;
+  return (
+    <>
+      <GameStructuredData slug="opposite-pairs" />
+      <OppositePairsGame />
+    </>
+  );
 }

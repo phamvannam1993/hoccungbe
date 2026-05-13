@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import MissingNumberGame from './MissingNumberGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Tìm số còn thiếu',
@@ -26,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MissingNumberGame />;
+  return (
+    <>
+      <GameStructuredData slug="missing-number" />
+      <MissingNumberGame />
+    </>
+  );
 }

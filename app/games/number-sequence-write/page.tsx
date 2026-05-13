@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NumberSequenceWriteGame from './NumberSequenceWriteGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Viết dãy số',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <NumberSequenceWriteGame />;
+  return (
+    <>
+      <GameStructuredData slug="number-sequence-write" />
+      <NumberSequenceWriteGame />
+    </>
+  );
 }

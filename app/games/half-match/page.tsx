@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import HalfMatchGame from './HalfMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép nửa còn lại',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function HalfMatchPage() {
-  return <HalfMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="half-match" />
+      <HalfMatchGame />
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CompareNumbersGame from './CompareNumbersGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'So sánh số',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CompareNumbersGame />;
+  return (
+    <>
+      <GameStructuredData slug="compare-numbers" />
+      <CompareNumbersGame />
+    </>
+  );
 }

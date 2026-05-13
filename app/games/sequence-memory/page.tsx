@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SequenceMemoryGame from './SequenceMemoryGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghi nhớ chuỗi',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function SequenceMemoryPage() {
-  return <SequenceMemoryGame />;
+  return (
+    <>
+      <GameStructuredData slug="sequence-memory" />
+      <SequenceMemoryGame />
+    </>
+  );
 }

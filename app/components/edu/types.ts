@@ -39,6 +39,8 @@ export type PageKey =
   | 'number-line-addition'
   | 'compare-numbers'
   | 'number-sequence-write'
-  | 'connect-numbers';
+  | 'connect-numbers'
+  | 'where-belongs'
+  | 'story-order';
 
 export type SetPage = (page: PageKey) => void;

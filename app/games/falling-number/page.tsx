@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import FallingNumberGame from './FallingNumberGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Bắt số đúng',
@@ -36,5 +37,10 @@ export const metadata: Metadata = {
 };
 
 export default function FallingNumberPage() {
-  return <FallingNumberGame />;
+  return (
+    <>
+      <GameStructuredData slug="falling-number" />
+      <FallingNumberGame />
+    </>
+  );
 }

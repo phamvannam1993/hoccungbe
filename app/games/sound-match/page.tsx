@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SoundMatchGame from './SoundMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép cặp âm thanh',
@@ -26,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <SoundMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="sound-match" />
+      <SoundMatchGame />
+    </>
+  );
 }

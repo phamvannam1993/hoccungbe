@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import FirstLetterGame from './FirstLetterGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Chọn chữ cái đầu',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <FirstLetterGame />;
+  return (
+    <>
+      <GameStructuredData slug="first-letter" />
+      <FirstLetterGame />
+    </>
+  );
 }

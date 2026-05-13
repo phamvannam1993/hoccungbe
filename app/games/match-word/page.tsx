@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import WordPictureMatchPage from '../../components/edu/WordPictureMatchPage';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'ghép chữ với hình | Học Cùng Bé',
@@ -41,5 +42,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WordPictureMatchPage />;
+  return (
+    <>
+      <GameStructuredData slug="match-word" />
+      <WordPictureMatchPage />
+    </>
+  );
 }

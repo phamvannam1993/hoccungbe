@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ListenAndDoGame from './ListenAndDoGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Nghe và làm theo',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function ListenAndDoPage() {
-  return <ListenAndDoGame />;
+  return (
+    <>
+      <GameStructuredData slug="listen-and-do" />
+      <ListenAndDoGame />
+    </>
+  );
 }

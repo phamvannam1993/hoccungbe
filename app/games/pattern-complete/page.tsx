@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PatternCompleteGame from './PatternCompleteGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Hoàn thành quy luật',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function PatternCompletePage() {
-  return <PatternCompleteGame />;
+  return (
+    <>
+      <GameStructuredData slug="pattern-complete" />
+      <PatternCompleteGame />
+    </>
+  );
 }

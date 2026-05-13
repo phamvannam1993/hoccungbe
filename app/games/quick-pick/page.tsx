@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import QuickPickGame from './QuickPickGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Nhìn nhanh chọn đúng',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <QuickPickGame />;
+  return (
+    <>
+      <GameStructuredData slug="quick-pick" />
+      <QuickPickGame />
+    </>
+  );
 }

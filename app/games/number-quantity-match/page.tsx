@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NumberQuantityMatchGame from './NumberQuantityMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép số với số lượng',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function NumberQuantityMatchPage() {
-  return <NumberQuantityMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="number-quantity-match" />
+      <NumberQuantityMatchGame />
+    </>
+  );
 }

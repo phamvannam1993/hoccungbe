@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import GroupMatchGame from './GroupMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Nối hình theo nhóm',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <GroupMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="group-match" />
+      <GroupMatchGame />
+    </>
+  );
 }

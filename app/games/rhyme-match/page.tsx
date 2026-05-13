@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import RhymeMatchGame from './RhymeMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép vần tương ứng',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function RhymeMatchPage() {
-  return <RhymeMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="rhyme-match" />
+      <RhymeMatchGame />
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ShadowMatchGame from './ShadowMatchGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Ghép bóng với đồ vật',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ShadowMatchGame />;
+  return (
+    <>
+      <GameStructuredData slug="shadow-match" />
+      <ShadowMatchGame />
+    </>
+  );
 }

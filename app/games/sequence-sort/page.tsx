@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SequenceSortGame from './SequenceSortGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Sắp xếp số theo thứ tự',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <SequenceSortGame />;
+  return (
+    <>
+      <GameStructuredData slug="sequence-sort" />
+      <SequenceSortGame />
+    </>
+  );
 }

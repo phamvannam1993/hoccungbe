@@ -1,98 +1,10 @@
 import Link from 'next/link';
-
-const learningCategories = [
-  {
-    icon: '🔤',
-    title: 'Làm quen mặt chữ',
-    desc: 'Bé nhận diện chữ, âm và từ đơn giản qua hình ảnh trực quan.',
-    href: '/courses/lam-quen-mat-chu',
-    bg: 'bg-sky-50',
-  },
-  {
-    icon: '🔢',
-    title: 'Toán vui mỗi ngày',
-    desc: 'Học đếm số, so sánh, cộng trừ cơ bản bằng trò chơi ngắn.',
-    href: '/courses/toan-vui-moi-ngay',
-    bg: 'bg-violet-50',
-  },
-  {
-    icon: '🧠',
-    title: 'Phản xạ và ghi nhớ',
-    desc: 'Rèn khả năng quan sát, ghi nhớ và suy luận theo độ tuổi.',
-    href: '/courses/phan-xa-va-ghi-nho',
-    bg: 'bg-pink-50',
-  },
-  {
-    icon: '🇬🇧',
-    title: 'Tiếng Anh đầu đời',
-    desc: 'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh, âm thanh, flashcard và trò chơi tương tác ngắn.',
-    href: '/courses/tieng-anh-dau-doi',
-    bg: 'bg-emerald-50',
-  },
-];
-
-const featuredGames = [
-  {
-    title: 'Ghép chữ với hình',
-    desc: 'Trò chơi giúp bé quan sát hình ảnh, liên kết từ ngữ với sự vật quen thuộc, từ đó tăng vốn từ vựng, ghi nhớ mặt chữ và phản xạ ngôn ngữ một cách tự nhiên.',
-    age: '4-6 tuổi',
-    href: '/games/match-word',
-  },
-  {
-    title: 'Toán vui cộng trừ',
-    desc: 'Bé thực hành các phép tính cộng trừ cơ bản với cách trình bày ngắn gọn, dễ hiểu, giúp tăng khả năng tư duy số học và làm quen với toán học sớm.',
-    age: '5-7 tuổi',
-    href: '/games/math-fun',
-  },
-  {
-    title: 'Từ vựng tiếng Anh',
-    desc: 'Bé học các từ vựng tiếng Anh quen thuộc như con vật, đồ vật, màu sắc và thực phẩm thông qua hình ảnh trực quan, dễ tiếp cận và dễ nhớ.',
-    age: '6-8 tuổi',
-    href: '/games/english-vocab',
-  },
-  {
-    title: 'Mê cung vui nhộn',
-    desc: 'Bé quan sát đường đi trong mê cung đơn giản và chọn hướng đúng để đưa nhân vật tới đích, qua đó phát triển định hướng không gian, kiên nhẫn và khả năng giải quyết vấn đề.',
-    age: '5-7 tuổi',
-    href: '/games/mini-maze',
-  },
-];
-
-const steps = [
-  {
-    step: '01',
-    title: 'Chọn độ tuổi phù hợp',
-    desc: 'Phụ huynh chọn nhóm tuổi hoặc năng lực hiện tại để bé bắt đầu đúng mức.',
-  },
-  {
-    step: '02',
-    title: 'Bé học qua trò chơi ngắn',
-    desc: 'Mỗi hoạt động chỉ vài phút, trực quan và dễ bắt đầu nên bé không bị áp lực.',
-  },
-  {
-    step: '03',
-    title: 'Theo dõi kết quả rõ ràng',
-    desc: 'Hệ thống ghi nhận tiến độ để phụ huynh biết bé đang tiến bộ ở đâu.',
-  },
-];
-
-const parentResources = [
-  {
-    title: '5 cách giúp bé tập trung hơn khi học tại nhà',
-    desc: 'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-    href: '/blog/giup-be-tap-trung-khi-hoc',
-  },
-  {
-    title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
-    desc: 'Thời lượng học phù hợp giúp bé hứng thú và không bị quá tải.',
-    href: '/blog/thoi-luong-hoc-phu-hop-cho-tre',
-  },
-  {
-    title: 'Gợi ý góc học tập đơn giản cho bé',
-    desc: 'Một không gian học đúng sẽ giúp bé tập trung và chủ động hơn.',
-    href: '/blog/goc-hoc-tap-cho-be',
-  },
-];
+import {
+  featuredGames,
+  howItWorksSteps,
+  learningCategories,
+  parentResources,
+} from './data/homePageData';
 
 export default function HomePage() {
   return (
@@ -326,7 +238,7 @@ export default function HomePage() {
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {steps.map((item) => (
+          {howItWorksSteps.map((item) => (
             <div
               key={item.step}
               className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm"

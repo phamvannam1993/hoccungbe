@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import OddOneOutGame from './OddOneOutGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Tìm điểm khác biệt',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function OddOneOutPage() {
-  return <OddOneOutGame />;
+  return (
+    <>
+      <GameStructuredData slug="odd-one-out" />
+      <OddOneOutGame />
+    </>
+  );
 }

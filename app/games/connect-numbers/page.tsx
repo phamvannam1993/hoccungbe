@@ -1,5 +1,6 @@
 import ConnectNumberOrderGame from './ConnectNumberOrderGame';
 import type { Metadata } from 'next';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
     title: 'Nối số theo thứ tự',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function ConnectNumberOrderPage() {
-    return <ConnectNumberOrderGame />;
+    return (
+    <>
+      <GameStructuredData slug="connect-numbers" />
+      <ConnectNumberOrderGame />
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BubbleMathGame from './BubbleMathGame';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
   title: 'Bắn bong bóng kết quả',
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <BubbleMathGame />;
+  return (
+    <>
+      <GameStructuredData slug="bubble-math" />
+      <BubbleMathGame />
+    </>
+  );
 }

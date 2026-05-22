@@ -492,6 +492,8 @@ function Matching({
 
 function preprocessTTS(text: string): string {
   return text
+    // strip emoji
+    .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
     .replace(/_{2,}/g, 'mấy')          // ___ → mấy
     .replace(/\?/g, '')                 // bỏ dấu ?
     .replace(/[+＋]/g, ' cộng ')
@@ -508,21 +510,41 @@ function preprocessTTS(text: string): string {
     .trim();
 }
 
+// Priority list: best-sounding Vietnamese voices first
+const VI_VOICE_PRIORITY = [
+  'Google tiếng Việt',
+  'Google Vietnamese',
+  'vi-VN-Neural2',
+  'vi-VN-Wavenet',
+  'Microsoft An Online',
+  'Microsoft Hoai My Online',
+];
+
+function pickVietnameseVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  const viVoices = voices.filter((v) => v.lang.startsWith('vi'));
+  if (viVoices.length === 0) return null;
+  for (const name of VI_VOICE_PRIORITY) {
+    const match = viVoices.find((v) => v.name.includes(name));
+    if (match) return match;
+  }
+  // prefer online/network voices over local (usually better quality)
+  return viVoices.find((v) => !v.localService) ?? viVoices[0];
+}
+
 function speak(text: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(preprocessTTS(text));
+  u.lang = 'vi-VN';
   u.rate = 0.85;
+  u.pitch = 1.05;
 
   const trySpeak = () => {
-    const voices = window.speechSynthesis.getVoices();
-    const vi = voices.find((v) => v.lang.startsWith('vi'));
-    if (vi) u.voice = vi;
-    u.lang = vi ? vi.lang : 'vi-VN';
+    const voice = pickVietnameseVoice(window.speechSynthesis.getVoices());
+    if (voice) u.voice = voice;
     window.speechSynthesis.speak(u);
   };
 
-  // voices may not be loaded yet on first call
   if (window.speechSynthesis.getVoices().length > 0) {
     trySpeak();
   } else {

@@ -49,7 +49,7 @@ export default function BlogFocusPage() {
             Trang chủ
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/blog" className="hover:text-sky-700">
+          <Link href="/goc-phu-huynh" className="hover:text-sky-700">
             Blog
           </Link>
           <span className="mx-2">/</span>
@@ -252,14 +252,14 @@ export default function BlogFocusPage() {
 
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="inline-flex items-center justify-center rounded-full bg-sky-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-sky-700"
               >
                 Khám phá trò chơi cho bé
               </Link>
 
               <Link
-                href="/blog"
+                href="/goc-phu-huynh"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-100 hover:text-sky-700"
               >
                 Xem thêm bài viết

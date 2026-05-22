@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/sound-match',
   },
   openGraph: {
-    title: 'Ghép cặp âm thanh | Học Cùng Bé',
+    title: 'Ghép cặp âm thanh | Bé Hay Học',
     description:
       'Bé nghe âm thanh và chọn đúng hình minh họa theo từng chủ đề như con vật, trái cây, phương tiện và thiên nhiên.',
     url: '/games/sound-match',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: '/og-sound-match.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ghép cặp âm thanh - Học Cùng Bé',
+        alt: 'Ghép cặp âm thanh - Bé Hay Học',
       },
     ],
   },

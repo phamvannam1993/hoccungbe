@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     'học ngôn ngữ cho bé',
     'toán học cho bé',
     'tiếng Anh cho trẻ em',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/courses',
   },
   openGraph: {
-    title: 'Khóa học cho bé | Học Cùng Bé',
+    title: 'Khóa học cho bé | Bé Hay Học',
     description:
       'Thư viện khóa học trực quan, ngắn gọn và phù hợp với từng giai đoạn phát triển của bé.',
     url: '/courses',
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
         url: '/og-courses.jpg',
         width: 1200,
         height: 630,
-        alt: 'Khóa học cho bé - Học Cùng Bé',
+        alt: 'Khóa học cho bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Khóa học cho bé | Học Cùng Bé',
+    title: 'Khóa học cho bé | Bé Hay Học',
     description:
       'Khám phá các nhóm bài học phù hợp với nhu cầu phát triển của bé.',
     images: ['/og-courses.jpg'],

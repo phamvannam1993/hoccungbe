@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/first-letter',
   },
   openGraph: {
-    title: 'Chọn chữ cái đầu | Học Cùng Bé',
+    title: 'Chọn chữ cái đầu | Bé Hay Học',
     description:
       'Bé nhìn hình, nghe câu hỏi và chọn đúng chữ cái đầu tiên của từ tương ứng.',
     url: '/games/first-letter',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-first-letter.jpg',
         width: 1200,
         height: 630,
-        alt: 'Chọn chữ cái đầu - Học Cùng Bé',
+        alt: 'Chọn chữ cái đầu - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chọn chữ cái đầu | Học Cùng Bé',
+    title: 'Chọn chữ cái đầu | Bé Hay Học',
     description:
       'Trò chơi giúp bé làm quen mặt chữ và nhận biết chữ cái đầu của từ.',
     images: ['/og-first-letter.jpg'],

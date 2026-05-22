@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/number-sequence-write',
   },
   openGraph: {
-    title: 'Viết dãy số | Học Cùng Bé',
+    title: 'Viết dãy số | Bé Hay Học',
     description:
       'Bé quan sát dãy số, nhập các số còn thiếu và rèn tư duy quy luật toán học một cách trực quan.',
     url: '/games/number-sequence-write',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-number-sequence-write.jpg',
         width: 1200,
         height: 630,
-        alt: 'Viết dãy số - Học Cùng Bé',
+        alt: 'Viết dãy số - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Viết dãy số | Học Cùng Bé',
+    title: 'Viết dãy số | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện dãy số, số liền trước – liền sau và đếm cách đều.',
     images: ['/og-number-sequence-write.jpg'],

@@ -106,14 +106,14 @@ export default async function CourseLessonDetailPage({ params }: PageProps) {
 
             <div className="mt-5 flex flex-col gap-3">
               <Link
-                href={`/courses/${course.slug}`}
+                href={`/khoa-hoc/${course.slug}`}
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
               >
                 Quay lại danh sách bài học
               </Link>
 
               <Link
-                href="/courses"
+                href="/khoa-hoc"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
               >
                 Về thư viện khóa học

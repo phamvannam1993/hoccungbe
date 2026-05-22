@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/missing-number',
   },
   openGraph: {
-    title: 'Tìm số còn thiếu | Học Cùng Bé',
+    title: 'Tìm số còn thiếu | Bé Hay Học',
     description:
       'Bé quan sát dãy số, tìm số còn thiếu và rèn luyện tư duy toán học cơ bản theo cách vui nhộn, trực quan.',
     url: '/games/missing-number',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: '/og-missing-number.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tìm số còn thiếu - Học Cùng Bé',
+        alt: 'Tìm số còn thiếu - Bé Hay Học',
       },
     ],
   },

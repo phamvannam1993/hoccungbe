@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/compare-numbers',
   },
   openGraph: {
-    title: 'So sánh số | Học Cùng Bé',
+    title: 'So sánh số | Bé Hay Học',
     description:
       'Bé quan sát hai số hoặc hai nhóm đồ vật, sau đó chọn dấu so sánh đúng để học toán một cách vui nhộn.',
     url: '/games/compare-numbers',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-compare-numbers.jpg',
         width: 1200,
         height: 630,
-        alt: 'So sánh số - Học Cùng Bé',
+        alt: 'So sánh số - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'So sánh số | Học Cùng Bé',
+    title: 'So sánh số | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện lớn hơn, bé hơn, bằng nhau và nhận diện dấu >, <, =.',
     images: ['/og-compare-numbers.jpg'],

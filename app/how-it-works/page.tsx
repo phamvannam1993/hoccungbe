@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   title: 'Cách bắt đầu cho bé học tại nhà',
 
   description:
-    'Hướng dẫn phụ huynh bắt đầu cho bé học tại nhà với Học Cùng Bé: chọn độ tuổi, chọn bài học hoặc trò chơi giáo dục phù hợp, theo dõi tiến độ và đồng hành cùng con mỗi ngày.',
+    'Hướng dẫn phụ huynh bắt đầu cho bé học tại nhà với Bé Hay Học: chọn độ tuổi, chọn bài học hoặc trò chơi giáo dục phù hợp, theo dõi tiến độ và đồng hành cùng con mỗi ngày.',
 
   keywords: [
-    'cách bắt đầu học cùng bé',
+    'cách bắt đầu bé hay học',
     'cho bé học tại nhà',
     'hướng dẫn bé học online',
     'cách cho bé học hiệu quả',
@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Cách bắt đầu cho bé học tại nhà | Học Cùng Bé',
+    title: 'Cách bắt đầu cho bé học tại nhà | Bé Hay Học',
     description:
       'Chỉ với vài bước đơn giản, phụ huynh có thể chọn nội dung học phù hợp và đồng hành cùng bé mỗi ngày.',
     url: '/how-it-works',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -42,14 +42,14 @@ export const metadata: Metadata = {
         url: '/og-how-it-works.jpg',
         width: 1200,
         height: 630,
-        alt: 'Cách bắt đầu học cùng bé tại nhà',
+        alt: 'Cách bắt đầu bé hay học tại nhà',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Cách bắt đầu cho bé học tại nhà | Học Cùng Bé',
+    title: 'Cách bắt đầu cho bé học tại nhà | Bé Hay Học',
     description:
       'Hướng dẫn phụ huynh chọn bài học, trò chơi giáo dục và theo dõi tiến độ học tập của bé.',
     images: ['/og-how-it-works.jpg'],
@@ -104,14 +104,14 @@ export default function HowItWorksPage() {
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
-            Học Cùng Bé giúp phụ huynh dễ dàng chọn bài học và trò chơi giáo dục
+            Bé Hay Học giúp phụ huynh dễ dàng chọn bài học và trò chơi giáo dục
             phù hợp với độ tuổi của con, từ đó xây dựng thói quen học tập ngắn,
             vui và đều đặn mỗi ngày.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-sky-700"
             >
               Khám phá trò chơi
@@ -119,7 +119,7 @@ export default function HowItWorksPage() {
             </Link>
 
             <Link
-              href="/courses"
+              href="/khoa-hoc"
               className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:text-sky-700"
             >
               Xem khóa học cho bé
@@ -209,7 +209,7 @@ export default function HowItWorksPage() {
 
           <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-sky-700 shadow-sm transition hover:bg-sky-50"
             >
               Cho bé chơi thử

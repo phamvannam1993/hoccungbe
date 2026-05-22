@@ -1462,7 +1462,7 @@ export default function MemoryHuntPage() {
               Về menu
             </button>
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
             >
               Về kho trò chơi
@@ -1617,7 +1617,7 @@ export default function MemoryHuntPage() {
               Về menu
             </button>
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
             >
               Quay lại

@@ -5,10 +5,10 @@ export const metadata: Metadata = {
   title: 'Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
 
   description:
-    'Học Cùng Bé giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
+    'Bé Hay Học giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
 
   keywords: [
-    'Học Cùng Bé',
+    'Bé Hay Học',
     'Bé Hay Học',
     'nền tảng học tập cho bé',
     'trò chơi giáo dục cho bé',
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+    title: 'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Giúp bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, vui, trực quan; phụ huynh dễ dàng theo dõi tiến độ học tập mỗi ngày.',
     url: '/',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
         url: '/og-home.jpg',
         width: 1200,
         height: 630,
-        alt: 'Học Cùng Bé - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
+        alt: 'Bé Hay Học - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+    title: 'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Trò chơi giáo dục, bài học ngắn và báo cáo tiến độ rõ ràng giúp bé học vui mỗi ngày.',
     images: ['/og-home.jpg'],

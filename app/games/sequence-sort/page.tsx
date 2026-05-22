@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/sequence-sort',
   },
   openGraph: {
-    title: 'Sắp xếp số theo thứ tự | Học Cùng Bé',
+    title: 'Sắp xếp số theo thứ tự | Bé Hay Học',
     description:
       'Bé quan sát dãy số, so sánh các số và sắp xếp lại theo thứ tự tăng dần hoặc giảm dần.',
     url: '/games/sequence-sort',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-sequence-sort.jpg',
         width: 1200,
         height: 630,
-        alt: 'Sắp xếp số theo thứ tự - Học Cùng Bé',
+        alt: 'Sắp xếp số theo thứ tự - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sắp xếp số theo thứ tự | Học Cùng Bé',
+    title: 'Sắp xếp số theo thứ tự | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện so sánh số, nhận biết số lớn hơn nhỏ hơn và sắp xếp dãy số.',
     images: ['/og-sequence-sort.jpg'],

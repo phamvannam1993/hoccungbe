@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/english-vocab',
   },
   openGraph: {
-    title: 'Từ vựng tiếng Anh cho bé | Học Cùng Bé',
+    title: 'Từ vựng tiếng Anh cho bé | Bé Hay Học',
     description:
       'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh sinh động, dễ nhớ và phù hợp với lứa tuổi mầm non, tiểu học.',
     url: '/games/english-vocab',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-english-vocabulary.jpg',
         width: 1200,
         height: 630,
-        alt: 'Từ vựng tiếng Anh cho bé - Học Cùng Bé',
+        alt: 'Từ vựng tiếng Anh cho bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Từ vựng tiếng Anh cho bé | Học Cùng Bé',
+    title: 'Từ vựng tiếng Anh cho bé | Bé Hay Học',
     description:
       'Trò chơi và bài học giúp bé làm quen với từ vựng tiếng Anh một cách trực quan và thú vị.',
     images: ['/og-english-vocabulary.jpg'],

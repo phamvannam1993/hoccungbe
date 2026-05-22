@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { BookOpen, Mail, Phone, MapPin } from 'lucide-react';
+import Image from 'next/image';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const quickLinks = [
   { label: 'Trang chủ', href: '/' },
@@ -29,53 +30,34 @@ const legalLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-100 bg-slate-50">
-      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+    <footer className="bg-[#e8735a] border-t border-white/20">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-3"
-              aria-label="Về trang chủ Học Cùng Bé"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-violet-500 text-white shadow-md">
-                <BookOpen size={22} aria-hidden="true" />
-              </div>
-
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-sky-600">
-                  Bé Hay Học
-                </p>
-                <p className="text-2xl font-black text-slate-900">
-                  Học Cùng Bé
-                </p>
-              </div>
+            <Link href="/" aria-label="Về trang chủ Bé Hay Học">
+              <Image src="/assets/images/logo.png" alt="Bé Hay Học" width={180} height={65} className="object-contain mix-blend-multiply" unoptimized />
             </Link>
 
-            <p className="mt-5 max-w-md text-sm leading-7 text-slate-600">
-              Học Cùng Bé là nền tảng học tập và trò chơi giáo dục cho bé từ
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/90">
+              Bé Hay Học là nền tảng học tập và trò chơi giáo dục cho bé từ
               3 đến 10 tuổi, giúp trẻ học chữ, toán, tiếng Anh và tư duy qua
               các bài học ngắn, trực quan, dễ tiếp thu.
             </p>
 
-            <p className="mt-3 max-w-md text-sm leading-7 text-slate-600">
+            <p className="mt-3 max-w-md text-sm leading-7 text-white/90">
               Phụ huynh có thể đồng hành cùng con tại nhà, theo dõi tiến độ học
               tập và lựa chọn nội dung phù hợp với từng độ tuổi của bé.
             </p>
           </div>
 
           <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-slate-900">
+            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
               Khám phá
             </h2>
-
             <ul className="mt-5 space-y-3">
               {quickLinks.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-slate-600 transition hover:text-sky-700"
-                  >
+                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
                     {item.label}
                   </Link>
                 </li>
@@ -84,17 +66,13 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-slate-900">
+            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
               Chủ đề học tập
             </h2>
-
             <ul className="mt-5 space-y-3">
               {seoLinks.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-slate-600 transition hover:text-sky-700"
-                  >
+                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
                     {item.label}
                   </Link>
                 </li>
@@ -103,28 +81,13 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-slate-900">
+            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
               Phụ huynh
             </h2>
-
             <ul className="mt-5 space-y-3">
-              {parentLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-slate-600 transition hover:text-sky-700"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-
-              {legalLinks.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-slate-600 transition hover:text-sky-700"
-                  >
+              {[...parentLinks, ...legalLinks].map((item) => (
+                <li key={item.href + item.label}>
+                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
                     {item.label}
                   </Link>
                 </li>
@@ -133,60 +96,33 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-slate-900">
+            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
               Liên hệ
             </h2>
-
-            <div className="mt-5 space-y-4 text-sm text-slate-600">
+            <div className="mt-5 space-y-4 text-sm text-white/90">
               <p className="flex gap-3">
-                <Mail
-                  size={18}
-                  className="mt-1 shrink-0 text-sky-600"
-                  aria-hidden="true"
-                />
+                <Mail size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>
-                  Email hỗ trợ:
-                  <br />
-                  <a
-                    href="mailto:support@behayhoc.com"
-                    className="font-semibold text-slate-800 transition hover:text-sky-700"
-                  >
+                  Email hỗ trợ:<br />
+                  <a href="mailto:support@behayhoc.com" className="font-semibold text-white transition hover:underline">
                     support@behayhoc.com
                   </a>
                 </span>
               </p>
-
               <p className="flex gap-3">
-                <Phone
-                  size={18}
-                  className="mt-1 shrink-0 text-sky-600"
-                  aria-hidden="true"
-                />
+                <Phone size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>
-                  Hotline:
-                  <br />
-                  <a
-                    href="tel:0123456789"
-                    className="font-semibold text-slate-800 transition hover:text-sky-700"
-                  >
+                  Hotline:<br />
+                  <a href="tel:0123456789" className="font-semibold text-white transition hover:underline">
                     0123 456 789
                   </a>
                 </span>
               </p>
-
               <p className="flex gap-3">
-                <MapPin
-                  size={18}
-                  className="mt-1 shrink-0 text-sky-600"
-                  aria-hidden="true"
-                />
+                <MapPin size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>
-                  Website:
-                  <br />
-                  <a
-                    href="https://behayhoc.com"
-                    className="font-semibold text-slate-800 transition hover:text-sky-700"
-                  >
+                  Website:<br />
+                  <a href="https://behayhoc.com" className="font-semibold text-white transition hover:underline">
                     behayhoc.com
                   </a>
                 </span>
@@ -195,26 +131,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-6">
-          <div className="flex flex-col gap-3 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              © 2026 Học Cùng Bé. Nền tảng học tập và trò chơi giáo dục cho bé.
-            </p>
-
+        <div className="mt-10 border-t border-white/20 pt-6">
+          <div className="flex flex-col gap-3 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
+            <p>© 2026 Bé Hay Học. Nền tảng học tập và trò chơi giáo dục cho bé.</p>
             <div className="flex flex-wrap gap-4">
               {legalLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="transition hover:text-sky-700"
-                >
+                <Link key={item.href} href={item.href} className="transition hover:text-white">
                   {item.label}
                 </Link>
               ))}
-
-              <Link href="/contact" className="transition hover:text-sky-700">
-                Liên hệ
-              </Link>
+              <Link href="/lien-he" className="transition hover:text-white">Liên hệ</Link>
             </div>
           </div>
         </div>

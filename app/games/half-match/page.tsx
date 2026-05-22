@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/half-match',
   },
   openGraph: {
-    title: 'Ghép nửa còn lại | Học Cùng Bé',
+    title: 'Ghép nửa còn lại | Bé Hay Học',
     description:
       'Bé tìm và ghép đúng nửa còn lại của hình để phát triển khả năng quan sát, tư duy và nhận biết hình ảnh.',
     url: '/games/half-match',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-half-match.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ghép nửa còn lại - Học Cùng Bé',
+        alt: 'Ghép nửa còn lại - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép nửa còn lại | Học Cùng Bé',
+    title: 'Ghép nửa còn lại | Bé Hay Học',
     description:
       'Trò chơi giúp bé ghép đúng nửa hình còn thiếu và rèn luyện khả năng quan sát trực quan.',
     images: ['/og-half-match.jpg'],

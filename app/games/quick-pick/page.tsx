@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/quick-pick',
   },
   openGraph: {
-    title: 'Nhìn nhanh chọn đúng | Học Cùng Bé',
+    title: 'Nhìn nhanh chọn đúng | Bé Hay Học',
     description:
       'Bé nhìn yêu cầu ngắn và chọn đúng hình tương ứng trong thời gian ngắn, vui nhộn và trực quan.',
     url: '/games/quick-pick',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-quick-pick.jpg',
         width: 1200,
         height: 630,
-        alt: 'Nhìn nhanh chọn đúng - Học Cùng Bé',
+        alt: 'Nhìn nhanh chọn đúng - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nhìn nhanh chọn đúng | Học Cùng Bé',
+    title: 'Nhìn nhanh chọn đúng | Bé Hay Học',
     description:
       'Trò chơi giúp bé tăng quan sát, phản xạ và khả năng nhận biết hình ảnh.',
     images: ['/og-quick-pick.jpg'],

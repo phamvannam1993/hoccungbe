@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/number-line-addition',
   },
   openGraph: {
-    title: 'Cộng trên trục số | Học Cùng Bé',
+    title: 'Cộng trên trục số | Bé Hay Học',
     description:
       'Bé quan sát phép cộng, nhảy bước trên trục số và chọn điểm đến đúng để hiểu phép cộng một cách trực quan.',
     url: '/games/number-line-addition',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-number-line-addition.jpg',
         width: 1200,
         height: 630,
-        alt: 'Cộng trên trục số - Học Cùng Bé',
+        alt: 'Cộng trên trục số - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cộng trên trục số | Học Cùng Bé',
+    title: 'Cộng trên trục số | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện phép cộng bằng cách nhảy bước trên trục số.',
     images: ['/og-number-line-addition.jpg'],

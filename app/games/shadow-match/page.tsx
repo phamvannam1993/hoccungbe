@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/shadow-match',
   },
   openGraph: {
-    title: 'Ghép bóng với đồ vật | Học Cùng Bé',
+    title: 'Ghép bóng với đồ vật | Bé Hay Học',
     description:
       'Bé nhìn hình bóng và chọn đúng đồ vật tương ứng để rèn quan sát, nhận biết hình dạng và phản xạ.',
     url: '/games/shadow-match',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-shadow-match.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ghép bóng với đồ vật - Học Cùng Bé',
+        alt: 'Ghép bóng với đồ vật - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép bóng với đồ vật | Học Cùng Bé',
+    title: 'Ghép bóng với đồ vật | Bé Hay Học',
     description:
       'Trò chơi giúp bé nhận diện hình dạng đồ vật một cách trực quan và vui nhộn.',
     images: ['/og-shadow-match.jpg'],

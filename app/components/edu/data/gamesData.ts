@@ -116,7 +116,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận diện từ', 'Ghi nhớ hình ảnh', 'Phản xạ ngôn ngữ'],
     isFeatured: true,
     hasReport: true,
-    page: 'match-word',
+    page: 'ghep-tu',
     status: 'ready',
   },
   {
@@ -138,7 +138,7 @@ export const gamesData: GameItem[] = [
     skills: ['Cộng trừ cơ bản', 'Tư duy logic', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'math-fun',
+    page: 'toan-vui',
     status: 'ready',
   },
   {
@@ -160,7 +160,7 @@ export const gamesData: GameItem[] = [
     skills: ['Ghi nhớ', 'Quan sát', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'memory-hunt',
+    page: 'san-hinh-ghi-nho',
     status: 'ready',
   },
   {
@@ -182,7 +182,7 @@ export const gamesData: GameItem[] = [
     skills: ['Từ vựng tiếng Anh', 'Ghi nhớ', 'Phát âm cơ bản'],
     isFeatured: true,
     hasReport: true,
-    page: 'english-vocab',
+    page: 'tu-vung-tieng-anh',
     status: 'ready',
   },
   {
@@ -204,7 +204,7 @@ export const gamesData: GameItem[] = [
     skills: ['Lắng nghe', 'Nhận diện âm thanh', 'Ghi nhớ'],
     isFeatured: true,
     hasReport: true,
-    page: 'sound-match',
+    page: 'ghep-am-thanh',
     status: 'ready',
   },
   {
@@ -226,7 +226,7 @@ export const gamesData: GameItem[] = [
     skills: ['Phản xạ', 'Quan sát', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'quick-pick',
+    page: 'chon-nhanh',
     status: 'ready',
   },
   {
@@ -248,7 +248,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận diện số', 'Quy luật', 'Tư duy logic'],
     isFeatured: true,
     hasReport: true,
-    page: 'missing-number',
+    page: 'tim-so-thieu',
     status: 'ready',
   },
   {
@@ -270,7 +270,7 @@ export const gamesData: GameItem[] = [
     skills: ['Quan sát hình khối', 'So sánh', 'Tư duy không gian'],
     isFeatured: true,
     hasReport: true,
-    page: 'shadow-match',
+    page: 'ghep-bong',
     status: 'ready',
   },
   {
@@ -292,7 +292,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận diện màu sắc', 'Phân loại', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
-    page: 'color-sort',
+    page: 'sap-xep-mau',
     status: 'ready',
   },
   {
@@ -314,7 +314,7 @@ export const gamesData: GameItem[] = [
     skills: ['Đếm số', 'Quan sát', 'Tập trung', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
-    page: 'count-animals',
+    page: 'dem-dong-vat',
     status: 'ready',
   },
   {
@@ -336,7 +336,7 @@ export const gamesData: GameItem[] = [
     skills: ['Mặt chữ', 'Từ vựng', 'Phản xạ ngôn ngữ', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
-    page: 'first-letter',
+    page: 'chu-cai-dau',
     status: 'ready',
   },
   {
@@ -358,7 +358,7 @@ export const gamesData: GameItem[] = [
     skills: ['Phân loại', 'Tư duy logic', 'Quan sát', 'Ghi nhớ'],
     isFeatured: true,
     hasReport: true,
-    page: 'group-match',
+    page: 'ghep-nhom',
     status: 'ready',
   },
   {
@@ -380,7 +380,7 @@ export const gamesData: GameItem[] = [
     skills: ['So sánh', 'Từ vựng', 'Tư duy ngôn ngữ', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
-    page: 'opposite-pairs',
+    page: 'cap-doi-trai-nghia',
     status: 'ready',
   },
   {
@@ -402,7 +402,7 @@ export const gamesData: GameItem[] = [
     skills: ['Sắp xếp số', 'So sánh số', 'Thứ tự tăng dần', 'Thứ tự giảm dần'],
     isFeatured: true,
     hasReport: true,
-    page: 'sequence-sort',
+    page: 'sap-xep-thu-tu',
     status: 'ready',
   },
   {
@@ -424,7 +424,7 @@ export const gamesData: GameItem[] = [
     skills: ['Phân loại', 'Quan sát', 'Tư duy logic', 'Nhận biết khác biệt'],
     isFeatured: true,
     hasReport: true,
-    page: 'odd-one-out',
+    page: 'tim-ke-le',
     status: 'ready',
   },
   {
@@ -446,7 +446,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận biết âm đầu', 'Nghe hiểu', 'Từ vựng', 'Phản xạ ngôn ngữ'],
     isFeatured: true,
     hasReport: true,
-    page: 'initial-sound',
+    page: 'am-dau',
     status: 'ready',
   },
   {
@@ -468,7 +468,7 @@ export const gamesData: GameItem[] = [
     skills: ['Đếm số', 'Nhận diện số', 'Ghép tương ứng', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
-    page: 'number-quantity-match',
+    page: 'so-va-so-luong',
     status: 'ready',
   },
   {
@@ -490,7 +490,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận diện quy luật', 'Suy luận', 'Quan sát', 'Tư duy logic'],
     isFeatured: true,
     hasReport: true,
-    page: 'pattern-complete',
+    page: 'hoan-thanh-quy-luat',
     status: 'ready',
   },
   {
@@ -512,7 +512,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nghe hiểu', 'Làm theo hướng dẫn', 'Tập trung', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
-    page: 'listen-and-do',
+    page: 'nghe-va-lam',
     status: 'ready',
   },
   {
@@ -534,7 +534,7 @@ export const gamesData: GameItem[] = [
     skills: ['Định hướng không gian', 'Giải quyết vấn đề', 'Quan sát', 'Kiên nhẫn'],
     isFeatured: true,
     hasReport: true,
-    page: 'mini-maze',
+    page: 'me-cung-nho',
     status: 'ready',
   },
   {
@@ -556,7 +556,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận diện hình', 'Quan sát', 'Ghép nối', 'Tư duy trực quan'],
     isFeatured: true,
     hasReport: true,
-    page: 'half-match',
+    page: 'ghep-doi',
     status: 'ready',
   },
   {
@@ -578,7 +578,7 @@ export const gamesData: GameItem[] = [
     skills: ['Ghi nhớ chuỗi', 'Tập trung', 'Quan sát', 'Phản xạ'],
     isFeatured: true,
     hasReport: true,
-    page: 'sequence-memory',
+    page: 'nho-thu-tu',
     status: 'ready',
   },
   {
@@ -600,7 +600,7 @@ export const gamesData: GameItem[] = [
     skills: ['Nhận biết vần', 'Nghe âm', 'Ngôn ngữ', 'Đọc sớm'],
     isFeatured: true,
     hasReport: true,
-    page: 'rhyme-match',
+    page: 'ghep-van',
     status: 'ready',
   },
   {
@@ -622,7 +622,7 @@ export const gamesData: GameItem[] = [
     skills: ['Thứ tự số', 'Đếm số', 'Quan sát', 'Phối hợp tay mắt'],
     isFeatured: true,
     hasReport: true,
-    page: 'connect-numbers',
+    page: 'noi-so',
     status: 'ready',
   },
   {
@@ -644,7 +644,7 @@ export const gamesData: GameItem[] = [
     skills: ['Đếm số', 'Nhận diện số lượng', 'Quan sát', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'apple-pick',
+    page: 'hai-tao',
     status: 'ready',
   },
   {
@@ -666,7 +666,7 @@ export const gamesData: GameItem[] = [
     skills: ['Đếm số', 'Nhận diện số lượng', 'Làm theo hướng dẫn', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'animal-feed',
+    page: 'cho-vat-an',
     status: 'ready',
   },
   {
@@ -688,7 +688,7 @@ export const gamesData: GameItem[] = [
     skills: ['Cộng trừ cơ bản', 'Tính nhẩm', 'Phản xạ nhanh', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'bubble-math',
+    page: 'toan-bong-bong',
     status: 'ready',
   },
   {
@@ -710,7 +710,7 @@ export const gamesData: GameItem[] = [
     skills: ['Phép cộng', 'Trục số', 'Thứ tự số', 'Tư duy trực quan'],
     isFeatured: true,
     hasReport: true,
-    page: 'number-line-addition',
+    page: 'cong-tren-so-do',
     status: 'ready',
   },
   {
@@ -732,7 +732,7 @@ export const gamesData: GameItem[] = [
     skills: ['So sánh số', 'Lớn hơn bé hơn', 'Nhận diện dấu', 'Tư duy toán học'],
     isFeatured: true,
     hasReport: true,
-    page: 'compare-numbers',
+    page: 'so-sanh-so',
     status: 'ready',
   },
   {
@@ -754,7 +754,7 @@ export const gamesData: GameItem[] = [
     skills: ['Dãy số', 'Thứ tự số', 'Số liền trước liền sau', 'Quy luật'],
     isFeatured: true,
     hasReport: true,
-    page: 'number-sequence-write',
+    page: 'viet-day-so',
     status: 'ready',
   },
   {
@@ -776,7 +776,7 @@ export const gamesData: GameItem[] = [
     skills: ['Tính nhẩm', 'Số liền sau', 'Quy luật tăng dần', 'Phản xạ nhanh', 'Tập trung'],
     isFeatured: true,
     hasReport: true,
-    page: 'falling-number',
+    page: 'so-roi',
     status: 'ready',
   },
   {
@@ -798,7 +798,7 @@ export const gamesData: GameItem[] = [
     skills: ['Phân loại', 'Liên hệ thực tế', 'Mở rộng vốn từ', 'Quan sát'],
     isFeatured: true,
     hasReport: true,
-    page: 'where-belongs',
+    page: 'tim-cho-cho-vat',
     status: 'ready',
   },
   {
@@ -820,7 +820,7 @@ export const gamesData: GameItem[] = [
     skills: ['Tư duy thời gian', 'Nguyên nhân - kết quả', 'Quan sát', 'Kể chuyện'],
     isFeatured: true,
     hasReport: true,
-    page: 'story-order',
+    page: 'sap-xep-truyen',
     status: 'ready',
   },
 ];

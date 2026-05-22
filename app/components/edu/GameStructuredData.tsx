@@ -49,7 +49,7 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Học Cùng Bé',
+      name: 'Bé Hay Học',
       url: SITE_URL,
     },
   };

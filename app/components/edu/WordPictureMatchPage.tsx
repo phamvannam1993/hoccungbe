@@ -225,7 +225,7 @@ export default function WordPictureMatchPage() {
           </p>
 
           <Link
-            href="/games"
+            href="/tro-choi"
             className="mt-5 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
           >
             Quay lại kho trò chơi
@@ -310,7 +310,7 @@ export default function WordPictureMatchPage() {
               </button>
 
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-800 sm:px-5 sm:py-3 sm:text-sm"
               >
                 Quay lại

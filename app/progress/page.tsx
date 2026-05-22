@@ -10,13 +10,13 @@ export const metadata: Metadata = {
     'báo cáo học tập cho trẻ em',
     'theo dõi quá trình học của bé',
     'kỹ năng của bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/progress',
   },
   openGraph: {
-    title: 'Tiến độ học tập của bé | Học Cùng Bé',
+    title: 'Tiến độ học tập của bé | Bé Hay Học',
     description:
       'Xem báo cáo trực quan về quá trình học tập, kỹ năng phát triển và nội dung gợi ý cho bé.',
     url: '/progress',
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
         url: '/og-progress.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tiến độ học tập của bé - Học Cùng Bé',
+        alt: 'Tiến độ học tập của bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tiến độ học tập của bé | Học Cùng Bé',
+    title: 'Tiến độ học tập của bé | Bé Hay Học',
     description:
       'Theo dõi bài học đã hoàn thành, thời gian học và kỹ năng nổi bật của bé.',
     images: ['/og-progress.jpg'],

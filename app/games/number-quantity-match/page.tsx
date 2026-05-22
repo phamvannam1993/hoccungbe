@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/number-quantity-match',
   },
   openGraph: {
-    title: 'Ghép số với số lượng | Học Cùng Bé',
+    title: 'Ghép số với số lượng | Bé Hay Học',
     description:
       'Bé quan sát số và số lượng đồ vật để ghép đúng, từ đó phát triển khả năng đếm, nhận biết số và học toán sớm.',
     url: '/games/number-quantity-match',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-number-quantity-match.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ghép số với số lượng - Học Cùng Bé',
+        alt: 'Ghép số với số lượng - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép số với số lượng | Học Cùng Bé',
+    title: 'Ghép số với số lượng | Bé Hay Học',
     description:
       'Trò chơi giúp bé học đếm, nhận biết chữ số và ghép đúng số với số lượng tương ứng.',
     images: ['/og-number-quantity-match.jpg'],

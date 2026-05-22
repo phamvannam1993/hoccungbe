@@ -459,7 +459,7 @@ export default function FirstLetterGame() {
               </button>
 
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
               >
                 Về kho trò chơi

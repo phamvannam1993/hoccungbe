@@ -14,12 +14,12 @@ export const metadata: Metadata = {
   title: 'Câu hỏi thường gặp',
 
   description:
-    'Giải đáp các câu hỏi thường gặp về Học Cùng Bé: độ tuổi phù hợp, cách học, trò chơi giáo dục, theo dõi tiến độ, tài khoản, bảng giá và hỗ trợ phụ huynh.',
+    'Giải đáp các câu hỏi thường gặp về Bé Hay Học: độ tuổi phù hợp, cách học, trò chơi giáo dục, theo dõi tiến độ, tài khoản, bảng giá và hỗ trợ phụ huynh.',
 
   keywords: [
-    'câu hỏi thường gặp Học Cùng Bé',
-    'FAQ Học Cùng Bé',
-    'hướng dẫn học cùng bé',
+    'câu hỏi thường gặp Bé Hay Học',
+    'FAQ Bé Hay Học',
+    'hướng dẫn bé hay học',
     'trò chơi giáo dục cho bé',
     'nền tảng học tập cho bé',
     'học online cho trẻ em',
@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Câu hỏi thường gặp | Học Cùng Bé',
+    title: 'Câu hỏi thường gặp | Bé Hay Học',
     description:
       'Giải đáp các thắc mắc phổ biến của phụ huynh khi cho bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục.',
     url: '/faq',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -43,16 +43,16 @@ export const metadata: Metadata = {
         url: '/og-faq.jpg',
         width: 1200,
         height: 630,
-        alt: 'Câu hỏi thường gặp về Học Cùng Bé',
+        alt: 'Câu hỏi thường gặp về Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Câu hỏi thường gặp | Học Cùng Bé',
+    title: 'Câu hỏi thường gặp | Bé Hay Học',
     description:
-      'Thông tin hỗ trợ phụ huynh khi cho bé học tập tại nhà cùng Học Cùng Bé.',
+      'Thông tin hỗ trợ phụ huynh khi cho bé học tập tại nhà cùng Bé Hay Học.',
     images: ['/og-faq.jpg'],
   },
 };
@@ -60,13 +60,13 @@ export const metadata: Metadata = {
 const faqs = [
   {
     icon: HelpCircle,
-    question: 'Học Cùng Bé phù hợp với trẻ ở độ tuổi nào?',
+    question: 'Bé Hay Học phù hợp với trẻ ở độ tuổi nào?',
     answer:
-      'Học Cùng Bé được thiết kế cho trẻ từ 3 đến 10 tuổi, đặc biệt phù hợp với các bé đang làm quen với chữ cái, con số, tiếng Anh đầu đời, tư duy logic, phản xạ và khả năng ghi nhớ. Phụ huynh có thể chọn nội dung theo độ tuổi và khả năng hiện tại của bé để việc học nhẹ nhàng hơn.',
+      'Bé Hay Học được thiết kế cho trẻ từ 3 đến 10 tuổi, đặc biệt phù hợp với các bé đang làm quen với chữ cái, con số, tiếng Anh đầu đời, tư duy logic, phản xạ và khả năng ghi nhớ. Phụ huynh có thể chọn nội dung theo độ tuổi và khả năng hiện tại của bé để việc học nhẹ nhàng hơn.',
   },
   {
     icon: BookOpen,
-    question: 'Bé sẽ học những nội dung gì trên Học Cùng Bé?',
+    question: 'Bé sẽ học những nội dung gì trên Bé Hay Học?',
     answer:
       'Bé có thể học các nhóm nội dung nền tảng như làm quen mặt chữ, học toán vui, tiếng Anh đầu đời, ghi nhớ, phản xạ, quan sát và tư duy logic. Các bài học được thiết kế ngắn gọn, trực quan, dễ hiểu để trẻ tiếp cận từng bước mà không cảm thấy bị ép học.',
   },
@@ -80,7 +80,7 @@ const faqs = [
     icon: BarChart3,
     question: 'Phụ huynh có theo dõi được tiến độ học của bé không?',
     answer:
-      'Có. Học Cùng Bé hướng tới việc giúp phụ huynh quan sát quá trình học tập của con, biết bạn nhỏ đã học nội dung nào, đang mạnh ở kỹ năng nào và phần nào cần rèn thêm. Nhờ đó, phụ huynh có thể đồng hành cùng con rõ ràng hơn thay vì chỉ cho bé học một cách ngẫu nhiên.',
+      'Có. Bé Hay Học hướng tới việc giúp phụ huynh quan sát quá trình học tập của con, biết bạn nhỏ đã học nội dung nào, đang mạnh ở kỹ năng nào và phần nào cần rèn thêm. Nhờ đó, phụ huynh có thể đồng hành cùng con rõ ràng hơn thay vì chỉ cho bé học một cách ngẫu nhiên.',
   },
   {
     icon: HelpCircle,
@@ -92,17 +92,17 @@ const faqs = [
     icon: BookOpen,
     question: 'Bé chưa biết chữ có sử dụng được không?',
     answer:
-      'Có. Nhiều hoạt động trên Học Cùng Bé được xây dựng bằng hình ảnh, âm thanh, màu sắc và thao tác đơn giản, giúp bé chưa biết chữ vẫn có thể làm quen dần với mặt chữ, âm thanh, số lượng và tư duy quan sát. Phụ huynh có thể ngồi cùng bé trong giai đoạn đầu để hướng dẫn nhẹ nhàng.',
+      'Có. Nhiều hoạt động trên Bé Hay Học được xây dựng bằng hình ảnh, âm thanh, màu sắc và thao tác đơn giản, giúp bé chưa biết chữ vẫn có thể làm quen dần với mặt chữ, âm thanh, số lượng và tư duy quan sát. Phụ huynh có thể ngồi cùng bé trong giai đoạn đầu để hướng dẫn nhẹ nhàng.',
   },
   {
     icon: Gamepad2,
-    question: 'Học Cùng Bé có thay thế hoàn toàn việc học ở trường không?',
+    question: 'Bé Hay Học có thay thế hoàn toàn việc học ở trường không?',
     answer:
-      'Không. Học Cùng Bé phù hợp để hỗ trợ việc học tại nhà, giúp bé ôn luyện, làm quen kiến thức nền tảng và rèn thói quen học tập tích cực. Nền tảng này nên được xem như một công cụ đồng hành cùng phụ huynh, không thay thế hoàn toàn vai trò của trường học, giáo viên hoặc các hoạt động trải nghiệm ngoài đời thực.',
+      'Không. Bé Hay Học phù hợp để hỗ trợ việc học tại nhà, giúp bé ôn luyện, làm quen kiến thức nền tảng và rèn thói quen học tập tích cực. Nền tảng này nên được xem như một công cụ đồng hành cùng phụ huynh, không thay thế hoàn toàn vai trò của trường học, giáo viên hoặc các hoạt động trải nghiệm ngoài đời thực.',
   },
   {
     icon: CreditCard,
-    question: 'Học Cùng Bé có miễn phí không?',
+    question: 'Bé Hay Học có miễn phí không?',
     answer:
       'Một số nội dung có thể được mở để phụ huynh và bé trải nghiệm trước. Các gói học đầy đủ, quyền lợi cụ thể và chi phí sẽ được cập nhật tại trang bảng giá. Phụ huynh nên xem kỹ thông tin gói học để chọn lựa phù hợp với nhu cầu của bé.',
   },
@@ -110,7 +110,7 @@ const faqs = [
     icon: ShieldCheck,
     question: 'Thông tin của bé và phụ huynh có được bảo mật không?',
     answer:
-      'Học Cùng Bé tôn trọng quyền riêng tư của người dùng và hướng tới việc thu thập thông tin ở mức cần thiết để vận hành tài khoản, hỗ trợ học tập và cải thiện trải nghiệm. Phụ huynh có thể xem thêm tại trang Chính sách bảo mật để hiểu rõ hơn cách thông tin được xử lý.',
+      'Bé Hay Học tôn trọng quyền riêng tư của người dùng và hướng tới việc thu thập thông tin ở mức cần thiết để vận hành tài khoản, hỗ trợ học tập và cải thiện trải nghiệm. Phụ huynh có thể xem thêm tại trang Chính sách bảo mật để hiểu rõ hơn cách thông tin được xử lý.',
   },
   {
     icon: HelpCircle,
@@ -150,18 +150,18 @@ export default function FAQPage() {
           </p>
 
           <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-            Phụ huynh thường hỏi gì về Học Cùng Bé?
+            Phụ huynh thường hỏi gì về Bé Hay Học?
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-slate-600">
             Dưới đây là những câu hỏi phổ biến khi phụ huynh bắt đầu cho bé học
-            tại nhà với Học Cùng Bé, từ độ tuổi phù hợp, cách học, trò chơi giáo
+            tại nhà với Bé Hay Học, từ độ tuổi phù hợp, cách học, trò chơi giáo
             dục đến tiến độ, bảng giá và hỗ trợ tài khoản.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-sky-700"
             >
               Khám phá trò chơi
@@ -169,7 +169,7 @@ export default function FAQPage() {
             </Link>
 
             <Link
-              href="/contact"
+              href="/lien-he"
               className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:text-sky-700"
             >
               Gửi câu hỏi hỗ trợ
@@ -214,20 +214,20 @@ export default function FAQPage() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-sky-50">
-            Phụ huynh có thể gửi câu hỏi trực tiếp để Học Cùng Bé hỗ trợ rõ hơn
+            Phụ huynh có thể gửi câu hỏi trực tiếp để Bé Hay Học hỗ trợ rõ hơn
             về tài khoản, khóa học, trò chơi giáo dục hoặc cách bắt đầu cho bé.
           </p>
 
           <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/contact"
+              href="/lien-he"
               className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-sky-700 shadow-sm transition hover:bg-sky-50"
             >
               Liên hệ hỗ trợ
             </Link>
 
             <Link
-              href="/how-it-works"
+              href="/huong-dan"
               className="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
             >
               Xem cách bắt đầu

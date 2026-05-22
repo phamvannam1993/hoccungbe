@@ -26,7 +26,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+    <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <div className="text-center">
         <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">Bảng giá</p>
         <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-5xl">Gói học tập đơn giản, dễ hiểu và dễ bắt đầu</h1>
@@ -64,7 +64,7 @@ export default function PricingPage() {
               ))}
             </div>
             <Link
-              href="/login"
+              href="/dang-nhap"
               className="mt-6 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
             >
             {plan.name === 'Trường học' ? 'Liên hệ tư vấn' : 'Chọn gói này'}

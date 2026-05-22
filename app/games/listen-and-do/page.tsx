@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/listen-and-do',
   },
   openGraph: {
-    title: 'Nghe và làm theo | Học Cùng Bé',
+    title: 'Nghe và làm theo | Bé Hay Học',
     description:
       'Bé lắng nghe yêu cầu và thực hiện đúng hành động để phát triển khả năng tập trung, ghi nhớ và làm theo hướng dẫn.',
     url: '/games/listen-and-do',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-listen-and-do.jpg',
         width: 1200,
         height: 630,
-        alt: 'Nghe và làm theo - Học Cùng Bé',
+        alt: 'Nghe và làm theo - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nghe và làm theo | Học Cùng Bé',
+    title: 'Nghe và làm theo | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện kỹ năng lắng nghe, ghi nhớ và phản xạ theo hướng dẫn.',
     images: ['/og-listen-and-do.jpg'],

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/bubble-math',
   },
   openGraph: {
-    title: 'Bắn bong bóng kết quả | Học Cùng Bé',
+    title: 'Bắn bong bóng kết quả | Bé Hay Học',
     description:
       'Bé quan sát phép tính, bấm vào bong bóng có kết quả đúng và rèn kỹ năng tính nhẩm một cách vui nhộn.',
     url: '/games/bubble-math',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-bubble-math.jpg',
         width: 1200,
         height: 630,
-        alt: 'Bắn bong bóng kết quả - Học Cùng Bé',
+        alt: 'Bắn bong bóng kết quả - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bắn bong bóng kết quả | Học Cùng Bé',
+    title: 'Bắn bong bóng kết quả | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện cộng trừ, tính nhẩm và phản xạ chọn kết quả đúng.',
     images: ['/og-bubble-math.jpg'],

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Chính sách bảo mật | Học Cùng Bé',
+  title: 'Chính sách bảo mật | Bé Hay Học',
   description:
-    'Chính sách bảo mật của Học Cùng Bé, mô tả cách thu thập, sử dụng và bảo vệ thông tin người dùng trên nền tảng học tập cho trẻ em.',
+    'Chính sách bảo mật của Bé Hay Học, mô tả cách thu thập, sử dụng và bảo vệ thông tin người dùng trên nền tảng học tập cho trẻ em.',
   alternates: {
     canonical: '/privacy-policy',
   },
@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
             Chính sách bảo mật
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">
-            Học Cùng Bé cam kết tôn trọng và bảo vệ thông tin cá nhân của người dùng.
+            Bé Hay Học cam kết tôn trọng và bảo vệ thông tin cá nhân của người dùng.
             Chính sách này giải thích cách chúng tôi thu thập, sử dụng, lưu trữ và
             bảo mật thông tin khi bạn truy cập hoặc sử dụng nền tảng.
           </p>
@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2>3. Cách chúng tôi bảo vệ thông tin</h2>
             <p>
-              Học Cùng Bé áp dụng các biện pháp kỹ thuật và tổ chức phù hợp để bảo
+              Bé Hay Học áp dụng các biện pháp kỹ thuật và tổ chức phù hợp để bảo
               vệ thông tin người dùng khỏi truy cập trái phép, mất mát, sử dụng sai
               mục đích hoặc tiết lộ không được phép.
             </p>
@@ -91,7 +91,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2>5. Dữ liệu liên quan đến trẻ em</h2>
             <p>
-              Vì Học Cùng Bé là nền tảng học tập dành cho trẻ em, chúng tôi đặc biệt
+              Vì Bé Hay Học là nền tảng học tập dành cho trẻ em, chúng tôi đặc biệt
               coi trọng việc bảo vệ dữ liệu liên quan đến trẻ. Phụ huynh hoặc người
               giám hộ cần giám sát quá trình đăng ký, sử dụng và quản lý tài khoản
               liên quan đến trẻ em.
@@ -138,7 +138,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2>9. Thay đổi chính sách bảo mật</h2>
             <p>
-              Học Cùng Bé có thể cập nhật chính sách bảo mật theo từng thời điểm.
+              Bé Hay Học có thể cập nhật chính sách bảo mật theo từng thời điểm.
               Phiên bản mới sẽ được đăng tải trên website và có hiệu lực kể từ thời
               điểm công bố.
             </p>
@@ -152,10 +152,10 @@ export default function PrivacyPolicyPage() {
             </p>
             <p>
               <a
-                href="mailto:support@hoccungbe.com"
+                href="mailto:support@behayhoc.com"
                 className="font-semibold text-sky-700 no-underline hover:text-sky-800"
               >
-                support@hoccungbe.com
+                support@behayhoc.com
               </a>
             </p>
           </section>

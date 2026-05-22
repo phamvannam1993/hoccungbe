@@ -4,20 +4,20 @@ import PricingPage from '../components/edu/PricingPage';
 export const metadata: Metadata = {
   title: 'Bảng giá',
   description:
-    'Xem bảng giá các gói học tại Học Cùng Bé để lựa chọn giải pháp phù hợp với độ tuổi, nhu cầu học tập và hành trình phát triển của bé.',
+    'Xem bảng giá các gói học tại Bé Hay Học để lựa chọn giải pháp phù hợp với độ tuổi, nhu cầu học tập và hành trình phát triển của bé.',
   keywords: [
-    'bảng giá học cùng bé',
+    'bảng giá bé hay học',
     'gói học cho bé',
     'chi phí học cho trẻ em',
     'giá khóa học cho bé',
     'nền tảng học tập cho bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/pricing',
   },
   openGraph: {
-    title: 'Bảng giá | Học Cùng Bé',
+    title: 'Bảng giá | Bé Hay Học',
     description:
       'Khám phá các gói học phù hợp để bé học vui mỗi ngày và phụ huynh dễ dàng theo dõi tiến độ.',
     url: '/pricing',
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
         url: '/og-pricing.jpg',
         width: 1200,
         height: 630,
-        alt: 'Bảng giá - Học Cùng Bé',
+        alt: 'Bảng giá - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bảng giá | Học Cùng Bé',
+    title: 'Bảng giá | Bé Hay Học',
     description:
       'Xem các gói học phù hợp cho bé theo từng nhu cầu và giai đoạn phát triển.',
     images: ['/og-pricing.jpg'],

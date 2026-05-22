@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/memory-hunt',
   },
   openGraph: {
-    title: 'Trò chơi ghi nhớ cho bé | Học Cùng Bé',
+    title: 'Trò chơi ghi nhớ cho bé | Bé Hay Học',
     description:
       'Bé tham gia trò chơi ghi nhớ hình ảnh để phát triển trí nhớ, sự tập trung và khả năng quan sát một cách tự nhiên.',
     url: '/games/memory-hunt',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-memory-hunt.jpg',
         width: 1200,
         height: 630,
-        alt: 'Trò chơi ghi nhớ cho bé - Học Cùng Bé',
+        alt: 'Trò chơi ghi nhớ cho bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Trò chơi ghi nhớ cho bé | Học Cùng Bé',
+    title: 'Trò chơi ghi nhớ cho bé | Bé Hay Học',
     description:
       'Trò chơi giúp bé rèn trí nhớ, tăng tập trung và phát triển khả năng quan sát qua hình ảnh.',
     images: ['/og-memory-hunt.jpg'],

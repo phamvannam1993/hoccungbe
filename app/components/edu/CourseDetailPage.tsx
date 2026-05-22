@@ -1,225 +1,271 @@
+'use client';
+
 import Link from 'next/link';
-import { getCourseBySlug } from './data/courseLessonsData';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { apiFetch, ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
 
-function getLessonTypeLabel(type: 'video' | 'game' | 'practice') {
-  switch (type) {
-    case 'video':
-      return 'Bài học';
-    case 'game':
-      return 'Trò chơi';
-    case 'practice':
-      return 'Luyện tập';
-    default:
-      return 'Nội dung';
-  }
-}
-
-function getLessonTypeColor(type: 'video' | 'game' | 'practice') {
-  switch (type) {
-    case 'video':
-      return 'bg-sky-50 text-sky-700 ring-sky-100';
-    case 'game':
-      return 'bg-violet-50 text-violet-700 ring-violet-100';
-    case 'practice':
-      return 'bg-emerald-50 text-emerald-700 ring-emerald-100';
-    default:
-      return 'bg-slate-50 text-slate-700 ring-slate-100';
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const u = new URL(url);
+    let videoId: string | null = null;
+    if (u.hostname.includes('youtu.be')) {
+      videoId = u.pathname.slice(1);
+    } else if (u.hostname.includes('youtube.com')) {
+      videoId = u.searchParams.get('v');
+      if (!videoId && u.pathname.startsWith('/embed/')) {
+        videoId = u.pathname.split('/embed/')[1];
+      }
+    }
+    return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : null;
+  } catch {
+    return null;
   }
 }
 
 export default function CourseDetailPage({ slug }: { slug: string }) {
-  const course = getCourseBySlug(slug);
-  if (!course) {
-    return (
-      <section className="mx-auto max-w-4xl px-6 py-12 lg:px-8">
-        <div className="rounded-[32px] bg-white p-8 text-center shadow-sm ring-1 ring-slate-100">
-          <div className="text-5xl">📚</div>
-          <h1 className="mt-4 text-3xl font-black text-slate-900">
-            Không tìm thấy khóa học
-          </h1>
-          <p className="mt-3 text-base leading-8 text-slate-600">
-            Khóa học này chưa tồn tại hoặc đã được thay đổi đường dẫn.
-          </p>
+  const [course, setCourse] = useState<ApiCourse | null>(null);
+  const [lessons, setLessons] = useState<ApiLesson[]>([]);
+  const [volumes, setVolumes] = useState<ApiVolume[]>([]);
+  const [topics, setTopics] = useState<ApiTopic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
-          <div className="mt-6">
-            <Link
-              href="/courses"
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
-            >
-              Quay lại thư viện khóa học
-            </Link>
-          </div>
-        </div>
-      </section>
+  useEffect(() => {
+    apiFetch<ApiCourse>(`/courses/slug/${slug}`)
+      .then(async (data) => {
+        setCourse(data);
+        const [lessonList, volList, topicList] = await Promise.all([
+          apiFetch<ApiLesson[]>(`/lessons?courseId=${data.id}`),
+          apiFetch<ApiVolume[]>(`/volumes?courseId=${data.id}`),
+          apiFetch<ApiTopic[]>(`/topics?courseId=${data.id}`),
+        ]);
+        setLessons(Array.isArray(lessonList) ? lessonList : []);
+        setVolumes(Array.isArray(volList) ? volList : []);
+        setTopics(Array.isArray(topicList) ? topicList : []);
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-sky-500 border-t-transparent" />
+      </div>
     );
   }
 
+  if (notFound || !course) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+        <div className="text-5xl">📚</div>
+        <h1 className="mt-4 text-2xl font-bold text-slate-900">Không tìm thấy khóa học</h1>
+        <Link href="/khoa-hoc" className="mt-6 inline-block text-sky-600 hover:underline">← Quay lại thư viện</Link>
+      </div>
+    );
+  }
+
+  const embedUrl = course.videoUrl ? getYouTubeEmbedUrl(course.videoUrl) : null;
+
+  // Sort volumes by sortOrder
+  const sortedVolumes = [...volumes].sort((a, b) => a.sortOrder - b.sortOrder);
+  const hasVolumes = sortedVolumes.length > 0;
+
+  // Lessons with no volumeId
+  const lessonsNoVolume = lessons.filter((l) => !l.volumeId);
+
   return (
-    <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-      <div className="rounded-[36px] bg-gradient-to-r from-slate-900 to-slate-800 p-6 text-white shadow-xl lg:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-6">
-          <div className="max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-300">
-              Chi tiết khóa học
+    <div className="min-h-screen">
+      {/* Breadcrumb */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2">
+        <nav className="flex flex-wrap items-center gap-1.5 text-sm text-white/80">
+          <Link href="/" className="hover:text-white transition-colors">Trang chủ</Link>
+          <span className="text-white/50">›</span>
+          <Link href="/khoa-hoc" className="hover:text-white transition-colors">Khóa học</Link>
+          <span className="text-white/50">›</span>
+          <span className="text-white font-medium">{course.title}</span>
+        </nav>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+        {/* White content card */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+          {/* Title */}
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">{course.title}</h1>
+
+          {/* Description */}
+          {(course.description || course.shortDescription) && (
+            <p className="text-gray-600 text-sm leading-relaxed mb-5">
+              {course.description || course.shortDescription}
             </p>
+          )}
 
-            <div className="mt-4 flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-[22px] bg-white/10 text-3xl">
-                {course.emoji}
-              </div>
-
-              <div>
-                <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
-                  {course.title}
-                </h1>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-sky-100">
-                    {course.tag}
-                  </span>
-                  <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-sky-100">
-                    {course.age}
-                  </span>
-                  <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-sky-100">
-                    {course.lessons.length} bài học
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300">
-              {course.description}
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <Link
-              href="/courses"
-              className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-bold text-white transition duration-300 hover:bg-white/20"
+          {/* Video banner */}
+          {(course.thumbnailUrl || course.videoUrl) && (
+            <div
+              className={`relative rounded-xl overflow-hidden mb-5 bg-gradient-to-r from-blue-600 to-blue-800 ${embedUrl ? 'cursor-pointer' : ''}`}
+              onClick={() => embedUrl && setShowVideo(true)}
             >
-              Quay lại khóa học
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.88fr]">
-        <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-7">
-          <h2 className="text-2xl font-black tracking-tight text-slate-900">
-            Danh sách bài học
-          </h2>
-
-          <p className="mt-2 text-sm leading-7 text-slate-500">
-            Phụ huynh có thể cho bé học theo thứ tự từ cơ bản đến nâng cao để giữ nhịp học ổn định.
-          </p>
-
-          <div className="mt-6 space-y-4">
-            {course.lessons.map((lesson, index) => (
-              <article
-                key={lesson.id}
-                className="rounded-[24px] bg-slate-50 p-5 ring-1 ring-slate-100"
-              >
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div className="flex gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-sm font-black text-white">
-                      {index + 1}
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-black tracking-tight text-slate-900">
-                        {lesson.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">
-                        {lesson.description}
-                      </p>
-                    </div>
+              <div className="flex items-center h-36 sm:h-44">
+                {course.thumbnailUrl ? (
+                  <div className="relative h-full w-48 sm:w-64 shrink-0">
+                    <Image src={course.thumbnailUrl} alt={course.title} fill className="object-cover" />
                   </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    <span
-                      className={`rounded-full px-3 py-1.5 text-xs font-bold ring-1 ${getLessonTypeColor(
-                        lesson.type
-                      )}`}
-                    >
-                      {getLessonTypeLabel(lesson.type)}
-                    </span>
-
-                    <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-700 ring-1 ring-slate-200">
-                      {lesson.duration}
-                    </span>
-
-                    <span
-                      className={`rounded-full px-3 py-1.5 text-xs font-bold ring-1 ${
-                        lesson.isFree
-                          ? 'bg-emerald-50 text-emerald-700 ring-emerald-100'
-                          : 'bg-amber-50 text-amber-700 ring-amber-100'
-                      }`}
-                    >
-                      {lesson.isFree ? 'Miễn phí' : 'Khóa nâng cao'}
-                    </span>
+                ) : null}
+                <div className="flex-1 px-6">
+                  <div className="flex items-center gap-2 text-white">
+                    {embedUrl && (
+                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <svg className="w-5 h-5 fill-white ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                      </div>
+                    )}
+                    <span className="text-sm sm:text-base font-semibold">Xem video bài giảng {course.title}</span>
                   </div>
                 </div>
-
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    href={`/courses/${course.slug}/lessons/${lesson.id}`}
-                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
-                  >
-                    Bắt đầu bài học
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="rounded-[30px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-7">
-            <h3 className="text-2xl font-black tracking-tight text-slate-900">
-              Lộ trình gợi ý
-            </h3>
-
-            <div className="mt-5 space-y-4">
-              {[
-                'Cho bé học 1 bài mới mỗi ngày, thời lượng ngắn và đều đặn.',
-                'Sau mỗi 2 đến 3 bài mới, nên cho bé ôn tập lại bằng game hoặc bài luyện tập.',
-                'Ưu tiên giữ nhịp học vui vẻ, không ép học quá lâu trong một lần.',
-              ].map((item, index) => (
-                <div
-                  key={item}
-                  className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-4 ring-1 ring-slate-100"
-                >
-                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-500 text-sm font-bold text-white">
-                    {index + 1}
-                  </div>
-                  <p className="text-sm leading-7 text-slate-600">{item}</p>
-                </div>
-              ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="rounded-[30px] bg-sky-50 p-6 shadow-sm ring-1 ring-sky-100 lg:p-7">
-            <h3 className="text-2xl font-black tracking-tight text-slate-900">
-              Hành động nhanh
-            </h3>
-
-            <div className="mt-5 flex flex-col gap-3">
-              <Link
-                href="/games"
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl"
-              >
-                Mở kho trò chơi
-              </Link>
-
-              <Link
-                href="/progress"
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
-              >
-                Xem tiến độ học
-              </Link>
+          {/* Exam/test box */}
+          <div className="rounded-xl border border-green-200 bg-green-50 p-4">
+            <div className="flex items-start gap-3">
+              <div className="text-2xl">📝</div>
+              <div>
+                <h2 className="font-semibold text-green-900 text-sm">Đề kiểm tra {course.title}</h2>
+                <p className="text-xs text-green-700 mt-1">Các đề kiểm tra và bài tập ôn luyện theo chủ đề của khóa học.</p>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Lesson list */}
+        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+          {hasVolumes ? (
+            <div className={`grid gap-8 ${sortedVolumes.length >= 2 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+              {sortedVolumes.map((vol) => {
+                const volLessons = lessons.filter((l) => l.volumeId === vol.id);
+                const volTopics = topics.filter((t) => t.volumeId === vol.id);
+                return (
+                  <VolumeColumn
+                    key={vol.id}
+                    volumeTitle={vol.name}
+                    lessons={volLessons}
+                    topics={volTopics}
+                    courseSlug={slug}
+                  />
+                );
+              })}
+              {lessonsNoVolume.length > 0 && (
+                <div className="md:col-span-2">
+                  <TopicGroup lessons={lessonsNoVolume} topics={topics.filter((t) => !t.volumeId)} courseSlug={slug} />
+                </div>
+              )}
+            </div>
+          ) : (
+            <TopicGroup lessons={lessons} topics={topics} courseSlug={slug} />
+          )}
+        </div>
       </div>
-    </section>
+
+      {/* YouTube Modal */}
+      {showVideo && embedUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={() => setShowVideo(false)}>
+          <div className="relative w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setShowVideo(false)} className="absolute -top-10 right-0 text-white text-2xl font-bold">×</button>
+            <div className="aspect-video w-full rounded-xl overflow-hidden">
+              <iframe src={embedUrl} className="w-full h-full" allow="autoplay; fullscreen" allowFullScreen />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function groupLessonsByTopic(lessons: ApiLesson[], topics: ApiTopic[]) {
+  const topicMap = new Map(topics.map((t) => [t.id, t]));
+  const topicOrder = topics.map((t) => t.id);
+
+  const byTopic: Map<number | null, ApiLesson[]> = new Map();
+  for (const lesson of lessons) {
+    const key = lesson.topicId ?? null;
+    if (!byTopic.has(key)) byTopic.set(key, []);
+    byTopic.get(key)!.push(lesson);
+  }
+
+  // Order: topics in sortOrder, then null (no topic)
+  const orderedTopicIds: (number | null)[] = [...topicOrder.filter((id) => byTopic.has(id))];
+  if (byTopic.has(null)) orderedTopicIds.push(null);
+
+  return { byTopic, topicMap, orderedTopicIds };
+}
+
+function VolumeColumn({ volumeTitle, lessons, topics, courseSlug }: {
+  volumeTitle: string; lessons: ApiLesson[]; topics: ApiTopic[]; courseSlug: string;
+}) {
+  const { byTopic, topicMap, orderedTopicIds } = groupLessonsByTopic(lessons, topics);
+
+  return (
+    <div>
+      <h2 className="text-base font-bold uppercase tracking-wide text-gray-700 border-b border-gray-200 pb-2 mb-4">
+        {volumeTitle}
+      </h2>
+      {orderedTopicIds.map((topicId) => (
+        <TopicSection
+          key={topicId ?? 'no-topic'}
+          topicName={topicId !== null ? (topicMap.get(topicId)?.name ?? '') : ''}
+          lessons={byTopic.get(topicId) ?? []}
+          courseSlug={courseSlug}
+        />
+      ))}
+    </div>
+  );
+}
+
+function TopicGroup({ lessons, topics, courseSlug }: { lessons: ApiLesson[]; topics: ApiTopic[]; courseSlug: string }) {
+  const { byTopic, topicMap, orderedTopicIds } = groupLessonsByTopic(lessons, topics);
+  return (
+    <>
+      {orderedTopicIds.map((topicId) => (
+        <TopicSection
+          key={topicId ?? 'no-topic'}
+          topicName={topicId !== null ? (topicMap.get(topicId)?.name ?? '') : ''}
+          lessons={byTopic.get(topicId) ?? []}
+          courseSlug={courseSlug}
+        />
+      ))}
+    </>
+  );
+}
+
+function TopicSection({ topicName, lessons, courseSlug }: { topicName: string; lessons: ApiLesson[]; courseSlug: string }) {
+  return (
+    <div className="mb-5">
+      {topicName && (
+        <h3 className="text-base font-bold text-gray-800 mb-2">{topicName}</h3>
+      )}
+      {lessons.map((lesson) => (
+        <LessonRow key={lesson.id} lesson={lesson} courseSlug={courseSlug} />
+      ))}
+    </div>
+  );
+}
+
+function LessonRow({ lesson }: { lesson: ApiLesson; courseSlug: string }) {
+  const hasQuizzes = lesson.quizzes && lesson.quizzes.length > 0;
+  const href = lesson.slug ? `/${lesson.slug}` : `/lessons/${lesson.id}`;
+
+  return (
+    <Link href={href} className="flex items-center gap-2.5 py-1.5 px-1 hover:bg-gray-50 rounded group">
+      <svg className="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M15 10l4.553-2.069A1 1 0 0121 8.868v6.264a1 1 0 01-1.447.894L15 14v-4zM5 8h8a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4a2 2 0 012-2z" />
+      </svg>
+      <span className="flex-1 text-sm text-blue-700 group-hover:underline leading-snug">{lesson.title}</span>
+      {hasQuizzes && (
+        <span className="w-6 h-6 rounded-full bg-orange-400 text-white text-xs font-bold flex items-center justify-center shrink-0">?</span>
+      )}
+    </Link>
   );
 }

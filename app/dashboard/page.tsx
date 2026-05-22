@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     'theo dõi tiến độ học của bé',
     'báo cáo học tập cho trẻ em',
     'kỹ năng của bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/dashboard',
   },
   openGraph: {
-    title: 'Dashboard phụ huynh | Học Cùng Bé',
+    title: 'Dashboard phụ huynh | Bé Hay Học',
     description:
       'Xem nhanh kết quả học tập, thời lượng học, kỹ năng nổi bật và gợi ý nội dung phù hợp cho bé.',
     url: '/dashboard',
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
         url: '/og-dashboard.jpg',
         width: 1200,
         height: 630,
-        alt: 'Dashboard phụ huynh - Học Cùng Bé',
+        alt: 'Dashboard phụ huynh - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dashboard phụ huynh | Học Cùng Bé',
+    title: 'Dashboard phụ huynh | Bé Hay Học',
     description:
       'Theo dõi toàn bộ hành trình học tập của bé một cách trực quan và dễ hiểu.',
     images: ['/og-dashboard.jpg'],

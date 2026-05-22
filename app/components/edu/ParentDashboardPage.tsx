@@ -38,7 +38,7 @@ const todayTasks = [
 
 export default function ParentDashboardPage() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+    <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <div className="overflow-hidden rounded-[36px] bg-gradient-to-r from-slate-900 to-slate-800 p-6 text-white shadow-xl lg:p-8">
         <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-300">
           Dashboard phụ huynh
@@ -142,14 +142,14 @@ export default function ParentDashboardPage() {
 
             <div className="mt-5 flex flex-col gap-3">
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl hover:shadow-sky-200"
               >
                 Mở kho trò chơi
               </Link>
 
               <Link
-                href="/progress"
+                href="/tien-do"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 hover:shadow-md"
               >
                 Xem báo cáo chi tiết

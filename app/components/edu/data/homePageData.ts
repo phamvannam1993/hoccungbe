@@ -95,10 +95,10 @@ export const parentResources: ParentResource[] = [
 ];
 
 const FEATURED_GAME_SLUGS = [
-  'match-word',
-  'math-fun',
-  'english-vocab',
-  'mini-maze',
+  'ghep-tu',
+  'toan-vui',
+  'tu-vung-tieng-anh',
+  'me-cung-nho',
 ] as const;
 
 export const featuredGames: FeaturedGame[] = FEATURED_GAME_SLUGS.map((pageKey) => {
@@ -110,6 +110,6 @@ export const featuredGames: FeaturedGame[] = FEATURED_GAME_SLUGS.map((pageKey) =
     title: game.title,
     desc: game.description,
     age: game.age,
-    href: `/games/${game.page}`,
+    href: `/tro-choi/${game.page}`,
   };
 });

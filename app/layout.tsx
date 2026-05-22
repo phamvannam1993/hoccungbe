@@ -1,23 +1,22 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import SiteHeader from './components/edu/SiteHeader';
-import Footer from './components/edu/Footer';
+import SiteShell from './components/SiteShell';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://behayhoc.com'),
 
   title: {
     default:
-      'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
-    template: '%s | Học Cùng Bé',
+      'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+    template: '%s | Bé Hay Học',
   },
 
   description:
-    'Học Cùng Bé giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
+    'Bé Hay Học giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
 
   keywords: [
-    'Học Cùng Bé',
+    'Bé Hay Học',
     'Bé Hay Học',
     'nền tảng học tập cho bé',
     'trò chơi giáo dục cho bé',
@@ -31,9 +30,9 @@ export const metadata: Metadata = {
     'website học tập cho bé tại nhà',
   ],
 
-  authors: [{ name: 'Học Cùng Bé' }],
-  creator: 'Học Cùng Bé',
-  publisher: 'Học Cùng Bé',
+  authors: [{ name: 'Bé Hay Học' }],
+  creator: 'Bé Hay Học',
+  publisher: 'Bé Hay Học',
 
   robots: {
     index: true,
@@ -69,11 +68,11 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+      'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Giúp bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, vui, trực quan; phụ huynh dễ dàng theo dõi tiến độ học tập mỗi ngày.',
     url: 'https://behayhoc.com',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -81,7 +80,7 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Học Cùng Bé - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
+        alt: 'Bé Hay Học - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
       },
     ],
   },
@@ -89,7 +88,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title:
-      'Học Cùng Bé - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+      'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Trò chơi giáo dục, bài học ngắn và báo cáo tiến độ rõ ràng giúp bé học vui mỗi ngày.',
     images: ['/og-image.jpg'],
@@ -106,7 +105,7 @@ export default function RootLayout({
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Học Cùng Bé',
+    name: 'Bé Hay Học',
     alternateName: 'Bé Hay Học',
     url: 'https://behayhoc.com',
     inLanguage: 'vi-VN',
@@ -117,7 +116,7 @@ export default function RootLayout({
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Học Cùng Bé',
+    name: 'Bé Hay Học',
     alternateName: 'Bé Hay Học',
     url: 'https://behayhoc.com',
     logo: 'https://behayhoc.com/logo.png',
@@ -126,12 +125,8 @@ export default function RootLayout({
 
   return (
     <html lang="vi">
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
-        <SiteHeader />
-
-        <main>{children}</main>
-
-        <Footer />
+      <body className="min-h-screen text-slate-900 antialiased bg-[#6ec6c6]">
+        <SiteShell>{children}</SiteShell>
 
         <Script
           id="website-schema"

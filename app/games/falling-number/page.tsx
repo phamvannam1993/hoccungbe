@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Bắt số đúng | Học Cùng Bé',
+    title: 'Bắt số đúng | Bé Hay Học',
     description:
       'Bé quan sát số rơi, tính kết quả theo quy luật tăng dần và chọn đúng đáp án để nhận tiền thưởng qua các mức độ dễ, trung bình, khó và cực khó.',
     url: '/games/falling-number',
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
         url: '/og-falling-number.jpg',
         width: 1200,
         height: 630,
-        alt: 'Bắt số đúng - Học Cùng Bé',
+        alt: 'Bắt số đúng - Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Bắt số đúng | Học Cùng Bé',
+    title: 'Bắt số đúng | Bé Hay Học',
     description:
       'Trò chơi giúp bé luyện cộng nhẩm, nhận biết số tiếp theo và phản xạ nhanh khi chọn số đúng đang rơi.',
     images: ['/og-falling-number.jpg'],

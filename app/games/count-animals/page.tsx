@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/count-animals',
   },
   openGraph: {
-    title: 'Đếm con vật | Học Cùng Bé',
+    title: 'Đếm con vật | Bé Hay Học',
     description:
       'Bé nhìn nhóm con vật, đếm số lượng và chọn đáp án đúng để rèn quan sát và tư duy số học.',
     url: '/games/count-animals',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-count-animals.jpg',
         width: 1200,
         height: 630,
-        alt: 'Đếm con vật - Học Cùng Bé',
+        alt: 'Đếm con vật - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Đếm con vật | Học Cùng Bé',
+    title: 'Đếm con vật | Bé Hay Học',
     description:
       'Trò chơi giúp bé đếm số lượng con vật và chọn đáp án chính xác.',
     images: ['/og-count-animals.jpg'],

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/opposite-pairs',
   },
   openGraph: {
-    title: 'Ghép cặp từ trái nghĩa | Học Cùng Bé',
+    title: 'Ghép cặp từ trái nghĩa | Bé Hay Học',
     description:
       'Bé tìm và ghép đúng các cặp từ trái nghĩa để phát triển ngôn ngữ, khả năng so sánh và tư duy khái niệm.',
     url: '/games/opposite-pairs',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-opposite-pairs.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ghép cặp từ trái nghĩa - Học Cùng Bé',
+        alt: 'Ghép cặp từ trái nghĩa - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép cặp từ trái nghĩa | Học Cùng Bé',
+    title: 'Ghép cặp từ trái nghĩa | Bé Hay Học',
     description:
       'Trò chơi giúp bé học các cặp từ trái nghĩa, mở rộng vốn từ và rèn tư duy ngôn ngữ.',
     images: ['/og-opposite-pairs.jpg'],

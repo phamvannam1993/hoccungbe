@@ -1,212 +1,204 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { BookOpen, ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 
-type NavItem = {
-  href: string;
-  label: string;
-};
+type NavItem = { href: string; label: string; children?: NavItem[] };
 
-const MAIN_MENU: readonly NavItem[] = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/courses', label: 'Khóa học' },
-  { href: '/games', label: 'Kho trò chơi' },
-  { href: '/progress', label: 'Tiến độ bé' },
+const NAV_MENU: NavItem[] = [
+  {
+    href: '/khoa-hoc', label: 'LỚP HỌC',
+    children: [
+      { href: '/khoa-hoc', label: 'Tất cả khóa học' },
+      { href: '/khoa-hoc?type=math', label: 'Toán học' },
+      { href: '/khoa-hoc?type=language', label: 'Ngôn ngữ' },
+    ],
+  },
+  {
+    href: '/tro-choi', label: 'KIỂM TRA',
+    children: [
+      { href: '/tro-choi', label: 'Kho trò chơi' },
+    ],
+  },
+  { href: '/tien-do', label: 'THI ĐẤU' },
+  { href: '/ho-tro', label: 'ÔN THI TN THPT' },
+  { href: '/dang-ky', label: 'MUA THẺ VIP' },
 ];
-
-const MORE_MENU: readonly NavItem[] = [
-  { href: '/lesson', label: 'Chi tiết bài học' },
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/support', label: 'Hỗ trợ' },
-];
-
-const AUTH_MENU: readonly NavItem[] = [
-  { href: '/login', label: 'Đăng nhập' },
-  { href: '/register', label: 'Đăng ký' },
-];
-
-function NavLink({
-  item,
-  active,
-  variant = 'primary',
-  onClick,
-}: {
-  item: NavItem;
-  active: boolean;
-  variant?: 'primary' | 'dropdown' | 'mobile';
-  onClick?: () => void;
-}) {
-  const base =
-    variant === 'mobile'
-      ? `rounded-xl px-4 py-3 text-left text-sm font-semibold ${
-          active ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'
-        }`
-      : variant === 'dropdown'
-      ? `block w-full rounded-xl px-3 py-2 text-left text-sm font-medium ${
-          active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-        }`
-      : `rounded-full px-4 py-2 text-sm font-semibold transition ${
-          active
-            ? 'bg-sky-600 text-white'
-            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-        }`;
-
-  return (
-    <Link href={item.href} onClick={onClick} className={base} aria-current={active ? 'page' : undefined}>
-      {item.label}
-    </Link>
-  );
-}
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
-  const moreMenuRef = useRef<HTMLDivElement | null>(null);
-
-  const isMoreActive = MORE_MENU.some((item) => item.href === pathname);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [user, setUser] = useState<{ fullName: string } | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setMoreMenuOpen(false);
+    const raw = localStorage.getItem('bhh_user');
+    if (raw) { try { setUser(JSON.parse(raw)); } catch { /* ignore */ } }
   }, [pathname]);
 
   useEffect(() => {
-    if (!moreMenuOpen) return;
+    setMobileOpen(false);
+    setOpenMenu(null);
+  }, [pathname]);
 
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        moreMenuRef.current &&
-        !moreMenuRef.current.contains(event.target as Node)
-      ) {
-        setMoreMenuOpen(false);
-      }
+  useEffect(() => {
+    if (!openMenu) return;
+    function handler(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null);
     }
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') setMoreMenuOpen(false);
-    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openMenu]);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [moreMenuOpen]);
+  const handleLogout = () => {
+    localStorage.removeItem('bhh_token');
+    localStorage.removeItem('bhh_user');
+    setUser(null);
+    window.location.href = '/';
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-sky-50 to-violet-50 px-4 py-2.5 ring-1 ring-sky-100 transition hover:shadow-md"
-          aria-label="Học Cùng Bé - Trang chủ"
-        >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-violet-500 text-white shadow-sm">
-            <BookOpen size={20} aria-hidden="true" />
-          </div>
-          <div className="flex flex-col leading-none">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-600">
-              Nền tảng học tập
-            </span>
-            <span className="mt-1 text-lg font-black tracking-tight text-slate-900 sm:text-xl">
-              Học Cùng Bé
-            </span>
-          </div>
+    <header className="bg-[#6ec6c6]">
+      {/* Top bar */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between py-2 gap-3">
+        {/* Logo */}
+        <Link href="/" className="shrink-0">
+          <Image src="/assets/images/logo.png" alt="Bé Hay Học" width={180} height={65} className="object-contain mix-blend-multiply h-10 w-auto sm:h-14" unoptimized />
         </Link>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <nav className="flex items-center gap-1" aria-label="Menu chính">
-            {MAIN_MENU.map((item) => (
-              <NavLink key={item.href} item={item} active={pathname === item.href} />
-            ))}
-
-            <div className="relative" ref={moreMenuRef}>
-              <button
-                type="button"
-                aria-haspopup="menu"
-                aria-expanded={moreMenuOpen}
-                onClick={() => setMoreMenuOpen((prev) => !prev)}
-                className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  isMoreActive
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                }`}
-              >
-                Thêm
-                <ChevronDown
-                  size={14}
-                  className={`transition-transform ${moreMenuOpen ? 'rotate-180' : ''}`}
-                  aria-hidden="true"
-                />
-              </button>
-
-              {moreMenuOpen && (
-                <div
-                  role="menu"
-                  className="absolute right-0 top-full z-50 mt-2 w-52 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg"
-                >
-                  {MORE_MENU.map((item) => (
-                    <NavLink
-                      key={item.href}
-                      item={item}
-                      active={pathname === item.href}
-                      variant="dropdown"
-                      onClick={() => setMoreMenuOpen(false)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          </nav>
-
-          <div className="ml-3 flex items-center gap-2">
-            <Link
-              href="/login"
-              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-            >
-              Đăng nhập
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
-            >
-              Đăng ký
-            </Link>
+        {/* Desktop: utility links + auth */}
+        <div className="hidden md:flex flex-col items-end gap-1 shrink-0">
+          <div className="flex items-center gap-3 text-xs text-gray-700">
+            <Link href="/dang-ky" className="hover:underline whitespace-nowrap">Đăng kí mua thẻ</Link>
+            <span className="text-gray-400">|</span>
+            <Link href="/ho-tro" className="hover:underline whitespace-nowrap">Câu hỏi thường gặp</Link>
+          </div>
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="text-sm font-semibold text-gray-700 max-w-[140px] truncate">👋 {user.fullName}</span>
+                <button onClick={handleLogout}
+                  className="px-4 py-1.5 rounded-full bg-[#c0392b] text-white text-sm font-bold hover:bg-[#a93226] transition">
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/dang-nhap"
+                  className="px-5 py-1.5 rounded-full bg-[#c0392b] text-white text-sm font-bold hover:bg-[#a93226] transition shadow">
+                  Đăng nhập
+                </Link>
+                <Link href="/dang-ky"
+                  className="px-5 py-1.5 rounded-full bg-[#e67e22] text-white text-sm font-bold hover:bg-[#ca6f1e] transition shadow">
+                  Đăng ký
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen((prev) => !prev)}
-          aria-expanded={mobileMenuOpen}
-          aria-label={mobileMenuOpen ? 'Đóng menu' : 'Mở menu'}
-          className="rounded-xl border border-slate-200 p-2 text-slate-700 lg:hidden"
-        >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Mobile: auth + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          {!user && (
+            <>
+              <Link href="/dang-nhap" className="px-3 py-1 rounded-full bg-[#c0392b] text-white text-xs font-bold whitespace-nowrap">Đăng nhập</Link>
+              <Link href="/dang-ky" className="px-3 py-1 rounded-full bg-[#e67e22] text-white text-xs font-bold whitespace-nowrap">Đăng ký</Link>
+            </>
+          )}
+          {user && (
+            <button onClick={handleLogout} className="px-3 py-1 rounded-full bg-[#c0392b] text-white text-xs font-bold whitespace-nowrap">Đăng xuất</button>
+          )}
+          <button
+            className="p-2 rounded-lg text-gray-700 hover:bg-white/20"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="border-t border-slate-200 bg-white lg:hidden" id="mobile-menu">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-            <nav className="grid gap-2" aria-label="Menu di động">
-              {[...MAIN_MENU, ...MORE_MENU, ...AUTH_MENU].map((item) => (
-                <NavLink
-                  key={item.href}
-                  item={item}
-                  active={pathname === item.href}
-                  variant="mobile"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-              ))}
-            </nav>
+      {/* Desktop Nav bar */}
+      <div className="hidden md:block" ref={navRef}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-3">
+          <nav className="bg-[#c0392b] rounded-full px-2 py-1 flex items-center justify-center gap-1">
+            {NAV_MENU.map((item) => {
+              const isActive = pathname === item.href;
+              const hasChildren = item.children && item.children.length > 0;
+              const isOpen = openMenu === item.href;
+
+              return (
+                <div key={item.href} className="relative">
+                  <button
+                    onClick={() => {
+                      if (hasChildren) {
+                        setOpenMenu(isOpen ? null : item.href);
+                      } else {
+                        window.location.href = item.href;
+                      }
+                    }}
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold text-white transition
+                      ${isActive ? 'bg-white/20' : 'hover:bg-white/15'}`}
+                  >
+                    <NavIcon label={item.label} />
+                    {item.label}
+                    {hasChildren && (
+                      <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    )}
+                  </button>
+
+                  {hasChildren && isOpen && (
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-44 rounded-xl bg-white shadow-lg border border-gray-100 py-1 z-50">
+                      {item.children!.map((child) => (
+                        <Link key={child.href} href={child.href}
+                          onClick={() => setOpenMenu(null)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#c0392b]">
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white border-t border-white/20 shadow-lg">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1">
+            {NAV_MENU.map((item) => (
+              <Link key={item.href} href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2
+                  ${pathname === item.href ? 'bg-[#c0392b] text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
+                <NavIcon label={item.label} />
+                {item.label}
+              </Link>
+            ))}
+            <div className="pt-2 border-t border-gray-100 flex gap-2 text-xs text-gray-500">
+              <Link href="/dang-ky" className="hover:underline">Đăng kí mua thẻ</Link>
+              <span>|</span>
+              <Link href="/ho-tro" className="hover:underline">Câu hỏi thường gặp</Link>
+            </div>
           </div>
         </div>
       )}
     </header>
   );
+}
+
+function NavIcon({ label }: { label: string }) {
+  if (label.includes('LỚP')) return <span className="text-base">🎒</span>;
+  if (label.includes('KIỂM')) return <span className="text-base">⏱</span>;
+  if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
+  if (label.includes('ÔN')) return <span className="text-base">😊</span>;
+  if (label.includes('MUA')) return <span className="text-base">🔬</span>;
+  return null;
 }

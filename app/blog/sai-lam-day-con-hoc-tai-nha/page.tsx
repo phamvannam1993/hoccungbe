@@ -40,7 +40,7 @@ export default function BlogMistakesPage() {
         <nav className="mb-6 text-sm text-slate-500">
           <Link href="/" className="hover:text-sky-700">Trang chủ</Link>
           <span className="mx-2">/</span>
-          <Link href="/blog" className="hover:text-sky-700">Blog</Link>
+          <Link href="/goc-phu-huynh" className="hover:text-sky-700">Blog</Link>
           <span className="mx-2">/</span>
           <span>3 sai lầm khi dạy con học</span>
         </nav>
@@ -154,14 +154,14 @@ export default function BlogMistakesPage() {
 
             <div className="mt-5 flex gap-4">
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="rounded-full bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700"
               >
                 Khám phá trò chơi
               </Link>
 
               <Link
-                href="/blog"
+                href="/goc-phu-huynh"
                 className="rounded-full border px-5 py-3 text-sm font-bold hover:bg-sky-100"
               >
                 Xem thêm bài viết

@@ -4,19 +4,19 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Hỗ trợ phụ huynh',
   description:
-    'Liên hệ hỗ trợ để được tư vấn chọn lộ trình học, giải đáp về tài khoản, gói học và cách theo dõi tiến độ học tập của bé trên Học Cùng Bé.',
+    'Liên hệ hỗ trợ để được tư vấn chọn lộ trình học, giải đáp về tài khoản, gói học và cách theo dõi tiến độ học tập của bé trên Bé Hay Học.',
   keywords: [
     'hỗ trợ phụ huynh',
     'tư vấn gói học cho bé',
-    'hỗ trợ tài khoản học cùng bé',
-    'liên hệ học cùng bé',
+    'hỗ trợ tài khoản bé hay học',
+    'liên hệ bé hay học',
     'chăm sóc khách hàng cho phụ huynh',
   ],
   alternates: {
     canonical: '/support',
   },
   openGraph: {
-    title: 'Hỗ trợ phụ huynh | Học Cùng Bé',
+    title: 'Hỗ trợ phụ huynh | Bé Hay Học',
     description:
       'Cần tư vấn chọn lộ trình, hỗ trợ tài khoản hoặc tìm hiểu thêm về cách hệ thống hoạt động? Chúng tôi luôn sẵn sàng đồng hành.',
     url: '/support',
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
         url: '/og-support.jpg',
         width: 1200,
         height: 630,
-        alt: 'Hỗ trợ phụ huynh - Học Cùng Bé',
+        alt: 'Hỗ trợ phụ huynh - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hỗ trợ phụ huynh | Học Cùng Bé',
+    title: 'Hỗ trợ phụ huynh | Bé Hay Học',
     description:
       'Liên hệ để được hỗ trợ nhanh về tài khoản, gói học và lộ trình phù hợp cho bé.',
     images: ['/og-support.jpg'],
@@ -48,7 +48,7 @@ export default function SupportPage() {
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+    <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
         <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">

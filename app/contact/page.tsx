@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import ContactForm from '../components/edu/ContactForm';
 import {
   Mail,
   Phone,
@@ -14,11 +15,11 @@ export const metadata: Metadata = {
   title: 'Liên hệ',
 
   description:
-    'Liên hệ Học Cùng Bé để được hỗ trợ về tài khoản, khóa học, trò chơi giáo dục, bảng giá và cách đồng hành cùng bé học tập tại nhà.',
+    'Liên hệ Bé Hay Học để được hỗ trợ về tài khoản, khóa học, trò chơi giáo dục, bảng giá và cách đồng hành cùng bé học tập tại nhà.',
 
   keywords: [
-    'liên hệ Học Cùng Bé',
-    'hỗ trợ Học Cùng Bé',
+    'liên hệ Bé Hay Học',
+    'hỗ trợ Bé Hay Học',
     'liên hệ Bé Hay Học',
     'hỗ trợ học online cho bé',
     'tư vấn khóa học cho bé',
@@ -30,11 +31,11 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: 'Liên hệ | Học Cùng Bé',
+    title: 'Liên hệ | Bé Hay Học',
     description:
-      'Cần hỗ trợ về tài khoản, khóa học, trò chơi giáo dục hoặc bảng giá? Liên hệ Học Cùng Bé để được đồng hành.',
+      'Cần hỗ trợ về tài khoản, khóa học, trò chơi giáo dục hoặc bảng giá? Liên hệ Bé Hay Học để được đồng hành.',
     url: '/contact',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
@@ -42,16 +43,16 @@ export const metadata: Metadata = {
         url: '/og-contact.jpg',
         width: 1200,
         height: 630,
-        alt: 'Liên hệ Học Cùng Bé',
+        alt: 'Liên hệ Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Liên hệ | Học Cùng Bé',
+    title: 'Liên hệ | Bé Hay Học',
     description:
-      'Học Cùng Bé luôn sẵn sàng hỗ trợ phụ huynh trong quá trình đồng hành cùng con học tập tại nhà.',
+      'Bé Hay Học luôn sẵn sàng hỗ trợ phụ huynh trong quá trình đồng hành cùng con học tập tại nhà.',
     images: ['/og-contact.jpg'],
   },
 };
@@ -77,7 +78,7 @@ const contactItems = [
     icon: MessageCircle,
     title: 'Tư vấn phụ huynh',
     value: 'Gửi yêu cầu hỗ trợ',
-    href: 'mailto:support@behayhoc.com?subject=Yêu cầu tư vấn Học Cùng Bé',
+    href: 'mailto:support@behayhoc.com?subject=Yêu cầu tư vấn Bé Hay Học',
     description:
       'Phù hợp nếu phụ huynh chưa biết nên chọn bài học, trò chơi hoặc gói học nào cho con.',
   },
@@ -101,13 +102,13 @@ export default function ContactPage() {
             </p>
 
             <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl">
-              Học Cùng Bé luôn sẵn sàng hỗ trợ phụ huynh
+              Bé Hay Học luôn sẵn sàng hỗ trợ phụ huynh
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-slate-600">
               Nếu bạn cần tư vấn cách cho bé bắt đầu học tại nhà, chọn trò chơi
               giáo dục phù hợp, tìm hiểu bảng giá hoặc cần hỗ trợ trong quá
-              trình sử dụng nền tảng, hãy liên hệ với Học Cùng Bé qua các kênh
+              trình sử dụng nền tảng, hãy liên hệ với Bé Hay Học qua các kênh
               bên dưới.
             </p>
 
@@ -121,7 +122,7 @@ export default function ContactPage() {
               </Link>
 
               <Link
-                href="/faq"
+                href="/cau-hoi-thuong-gap"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:text-sky-700"
               >
                 Xem câu hỏi thường gặp
@@ -145,7 +146,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-bold text-slate-900">Thời gian phản hồi</h3>
                   <p className="mt-1 text-sm leading-7 text-slate-600">
-                    Học Cùng Bé sẽ cố gắng phản hồi trong vòng 24 giờ làm việc
+                    Bé Hay Học sẽ cố gắng phản hồi trong vòng 24 giờ làm việc
                     kể từ khi nhận được yêu cầu hỗ trợ của phụ huynh.
                   </p>
                 </div>
@@ -194,6 +195,18 @@ export default function ContactPage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
+        <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-10">
+          <div className="mb-6">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-600">Gửi tin nhắn</p>
+            <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-900">
+              Liên hệ trực tiếp với Bé Hay Học
+            </h2>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
         <div className="grid gap-6 md:grid-cols-3">
           {contactItems.map((item) => {
@@ -236,11 +249,11 @@ export default function ContactPage() {
             </p>
 
             <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900">
-              Học Cùng Bé có thể hỗ trợ phụ huynh những gì?
+              Bé Hay Học có thể hỗ trợ phụ huynh những gì?
             </h2>
 
             <p className="mt-5 text-base leading-8 text-slate-600">
-              Mục tiêu của Học Cùng Bé không chỉ là cung cấp bài học và trò chơi
+              Mục tiêu của Bé Hay Học không chỉ là cung cấp bài học và trò chơi
               giáo dục cho trẻ em, mà còn giúp phụ huynh dễ dàng hơn khi đồng
               hành cùng con học tập tại nhà một cách nhẹ nhàng, đều đặn và phù
               hợp với từng độ tuổi.
@@ -272,14 +285,14 @@ export default function ContactPage() {
 
           <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/games"
+              href="/tro-choi"
               className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-sky-700 shadow-sm transition hover:bg-sky-50"
             >
               Khám phá trò chơi
             </Link>
 
             <Link
-              href="/courses"
+              href="/khoa-hoc"
               className="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
             >
               Xem khóa học

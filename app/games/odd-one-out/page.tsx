@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/odd-one-out',
   },
   openGraph: {
-    title: 'Tìm điểm khác biệt | Học Cùng Bé',
+    title: 'Tìm điểm khác biệt | Bé Hay Học',
     description:
       'Bé quan sát các hình ảnh và chọn ra vật khác biệt để phát triển tư duy phân loại, khả năng so sánh và sự tập trung.',
     url: '/games/odd-one-out',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-odd-one-out.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tìm điểm khác biệt - Học Cùng Bé',
+        alt: 'Tìm điểm khác biệt - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tìm điểm khác biệt | Học Cùng Bé',
+    title: 'Tìm điểm khác biệt | Bé Hay Học',
     description:
       'Trò chơi giúp bé rèn khả năng quan sát, phân loại và nhận biết vật khác biệt trong nhóm.',
     images: ['/og-odd-one-out.jpg'],

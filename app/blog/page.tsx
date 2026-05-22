@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Blog phụ huynh | Học Cùng Bé',
+  title: 'Blog phụ huynh | Bé Hay Học',
   description:
-    'Góc phụ huynh của Học Cùng Bé chia sẻ mẹo học tại nhà, cách giúp bé tập trung, xây góc học tập và đồng hành cùng trẻ 3 đến 10 tuổi.',
+    'Góc phụ huynh của Bé Hay Học chia sẻ mẹo học tại nhà, cách giúp bé tập trung, xây góc học tập và đồng hành cùng trẻ 3 đến 10 tuổi.',
   keywords: [
     'blog phụ huynh',
-    'học cùng bé blog',
+    'bé hay học blog',
     'mẹo học tại nhà cho trẻ',
     'cách giúp bé tập trung',
     'góc học tập cho bé',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: '/blog',
   },
   openGraph: {
-    title: 'Blog phụ huynh | Học Cùng Bé',
+    title: 'Blog phụ huynh | Bé Hay Học',
     description:
       'Những bài viết ngắn, dễ áp dụng giúp phụ huynh đồng hành cùng con học tập tốt hơn mỗi ngày.',
     url: '/blog',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         url: '/og-blog.jpg',
         width: 1200,
         height: 630,
-        alt: 'Blog phụ huynh - Học Cùng Bé',
+        alt: 'Blog phụ huynh - Bé Hay Học',
       },
     ],
   },
@@ -171,7 +171,7 @@ export default function BlogPage() {
                   Đọc bài viết
                 </Link>
                 <Link
-                  href="/games"
+                  href="/tro-choi"
                   className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700"
                 >
                   Khám phá trò chơi
@@ -279,13 +279,13 @@ export default function BlogPage() {
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
-                href="/games"
+                href="/tro-choi"
                 className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-sky-700"
               >
                 Khám phá trò chơi
               </Link>
               <Link
-                href="/register"
+                href="/dang-ky"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700"
               >
                 Đăng ký miễn phí

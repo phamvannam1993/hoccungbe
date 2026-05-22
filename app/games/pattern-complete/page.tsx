@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/pattern-complete',
   },
   openGraph: {
-    title: 'Hoàn thành quy luật | Học Cùng Bé',
+    title: 'Hoàn thành quy luật | Bé Hay Học',
     description:
       'Bé quan sát dãy hình, tìm ra quy luật và chọn đáp án đúng để phát triển tư duy logic và khả năng nhận biết mẫu.',
     url: '/games/pattern-complete',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-pattern-complete.jpg',
         width: 1200,
         height: 630,
-        alt: 'Hoàn thành quy luật - Học Cùng Bé',
+        alt: 'Hoàn thành quy luật - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hoàn thành quy luật | Học Cùng Bé',
+    title: 'Hoàn thành quy luật | Bé Hay Học',
     description:
       'Trò chơi giúp bé nhận biết quy luật, rèn suy luận và hoàn thiện dãy hình một cách trực quan.',
     images: ['/og-pattern-complete.jpg'],

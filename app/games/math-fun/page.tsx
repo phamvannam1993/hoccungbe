@@ -3,7 +3,7 @@ import MathFunPage from '../../components/edu/MathFunPage';
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Toán vui cho bé | Học Cùng Bé',
+  title: 'Toán vui cho bé | Bé Hay Học',
   description:
     'Khám phá các bài học toán vui cho bé với nội dung đếm số, so sánh, nối số theo thứ tự và tư duy toán học cơ bản, được thiết kế trực quan, sinh động và phù hợp theo độ tuổi.',
   keywords: [
@@ -12,13 +12,13 @@ export const metadata: Metadata = {
     'bé học đếm số',
     'nối số cho bé',
     'tư duy toán học cho bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/game/math-fun',
   },
   openGraph: {
-    title: 'Toán vui cho bé | Học Cùng Bé',
+    title: 'Toán vui cho bé | Bé Hay Học',
     description:
       'Bé học toán qua các bài học ngắn, trực quan và dễ hiểu như đếm số, nối số và so sánh số lượng.',
     url: '/game/math-fun',
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
         url: '/og-math-fun.jpg',
         width: 1200,
         height: 630,
-        alt: 'Toán vui cho bé - Học Cùng Bé',
+        alt: 'Toán vui cho bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Toán vui cho bé | Học Cùng Bé',
+    title: 'Toán vui cho bé | Bé Hay Học',
     description:
       'Bài học toán trực quan giúp bé làm quen với số đếm, thứ tự và tư duy toán học cơ bản.',
     images: ['/og-math-fun.jpg'],

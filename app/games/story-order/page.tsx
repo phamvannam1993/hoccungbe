@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'game tư duy cho bé 6 tuổi',
     'game tư duy cho bé 7 tuổi',
     'trò chơi giáo dục cho bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/games/story-order',
@@ -35,17 +35,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: `${TITLE} | Học Cùng Bé`,
+    title: `${TITLE} | Bé Hay Học`,
     description:
       'Bé sắp xếp hình ảnh theo đúng thứ tự để rèn tư duy logic và kể chuyện.',
     url: '/games/story-order',
-    siteName: 'Học Cùng Bé',
+    siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${TITLE} | Học Cùng Bé`,
+    title: `${TITLE} | Bé Hay Học`,
     description:
       'Trò chơi sắp xếp trình tự câu chuyện giúp bé rèn tư duy logic.',
   },

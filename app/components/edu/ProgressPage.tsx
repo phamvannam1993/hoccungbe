@@ -16,7 +16,7 @@ export default function ProgressPage() {
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+    <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <div className="mb-8 flex flex-col gap-4 rounded-[36px] bg-slate-900 p-6 text-white shadow-xl lg:flex-row lg:items-center lg:justify-between lg:p-8">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-300">Bảng theo dõi phụ huynh</p>
@@ -26,7 +26,7 @@ export default function ProgressPage() {
           </p>
         </div>
         <Link
-          href="/games"
+          href="/tro-choi"
           className="mt-6 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
         >
           Chọn thêm trò chơi

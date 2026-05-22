@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     canonical: '/games/initial-sound',
   },
   openGraph: {
-    title: 'Nhận biết âm đầu | Học Cùng Bé',
+    title: 'Nhận biết âm đầu | Bé Hay Học',
     description:
       'Bé quan sát hình ảnh, nghe hoặc nhận diện từ để chọn đúng âm đầu, từ đó phát triển khả năng ngôn ngữ và tiền đọc viết.',
     url: '/games/initial-sound',
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
         url: '/og-initial-sound.jpg',
         width: 1200,
         height: 630,
-        alt: 'Nhận biết âm đầu - Học Cùng Bé',
+        alt: 'Nhận biết âm đầu - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nhận biết âm đầu | Học Cùng Bé',
+    title: 'Nhận biết âm đầu | Bé Hay Học',
     description:
       'Trò chơi giúp bé nhận diện âm đầu của từ, làm quen chữ cái và phát triển ngôn ngữ sớm.',
     images: ['/og-initial-sound.jpg'],

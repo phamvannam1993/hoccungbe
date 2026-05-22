@@ -1,429 +1,204 @@
 import Link from 'next/link';
-import {
-  featuredGames,
-  howItWorksSteps,
-  learningCategories,
-  parentResources,
-} from './data/homePageData';
+import Image from 'next/image';
+import type { ApiCourse } from '../../lib/api';
 
-export default function HomePage() {
+async function fetchCourses(): Promise<ApiCourse[]> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${base}/api/courses?published=true`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+const FEATURES = [
+  { emoji: '📚', title: 'Bài học có video', desc: 'Video ngắn, trực quan giúp bé dễ hiểu và không mất tập trung.' },
+  { emoji: '🎮', title: 'Trò chơi giáo dục', desc: 'Hơn 30 trò chơi rèn toán, chữ, tiếng Anh và tư duy mỗi ngày.' },
+  { emoji: '✏️', title: 'Bài tập luyện tập', desc: 'Bài tập bám sát chương trình, giúp bé ôn tập và ghi nhớ lâu hơn.' },
+  { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh xem được kết quả học tập và kỹ năng của bé rõ ràng.' },
+];
+
+const STATS = [
+  { value: '40+', label: 'Bài học' },
+  { value: '30+', label: 'Trò chơi' },
+  { value: '3–10', label: 'Độ tuổi' },
+  { value: '100%', label: 'Miễn phí dùng thử' },
+];
+
+export default async function HomePage() {
+  const courses = await fetchCourses();
+
   return (
-    <main className="bg-white text-slate-900">
-      {/* Hero */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-14">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
-              Nền tảng học tập cho bé 3 đến 10 tuổi
-            </p>
-
-            <h1 className="mt-3 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Học vui mỗi ngày, phụ huynh theo dõi dễ dàng
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-              Trò chơi giáo dục ngắn, trực quan và phù hợp theo độ tuổi, giúp bé học
-              hứng thú hơn trong khi phụ huynh vẫn nắm được tiến độ rõ ràng.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/games"
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-violet-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-200 transition duration-300 hover:-translate-y-0.5 hover:from-sky-600 hover:to-violet-600 hover:shadow-xl hover:shadow-sky-300"
-              >
-                Khám phá trò chơi
-              </Link>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
-                <p className="text-2xl font-black text-slate-900">100+</p>
-                <p className="mt-1 text-sm text-slate-600">Hoạt động học tập ngắn</p>
-              </div>
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
-                <p className="text-2xl font-black text-slate-900">3–10</p>
-                <p className="mt-1 text-sm text-slate-600">Độ tuổi phù hợp</p>
-              </div>
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
-                <p className="text-2xl font-black text-slate-900">1 tài khoản</p>
-                <p className="mt-1 text-sm text-slate-600">Theo dõi nhiều bé</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-[36px] bg-gradient-to-br from-sky-100 via-violet-50 to-pink-100 p-6 shadow-sm">
-            <div className="rounded-[28px] bg-white p-6 shadow-inner">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-3xl bg-sky-50 p-5">
-                  <div className="text-4xl">🎮</div>
-                  <h3 className="mt-4 text-lg font-black text-slate-900">Trò chơi ngắn</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Bé dễ bắt đầu, dễ tập trung và không bị quá tải.
-                  </p>
-                </div>
-
-                <div className="rounded-3xl bg-violet-50 p-5">
-                  <div className="text-4xl">📈</div>
-                  <h3 className="mt-4 text-lg font-black text-slate-900">Báo cáo tiến độ</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Phụ huynh biết bé đang mạnh ở đâu và cần hỗ trợ gì.
-                  </p>
-                </div>
-
-                <div className="rounded-3xl bg-pink-50 p-5">
-                  <div className="text-4xl">🧠</div>
-                  <h3 className="mt-4 text-lg font-black text-slate-900">Kỹ năng nền tảng</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Ngôn ngữ, toán vui, logic và phản xạ được rèn đều.
-                  </p>
-                </div>
-
-                <div className="rounded-3xl bg-emerald-50 p-5">
-                  <div className="text-4xl">👨‍👩‍👧</div>
-                  <h3 className="mt-4 text-lg font-black text-slate-900">Thân thiện gia đình</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Một tài khoản có thể theo dõi nhiều hồ sơ trẻ em.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="border-t border-slate-100 bg-slate-50/70">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
-              Vì sao phụ huynh chọn Học Cùng Bé
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Thiết kế để bé học nhẹ nhàng, bố mẹ đồng hành dễ hơn
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-              <div className="text-3xl">⏱️</div>
-              <h3 className="mt-4 text-lg font-black">Bài học ngắn, dễ bắt đầu</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Mỗi hoạt động chỉ vài phút, phù hợp khả năng tập trung của trẻ nhỏ.
+    <main>
+      {/* ── HERO ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-6">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="grid lg:grid-cols-2">
+            {/* Left */}
+            <div className="p-8 sm:p-10 flex flex-col justify-center">
+              <span className="inline-block rounded-full bg-[#6ec6c6]/20 text-[#0e7490] text-xs font-bold px-3 py-1 mb-4 w-fit">
+                Nền tảng học tập cho bé 3–10 tuổi
+              </span>
+              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+                Học vui mỗi ngày —<br />
+                <span className="text-[#c0392b]">bé tiến bộ thấy rõ</span>
+              </h1>
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà. Phụ huynh theo dõi tiến độ dễ dàng mỗi ngày.
               </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-              <div className="text-3xl">🎯</div>
-              <h3 className="mt-4 text-lg font-black">Nội dung theo độ tuổi</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Giúp bé học đúng mức, không quá khó cũng không quá đơn điệu.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-              <div className="text-3xl">📊</div>
-              <h3 className="mt-4 text-lg font-black">Theo dõi tiến bộ rõ ràng</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Bố mẹ xem được kỹ năng nào bé đang làm tốt và phần nào cần hỗ trợ thêm.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
-              <div className="text-3xl">💛</div>
-              <h3 className="mt-4 text-lg font-black">Học tập thân thiện, không áp lực</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Trải nghiệm nhẹ nhàng giúp bé giữ hứng thú và tạo thói quen học tốt.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Learning categories */}
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
-              Danh mục học tập
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-              Các nhóm nội dung được bé yêu thích
-            </h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">
-              Bắt đầu từ những kỹ năng cơ bản và phát triển dần theo độ tuổi của trẻ.
-            </p>
-          </div>
-
-          <Link
-            href="/courses"
-            className="inline-flex items-center font-bold text-sky-700 transition hover:text-sky-800"
-          >
-            Xem tất cả khóa học →
-          </Link>
-        </div>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {learningCategories.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`group rounded-3xl p-6 shadow-sm ring-1 ring-slate-100 transition duration-300 hover:-translate-y-1 hover:shadow-md ${item.bg}`}
-            >
-              <div className="text-4xl">{item.icon}</div>
-              <h3 className="mt-4 text-xl font-black text-slate-900 group-hover:text-sky-700">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured games */}
-      <section className="bg-slate-50/70">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-violet-600">
-                Kho trò chơi
-              </p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-                Trò chơi ngắn để bé vừa học vừa vui
-              </h2>
-              <p className="mt-4 text-base leading-8 text-slate-600">
-                Nội dung trực quan, thao tác đơn giản và phù hợp cho từng nhóm tuổi.
-              </p>
-            </div>
-
-            <Link
-              href="/games"
-              className="inline-flex items-center font-bold text-violet-700 transition hover:text-violet-800"
-            >
-              Xem toàn bộ trò chơi →
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {featuredGames.map((game) => (
-              <div
-                key={game.title}
-                className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100"
-              >
-                <div className="inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-bold text-violet-700">
-                  {game.age}
-                </div>
-                <h3 className="mt-4 text-xl font-black text-slate-900">{game.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{game.desc}</p>
-                <Link
-                  href={game.href}
-                  className="mt-5 inline-flex items-center font-bold text-violet-700 transition hover:text-violet-800"
-                >
-                  Chơi thử →
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/khoa-hoc"
+                  className="rounded-full bg-[#c0392b] text-white font-bold px-6 py-2.5 text-sm hover:bg-[#a93226] transition shadow-sm">
+                  Xem khóa học
                 </Link>
+                <Link href="/tro-choi"
+                  className="rounded-full bg-white border-2 border-[#6ec6c6] text-[#0e7490] font-bold px-6 py-2.5 text-sm hover:bg-[#6ec6c6]/10 transition">
+                  Kho trò chơi
+                </Link>
+              </div>
+              {/* Stats */}
+              <div className="mt-8 grid grid-cols-4 gap-3">
+                {STATS.map((s) => (
+                  <div key={s.label} className="text-center">
+                    <p className="text-xl font-black text-slate-900">{s.value}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Right */}
+            <div className="bg-gradient-to-br from-[#6ec6c6]/30 to-[#6ec6c6]/10 p-8 flex items-center justify-center min-h-[280px]">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+                {FEATURES.map((f) => (
+                  <div key={f.title} className="bg-white rounded-2xl p-4 shadow-sm">
+                    <div className="text-3xl mb-2">{f.emoji}</div>
+                    <p className="font-bold text-sm text-slate-800 leading-snug">{f.title}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── COURSES ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Khóa học</p>
+              <h2 className="text-2xl font-black text-slate-900">Các khóa học dành cho bé</h2>
+            </div>
+            <Link href="/khoa-hoc" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+              Xem tất cả →
+            </Link>
+          </div>
+
+          {courses.length === 0 ? (
+            <p className="text-slate-400 text-center py-8">Chưa có khóa học nào.</p>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {courses.map((course) => (
+                <Link key={course.id} href={`/khoa-hoc/${course.slug}`}
+                  className="group flex gap-4 items-start rounded-xl border border-slate-100 p-4 hover:border-[#6ec6c6] hover:shadow-sm transition-all">
+                  {course.thumbnailUrl ? (
+                    <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden">
+                      <Image src={course.thumbnailUrl} alt={course.title} fill className="object-cover" />
+                    </div>
+                  ) : (
+                    <div className="h-14 w-14 shrink-0 rounded-xl bg-[#6ec6c6]/20 flex items-center justify-center text-2xl">📚</div>
+                  )}
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-slate-900 group-hover:text-[#0e7490] leading-snug text-sm">{course.title}</h3>
+                    {course.shortDescription && (
+                      <p className="mt-1 text-xs text-slate-500 line-clamp-2 leading-relaxed">{course.shortDescription}</p>
+                    )}
+                    <div className="mt-2 flex gap-2 flex-wrap">
+                      {course.isFree && <span className="text-xs font-semibold text-emerald-600">Miễn phí</span>}
+                      {course.totalLessons > 0 && <span className="text-xs text-slate-400">{course.totalLessons} bài học</span>}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── FEATURES ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Tại sao chọn Bé Hay Học</p>
+            <h2 className="text-2xl font-black text-slate-900">Học hiệu quả, bé vui, bố mẹ yên tâm</h2>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { emoji: '⏱️', title: 'Bài học ngắn 5–10 phút', desc: 'Phù hợp khả năng tập trung của trẻ nhỏ, không bị quá tải.' },
+              { emoji: '🎯', title: 'Đúng độ tuổi', desc: 'Nội dung được phân cấp theo từng lứa tuổi từ 3 đến 10 tuổi.' },
+              { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh nắm rõ bé học gì, làm tốt gì và cần ôn gì.' },
+              { emoji: '💛', title: 'Không áp lực', desc: 'Học qua trò chơi và video giúp bé hứng thú, không chán.' },
+            ].map((f) => (
+              <div key={f.title} className="rounded-xl bg-slate-50 p-5">
+                <div className="text-3xl mb-3">{f.emoji}</div>
+                <h3 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
-            Cách hoạt động
+      {/* ── GAMES ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Trò chơi giáo dục</p>
+              <h2 className="text-2xl font-black text-slate-900">Vừa chơi vừa học mỗi ngày</h2>
+            </div>
+            <Link href="/tro-choi" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+              Xem tất cả →
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu' },
+              { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui' },
+              { emoji: '🧠', title: 'Săn hình ghi nhớ', age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho' },
+              { emoji: '🌍', title: 'Từ vựng tiếng Anh', age: '6–8 tuổi', href: '/tro-choi/tu-vung-tieng-anh' },
+            ].map((g) => (
+              <Link key={g.title} href={g.href}
+                className="group rounded-xl border border-slate-100 p-5 hover:border-[#6ec6c6] hover:shadow-sm transition-all flex flex-col">
+                <div className="text-4xl mb-3">{g.emoji}</div>
+                <h3 className="font-bold text-slate-900 group-hover:text-[#0e7490] text-sm leading-snug">{g.title}</h3>
+                <p className="mt-1 text-xs text-slate-400">{g.age}</p>
+                <span className="mt-4 text-xs font-bold text-[#c0392b] group-hover:underline">Chơi ngay →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-10">
+        <div className="rounded-2xl bg-[#c0392b] px-8 py-10 text-center text-white">
+          <h2 className="text-2xl sm:text-3xl font-black mb-3">Bắt đầu cùng bé hôm nay</h2>
+          <p className="text-white/80 text-sm leading-relaxed max-w-lg mx-auto mb-6">
+            Đăng ký miễn phí, khám phá bài học và trò chơi phù hợp với độ tuổi của bé ngay bây giờ.
           </p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-            Bắt đầu đơn giản chỉ với 3 bước
-          </h2>
-        </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {howItWorksSteps.map((item) => (
-            <div
-              key={item.step}
-              className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm"
-            >
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-sky-100 text-lg font-black text-sky-700">
-                {item.step}
-              </div>
-              <h3 className="mt-5 text-xl font-black text-slate-900">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Progress for parents */}
-      <section className="bg-gradient-to-br from-sky-50 via-white to-violet-50">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2 lg:px-8">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-600">
-              Dành cho phụ huynh
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-              Theo dõi tiến độ rõ ràng để đồng hành cùng con tốt hơn
-            </h2>
-            <p className="mt-5 text-base leading-8 text-slate-600">
-              Không chỉ là nơi để bé học, Học Cùng Bé còn giúp phụ huynh nhìn thấy
-              quá trình phát triển của con theo từng kỹ năng, từng giai đoạn.
-            </p>
-
-            <ul className="mt-8 space-y-4 text-slate-700">
-              <li className="flex gap-3">
-                <span className="mt-1 text-sky-600">✓</span>
-                <span>Xem số hoạt động bạn nhỏ đã hoàn thành</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-1 text-sky-600">✓</span>
-                <span>Biết kỹ năng nào bé đang mạnh và phần nào cần rèn thêm</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-1 text-sky-600">✓</span>
-                <span>Nhận gợi ý nội dung tiếp theo theo độ tuổi và tiến độ</span>
-              </li>
-            </ul>
-
-            <div className="mt-8">
-              <Link
-                href="/progress"
-                className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-sky-700"
-              >
-                Xem trang tiến độ
-              </Link>
-            </div>
-          </div>
-
-          <div className="rounded-[32px] bg-white p-6 shadow-sm ring-1 ring-slate-100">
-            <div className="rounded-3xl bg-slate-50 p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">Tiến độ tuần này</p>
-                  <p className="mt-1 text-2xl font-black text-slate-900">Bé Minh An</p>
-                </div>
-                <div className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
-                  Hoàn thành tốt
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-4">
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-sm">
-                    <span className="font-semibold text-slate-700">Ngôn ngữ</span>
-                    <span className="text-slate-500">78%</span>
-                  </div>
-                  <div className="h-3 rounded-full bg-slate-200">
-                    <div className="h-3 w-[78%] rounded-full bg-sky-500" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-sm">
-                    <span className="font-semibold text-slate-700">Toán vui</span>
-                    <span className="text-slate-500">64%</span>
-                  </div>
-                  <div className="h-3 rounded-full bg-slate-200">
-                    <div className="h-3 w-[64%] rounded-full bg-violet-500" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-sm">
-                    <span className="font-semibold text-slate-700">Logic</span>
-                    <span className="text-slate-500">82%</span>
-                  </div>
-                  <div className="h-3 rounded-full bg-slate-200">
-                    <div className="h-3 w-[82%] rounded-full bg-emerald-500" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl bg-white p-4 ring-1 ring-slate-100">
-                <p className="text-sm font-bold text-slate-900">Gợi ý hôm nay</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Bé đang làm tốt phần logic. Phụ huynh có thể cho bé chơi thêm một
-                  trò toán vui ngắn để cân bằng kỹ năng.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Parent resources */}
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-pink-600">
-              Góc phụ huynh
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-              Nội dung hữu ích để đồng hành cùng bé tốt hơn
-            </h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">
-              Không chỉ có trò chơi và bài học, phụ huynh còn có thể tham khảo thêm
-              các bài viết ngắn, dễ áp dụng trong cuộc sống hằng ngày.
-            </p>
-          </div>
-
-          <Link
-            href="/blog"
-            className="inline-flex items-center font-bold text-pink-700 transition hover:text-pink-800"
-          >
-            Xem tất cả bài viết →
-          </Link>
-        </div>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {parentResources.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="inline-flex rounded-full bg-pink-100 px-3 py-1 text-xs font-bold text-pink-700">
-                Dành cho phụ huynh
-              </div>
-              <h3 className="mt-4 text-xl font-black text-slate-900">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{item.desc}</p>
-              <Link
-                href={item.href}
-                className="mt-5 inline-flex items-center font-bold text-pink-700 transition hover:text-pink-800"
-              >
-                Đọc tiếp →
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="px-6 pb-16 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[32px] bg-gradient-to-r from-sky-500 via-cyan-500 to-violet-500 px-6 py-12 text-white shadow-lg sm:px-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/80">
-              Bắt đầu cùng bé hôm nay
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
-              Cho bé một hành trình học tập vui vẻ, nhẹ nhàng và đều đặn mỗi ngày
-            </h2>
-            <p className="mt-4 text-base leading-8 text-white/90">
-              Khám phá trò chơi giáo dục, bài học ngắn và công cụ theo dõi tiến độ
-              để phụ huynh đồng hành cùng con dễ dàng hơn.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/register"
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-sky-700 transition hover:bg-slate-100"
-              >
-                Đăng ký miễn phí
-              </Link>
-              <Link
-                href="/games"
-                className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-              >
-                Xem trò chơi
-              </Link>
-            </div>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/dang-ky"
+              className="rounded-full bg-white text-[#c0392b] font-bold px-6 py-2.5 text-sm hover:bg-slate-100 transition shadow">
+              Đăng ký miễn phí
+            </Link>
+            <Link href="/khoa-hoc"
+              className="rounded-full border border-white/40 text-white font-bold px-6 py-2.5 text-sm hover:bg-white/10 transition">
+              Xem khóa học
+            </Link>
           </div>
         </div>
       </section>

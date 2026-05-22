@@ -10,13 +10,13 @@ export const metadata: Metadata = {
     'bài học ngôn ngữ cho trẻ em',
     'nhận biết mặt chữ',
     'bài học trực quan cho bé',
-    'học cùng bé',
+    'bé hay học',
   ],
   alternates: {
     canonical: '/lesson',
   },
   openGraph: {
-    title: 'Chi tiết bài học cho bé | Học Cùng Bé',
+    title: 'Chi tiết bài học cho bé | Bé Hay Học',
     description:
       'Bài học ngắn, trực quan và dễ tiếp cận giúp bé học vui hơn mỗi ngày.',
     url: '/lesson',
@@ -26,18 +26,18 @@ export const metadata: Metadata = {
         url: '/og-lesson.jpg',
         width: 1200,
         height: 630,
-        alt: 'Chi tiết bài học cho bé - Học Cùng Bé',
+        alt: 'Chi tiết bài học cho bé - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chi tiết bài học cho bé | Học Cùng Bé',
+    title: 'Chi tiết bài học cho bé | Bé Hay Học',
     description:
       'Khám phá bài học trực quan giúp bé nhận biết mặt chữ và tăng tập trung.',
     images: ['/og-lesson.jpg'],
   },
 };
 export default function Page() {
-  return <LessonDetailPage />;
+  return <LessonDetailPage lessonId="" />;
 }

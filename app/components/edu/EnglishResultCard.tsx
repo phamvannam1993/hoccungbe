@@ -152,7 +152,7 @@ type ChildProfile = {
             </button>
   
             <Link
-                href="/games"
+                href="/tro-choi"
                 className="mt-6 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
                 >
                 Xem chi tiết trò chơi

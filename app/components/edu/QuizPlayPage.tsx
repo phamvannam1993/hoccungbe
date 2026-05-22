@@ -310,6 +310,8 @@ function ImageChoice({
 
 type Line = { x1: number; y1: number; x2: number; y2: number; color: string; dash?: boolean };
 
+// userMap: leftKey → rightText (same as before for correctness checking)
+// internally tracks by shuffled position to handle duplicate values
 function Matching({
   options,
   userMap,
@@ -324,6 +326,8 @@ function Matching({
   onChange: (map: Record<string, string>) => void;
 }) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
+  // internal: leftKey → shuffled position index (to handle duplicate texts)
+  const [posMap, setPosMap] = useState<Record<string, number>>({});
   const [lines, setLines] = useState<Line[]>([]);
   const [svgSize, setSvgSize] = useState({ w: 0, h: 0 });
 
@@ -332,18 +336,15 @@ function Matching({
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const rightItems = useState<string[]>(() => {
-    // prefer pair field on option, fall back to correctMap values
     const hasPair = options.some((o) => !!o.pair);
     const items = hasPair
       ? options.map((o) => o.pair ?? '').filter(Boolean)
       : options.map((o) => correctMap[o.key] ?? '').filter(Boolean);
-    // deduplicate while preserving order
-    const unique = [...new Set(items)];
-    for (let i = unique.length - 1; i > 0; i--) {
+    for (let i = items.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [unique[i], unique[j]] = [unique[j], unique[i]];
+      [items[i], items[j]] = [items[j], items[i]];
     }
-    return unique;
+    return items;
   })[0];
 
   useLayoutEffect(() => {
@@ -354,11 +355,10 @@ function Matching({
 
     const newLines: Line[] = [];
     options.forEach((opt, leftIdx) => {
-      const matched = userMap[opt.key];
-      if (!matched) return;
-      const rightIdx = rightItems.indexOf(matched);
+      const pos = posMap[opt.key];
+      if (pos === undefined) return;
       const leftEl = leftRefs.current[leftIdx];
-      const rightEl = rightRefs.current[rightIdx];
+      const rightEl = rightRefs.current[pos];
       if (!leftEl || !rightEl) return;
       const lRect = leftEl.getBoundingClientRect();
       const rRect = rightEl.getBoundingClientRect();
@@ -367,53 +367,50 @@ function Matching({
       const x2 = rRect.left - cRect.left;
       const y2 = rRect.top + rRect.height / 2 - cRect.top;
       let color = '#3b82f6';
-      if (checked) color = correctMap[opt.key] === matched ? '#22c55e' : '#ef4444';
+      if (checked) color = correctMap[opt.key] === userMap[opt.key] ? '#22c55e' : '#ef4444';
       newLines.push({ x1, y1, x2, y2, color });
     });
     setLines(newLines);
-  }, [userMap, checked, options, rightItems]);
+  }, [posMap, checked, options, rightItems, correctMap, userMap]);
 
   const handleLeftClick = (key: string) => {
     if (checked) return;
     setSelectedLeft((prev) => (prev === key ? null : key));
   };
 
-  const handleRightClick = (rightText: string) => {
+  const handleRightClick = (pos: number, text: string) => {
     if (checked || !selectedLeft) return;
-    // if right already connected, swap: remove old connection
+    // remove existing connections to this position
+    const newPosMap = { ...posMap };
+    Object.keys(newPosMap).forEach((k) => { if (newPosMap[k] === pos) delete newPosMap[k]; });
+    newPosMap[selectedLeft] = pos;
+    setPosMap(newPosMap);
+    // also update userMap (leftKey → text) for correctness checking
     const newMap = { ...userMap };
-    // remove any left that already points to this right
-    Object.keys(newMap).forEach((k) => { if (newMap[k] === rightText) delete newMap[k]; });
-    newMap[selectedLeft] = rightText;
+    Object.keys(newMap).forEach((k) => { if (newPosMap[k] === undefined && newMap[k] === text) delete newMap[k]; });
+    // remove old mapping for selectedLeft
+    delete newMap[selectedLeft];
+    // remove any other left that was pointing to same position
+    const prevOwner = Object.keys(posMap).find((k) => posMap[k] === pos);
+    if (prevOwner) delete newMap[prevOwner];
+    newMap[selectedLeft] = text;
     onChange(newMap);
     setSelectedLeft(null);
   };
 
-  const connectedRights = Object.values(userMap);
+  const connectedPositions = new Set(Object.values(posMap));
 
   return (
     <div className="space-y-2">
       <p className="text-xs text-gray-400 mb-1">Chọn vế trái rồi chọn vế phải để nối</p>
       <div ref={containerRef} className="relative flex gap-2">
-        {/* SVG overlay for lines */}
-        <svg
-          className="absolute inset-0 pointer-events-none"
-          width={svgSize.w}
-          height={svgSize.h}
-          style={{ overflow: 'visible' }}
-        >
+        <svg className="absolute inset-0 pointer-events-none" width={svgSize.w} height={svgSize.h} style={{ overflow: 'visible' }}>
           {lines.map((ln, i) => {
             const mx = (ln.x1 + ln.x2) / 2;
             return (
               <g key={i}>
-                <path
-                  d={`M ${ln.x1} ${ln.y1} C ${mx} ${ln.y1} ${mx} ${ln.y2} ${ln.x2} ${ln.y2}`}
-                  fill="none"
-                  stroke={ln.color}
-                  strokeWidth={2.5}
-                  strokeLinecap="round"
-                  opacity={0.85}
-                />
+                <path d={`M ${ln.x1} ${ln.y1} C ${mx} ${ln.y1} ${mx} ${ln.y2} ${ln.x2} ${ln.y2}`}
+                  fill="none" stroke={ln.color} strokeWidth={2.5} strokeLinecap="round" opacity={0.85} />
                 <circle cx={ln.x1} cy={ln.y1} r={4} fill={ln.color} opacity={0.9} />
                 <circle cx={ln.x2} cy={ln.y2} r={4} fill={ln.color} opacity={0.9} />
               </g>
@@ -426,12 +423,10 @@ function Matching({
           {options.map((opt, idx) => {
             const isSelected = selectedLeft === opt.key;
             const matched = userMap[opt.key];
-            const isCorrect = checked && correctMap[opt.key] === matched;
+            const isCorrect = checked && !!matched && correctMap[opt.key] === matched;
             const isWrong = checked && !!matched && correctMap[opt.key] !== matched;
             return (
-              <button
-                key={opt.key}
-                ref={(el) => { leftRefs.current[idx] = el; }}
+              <button key={opt.key} ref={(el) => { leftRefs.current[idx] = el; }}
                 onClick={() => handleLeftClick(opt.key)}
                 className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium text-left transition-all ${
                   isCorrect ? 'border-green-500 bg-green-50 text-green-800'
@@ -449,22 +444,19 @@ function Matching({
           })}
         </div>
 
-        {/* Spacer for lines */}
         <div className="w-12 shrink-0" />
 
         {/* Right column */}
         <div className="flex-1 space-y-2">
-          {rightItems.map((rightText, idx) => {
-            const isConnected = connectedRights.includes(rightText);
-            const ownerKey = Object.keys(userMap).find((k) => userMap[k] === rightText);
-            const isCorrect = checked && !!ownerKey && correctMap[ownerKey] === rightText;
-            const isWrong = checked && !!ownerKey && correctMap[ownerKey] !== rightText;
+          {rightItems.map((text, pos) => {
+            const isConnected = connectedPositions.has(pos);
+            const ownerKey = Object.keys(posMap).find((k) => posMap[k] === pos);
+            const isCorrect = checked && !!ownerKey && correctMap[ownerKey] === text;
+            const isWrong = checked && !!ownerKey && correctMap[ownerKey] !== text;
             const isTarget = !checked && !!selectedLeft && !isConnected;
             return (
-              <button
-                key={rightText}
-                ref={(el) => { rightRefs.current[idx] = el; }}
-                onClick={() => handleRightClick(rightText)}
+              <button key={pos} ref={(el) => { rightRefs.current[pos] = el; }}
+                onClick={() => handleRightClick(pos, text)}
                 disabled={checked}
                 className={`w-full px-3 py-2.5 rounded-xl border-2 text-sm font-medium text-left transition-all ${
                   isCorrect ? 'border-green-500 bg-green-50 text-green-800'
@@ -474,7 +466,7 @@ function Matching({
                   : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                 } ${checked ? 'cursor-default' : 'cursor-pointer'}`}
               >
-                {rightText}
+                {text}
                 {isCorrect && <span className="ml-1 text-green-600">✓</span>}
                 {isWrong && ownerKey && (
                   <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>
@@ -510,49 +502,37 @@ function preprocessTTS(text: string): string {
     .trim();
 }
 
-// Priority list: best-sounding Vietnamese voices first
-const VI_VOICE_PRIORITY = [
-  'Google tiếng Việt',
-  'Google Vietnamese',
-  'vi-VN-Neural2',
-  'vi-VN-Wavenet',
-  'Microsoft An Online',
-  'Microsoft Hoai My Online',
-];
-
-function pickVietnameseVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  const viVoices = voices.filter((v) => v.lang.startsWith('vi'));
-  if (viVoices.length === 0) return null;
-  for (const name of VI_VOICE_PRIORITY) {
-    const match = viVoices.find((v) => v.name.includes(name));
-    if (match) return match;
-  }
-  // prefer online/network voices over local (usually better quality)
-  return viVoices.find((v) => !v.localService) ?? viVoices[0];
-}
+// ─── Google Translate TTS (free, no API key, direct from browser) ─────────────
+let _ttsAudio: HTMLAudioElement | null = null;
 
 function speak(text: string) {
+  const cleaned = preprocessTTS(text);
+  if (!cleaned) return;
+
+  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
+
+  const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
+  const audio = new Audio(url);
+  _ttsAudio = audio;
+  audio.play().catch(() => speakWebSpeech(cleaned));
+}
+
+function speakWebSpeech(text: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(preprocessTTS(text));
-  u.lang = 'vi-VN';
-  u.rate = 0.85;
-  u.pitch = 1.05;
-
-  const trySpeak = () => {
-    const voice = pickVietnameseVoice(window.speechSynthesis.getVoices());
-    if (voice) u.voice = voice;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'vi-VN'; u.rate = 0.85; u.pitch = 1.0;
+  const VI_PRIORITY = ['Google tiếng Việt', 'Google Vietnamese', 'vi-VN-Neural2', 'vi-VN-Wavenet', 'Microsoft An Online'];
+  const go = () => {
+    const vi = window.speechSynthesis.getVoices().filter((v) => v.lang.startsWith('vi'));
+    if (vi.length) {
+      const match = VI_PRIORITY.map((n) => vi.find((v) => v.name.includes(n))).find(Boolean);
+      u.voice = match ?? vi.find((v) => !v.localService) ?? vi[0];
+    }
     window.speechSynthesis.speak(u);
   };
-
-  if (window.speechSynthesis.getVoices().length > 0) {
-    trySpeak();
-  } else {
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.onvoiceschanged = null;
-      trySpeak();
-    };
-  }
+  if (window.speechSynthesis.getVoices().length > 0) go();
+  else { window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; go(); }; }
 }
 
 const ENCOURAGE_CORRECT = ['Xuất sắc!', 'Tuyệt vời!', 'Giỏi lắm!', 'Chính xác!', 'Bạn thật thông minh!'];

@@ -1,17 +1,75 @@
 import type { Metadata } from 'next';
 import CourseDetailPage from '../../components/edu/CourseDetailPage';
 
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
+
 type Props = { params: Promise<{ slug: string }> };
+
+async function fetchCourse(slug: string) {
+  try {
+    const res = await fetch(`${API}/courses/slug/${slug}`, { next: { revalidate: 3600 } });
+    if (!res.ok) return null;
+    return res.json() as Promise<{
+      title: string; description?: string; slug: string;
+      thumbnailUrl?: string; ageRange?: string;
+    }>;
+  } catch { return null; }
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const course = await fetchCourse(slug);
+
+  const title = course ? `${course.title} | Bé Hay Học` : 'Khóa học | Bé Hay Học';
+  const description = course?.description
+    || (course ? `Khám phá khóa học "${course.title}" với các bài học và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.` : 'Khóa học trực tuyến dành cho bé tại Bé Hay Học.');
+  const url = `${SITE}/courses/${slug}`;
+  const image = course?.thumbnailUrl || `${SITE}/og-image.jpg`;
+
   return {
-    title: `Khóa học | Bé Hay Học`,
-    alternates: { canonical: `/courses/${slug}` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      siteName: 'Bé Hay Học',
+      locale: 'vi_VN',
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: { card: 'summary_large_image', title, description, images: [image] },
   };
 }
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  return <CourseDetailPage slug={slug} />;
+  const course = await fetchCourse(slug);
+
+  const jsonLd = course ? {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: course.title,
+    description: course.description || `Khóa học ${course.title} tại Bé Hay Học`,
+    url: `${SITE}/courses/${slug}`,
+    inLanguage: 'vi-VN',
+    educationalLevel: 'Tiểu học',
+    audience: { '@type': 'EducationalAudience', educationalRole: 'student' },
+    provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
+    image: course.thumbnailUrl || `${SITE}/og-image.jpg`,
+  } : null;
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <CourseDetailPage slug={slug} />
+    </>
+  );
 }

@@ -53,6 +53,37 @@ export const metadata: Metadata = {
   },
 };
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
+
 export default function Page() {
-  return <HomePage />;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Bé Hay Học',
+    url: SITE,
+    inLanguage: 'vi-VN',
+    description: 'Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/courses?q={search_term_string}` },
+      'query-input': 'required name=search_term_string',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Bé Hay Học',
+      url: SITE,
+      logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` },
+      sameAs: [],
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <HomePage />
+    </>
+  );
 }

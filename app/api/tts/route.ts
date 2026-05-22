@@ -10,8 +10,9 @@ export async function GET(req: NextRequest) {
   const text = req.nextUrl.searchParams.get('q');
   if (!text) return NextResponse.json({ error: 'q is required' }, { status: 400 });
 
-  if (cache.has(text)) {
-    return new NextResponse(cache.get(text), {
+  const cached = cache.get(text);
+  if (cached) {
+    return new NextResponse(new Uint8Array(cached), {
       headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'public, max-age=86400' },
     });
   }
@@ -44,7 +45,7 @@ export async function GET(req: NextRequest) {
   if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
   cache.set(text, buf);
 
-  return new NextResponse(buf, {
+  return new NextResponse(new Uint8Array(buf), {
     headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'public, max-age=86400' },
   });
 }

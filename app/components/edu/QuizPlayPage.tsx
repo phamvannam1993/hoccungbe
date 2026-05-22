@@ -332,12 +332,18 @@ function Matching({
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const rightItems = useState<string[]>(() => {
-    const items = options.map((o) => o.pair ?? '').filter(Boolean);
-    for (let i = items.length - 1; i > 0; i--) {
+    // prefer pair field on option, fall back to correctMap values
+    const hasPair = options.some((o) => !!o.pair);
+    const items = hasPair
+      ? options.map((o) => o.pair ?? '').filter(Boolean)
+      : options.map((o) => correctMap[o.key] ?? '').filter(Boolean);
+    // deduplicate while preserving order
+    const unique = [...new Set(items)];
+    for (let i = unique.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [items[i], items[j]] = [items[j], items[i]];
+      [unique[i], unique[j]] = [unique[j], unique[i]];
     }
-    return items;
+    return unique;
   })[0];
 
   useLayoutEffect(() => {

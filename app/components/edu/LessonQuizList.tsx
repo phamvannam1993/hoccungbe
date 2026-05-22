@@ -19,13 +19,18 @@ type ExercisesData = {
 };
 
 const DIFF_COLOR = { easy: '#1FA8B4', medium: '#D85C4A', hard: '#C4892A' };
-const DIFF_BG = { easy: '#f0fafb', medium: '#fdf2f0', hard: '#fdf8f0' };
+const DIFF_BG   = { easy: '#f0fafb', medium: '#fdf2f0', hard: '#fdf8f0' };
+const DIFF_LABEL = { easy: 'Dễ', medium: 'Trung bình', hard: 'Nâng cao' };
 
-function StarBubbles({ count }: { count: number }) {
+function StarBubbles({ count, color }: { count: number; color: string }) {
   return (
     <div className="flex items-center gap-1">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-6 h-6 rounded-full bg-gray-200" />
+        <div
+          key={i}
+          className="w-5 h-5 rounded-full"
+          style={{ background: `${color}30`, border: `2px solid ${color}50` }}
+        />
       ))}
     </div>
   );
@@ -57,13 +62,13 @@ export default function LessonQuizList({
   if (!data || data.exercises.length === 0) return null;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-gray-800">Danh sách bài tập</h2>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Bạn hoàn thành</span>
-          <div className="w-12 h-12 rounded-full border-4 border-gray-200 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700">0%</span>
+          <span className="text-xs text-gray-500 hidden sm:inline">Bạn hoàn thành</span>
+          <div className="w-10 h-10 rounded-full border-4 border-gray-200 flex items-center justify-center">
+            <span className="text-[10px] font-bold text-gray-700">0%</span>
           </div>
         </div>
       </div>
@@ -80,26 +85,39 @@ export default function LessonQuizList({
             <Link
               key={ex.exerciseNumber}
               href={href}
-              className="flex items-center gap-4 px-3 py-3 rounded-xl hover:opacity-90 transition-opacity"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all"
               style={{ backgroundColor: bg }}
             >
+              {/* Badge mũi tên */}
               <div
-                className="shrink-0 flex items-center justify-center text-white text-sm font-bold py-2"
+                className="shrink-0 flex items-center justify-center text-white text-sm font-bold whitespace-nowrap"
                 style={{
                   background: color,
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%)',
-                  minWidth: '110px',
-                  paddingLeft: '16px',
-                  paddingRight: '20px',
+                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)',
+                  padding: '6px 20px 6px 12px',
+                  minWidth: '90px',
                 }}
               >
-                Bài tập {ex.exerciseNumber}
+                Bài {ex.exerciseNumber}
               </div>
-              <span className="flex-1 text-sm font-medium" style={{ color }}>
-                {ex.label}
+
+              {/* Nội dung giữa */}
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold truncate" style={{ color }}>
+                  {DIFF_LABEL[ex.difficultyLevel]}
+                </div>
+                <div className="mt-1">
+                  <StarBubbles count={ex.stars} color={color} />
+                </div>
+              </div>
+
+              {/* Trạng thái */}
+              <span
+                className="shrink-0 text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap"
+                style={{ background: `${color}15`, color }}
+              >
+                Chưa làm
               </span>
-              <StarBubbles count={ex.stars} />
-              <span className="text-sm shrink-0 text-gray-400">Chưa làm</span>
             </Link>
           );
         })}

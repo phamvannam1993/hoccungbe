@@ -488,7 +488,7 @@ function preprocessTTS(text: string): string {
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
     .replace(/_{2,}/g, 'mấy')          // ___ → mấy
     .replace(/\?/g, '')                 // bỏ dấu ?
-    .replace(/(\d)\s*[-−–]\s*(\d)/g, '$1 đến $2') // 0-5 → 0 đến 5
+    .replace(/(\d)[-−–](\d)/g, '$1 đến $2') // 0-5 → 0 đến 5 (no spaces = range)
     .replace(/[+＋]/g, ' cộng ')
     .replace(/[-−–]/g, ' trừ ')
     .replace(/[×✕*＊·]/g, ' nhân ')

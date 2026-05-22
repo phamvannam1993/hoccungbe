@@ -503,6 +503,7 @@ function preprocessTTS(text: string): string {
     .replace(/>/g, ' lớn hơn ')
     .replace(/≤/g, ' nhỏ hơn hoặc bằng ')
     .replace(/≥/g, ' lớn hơn hoặc bằng ')
+    .replace(/≠/g, ' khác ')
     .replace(/\s{2,}/g, ' ')
     .trim();
 }

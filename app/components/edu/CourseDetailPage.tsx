@@ -129,15 +129,25 @@ export default function CourseDetailPage({ slug }: { slug: string }) {
           )}
 
           {/* Exam/test box */}
-          <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-            <div className="flex items-start gap-3">
-              <div className="text-2xl">📝</div>
-              <div>
-                <h2 className="font-semibold text-green-900 text-sm">Đề kiểm tra {course.title}</h2>
-                <p className="text-xs text-green-700 mt-1">Các đề kiểm tra và bài tập ôn luyện theo chủ đề của khóa học.</p>
-              </div>
-            </div>
-          </div>
+          {(() => {
+            const slug = course.slug ?? '';
+            const gradeMatch = slug.match(/lop-?(\d)/);
+            const grade = gradeMatch ? gradeMatch[1] : '';
+            const subject = slug.includes('toan') ? 'toan' : slug.includes('tieng-viet') ? 'tieng-viet' : slug.includes('tieng-anh') ? 'tieng-anh' : '';
+            const href = subject && grade ? `/de-thi?subject=${subject}&grade=${grade}` : '/de-thi';
+            return (
+              <Link href={href} className="block rounded-xl border border-green-200 bg-green-50 p-4 hover:bg-green-100 transition-colors group">
+                <div className="flex items-start gap-3">
+                  <div className="text-2xl">📝</div>
+                  <div className="flex-1">
+                    <h2 className="font-semibold text-green-900 text-sm group-hover:underline">Đề kiểm tra {course.title}</h2>
+                    <p className="text-xs text-green-700 mt-1">Các đề kiểm tra và bài tập ôn luyện theo chủ đề của khóa học.</p>
+                  </div>
+                  <span className="text-green-600 text-sm font-bold shrink-0 mt-0.5">→</span>
+                </div>
+              </Link>
+            );
+          })()}
         </div>
 
         {/* Lesson list */}
@@ -145,8 +155,8 @@ export default function CourseDetailPage({ slug }: { slug: string }) {
           {hasVolumes ? (
             <div className={`grid gap-8 ${sortedVolumes.length >= 2 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
               {sortedVolumes.map((vol) => {
-                const volLessons = lessons.filter((l) => l.volumeId === vol.id);
-                const volTopics = topics.filter((t) => t.volumeId === vol.id);
+                const volLessons = lessons.filter((l) => Number(l.volumeId) === Number(vol.id));
+                const volTopics = topics.filter((t) => Number(t.volumeId) === Number(vol.id));
                 return (
                   <VolumeColumn
                     key={vol.id}
@@ -185,17 +195,18 @@ export default function CourseDetailPage({ slug }: { slug: string }) {
 }
 
 function groupLessonsByTopic(lessons: ApiLesson[], topics: ApiTopic[]) {
-  const topicMap = new Map(topics.map((t) => [t.id, t]));
-  const topicOrder = topics.map((t) => t.id);
+  // Normalize ids to number to avoid bigint string mismatch from MySQL
+  const normTopics = topics.map((t) => ({ ...t, id: Number(t.id) }));
+  const topicMap = new Map(normTopics.map((t) => [t.id, t]));
+  const topicOrder = normTopics.map((t) => t.id);
 
   const byTopic: Map<number | null, ApiLesson[]> = new Map();
   for (const lesson of lessons) {
-    const key = lesson.topicId ?? null;
+    const key = lesson.topicId != null ? Number(lesson.topicId) : null;
     if (!byTopic.has(key)) byTopic.set(key, []);
     byTopic.get(key)!.push(lesson);
   }
 
-  // Order: topics in sortOrder, then null (no topic)
   const orderedTopicIds: (number | null)[] = [...topicOrder.filter((id) => byTopic.has(id))];
   if (byTopic.has(null)) orderedTopicIds.push(null);
 

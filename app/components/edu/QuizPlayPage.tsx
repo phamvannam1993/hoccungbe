@@ -583,6 +583,7 @@ export default function QuizPlayPage({
   const [tfSel, setTfSel] = useState<Record<number, string>>({});
   const [dragOrder, setDragOrder] = useState<Record<number, string[]>>({});
   const [matchMap, setMatchMap] = useState<Record<number, Record<string, string>>>({});
+  const [shuffledOpts, setShuffledOpts] = useState<Record<number, OptionItem[]>>({});
   const [celebrate, setCelebrate] = useState<'correct' | 'wrong' | null>(null);
   const [celebrateMsg, setCelebrateMsg] = useState('');
 
@@ -608,6 +609,7 @@ export default function QuizPlayPage({
     setCurrent(0);
     setChecked({});
     setScore(0);
+    setShuffledOpts({});
 
     const fetchLesson = lessonIdProp
       ? apiFetch<LessonMeta>(`/lessons/${lessonIdProp}`)
@@ -627,11 +629,21 @@ export default function QuizPlayPage({
         setExercise(exData);
         setAllExercises(allData.exercises);
         const initDrag: Record<number, string[]> = {};
+        const initShuffle: Record<number, OptionItem[]> = {};
         exData.quizzes.forEach((q) => {
           if (q.questionType === 'drag_drop' && Array.isArray(q.optionsJson)) {
             initDrag[q.id] = q.optionsJson.map((o) => o.key);
           }
+          if ((q.questionType === 'single_choice' || q.questionType === 'multiple_choice' || q.questionType === 'image_choice') && Array.isArray(q.optionsJson)) {
+            const arr = [...q.optionsJson];
+            for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            initShuffle[q.id] = arr;
+          }
         });
+        setShuffledOpts(initShuffle);
         setDragOrder(initDrag);
       })
       .catch(() => {})
@@ -674,7 +686,7 @@ export default function QuizPlayPage({
   }
 
   const q = exercise.quizzes[current];
-  const options: OptionItem[] = Array.isArray(q.optionsJson) ? q.optionsJson : [];
+  const options: OptionItem[] = shuffledOpts[q.id] ?? (Array.isArray(q.optionsJson) ? q.optionsJson : []);
   const isChecked = !!checked[q.id];
   const diffColor = DIFF_COLOR[exercise.difficultyLevel] || '#E8871A';
   const totalPoints = exercise.quizzes.reduce((s, qz) => s + (qz.points || 10), 0);

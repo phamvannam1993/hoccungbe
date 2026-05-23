@@ -140,7 +140,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
             {/* Related on sidebar */}
             {related.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-sm p-5 mt-4 sticky top-[220px]">
+              <div className="bg-white rounded-2xl shadow-sm p-5 mt-10 sticky top-[220px]">
                 <h3 className="text-sm font-bold text-gray-700 mb-4">Có thể bạn sẽ thích</h3>
                 <ul className="space-y-3">
                   {related.slice(0, 3).map((rel) => (
@@ -164,7 +164,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
           {/* ── Main content ──────────────────────────────────────────── */}
           <main className="flex-1 min-w-0">
-            <article className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 overflow-x-hidden">
+            <article className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
               {/* Category badge */}
               {article.category && (
                 <Link href={`/bai-viet?category=${article.category}`}
@@ -198,26 +198,39 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
               )}
 
               {/* HTML Content */}
+              <style>{`
+                .article-content { overflow-x: auto; }
+                .article-content * { max-width: 100% !important; box-sizing: border-box; }
+                .article-content p { margin-bottom: 1rem; line-height: 1.75; }
+                .article-content img { height: auto !important; border-radius: 10px; margin: 12px auto; display: block; }
+                .article-content table { border-collapse: collapse !important; width: 100% !important; margin: 16px 0; overflow-x: auto; display: block; border-radius: 8px; overflow: hidden; }
+                .article-content thead tr { background: #f3f4f6; }
+                .article-content th { border: 1px solid #e5e7eb !important; padding: 10px 14px !important; font-weight: 600; color: #374151; text-align: left; font-size: 14px; }
+                .article-content td { border: 1px solid #e5e7eb !important; padding: 10px 14px !important; vertical-align: middle; font-size: 14px; color: #374151; }
+                .article-content td img { max-height: 120px !important; width: auto !important; margin: 4px auto; border-radius: 6px; }
+                .article-content tr:nth-child(even) td { background-color: #fafafa; }
+                .article-content tr:hover td { background-color: #f0fdf4; transition: background 0.15s; }
+                .article-content iframe { width: 100% !important; aspect-ratio: 16/9; border-radius: 10px; }
+                .article-content pre { overflow-x: auto; border-radius: 8px; }
+                .article-content blockquote { border-left: 4px solid #c0392b; padding-left: 1rem; color: #6b7280; font-style: italic; margin: 1rem 0; }
+                .article-content a { color: #c0392b; text-decoration: underline; }
+                .article-content h2 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin: 2rem 0 0.75rem; }
+                .article-content h3 { font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 1.5rem 0 0.5rem; }
+                .article-content ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+                .article-content ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+                .article-content li { margin-bottom: 0.4rem; line-height: 1.7; }
+              `}</style>
               <div
-                style={{ wordBreak: 'normal', overflowWrap: 'break-word' }}
-                className="
-                  prose prose-base max-w-none text-gray-700 leading-relaxed
-                  [&_*]:max-w-full
+                className="article-content prose prose-base max-w-none text-gray-700 leading-relaxed
                   [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-3
                   [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-800 [&_h3]:mt-6 [&_h3]:mb-2
-                  [&_p]:mb-4 [&_p]:leading-relaxed
                   [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1.5
                   [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4
                   [&_blockquote]:border-l-4 [&_blockquote]:border-[#c0392b]/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-500
-                  [&_img]:rounded-xl [&_img]:my-5 [&_img]:h-auto
-                  [&_table]:overflow-x-auto [&_table]:block
-                  [&_pre]:overflow-x-auto
-                  [&_iframe]:aspect-video [&_iframe]:w-full
                   [&_a]:text-[#c0392b] [&_a]:underline [&_a:hover]:text-[#a93226]
                   [&_strong]:text-gray-800
                   [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm
-                  [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-xl [&_pre]:p-4
-                "
+                  [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-xl [&_pre]:p-4"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
 

@@ -25,6 +25,7 @@ const NAV_MENU: NavItem[] = [
   },
   { href: '/tien-do', label: 'THI ĐẤU' },
   { href: '/ho-tro', label: 'ÔN THI TN THPT' },
+  { href: '/bai-viet', label: 'BÀI VIẾT' },
   { href: '/dang-ky', label: 'MUA THẺ VIP' },
 ];
 

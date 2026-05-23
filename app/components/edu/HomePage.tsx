@@ -2,6 +2,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ApiCourse } from '../../lib/api';
 
+interface Article {
+  id: number; title: string; slug: string;
+  excerpt?: string; thumbnailUrl?: string;
+  category?: string; publishedAt?: string; createdAt: string;
+}
+
+async function fetchArticles(): Promise<Article[]> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${base}/api/articles?limit=4`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.data || [];
+  } catch { return []; }
+}
+
 async function fetchCourses(): Promise<ApiCourse[]> {
   try {
     const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -29,7 +45,7 @@ const STATS = [
 ];
 
 export default async function HomePage() {
-  const courses = await fetchCourses();
+  const [courses, articles] = await Promise.all([fetchCourses(), fetchArticles()]);
 
   return (
     <main>
@@ -182,6 +198,43 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── BÀI VIẾT ── */}
+      {articles.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+          <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+            <div className="flex items-end justify-between mb-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Góc kiến thức</p>
+                <h2 className="text-2xl font-black text-slate-900">Bài viết hữu ích cho ba mẹ</h2>
+              </div>
+              <Link href="/bai-viet" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+                Xem tất cả →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {articles.map((article) => (
+                <Link key={article.id} href={`/bai-viet/${article.slug}`}
+                  className="group flex flex-col rounded-xl border border-slate-100 overflow-hidden hover:border-[#c0392b]/30 hover:shadow-sm transition-all">
+                  <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-teal-400 to-[#c0392b] shrink-0">
+                    {article.thumbnailUrl
+                      ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
+                      : <div className="absolute inset-0 flex items-center justify-center text-3xl">📝</div>
+                    }
+                  </div>
+                  <div className="p-4 flex flex-col flex-1">
+                    <h3 className="font-bold text-slate-900 group-hover:text-[#c0392b] text-sm leading-snug line-clamp-2 flex-1">{article.title}</h3>
+                    {article.excerpt && (
+                      <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">{article.excerpt}</p>
+                    )}
+                    <span className="mt-3 text-xs font-bold text-[#c0392b] group-hover:underline">Đọc thêm →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── CTA ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-10">

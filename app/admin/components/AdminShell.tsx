@@ -19,6 +19,7 @@ import {
   X,
   Layers,
   Tag,
+  Newspaper,
 } from 'lucide-react';
 
 const navItems = [
@@ -34,6 +35,7 @@ const navItems = [
   { href: '/admin/progress', label: 'Tiến độ', icon: TrendingUp },
   { href: '/admin/rewards', label: 'Phần thưởng', icon: Star },
   { href: '/admin/subscriptions', label: 'Đăng ký', icon: CreditCard },
+  { href: '/admin/articles', label: 'Bài viết', icon: Newspaper },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {

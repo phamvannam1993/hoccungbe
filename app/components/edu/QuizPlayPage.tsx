@@ -125,7 +125,7 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[110px] pl-3 pr-10 py-4"
+            className="relative flex flex-col items-center justify-center min-h-[130px] pl-3 pr-10 py-6 overflow-visible"
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -181,7 +181,7 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[110px] pl-3 pr-10 py-4"
+            className="relative flex flex-col items-center justify-center min-h-[130px] pl-3 pr-10 py-6 overflow-visible"
           >
             {/* Checkbox indicator */}
             <span className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = course ? `${course.title} | Bé Hay Học` : 'Khóa học | Bé Hay Học';
   const description = course?.description
     || (course ? `Khám phá khóa học "${course.title}" với các bài học và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.` : 'Khóa học trực tuyến dành cho bé tại Bé Hay Học.');
-  const url = `${SITE}/courses/${slug}`;
+  const url = `${SITE}/khoa-hoc/${slug}`;
   const image = course?.thumbnailUrl || `${SITE}/og-image.jpg`;
 
   return {
@@ -53,7 +53,7 @@ export default async function Page({ params }: Props) {
     '@type': 'Course',
     name: course.title,
     description: course.description || `Khóa học ${course.title} tại Bé Hay Học`,
-    url: `${SITE}/courses/${slug}`,
+    url: `${SITE}/khoa-hoc/${slug}`,
     inLanguage: 'vi-VN',
     educationalLevel: 'Tiểu học',
     audience: { '@type': 'EducationalAudience', educationalRole: 'student' },
@@ -61,13 +61,23 @@ export default async function Page({ params }: Props) {
     image: course.thumbnailUrl || `${SITE}/og-image.jpg`,
   } : null;
 
+  const breadcrumb = course ? {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Khóa học', item: `${SITE}/khoa-hoc` },
+      { '@type': 'ListItem', position: 3, name: course.title, item: `${SITE}/khoa-hoc/${slug}` },
+    ],
+  } : null;
+
   return (
     <>
       {jsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      )}
+      {breadcrumb && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       )}
       <CourseDetailPage slug={slug} />
     </>

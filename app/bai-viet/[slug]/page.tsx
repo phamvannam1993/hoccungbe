@@ -85,6 +85,16 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
     );
   }
 
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Bài viết', item: `${SITE}/bai-viet` },
+      { '@type': 'ListItem', position: 3, name: article.title, item: `${SITE}/bai-viet/${slug}` },
+    ],
+  };
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -102,9 +112,10 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
         {/* Breadcrumb */}
         <nav className="text-sm text-white/70 mb-6 flex flex-wrap items-center gap-1.5">
           <Link href="/" className="hover:text-white">Trang chủ</Link>
@@ -114,7 +125,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <span className="text-white line-clamp-1">{article.title}</span>
         </nav>
 
-        <div className="flex gap-6 items-start overflow-hidden">
+        <div className="flex gap-6 items-start min-w-0 overflow-x-hidden">
           {/* ── Left sidebar ─────────────────────────────────────────── */}
           <aside className="hidden lg:block w-56 shrink-0">
             <div className="bg-white rounded-2xl shadow-sm p-5 sticky top-6">
@@ -199,21 +210,23 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
               {/* HTML Content */}
               <style>{`
-                .article-content { overflow-x: auto; }
+                .article-content { overflow-x: hidden; word-break: break-word; }
                 .article-content * { max-width: 100% !important; box-sizing: border-box; }
                 .article-content p { margin-bottom: 1rem; line-height: 1.75; }
-                .article-content img { height: auto !important; border-radius: 10px; margin: 12px auto; display: block; }
-                .article-content table { border-collapse: collapse !important; width: 100% !important; margin: 16px 0; overflow-x: auto; display: block; border-radius: 8px; overflow: hidden; }
+                .article-content img { height: auto !important; width: auto !important; max-width: 100% !important; border-radius: 10px; margin: 12px auto; display: block; }
+                .article-content .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; margin: 16px 0; }
+                .article-content table { border-collapse: collapse !important; width: 100% !important; min-width: 0 !important; }
                 .article-content thead tr { background: #f3f4f6; }
-                .article-content th { border: 1px solid #e5e7eb !important; padding: 10px 14px !important; font-weight: 600; color: #374151; text-align: left; font-size: 14px; }
+                .article-content th { border: 1px solid #e5e7eb !important; padding: 10px 14px !important; font-weight: 600; color: #374151; text-align: left; font-size: 14px; white-space: nowrap; }
                 .article-content td { border: 1px solid #e5e7eb !important; padding: 10px 14px !important; vertical-align: middle; font-size: 14px; color: #374151; }
                 .article-content td img { max-height: 120px !important; width: auto !important; margin: 4px auto; border-radius: 6px; }
                 .article-content tr:nth-child(even) td { background-color: #fafafa; }
                 .article-content tr:hover td { background-color: #f0fdf4; transition: background 0.15s; }
-                .article-content iframe { width: 100% !important; aspect-ratio: 16/9; border-radius: 10px; }
-                .article-content pre { overflow-x: auto; border-radius: 8px; }
+                .article-content iframe { width: 100% !important; max-width: 100% !important; aspect-ratio: 16/9; border-radius: 10px; }
+                .article-content pre { overflow-x: auto; border-radius: 8px; white-space: pre-wrap; word-break: break-all; }
+                .article-content code { word-break: break-all; white-space: pre-wrap; }
                 .article-content blockquote { border-left: 4px solid #c0392b; padding-left: 1rem; color: #6b7280; font-style: italic; margin: 1rem 0; }
-                .article-content a { color: #c0392b; text-decoration: underline; }
+                .article-content a { color: #c0392b; text-decoration: underline; word-break: break-all; }
                 .article-content h2 { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin: 2rem 0 0.75rem; }
                 .article-content h3 { font-size: 1.1rem; font-weight: 600; color: #1f2937; margin: 1.5rem 0 0.5rem; }
                 .article-content ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }

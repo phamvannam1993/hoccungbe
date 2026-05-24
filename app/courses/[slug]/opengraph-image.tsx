@@ -7,8 +7,13 @@ export const contentType = 'image/png';
 const API = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
 async function loadFont() {
-  const res = await fetch('https://fonts.gstatic.com/s/bevietnampro/v11/QdVNSTAyLFyeg_IDWvOJmVES_HwyPR8.woff2');
-  return res.arrayBuffer();
+  try {
+    const res = await fetch('https://fonts.gstatic.com/s/bevietnampro/v11/QdVNSTAyLFyeg_IDWvOJmVES_HwyPR8.woff2');
+    if (!res.ok) return null;
+    const ct = res.headers.get('content-type') || '';
+    if (ct.includes('text/html')) return null;
+    return res.arrayBuffer();
+  } catch { return null; }
 }
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {

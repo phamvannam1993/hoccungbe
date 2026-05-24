@@ -5,8 +5,13 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 async function loadFont() {
-  const res = await fetch('https://fonts.gstatic.com/s/bevietnampro/v11/QdVNSTAyLFyeg_IDWvOJmVES_HwyPR8.woff2');
-  return res.arrayBuffer();
+  try {
+    const res = await fetch('https://fonts.gstatic.com/s/bevietnampro/v11/QdVNSTAyLFyeg_IDWvOJmVES_HwyPR8.woff2');
+    if (!res.ok) return null;
+    const ct = res.headers.get('content-type') || '';
+    if (ct.includes('text/html')) return null;
+    return res.arrayBuffer();
+  } catch { return null; }
 }
 
 export default async function Image() {

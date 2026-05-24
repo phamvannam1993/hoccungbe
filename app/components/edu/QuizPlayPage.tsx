@@ -1,10 +1,18 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '../../lib/api';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
+
+const KidsCtx = createContext(false);
+const useKids = () => useContext(KidsCtx);
+
+// Returns true if text looks like a number or math expression (not plain words)
+function isMathText(text: string): boolean {
+  return /^[\d\s+\-×÷*/:=<>≤≥≠.,()%^√π]+$/.test(text.trim());
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -86,7 +94,7 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void;
 }) {
   return (
-    <div className={`grid gap-3 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : options.length === 4 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-2'}`}>
+    <div className={`grid gap-4 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
       {options.map((opt) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
@@ -94,14 +102,38 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
         return (
           <button key={opt.key}
             onClick={() => { if (!checked) { onSelect(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
-            className={`relative flex flex-col items-center justify-center gap-1 min-h-[72px] px-3 py-2 rounded-xl border-2 text-base font-bold transition-all ${isRight ? 'border-green-500 bg-green-50 text-green-700' : isWrong ? 'border-red-500 bg-red-50 text-red-700' : isSel ? 'border-amber-400 bg-amber-50 text-amber-700' : 'border-amber-300 bg-white text-gray-800 hover:border-amber-400 hover:bg-amber-50'} ${checked ? 'cursor-default' : 'cursor-pointer'}`}
+            style={{
+              borderWidth: 3,
+              borderStyle: 'solid',
+              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? '#f59e0b' : '#f0b429',
+              borderRadius: 16,
+              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? '#fffbeb' : '#ffffff',
+              boxShadow: isSel && !checked ? '0 2px 8px rgba(245,158,11,0.25)' : '0 1px 4px rgba(0,0,0,0.06)',
+              transform: isSel && !checked ? 'scale(1.02)' : 'scale(1)',
+              transition: 'all 0.15s',
+              cursor: checked ? 'default' : 'pointer',
+            }}
+            className="relative flex flex-col items-center justify-center min-h-[130px] px-6 py-6"
           >
-            <div className="flex items-center gap-1.5">
-              {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
-              <span>{opt.text || opt.key}</span>
-            </div>
-            {isRight && <span className="text-xs">✓</span>}
-            {isWrong && <span className="text-xs">✗</span>}
+            {(() => {
+              const idx2 = options.indexOf(opt);
+              const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx2 % OPTION_COLORS.length];
+              const isMath = isMathText(opt.text || opt.key);
+              return (
+                <div className="flex items-center gap-2">
+                  {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
+                  <span style={{
+                    fontSize: isMath ? 56 : 20,
+                    fontWeight: isMath ? 900 : 700,
+                    color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                    textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                    letterSpacing: isMath ? '-0.5px' : 'normal',
+                  }}>{opt.text || opt.key}</span>
+                </div>
+              );
+            })()}
+            {isRight && <span className="absolute top-2 right-2.5 text-green-500 font-black text-base">✓</span>}
+            {isWrong && <span className="absolute top-2 right-2.5 text-red-500 font-black text-base">✗</span>}
           </button>
         );
       })}
@@ -109,25 +141,53 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
   );
 }
 
+const OPTION_COLORS = ['#3b82f6','#e53935','#9c27b0','#f97316','#0d9488','#7c3aed'];
+
 function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
   options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void;
 }) {
   return (
-    <div className={`grid gap-3 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
-      {options.map((opt) => {
+    <div className={`grid gap-4 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+      {options.map((opt, idx) => {
         const isSel = selected.includes(opt.key);
         const isRight = checked && correctKeys.includes(opt.key);
         const isWrong = checked && isSel && !correctKeys.includes(opt.key);
+        const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx % OPTION_COLORS.length];
         return (
           <button key={opt.key}
             onClick={() => { if (!checked) { onToggle(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
-            className={`relative flex flex-col items-center justify-center gap-1 min-h-[72px] px-3 py-3 rounded-xl border-2 text-base font-bold transition-all ${isRight ? 'border-green-500 bg-green-50 text-green-700' : isWrong ? 'border-red-500 bg-red-50 text-red-700' : isSel ? 'border-amber-400 bg-amber-50 text-amber-700' : 'border-amber-300 bg-white text-gray-800 hover:border-amber-400 hover:bg-amber-50'} ${checked ? 'cursor-default' : 'cursor-pointer'}`}
+            style={{
+              borderWidth: 3,
+              borderStyle: 'solid',
+              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? '#f59e0b' : '#f0b429',
+              borderRadius: 16,
+              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? '#fffbeb' : '#ffffff',
+              boxShadow: isSel && !checked ? '0 2px 8px rgba(245,158,11,0.25)' : '0 1px 4px rgba(0,0,0,0.06)',
+              transform: isSel && !checked ? 'scale(1.02)' : 'scale(1)',
+              transition: 'all 0.15s',
+              cursor: checked ? 'default' : 'pointer',
+            }}
+            className="relative flex flex-col items-center justify-center min-h-[130px] px-6 py-6"
           >
-            <span className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>{isSel && '✓'}</span>
+            {/* Checkbox indicator */}
+            <span className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
+              {isSel && '✓'}
+            </span>
             {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
-            <span>{opt.text}</span>
-            {isRight && <span className="text-xs">✓</span>}
-            {isWrong && <span className="text-xs">✗</span>}
+            {(() => {
+              const isMath = isMathText(opt.text);
+              return (
+                <span style={{
+                  fontSize: isMath ? 56 : 20,
+                  fontWeight: isMath ? 900 : 700,
+                  color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                  textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                  letterSpacing: isMath ? '-0.5px' : 'normal',
+                }}>{opt.text}</span>
+              );
+            })()}
+            {isRight && !isSel && <span className="absolute top-3 right-3 text-green-500 font-black text-base">✓</span>}
+            {isWrong && <span className="absolute bottom-2 right-3 text-xs text-red-500 font-bold">✗ Sai</span>}
           </button>
         );
       })}
@@ -181,13 +241,31 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
               onReorder(newOrder);
               dragIdx.current = null;
             }}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${isRight ? 'border-green-400 bg-green-50' : isWrong ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white hover:border-amber-300'} ${!checked ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '14px 18px', borderRadius: 16,
+              borderWidth: 2, borderStyle: 'solid',
+              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : '#e5e7eb',
+              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fff',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+              cursor: checked ? 'default' : 'grab', transition: 'all 0.15s',
+            }}
           >
-            {!checked && <span className="text-gray-300 text-lg select-none">⠿</span>}
-            <span className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center shrink-0">{idx + 1}</span>
-            <span className="text-sm font-medium text-gray-800">{opt?.text ?? key}</span>
-            {isRight && <span className="ml-auto text-green-500 font-bold">✓</span>}
-            {isWrong && <span className="ml-auto text-xs text-red-500">→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
+            {!checked && <span style={{ color: '#d1d5db', fontSize: 20, userSelect: 'none', flexShrink: 0 }}>⠿</span>}
+            <span style={{
+              width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+              background: `${OPTION_COLORS[idx % OPTION_COLORS.length]}22`,
+              border: `2px solid ${OPTION_COLORS[idx % OPTION_COLORS.length]}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 15, fontWeight: 900, color: OPTION_COLORS[idx % OPTION_COLORS.length],
+            }}>{idx + 1}</span>
+            <span style={{
+              flex: 1,
+              fontSize: isMathText(opt?.text ?? key) ? 28 : 18,
+              fontWeight: 700, color: isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b',
+            }}>{opt?.text ?? key}</span>
+            {isRight && <span style={{ color: '#22c55e', fontWeight: 900, fontSize: 18, flexShrink: 0 }}>✓</span>}
+            {isWrong && <span style={{ fontSize: 12, color: '#ef4444', flexShrink: 0 }}>→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
           </div>
         );
       })}
@@ -229,7 +307,6 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   options: OptionItem[]; userMap: Record<string, string>; checked: boolean; correctMap: Record<string, string>; onChange: (map: Record<string, string>) => void;
 }) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
-  const [posMap, setPosMap] = useState<Record<string, number>>({});
   const [lines, setLines] = useState<Line[]>([]);
   const [svgSize, setSvgSize] = useState({ w: 0, h: 0 });
 
@@ -240,9 +317,24 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   const rightItems = useState<string[]>(() => {
     const hasPair = options.some((o) => !!o.pair);
     const items = hasPair ? options.map((o) => o.pair ?? '').filter(Boolean) : options.map((o) => correctMap[o.key] ?? '').filter(Boolean);
-    for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
-    return items;
+    // Deduplicate so same-value right items appear only once
+    const unique = Array.from(new Set(items));
+    for (let i = unique.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [unique[i], unique[j]] = [unique[j], unique[i]]; }
+    return unique;
   })[0];
+
+  // Restore posMap from existing userMap answers (when navigating back)
+  const [posMap, setPosMap] = useState<Record<string, number>>(() => {
+    const initial: Record<string, number> = {};
+    options.forEach((opt) => {
+      const matched = userMap[opt.key];
+      if (matched) {
+        const pos = rightItems.indexOf(matched);
+        if (pos >= 0) initial[opt.key] = pos;
+      }
+    });
+    return initial;
+  });
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -285,28 +377,40 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </svg>
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 space-y-3">
           {options.map((opt, idx) => {
             const isSelected = selectedLeft === opt.key;
             const matched = userMap[opt.key];
             const isCorrect = checked && !!matched && correctMap[opt.key] === matched;
             const isWrong = checked && !!matched && correctMap[opt.key] !== matched;
+            const col = OPTION_COLORS[idx % OPTION_COLORS.length];
             return (
-              <button key={opt.key} ref={(el) => { leftRefs.current[idx] = el; }} onClick={() => { if (!checked) setSelectedLeft((prev) => prev === opt.key ? null : opt.key); }}
-                className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 text-sm font-medium text-left transition-all ${isCorrect ? 'border-green-500 bg-green-50 text-green-800' : isWrong ? 'border-red-400 bg-red-50 text-red-800' : isSelected ? 'border-amber-400 bg-amber-50 text-amber-800 shadow-md' : matched ? 'border-blue-400 bg-blue-50 text-blue-800' : 'border-gray-200 bg-white text-gray-800 hover:border-amber-300'} ${checked ? 'cursor-default' : 'cursor-pointer'}`}
+              <button key={opt.key} ref={(el) => { leftRefs.current[idx] = el; }}
+                onClick={() => { if (!checked) setSelectedLeft((prev) => prev === opt.key ? null : opt.key); }}
+                style={{
+                  borderWidth: 3, borderStyle: 'solid',
+                  borderColor: isCorrect ? '#22c55e' : isWrong ? '#ef4444' : isSelected ? '#f59e0b' : matched ? '#3b82f6' : '#e5e7eb',
+                  borderRadius: 14,
+                  background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isSelected ? '#fffbeb' : matched ? '#eff6ff' : '#fff',
+                  boxShadow: isSelected ? '0 2px 8px rgba(245,158,11,0.3)' : '0 1px 3px rgba(0,0,0,0.06)',
+                  cursor: checked ? 'default' : 'pointer',
+                }}
+                className="w-full flex items-center px-5 py-4 transition-all"
               >
-                <span className="flex-1">{opt.text}</span>
-                {isCorrect && <span className="text-green-600 shrink-0">✓</span>}
-                {isWrong && <span className="text-red-500 shrink-0">✗</span>}
+                <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{opt.text}</span>
+                {isCorrect && <span className="text-green-600 font-black text-lg shrink-0">✓</span>}
+                {isWrong && <span className="text-red-500 font-black shrink-0">✗</span>}
               </button>
             );
           })}
         </div>
-        <div className="w-12 shrink-0" />
-        <div className="flex-1 space-y-2">
+        <div className="w-10 shrink-0" />
+        <div className="flex-1 space-y-3">
           {rightItems.map((text, pos) => {
             const isConnected = connectedPositions.has(pos);
             const ownerKey = Object.keys(posMap).find((k) => posMap[k] === pos);
+            const ownerIdx = ownerKey ? options.findIndex((o) => o.key === ownerKey) : -1;
+            const col = ownerIdx >= 0 ? OPTION_COLORS[ownerIdx % OPTION_COLORS.length] : '#6b7280';
             const isCorrect = checked && !!ownerKey && correctMap[ownerKey] === text;
             const isWrong = checked && !!ownerKey && correctMap[ownerKey] !== text;
             const isTarget = !checked && !!selectedLeft && !isConnected;
@@ -315,22 +419,26 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                 onClick={() => {
                   if (checked || !selectedLeft) return;
                   const newPosMap = { ...posMap };
-                  Object.keys(newPosMap).forEach((k) => { if (newPosMap[k] === pos) delete newPosMap[k]; });
+                  // Only remove the selectedLeft's previous connection (don't evict others)
                   newPosMap[selectedLeft] = pos;
                   setPosMap(newPosMap);
                   const newMap = { ...userMap };
-                  delete newMap[selectedLeft];
-                  const prevOwner = Object.keys(posMap).find((k) => posMap[k] === pos);
-                  if (prevOwner) delete newMap[prevOwner];
                   newMap[selectedLeft] = text;
                   onChange(newMap);
                   setSelectedLeft(null);
                 }}
                 disabled={checked}
-                className={`w-full px-3 py-2.5 rounded-xl border-2 text-sm font-medium text-left transition-all ${isCorrect ? 'border-green-500 bg-green-50 text-green-800' : isWrong ? 'border-red-400 bg-red-50 text-red-800' : isConnected ? 'border-blue-400 bg-blue-50 text-blue-800' : isTarget ? 'border-amber-300 bg-amber-50 text-gray-700 hover:border-amber-400' : 'border-gray-200 bg-white text-gray-700'} ${checked ? 'cursor-default' : 'cursor-pointer'}`}
+                style={{
+                  borderWidth: 3, borderStyle: 'solid',
+                  borderColor: isCorrect ? '#22c55e' : isWrong ? '#ef4444' : isConnected ? '#3b82f6' : isTarget ? '#f59e0b' : '#e5e7eb',
+                  borderRadius: 14,
+                  background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isConnected ? '#eff6ff' : '#fff',
+                  cursor: checked ? 'default' : 'pointer',
+                }}
+                className="w-full px-5 py-4 text-left transition-all"
               >
-                {text}
-                {isCorrect && <span className="ml-1 text-green-600">✓</span>}
+                <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{text}</span>
+                {isCorrect && <span className="ml-2 text-green-600 font-black">✓</span>}
                 {isWrong && ownerKey && <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>}
               </button>
             );
@@ -346,37 +454,71 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
 // optionsJson: [{ key:'b1', text:'' }, ...]
 // correctAnswerJson: { b1: '3', b2: '5' }
 
-function FillBlank({ questionText, blanks, answers, checked, correctMap, onChange }: {
+const NUMBER_COLORS = ['#3b82f6', '#ef4444', '#6366f1', '#ec4899', '#f97316', '#8b5cf6', '#14b8a6', '#b91c1c'];
+
+function FillBlank({ questionText, blanks, answers, checked, correctMap, activeKey, onFocusBlank, onChange }: {
   questionText: string;
   blanks: OptionItem[];
   answers: Record<string, string>;
   checked: boolean;
   correctMap: Record<string, string>;
+  activeKey?: string | null;
+  onFocusBlank?: (key: string) => void;
   onChange: (key: string, val: string) => void;
 }) {
-  // Split questionText by [bN] placeholders to render inline inputs
+  const [showHint, setShowHint] = useState(false);
   const parts = questionText.split(/(\[b\d+\])/g);
+
+  // Detect if this is a number-sequence style question (tokens are mostly numbers/short)
+  const isNumberSeq = parts.every((p) => {
+    const m = p.match(/^\[(\w+)\]$/);
+    return m || /^[\s\d\W]{0,5}$/.test(p.trim()) || p.trim() === '';
+  }) && parts.some((p) => /^\[b\d+\]$/.test(p));
+
+  let numColorIdx = 0;
+
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center gap-1 text-lg font-semibold text-gray-800 leading-loose">
-        {parts.map((part, i) => {
-          const match = part.match(/^\[(\w+)\]$/);
-          if (match) {
-            const key = match[1];
-            const val = answers[key] ?? '';
-            const correct = correctMap[key];
-            const isOk = checked ? val.trim() === String(correct) : null;
+    <div className="space-y-4">
+      {isNumberSeq ? (
+        <div className="flex flex-wrap items-center justify-center gap-4 py-8">
+          {parts.map((part, i) => {
+            const match = part.match(/^\[(\w+)\]$/);
+            if (match) {
+              const key = match[1];
+              const val = answers[key] ?? '';
+              const correct = correctMap[key];
+              const isOk = checked ? val.trim() === String(correct) : null;
+              const isActive = !checked && activeKey === key;
+              return (
+                <input key={i} type="text" inputMode="numeric" value={val}
+                  onChange={(e) => onChange(key, e.target.value)}
+                  onFocus={() => onFocusBlank?.(key)}
+                  disabled={checked}
+                  readOnly={!!onFocusBlank && !checked}
+                  style={{
+                    borderColor: checked ? (isOk ? '#22c55e' : '#ef4444') : isActive ? '#3b82f6' : '#ccc',
+                    boxShadow: isActive ? '0 0 0 3px rgba(59,130,246,0.2)' : undefined,
+                    borderRadius: 12,
+                  }}
+                  className={`w-20 h-20 text-center font-black text-3xl border-2 outline-none transition-all cursor-pointer ${checked ? (isOk ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600') : 'bg-white text-gray-800'}`}
+                />
+              );
+            }
+            const txt = part.trim();
+            if (!txt) return null;
+            const color = NUMBER_COLORS[numColorIdx++ % NUMBER_COLORS.length];
             return (
-              <input key={i} type="text" inputMode="numeric" value={val}
-                onChange={(e) => onChange(key, e.target.value)}
-                disabled={checked}
-                className={`w-14 h-10 text-center font-bold text-base rounded-xl border-2 outline-none transition-all ${checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700') : 'border-dashed border-amber-400 bg-amber-50 focus:border-amber-600 focus:bg-white'}`}
-              />
+              <span key={i} className="text-5xl font-black select-none leading-none" style={{ color, textShadow: `2px 3px 0 ${color}88` }}>
+                {txt}
+              </span>
             );
-          }
-          return <span key={i}>{part}</span>;
-        })}
-      </div>
+          })}
+        </div>
+      ) : (
+        /* Non-sequence: inputs are rendered inline in question text above */
+        null
+      )}
+
       {/* If no inline placeholders, render blanks below */}
       {!questionText.includes('[') && blanks.length > 0 && (
         <div className="flex flex-wrap gap-3 pt-2">
@@ -390,12 +532,42 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, onChang
                 <input type="text" inputMode="numeric" value={val}
                   onChange={(e) => onChange(blank.key, e.target.value)}
                   disabled={checked}
-                  className={`w-16 h-10 text-center font-bold text-base rounded-xl border-2 outline-none ${checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700') : 'border-dashed border-amber-400 bg-amber-50 focus:border-amber-600'}`}
+                  className={`w-16 h-12 text-center font-bold text-xl rounded-xl border-[3px] outline-none transition-all ${checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700') : 'border-blue-400 bg-white focus:border-blue-600'}`}
                 />
                 {checked && !isOk && <span className="text-xs text-green-600">→ {correct}</span>}
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Hint button */}
+      {false && !checked && (
+        <div className="flex justify-center pt-2">
+          <button onClick={() => setShowHint((s) => !s)}
+            className="flex items-center gap-2 text-teal-600 font-semibold text-sm hover:text-teal-700 transition-colors">
+            <span className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center shadow">
+              <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4"><path d="M9 21h6v-2H9v2zm3-19C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17h8v-2.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7zm-1 14v-1.5c-1.86-.68-3-2.47-3-4.5C8 7.01 10.01 5 12 5s4 2.01 4 4.5c0 2.03-1.14 3.82-3 4.5V16h-2z"/></svg>
+            </span>
+            {showHint ? 'Ẩn gợi ý' : 'Xem gợi ý'}
+          </button>
+        </div>
+      )}
+      {showHint && !checked && (
+        <div className="flex items-start gap-3 mt-3 px-4 py-4 rounded-2xl" style={{ background: '#fffbe8', border: '1px solid #f0d99a' }}>
+          {/* Owl icon */}
+          <div className="shrink-0 text-5xl select-none leading-none">🦉</div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="white" className="w-3.5 h-3.5"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </span>
+              <span className="text-amber-600 font-bold text-sm">Gợi ý :</span>
+            </div>
+            <p className="text-gray-700 text-base">
+              Hãy đọc kỹ câu hỏi và điền số thích hợp vào ô trống.
+            </p>
+          </div>
         </div>
       )}
     </div>
@@ -577,28 +749,47 @@ function Sorting({ options, order, checked, correctOrder, onReorder }: {
   };
 
   return (
-    <div className="space-y-2">
-      <p className="text-xs text-gray-400 mb-3">Nhấn ▲▼ để sắp xếp thứ tự đúng</p>
+    <div className="space-y-3">
+      <p className="text-sm text-gray-400 mb-1">Nhấn ▲▼ để sắp xếp thứ tự đúng</p>
       {order.map((key, idx) => {
         const opt = options.find((o) => o.key === key);
         const isRight = checked && correctOrder[idx] === key;
         const isWrong = checked && correctOrder[idx] !== key;
+        const badgeColor = OPTION_COLORS[idx % OPTION_COLORS.length];
+        const text = opt?.text ?? key;
+        const isMath = isMathText(text);
         return (
-          <div key={key}
-            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-2 transition-all ${isRight ? 'border-green-400 bg-green-50' : isWrong ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white'}`}
-          >
-            <span className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center shrink-0">{idx + 1}</span>
-            <span className="flex-1 text-sm font-medium text-gray-800">{opt?.text ?? key}</span>
+          <div key={key} style={{
+            display: 'flex', alignItems: 'center', gap: 14,
+            padding: '14px 18px', borderRadius: 16,
+            borderWidth: 2, borderStyle: 'solid',
+            borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : '#e5e7eb',
+            background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fff',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            transition: 'all 0.15s',
+          }}>
+            <div style={{
+              width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+              background: `${badgeColor}22`, border: `2px solid ${badgeColor}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 16, fontWeight: 900, color: badgeColor,
+            }}>{idx + 1}</div>
+            <span style={{
+              flex: 1,
+              fontSize: isMath ? 28 : 18,
+              fontWeight: 700,
+              color: isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b',
+            }}>{text}</span>
             {!checked && (
-              <div className="flex flex-col gap-0.5">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
                 <button onClick={() => move(idx, -1)} disabled={idx === 0}
-                  className="w-7 h-6 rounded bg-gray-100 hover:bg-amber-100 text-gray-600 text-xs font-bold disabled:opacity-30 transition-colors">▲</button>
+                  style={{ width: 36, height: 30, borderRadius: 8, background: idx === 0 ? '#f3f4f6' : '#e5e7eb', border: 'none', cursor: idx === 0 ? 'not-allowed' : 'pointer', opacity: idx === 0 ? 0.3 : 1, fontWeight: 700, fontSize: 13, color: '#374151' }}>▲</button>
                 <button onClick={() => move(idx, 1)} disabled={idx === order.length - 1}
-                  className="w-7 h-6 rounded bg-gray-100 hover:bg-amber-100 text-gray-600 text-xs font-bold disabled:opacity-30 transition-colors">▼</button>
+                  style={{ width: 36, height: 30, borderRadius: 8, background: idx === order.length - 1 ? '#f3f4f6' : '#e5e7eb', border: 'none', cursor: idx === order.length - 1 ? 'not-allowed' : 'pointer', opacity: idx === order.length - 1 ? 0.3 : 1, fontWeight: 700, fontSize: 13, color: '#374151' }}>▼</button>
               </div>
             )}
-            {isRight && <span className="text-green-500 font-bold">✓</span>}
-            {isWrong && <span className="text-xs text-red-500">→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
+            {isRight && <span style={{ color: '#22c55e', fontWeight: 900, fontSize: 18, flexShrink: 0 }}>✓</span>}
+            {isWrong && <span style={{ fontSize: 12, color: '#ef4444', flexShrink: 0 }}>→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
           </div>
         );
       })}
@@ -614,33 +805,50 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
   options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void;
 }) {
   return (
-    <div className="space-y-2">
-      <p className="text-xs text-gray-400 mb-3">Bấm để gạch bỏ những đáp án sai</p>
-      <div className={`grid gap-3 ${options.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
-        {options.map((opt) => {
+    <div className="space-y-3">
+      <p className="text-sm text-gray-400">Bấm để gạch bỏ những đáp án sai</p>
+      <div className={`grid gap-4 ${options.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+        {options.map((opt, idx) => {
           const isCrossed = selected.includes(opt.key);
           const shouldBeCrossed = correctKeys.includes(opt.key);
           const isCorrect = checked && isCrossed === shouldBeCrossed;
           const isWrong = checked && isCrossed !== shouldBeCrossed;
+          const col = OPTION_COLORS[idx % OPTION_COLORS.length];
+          const isMath = isMathText(opt.text);
           return (
             <button key={opt.key} onClick={() => !checked && onToggle(opt.key)}
-              className={`relative min-h-[60px] px-3 py-3 rounded-xl border-2 text-base font-bold transition-all select-none ${
-                isCorrect && isCrossed ? 'border-green-500 bg-green-50 text-green-600' :
-                isCorrect && !isCrossed ? 'border-green-400 bg-white text-gray-800' :
-                isWrong ? 'border-red-400 bg-red-50 text-red-700' :
-                isCrossed ? 'border-gray-400 bg-gray-100 text-gray-400' :
-                'border-amber-300 bg-white text-gray-800 hover:border-amber-400'
-              } ${checked ? 'cursor-default' : 'cursor-pointer'}`}
+              style={{
+                borderWidth: 3, borderStyle: 'solid',
+                borderColor: isCorrect && isCrossed ? '#22c55e' : isCorrect ? '#22c55e' : isWrong ? '#ef4444' : isCrossed ? '#9ca3af' : '#f0b429',
+                borderRadius: 16,
+                background: isCorrect && isCrossed ? '#f0fdf4' : isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isCrossed ? '#f3f4f6' : '#ffffff',
+                minHeight: 110,
+                cursor: checked ? 'default' : 'pointer',
+                position: 'relative',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.15s',
+                boxShadow: !isCrossed && !checked ? '0 1px 4px rgba(0,0,0,0.06)' : undefined,
+              }}
             >
-              <span className={isCrossed ? 'line-through opacity-50' : ''}>{opt.text}</span>
+              <span style={{
+                fontSize: isMath ? 36 : 18,
+                fontWeight: 900,
+                color: isCrossed ? '#9ca3af' : isCorrect ? '#15803d' : isWrong ? '#b91c1c' : col,
+                textDecorationLine: isCrossed ? 'line-through' : 'none',
+                textDecorationColor: '#9ca3af',
+                textDecorationThickness: '3px',
+                textShadow: !isCrossed && !checked ? `1px 2px 0 ${col}44` : undefined,
+                opacity: isCrossed ? 0.5 : 1,
+              }}>{opt.text}</span>
+              {/* Cross lines when crossed */}
               {isCrossed && !checked && (
-                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                  <div className="absolute w-full h-0.5 bg-red-400 rotate-12 opacity-70" />
-                  <div className="absolute w-full h-0.5 bg-red-400 -rotate-12 opacity-70" />
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden rounded-2xl">
+                  <div style={{ position: 'absolute', width: '110%', height: 3, background: '#ef4444', opacity: 0.6, transform: 'rotate(8deg)' }} />
+                  <div style={{ position: 'absolute', width: '110%', height: 3, background: '#ef4444', opacity: 0.6, transform: 'rotate(-8deg)' }} />
                 </div>
               )}
-              {isCorrect && <span className="absolute top-1 right-1.5 text-xs text-green-500">✓</span>}
-              {isWrong && <span className="absolute top-1 right-1.5 text-xs text-red-500">✗</span>}
+              {isCorrect && <span style={{ position: 'absolute', top: 8, right: 10, color: '#22c55e', fontWeight: 900, fontSize: 16 }}>✓</span>}
+              {isWrong && <span style={{ position: 'absolute', top: 8, right: 10, color: '#ef4444', fontWeight: 900, fontSize: 16 }}>✗</span>}
             </button>
           );
         })}
@@ -799,44 +1007,50 @@ function Puzzle({ options, answers, checked, correctMap, onChange }: {
 
   return (
     <div className="space-y-5">
-      <p className="text-xs text-gray-400">Kéo hoặc bấm chọn số rồi bấm vào ô trống để điền vào chỗ dấu ?</p>
+      <p className="text-sm text-gray-400">Kéo hoặc bấm chọn số rồi bấm vào ô trống để điền vào chỗ dấu ?</p>
 
       {/* Slots */}
-      <div className="space-y-3">
+      <div className="space-y-3 p-4 rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50">
         {slots.map((slot) => {
           const placedKey = answers[slot.key];
           const placedToken = tokens.find((t) => t.key === placedKey);
-          const correctKey = correctMap[slot.key];
-          const correctToken = tokens.find((t) => t.key === correctKey);
-          const isCorrect = checked && placedKey === correctKey;
-          const isWrong = checked && placedKey && placedKey !== correctKey;
-
-          // Replace ? in slot text with the placed value
-          const displayText = slot.text.replace('?', placedToken ? placedToken.text : '?');
+          const placedIdx = placedToken ? tokens.indexOf(placedToken) : -1;
+          const pCol = placedIdx >= 0 ? OPTION_COLORS[placedIdx % OPTION_COLORS.length] : '#6b7280';
+          const correctKey2 = correctMap[slot.key];
+          const correctToken = tokens.find((t) => t.key === correctKey2);
+          const isCorrect = checked && placedKey === correctKey2;
+          const isWrong = checked && !!placedKey && placedKey !== correctKey2;
 
           return (
             <div key={slot.key}
               onClick={() => !placedToken ? placeToken(slot.key) : removeFromSlot(slot.key)}
-              className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
-                isCorrect ? 'border-green-500 bg-green-50' :
-                isWrong ? 'border-red-400 bg-red-50' :
-                placedToken ? 'border-blue-400 bg-blue-50' :
-                selectedToken ? 'border-dashed border-amber-400 bg-amber-50 hover:bg-amber-100' :
-                'border-dashed border-gray-300 bg-gray-50'
-              }`}
+              style={{
+                borderWidth: 2, borderStyle: isCorrect || isWrong || placedToken ? 'solid' : 'dashed',
+                borderColor: isCorrect ? '#22c55e' : isWrong ? '#ef4444' : placedToken ? pCol : selectedToken ? '#f59e0b' : '#d1d5db',
+                borderRadius: 16,
+                background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : placedToken ? `${pCol}12` : '#fff',
+                cursor: 'pointer', transition: 'all 0.15s',
+              }}
+              className="flex items-center gap-4 px-5 py-4"
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg border-2 ${
-                isCorrect ? 'border-green-500 bg-green-100 text-green-700' :
-                isWrong ? 'border-red-400 bg-red-100 text-red-700' :
-                placedToken ? 'border-blue-400 bg-blue-100 text-blue-700' :
-                'border-dashed border-gray-300 bg-white text-gray-300'
-              }`}>
+              {/* Slot placeholder box */}
+              <div style={{
+                width: 52, height: 52, borderRadius: 12, flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 26, fontWeight: 900,
+                borderWidth: 2, borderStyle: placedToken ? 'solid' : 'dashed',
+                borderColor: isCorrect ? '#22c55e' : isWrong ? '#ef4444' : placedToken ? pCol : '#9ca3af',
+                background: isCorrect ? '#dcfce7' : isWrong ? '#fee2e2' : placedToken ? `${pCol}22` : '#f3f4f6',
+                color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : placedToken ? pCol : '#9ca3af',
+                textShadow: placedToken && !isCorrect && !isWrong ? `1px 2px 0 ${pCol}44` : undefined,
+              }}>
                 {placedToken ? placedToken.text : '?'}
               </div>
-              <span className="text-base font-semibold text-gray-800">{displayText}</span>
-              {isCorrect && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
-              {isWrong && <span className="ml-auto text-xs text-green-600">→ {correctToken?.text}</span>}
-              {placedToken && !checked && <span className="ml-auto text-xs text-gray-400">bấm để gỡ</span>}
+              {/* Equation text */}
+              <span className="text-xl font-bold text-gray-700 flex-1">{slot.text}</span>
+              {isCorrect && <span className="text-green-500 font-black text-xl shrink-0">✓</span>}
+              {isWrong && <span className="text-sm text-green-600 shrink-0">→ {correctToken?.text}</span>}
+              {placedToken && !checked && <span className="text-xs text-gray-400 shrink-0">bấm để gỡ</span>}
             </div>
           );
         })}
@@ -845,20 +1059,38 @@ function Puzzle({ options, answers, checked, correctMap, onChange }: {
       {/* Token bank */}
       {!checked && (
         <div className="space-y-2">
-          <p className="text-xs text-gray-500 font-medium">Số chưa dùng:</p>
-          <div className="flex flex-wrap gap-2">
-            {available.map((t) => (
-              <button key={t.key} onClick={() => setSelectedToken(selectedToken === t.key ? null : t.key)}
-                className={`w-12 h-12 rounded-xl border-2 font-black text-lg transition-all ${
-                  selectedToken === t.key ? 'border-amber-500 bg-amber-100 text-amber-700 scale-110 shadow-md' : 'border-gray-300 bg-white text-gray-700 hover:border-amber-400 hover:bg-amber-50'
-                }`}>
-                {t.text}
-              </button>
-            ))}
-            {available.length === 0 && <span className="text-xs text-gray-400 italic">Đã điền hết</span>}
+          <p className="text-sm text-gray-500 font-semibold">Số chưa dùng:</p>
+          <div className="flex flex-wrap gap-3">
+            {available.map((t, idx) => {
+              const col = OPTION_COLORS[idx % OPTION_COLORS.length];
+              const isSel = selectedToken === t.key;
+              return (
+                <button key={t.key}
+                  onClick={() => setSelectedToken(isSel ? null : t.key)}
+                  style={{
+                    width: 64, height: 64,
+                    borderRadius: 14,
+                    borderWidth: 3,
+                    borderStyle: 'solid',
+                    borderColor: isSel ? col : '#e5e7eb',
+                    background: isSel ? `${col}15` : '#ffffff',
+                    fontSize: 28,
+                    fontWeight: 900,
+                    color: col,
+                    textShadow: !isSel ? `1px 2px 0 ${col}44` : undefined,
+                    boxShadow: isSel ? `0 0 0 3px ${col}33` : '0 1px 3px rgba(0,0,0,0.08)',
+                    transform: isSel ? 'scale(1.12)' : 'scale(1)',
+                    transition: 'all 0.15s',
+                    cursor: 'pointer',
+                  }}>
+                  {t.text}
+                </button>
+              );
+            })}
+            {available.length === 0 && <span className="text-sm text-gray-400 italic">Đã điền hết</span>}
           </div>
           {selectedToken && (
-            <p className="text-xs text-amber-600">Đã chọn <strong>{tokens.find((t) => t.key === selectedToken)?.text}</strong> — bấm vào ô ? để điền</p>
+            <p className="text-sm text-amber-600 font-medium">Đã chọn <strong>{tokens.find((t) => t.key === selectedToken)?.text}</strong> — bấm vào ô ? để điền</p>
           )}
         </div>
       )}
@@ -928,9 +1160,9 @@ function Game({ options, checked, onComplete }: {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-400">Lật thẻ tìm cặp giống nhau</p>
-        <span className="text-xs font-bold text-amber-600">{matched.size}/{totalPairs} cặp</span>
+      <div className="flex items-center justify-between px-1">
+        <p className="text-sm text-gray-500 font-medium">Lật thẻ tìm cặp giống nhau</p>
+        <span className="text-sm font-black text-amber-600">{matched.size}/{totalPairs} cặp</span>
       </div>
       <div className={`grid gap-3 ${options.length <= 6 ? 'grid-cols-3' : 'grid-cols-4'}`}>
         {cards.map((card, idx) => {
@@ -939,24 +1171,43 @@ function Game({ options, checked, onComplete }: {
           const isFlipped = flipped.has(idx) || isMatched;
           return (
             <button key={idx} onClick={() => !isMatched && !checked && handleFlip(idx)}
-              className={`aspect-square min-h-[60px] rounded-2xl border-2 flex items-center justify-center font-bold text-sm transition-all ${
-                isMatched ? 'border-green-500 bg-green-50 text-green-700' :
-                isFlipped ? 'border-amber-400 bg-amber-50 text-gray-800' :
-                'border-gray-300 bg-gradient-to-br from-amber-400 to-orange-500 text-white hover:scale-105'
-              }`}
+              style={{
+                aspectRatio: '1',
+                borderRadius: 20,
+                border: isMatched ? '3px solid #22c55e' : isFlipped ? '3px solid #f59e0b' : '3px solid #e5e7eb',
+                background: isMatched
+                  ? 'linear-gradient(135deg,#dcfce7,#bbf7d0)'
+                  : isFlipped
+                  ? '#fff'
+                  : 'linear-gradient(135deg,#fbbf24,#f97316)',
+                boxShadow: isMatched ? '0 2px 8px rgba(34,197,94,0.25)' : isFlipped ? '0 2px 8px rgba(251,191,36,0.3)' : '0 4px 12px rgba(249,115,22,0.35)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.25s',
+                cursor: isMatched ? 'default' : 'pointer',
+                transform: isFlipped ? 'scale(1)' : 'scale(1)',
+                minHeight: 90,
+              }}
             >
               {isFlipped ? (
-                <span className="px-1 text-center leading-tight">{card.text}</span>
+                <span style={{
+                  fontSize: isMathText(card.text) ? 40 : 18,
+                  fontWeight: 900,
+                  color: isMatched ? '#15803d' : '#1e293b',
+                  textAlign: 'center',
+                  lineHeight: 1.1,
+                  padding: '0 6px',
+                  textShadow: isMatched ? 'none' : undefined,
+                }}>{card.text}</span>
               ) : (
-                <span className="text-2xl">🌟</span>
+                <span style={{ fontSize: 32 }}>🌟</span>
               )}
             </button>
           );
         })}
       </div>
       {isComplete && (
-        <div className="text-center py-3 rounded-xl bg-green-50 border border-green-300">
-          <p className="text-green-700 font-bold text-lg">🎉 Ghép xong tất cả {totalPairs} cặp!</p>
+        <div className="text-center py-3 rounded-2xl" style={{ background: 'linear-gradient(135deg,#dcfce7,#bbf7d0)', border: '2px solid #86efac' }}>
+          <p className="text-green-700 font-black text-lg">🎉 Ghép xong tất cả {totalPairs} cặp!</p>
         </div>
       )}
     </div>
@@ -1181,6 +1432,7 @@ export default function QuizPlayPage({
   const [shuffledOpts, setShuffledOpts] = useState<Record<number, OptionItem[]>>({});
   const [celebrate, setCelebrate] = useState<'correct' | 'wrong' | null>(null);
   const [celebrateMsg, setCelebrateMsg] = useState('');
+  const [activeBlankKey, setActiveBlankKey] = useState<{ qid: number; bkey: string } | null>(null);
 
   const correctAudio = useRef<HTMLAudioElement | null>(null);
   const wrongAudio = useRef<HTMLAudioElement | null>(null);
@@ -1197,6 +1449,18 @@ export default function QuizPlayPage({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, exercise?.exerciseNumber, soundOn]);
+
+  // Auto-activate first blank when switching to a fill_blank question
+  useEffect(() => {
+    if (!exercise) return;
+    const qz = exercise.quizzes[current];
+    if (!qz || qz.questionType !== 'fill_blank') return;
+    const blanks = Array.isArray(qz.optionsJson) ? qz.optionsJson as { key: string }[] : [];
+    const match = qz.questionText.match(/\[(\w+)\]/);
+    const key = match?.[1] ?? blanks[0]?.key;
+    if (key) setActiveBlankKey({ qid: qz.id, bkey: key });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, exercise?.exerciseNumber]);
 
   useEffect(() => {
     setLoading(true);
@@ -1480,6 +1744,25 @@ export default function QuizPlayPage({
     }
   };
 
+
+  const handleVirtualKey = (char: string) => {
+    if (isChecked) return;
+    // If no active blank, auto-pick first blank of current question
+    let target = activeBlankKey;
+    if (!target && q.questionType === 'fill_blank') {
+      const match = q.questionText.match(/\[(\w+)\]/);
+      const key = match?.[1] ?? (Array.isArray(q.optionsJson) ? q.optionsJson[0]?.key : null);
+      if (key) { target = { qid: q.id, bkey: key }; setActiveBlankKey(target); }
+    }
+    if (!target) return;
+    const { qid, bkey } = target;
+    const cur = fillBlankAns[qid]?.[bkey] ?? '';
+    const next = char === 'del' ? cur.slice(0, -1) : cur + char;
+    setFillBlankAns((p) => ({ ...p, [qid]: { ...(p[qid] ?? {}), [bkey]: next } }));
+  };
+
+  const showVirtualKeyboard = !isChecked && (q.questionType === 'fill_blank' || q.questionType === 'table_fill' || q.questionType === 'counting');
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(160deg, #4db8b8 0%, #6ec6c6 50%, #5bbaba 100%)' }}>
 
@@ -1487,7 +1770,7 @@ export default function QuizPlayPage({
       <audio ref={wrongAudio} src="/sounds/wrong.mp3" preload="auto" />
 
       {/* Top bar */}
-      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'rgba(0,0,0,0.08)', backdropFilter: 'blur(4px)' }}>
+      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(4px)' }}>
         <div className="max-w-6xl mx-auto flex items-center gap-3 flex-wrap">
           <nav className="flex items-center gap-1.5 text-sm text-white/85 flex-wrap flex-1 min-w-0">
             <Link href="/" className="hover:text-white transition-colors shrink-0 font-medium">Trang chủ</Link>
@@ -1530,16 +1813,16 @@ export default function QuizPlayPage({
       {/* Layout */}
       <div className="flex flex-1 items-start justify-center gap-3 px-3 sm:px-4 py-4 max-w-6xl mx-auto w-full">
 
-        {/* Left sidebar */}
-        <div className="hidden md:flex flex-col w-12 bg-white rounded-2xl overflow-hidden shadow-md shrink-0">
-          <div className="text-center text-xs font-bold py-2 text-white rounded-t-2xl" style={{ background: diffColor }}>KQ</div>
+        {/* Left sidebar — question list */}
+        <div className="hidden md:flex flex-col w-12 bg-white rounded-xl overflow-hidden shadow-md shrink-0 border border-gray-200">
+          <div className="text-center text-xs font-bold py-2 text-white" style={{ background: '#555' }}>KQ</div>
           {exercise.quizzes.map((qz, idx) => {
             const done = !!checked[qz.id];
             const ok = done && checkCorrectForNav(qz);
             const canNavigate = idx <= current || done;
             return (
               <button key={qz.id} onClick={() => canNavigate && setCurrent(idx)} disabled={!canNavigate}
-                className={`text-sm font-bold py-2.5 border-b border-gray-100 transition-colors last:border-0 ${idx === current ? 'text-white' : done ? 'text-white' : 'text-gray-300 cursor-not-allowed'}`}
+                className={`text-sm font-bold py-2 border-b border-gray-100 transition-colors last:border-0 ${idx === current ? 'text-white' : done ? 'text-white' : 'text-gray-400 cursor-not-allowed'}`}
                 style={{ background: idx === current ? diffColor : done ? (ok ? '#22c55e' : '#ef4444') : 'transparent' }}>
                 {idx + 1}
               </button>
@@ -1548,32 +1831,81 @@ export default function QuizPlayPage({
         </div>
 
         {/* Main card */}
-        <div className="flex-1 max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="flex items-center gap-3 px-5 py-3.5 border-b border-gray-100" style={{ background: `${diffColor}15` }}>
-            <span className="px-3 py-1 rounded-lg text-white text-sm font-bold" style={{ background: diffColor }}>
-              Câu {current + 1}/{exercise.quizzes.length}
-            </span>
-            <span className="text-gray-600 font-medium text-sm">
+        <div className="flex-1 max-w-2xl bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+          {/* Card header with arrow badge */}
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
+            {/* Arrow-shaped badge */}
+            <div className="relative flex items-center shrink-0">
+              <span className="pl-4 pr-6 py-1.5 text-white text-base font-black shadow-sm"
+                style={{ background: diffColor, clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%)', borderRadius: '4px 0 0 4px' }}>
+                Câu {current + 1}
+              </span>
+            </div>
+            <span className="text-blue-600 font-semibold text-sm flex-1">
               {typeLabel[q.questionType] ?? 'Chọn đáp án đúng nhất'}
             </span>
-            <div className="ml-auto w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div className="h-full rounded-full transition-all" style={{ width: `${((current + 1) / exercise.quizzes.length) * 100}%`, background: diffColor }} />
-            </div>
           </div>
 
-          <div className="px-5 py-5">
+          <div className="px-6 py-5">
             {/* Question text */}
             <div className="flex items-start gap-3 mb-5">
               <button
                 onClick={() => { if (q.questionAudioUrl) playAudio(q.questionAudioUrl); else speak(q.questionText); }}
-                className="shrink-0 w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center hover:bg-teal-600 shadow-md transition-colors"
+                className="shrink-0 w-11 h-11 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600 shadow transition-colors"
                 title="Nghe câu hỏi"
               >
                 <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
               </button>
-              {/* FillBlank renders question inline, others show it as plain text */}
+              {q.questionType === 'fill_blank' && (() => {
+                const parts2 = q.questionText.split(/(\[b\d+\])/g);
+                const isSeq = parts2.every((p2) => {
+                  const m2 = p2.match(/^\[(\w+)\]$/);
+                  return m2 || /^[\s\d\W]{0,5}$/.test(p2.trim()) || p2.trim() === '';
+                }) && parts2.some((p2) => /^\[b\d+\]$/.test(p2));
+                if (isSeq) return null; // FillBlank renders the full number sequence
+                return (
+                  <p className="pt-1 leading-relaxed" style={{ fontSize: q.questionText.replace(/\[b\d+\]/g,'').trim().length > 30 ? 20 : 26, fontWeight: 700, color: '#1e293b' }}>
+                    {parts2.map((part2, pi) => {
+                      const bm = part2.match(/^\[(\w+)\]$/);
+                      if (bm) {
+                        const bk = bm[1];
+                        const bval = (fillBlankAns[q.id] ?? {})[bk] ?? '';
+                        const correct2 = correctMatchMap[bk];
+                        const isOk2 = isChecked ? bval.trim() === String(correct2) : null;
+                        const isActive2 = !isChecked && activeBlankKey?.qid === q.id && activeBlankKey.bkey === bk;
+                        return (
+                          <span key={pi} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, verticalAlign: 'middle', margin: '0 6px' }}>
+                            <input
+                              type="text" inputMode="numeric" value={bval}
+                              readOnly={!isChecked}
+                              disabled={isChecked}
+                              onClick={() => setActiveBlankKey({ qid: q.id, bkey: bk })}
+                              onChange={(e) => setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [bk]: e.target.value } }))}
+                              style={{
+                                width: 80, height: 56, textAlign: 'center',
+                                fontSize: 32, fontWeight: 900,
+                                borderWidth: 3, borderStyle: 'solid',
+                                borderRadius: 14,
+                                borderColor: isChecked ? (isOk2 ? '#22c55e' : '#ef4444') : isActive2 ? '#1d4ed8' : '#3b82f6',
+                                background: isChecked ? (isOk2 ? '#f0fdf4' : '#fef2f2') : '#f8faff',
+                                color: isChecked ? (isOk2 ? '#15803d' : '#b91c1c') : '#1e40af',
+                                outline: 'none', cursor: 'pointer',
+                                boxShadow: isActive2 ? '0 0 0 4px rgba(29,78,216,0.2)' : '0 2px 8px rgba(59,130,246,0.15)',
+                                transition: 'all 0.15s',
+                              }}
+                            />
+                            {isChecked && !isOk2 && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 700 }}>→{correct2}</span>}
+                          </span>
+                        );
+                      }
+                      if (!part2) return null;
+                      return <span key={pi}>{part2}</span>;
+                    })}
+                  </p>
+                );
+              })()}
               {q.questionType !== 'fill_blank' && (
-                <p className="text-lg font-semibold text-gray-800 leading-snug">{q.questionText}</p>
+                <p className="text-xl font-bold text-gray-800 leading-snug pt-1">{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
               )}
             </div>
 
@@ -1585,7 +1917,7 @@ export default function QuizPlayPage({
             )}
 
             {/* Answer area */}
-            <div className="mb-5">
+            <div key={`${q.id}-answer`} className="mb-5">
               {q.questionType === 'single_choice' && (
                 <SingleChoice options={options} selected={singleSel[q.id] ?? ''} checked={isChecked} correctKey={correctKey}
                   onSelect={(k) => setSingleSel((p) => ({ ...p, [q.id]: k }))} />
@@ -1610,16 +1942,18 @@ export default function QuizPlayPage({
                   onReorder={(newOrder) => setDragOrder((p) => ({ ...p, [q.id]: newOrder }))} />
               )}
               {q.questionType === 'matching' && (
-                <Matching options={options} userMap={matchMap[q.id] ?? {}} checked={isChecked} correctMap={correctMatchMap}
+                <Matching key={q.id} options={options} userMap={matchMap[q.id] ?? {}} checked={isChecked} correctMap={correctMatchMap}
                   onChange={(map) => setMatchMap((p) => ({ ...p, [q.id]: map }))} />
               )}
               {q.questionType === 'fill_blank' && (
-                <FillBlank
+                <FillBlank key={q.id}
                   questionText={q.questionText}
                   blanks={Array.isArray(q.optionsJson) ? q.optionsJson : []}
                   answers={fillBlankAns[q.id] ?? {}}
                   checked={isChecked}
                   correctMap={correctMatchMap}
+                  activeKey={activeBlankKey?.qid === q.id ? activeBlankKey.bkey : null}
+                  onFocusBlank={(bkey) => setActiveBlankKey({ qid: q.id, bkey })}
                   onChange={(key, val) => setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [key]: val } }))}
                 />
               )}
@@ -1666,7 +2000,7 @@ export default function QuizPlayPage({
                 />
               )}
               {q.questionType === 'coloring' && (
-                <Coloring
+                <Coloring key={q.id}
                   options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
                   colorMap={coloringMap[q.id] ?? {}}
                   checked={isChecked}
@@ -1675,7 +2009,7 @@ export default function QuizPlayPage({
                 />
               )}
               {q.questionType === 'puzzle' && (
-                <Puzzle
+                <Puzzle key={q.id}
                   options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
                   answers={puzzleAns[q.id] ?? {}}
                   checked={isChecked}
@@ -1684,14 +2018,14 @@ export default function QuizPlayPage({
                 />
               )}
               {q.questionType === 'game' && (
-                <Game
+                <Game key={q.id}
                   options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
                   checked={isChecked}
                   onComplete={() => setGameComplete((p) => ({ ...p, [q.id]: true }))}
                 />
               )}
               {q.questionType === 'counting' && (
-                <Counting
+                <Counting key={q.id}
                   options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
                   answers={countingAns[q.id] ?? {}}
                   checked={isChecked}
@@ -1704,7 +2038,7 @@ export default function QuizPlayPage({
 
             {/* Explanation */}
             {isChecked && (
-              <div className={`mb-4 px-4 py-3 rounded-2xl text-sm flex items-start gap-3 border-l-4 ${isCurrentCorrect ? 'bg-green-50 border-green-400 text-green-800' : 'bg-red-50 border-red-400 text-red-800'}`}>
+              <div className={`mb-4 px-4 py-3 rounded-xl text-sm flex items-start gap-3 border-l-4 ${isCurrentCorrect ? 'bg-green-50 border-green-400 text-green-800' : 'bg-red-50 border-red-400 text-red-800'}`}>
                 <span className="text-xl shrink-0 mt-0.5">{isCurrentCorrect ? '✅' : '❌'}</span>
                 <div>
                   <p className="font-bold text-base mb-0.5">{isCurrentCorrect ? 'Chính xác!' : 'Chưa đúng!'}</p>
@@ -1722,50 +2056,79 @@ export default function QuizPlayPage({
             <div className="flex justify-center gap-3 pt-1">
               {!isChecked ? (
                 <button onClick={handleCheck} disabled={!hasAnswer()}
-                  className="px-8 py-3 rounded-full font-bold text-white text-base shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:shadow-xl hover:-translate-y-0.5"
-                  style={{ background: hasAnswer() ? diffColor : '#ccc' }}>
+                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:brightness-105 hover:-translate-y-0.5 active:scale-95"
+                  style={{ background: hasAnswer() ? 'linear-gradient(135deg, #f59e0b, #e67e00)' : '#d1d5db', boxShadow: hasAnswer() ? '0 4px 0 #b45309, 0 6px 12px rgba(245,158,11,0.4)' : 'none' }}>
                   Kiểm tra »
                 </button>
               ) : current < exercise.quizzes.length - 1 ? (
                 <button onClick={handleNext}
-                  className="px-8 py-3 rounded-full font-bold text-white text-base shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-                  style={{ background: diffColor }}>
+                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+                  style={{ background: `linear-gradient(135deg, ${diffColor}, ${diffColor}cc)`, boxShadow: `0 4px 0 ${diffColor}99` }}>
                   Câu tiếp theo »
                 </button>
               ) : (
                 <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
-                  className="px-8 py-3 rounded-full font-bold text-white text-base shadow-lg text-center inline-block bg-green-500 hover:bg-green-600 transition-colors">
+                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg text-center inline-block transition-all hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 4px 0 #15803d' }}>
                   🎉 Hoàn thành! Quay lại
                 </Link>
               )}
             </div>
+
+            {/* Virtual keyboard */}
+            {showVirtualKeyboard && (
+              <div className="mt-4 -mx-6 -mb-5 border-t-2 border-gray-200 bg-gray-100 px-2 py-2">
+                <div className="flex items-center gap-1 flex-wrap justify-center">
+                  {['1','2','3','4','5','6','7','8','9','0'].map((k) => (
+                    <button key={k} onClick={() => handleVirtualKey(k)}
+                      className="w-11 h-11 bg-white rounded-lg border border-gray-300 text-gray-800 font-black text-lg shadow-sm hover:bg-gray-50 active:scale-95 transition-all">
+                      {k}
+                    </button>
+                  ))}
+                  {['+','-','×',':','>','<','=',','].map((k) => (
+                    <button key={k} onClick={() => handleVirtualKey(k === '×' ? '*' : k === ':' ? '/' : k)}
+                      className="w-11 h-11 bg-sky-400 rounded-lg border border-sky-500 text-white font-black text-base shadow-sm hover:bg-sky-500 active:scale-95 transition-all">
+                      {k}
+                    </button>
+                  ))}
+                  <button onClick={() => handleVirtualKey('del')}
+                    className="px-3 h-11 bg-red-500 rounded-lg border border-red-600 text-white font-black text-sm shadow-sm hover:bg-red-600 active:scale-95 transition-all">
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Right sidebar */}
-        <div className="hidden md:flex flex-col w-32 gap-3 shrink-0">
-          <div className="bg-white rounded-2xl overflow-hidden shadow-md">
-            <div className="text-white text-center text-xs font-bold py-2 rounded-t-2xl" style={{ background: diffColor }}>Điểm</div>
-            <div className="text-center py-3">
-              <div className="text-3xl font-black text-amber-500">{score}</div>
-              <div className="text-xs text-gray-400">/ {totalPoints}</div>
-            </div>
+        <div className="hidden md:flex flex-col w-36 gap-0 shrink-0 bg-white rounded-xl overflow-hidden shadow-md border border-gray-200">
+          {/* Question number */}
+          <div className="bg-sky-500 text-white text-center text-xs font-bold py-2">Câu hỏi số</div>
+          <div className="text-center py-3 border-b border-gray-200">
+            <span className="text-3xl font-black text-gray-800">{current + 1}</span>
+            <span className="text-base text-gray-500">/{exercise.quizzes.length}</span>
           </div>
-          <div className="bg-white rounded-2xl overflow-hidden shadow-md">
-            <div className="bg-teal-500 text-white text-center text-xs font-bold py-2 rounded-t-2xl">Tiến độ</div>
-            <div className="text-center py-3">
-              <span className="text-2xl font-black text-gray-800">{current + 1}</span>
-              <span className="text-sm text-gray-400">/{exercise.quizzes.length}</span>
-            </div>
-            <div className="px-3 pb-3">
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-teal-500 rounded-full transition-all" style={{ width: `${((current + 1) / exercise.quizzes.length) * 100}%` }} />
+          {/* Score */}
+          <div className="bg-red-500 text-white text-center text-xs font-bold py-2">Điểm:</div>
+          <div className="text-center py-3 border-b border-gray-200">
+            <div className="text-4xl font-black" style={{ color: '#e53935' }}>{score}</div>
+            <div className="text-xs text-gray-500 mt-0.5">trên tổng số</div>
+            <div className="text-xs font-bold text-gray-600">{totalPoints}</div>
+          </div>
+          {/* Report */}
+          <div className="text-center py-2 border-b border-gray-200">
+            <div className="text-xs text-amber-500 font-semibold">Góp ý - Báo lỗi</div>
+            <div className="flex justify-center mt-1">
+              <div className="w-8 h-8 rounded-full bg-amber-400 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="white" className="w-4 h-4"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-3 shadow-md text-center">
+          {/* Sound */}
+          <div className="text-center py-3">
             <button onClick={() => setSoundOn((s) => !s)}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-1.5 transition-colors ${soundOn ? 'bg-teal-100 text-teal-600' : 'bg-gray-100 text-gray-400'}`}>
+              className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1 transition-colors ${soundOn ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-400'}`}>
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                 <path d={soundOn
                   ? 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z'
@@ -1773,13 +2136,13 @@ export default function QuizPlayPage({
                 />
               </svg>
             </button>
-            <div className="text-xs text-gray-400 leading-tight">{soundOn ? 'Âm thanh bật' : 'Âm thanh tắt'}</div>
+            <div className="text-xs text-gray-500 leading-tight px-1">Bật/Tắt âm thanh báo đúng/sai</div>
           </div>
         </div>
 
       </div>
 
-      {/* Celebration overlay */}
+      {/* Celebration overlay — keep original, skip rest of old sidebar */}
       {celebrate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none" style={{ animation: 'celebFade 1.8s ease forwards' }}>
           <style>{`
@@ -1808,3 +2171,4 @@ export default function QuizPlayPage({
     </div>
   );
 }
+

@@ -1209,14 +1209,14 @@ function Puzzle({ options, answers, checked, correctMap, onChange, correctKey, s
             >
               {/* Slot placeholder box */}
               <div style={{
-                width: 52, height: 52, borderRadius: 12, flexShrink: 0,
+                minWidth: 52, minHeight: 52, padding: '6px 10px', borderRadius: 12, flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 26, fontWeight: 900,
+                fontSize: placedToken && placedToken.text.length > 4 ? 16 : placedToken && placedToken.text.length > 2 ? 20 : 26,
+                fontWeight: 900, lineHeight: 1.2, textAlign: 'center',
                 borderWidth: 2, borderStyle: placedToken ? 'solid' : 'dashed',
                 borderColor: isCorrect ? '#22c55e' : isWrong ? '#ef4444' : placedToken ? pCol : '#9ca3af',
                 background: isCorrect ? '#dcfce7' : isWrong ? '#fee2e2' : placedToken ? `${pCol}22` : '#f3f4f6',
                 color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : placedToken ? pCol : '#9ca3af',
-                textShadow: placedToken && !isCorrect && !isWrong ? `1px 2px 0 ${pCol}44` : undefined,
               }}>
                 {placedToken ? placedToken.text : '?'}
               </div>
@@ -1242,20 +1242,16 @@ function Puzzle({ options, answers, checked, correctMap, onChange, correctKey, s
                 <button key={t.key}
                   onClick={() => setSelectedToken(isSel ? null : t.key)}
                   style={{
-                    width: 64, height: 64,
-                    borderRadius: 14,
-                    borderWidth: 3,
-                    borderStyle: 'solid',
+                    minWidth: 64, minHeight: 64, padding: '8px 12px',
+                    borderRadius: 14, borderWidth: 3, borderStyle: 'solid',
                     borderColor: isSel ? col : '#e5e7eb',
                     background: isSel ? `${col}15` : '#ffffff',
-                    fontSize: 28,
-                    fontWeight: 900,
+                    fontSize: t.text.length > 5 ? 16 : t.text.length > 3 ? 20 : 26,
+                    fontWeight: 900, lineHeight: 1.2, textAlign: 'center',
                     color: col,
-                    textShadow: !isSel ? `1px 2px 0 ${col}44` : undefined,
                     boxShadow: isSel ? `0 0 0 3px ${col}33` : '0 1px 3px rgba(0,0,0,0.08)',
                     transform: isSel ? 'scale(1.12)' : 'scale(1)',
-                    transition: 'all 0.15s',
-                    cursor: 'pointer',
+                    transition: 'all 0.15s', cursor: 'pointer',
                   }}>
                   {t.text}
                 </button>

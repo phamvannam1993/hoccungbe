@@ -14,6 +14,14 @@ function isMathText(text: string): boolean {
   return /^[\d\s+\-×÷*/:=<>≤≥≠.,()%^√π]+$/.test(text.trim());
 }
 
+function formatMath(text: string): string {
+  if (!isMathText(text)) return text;
+  return text
+    .replace(/\s*([+\-×÷*/:=<>≤≥≠])\s*/g, ' $1 ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type OptionItem = { key: string; text: string; audioUrl?: string; imageUrl?: string; pair?: string };
@@ -128,7 +136,7 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
                     color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                     textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
                     letterSpacing: isMath ? '-0.5px' : 'normal',
-                  }}>{opt.text || opt.key}</span>
+                  }}>{formatMath(opt.text || opt.key)}</span>
                 </div>
               );
             })()}
@@ -183,7 +191,7 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
                   color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                   textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
                   letterSpacing: isMath ? '-0.5px' : 'normal',
-                }}>{opt.text}</span>
+                }}>{formatMath(opt.text)}</span>
               );
             })()}
             {isRight && !isSel && <span className="absolute top-3 right-3 text-green-500 font-black text-base">✓</span>}
@@ -263,7 +271,7 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
               flex: 1,
               fontSize: isMathText(opt?.text ?? key) ? 28 : 18,
               fontWeight: 700, color: isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b',
-            }}>{opt?.text ?? key}</span>
+            }}>{formatMath(opt?.text ?? key)}</span>
             {isRight && <span style={{ color: '#22c55e', fontWeight: 900, fontSize: 18, flexShrink: 0 }}>✓</span>}
             {isWrong && <span style={{ fontSize: 12, color: '#ef4444', flexShrink: 0 }}>→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
           </div>
@@ -291,7 +299,7 @@ function ImageChoice({ options, selected, checked, correctKey, onSelect }: {
               ? <img src={opt.imageUrl} alt={opt.text} className="w-full h-16 object-contain rounded" />
               : <div className="w-full h-16 rounded bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-600">{opt.key}</div>
             }
-            <span className="text-xs font-medium text-gray-700">{opt.text}</span>
+            <span className="text-xs font-medium text-gray-700">{formatMath(opt.text)}</span>
             {isRight && <span className="text-green-600 text-xs font-bold">✓ Đúng</span>}
             {isWrong && <span className="text-red-600 text-xs font-bold">✗ Sai</span>}
           </button>
@@ -397,7 +405,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                 }}
                 className="w-full flex items-center px-5 py-4 transition-all"
               >
-                <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{opt.text}</span>
+                <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{formatMath(opt.text)}</span>
                 {isCorrect && <span className="text-green-600 font-black text-lg shrink-0">✓</span>}
                 {isWrong && <span className="text-red-500 font-black shrink-0">✗</span>}
               </button>
@@ -437,7 +445,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                 }}
                 className="w-full px-5 py-4 text-left transition-all"
               >
-                <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{text}</span>
+                <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{formatMath(text)}</span>
                 {isCorrect && <span className="ml-2 text-green-600 font-black">✓</span>}
                 {isWrong && ownerKey && <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>}
               </button>
@@ -779,7 +787,7 @@ function Sorting({ options, order, checked, correctOrder, onReorder }: {
               fontSize: isMath ? 28 : 18,
               fontWeight: 700,
               color: isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b',
-            }}>{text}</span>
+            }}>{formatMath(text)}</span>
             {!checked && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
                 <button onClick={() => move(idx, -1)} disabled={idx === 0}
@@ -839,7 +847,7 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
                 textDecorationThickness: '3px',
                 textShadow: !isCrossed && !checked ? `1px 2px 0 ${col}44` : undefined,
                 opacity: isCrossed ? 0.5 : 1,
-              }}>{opt.text}</span>
+              }}>{formatMath(opt.text)}</span>
               {/* Cross lines when crossed */}
               {isCrossed && !checked && (
                 <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden rounded-2xl">
@@ -937,7 +945,7 @@ function Coloring({ options, colorMap, checked, correctMap, onChange }: {
               >
                 {getShapeRenderer(opt.text, hexColor)}
               </button>
-              <span className="text-xs text-gray-600 text-center leading-tight">{opt.text}</span>
+              <span className="text-xs text-gray-600 text-center leading-tight">{formatMath(opt.text)}</span>
               {checked && !isCorrect && (
                 <span className="text-xs text-green-600">→ {COLORING_PALETTE.find((c) => c.id === correctColor)?.label}</span>
               )}
@@ -1197,7 +1205,7 @@ function Game({ options, checked, onComplete }: {
                   lineHeight: 1.1,
                   padding: '0 6px',
                   textShadow: isMatched ? 'none' : undefined,
-                }}>{card.text}</span>
+                }}>{formatMath(card.text)}</span>
               ) : (
                 <span style={{ fontSize: 32 }}>🌟</span>
               )}
@@ -1323,11 +1331,31 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
 
 // ─── TTS ─────────────────────────────────────────────────────────────────────
 
+const VI_NUMBERS: Record<number, string> = {
+  0:'không',1:'một',2:'hai',3:'ba',4:'bốn',5:'năm',
+  6:'sáu',7:'bảy',8:'tám',9:'chín',10:'mười',
+  11:'mười một',12:'mười hai',13:'mười ba',14:'mười bốn',15:'mười lăm',
+  16:'mười sáu',17:'mười bảy',18:'mười tám',19:'mười chín',20:'hai mươi',
+};
+
+function numToVi(n: number): string {
+  if (VI_NUMBERS[n] !== undefined) return VI_NUMBERS[n];
+  if (n < 100) {
+    const tens = Math.floor(n / 10);
+    const ones = n % 10;
+    const tensWord = ['','','hai','ba','bốn','năm','sáu','bảy','tám','chín'][tens];
+    const onesWord = ones === 0 ? '' : ones === 5 ? ' lăm' : ones === 1 ? ' mốt' : ' ' + VI_NUMBERS[ones];
+    return `${tensWord} mươi${onesWord}`;
+  }
+  return String(n);
+}
+
 function preprocessTTS(text: string): string {
   return text
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
     .replace(/\[b\d+\]/g, 'mấy')
     .replace(/_{2,}/g, 'mấy')
+    .replace(/_/g, 'mấy')
     .replace(/\?/g, '')
     .replace(/(\d)[-−–](\d)/g, '$1 đến $2')
     .replace(/[+＋]/g, ' cộng ')
@@ -1340,6 +1368,7 @@ function preprocessTTS(text: string): string {
     .replace(/≤/g, ' nhỏ hơn hoặc bằng ')
     .replace(/≥/g, ' lớn hơn hoặc bằng ')
     .replace(/≠/g, ' khác ')
+    .replace(/\d+/g, (m) => numToVi(parseInt(m)))
     .replace(/\s{2,}/g, ' ')
     .trim();
 }

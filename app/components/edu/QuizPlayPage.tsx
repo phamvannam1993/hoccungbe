@@ -486,7 +486,15 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
   onChange: (key: string, val: string) => void;
 }) {
   const [showHint, setShowHint] = useState(false);
-  const parts = questionText.split(/(\[b\d+\])/g);
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
+  // Auto-focus hidden input when activeKey changes (for direct keyboard typing)
+  useEffect(() => {
+    if (activeKey && hiddenInputRef.current) hiddenInputRef.current.focus();
+  }, [activeKey]);
+  // Support "label\nsequence" — use only the sequence part for train detection
+  const newlineIdx = questionText.indexOf('\n');
+  const seqText = newlineIdx >= 0 ? questionText.slice(newlineIdx + 1) : questionText;
+  const parts = seqText.split(/(\[b\d+\])/g);
 
   // Detect if this is a number-sequence style question (tokens are mostly numbers/short)
   const isNumberSeq = parts.every((p) => {
@@ -496,42 +504,156 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
 
   let numColorIdx = 0;
 
+  // Split into rows of max 6 tokens for train display
+  const trainTokens = parts.filter((p) => p.trim() !== '' || /^\[b\d+\]$/.test(p));
+  const TRAIN_ROW_MAX = 6;
+  const trainRows: string[][] = [];
+  for (let i = 0; i < trainTokens.length; i += TRAIN_ROW_MAX) {
+    trainRows.push(trainTokens.slice(i, i + TRAIN_ROW_MAX));
+  }
+
   return (
     <div className="space-y-4">
       {isNumberSeq ? (
-        <div className="flex flex-wrap items-center justify-center gap-4 py-8">
-          {parts.map((part, i) => {
-            const match = part.match(/^\[(\w+)\]$/);
-            if (match) {
-              const key = match[1];
-              const val = answers[key] ?? '';
-              const correct = correctMap[key];
-              const isOk = checked ? val.trim() === String(correct) : null;
-              const isActive = !checked && activeKey === key;
-              return (
-                <input key={i} type="text" inputMode="numeric" value={val}
-                  onChange={(e) => onChange(key, e.target.value)}
-                  onFocus={() => onFocusBlank?.(key)}
-                  disabled={checked}
-                  readOnly={!!onFocusBlank && !checked}
-                  style={{
-                    borderColor: checked ? (isOk ? '#22c55e' : '#ef4444') : isActive ? '#3b82f6' : '#ccc',
-                    boxShadow: isActive ? '0 0 0 3px rgba(59,130,246,0.2)' : undefined,
-                    borderRadius: 12,
-                  }}
-                  className={`w-20 h-20 text-center font-black text-3xl border-2 outline-none transition-all cursor-pointer ${checked ? (isOk ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600') : 'bg-white text-gray-800'}`}
-                />
-              );
-            }
-            const txt = part.trim();
-            if (!txt) return null;
-            const color = NUMBER_COLORS[numColorIdx++ % NUMBER_COLORS.length];
+        <div className="flex flex-col gap-4 py-2 items-center w-full overflow-x-auto" style={{ position: 'relative' }}>
+          {trainRows.map((rowTokens, rowIdx) => {
+            const isReverse = rowIdx % 2 === 1;
+            const displayTokens = isReverse ? [...rowTokens].reverse() : rowTokens;
+            // W=76 per car, engine=72
+            const W = 76, EW = 72;
+            const totalW = EW + displayTokens.length * W;
+            const H = 88;
             return (
-              <span key={i} className="text-5xl font-black select-none leading-none" style={{ color, textShadow: `2px 3px 0 ${color}88` }}>
-                {txt}
-              </span>
+              <svg key={rowIdx} viewBox={`0 0 ${totalW} ${H}`} width={totalW} height={H}
+                style={{ maxWidth: '100%', display: 'block' }}>
+                {/* Red rail line */}
+                <rect x="0" y={H - 28} width={totalW} height="5" rx="2" fill="#e53935"/>
+
+                {/* Engine */}
+                {(() => {
+                  const ex = isReverse ? totalW - EW : 0;
+                  return (
+                    <g transform={`translate(${ex},0)${isReverse ? ` scale(-1,1) translate(-${EW},0)` : ''}`}>
+                      {/* Chimney */}
+                      <rect x="8" y="4" width="10" height="14" rx="3" fill="#b71c1c"/>
+                      <rect x="4" y="2" width="18" height="6" rx="3" fill="#b71c1c"/>
+                      {/* Smoke puff */}
+                      <circle cx="13" cy="1" r="3" fill="#bbb" opacity="0.5"/>
+                      {/* Body */}
+                      <rect x="0" y="14" width={EW} height="40" rx="8" fill="#e53935"/>
+                      {/* Green bottom panel */}
+                      <rect x="2" y="38" width={EW-4} height="14" rx="4" fill="#388e3c"/>
+                      {/* Cab window */}
+                      <rect x={EW-26} y="18" width="22" height="16" rx="5" fill="white" stroke="#ef9a9a" strokeWidth="1.5"/>
+                      {/* Yellow roof strip */}
+                      <rect x="2" y="12" width={EW-4} height="6" rx="3" fill="#f9a825"/>
+                      {/* Front headlight */}
+                      <circle cx={isReverse ? EW-6 : 6} cy="32" r="4" fill="#fdd835" stroke="#f57f17" strokeWidth="1"/>
+                      {/* Wheels */}
+                      <circle cx="14" cy={H-18} r="13" fill="#1565c0" stroke="#e65100" strokeWidth="3"/>
+                      <circle cx="14" cy={H-18} r="7" fill="#42a5f5" stroke="#e65100" strokeWidth="2"/>
+                      <circle cx="14" cy={H-18} r="3" fill="#1565c0"/>
+                      <circle cx={EW-14} cy={H-18} r="13" fill="#1565c0" stroke="#e65100" strokeWidth="3"/>
+                      <circle cx={EW-14} cy={H-18} r="7" fill="#42a5f5" stroke="#e65100" strokeWidth="2"/>
+                      <circle cx={EW-14} cy={H-18} r="3" fill="#1565c0"/>
+                    </g>
+                  );
+                })()}
+
+                {/* Cars */}
+                {displayTokens.map((part, i) => {
+                  const match = part.match(/^\[(\w+)\]$/);
+                  const isBlank = !!match;
+                  const key = match ? match[1] : null;
+                  const val = key ? (answers[key] ?? '') : '';
+                  const correct = key ? correctMap[key] : '';
+                  const isOk = checked && key ? val.trim() === String(correct) : null;
+                  const isActive = !checked && key && activeKey === key;
+                  const txt = part.trim();
+                  const cx = isReverse ? (totalW - EW - (i + 1) * W) : (EW + i * W);
+
+                  const bodyFill = isBlank
+                    ? (checked ? (isOk ? '#c8e6c9' : '#ffcdd2') : (isActive ? '#bbdefb' : '#e3f2fd'))
+                    : '#e8f5e9';
+                  const bodyStroke = isBlank
+                    ? (checked ? (isOk ? '#43a047' : '#e53935') : (isActive ? '#1976d2' : '#64b5f6'))
+                    : '#66bb6a';
+
+                  return (
+                    <g key={i} transform={`translate(${cx},0)`}>
+                      {/* Yellow roof */}
+                      <rect x="3" y="10" width={W-6} height="8" rx="4" fill="#f9a825"/>
+                      {/* Blue main body */}
+                      <rect x="1" y="14" width={W-2} height="36" rx="7" fill="#1e88e5" stroke="#1565c0" strokeWidth="1.5"/>
+                      {/* Green side panels */}
+                      <rect x="1" y="38" width={W-2} height="12" rx="5" fill="#388e3c"/>
+                      {/* White number window */}
+                      <rect x="8" y="17" width={W-16} height="26" rx="6"
+                        fill={bodyFill} stroke={bodyStroke} strokeWidth={isActive ? 3 : 2}/>
+                      {/* Active glow */}
+                      {isActive && <rect x="8" y="17" width={W-16} height="26" rx="6" fill="none" stroke="#1976d2" strokeWidth="5" opacity="0.2"/>}
+                      {/* Wheels */}
+                      <circle cx="14" cy={H-18} r="12" fill="#1565c0" stroke="#e65100" strokeWidth="3"/>
+                      <circle cx="14" cy={H-18} r="6" fill="#42a5f5" stroke="#e65100" strokeWidth="2"/>
+                      <circle cx="14" cy={H-18} r="2.5" fill="#1565c0"/>
+                      <circle cx={W-14} cy={H-18} r="12" fill="#1565c0" stroke="#e65100" strokeWidth="3"/>
+                      <circle cx={W-14} cy={H-18} r="6" fill="#42a5f5" stroke="#e65100" strokeWidth="2"/>
+                      <circle cx={W-14} cy={H-18} r="2.5" fill="#1565c0"/>
+                      {/* Checkmark / X after check */}
+                      {checked && isOk && <text x={W/2} y="34" textAnchor="middle" fontSize="10" fill="#2e7d32" fontWeight="bold">✓</text>}
+                      {checked && isOk === false && <text x={W/2} y="34" textAnchor="middle" fontSize="10" fill="#c62828" fontWeight="bold">✗</text>}
+
+                      {/* Overlay: number text or foreignObject input */}
+                      {!isBlank && (
+                        <text x={W/2} y="35" textAnchor="middle" dominantBaseline="middle"
+                          fontSize={txt.length > 2 ? 18 : 22} fontWeight="900" fill="#1b5e20">{txt}</text>
+                      )}
+                      {isBlank && val && (
+                        <text x={W/2} y="35" textAnchor="middle" dominantBaseline="middle"
+                          fontSize={val.length > 2 ? 18 : 22} fontWeight="900"
+                          fill={checked ? (isOk ? '#1b5e20' : '#b71c1c') : '#1565c0'}>{val}</text>
+                      )}
+                      {isBlank && !val && !checked && (
+                        <text x={W/2} y="35" textAnchor="middle" dominantBaseline="middle"
+                          fontSize="22" fontWeight="900" fill={isActive ? '#1565c0' : '#90caf9'}>?</text>
+                      )}
+                      {/* Invisible click target */}
+                      {isBlank && !checked && (
+                        <rect x="8" y="17" width={W-16} height="26" rx="6" fill="transparent" style={{ cursor: 'pointer' }}
+                          onClick={() => onFocusBlank?.(key!)}/>
+                      )}
+                    </g>
+                  );
+                })}
+              </svg>
             );
           })}
+          {/* Hidden input to capture keyboard when a train car is selected */}
+          {!checked && activeKey && (
+            <input ref={hiddenInputRef} type="text" inputMode="numeric"
+              value={answers[activeKey] ?? ''}
+              onChange={(e) => onChange(activeKey, e.target.value)}
+              style={{ position: 'absolute', opacity: 0, width: 1, height: 1, pointerEvents: 'none' }}
+            />
+          )}
+          {/* Show correct answers below wrong blanks */}
+          {checked && (() => {
+            const wrongs = trainTokens.filter((p) => {
+              const m = p.match(/^\[(\w+)\]$/);
+              if (!m) return false;
+              const k = m[1];
+              return (answers[k] ?? '').trim() !== String(correctMap[k]);
+            });
+            if (wrongs.length === 0) return null;
+            return (
+              <div className="flex flex-wrap gap-2 justify-center mt-1">
+                {wrongs.map((p) => {
+                  const k = p.match(/^\[(\w+)\]$/)![1];
+                  return <span key={k} className="text-xs text-green-700 font-bold bg-green-50 px-2 py-1 rounded-lg border border-green-200">→ {correctMap[k]}</span>;
+                })}
+              </div>
+            );
+          })()}
         </div>
       ) : (
         /* Non-sequence: inputs are rendered inline in question text above */
@@ -992,18 +1114,51 @@ function Coloring({ options, colorMap, checked, correctMap, onChange }: {
 //   tokens: key starts with 'token_', text is the value
 // correctAnswerJson: { slot_1: 'token_5', slot_2: 'token_2' }
 
-function Puzzle({ options, answers, checked, correctMap, onChange }: {
+function Puzzle({ options, answers, checked, correctMap, onChange, correctKey, selected, onSelect }: {
   options: OptionItem[];
   answers: Record<string, string>;
   checked: boolean;
   correctMap: Record<string, string>;
   onChange: (map: Record<string, string>) => void;
+  correctKey?: string;
+  selected?: string;
+  onSelect?: (key: string) => void;
 }) {
   const slots = options.filter((o) => o.key.startsWith('slot_'));
   const tokens = options.filter((o) => o.key.startsWith('token_'));
   const usedTokens = new Set(Object.values(answers));
   const available = tokens.filter((t) => !usedTokens.has(t.key));
   const [selectedToken, setSelectedToken] = useState<string | null>(null);
+
+  // Format A/B/C: render as single_choice
+  if (slots.length === 0 && tokens.length === 0 && options.length > 0) {
+    return (
+      <div className="space-y-3">
+        {options.map((opt, idx) => {
+          const col = OPTION_COLORS[idx % OPTION_COLORS.length];
+          const isSel = selected === opt.key;
+          const isOk = checked && opt.key === correctKey;
+          const isWrong = checked && isSel && opt.key !== correctKey;
+          return (
+            <button key={opt.key} onClick={() => !checked && onSelect?.(opt.key)}
+              className="w-full flex items-center gap-4 pl-3 pr-10 py-4 rounded-2xl transition-all relative text-left"
+              style={{
+                background: isOk ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? `${col}15` : '#f8fafc',
+                border: `2.5px solid ${isOk ? '#22c55e' : isWrong ? '#ef4444' : isSel ? col : '#e2e8f0'}`,
+                cursor: checked ? 'default' : 'pointer',
+              }}>
+              <span style={{ width: 36, height: 36, borderRadius: '50%', background: isOk ? '#22c55e' : isWrong ? '#ef4444' : isSel ? col : '#e2e8f0', color: isSel || isOk || isWrong ? '#fff' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16, flexShrink: 0 }}>
+                {opt.key}
+              </span>
+              <span style={{ fontSize: 18, fontWeight: 700, color: isOk ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', flex: 1 }}>{formatMath(opt.text)}</span>
+              {isOk && <span className="absolute right-4 text-green-500 font-black text-xl">✓</span>}
+              {isWrong && <span className="absolute right-4 text-red-400 font-black text-xl">✗</span>}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
 
   const placeToken = (slotKey: string) => {
     if (checked || !selectedToken) return;
@@ -1251,38 +1406,60 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
   const isMultiGroup = options.some((o) => o.pair && !isNaN(Number(o.pair)));
 
   if (isMultiGroup) {
-    // Each option = a group of animals: key=id, text=emoji, pair=count
+    // Worksheet style: grid of boxes with dashed border, circle input below
     return (
-      <div className="space-y-5">
-        <p className="text-xs text-gray-400">Đếm từng nhóm rồi điền số vào ô</p>
-        {options.map((group) => {
-          const count = Number(group.pair ?? 1);
-          const val = answers[group.key] ?? '';
-          const correct = correctMap[group.key];
-          const isOk = checked ? val.trim() === String(correct) : null;
-          return (
-            <div key={group.key} className="flex items-center gap-4 p-3 rounded-2xl bg-amber-50 border border-amber-200">
-              <div className="flex flex-wrap gap-1 flex-1">
-                {Array.from({ length: count }).map((_, i) => (
-                  <span key={i} className="text-3xl select-none">{group.text}</span>
-                ))}
+      <div className="space-y-3">
+        <div className={`grid gap-3 ${options.length <= 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-4'}`}>
+          {options.map((group) => {
+            const count = Number(group.pair ?? 1);
+            const val = answers[group.key] ?? '';
+            const correct = correctMap[group.key];
+            const isOk = checked ? val.trim() === String(correct) : null;
+            const iconSize = count > 8 ? 'text-2xl' : count > 5 ? 'text-3xl' : 'text-4xl';
+            return (
+              <div key={group.key} className="flex flex-col items-center gap-2">
+                {/* Dashed box with icons */}
+                <div style={{
+                  border: '2px dashed #1e3a8a',
+                  borderRadius: 12,
+                  padding: '10px 8px',
+                  background: '#f8faff',
+                  width: '100%',
+                  minHeight: 90,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 4,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {Array.from({ length: count }).map((_, i) => (
+                    <span key={i} className={`${iconSize} select-none leading-none`}>{group.text}</span>
+                  ))}
+                </div>
+                {/* Circle input below */}
+                <div className="relative flex items-center justify-center">
+                  <input type="text" inputMode="numeric" value={val}
+                    onChange={(e) => onChange(group.key, e.target.value)}
+                    disabled={checked}
+                    style={{
+                      width: 44, height: 44,
+                      borderRadius: '50%',
+                      border: `3px solid ${checked ? (isOk ? '#22c55e' : '#ef4444') : '#1e3a8a'}`,
+                      background: checked ? (isOk ? '#f0fdf4' : '#fef2f2') : '#fff',
+                      color: checked ? (isOk ? '#15803d' : '#b91c1c') : '#1e3a8a',
+                      textAlign: 'center',
+                      fontSize: 20, fontWeight: 900,
+                      outline: 'none', cursor: checked ? 'default' : 'pointer',
+                    }}
+                  />
+                  {checked && !isOk && (
+                    <span style={{ position: 'absolute', top: -18, fontSize: 11, color: '#16a34a', fontWeight: 700, whiteSpace: 'nowrap' }}>→ {correct}</span>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-sm text-gray-500">Có</span>
-                <input type="text" inputMode="numeric" value={val}
-                  onChange={(e) => onChange(group.key, e.target.value)}
-                  disabled={checked}
-                  className={`w-12 h-12 text-center font-black text-xl rounded-xl border-2 outline-none transition-all ${
-                    checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700')
-                    : 'border-dashed border-amber-400 bg-white focus:border-amber-600'
-                  }`}
-                />
-                <span className="text-sm text-gray-500">con</span>
-                {checked && !isOk && <span className="text-xs text-green-600 font-bold">→ {correct}</span>}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }
@@ -1635,6 +1812,9 @@ export default function QuizPlayPage({
         return Object.entries(correctMatchMap).every(([k, v]) => map[k] === v);
       }
       case 'puzzle': {
+        const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
+        const hasSlots = opts.some((o) => o.key.startsWith('slot_'));
+        if (!hasSlots) return (puzzleAns[q.id] ?? {})['_sel'] === correctKey;
         const ans = puzzleAns[q.id] ?? {};
         return Object.entries(correctMatchMap).every(([k, v]) => ans[k] === v);
       }
@@ -1680,6 +1860,8 @@ export default function QuizPlayPage({
         return Object.keys(correctMatchMap).every((k) => !!map[k]);
       }
       case 'puzzle': {
+        const hasSlots = options.some((o) => o.key.startsWith('slot_'));
+        if (!hasSlots) return !!(puzzleAns[q.id] ?? {})['_sel'];
         const slots = options.filter((o) => o.key.startsWith('slot_'));
         const ans = puzzleAns[q.id] ?? {};
         return slots.every((s) => !!ans[s.key]);
@@ -1770,6 +1952,12 @@ export default function QuizPlayPage({
         return sel.length === cks.length && cks.every((k) => sel.includes(k));
       }
       case 'puzzle': {
+        const opts2 = Array.isArray(qz.optionsJson) ? qz.optionsJson : [];
+        const hasSlots2 = opts2.some((o: OptionItem) => o.key.startsWith('slot_'));
+        if (!hasSlots2) {
+          const ck2 = typeof qz.correctAnswerJson === 'string' ? qz.correctAnswerJson : null;
+          return (puzzleAns[qz.id] ?? {})['_sel'] === ck2;
+        }
         const ans = puzzleAns[qz.id] ?? {};
         return Object.entries(cm).every(([k, v]) => ans[k] === v);
       }
@@ -1897,12 +2085,23 @@ export default function QuizPlayPage({
                 <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
               </button>
               {q.questionType === 'fill_blank' && (() => {
-                const parts2 = q.questionText.split(/(\[b\d+\])/g);
+                // Support "label\nsequence" format: first line = label, second line = number sequence
+                const newlineIdx = q.questionText.indexOf('\n');
+                const displayText = newlineIdx >= 0 ? q.questionText.slice(0, newlineIdx) : q.questionText;
+                const seqText = newlineIdx >= 0 ? q.questionText.slice(newlineIdx + 1) : q.questionText;
+                const parts2 = seqText.split(/(\[b\d+\])/g);
                 const isSeq = parts2.every((p2) => {
                   const m2 = p2.match(/^\[(\w+)\]$/);
                   return m2 || /^[\s\d\W]{0,5}$/.test(p2.trim()) || p2.trim() === '';
                 }) && parts2.some((p2) => /^\[b\d+\]$/.test(p2));
-                if (isSeq) return null; // FillBlank renders the full number sequence
+                // If has label prefix, show it; then FillBlank renders the sequence
+                if (isSeq) {
+                  if (newlineIdx >= 0) {
+                    return <p className="pt-1" style={{ fontSize: 22, fontWeight: 700, color: '#1e293b' }}>{displayText}</p>;
+                  }
+                  return null;
+                }
+                const renderedKeys2 = new Set<string>();
                 return (
                   <p className="pt-1 leading-relaxed" style={{ fontSize: q.questionText.replace(/\[b\d+\]/g,'').trim().length > 30 ? 20 : 26, fontWeight: 700, color: '#1e293b' }}>
                     {parts2.map((part2, pi) => {
@@ -1913,6 +2112,16 @@ export default function QuizPlayPage({
                         const correct2 = correctMatchMap[bk];
                         const isOk2 = isChecked ? bval.trim() === String(correct2) : null;
                         const isActive2 = !isChecked && activeBlankKey?.qid === q.id && activeBlankKey.bkey === bk;
+                        // Duplicate key: show as inline value badge instead of another input
+                        if (renderedKeys2.has(bk)) {
+                          const displayVal = bval || (isChecked ? String(correct2) : '?');
+                          return (
+                            <span key={pi} style={{ display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle', margin: '0 4px', padding: '2px 10px', borderRadius: 10, fontWeight: 900, fontSize: 'inherit', background: isChecked ? (isOk2 ? '#dcfce7' : '#fee2e2') : '#dbeafe', color: isChecked ? (isOk2 ? '#15803d' : '#b91c1c') : '#1d4ed8', border: `2px solid ${isChecked ? (isOk2 ? '#22c55e' : '#ef4444') : '#93c5fd'}` }}>
+                              {displayVal}
+                            </span>
+                          );
+                        }
+                        renderedKeys2.add(bk);
                         return (
                           <span key={pi} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, verticalAlign: 'middle', margin: '0 6px' }}>
                             <input
@@ -2054,6 +2263,9 @@ export default function QuizPlayPage({
                   answers={puzzleAns[q.id] ?? {}}
                   checked={isChecked}
                   correctMap={correctMatchMap}
+                  correctKey={typeof q.correctAnswerJson === 'string' ? q.correctAnswerJson : undefined}
+                  selected={(puzzleAns[q.id] ?? {})['_sel']}
+                  onSelect={(key) => setPuzzleAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), _sel: key } }))}
                   onChange={(map) => setPuzzleAns((p) => ({ ...p, [q.id]: map }))}
                 />
               )}

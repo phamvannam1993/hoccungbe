@@ -102,7 +102,11 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void;
 }) {
   return (
-    <div className={`grid gap-4 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+    <div className={`grid gap-3 ${
+      options.length === 2 ? 'grid-cols-2' :
+      options.length === 3 ? (options.some(o => isMathText(o.text) && o.text.length > 6) ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-3') :
+      options.some(o => isMathText(o.text) && o.text.length > 8) ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2'
+    }`}>
       {options.map((opt) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
@@ -121,7 +125,7 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[130px] px-6 py-6"
+            className="relative flex flex-col items-center justify-center min-h-[110px] pl-3 pr-10 py-4"
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -131,11 +135,13 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
                 <div className="flex items-center gap-2">
                   {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                   <span style={{
-                    fontSize: isMath ? 56 : 20,
+                    fontSize: isMath ? (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48) : 16,
                     fontWeight: isMath ? 900 : 700,
                     color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                     textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
-                    letterSpacing: isMath ? '-0.5px' : 'normal',
+                    letterSpacing: '-0.5px',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
                   }}>{formatMath(opt.text || opt.key)}</span>
                 </div>
               );
@@ -175,7 +181,7 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[130px] px-6 py-6"
+            className="relative flex flex-col items-center justify-center min-h-[110px] pl-3 pr-10 py-4"
           >
             {/* Checkbox indicator */}
             <span className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
@@ -186,11 +192,13 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
               const isMath = isMathText(opt.text);
               return (
                 <span style={{
-                  fontSize: isMath ? 56 : 20,
+                  fontSize: isMath ? (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48) : 16,
                   fontWeight: isMath ? 900 : 700,
                   color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                   textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
-                  letterSpacing: isMath ? '-0.5px' : 'normal',
+                  letterSpacing: '-0.5px',
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
                 }}>{formatMath(opt.text)}</span>
               );
             })()}
@@ -385,7 +393,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </svg>
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-3 min-w-0">
           {options.map((opt, idx) => {
             const isSelected = selectedLeft === opt.key;
             const matched = userMap[opt.key];
@@ -412,16 +420,19 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </div>
-        <div className="w-10 shrink-0" />
-        <div className="flex-1 space-y-3">
+        <div className="w-8 shrink-0" />
+        <div className="flex-1 space-y-3 min-w-0">
           {rightItems.map((text, pos) => {
             const isConnected = connectedPositions.has(pos);
-            const ownerKey = Object.keys(posMap).find((k) => posMap[k] === pos);
+            const ownerKeys = Object.keys(posMap).filter((k) => posMap[k] === pos);
+            const ownerKey = ownerKeys[0];
             const ownerIdx = ownerKey ? options.findIndex((o) => o.key === ownerKey) : -1;
             const col = ownerIdx >= 0 ? OPTION_COLORS[ownerIdx % OPTION_COLORS.length] : '#6b7280';
-            const isCorrect = checked && !!ownerKey && correctMap[ownerKey] === text;
-            const isWrong = checked && !!ownerKey && correctMap[ownerKey] !== text;
-            const isTarget = !checked && !!selectedLeft && !isConnected;
+            const allCorrect = checked && ownerKeys.length > 0 && ownerKeys.every((k) => correctMap[k] === text);
+            const anyWrong = checked && ownerKeys.some((k) => correctMap[k] !== text);
+            const isCorrect = allCorrect;
+            const isWrong = anyWrong && !allCorrect;
+            const isTarget = !checked && !!selectedLeft;
             return (
               <button key={pos} ref={(el) => { rightRefs.current[pos] = el; }}
                 onClick={() => {

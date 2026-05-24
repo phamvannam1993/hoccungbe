@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'chăm sóc khách hàng bé hay học',
   ],
   alternates: {
-    canonical: '/support',
+    canonical: '/ho-tro',
   },
   openGraph: {
     title: 'Hỗ trợ phụ huynh | Bé Hay Học',

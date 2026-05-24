@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'bé hay học',
   ],
   alternates: {
-    canonical: '/progress',
+    canonical: '/tien-do',
   },
   openGraph: {
     title: 'Tiến độ học tập của bé | Bé Hay Học',

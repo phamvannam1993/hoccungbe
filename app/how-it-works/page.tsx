@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   ],
 
   alternates: {
-    canonical: '/how-it-works',
+    canonical: '/huong-dan',
   },
 
   openGraph: {

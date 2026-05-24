@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Điều khoản sử dụng của Bé Hay Học, quy định quyền và trách nhiệm của người dùng khi truy cập và sử dụng nền tảng học tập cho trẻ em.',
   alternates: {
-    canonical: '/terms',
+    canonical: '/dieu-khoan',
   },
 };
 

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Chính sách bảo mật của Bé Hay Học, mô tả cách thu thập, sử dụng và bảo vệ thông tin người dùng trên nền tảng học tập cho trẻ em.',
   alternates: {
-    canonical: '/privacy-policy',
+    canonical: '/chinh-sach-bao-mat',
   },
 };
 

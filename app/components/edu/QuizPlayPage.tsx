@@ -1402,7 +1402,9 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
   correctKey: string | null;
   onChange: (key: string, val: string) => void;
 }) {
-  // Single-group mode: all options are individual icons, just count total
+  // Hooks must be before any early return
+  const [tapped, setTapped] = useState<Set<number>>(new Set());
+
   const isMultiGroup = options.some((o) => o.pair && !isNaN(Number(o.pair)));
 
   if (isMultiGroup) {
@@ -1465,17 +1467,14 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
   }
 
   // Single-group mode: tap each icon to count, then enter total
-  const [tapped, setTapped] = useState<Set<number>>(new Set());
-  const totalIcons = options.length;
   const inputVal = answers['total'] ?? '';
-  const isOk = checked ? inputVal.trim() === String(correctKey) : null;
+  const isOk = checked ? (correctKey !== null && correctKey !== '' && inputVal.trim() === String(correctKey)) : null;
 
   const toggleTap = (idx: number) => {
     if (checked) return;
-    setTapped((prev) => {
+    setTapped((prev: Set<number>) => {
       const next = new Set(prev);
       if (next.has(idx)) next.delete(idx); else next.add(idx);
-      // auto-fill count from tapped
       onChange('total', String(next.size));
       return next;
     });
@@ -1483,31 +1482,35 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
 
   return (
     <div className="space-y-4">
-      <p className="text-xs text-gray-400">Bấm vào từng con để đếm, rồi điền tổng số vào ô</p>
-      <div className="flex flex-wrap gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 min-h-[80px]">
-        {options.map((opt, idx) => {
-          const isTapped = tapped.has(idx);
-          return (
-            <button key={idx} onClick={() => toggleTap(idx)}
-              className={`text-4xl select-none transition-all hover:scale-110 ${isTapped ? 'opacity-30 scale-90' : 'opacity-100'}`}
-              title={isTapped ? 'Bỏ chọn' : 'Bấm để đếm'}
-            >
-              {opt.text}
-            </button>
-          );
-        })}
-      </div>
-      <div className="flex items-center gap-3">
+      {options.length > 0 && (
+        <>
+          <p className="text-xs text-gray-400">Bấm vào từng con để đếm, rồi điền tổng số vào ô</p>
+          <div className="flex flex-wrap gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 min-h-[80px]">
+            {options.map((opt, idx) => {
+              const isTapped = tapped.has(idx);
+              return (
+                <button key={idx} onClick={() => toggleTap(idx)}
+                  className={`text-4xl select-none transition-all hover:scale-110 ${isTapped ? 'opacity-30 scale-90' : 'opacity-100'}`}
+                >
+                  {opt.text}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+      <div className="flex items-center gap-3 flex-wrap">
         <span className="text-base font-semibold text-gray-700">Có tất cả</span>
         <input type="text" inputMode="numeric" value={inputVal}
           onChange={(e) => onChange('total', e.target.value)}
+          onFocus={(e) => e.target.select()}
           disabled={checked}
-          className={`w-14 h-14 text-center font-black text-2xl rounded-xl border-2 outline-none transition-all ${
+          className={`w-16 h-16 text-center font-black text-2xl rounded-xl border-2 outline-none transition-all ${
             checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700')
-            : 'border-dashed border-amber-400 bg-white focus:border-amber-600'
+            : 'border-dashed border-amber-400 bg-white focus:border-blue-500 focus:border-solid'
           }`}
         />
-        <span className="text-base font-semibold text-gray-700">con</span>
+        <span className="text-base font-semibold text-gray-700">{options.length > 0 ? 'con' : ''}</span>
         {!checked && tapped.size > 0 && (
           <span className="text-xs text-amber-600 italic">Đã đếm: {tapped.size}</span>
         )}
@@ -1765,7 +1768,9 @@ export default function QuizPlayPage({
   const diffColor = DIFF_COLOR[exercise.difficultyLevel] || '#E8871A';
   const totalPoints = exercise.quizzes.reduce((s, qz) => s + (qz.points || 10), 0);
 
-  const correctKey = typeof q.correctAnswerJson === 'string' ? q.correctAnswerJson : null;
+  const correctKey = typeof q.correctAnswerJson === 'string' ? q.correctAnswerJson
+    : typeof q.correctAnswerJson === 'number' ? String(q.correctAnswerJson)
+    : null;
   const correctKeys = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
   const correctBool = typeof q.correctAnswerJson === 'boolean' ? q.correctAnswerJson : null;
   const correctDragOrder = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
@@ -1822,7 +1827,7 @@ export default function QuizPlayPage({
         return gameComplete[q.id] ?? false;
       case 'counting': {
         const ans = countingAns[q.id] ?? {};
-        if (correctKey !== null) return ans['total']?.trim() === correctKey;
+        if (correctKey !== null && correctKey !== '') return !!(ans['total']?.trim()) && ans['total']?.trim() === correctKey;
         return Object.entries(correctMatchMap).every(([k, v]) => ans[k]?.trim() === String(v));
       }
       default:
@@ -1869,7 +1874,7 @@ export default function QuizPlayPage({
       case 'game': return gameComplete[q.id] ?? false;
       case 'counting': {
         const ans = countingAns[q.id] ?? {};
-        if (correctKey !== null) return !!(ans['total']?.trim());
+        if (correctKey !== null && correctKey !== '') return !!(ans['total']?.trim());
         return Object.keys(correctMatchMap).every((k) => !!(ans[k]?.trim()));
       }
       default: return false;
@@ -1964,8 +1969,8 @@ export default function QuizPlayPage({
       case 'game': return gameComplete[qz.id] ?? false;
       case 'counting': {
         const ans = countingAns[qz.id] ?? {};
-        const ck = typeof qz.correctAnswerJson === 'string' ? qz.correctAnswerJson : null;
-        if (ck !== null) return ans['total']?.trim() === ck;
+        const ck = typeof qz.correctAnswerJson === 'string' && qz.correctAnswerJson !== '' ? qz.correctAnswerJson : null;
+        if (ck !== null) return !!(ans['total']?.trim()) && ans['total']?.trim() === ck;
         return Object.entries(cm).every(([k, v]) => ans[k]?.trim() === String(v));
       }
       default: return false;
@@ -1975,7 +1980,16 @@ export default function QuizPlayPage({
 
   const handleVirtualKey = (char: string) => {
     if (isChecked) return;
-    // If no active blank, auto-pick first blank of current question
+
+    // counting: gõ vào ô total
+    if (q.questionType === 'counting') {
+      const cur = countingAns[q.id]?.['total'] ?? '';
+      const next = char === 'del' ? cur.slice(0, -1) : cur + char;
+      setCountingAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), total: next } }));
+      return;
+    }
+
+    // fill_blank / table_fill
     let target = activeBlankKey;
     if (!target && q.questionType === 'fill_blank') {
       const match = q.questionText.match(/\[(\w+)\]/);
@@ -2278,7 +2292,7 @@ export default function QuizPlayPage({
               )}
               {q.questionType === 'counting' && (
                 <Counting key={q.id}
-                  options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
+                  options={Array.isArray(q.optionsJson) ? q.optionsJson : (q.optionsJson && typeof q.optionsJson === 'object' ? Object.entries(q.optionsJson as Record<string,string>).map(([k,v]) => ({ key: k, text: v })) : [])}
                   answers={countingAns[q.id] ?? {}}
                   checked={isChecked}
                   correctMap={correctMatchMap}

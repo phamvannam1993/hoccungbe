@@ -1,7 +1,22 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Nunito, Baloo_2 } from 'next/font/google';
 import SiteShell from './components/SiteShell';
+
+const nunito = Nunito({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-nunito',
+  display: 'swap',
+});
+
+const baloo2 = Baloo_2({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['500', '600', '700', '800'],
+  variable: '--font-baloo2',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://behayhoc.com'),
@@ -124,7 +139,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="vi">
+    <html lang="vi" className={`${nunito.variable} ${baloo2.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -135,7 +150,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-screen text-slate-900 antialiased bg-[#6ec6c6]">
+      <body className="min-h-screen text-slate-900 antialiased bg-[#6ec6c6] font-sans">
         <SiteShell>{children}</SiteShell>
 
         <Script

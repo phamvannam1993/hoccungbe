@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     'kiến thức phát triển trẻ',
     'bé hay học blog',
   ],
-  alternates: { canonical: '/bai-viet' },
+  alternates: { canonical: `${SITE}/bai-viet` },
   openGraph: {
     title: 'Góc phụ huynh | Bé Hay Học',
     description: 'Kiến thức, kinh nghiệm và tin tức giáo dục trẻ em từ Bé Hay Học.',
@@ -22,35 +22,69 @@ export const metadata: Metadata = {
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
+    images: [{ url: `${SITE}/og-image.jpg`, width: 1200, height: 630, alt: 'Góc phụ huynh - Bé Hay Học' }],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Blog',
-  name: 'Góc phụ huynh | Bé Hay Học',
-  description: 'Kiến thức, kinh nghiệm nuôi dạy con và tin tức giáo dục trẻ em.',
-  url: `${SITE}/bai-viet`,
-  inLanguage: 'vi-VN',
-  publisher: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
-};
+interface ArticleItem { id: number; title: string; slug: string; excerpt?: string; publishedAt?: string; createdAt: string; }
 
-const breadcrumb = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
-    { '@type': 'ListItem', position: 2, name: 'Bài viết', item: `${SITE}/bai-viet` },
-  ],
-};
+async function fetchArticles(): Promise<ArticleItem[]> {
+  try {
+    const res = await fetch(`${API}/articles?limit=30`, { next: { revalidate: 3600 } });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return (Array.isArray(json) ? json : json.data) ?? [];
+  } catch { return []; }
+}
 
-export default function BaiVietLayout({ children }: { children: React.ReactNode }) {
+export default async function BaiVietLayout({ children }: { children: React.ReactNode }) {
+  const articles = await fetchArticles();
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Góc phụ huynh | Bé Hay Học',
+    description: 'Kiến thức, kinh nghiệm nuôi dạy con và tin tức giáo dục trẻ em.',
+    url: `${SITE}/bai-viet`,
+    inLanguage: 'vi-VN',
+    publisher: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
+    blogPost: articles.map((a) => ({
+      '@type': 'BlogPosting',
+      headline: a.title,
+      url: `${SITE}/bai-viet/${a.slug}`,
+      datePublished: a.publishedAt || a.createdAt,
+    })),
+  };
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
+      { '@type': 'ListItem', position: 2, name: 'Bài viết', item: `${SITE}/bai-viet` },
+    ],
+  };
+
   return (
     <>
-      <Script id="bai-viet-schema" type="application/ld+json" strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Script id="bai-viet-breadcrumb" type="application/ld+json" strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+
+      {/* SSR article list — crawlable by Google, hidden visually */}
+      {articles.length > 0 && (
+        <div className="sr-only" aria-hidden="true">
+          <h2>Bài viết mới nhất</h2>
+          <ul>
+            {articles.map((a) => (
+              <li key={a.id}>
+                <a href={`/bai-viet/${a.slug}`}>{a.title}</a>
+                {a.excerpt && <p>{a.excerpt}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {children}
     </>
   );

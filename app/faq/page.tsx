@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   ],
 
   alternates: {
-    canonical: '/cau-hoi-thuong-gap',
+    canonical: '/faq',
   },
 
   openGraph: {

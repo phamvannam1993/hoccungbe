@@ -266,7 +266,7 @@ export default function StoryOrderGame() {
 
   if (!selectedTheme) {
     return (
-      <section className="mx-auto max-w-7xl px-3 py-6 sm:px-6 lg:px-8 lg:py-12">
+      <section className="mx-auto max-w-6xl px-3 py-6 sm:px-6 lg:px-8 lg:py-12">
         <div className="rounded-[28px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-600 sm:text-sm">
             Trò chơi tư duy thời gian
@@ -372,7 +372,7 @@ export default function StoryOrderGame() {
   if (finished) {
     const accuracy = questions.length ? Math.round((score / questions.length) * 100) : 0;
     return (
-      <section className="mx-auto max-w-5xl px-3 py-6 sm:px-6 lg:px-8 lg:py-12">
+      <section className="mx-auto max-w-4xl px-3 py-6 sm:px-6 lg:px-8 lg:py-12">
         <div className="rounded-[28px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-violet-300 via-pink-300 to-amber-300 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">

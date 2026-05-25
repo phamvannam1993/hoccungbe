@@ -537,7 +537,7 @@ export default function ConnectNumberOrderGame() {
 
   if (!selectedCategory) {
     return (
-      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+      <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
         <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -668,7 +668,7 @@ export default function ConnectNumberOrderGame() {
     const categoryInfo = connectNumberData[selectedCategory];
 
     return (
-      <section className="mx-auto max-w-5xl px-6 py-8 lg:px-8 lg:py-12">
+      <section className="mx-auto max-w-4xl px-6 py-8 lg:px-8 lg:py-12">
         <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">

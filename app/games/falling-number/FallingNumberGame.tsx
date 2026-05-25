@@ -508,7 +508,7 @@ export default function FallingNumberGame() {
   if (!selectedLevel || !levelInfo) {
     return (
       <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-amber-50">
-        <div className="mx-auto w-full max-w-7xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
+        <div className="mx-auto w-full max-w-6xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
           <div className="overflow-hidden rounded-[26px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-3xl">
@@ -646,7 +646,7 @@ export default function FallingNumberGame() {
   if (finished) {
     return (
       <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-amber-50">
-        <div className="mx-auto w-full max-w-5xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
+        <div className="mx-auto w-full max-w-4xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
           <div className="rounded-[28px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:rounded-[36px] sm:p-6 lg:p-8">
             <div className="mx-auto max-w-2xl text-center">
               <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-yellow-300 via-pink-400 to-violet-500 p-[3px] shadow-[0_12px_30px_rgba(168,85,247,0.28)]">
@@ -736,7 +736,7 @@ export default function FallingNumberGame() {
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-amber-50">
-      <div className="mx-auto w-full max-w-7xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
+      <div className="mx-auto w-full max-w-6xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
         <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <button
             type="button"

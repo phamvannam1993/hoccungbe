@@ -101,12 +101,9 @@ function AudioBtn({ url, small }: { url?: string; small?: boolean }) {
 function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void;
 }) {
+  const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
   return (
-    <div className={`grid gap-3 ${
-      options.length === 2 ? 'grid-cols-2' :
-      options.length === 3 ? (options.some(o => isMathText(o.text) && o.text.length > 6) ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-3') :
-      options.some(o => isMathText(o.text) && o.text.length > 8) ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2'
-    }`}>
+    <div className="flex flex-wrap justify-center gap-3">
       {options.map((opt) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
@@ -115,6 +112,8 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
           <button key={opt.key}
             onClick={() => { if (!checked) { onSelect(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
             style={{
+              flexBasis: basis,
+              maxWidth: basis,
               borderWidth: 3,
               borderStyle: 'solid',
               borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? '#f59e0b' : '#f0b429',
@@ -125,7 +124,7 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[130px] pl-3 pr-10 py-6 overflow-visible"
+            className="relative flex flex-col items-center justify-center min-h-[130px] px-3 py-6 overflow-visible"
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -141,7 +140,8 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
                     textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
                     letterSpacing: '-0.5px',
                     textAlign: 'center',
-                    whiteSpace: 'nowrap',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
                   }}>{formatMath(opt.text || opt.key)}</span>
                 </div>
               );
@@ -2008,7 +2008,7 @@ export default function QuizPlayPage({
       <audio ref={wrongAudio} src="/sounds/wrong.mp3" preload="auto" />
 
       {/* Top bar */}
-      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(4px)' }}>
+      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'rgba(0,0,0,0.12)', backdropFilter: 'blur(4px)' }}>
         <div className="max-w-6xl mx-auto flex items-center gap-3 flex-wrap">
           <nav className="flex items-center gap-1.5 text-sm text-white/85 flex-wrap flex-1 min-w-0">
             <Link href="/" className="hover:text-white transition-colors shrink-0 font-medium">Trang chủ</Link>
@@ -2049,7 +2049,7 @@ export default function QuizPlayPage({
       </div>
 
       {/* Layout */}
-      <div className="flex flex-1 items-start justify-center gap-3 px-3 sm:px-4 py-4 max-w-6xl mx-auto w-full">
+      <div className="flex flex-1 items-start justify-center gap-3 px-4 sm:px-6 py-4 max-w-6xl mx-auto w-full">
 
         {/* Left sidebar — question list */}
         <div className="hidden md:flex flex-col w-12 bg-white rounded-xl overflow-hidden shadow-md shrink-0 border border-gray-200">

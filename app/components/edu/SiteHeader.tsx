@@ -9,6 +9,7 @@ import { ChevronDown, Menu, X } from 'lucide-react';
 type NavItem = { href: string; label: string; children?: NavItem[] };
 
 const NAV_MENU: NavItem[] = [
+  { href: '/', label: 'TRANG CHỦ' },
   {
     href: '/khoa-hoc', label: 'KHÓA HỌC',
     children: [
@@ -20,7 +21,7 @@ const NAV_MENU: NavItem[] = [
   { href: '/tro-choi', label: 'KHO TRÒ CHƠI' },
   { href: '/tien-do', label: 'THI ĐẤU' },
   { href: '/de-thi', label: 'ÔN THI' },
-  { href: '/bai-viet', label: 'BÀI VIẾT' },
+  { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },
   { href: '/ho-tro', label: 'HỖ TRỢ' },
 ];
 
@@ -187,11 +188,12 @@ export default function SiteHeader() {
 }
 
 function NavIcon({ label }: { label: string }) {
+  if (label.includes('TRANG')) return <span className="text-base">🏠</span>;
   if (label.includes('KHÓA')) return <span className="text-base">📚</span>;
   if (label.includes('KHO')) return <span className="text-base">🎮</span>;
   if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
   if (label.includes('ÔN')) return <span className="text-base">📝</span>;
-  if (label.includes('BÀI')) return <span className="text-base">📰</span>;
+  if (label.includes('GÓC')) return <span className="text-base">👨‍👩‍👧</span>;
   if (label.includes('HỖ')) return <span className="text-base">🎧</span>;
   return null;
 }

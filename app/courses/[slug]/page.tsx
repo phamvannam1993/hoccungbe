@@ -11,8 +11,10 @@ async function fetchCourse(slug: string) {
     const res = await fetch(`${API}/courses/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
-      title: string; description?: string; slug: string;
-      thumbnailUrl?: string; ageRange?: string;
+      title: string; description?: string; shortDescription?: string; slug: string;
+      thumbnailUrl?: string; targetAgeMin?: number; targetAgeMax?: number;
+      totalLessons?: number; estimatedMinutes?: number;
+      lessons?: { title: string; slug: string; topicName?: string }[];
     }>;
   } catch { return null; }
 }
@@ -79,6 +81,27 @@ export default async function Page({ params }: Props) {
       {breadcrumb && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       )}
+      {/* SSR content — crawlable by Google */}
+      {course && (
+        <div className="sr-only" aria-hidden="true">
+          <h1>{course.title}</h1>
+          {(course.shortDescription || course.description) && (
+            <p>{course.shortDescription || course.description}</p>
+          )}
+          {course.targetAgeMin && course.targetAgeMax && (
+            <p>Dành cho bé {course.targetAgeMin}–{course.targetAgeMax} tuổi</p>
+          )}
+          {course.totalLessons && <p>Tổng số bài học: {course.totalLessons} bài</p>}
+          {course.lessons && course.lessons.length > 0 && (
+            <ul>
+              {course.lessons.slice(0, 30).map((l) => (
+                <li key={l.slug}><a href={`/${l.slug}`}>{l.title}</a></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
       <CourseDetailPage slug={slug} />
     </>
   );

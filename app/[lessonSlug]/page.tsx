@@ -11,8 +11,10 @@ async function fetchLesson(slug: string) {
     const res = await fetch(`${API}/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
-      id: number; title: string; slug: string; description?: string;
-      course?: { title: string; slug: string };
+      id: number; title: string; slug: string;
+      shortDescription?: string; description?: string; content?: string;
+      topicName?: string; volume?: string; durationMinutes?: number;
+      course?: { title: string; slug: string; courseType?: string };
     }>;
   } catch { return null; }
 }
@@ -24,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = lesson
     ? `${lesson.title}${lesson.course ? ` | ${lesson.course.title}` : ''} | Bé Hay Học`
     : 'Bài học | Bé Hay Học';
-  const description = lesson?.description
-    || (lesson ? `Luyện tập ${lesson.title} với bài tập tương tác, trò chơi vui nhộn dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.');
+  const description = lesson?.shortDescription || lesson?.description
+    || (lesson ? `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.');
   const url = `${SITE}/${lessonSlug}`;
 
   return {
@@ -70,6 +72,27 @@ export default async function Page({ params }: Props) {
       {jsonLd && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       )}
+
+      {/* SSR content block — visible to Google, hidden visually */}
+      {lesson && (
+        <div className="sr-only" aria-hidden="true">
+          <h1>{lesson.title}</h1>
+          {lesson.course && (
+            <p>Khóa học: {lesson.course.title}</p>
+          )}
+          {lesson.topicName && <p>Chủ đề: {lesson.topicName}</p>}
+          {lesson.volume && <p>Tập: {lesson.volume}</p>}
+          {(lesson.shortDescription || lesson.description) && (
+            <p>{lesson.shortDescription || lesson.description}</p>
+          )}
+          {lesson.content && <div>{lesson.content}</div>}
+          {lesson.durationMinutes && (
+            <p>Thời lượng: {lesson.durationMinutes} phút</p>
+          )}
+          <p>Bài học tương tác có 3 mức độ: dễ, trung bình và nâng cao với các bài tập trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu.</p>
+        </div>
+      )}
+
       <LessonDetailPage lessonSlug={lessonSlug} />
     </>
   );

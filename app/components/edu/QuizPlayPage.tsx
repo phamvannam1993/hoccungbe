@@ -36,7 +36,7 @@ type QuizItem = {
     | 'drag_drop' | 'image_choice' | 'matching'
     | 'fill_blank' | 'table_fill' | 'number_line'
     | 'sorting' | 'cross_out' | 'coloring'
-    | 'puzzle' | 'game' | 'counting';
+    | 'puzzle' | 'game' | 'counting' | 'find_errors';
   difficultyLevel: 'easy' | 'medium' | 'hard';
   optionsJson?: OptionItem[];
   correctAnswerJson?: unknown;
@@ -938,6 +938,57 @@ function Sorting({ options, order, checked, correctOrder, onReorder }: {
   );
 }
 
+// ─── FindErrors ───────────────────────────────────────────────────────────────
+// optionsJson: words of the sentence in order [{ key:'w0', text:'Noáng' }, ...]
+// correctAnswerJson: string[] — keys of the misspelled words
+
+function FindErrors({ options, selected, checked, correctKeys, onToggle }: {
+  options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-gray-400 text-center">Bấm vào từ viết <strong className="text-red-500">sai chính tả</strong> trong câu dưới đây</p>
+      <div className="bg-gray-50 rounded-2xl p-5 flex flex-wrap gap-x-2 gap-y-2 justify-center leading-loose">
+        {options.map((opt) => {
+          const isSel = selected.includes(opt.key);
+          const shouldBeSel = correctKeys.includes(opt.key);
+          const isRight = checked && isSel && shouldBeSel;
+          const isWrong = checked && isSel && !shouldBeSel;
+          const isMissed = checked && !isSel && shouldBeSel;
+          return (
+            <button key={opt.key} onClick={() => !checked && onToggle(opt.key)}
+              className="transition-all duration-150 rounded-lg px-1 py-0.5"
+              style={{
+                cursor: checked ? 'default' : 'pointer',
+                fontSize: 22,
+                fontWeight: 700,
+                letterSpacing: '0.01em',
+                lineHeight: 1.5,
+                background: isRight ? '#dcfce7' : isWrong ? '#fef2f2' : isMissed ? '#fef9c3' : isSel ? '#fee2e2' : 'transparent',
+                color: isRight ? '#15803d' : isWrong ? '#b91c1c' : isMissed ? '#92400e' : isSel ? '#ef4444' : '#1f2937',
+                textDecorationLine: isSel ? 'underline' : isMissed ? 'underline' : 'none',
+                textDecorationColor: isSel ? '#ef4444' : '#f59e0b',
+                textDecorationStyle: isSel ? 'wavy' : 'wavy',
+                textDecorationThickness: '2px',
+                outline: isSel && !checked ? '2px solid #fca5a5' : 'none',
+              }}
+            >
+              {opt.text}
+              {isRight && <span style={{ fontSize: 14, marginLeft: 2 }}>✓</span>}
+              {isMissed && <span style={{ fontSize: 14, marginLeft: 2 }}>→</span>}
+            </button>
+          );
+        })}
+      </div>
+      {checked && correctKeys.length > 0 && (
+        <div className="text-sm text-center text-amber-700 bg-amber-50 rounded-xl px-4 py-2">
+          Từ sai: <strong>{correctKeys.map((k) => options.find((o) => o.key === k)?.text).filter(Boolean).join(', ')}</strong>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── NEW: CrossOut (CrossOutInteraction) ─────────────────────────────────────
 // optionsJson: items list
 // correctAnswerJson: string[] — keys that should be crossed out (the wrong ones)
@@ -1804,7 +1855,8 @@ export default function QuizPlayPage({
         const expected = Array.isArray(q.correctAnswerJson) ? correctKeys : (correctKey ? [correctKey] : []);
         return new Set(sel).size === new Set(expected).size && expected.every((v) => sel.includes(v));
       }
-      case 'cross_out': {
+      case 'cross_out':
+      case 'find_errors': {
         const sel = crossOutSel[q.id] ?? [];
         return new Set(sel).size === new Set(correctKeys).size && correctKeys.every((k) => sel.includes(k));
       }
@@ -1855,7 +1907,8 @@ export default function QuizPlayPage({
         const expected = Array.isArray(q.correctAnswerJson) ? correctKeys : (correctKey ? [correctKey] : []);
         return (numberLineSel[q.id] ?? []).length === expected.length;
       }
-      case 'cross_out': return (crossOutSel[q.id]?.length ?? 0) > 0;
+      case 'cross_out':
+      case 'find_errors': return (crossOutSel[q.id]?.length ?? 0) > 0;
       case 'coloring': {
         const map = coloringMap[q.id] ?? {};
         return Object.keys(correctMatchMap).every((k) => !!map[k]);
@@ -1914,6 +1967,7 @@ export default function QuizPlayPage({
     table_fill: 'Điền vào bảng',
     number_line: 'Tìm số trên tia số',
     cross_out: 'Gạch bỏ đáp án sai',
+    find_errors: 'Tìm từ viết sai chính tả',
     coloring: 'Tô màu theo yêu cầu',
     puzzle: 'Điền vào ô trống',
     game: 'Lật thẻ tìm cặp đôi',
@@ -1948,7 +2002,8 @@ export default function QuizPlayPage({
         const sel = numberLineSel[qz.id] ?? [];
         return sel.length === cks.length && cks.every((v) => sel.includes(v));
       }
-      case 'cross_out': {
+      case 'cross_out':
+      case 'find_errors': {
         const sel = crossOutSel[qz.id] ?? [];
         return sel.length === cks.length && cks.every((k) => sel.includes(k));
       }
@@ -2246,6 +2301,20 @@ export default function QuizPlayPage({
               )}
               {q.questionType === 'cross_out' && (
                 <CrossOut
+                  options={options}
+                  selected={crossOutSel[q.id] ?? []}
+                  checked={isChecked}
+                  correctKeys={correctKeys}
+                  onToggle={(key) => {
+                    setCrossOutSel((p) => {
+                      const cur2 = p[q.id] ?? [];
+                      return { ...p, [q.id]: cur2.includes(key) ? cur2.filter((x) => x !== key) : [...cur2, key] };
+                    });
+                  }}
+                />
+              )}
+              {q.questionType === 'find_errors' && (
+                <FindErrors
                   options={options}
                   selected={crossOutSel[q.id] ?? []}
                   checked={isChecked}

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { gamesData } from './components/edu/data/gamesData';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
@@ -15,21 +16,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticPages: MetadataRoute.Sitemap = [
-    { url: `${baseUrl}/`,              lastModified: now, changeFrequency: 'weekly',  priority: 1.0 },
-    { url: `${baseUrl}/khoa-hoc`,      lastModified: now, changeFrequency: 'weekly',  priority: 0.9 },
-    { url: `${baseUrl}/games`,         lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${baseUrl}/bai-viet`,      lastModified: now, changeFrequency: 'weekly',  priority: 0.7 },
-    { url: `${baseUrl}/faq`,           lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/how-it-works`,  lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/contact`,       lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${baseUrl}/support`,       lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${baseUrl}/privacy-policy`,lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },
-    { url: `${baseUrl}/terms`,         lastModified: now, changeFrequency: 'yearly',  priority: 0.3 },
+    { url: `${baseUrl}/`,                   lastModified: new Date('2026-05-25'), changeFrequency: 'weekly',  priority: 1.0 },
+    { url: `${baseUrl}/khoa-hoc`,           lastModified: new Date('2026-05-25'), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${baseUrl}/tro-choi`,           lastModified: new Date('2026-05-25'), changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${baseUrl}/bai-viet`,           lastModified: new Date('2026-05-25'), changeFrequency: 'weekly',  priority: 0.7 },
+    { url: `${baseUrl}/cau-hoi-thuong-gap`, lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/huong-dan`,          lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/lien-he`,            lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}/ho-tro`,             lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}/chinh-sach-bao-mat`, lastModified: new Date('2026-04-01'), changeFrequency: 'yearly',  priority: 0.3 },
+    { url: `${baseUrl}/dieu-khoan`,         lastModified: new Date('2026-04-01'), changeFrequency: 'yearly',  priority: 0.3 },
   ];
 
   // Blog posts from API
   type ArticleItem = { slug: string; updatedAt?: string; publishedAt?: string };
-  const articlesRes = await fetchJson<ArticleItem[] | { data: ArticleItem[] }>(`${apiUrl}/articles?limit=200`);
+  const articlesRes = await fetchJson<ArticleItem[] | { data: ArticleItem[] }>(`${apiUrl}/api/articles?limit=200`);
   const articles: ArticleItem[] = Array.isArray(articlesRes) ? articlesRes : (articlesRes as { data: ArticleItem[] })?.data ?? [];
   const articlePages: MetadataRoute.Sitemap = articles.map((a) => ({
     url: `${baseUrl}/bai-viet/${a.slug}`,
@@ -40,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Courses from API
   type CourseItem = { slug: string; updatedAt?: string };
-  const coursesRes = await fetchJson<CourseItem[] | { data: CourseItem[] }>(`${apiUrl}/courses?limit=200`);
+  const coursesRes = await fetchJson<CourseItem[] | { data: CourseItem[] }>(`${apiUrl}/api/courses?limit=200`);
   const courses: CourseItem[] = Array.isArray(coursesRes) ? coursesRes : (coursesRes as { data: CourseItem[] })?.data ?? [];
   const coursePages: MetadataRoute.Sitemap = courses.map((c) => ({
     url: `${baseUrl}/khoa-hoc/${c.slug}`,
@@ -51,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Lessons from API
   type LessonItem = { slug: string; updatedAt?: string };
-  const lessonsRes = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/lessons?limit=500`);
+  const lessonsRes = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/api/lessons?limit=500`);
   const lessons: LessonItem[] = Array.isArray(lessonsRes) ? lessonsRes : (lessonsRes as { data: LessonItem[] })?.data ?? [];
   const lessonPages: MetadataRoute.Sitemap = lessons
     .filter((l) => !!l.slug)
@@ -62,22 +63,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.75,
     }));
 
-  const gameNames = [
-    'animal-feed','apple-pick','bubble-math','color-sort','compare-numbers',
-    'connect-numbers','count-animals','dien-dau','english-vocab','falling-number',
-    'first-letter','group-match','half-match','initial-sound','listen-and-do',
-    'match-word','math-fun','memory-hunt','mini-maze','missing-number',
-    'number-line-addition','number-quantity-match','number-sequence-write',
-    'odd-one-out','opposite-pairs','pattern-complete','quick-pick','rhyme-match',
-    'sequence-memory','sequence-sort','shadow-match','sound-match','story-order',
-    'where-belongs',
-  ];
-  const gamePages: MetadataRoute.Sitemap = gameNames.map((name) => ({
-    url: `${baseUrl}/games/${name}`,
-    lastModified: now,
-    changeFrequency: 'monthly',
-    priority: 0.65,
-  }));
+  // Use Vietnamese canonical URLs (/tro-choi/[page]) — these match next.config.ts rewrites
+  const gamePages: MetadataRoute.Sitemap = gamesData
+    .filter((g) => g.status === 'ready')
+    .map((g) => ({
+      url: `${baseUrl}/tro-choi/${g.page}`,
+      lastModified: new Date('2026-05-25'),
+      changeFrequency: 'monthly' as const,
+      priority: 0.65,
+    }));
 
   return [...staticPages, ...articlePages, ...coursePages, ...lessonPages, ...gamePages];
 }

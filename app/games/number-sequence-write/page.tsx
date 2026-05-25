@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Viết dãy số giúp bé luyện thứ tự số, số liền trước – liền sau, đếm cách đều và hoàn thành dãy số còn thiếu.',
   alternates: {
-    canonical: '/games/number-sequence-write',
+    canonical: '/tro-choi/viet-day-so',
   },
   openGraph: {
     title: 'Viết dãy số | Bé Hay Học',
     description:
       'Bé quan sát dãy số, nhập các số còn thiếu và rèn tư duy quy luật toán học một cách trực quan.',
-    url: '/games/number-sequence-write',
+    url: '/tro-choi/viet-day-so',
     type: 'website',
     images: [
       {

@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép số với số lượng giúp bé nhận biết chữ số, hiểu khái niệm số lượng và rèn luyện tư duy toán học cơ bản qua hình ảnh trực quan.',
   alternates: {
-    canonical: '/games/number-quantity-match',
+    canonical: '/tro-choi/so-va-so-luong',
   },
   openGraph: {
     title: 'Ghép số với số lượng | Bé Hay Học',
     description:
       'Bé quan sát số và số lượng đồ vật để ghép đúng, từ đó phát triển khả năng đếm, nhận biết số và học toán sớm.',
-    url: '/games/number-quantity-match',
+    url: '/tro-choi/so-va-so-luong',
     type: 'website',
     images: [
       {

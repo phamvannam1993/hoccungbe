@@ -117,34 +117,36 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Bé Hay Học',
-    alternateName: 'Bé Hay Học',
-    url: 'https://behayhoc.com',
-    inLanguage: 'vi-VN',
-    description:
-      'Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi, giúp trẻ học chữ, toán, tiếng Anh và tư duy qua các hoạt động ngắn, trực quan.',
-  };
-
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Bé Hay Học',
     alternateName: 'Bé Hay Học',
     url: 'https://behayhoc.com',
-    logo: 'https://behayhoc.com/logo.png',
-    sameAs: [],
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://behayhoc.com/logo.png',
+      width: 512,
+      height: 512,
+    },
+    description: 'Nền tảng học tập và trò chơi giáo dục cho trẻ em 3-10 tuổi tại Việt Nam',
+    inLanguage: 'vi-VN',
+    areaServed: { '@type': 'Country', name: 'Vietnam' },
+    sameAs: [
+      'https://www.facebook.com/behayhoc',
+      'https://www.youtube.com/@behayhoc',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: 'support@behayhoc.com',
+      availableLanguage: 'Vietnamese',
+    },
   };
 
   return (
     <html lang="vi" className={`${nunito.variable} ${baloo2.variable}`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

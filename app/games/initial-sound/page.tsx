@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi nhận biết âm đầu giúp bé làm quen với chữ cái, phát âm chuẩn và nhận diện âm đầu của từ qua hình ảnh trực quan, sinh động.',
   alternates: {
-    canonical: '/games/initial-sound',
+    canonical: '/tro-choi/am-dau',
   },
   openGraph: {
     title: 'Nhận biết âm đầu | Bé Hay Học',
     description:
       'Bé quan sát hình ảnh, nghe hoặc nhận diện từ để chọn đúng âm đầu, từ đó phát triển khả năng ngôn ngữ và tiền đọc viết.',
-    url: '/games/initial-sound',
+    url: '/tro-choi/am-dau',
     type: 'website',
     images: [
       {

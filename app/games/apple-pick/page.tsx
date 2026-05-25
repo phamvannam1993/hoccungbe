@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Nhặt táo theo số giúp bé luyện đếm số, nhận biết số lượng và làm theo nhiệm vụ thông qua hoạt động nhặt táo trực quan, vui nhộn.',
   alternates: {
-    canonical: '/games/apple-pick',
+    canonical: '/tro-choi/hai-tao',
   },
   openGraph: {
     title: 'Nhặt táo theo số | Bé Hay Học',
     description:
       'Bé nghe nhiệm vụ, quan sát vườn táo và nhặt đúng số quả táo được yêu cầu để rèn kỹ năng đếm số một cách tự nhiên.',
-    url: '/games/apple-pick',
+    url: '/tro-choi/hai-tao',
     type: 'website',
     images: [
       {

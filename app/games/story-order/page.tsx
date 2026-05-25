@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'bé hay học',
   ],
   alternates: {
-    canonical: '/games/story-order',
+    canonical: '/tro-choi/sap-xep-truyen',
   },
   robots: {
     index: true,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: `${TITLE} | Bé Hay Học`,
     description:
       'Bé sắp xếp hình ảnh theo đúng thứ tự để rèn tư duy logic và kể chuyện.',
-    url: '/games/story-order',
+    url: '/tro-choi/sap-xep-truyen',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import LessonDetailPage from '../components/edu/LessonDetailPage';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -8,7 +9,7 @@ type Props = { params: Promise<{ lessonSlug: string }> };
 
 async function fetchLesson(slug: string) {
   try {
-    const res = await fetch(`${API}/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
       id: number; title: string; slug: string;
@@ -50,6 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { lessonSlug } = await params;
   const lesson = await fetchLesson(lessonSlug);
+
+  if (!lesson) notFound();
 
   const jsonLd = lesson ? {
     '@context': 'https://schema.org',

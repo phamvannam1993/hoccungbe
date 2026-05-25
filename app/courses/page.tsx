@@ -61,6 +61,7 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}/>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <h1 className="sr-only">Khóa học cho bé 3–10 tuổi | Bé Hay Học</h1>
       <CourseLibraryPage />
     </>
   );

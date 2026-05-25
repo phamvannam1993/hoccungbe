@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import CourseDetailPage from '../../components/edu/CourseDetailPage';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -8,7 +9,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 async function fetchCourse(slug: string) {
   try {
-    const res = await fetch(`${API}/courses/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/courses/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
       title: string; description?: string; shortDescription?: string; slug: string;
@@ -50,6 +51,8 @@ export default async function Page({ params }: Props) {
   const { slug } = await params;
   const course = await fetchCourse(slug);
 
+  if (!course) notFound();
+
   const jsonLd = course ? {
     '@context': 'https://schema.org',
     '@type': 'Course',
@@ -58,9 +61,21 @@ export default async function Page({ params }: Props) {
     url: `${SITE}/khoa-hoc/${slug}`,
     inLanguage: 'vi-VN',
     educationalLevel: 'Tiểu học',
+    typicalAgeRange: course.targetAgeMin && course.targetAgeMax
+      ? `${course.targetAgeMin}-${course.targetAgeMax}`
+      : '3-10',
+    isAccessibleForFree: true,
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      courseWorkload: course.estimatedMinutes ? `PT${course.estimatedMinutes}M` : undefined,
+    },
+    teaches: course.title,
+    numberOfCredits: course.totalLessons,
     audience: { '@type': 'EducationalAudience', educationalRole: 'student' },
     provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
     image: course.thumbnailUrl || `${SITE}/og-image.jpg`,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'VND', availability: 'https://schema.org/InStock' },
   } : null;
 
   const breadcrumb = course ? {

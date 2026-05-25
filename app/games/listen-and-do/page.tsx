@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi nghe và làm theo giúp bé rèn kỹ năng lắng nghe, ghi nhớ hướng dẫn và phản xạ đúng với yêu cầu thông qua các hoạt động vui nhộn.',
   alternates: {
-    canonical: '/games/listen-and-do',
+    canonical: '/tro-choi/nghe-va-lam',
   },
   openGraph: {
     title: 'Nghe và làm theo | Bé Hay Học',
     description:
       'Bé lắng nghe yêu cầu và thực hiện đúng hành động để phát triển khả năng tập trung, ghi nhớ và làm theo hướng dẫn.',
-    url: '/games/listen-and-do',
+    url: '/tro-choi/nghe-va-lam',
     type: 'website',
     images: [
       {

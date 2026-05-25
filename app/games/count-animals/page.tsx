@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi đếm con vật giúp bé quan sát, đếm số lượng và chọn đúng đáp án theo từng nhóm con vật quen thuộc.',
   alternates: {
-    canonical: '/games/count-animals',
+    canonical: '/tro-choi/dem-dong-vat',
   },
   openGraph: {
     title: 'Đếm con vật | Bé Hay Học',
     description:
       'Bé nhìn nhóm con vật, đếm số lượng và chọn đáp án đúng để rèn quan sát và tư duy số học.',
-    url: '/games/count-animals',
+    url: '/tro-choi/dem-dong-vat',
     type: 'website',
     images: [
       {

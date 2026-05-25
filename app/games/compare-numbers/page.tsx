@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi So sánh số giúp bé nhận biết số lớn hơn, số bé hơn, hai số bằng nhau và chọn đúng dấu >, <, = qua hình ảnh trực quan.',
   alternates: {
-    canonical: '/games/compare-numbers',
+    canonical: '/tro-choi/so-sanh-so',
   },
   openGraph: {
     title: 'So sánh số | Bé Hay Học',
     description:
       'Bé quan sát hai số hoặc hai nhóm đồ vật, sau đó chọn dấu so sánh đúng để học toán một cách vui nhộn.',
-    url: '/games/compare-numbers',
+    url: '/tro-choi/so-sanh-so',
     type: 'website',
     images: [
       {

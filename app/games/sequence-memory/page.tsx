@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghi nhớ chuỗi giúp bé rèn luyện trí nhớ ngắn hạn, khả năng tập trung và ghi nhớ đúng thứ tự của hình ảnh, âm thanh hoặc hành động.',
   alternates: {
-    canonical: '/games/sequence-memory',
+    canonical: '/tro-choi/nho-thu-tu',
   },
   openGraph: {
     title: 'Ghi nhớ chuỗi | Bé Hay Học',
     description:
       'Bé quan sát và ghi nhớ đúng thứ tự của chuỗi để phát triển trí nhớ, sự tập trung và khả năng phản xạ.',
-    url: '/games/sequence-memory',
+    url: '/tro-choi/nho-thu-tu',
     type: 'website',
     images: [
       {

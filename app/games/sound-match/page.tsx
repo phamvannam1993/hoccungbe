@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép cặp âm thanh giúp bé nghe từ, nhận diện hình ảnh và phản xạ chọn đáp án đúng theo từng chủ đề quen thuộc.',
   alternates: {
-    canonical: '/games/sound-match',
+    canonical: '/tro-choi/ghep-am-thanh',
   },
   openGraph: {
     title: 'Ghép cặp âm thanh | Bé Hay Học',
     description:
       'Bé nghe âm thanh và chọn đúng hình minh họa theo từng chủ đề như con vật, trái cây, phương tiện và thiên nhiên.',
-    url: '/games/sound-match',
+    url: '/tro-choi/ghep-am-thanh',
     type: 'website',
     images: [
       {

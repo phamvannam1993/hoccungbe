@@ -7,13 +7,13 @@ export const metadata: Metadata = {
     description:
       'Trò chơi nối số theo thứ tự giúp bé nhận biết số, ghi nhớ thứ tự trước sau và rèn luyện tư duy quan sát một cách vui nhộn.',
     alternates: {
-      canonical: '/games/connect-numbers',
+      canonical: '/tro-choi/noi-so',
     },
     openGraph: {
       title: 'Nối số theo thứ tự | Bé Hay Học',
       description:
         'Bé học cách nhận biết và sắp xếp số đúng thứ tự thông qua trò chơi trực quan, sinh động và dễ hiểu.',
-      url: '/games/connect-numbers',
+      url: '/tro-choi/noi-so',
       type: 'website',
       images: [
         {

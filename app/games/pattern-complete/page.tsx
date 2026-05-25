@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi hoàn thành quy luật giúp bé nhận biết quy tắc lặp lại, suy luận logic và chọn phần còn thiếu để hoàn thiện dãy hình hoặc đối tượng.',
   alternates: {
-    canonical: '/games/pattern-complete',
+    canonical: '/tro-choi/hoan-thanh-quy-luat',
   },
   openGraph: {
     title: 'Hoàn thành quy luật | Bé Hay Học',
     description:
       'Bé quan sát dãy hình, tìm ra quy luật và chọn đáp án đúng để phát triển tư duy logic và khả năng nhận biết mẫu.',
-    url: '/games/pattern-complete',
+    url: '/tro-choi/hoan-thanh-quy-luat',
     type: 'website',
     images: [
       {

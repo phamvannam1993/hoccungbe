@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép nửa còn lại giúp bé quan sát hình ảnh, nhận biết sự tương ứng và rèn luyện tư duy logic qua hoạt động nối các phần phù hợp.',
   alternates: {
-    canonical: '/games/half-match',
+    canonical: '/tro-choi/ghep-doi',
   },
   openGraph: {
     title: 'Ghép nửa còn lại | Bé Hay Học',
     description:
       'Bé tìm và ghép đúng nửa còn lại của hình để phát triển khả năng quan sát, tư duy và nhận biết hình ảnh.',
-    url: '/games/half-match',
+    url: '/tro-choi/ghep-doi',
     type: 'website',
     images: [
       {

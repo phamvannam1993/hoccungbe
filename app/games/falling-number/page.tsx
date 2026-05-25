@@ -8,14 +8,14 @@ export const metadata: Metadata = {
     'Trò chơi bắt số đúng giúp bé luyện tính nhẩm, nhận biết số tiếp theo và ghi nhớ quy luật tăng dần như cộng 1, cộng 3, cộng 5 một cách vui nhộn.',
 
   alternates: {
-    canonical: '/games/falling-number',
+    canonical: '/tro-choi/so-roi',
   },
 
   openGraph: {
     title: 'Bắt số đúng | Bé Hay Học',
     description:
       'Bé quan sát số rơi, tính kết quả theo quy luật tăng dần và chọn đúng đáp án để nhận tiền thưởng qua các mức độ dễ, trung bình, khó và cực khó.',
-    url: '/games/falling-number',
+    url: '/tro-choi/so-roi',
     type: 'website',
     images: [
       {

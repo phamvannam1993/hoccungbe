@@ -1963,7 +1963,7 @@ export default function QuizPlayPage({
     sorting: 'Sắp xếp thứ tự',
     multiple_choice: 'Chọn tất cả đáp án đúng',
     matching: 'Nối các cặp tương ứng',
-    fill_blank: 'Điền số vào chỗ trống',
+    fill_blank: 'Điền vào chỗ trống',
     table_fill: 'Điền vào bảng',
     number_line: 'Tìm số trên tia số',
     cross_out: 'Gạch bỏ đáp án sai',
@@ -2054,7 +2054,11 @@ export default function QuizPlayPage({
     setFillBlankAns((p) => ({ ...p, [qid]: { ...(p[qid] ?? {}), [bkey]: next } }));
   };
 
-  const showVirtualKeyboard = !isChecked && (q.questionType === 'fill_blank' || q.questionType === 'table_fill' || q.questionType === 'counting');
+  // Text fill_blank: any correct answer contains non-numeric characters (letters/Vietnamese)
+  const isTextFillBlank = q.questionType === 'fill_blank' &&
+    Object.values(correctMatchMap).some((v) => /[a-zA-ZÀ-ỹ]/.test(String(v)));
+
+  const showVirtualKeyboard = !isChecked && !isTextFillBlank && (q.questionType === 'fill_blank' || q.questionType === 'table_fill' || q.questionType === 'counting');
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(160deg, #4db8b8 0%, #6ec6c6 50%, #5bbaba 100%)' }}>
@@ -2135,7 +2139,9 @@ export default function QuizPlayPage({
               </span>
             </div>
             <span className="text-blue-600 font-semibold text-sm flex-1">
-              {typeLabel[q.questionType] ?? 'Chọn đáp án đúng nhất'}
+              {q.questionType === 'fill_blank'
+                ? (isTextFillBlank ? 'Điền từ vào chỗ trống' : 'Điền số vào chỗ trống')
+                : (typeLabel[q.questionType] ?? 'Chọn đáp án đúng nhất')}
             </span>
           </div>
 
@@ -2190,14 +2196,17 @@ export default function QuizPlayPage({
                         return (
                           <span key={pi} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, verticalAlign: 'middle', margin: '0 6px' }}>
                             <input
-                              type="text" inputMode="numeric" value={bval}
-                              readOnly={!isChecked}
+                              type="text"
+                              inputMode={isTextFillBlank ? 'text' : 'numeric'}
+                              value={bval}
+                              readOnly={isTextFillBlank ? false : !isChecked}
                               disabled={isChecked}
-                              onClick={() => setActiveBlankKey({ qid: q.id, bkey: bk })}
-                              onChange={(e) => setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [bk]: e.target.value } }))}
+                              onClick={() => !isChecked && setActiveBlankKey({ qid: q.id, bkey: bk })}
+                              onChange={(e) => !isChecked && setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [bk]: e.target.value } }))}
                               style={{
-                                width: 80, height: 56, textAlign: 'center',
-                                fontSize: 32, fontWeight: 900,
+                                width: isTextFillBlank ? Math.max(80, Math.min(200, (correctMatchMap[bk] ? String(correctMatchMap[bk]).length * 22 : 80))) : 80,
+                                height: 56, textAlign: 'center',
+                                fontSize: isTextFillBlank ? 22 : 32, fontWeight: 900,
                                 borderWidth: 3, borderStyle: 'solid',
                                 borderRadius: 14,
                                 borderColor: isChecked ? (isOk2 ? '#22c55e' : '#ef4444') : isActive2 ? '#1d4ed8' : '#3b82f6',

@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi phân loại màu sắc giúp bé nhận biết các màu cơ bản, quan sát nhanh và chọn đúng đồ vật theo màu tương ứng.',
   alternates: {
-    canonical: '/games/color-sort',
+    canonical: '/tro-choi/sap-xep-mau',
   },
   openGraph: {
     title: 'Phân loại màu sắc | Bé Hay Học',
     description:
       'Bé nhìn yêu cầu màu sắc và chọn đúng đồ vật tương ứng để học màu một cách trực quan, vui nhộn.',
-    url: '/games/color-sort',
+    url: '/tro-choi/sap-xep-mau',
     type: 'website',
     images: [
       {

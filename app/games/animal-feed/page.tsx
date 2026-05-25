@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Cho thú ăn đúng số lượng giúp bé luyện đếm số, nhận biết số lượng và làm theo nhiệm vụ thông qua hoạt động cho con vật ăn trực quan, vui nhộn.',
   alternates: {
-    canonical: '/games/animal-feed',
+    canonical: '/tro-choi/cho-vat-an',
   },
   openGraph: {
     title: 'Cho thú ăn đúng số lượng | Bé Hay Học',
     description:
       'Bé nghe nhiệm vụ, chọn đúng số lượng đồ ăn và cho con vật ăn để rèn kỹ năng đếm số một cách tự nhiên.',
-    url: '/games/animal-feed',
+    url: '/tro-choi/cho-vat-an',
     type: 'website',
     images: [
       {

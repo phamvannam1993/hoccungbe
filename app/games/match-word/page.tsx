@@ -15,13 +15,13 @@ export const metadata: Metadata = {
     'bé hay học',
   ],
   alternates: {
-    canonical: '/games/match-word',
+    canonical: '/tro-choi/ghep-tu',
   },
   openGraph: {
     title: 'ghép chữ với hình | Bé Hay Học',
     description:
       'Bé học từ vựng qua trò chơi ghép chữ với hình ảnh trực quan, dễ hiểu và phù hợp theo độ tuổi.',
-    url: '/games/match-word',
+    url: '/tro-choi/ghep-tu',
     type: 'website',
     images: [
       {

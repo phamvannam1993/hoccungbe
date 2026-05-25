@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi tìm điểm khác biệt giúp bé quan sát, so sánh và nhận ra vật hoặc hình ảnh không cùng nhóm một cách nhanh nhạy và vui nhộn.',
   alternates: {
-    canonical: '/games/odd-one-out',
+    canonical: '/tro-choi/tim-ke-le',
   },
   openGraph: {
     title: 'Tìm điểm khác biệt | Bé Hay Học',
     description:
       'Bé quan sát các hình ảnh và chọn ra vật khác biệt để phát triển tư duy phân loại, khả năng so sánh và sự tập trung.',
-    url: '/games/odd-one-out',
+    url: '/tro-choi/tim-ke-le',
     type: 'website',
     images: [
       {

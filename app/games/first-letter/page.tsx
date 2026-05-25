@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi chọn chữ cái đầu giúp bé nhận biết từ vựng, mặt chữ và chọn đúng chữ cái đầu tiên của từ.',
   alternates: {
-    canonical: '/games/first-letter',
+    canonical: '/tro-choi/chu-cai-dau',
   },
   openGraph: {
     title: 'Chọn chữ cái đầu | Bé Hay Học',
     description:
       'Bé nhìn hình, nghe câu hỏi và chọn đúng chữ cái đầu tiên của từ tương ứng.',
-    url: '/games/first-letter',
+    url: '/tro-choi/chu-cai-dau',
     type: 'website',
     images: [
       {

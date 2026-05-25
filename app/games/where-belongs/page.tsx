@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'bé hay học',
   ],
   alternates: {
-    canonical: '/games/where-belongs',
+    canonical: '/tro-choi/tim-cho-cho-vat',
   },
   robots: {
     index: true,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: `${TITLE} | Bé Hay Học`,
     description:
       'Bé chọn đúng nơi đồ vật thuộc về để rèn tư duy phân loại và mở rộng vốn từ.',
-    url: '/games/where-belongs',
+    url: '/tro-choi/tim-cho-cho-vat',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',

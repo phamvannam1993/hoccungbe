@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép cặp từ trái nghĩa giúp bé nhận biết các cặp khái niệm đối lập, mở rộng vốn từ và phát triển tư duy ngôn ngữ một cách trực quan, thú vị.',
   alternates: {
-    canonical: '/games/opposite-pairs',
+    canonical: '/tro-choi/cap-doi-trai-nghia',
   },
   openGraph: {
     title: 'Ghép cặp từ trái nghĩa | Bé Hay Học',
     description:
       'Bé tìm và ghép đúng các cặp từ trái nghĩa để phát triển ngôn ngữ, khả năng so sánh và tư duy khái niệm.',
-    url: '/games/opposite-pairs',
+    url: '/tro-choi/cap-doi-trai-nghia',
     type: 'website',
     images: [
       {

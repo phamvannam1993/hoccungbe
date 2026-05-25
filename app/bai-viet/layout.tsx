@@ -4,7 +4,7 @@ const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {
-  title: 'Góc phụ huynh - Kiến thức nuôi dạy con | Bé Hay Học',
+  title: 'Góc phụ huynh - Kiến thức nuôi dạy con',
   description: 'Bài viết kiến thức, kinh nghiệm nuôi dạy con, tin tức giáo dục trẻ em và các hoạt động học tập cho bé từ đội ngũ Bé Hay Học.',
   keywords: [
     'nuôi dạy con',
@@ -30,7 +30,7 @@ interface ArticleItem { id: number; title: string; slug: string; excerpt?: strin
 
 async function fetchArticles(): Promise<ArticleItem[]> {
   try {
-    const res = await fetch(`${API}/articles?limit=30`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/articles?limit=30`, { next: { revalidate: 3600 } });
     if (!res.ok) return [];
     const json = await res.json();
     return (Array.isArray(json) ? json : json.data) ?? [];
@@ -71,6 +71,7 @@ export default async function BaiVietLayout({ children }: { children: React.Reac
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
       {/* SSR article list — crawlable by Google, hidden visually */}
+      <h1 className="sr-only">Góc phụ huynh – Kiến thức nuôi dạy con | Bé Hay Học</h1>
       {articles.length > 0 && (
         <div className="sr-only" aria-hidden="true">
           <h2>Bài viết mới nhất</h2>

@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Sắp xếp số theo thứ tự giúp bé biết số nào lớn hơn, nhỏ hơn và sắp xếp dãy số theo thứ tự từ bé đến lớn hoặc từ lớn đến bé.',
   alternates: {
-    canonical: '/games/sequence-sort',
+    canonical: '/tro-choi/sap-xep-thu-tu',
   },
   openGraph: {
     title: 'Sắp xếp số theo thứ tự | Bé Hay Học',
     description:
       'Bé quan sát dãy số, so sánh các số và sắp xếp lại theo thứ tự tăng dần hoặc giảm dần.',
-    url: '/games/sequence-sort',
+    url: '/tro-choi/sap-xep-thu-tu',
     type: 'website',
     images: [
       {

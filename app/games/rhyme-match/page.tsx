@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép vần tương ứng giúp bé làm quen với âm vần, nhận biết các từ có vần giống nhau và phát triển khả năng ngôn ngữ một cách vui nhộn.',
   alternates: {
-    canonical: '/games/rhyme-match',
+    canonical: '/tro-choi/ghep-van',
   },
   openGraph: {
     title: 'Ghép vần tương ứng | Bé Hay Học',
     description:
       'Bé tìm và ghép các từ có vần giống nhau để rèn luyện nghe âm, nhận biết vần và phát triển kỹ năng ngôn ngữ sớm.',
-    url: '/games/rhyme-match',
+    url: '/tro-choi/ghep-van',
     type: 'website',
     images: [
       {

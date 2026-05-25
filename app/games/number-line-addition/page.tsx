@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Cộng trên trục số giúp bé hiểu phép cộng bằng cách nhảy bước trên trục số, rèn tư duy số học trực quan và nhận biết thứ tự số.',
   alternates: {
-    canonical: '/games/number-line-addition',
+    canonical: '/tro-choi/cong-tren-so-do',
   },
   openGraph: {
     title: 'Cộng trên trục số | Bé Hay Học',
     description:
       'Bé quan sát phép cộng, nhảy bước trên trục số và chọn điểm đến đúng để hiểu phép cộng một cách trực quan.',
-    url: '/games/number-line-addition',
+    url: '/tro-choi/cong-tren-so-do',
     type: 'website',
     images: [
       {

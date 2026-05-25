@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi nối hình theo nhóm giúp bé nhận biết các hình cùng nhóm, tăng khả năng phân loại, quan sát và tư duy logic.',
   alternates: {
-    canonical: '/games/group-match',
+    canonical: '/tro-choi/ghep-nhom',
   },
   openGraph: {
     title: 'Nối hình theo nhóm | Bé Hay Học',
     description:
       'Bé quan sát các hình và chọn nhóm hình cùng loại để rèn tư duy phân loại và ghi nhớ.',
-    url: '/games/group-match',
+    url: '/tro-choi/ghep-nhom',
     type: 'website',
     images: [
       {

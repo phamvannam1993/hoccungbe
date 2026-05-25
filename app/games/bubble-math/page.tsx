@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi Bắn bong bóng kết quả giúp bé luyện phép cộng trừ đơn giản, tính nhẩm nhanh và chọn đúng đáp án qua các bong bóng vui nhộn.',
   alternates: {
-    canonical: '/games/bubble-math',
+    canonical: '/tro-choi/toan-bong-bong',
   },
   openGraph: {
     title: 'Bắn bong bóng kết quả | Bé Hay Học',
     description:
       'Bé quan sát phép tính, bấm vào bong bóng có kết quả đúng và rèn kỹ năng tính nhẩm một cách vui nhộn.',
-    url: '/games/bubble-math',
+    url: '/tro-choi/toan-bong-bong',
     type: 'website',
     images: [
       {

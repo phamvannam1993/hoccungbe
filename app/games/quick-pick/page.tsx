@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi nhìn nhanh chọn đúng giúp bé quan sát nhanh, nhận diện hình ảnh và phản xạ chọn đáp án chính xác theo từng chủ đề quen thuộc.',
   alternates: {
-    canonical: '/games/quick-pick',
+    canonical: '/tro-choi/chon-nhanh',
   },
   openGraph: {
     title: 'Nhìn nhanh chọn đúng | Bé Hay Học',
     description:
       'Bé nhìn yêu cầu ngắn và chọn đúng hình tương ứng trong thời gian ngắn, vui nhộn và trực quan.',
-    url: '/games/quick-pick',
+    url: '/tro-choi/chon-nhanh',
     type: 'website',
     images: [
       {

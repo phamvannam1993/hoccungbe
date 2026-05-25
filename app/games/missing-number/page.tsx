@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi tìm số còn thiếu giúp bé nhận biết quy luật số, đếm tăng giảm và rèn phản xạ toán học cơ bản qua các dãy số trực quan.',
   alternates: {
-    canonical: '/games/missing-number',
+    canonical: '/tro-choi/tim-so-thieu',
   },
   openGraph: {
     title: 'Tìm số còn thiếu | Bé Hay Học',
     description:
       'Bé quan sát dãy số, tìm số còn thiếu và rèn luyện tư duy toán học cơ bản theo cách vui nhộn, trực quan.',
-    url: '/games/missing-number',
+    url: '/tro-choi/tim-so-thieu',
     type: 'website',
     images: [
       {

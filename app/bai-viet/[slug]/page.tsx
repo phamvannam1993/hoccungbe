@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -77,6 +78,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   ]);
 
   if (!article) {
+    notFound();
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-700 mb-4">Bài viết không tìm thấy</h1>

@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghi nhớ cho bé giúp rèn luyện trí nhớ, tăng khả năng quan sát và phản xạ nhanh thông qua các hoạt động tìm và ghi nhớ hình ảnh vui nhộn.',
   alternates: {
-    canonical: '/games/memory-hunt',
+    canonical: '/tro-choi/me-cung-nho',
   },
   openGraph: {
     title: 'Trò chơi ghi nhớ cho bé | Bé Hay Học',
     description:
       'Bé tham gia trò chơi ghi nhớ hình ảnh để phát triển trí nhớ, sự tập trung và khả năng quan sát một cách tự nhiên.',
-    url: '/games/memory-hunt',
+    url: '/tro-choi/me-cung-nho',
     type: 'website',
     images: [
       {

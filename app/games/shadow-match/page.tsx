@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     'Trò chơi ghép bóng với đồ vật giúp bé quan sát hình bóng, nhận diện hình dạng và chọn đúng đồ vật tương ứng theo từng chủ đề quen thuộc.',
   alternates: {
-    canonical: '/games/shadow-match',
+    canonical: '/tro-choi/ghep-bong',
   },
   openGraph: {
     title: 'Ghép bóng với đồ vật | Bé Hay Học',
     description:
       'Bé nhìn hình bóng và chọn đúng đồ vật tương ứng để rèn quan sát, nhận biết hình dạng và phản xạ.',
-    url: '/games/shadow-match',
+    url: '/tro-choi/ghep-bong',
     type: 'website',
     images: [
       {

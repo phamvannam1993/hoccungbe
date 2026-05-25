@@ -135,12 +135,11 @@ const faqSchema = {
 
 export default function FAQPage() {
   return (
-    <main className="bg-slate-50">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
-        }}
-     />
-
+    <>
+      <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      </head>
+      <main className="bg-slate-50">
       <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-sky-600">
@@ -234,5 +233,6 @@ export default function FAQPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

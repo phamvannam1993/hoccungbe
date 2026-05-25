@@ -73,10 +73,11 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      {jsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-       />
-      )}
+      <head>
+        {jsonLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        )}
+      </head>
       <ExamPage slug={slug} />
     </>
   );

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { matchWordData, shuffleArray } from './data/matchWordData';
 import type { MatchWordItem } from './data/matchWordData';
 import Link from 'next/link';
+import { speakText, stopSpeaking } from './utils/speech';
 
 type GameQuestion = MatchWordItem & {
   correctWord: string;
@@ -25,10 +26,12 @@ function buildQuestions(data: MatchWordItem[], count = 5): GameQuestion[] {
 }
 
 export default function WordPictureMatchPage() {
-  const [questions, setQuestions] = useState<GameQuestion[]>(() =>
-    buildQuestions(matchWordData, 5)
-  );
+  const [questions, setQuestions] = useState<GameQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    setQuestions(buildQuestions(matchWordData, 5));
+  }, []);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
@@ -110,24 +113,6 @@ export default function WordPictureMatchPage() {
     }, 140);
   };
 
-  const speakText = (text: string) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
-  };
-
   const handleSpeakQuestion = () => {
     if (!currentQuestion) return;
 
@@ -165,9 +150,7 @@ export default function WordPictureMatchPage() {
   };
 
   const handleRestart = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setQuestions(buildQuestions(matchWordData, 5));
     setCurrentIndex(0);
@@ -177,9 +160,7 @@ export default function WordPictureMatchPage() {
   };
 
   const handleNextQuestion = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -193,9 +174,7 @@ export default function WordPictureMatchPage() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 
@@ -215,21 +194,8 @@ export default function WordPictureMatchPage() {
   if (!currentQuestion) {
     return (
       <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-100 sm:p-8">
-          <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
-            Chưa có dữ liệu trò chơi
-          </h2>
-
-          <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
-            Hãy kiểm tra lại file dữ liệu ghép chữ với hình.
-          </p>
-
-          <Link
-            href="/tro-choi"
-            className="mt-5 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
-          >
-            Quay lại kho trò chơi
-          </Link>
+        <div className="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-100">
+          <div className="text-4xl animate-spin inline-block">⏳</div>
         </div>
       </section>
     );

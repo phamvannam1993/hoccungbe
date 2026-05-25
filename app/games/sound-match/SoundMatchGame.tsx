@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { speakText, stopSpeaking } from '../../components/edu/utils/speech';
 import { soundMatchCategories, soundMatchData, type SoundMatchQuestion } from './data';
 
 type CategoryKey = keyof typeof soundMatchData;
@@ -77,20 +78,6 @@ function saveSoundEnabled(enabled: boolean) {
   window.localStorage.setItem(SOUND_ENABLED_KEY, JSON.stringify(enabled));
 }
 
-function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
-  const vietnameseVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith('vi')
-  );
-
-  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
-
-  const preferredFemale = vietnameseVoices.find((voice) =>
-    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
-  );
-
-  return preferredFemale || vietnameseVoices[0] || null;
-}
-
 export default function SoundMatchGame() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(null);
   const [questions, setQuestions] = useState<PlayQuestion[]>([]);
@@ -99,8 +86,6 @@ export default function SoundMatchGame() {
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voicesReady, setVoicesReady] = useState(false);
   const [history, setHistory] = useState<StoredScore[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -124,20 +109,8 @@ export default function SoundMatchGame() {
   }, [soundEnabled]);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    const synth = window.speechSynthesis;
-
-    const handleVoices = () => {
-      setVoicesReady(true);
-    };
-
-    handleVoices();
-    synth.onvoiceschanged = handleVoices;
-
     return () => {
-      synth.cancel();
-      synth.onvoiceschanged = null;
+      stopSpeaking();
     };
   }, []);
 
@@ -243,59 +216,8 @@ export default function SoundMatchGame() {
   };
 
   const speakWord = async (text: string) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
     await playListenSound();
-
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices();
-    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
-
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.9;
-    utterance.pitch = 1.15;
-    utterance.volume = 1;
-
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    }
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    synth.speak(utterance);
-  };
-
-  const speakResult = (text: string) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-  
-    const synth = window.speechSynthesis;
-    synth.cancel();
-  
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices();
-    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
-  
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1.08;
-    utterance.volume = 1;
-  
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    }
-  
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-  
-    synth.speak(utterance);
+    speakText(text);
   };
 
   const startCategoryGame = (key: CategoryKey) => {
@@ -309,7 +231,6 @@ export default function SoundMatchGame() {
     setShowResult(false);
     setScore(0);
     setFinished(false);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -329,7 +250,7 @@ export default function SoundMatchGame() {
       }, 80);
   
       setTimeout(() => {
-        speakResult(`Chính xác rồi. Âm thanh vừa nghe là ${currentQuestion.word}`);
+        speakText(`Chính xác rồi. Âm thanh vừa nghe là ${currentQuestion.word}`);
       }, 220);
     } else {
       setTimeout(() => {
@@ -337,7 +258,7 @@ export default function SoundMatchGame() {
       }, 80);
   
       setTimeout(() => {
-        speakResult(
+        speakText(
           `Chưa đúng nhé. Đáp án đúng là ${currentQuestion.word}`
         );
       }, 220);
@@ -370,7 +291,6 @@ export default function SoundMatchGame() {
     setShowResult(false);
     setScore(0);
     setFinished(false);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -379,8 +299,8 @@ export default function SoundMatchGame() {
     setSoundEnabled(next);
     saveSoundEnabled(next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -638,8 +558,8 @@ export default function SoundMatchGame() {
                   className="mt-4 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-300 via-pink-400 to-violet-500 p-[2px] shadow-[0_12px_30px_rgba(168,85,247,0.28)] transition duration-300 hover:scale-105"
                 >
                   <span className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-base font-black text-slate-900">
-                    <span className="text-2xl">{isSpeaking ? '🔊' : '🎧'}</span>
-                    {voicesReady ? 'Nghe âm thanh' : 'Đang tải giọng đọc'}
+                    <span className="text-2xl">🎧</span>
+                    Nghe âm thanh
                   </span>
                 </button>
 

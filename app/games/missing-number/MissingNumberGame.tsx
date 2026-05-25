@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { speakText, stopSpeaking } from '../../components/edu/utils/speech';
 import {
   missingNumberCategories,
   missingNumberData,
@@ -113,20 +114,6 @@ function saveBooleanSetting(key: string, value: boolean) {
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
-function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
-  const vietnameseVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith('vi')
-  );
-
-  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
-
-  const preferredFemale = vietnameseVoices.find((voice) =>
-    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
-  );
-
-  return preferredFemale || vietnameseVoices[0] || null;
-}
-
 function getSafeLevel(level?: GameLevel): GameLevel {
   if (level === 'easy' || level === 'medium' || level === 'hard') {
     return level;
@@ -148,7 +135,6 @@ export default function MissingNumberGame() {
   const [timedOut, setTimedOut] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [speechEnabled, setSpeechEnabled] = useState(true);
-  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const hasSavedResultRef = useRef(false);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -176,9 +162,7 @@ export default function MissingNumberGame() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 
@@ -204,7 +188,7 @@ export default function MissingNumberGame() {
 
     const accuracy = Math.round((score / questions.length) * 100);
     setTimeout(() => {
-      speakVietnamese(
+      if (speechEnabled) speakText(
         accuracy >= 90
           ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
@@ -235,7 +219,7 @@ export default function MissingNumberGame() {
 
     setTimeout(() => {
       if (currentQuestion) {
-        speakVietnamese(`Hết giờ rồi. Đáp án đúng là ${currentQuestion.correct}`);
+        if (speechEnabled) speakText(`Hết giờ rồi. Đáp án đúng là ${currentQuestion.correct}`);
       }
     }, 200);
   }, [timeLeft, selectedCategory, finished, showResult, currentQuestion]);
@@ -328,46 +312,16 @@ export default function MissingNumberGame() {
     setTimeout(() => playTone(1046.5, 0.18, 'sine'), 340);
   };
 
-  const speakVietnamese = (text: string) => {
-    if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices();
-    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
-
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1.08;
-    utterance.volume = 1;
-
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    }
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    synth.speak(utterance);
-  };
-
   const speakPrompt = async (text: string) => {
     await playPromptSound();
-    speakVietnamese(text);
+    if (speechEnabled) speakText(text);
   };
 
   const startCategoryGame = (key: CategoryKey, level: GameLevel) => {
     const sourceQuestions = missingNumberData[key].questions;
     const nextQuestions = buildPlayQuestions(sourceQuestions, QUESTIONS_PER_GAME, level);
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(key);
     setSelectedLevel(level);
@@ -379,7 +333,6 @@ export default function MissingNumberGame() {
     setFinished(false);
     setTimeLeft(TIMER_SECONDS);
     setTimedOut(false);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -398,7 +351,7 @@ export default function MissingNumberGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese(`Chính xác rồi. Số còn thiếu là ${currentQuestion.correct}`);
+        if (speechEnabled) speakText(`Chính xác rồi. Số còn thiếu là ${currentQuestion.correct}`);
       }, 220);
     } else {
       setTimeout(() => {
@@ -406,7 +359,7 @@ export default function MissingNumberGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese(`Chưa đúng nhé. Đáp án đúng là ${currentQuestion.correct}`);
+        if (speechEnabled) speakText(`Chưa đúng nhé. Đáp án đúng là ${currentQuestion.correct}`);
       }, 220);
     }
   };
@@ -414,9 +367,7 @@ export default function MissingNumberGame() {
   const handleNext = () => {
     if (!questions.length) return;
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (currentIndex === questions.length - 1) {
       setFinished(true);
@@ -436,9 +387,7 @@ export default function MissingNumberGame() {
   };
 
   const handleBackToCategories = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(null);
     setQuestions([]);
@@ -449,7 +398,6 @@ export default function MissingNumberGame() {
     setFinished(false);
     setTimeLeft(TIMER_SECONDS);
     setTimedOut(false);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -464,8 +412,8 @@ export default function MissingNumberGame() {
     setSpeechEnabled(next);
     saveBooleanSetting(SPEECH_ENABLED_KEY, next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -737,7 +685,7 @@ export default function MissingNumberGame() {
               onClick={() => currentQuestion && speakPrompt(currentQuestion.prompt)}
               className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
             >
-              {isSpeaking ? 'Đang đọc...' : '🔊 Đọc câu hỏi'}
+              🔊 Đọc câu hỏi
             </button>
           </div>
 

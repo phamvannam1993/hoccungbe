@@ -10,23 +10,18 @@ type NavItem = { href: string; label: string; children?: NavItem[] };
 
 const NAV_MENU: NavItem[] = [
   {
-    href: '/khoa-hoc', label: 'LỚP HỌC',
+    href: '/khoa-hoc', label: 'KHÓA HỌC',
     children: [
       { href: '/khoa-hoc', label: 'Tất cả khóa học' },
       { href: '/khoa-hoc?type=math', label: 'Toán học' },
       { href: '/khoa-hoc?type=language', label: 'Ngôn ngữ' },
     ],
   },
-  {
-    href: '/tro-choi', label: 'KIỂM TRA',
-    children: [
-      { href: '/tro-choi', label: 'Kho trò chơi' },
-    ],
-  },
+  { href: '/tro-choi', label: 'KHO TRÒ CHƠI' },
   { href: '/tien-do', label: 'THI ĐẤU' },
-  { href: '/ho-tro', label: 'ÔN THI TN THPT' },
+  { href: '/de-thi', label: 'ÔN THI' },
   { href: '/bai-viet', label: 'BÀI VIẾT' },
-  { href: '/dang-ky', label: 'MUA THẺ VIP' },
+  { href: '/ho-tro', label: 'HỖ TRỢ' },
 ];
 
 export default function SiteHeader() {
@@ -74,8 +69,6 @@ export default function SiteHeader() {
         {/* Desktop: utility links + auth */}
         <div className="hidden md:flex flex-col items-end gap-1 shrink-0">
           <div className="flex items-center gap-3 text-xs text-gray-700">
-            <Link href="/dang-ky" className="hover:underline whitespace-nowrap">Đăng kí mua thẻ</Link>
-            <span className="text-gray-400">|</span>
             <Link href="/ho-tro" className="hover:underline whitespace-nowrap">Câu hỏi thường gặp</Link>
           </div>
           <div className="flex items-center gap-2">
@@ -184,8 +177,6 @@ export default function SiteHeader() {
               </Link>
             ))}
             <div className="pt-2 border-t border-gray-100 flex gap-2 text-xs text-gray-500">
-              <Link href="/dang-ky" className="hover:underline">Đăng kí mua thẻ</Link>
-              <span>|</span>
               <Link href="/ho-tro" className="hover:underline">Câu hỏi thường gặp</Link>
             </div>
           </div>
@@ -196,10 +187,11 @@ export default function SiteHeader() {
 }
 
 function NavIcon({ label }: { label: string }) {
-  if (label.includes('LỚP')) return <span className="text-base">🎒</span>;
-  if (label.includes('KIỂM')) return <span className="text-base">⏱</span>;
+  if (label.includes('KHÓA')) return <span className="text-base">📚</span>;
+  if (label.includes('KHO')) return <span className="text-base">🎮</span>;
   if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
-  if (label.includes('ÔN')) return <span className="text-base">😊</span>;
-  if (label.includes('MUA')) return <span className="text-base">🔬</span>;
+  if (label.includes('ÔN')) return <span className="text-base">📝</span>;
+  if (label.includes('BÀI')) return <span className="text-base">📰</span>;
+  if (label.includes('HỖ')) return <span className="text-base">🎧</span>;
   return null;
 }

@@ -68,7 +68,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       {breadcrumb && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}/>
       )}
       <LessonDetailPage lessonId={id} />
     </>

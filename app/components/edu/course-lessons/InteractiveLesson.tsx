@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import confetti from 'canvas-confetti';
+import { speakText, stopSpeaking } from '../utils/speech';
 
 export type LessonBuddy = {
   name: string;
@@ -113,17 +114,7 @@ function LearningBuddy({
 }
 
 function speakVietnamese(text: string) {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-  window.speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'vi-VN';
-  utterance.rate = 0.9;
-  utterance.pitch = 1.1;
-  utterance.volume = 1;
-
-  window.speechSynthesis.speak(utterance);
+  speakText(text);
 }
 
 function MatchGame({
@@ -356,27 +347,12 @@ function SoundButton({
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const speak = () => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.8;
-    utterance.pitch = 1.1;
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    speakText(text);
   };
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 

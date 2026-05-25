@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { speakText, stopSpeaking } from './utils/speech';
 
 type DifficultyKey = 'easy' | 'medium' | 'hard';
 type GameMode = 'solo' | 'quick' | 'two-player';
@@ -560,23 +561,9 @@ export default function MemoryHuntPage() {
     });
   };
 
-  const speakText = (text: string) => {
+  const speakVietnamese = (text: string) => {
     if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    speakText(text);
   };
 
   const getEmojiReadableName = (emoji: string) => {
@@ -588,20 +575,20 @@ export default function MemoryHuntPage() {
     if (!selectedDifficulty || !currentTheme) return;
 
     if (gameMode === 'two-player') {
-      speakText(
+      speakVietnamese(
         `Chủ đề ${currentTheme.label}. Hai bạn thay nhau lật thẻ và tìm hai hình giống nhau.`
       );
       return;
     }
 
     if (gameMode === 'quick') {
-      speakText(
+      speakVietnamese(
         `Chủ đề ${currentTheme.label}. Bé hãy tìm thật nhanh các cặp hình giống nhau trước khi hết giờ.`
       );
       return;
     }
 
-    speakText(
+    speakVietnamese(
       `Chủ đề ${currentTheme.label}. Bé hãy lật thẻ và tìm hai hình giống nhau.`
     );
   };
@@ -625,9 +612,7 @@ export default function MemoryHuntPage() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 
@@ -711,7 +696,7 @@ export default function MemoryHuntPage() {
           setHistory(newHistory);
 
           playLoseSound();
-          speakText('Hết giờ rồi. Mình thử lại nhé');
+          speakVietnamese('Hết giờ rồi. Mình thử lại nhé');
           return 0;
         }
 
@@ -743,7 +728,7 @@ export default function MemoryHuntPage() {
     if (gameMode !== 'quick') return;
 
     if (timeLeft === 8) {
-      speakText('Còn 8 giây thôi, nhanh lên nhé');
+      speakVietnamese('Còn 8 giây thôi, nhanh lên nhé');
     }
   }, [timeLeft, viewMode, showWin, showLose, gameMode]);
 
@@ -768,13 +753,13 @@ export default function MemoryHuntPage() {
         if (gameMode === 'two-player') {
           if (currentPlayer === 1) {
             setPlayer1Score((prev) => prev + 1);
-            speakText(`Bạn 1 ghép đúng. Đây là ${getEmojiReadableName(first.emoji)}`);
+            speakVietnamese(`Bạn 1 ghép đúng. Đây là ${getEmojiReadableName(first.emoji)}`);
           } else {
             setPlayer2Score((prev) => prev + 1);
-            speakText(`Bạn 2 ghép đúng. Đây là ${getEmojiReadableName(first.emoji)}`);
+            speakVietnamese(`Bạn 2 ghép đúng. Đây là ${getEmojiReadableName(first.emoji)}`);
           }
         } else {
-          speakText(`Giỏi lắm. Đây là ${getEmojiReadableName(first.emoji)}`);
+          speakVietnamese(`Giỏi lắm. Đây là ${getEmojiReadableName(first.emoji)}`);
         }
 
         setLocked(false);
@@ -798,9 +783,9 @@ export default function MemoryHuntPage() {
       if (gameMode === 'two-player') {
         const nextPlayer = currentPlayer === 1 ? 2 : 1;
         setCurrentPlayer(nextPlayer);
-        speakText(`Chưa khớp. Đến lượt ${playerMeta[nextPlayer].name}`);
+        speakVietnamese(`Chưa khớp. Đến lượt ${playerMeta[nextPlayer].name}`);
       } else {
-        speakText('Hai thẻ chưa giống nhau. Bé thử lại nhé');
+        speakVietnamese('Hai thẻ chưa giống nhau. Bé thử lại nhé');
       }
 
       setLocked(false);
@@ -836,7 +821,7 @@ export default function MemoryHuntPage() {
           ? playerMeta[1].name
           : playerMeta[2].name;
 
-      speakText(
+      speakVietnamese(
         player1Score === player2Score
           ? 'Hai bạn hòa nhau rồi'
           : `${winnerLabel} chiến thắng`
@@ -911,7 +896,7 @@ export default function MemoryHuntPage() {
     });
     setHistory(newHistory);
 
-    speakText('Chúc mừng bé. Bạn nhỏ đã hoàn thành màn chơi ghi nhớ');
+    speakVietnamese('Chúc mừng bé. Bạn nhỏ đã hoàn thành màn chơi ghi nhớ');
   }, [
     isWin,
     selectedDifficulty,
@@ -929,9 +914,7 @@ export default function MemoryHuntPage() {
 
     const randomTheme = shuffleArray(iconThemes)[0];
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setCurrentTheme(randomTheme);
     setSelectedDifficulty(difficulty);
@@ -961,7 +944,7 @@ export default function MemoryHuntPage() {
       prev.map((card) => (card.id === id ? { ...card, isFlipped: true } : card))
     );
 
-    speakText(getEmojiReadableName(targetCard.emoji));
+    speakVietnamese(getEmojiReadableName(targetCard.emoji));
 
     if (flippedCards.length === 1) {
       setMoves((prev) => prev + 1);
@@ -979,9 +962,7 @@ export default function MemoryHuntPage() {
       timerRef.current = null;
     }
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     resultHandledRef.current = false;
     setSelectedDifficulty(null);

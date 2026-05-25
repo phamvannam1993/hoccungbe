@@ -17,6 +17,7 @@ import EnglishProfileCard from './EnglishProfileCard';
 import EnglishFlashcardPanel from './EnglishFlashcardPanel';
 import EnglishLeaderboard from './EnglishLeaderboard';
 import Link from 'next/link';
+import { speakText, stopSpeaking } from './utils/speech';
 
 type BuiltEnglishQuestion = EnglishWordItem & {
   options: string[];
@@ -627,38 +628,12 @@ export default function EnglishVocabularyPage() {
 
   const speakEnglish = (text: string) => {
     if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.85;
-    utterance.pitch = 1.05;
-    utterance.volume = 1;
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    speakText(text, { lang: 'en-US' });
   };
 
   const speakVietnamese = (text: string) => {
     if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    speakText(text);
   };
 
   const speakWord = (text: string) => {
@@ -742,9 +717,7 @@ export default function EnglishVocabularyPage() {
     const theme = getRandomThemeForLevel(level);
     const builtQuestions = buildQuestions(level, theme);
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedLevel(level);
     setCurrentTheme(theme);
@@ -894,9 +867,7 @@ export default function EnglishVocabularyPage() {
   const handleNext = () => {
     if (!selectedLevel) return;
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (selectedLevel.mode === 'quick-challenge') {
       const nextIndex = currentIndex + 1;
@@ -928,8 +899,8 @@ export default function EnglishVocabularyPage() {
     setSoundEnabled(next);
     saveSoundEnabled(next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -939,8 +910,8 @@ export default function EnglishVocabularyPage() {
     setSpeechEnabled(next);
     saveSpeechEnabled(next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -1033,9 +1004,7 @@ export default function EnglishVocabularyPage() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
 
       if (recordedAudioUrl) {
         URL.revokeObjectURL(recordedAudioUrl);

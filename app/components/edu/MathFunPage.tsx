@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { mathFunLevels, type MathDifficultyLevel } from './data/mathFunLevels';
 import Link from 'next/link';
+import { speakText, stopSpeaking } from './utils/speech';
 
 type MathQuestion = {
   id: number;
@@ -508,23 +509,9 @@ export default function MathFunPage() {
     }, 120);
   };
 
-  const speakText = (text: string) => {
+  const speakVietnamese = (text: string) => {
     if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    window.speechSynthesis.speak(utterance);
+    speakText(text);
   };
 
   const speakMathQuestion = () => {
@@ -532,13 +519,13 @@ export default function MathFunPage() {
 
     const operatorText = currentQuestion.operator === '+' ? 'cộng' : 'trừ';
 
-    speakText(
+    speakVietnamese(
       `${currentQuestion.left} ${operatorText} ${currentQuestion.right} bằng bao nhiêu`
     );
   };
 
   const speakAnswerOption = (answer: number) => {
-    speakText(`${answer}`);
+    speakVietnamese(`${answer}`);
   };
 
   const addSticker = (stickerId: string) => {
@@ -659,7 +646,7 @@ export default function MathFunPage() {
       addSticker(getStickerByStars(stars).id);
       setShowResult(true);
       setShowCelebration(true);
-      speakText(`Bạn nhỏ đã hoàn thành thi nhanh với ${finalScore} điểm`);
+      speakVietnamese(`Bạn nhỏ đã hoàn thành thi nhanh với ${finalScore} điểm`);
 
       return;
     }
@@ -713,7 +700,7 @@ export default function MathFunPage() {
 
     setShowResult(true);
     setShowCelebration(true);
-    speakText(`Bạn nhỏ đã hoàn thành cấp độ ${selectedLevel.title}`);
+    speakVietnamese(`Bạn nhỏ đã hoàn thành cấp độ ${selectedLevel.title}`);
   };
 
   const handleChooseAnswer = async (answer: number) => {
@@ -748,7 +735,7 @@ export default function MathFunPage() {
       await playCorrectSound();
 
       setTimeout(() => {
-        speakText(`Giỏi lắm. Đáp án đúng là ${currentQuestion.correctAnswer}`);
+        speakVietnamese(`Giỏi lắm. Đáp án đúng là ${currentQuestion.correctAnswer}`);
       }, 320);
     } else {
       setIsCorrect(false);
@@ -757,15 +744,13 @@ export default function MathFunPage() {
       await playWrongSound();
 
       setTimeout(() => {
-        speakText(`Chưa đúng. Đáp án đúng là ${currentQuestion.correctAnswer}`);
+        speakVietnamese(`Chưa đúng. Đáp án đúng là ${currentQuestion.correctAnswer}`);
       }, 320);
     }
   };
 
   const handleRestart = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (!selectedLevel) return;
 
@@ -787,9 +772,7 @@ export default function MathFunPage() {
   };
 
   const handleNextQuestion = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (isQuickMode) {
       setCurrentIndex((prev) => prev + 1);
@@ -890,9 +873,7 @@ export default function MathFunPage() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 

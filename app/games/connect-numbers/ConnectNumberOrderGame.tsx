@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { speakText, stopSpeaking } from '../../components/edu/utils/speech';
 import {
   connectNumberCategories,
   connectNumberData,
@@ -168,19 +169,6 @@ function saveUnlockedStickers(values: string[]) {
   window.localStorage.setItem(STICKERS_KEY, JSON.stringify(values));
 }
 
-function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
-  const vietnameseVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith('vi')
-  );
-
-  const femaleHints = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'];
-
-  const preferredFemale = vietnameseVoices.find((voice) =>
-    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint))
-  );
-
-  return preferredFemale || vietnameseVoices[0] || null;
-}
 
 function getPointCoordinates(point: ConnectNumberPoint) {
   return {
@@ -202,7 +190,6 @@ export default function ConnectNumberOrderGame() {
   const [history, setHistory] = useState<StoredScore[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [speechEnabled, setSpeechEnabled] = useState(true);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
   const [unlockedStickerIds, setUnlockedStickerIds] = useState<string[]>([]);
@@ -249,9 +236,7 @@ export default function ConnectNumberOrderGame() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 
@@ -281,7 +266,7 @@ export default function ConnectNumberOrderGame() {
     playFinishSound();
 
     setTimeout(() => {
-      speakVietnamese(
+      if (speechEnabled) speakText(
         accuracy >= 90
           ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
@@ -374,44 +359,17 @@ export default function ConnectNumberOrderGame() {
     setTimeout(() => playTone(1046.5, 0.18, 'sine'), 340);
   };
 
-  const speakVietnamese = (text: string) => {
-    if (!speechEnabled) return;
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices();
-    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
-
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.92;
-    utterance.pitch = 1.08;
-    utterance.volume = 1;
-
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    }
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    synth.speak(utterance);
-  };
 
   const speakPrompt = async () => {
     if (!currentQuestion) return;
     await playPromptSound();
-    speakVietnamese(`${currentQuestion.prompt}. ${currentQuestion.hint}`);
+    if (speechEnabled) speakText(`${currentQuestion.prompt}. ${currentQuestion.hint}`);
   };
 
   const speakNextNumber = async () => {
     if (!currentQuestion) return;
     await playPromptSound();
-    speakVietnamese(`Số tiếp theo là ${expectedNextNumber}`);
+    if (speechEnabled) speakText(`Số tiếp theo là ${expectedNextNumber}`);
   };
 
   const unlockSticker = (id: string) => {
@@ -427,9 +385,7 @@ export default function ConnectNumberOrderGame() {
     const sourceQuestions = connectNumberData[key].questions;
     const nextQuestions = buildPlayQuestions(sourceQuestions, QUESTIONS_PER_GAME, level);
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(key);
     setSelectedLevel(level);
@@ -442,7 +398,6 @@ export default function ConnectNumberOrderGame() {
     setFinished(false);
     setCombo(0);
     setBestCombo(0);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -466,7 +421,7 @@ export default function ConnectNumberOrderGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese(`Chưa đúng rồi. Số cần bấm là ${expected}`);
+        if (speechEnabled) speakText(`Chưa đúng rồi. Số cần bấm là ${expected}`);
       }, 220);
       return;
     }
@@ -492,7 +447,7 @@ export default function ConnectNumberOrderGame() {
       }, 80);
 
       setTimeout(() => {
-        speakVietnamese('Giỏi lắm. Bạn nhỏ đã nối đúng theo thứ tự');
+        if (speechEnabled) speakText('Giỏi lắm. Bạn nhỏ đã nối đúng theo thứ tự');
       }, 220);
     }
   };
@@ -505,9 +460,7 @@ export default function ConnectNumberOrderGame() {
   const handleNext = () => {
     if (!questions.length) return;
 
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (currentIndex === questions.length - 1) {
       setFinished(true);
@@ -526,9 +479,7 @@ export default function ConnectNumberOrderGame() {
   };
 
   const handleBackToCategories = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(null);
     setQuestions([]);
@@ -540,7 +491,6 @@ export default function ConnectNumberOrderGame() {
     setFinished(false);
     setCombo(0);
     setBestCombo(0);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -555,8 +505,8 @@ export default function ConnectNumberOrderGame() {
     setSpeechEnabled(next);
     saveBooleanSetting(SPEECH_ENABLED_KEY, next);
 
-    if (!next && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -848,7 +798,7 @@ export default function ConnectNumberOrderGame() {
               onClick={speakPrompt}
               className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
             >
-              {isSpeaking ? 'Đang đọc...' : '🔊 Đọc hướng dẫn'}
+              '🔊 Đọc hướng dẫn'
             </button>
 
             <button

@@ -10,10 +10,10 @@ const quickLinks = [
 ];
 
 const parentLinks = [
-  { label: 'Góc phụ huynh', href: '/blog' },
-  { label: 'Cách bắt đầu', href: '/how-it-works' },
-  { label: 'Câu hỏi thường gặp', href: '/faq' },
-  { label: 'Liên hệ', href: '/contact' },
+  { label: 'Góc phụ huynh', href: '/bai-viet' },
+  { label: 'Cách bắt đầu', href: '/huong-dan' },
+  { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
+  { label: 'Liên hệ', href: '/lien-he' },
 ];
 
 const seoLinks = [

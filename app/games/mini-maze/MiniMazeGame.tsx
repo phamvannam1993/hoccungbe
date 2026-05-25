@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { speakText, stopSpeaking } from "../../components/edu/utils/speech";
 import {
   mazeCategories,
   mazeData,
@@ -170,29 +171,6 @@ function loadUnlockedStickers(): string[] {
 function saveUnlockedStickers(values: string[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(STICKERS_KEY, JSON.stringify(values));
-}
-
-function getPreferredVietnameseFemaleVoice(voices: SpeechSynthesisVoice[]) {
-  const vietnameseVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith("vi"),
-  );
-
-  const femaleHints = [
-    "female",
-    "woman",
-    "girl",
-    "linh",
-    "mai",
-    "han",
-    "oanh",
-    "vy",
-  ];
-
-  const preferredFemale = vietnameseVoices.find((voice) =>
-    femaleHints.some((hint) => voice.name.toLowerCase().includes(hint)),
-  );
-
-  return preferredFemale || vietnameseVoices[0] || null;
 }
 
 function findPosition(grid: MazeCell[][], target: MazeCell): Position | null {
@@ -394,7 +372,6 @@ export default function MiniMazeGame() {
   const [history, setHistory] = useState<StoredScore[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [speechEnabled, setSpeechEnabled] = useState(true);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
   const [unlockedStickerIds, setUnlockedStickerIds] = useState<string[]>([]);
@@ -449,9 +426,7 @@ export default function MiniMazeGame() {
 
   useEffect(() => {
     return () => {
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopSpeaking();
     };
   }, []);
 
@@ -499,7 +474,7 @@ export default function MiniMazeGame() {
     playFinishSound();
 
     setTimeout(() => {
-      speakVietnamese(
+      if (speechEnabled) speakText(
         accuracy >= 90
           ? `Bạn nhỏ đã hoàn thành rất tốt với độ chính xác ${accuracy} phần trăm`
           : accuracy >= 60
@@ -600,38 +575,10 @@ export default function MiniMazeGame() {
     setTimeout(() => playTone(1046.5, 0.18, "sine"), 340);
   };
 
-  const speakVietnamese = (text: string) => {
-    if (!speechEnabled) return;
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = synth.getVoices();
-    const preferredVoice = getPreferredVietnameseFemaleVoice(voices);
-
-    utterance.lang = "vi-VN";
-    utterance.rate = 0.92;
-    utterance.pitch = 1.08;
-    utterance.volume = 1;
-
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    }
-
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    synth.speak(utterance);
-  };
-
   const speakPrompt = async () => {
     if (!currentQuestion) return;
     await playPromptSound();
-    speakVietnamese(
+    if (speechEnabled) speakText(
       isHardMode
         ? `${currentQuestion.prompt}. Đây là màn Khó cộng. Hãy tự quan sát, tránh ô bẫy và đi thật tiết kiệm bước.`
         : `${currentQuestion.prompt}. ${currentQuestion.hint}`,
@@ -641,7 +588,7 @@ export default function MiniMazeGame() {
   const speakHint = async () => {
     if (!currentQuestion || isHardMode) return;
     await playPromptSound();
-    speakVietnamese(currentQuestion.hint);
+    if (speechEnabled) speakText(currentQuestion.hint);
   };
 
   const unlockSticker = (id: string) => {
@@ -661,9 +608,7 @@ export default function MiniMazeGame() {
       level,
     );
 
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(key);
     setSelectedLevel(level);
@@ -676,7 +621,6 @@ export default function MiniMazeGame() {
     setMistakeCount(0);
     setFailureReason("");
     setPathHistory([]);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -687,7 +631,7 @@ export default function MiniMazeGame() {
     setIsWin(false);
     setTimeout(() => {
       playBlockedSound();
-      speakVietnamese(voiceText);
+      if (speechEnabled) speakText(voiceText);
     }, 120);
   };
 
@@ -704,7 +648,7 @@ export default function MiniMazeGame() {
 
     setTimeout(() => {
       playBlockedSound();
-      speakVietnamese("Cẩn thận nhé. Màn khó chỉ cho phép sai một lần thôi");
+      if (speechEnabled) speakText("Cẩn thận nhé. Màn khó chỉ cho phép sai một lần thôi");
     }, 80);
 
     return true;
@@ -793,7 +737,7 @@ export default function MiniMazeGame() {
       }, 100);
 
       setTimeout(() => {
-        speakVietnamese("Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi");
+        if (speechEnabled) speakText("Giỏi lắm. Bạn nhỏ đã tìm tới đích rồi");
       }, 220);
       return;
     }
@@ -804,7 +748,7 @@ export default function MiniMazeGame() {
       setIsWin(false);
       setTimeout(() => {
         playBlockedSound();
-        speakVietnamese("Hết số bước rồi. Mình thử màn tiếp theo nhé");
+        if (speechEnabled) speakText("Hết số bước rồi. Mình thử màn tiếp theo nhé");
       }, 120);
     }
   };
@@ -832,16 +776,14 @@ export default function MiniMazeGame() {
     setShowResult(true);
     setIsWin(false);
     setTimeout(() => {
-      speakVietnamese("Mình xem đáp án rồi sang màn tiếp theo nhé");
+      if (speechEnabled) speakText("Mình xem đáp án rồi sang màn tiếp theo nhé");
     }, 180);
   };
 
   const handleNext = () => {
     if (!questions.length) return;
 
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     if (currentIndex === questions.length - 1) {
       setFinished(true);
@@ -857,9 +799,7 @@ export default function MiniMazeGame() {
   };
 
   const handleBackToCategories = () => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopSpeaking();
 
     setSelectedCategory(null);
     setQuestions([]);
@@ -875,7 +815,6 @@ export default function MiniMazeGame() {
     setMistakeCount(0);
     setFailureReason("");
     setPathHistory([]);
-    setIsSpeaking(false);
     hasSavedResultRef.current = false;
   };
 
@@ -890,8 +829,8 @@ export default function MiniMazeGame() {
     setSpeechEnabled(next);
     saveBooleanSetting(SPEECH_ENABLED_KEY, next);
 
-    if (!next && typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
+    if (!next) {
+      stopSpeaking();
     }
   };
 
@@ -1253,7 +1192,7 @@ export default function MiniMazeGame() {
               onClick={speakPrompt}
               className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
             >
-              {isSpeaking ? "Đang đọc..." : "🔊 Đọc hướng dẫn"}
+              🔊 Đọc hướng dẫn
             </button>
 
             <button

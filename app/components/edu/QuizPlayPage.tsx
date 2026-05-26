@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '../../lib/api';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
 import NumberTrace from './NumberTrace';
+import confetti from 'canvas-confetti';
 
 const KidsCtx = createContext(false);
 const useKids = () => useContext(KidsCtx);
@@ -105,10 +106,12 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect, compac
   const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
   return (
     <div className={`flex flex-wrap justify-center ${compact ? 'gap-2' : 'gap-3'}`}>
-      {options.map((opt) => {
+      {options.map((opt, idx) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
         const isWrong = checked && isSel && opt.key !== correctKey;
+        const baseColor = OPTION_COLORS[idx % OPTION_COLORS.length];
+        const animClass = isRight ? 'kid-bounce' : isWrong ? 'kid-shake' : '';
         return (
           <button key={opt.key}
             onClick={() => { if (!checked) { onSelect(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
@@ -117,15 +120,15 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect, compac
               maxWidth: basis,
               borderWidth: 3,
               borderStyle: 'solid',
-              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? '#f59e0b' : '#f0b429',
-              borderRadius: 16,
-              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? '#fffbeb' : '#ffffff',
-              boxShadow: isSel && !checked ? '0 2px 8px rgba(245,158,11,0.25)' : '0 1px 4px rgba(0,0,0,0.06)',
-              transform: isSel && !checked ? 'scale(1.02)' : 'scale(1)',
+              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? baseColor : baseColor,
+              borderRadius: 20,
+              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? `${baseColor}15` : '#ffffff',
+              boxShadow: isSel && !checked ? `0 6px 0 ${baseColor}, 0 8px 16px ${baseColor}40` : `0 4px 0 ${baseColor}aa`,
+              transform: isSel && !checked ? 'translateY(-2px)' : 'translateY(0)',
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className={`relative flex flex-col items-center justify-center overflow-visible ${compact ? 'min-h-[70px] px-3 py-3' : 'min-h-[130px] px-3 py-6'}`}
+            className={`relative flex flex-col items-center justify-center overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-3 py-3' : 'min-h-[130px] px-3 py-6'}`}
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -173,22 +176,24 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle, com
         const isSel = selected.includes(opt.key);
         const isRight = checked && correctKeys.includes(opt.key);
         const isWrong = checked && isSel && !correctKeys.includes(opt.key);
-        const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx % OPTION_COLORS.length];
+        const baseColor = OPTION_COLORS[idx % OPTION_COLORS.length];
+        const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : baseColor;
+        const animClass = isRight ? 'kid-bounce' : isWrong ? 'kid-shake' : '';
         return (
           <button key={opt.key}
             onClick={() => { if (!checked) { onToggle(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
             style={{
               borderWidth: 3,
               borderStyle: 'solid',
-              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : isSel ? '#f59e0b' : '#f0b429',
-              borderRadius: 16,
-              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? '#fffbeb' : '#ffffff',
-              boxShadow: isSel && !checked ? '0 2px 8px rgba(245,158,11,0.25)' : '0 1px 4px rgba(0,0,0,0.06)',
-              transform: isSel && !checked ? 'scale(1.02)' : 'scale(1)',
+              borderColor: isRight ? '#22c55e' : isWrong ? '#ef4444' : baseColor,
+              borderRadius: 20,
+              background: isRight ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? `${baseColor}15` : '#ffffff',
+              boxShadow: isSel && !checked ? `0 6px 0 ${baseColor}, 0 8px 16px ${baseColor}40` : `0 4px 0 ${baseColor}aa`,
+              transform: isSel && !checked ? 'translateY(-2px)' : 'translateY(0)',
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className={`relative flex flex-col items-center justify-center overflow-visible ${compact ? 'min-h-[70px] pl-2 pr-8 py-3' : 'min-h-[130px] pl-3 pr-10 py-6'}`}
+            className={`relative flex flex-col items-center justify-center overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] pl-2 pr-8 py-3' : 'min-h-[130px] pl-3 pr-10 py-6'}`}
           >
             {/* Checkbox indicator */}
             <span className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
@@ -1982,6 +1987,9 @@ export default function QuizPlayPage({
     setChecked((prev) => ({ ...prev, [q.id]: true }));
     if (correct) {
       setScore((s) => s + (q.points || 10));
+      try {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FF6B9D','#FFD93D','#4ECDC4','#A06CD5','#6BCB77'] });
+      } catch {}
       const msg = ENCOURAGE_CORRECT[Math.floor(Math.random() * ENCOURAGE_CORRECT.length)];
       setCelebrateMsg(msg);
       setCelebrate('correct');
@@ -2108,13 +2116,13 @@ export default function QuizPlayPage({
   const showVirtualKeyboard = !isChecked && !isTextFillBlank && (q.questionType === 'fill_blank' || q.questionType === 'table_fill' || q.questionType === 'counting');
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(160deg, #4db8b8 0%, #6ec6c6 50%, #5bbaba 100%)' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #C9F0FF 50%, #FFF4D6 100%)' }}>
 
       <audio ref={correctAudio} src="/sounds/correct.mp3" preload="auto" />
       <audio ref={wrongAudio} src="/sounds/wrong.mp3" preload="auto" />
 
       {/* Top bar */}
-      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'rgba(0,0,0,0.12)', backdropFilter: 'blur(4px)' }}>
+      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'linear-gradient(90deg, #FF6B9D, #A06CD5)', boxShadow: '0 4px 12px rgba(160,108,213,0.25)' }}>
         <div className="max-w-6xl mx-auto flex items-center gap-3 flex-wrap">
           <nav className="flex items-center gap-1.5 text-sm text-white/85 flex-wrap flex-1 min-w-0">
             <Link href="/" className="hover:text-white transition-colors shrink-0 font-medium">Trang chủ</Link>
@@ -2158,26 +2166,33 @@ export default function QuizPlayPage({
       <div className="flex flex-1 items-start justify-center gap-3 px-4 sm:px-6 py-4 max-w-6xl mx-auto w-full">
 
         {/* Left sidebar — question list */}
-        <div className="hidden md:flex flex-col w-12 bg-white rounded-xl overflow-hidden shadow-md shrink-0 border border-gray-200">
-          <div className="text-center text-xs font-bold py-2 text-white" style={{ background: '#555' }}>KQ</div>
+        <div className="hidden md:flex flex-col w-14 bg-white rounded-3xl overflow-hidden shadow-md shrink-0 border-4 border-purple-200 p-2 gap-2">
+          <div className="text-center text-xs font-black py-1.5 text-white rounded-full kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)' }}>KQ</div>
           {exercise.quizzes.map((qz, idx) => {
             const done = !!checked[qz.id];
             const ok = done && checkCorrectForNav(qz);
             const canNavigate = idx <= current || done;
+            const isActive = idx === current;
+            let bg = '#f3f4f6';
+            let txtColor = '#9ca3af';
+            let extra = '';
+            if (isActive) { bg = 'linear-gradient(135deg, #FF6B9D, #FF9F45)'; txtColor = '#fff'; extra = 'kid-pulse-glow'; }
+            else if (done && ok) { bg = 'linear-gradient(135deg, #6BCB77, #16a34a)'; txtColor = '#fff'; }
+            else if (done && !ok) { bg = 'linear-gradient(135deg, #FF6B6B, #ef4444)'; txtColor = '#fff'; }
             return (
               <button key={qz.id} onClick={() => canNavigate && setCurrent(idx)} disabled={!canNavigate}
-                className={`text-sm font-bold py-2 border-b border-gray-100 transition-colors last:border-0 ${idx === current ? 'text-white' : done ? 'text-white' : 'text-gray-400 cursor-not-allowed'}`}
-                style={{ background: idx === current ? diffColor : done ? (ok ? '#22c55e' : '#ef4444') : 'transparent' }}>
-                {idx + 1}
+                className={`text-sm font-black w-10 h-10 mx-auto rounded-full transition-all kid-display flex items-center justify-center ${canNavigate ? 'hover:scale-110 cursor-pointer' : 'cursor-not-allowed'} ${extra}`}
+                style={{ background: bg, color: txtColor, boxShadow: isActive ? '0 4px 12px rgba(255,107,157,0.5)' : '0 2px 4px rgba(0,0,0,0.08)' }}>
+                {done && ok ? '⭐' : done && !ok ? '💔' : idx + 1}
               </button>
             );
           })}
         </div>
 
         {/* Main card */}
-        <div className="flex-1 max-w-2xl bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+        <div className="flex-1 max-w-2xl bg-white rounded-3xl overflow-hidden border-4 border-pink-200" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
           {/* Card header with arrow badge */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
+          <div className="flex items-center gap-3 px-4 py-3 border-b-2 border-pink-100 bg-gradient-to-r from-pink-50 to-yellow-50">
             {/* Arrow-shaped badge */}
             <div className="relative flex items-center shrink-0">
               <span className="pl-4 pr-6 py-1.5 text-white text-base font-black shadow-sm"
@@ -2197,10 +2212,10 @@ export default function QuizPlayPage({
             <div className="flex items-start gap-3 mb-4">
               <button
                 onClick={() => { if (q.questionAudioUrl) playAudio(q.questionAudioUrl); else speak(q.questionText); }}
-                className="shrink-0 w-11 h-11 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600 shadow transition-colors"
+                className="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center hover:scale-110 shadow-lg transition-transform kid-pulse-glow"
                 title="Nghe câu hỏi"
               >
-                <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
               </button>
               {q.questionType === 'fill_blank' && (() => {
                 // Support "label\nsequence" format: first line = label, second line = number sequence
@@ -2278,7 +2293,7 @@ export default function QuizPlayPage({
                 );
               })()}
               {q.questionType !== 'fill_blank' && (
-                <p className="text-xl font-bold text-gray-800 leading-snug pt-1">{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
+                <p className="text-xl font-bold text-gray-800 leading-snug pt-1 kid-display">{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
               )}
             </div>
 
@@ -2443,8 +2458,8 @@ export default function QuizPlayPage({
 
             {/* Explanation */}
             {isChecked && q.questionType !== 'trace_number' && (
-              <div className={`mb-3 px-4 py-2.5 rounded-xl text-sm flex items-start gap-3 border-l-4 ${isCurrentCorrect ? 'bg-green-50 border-green-400 text-green-800' : 'bg-red-50 border-red-400 text-red-800'}`}>
-                <span className="text-xl shrink-0 mt-0.5">{isCurrentCorrect ? '✅' : '❌'}</span>
+              <div className={`mb-3 px-4 py-3 rounded-2xl text-sm flex items-start gap-3 border-4 kid-pop-in ${isCurrentCorrect ? 'bg-gradient-to-r from-green-300 to-emerald-400 border-green-500 text-green-900' : 'bg-gradient-to-r from-red-300 to-pink-400 border-red-400 text-red-900'}`}>
+                <span className="text-3xl shrink-0 mt-0.5 kid-pop-in">{isCurrentCorrect ? '🎉' : '😢'}</span>
                 <div>
                   <p className="font-bold text-base mb-0.5">{isCurrentCorrect ? 'Chính xác!' : 'Chưa đúng!'}</p>
                   {q.explanation && <p className="opacity-80 leading-snug">{q.explanation}</p>}
@@ -2461,22 +2476,22 @@ export default function QuizPlayPage({
             <div className="flex justify-center gap-3 pt-1">
               {!isChecked && q.questionType !== 'trace_number' && (
                 <button onClick={handleCheck} disabled={!hasAnswer()}
-                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:brightness-105 hover:-translate-y-0.5 active:scale-95"
-                  style={{ background: hasAnswer() ? 'linear-gradient(135deg, #f59e0b, #e67e00)' : '#d1d5db', boxShadow: hasAnswer() ? '0 4px 0 #b45309, 0 6px 12px rgba(245,158,11,0.4)' : 'none' }}>
-                  Kiểm tra »
+                  className="kid-btn-3d text-base"
+                  style={{ background: hasAnswer() ? 'linear-gradient(135deg, #FFD93D, #FF9F45)' : '#d1d5db', boxShadow: hasAnswer() ? '0 6px 0 #b45309, 0 8px 16px rgba(255,159,69,0.45)' : 'none' }}>
+                  ▶️ Kiểm tra
                 </button>
               )}
               {isChecked && (current < exercise.quizzes.length - 1 ? (
                 <button onClick={handleNext}
-                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
-                  style={{ background: `linear-gradient(135deg, ${diffColor}, ${diffColor}cc)`, boxShadow: `0 4px 0 ${diffColor}99` }}>
-                  Câu tiếp theo »
+                  className="kid-btn-3d text-base"
+                  style={{ background: 'linear-gradient(135deg, #60a5fa, #A06CD5)', boxShadow: '0 6px 0 #6d28d9, 0 8px 16px rgba(160,108,213,0.4)' }}>
+                  🚀 Câu tiếp theo
                 </button>
               ) : (
                 <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
-                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg text-center inline-block transition-all hover:-translate-y-0.5"
-                  style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 4px 0 #15803d' }}>
-                  🎉 Hoàn thành! Quay lại
+                  className="kid-btn-3d text-base inline-block text-center"
+                  style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
+                  🏆 Hoàn thành! Quay lại
                 </Link>
               ))}
             </div>
@@ -2508,17 +2523,17 @@ export default function QuizPlayPage({
         </div>
 
         {/* Right sidebar */}
-        <div className="hidden md:flex flex-col w-36 gap-0 shrink-0 bg-white rounded-xl overflow-hidden shadow-md border border-gray-200">
+        <div className="hidden md:flex flex-col w-36 gap-0 shrink-0 bg-white overflow-hidden shadow-md border-4 border-yellow-300" style={{ borderRadius: 24, boxShadow: '0 8px 24px rgba(255,217,61,0.3)' }}>
           {/* Question number */}
-          <div className="bg-sky-500 text-white text-center text-xs font-bold py-2">Câu hỏi số</div>
-          <div className="text-center py-3 border-b border-gray-200">
-            <span className="text-3xl font-black text-gray-800">{current + 1}</span>
+          <div className="text-white text-center text-xs font-black py-2 kid-display" style={{ background: 'linear-gradient(135deg, #4ECDC4, #87CEEB)' }}>Câu hỏi số</div>
+          <div className="text-center py-3 border-b-2 border-yellow-100">
+            <span className="text-3xl font-black text-gray-800 kid-display">{current + 1}</span>
             <span className="text-base text-gray-500">/{exercise.quizzes.length}</span>
           </div>
           {/* Score */}
-          <div className="bg-red-500 text-white text-center text-xs font-bold py-2">Điểm:</div>
-          <div className="text-center py-3 border-b border-gray-200">
-            <div className="text-4xl font-black" style={{ color: '#e53935' }}>{score}</div>
+          <div className="text-white text-center text-xs font-black py-2 kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF6B6B)' }}>Điểm</div>
+          <div className="text-center py-3 border-b-2 border-yellow-100">
+            <div key={score} className="text-4xl font-black kid-display kid-bounce" style={{ color: '#FF6B9D' }}>{score}</div>
             <div className="text-xs text-gray-500 mt-0.5">trên tổng số</div>
             <div className="text-xs font-bold text-gray-600">{totalPoints}</div>
           </div>

@@ -48,31 +48,39 @@ export default async function HomePage() {
   const [courses, articles] = await Promise.all([fetchCourses(), fetchArticles()]);
 
   return (
-    <main>
+    <main className="kid-bg relative overflow-hidden">
+      {/* Decorative floating emojis */}
+      <span aria-hidden className="pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
+      <span aria-hidden className="pointer-events-none select-none absolute top-20 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
+      <span aria-hidden className="pointer-events-none select-none absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>💖</span>
+      <span aria-hidden className="pointer-events-none select-none absolute top-96 right-6 text-4xl opacity-60" style={{ animation: 'bounce-pop 3s ease-in-out infinite' }}>🌈</span>
+
       {/* ── HERO ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-6">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-6 relative">
+        <div className="bg-white rounded-[32px] border-4 border-pink-200 overflow-hidden" style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}>
           <div className="grid lg:grid-cols-2">
             {/* Left */}
             <div className="p-8 sm:p-10 flex flex-col justify-center">
-              <span className="inline-block rounded-full bg-[#6ec6c6]/20 text-[#0e7490] text-xs font-bold px-3 py-1 mb-4 w-fit">
+              <span className="inline-block rounded-full text-white text-xs font-black px-4 py-1.5 mb-4 w-fit kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)' }}>
                 Nền tảng học tập cho bé 3–10 tuổi
               </span>
-              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-black text-slate-900 leading-tight kid-display">
                 Học vui mỗi ngày —<br />
-                <span className="text-[#c0392b]">bé tiến bộ thấy rõ</span>
+                <span style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>bé tiến bộ thấy rõ</span> 🎉
               </h1>
               <p className="mt-4 text-slate-600 leading-relaxed">
                 Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà. Phụ huynh theo dõi tiến độ dễ dàng mỗi ngày.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/khoa-hoc"
-                  className="rounded-full bg-[#c0392b] text-white font-bold px-6 py-2.5 text-sm hover:bg-[#a93226] transition shadow-sm">
-                  Xem khóa học
+                  className="kid-btn-3d text-sm"
+                  style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 6px 0 #c0392b' }}>
+                  📚 Xem khóa học
                 </Link>
                 <Link href="/tro-choi"
-                  className="rounded-full bg-white border-2 border-[#6ec6c6] text-[#0e7490] font-bold px-6 py-2.5 text-sm hover:bg-[#6ec6c6]/10 transition">
-                  Kho trò chơi
+                  className="kid-btn-3d text-sm"
+                  style={{ background: 'linear-gradient(135deg, #4ECDC4, #87CEEB)', boxShadow: '0 6px 0 #0e7490' }}>
+                  🎮 Kho trò chơi
                 </Link>
               </div>
               {/* Stats */}
@@ -86,14 +94,18 @@ export default async function HomePage() {
               </div>
             </div>
             {/* Right */}
-            <div className="bg-gradient-to-br from-[#6ec6c6]/30 to-[#6ec6c6]/10 p-8 flex items-center justify-center min-h-[280px]">
+            <div className="p-8 flex items-center justify-center min-h-[280px]" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #FFF4D6 50%, #C9F0FF 100%)' }}>
               <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
-                {FEATURES.map((f) => (
-                  <div key={f.title} className="bg-white rounded-2xl p-4 shadow-sm">
-                    <div className="text-3xl mb-2">{f.emoji}</div>
-                    <p className="font-bold text-sm text-slate-800 leading-snug">{f.title}</p>
-                  </div>
-                ))}
+                {FEATURES.map((f, i) => {
+                  const colors = ['#FF6B9D', '#FFD93D', '#4ECDC4', '#A06CD5'];
+                  const c = colors[i % colors.length];
+                  return (
+                    <div key={f.title} className="bg-white rounded-3xl p-4 kid-card-hover" style={{ border: `3px solid ${c}`, boxShadow: `0 4px 0 ${c}aa` }}>
+                      <div className="text-4xl mb-2">{f.emoji}</div>
+                      <p className="font-black text-sm text-slate-800 leading-snug kid-display">{f.title}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -119,7 +131,7 @@ export default async function HomePage() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {courses.map((course) => (
                 <Link key={course.id} href={`/khoa-hoc/${course.slug}`}
-                  className="group flex gap-4 items-start rounded-xl border border-slate-100 p-4 hover:border-[#6ec6c6] hover:shadow-sm transition-all">
+                  className="group flex gap-4 items-start rounded-3xl border-4 border-pink-100 p-4 kid-card-hover bg-white">
                   {course.thumbnailUrl ? (
                     <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden">
                       <Image src={course.thumbnailUrl} alt={course.title} fill className="object-cover" />
@@ -238,19 +250,21 @@ export default async function HomePage() {
 
       {/* ── CTA ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-10">
-        <div className="rounded-2xl bg-[#c0392b] px-8 py-10 text-center text-white">
-          <h2 className="text-2xl sm:text-3xl font-black mb-3">Bắt đầu cùng bé hôm nay</h2>
-          <p className="text-white/80 text-sm leading-relaxed max-w-lg mx-auto mb-6">
+        <div className="rounded-[32px] px-8 py-10 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FFD93D 50%, #4ECDC4 100%)', boxShadow: '0 12px 40px rgba(255,107,157,0.35)' }}>
+          <span aria-hidden className="absolute top-4 left-6 text-4xl opacity-80" style={{ animation: 'wiggle 3s infinite' }}>🚀</span>
+          <span aria-hidden className="absolute bottom-4 right-6 text-4xl opacity-80" style={{ animation: 'bounce-pop 2.5s infinite' }}>🌟</span>
+          <h2 className="text-3xl sm:text-4xl font-black mb-3 kid-display drop-shadow-md">Bắt đầu cùng bé hôm nay 🎉</h2>
+          <p className="text-white/90 text-sm leading-relaxed max-w-lg mx-auto mb-6">
             Đăng ký miễn phí, khám phá bài học và trò chơi phù hợp với độ tuổi của bé ngay bây giờ.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/dang-ky"
-              className="rounded-full bg-white text-[#c0392b] font-bold px-6 py-2.5 text-sm hover:bg-slate-100 transition shadow">
-              Đăng ký miễn phí
+              className="kid-btn-3d text-sm" style={{ background: 'white', color: '#FF6B9D', boxShadow: '0 6px 0 rgba(0,0,0,0.18)' }}>
+              ✨ Đăng ký miễn phí
             </Link>
             <Link href="/khoa-hoc"
-              className="rounded-full border border-white/40 text-white font-bold px-6 py-2.5 text-sm hover:bg-white/10 transition">
-              Xem khóa học
+              className="kid-btn-3d text-sm" style={{ background: 'linear-gradient(135deg, #A06CD5, #6d28d9)', boxShadow: '0 6px 0 #4c1d95' }}>
+              📚 Xem khóa học
             </Link>
           </div>
         </div>

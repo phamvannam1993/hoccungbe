@@ -114,13 +114,13 @@ export default async function HomePage() {
 
       {/* ── COURSES ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-          <div className="flex items-end justify-between mb-6">
+        <div className="bg-white rounded-3xl border-4 border-pink-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
+          <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Khóa học</p>
-              <h2 className="text-2xl font-black text-slate-900">Các khóa học dành cho bé</h2>
+              <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#FF6B9D' }}>🎓 Khóa học</p>
+              <h2 className="text-2xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Các khóa học dành cho bé</h2>
             </div>
-            <Link href="/khoa-hoc" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+            <Link href="/khoa-hoc" className="text-sm font-black kid-display px-4 py-2 rounded-full text-white shrink-0" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 3px 0 #c2185b' }}>
               Xem tất cả →
             </Link>
           </div>
@@ -158,22 +158,22 @@ export default async function HomePage() {
 
       {/* ── FEATURES ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+        <div className="bg-white rounded-3xl border-4 border-yellow-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,217,61,0.20)' }}>
           <div className="text-center mb-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Tại sao chọn Bé Hay Học</p>
-            <h2 className="text-2xl font-black text-slate-900">Học hiệu quả, bé vui, bố mẹ yên tâm</h2>
+            <p className="text-xs font-black uppercase tracking-widest mb-2 kid-display" style={{ color: '#FF6B9D' }}>✨ Tại sao chọn Bé Hay Học ✨</p>
+            <h2 className="text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Học hiệu quả, bé vui, bố mẹ yên tâm</h2>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { emoji: '⏱️', title: 'Bài học ngắn 5–10 phút', desc: 'Phù hợp khả năng tập trung của trẻ nhỏ, không bị quá tải.' },
-              { emoji: '🎯', title: 'Đúng độ tuổi', desc: 'Nội dung được phân cấp theo từng lứa tuổi từ 3 đến 10 tuổi.' },
-              { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh nắm rõ bé học gì, làm tốt gì và cần ôn gì.' },
-              { emoji: '💛', title: 'Không áp lực', desc: 'Học qua trò chơi và video giúp bé hứng thú, không chán.' },
-            ].map((f) => (
-              <div key={f.title} className="rounded-xl bg-slate-50 p-5">
-                <div className="text-3xl mb-3">{f.emoji}</div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {([
+              { emoji: '⏱️', title: 'Bài học ngắn 5–10 phút', desc: 'Phù hợp khả năng tập trung của trẻ nhỏ, không bị quá tải.', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
+              { emoji: '🎯', title: 'Đúng độ tuổi', desc: 'Nội dung được phân cấp theo từng lứa tuổi từ 3 đến 10 tuổi.', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
+              { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh nắm rõ bé học gì, làm tốt gì và cần ôn gì.', color: '#A06CD5', bg: 'linear-gradient(135deg, #EBD8FF 0%, #DDC3FF 100%)' },
+              { emoji: '💛', title: 'Không áp lực', desc: 'Học qua trò chơi và video giúp bé hứng thú, không chán.', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
+            ] as const).map((f) => (
+              <div key={f.title} className="rounded-3xl p-5 kid-card-hover" style={{ background: f.bg, border: `3px solid ${f.color}`, boxShadow: `0 4px 0 ${f.color}66` }}>
+                <div className="text-4xl mb-2">{f.emoji}</div>
+                <h3 className="font-black text-slate-900 text-sm mb-1.5 kid-display" style={{ color: f.color }}>{f.title}</h3>
+                <p className="text-xs text-slate-700 leading-relaxed font-medium">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -182,29 +182,30 @@ export default async function HomePage() {
 
       {/* ── GAMES ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-          <div className="flex items-end justify-between mb-6">
+        <div className="bg-white rounded-3xl border-4 border-purple-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(160,108,213,0.20)' }}>
+          <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Trò chơi giáo dục</p>
-              <h2 className="text-2xl font-black text-slate-900">Vừa chơi vừa học mỗi ngày</h2>
+              <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#A06CD5' }}>🎮 Trò chơi giáo dục</p>
+              <h2 className="text-2xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #4ECDC4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Vừa chơi vừa học mỗi ngày</h2>
             </div>
-            <Link href="/tro-choi" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+            <Link href="/tro-choi" className="text-sm font-black kid-display px-4 py-2 rounded-full text-white shrink-0" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)', boxShadow: '0 3px 0 #7c3aed' }}>
               Xem tất cả →
             </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu' },
-              { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui' },
-              { emoji: '🧠', title: 'Săn hình ghi nhớ', age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho' },
-              { emoji: '🌍', title: 'Từ vựng tiếng Anh', age: '6–8 tuổi', href: '/tro-choi/tu-vung-tieng-anh' },
-            ].map((g) => (
+            {([
+              { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
+              { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
+              { emoji: '🧠', title: 'Săn hình ghi nhớ', age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
+              { emoji: '🌍', title: 'Từ vựng tiếng Anh', age: '6–8 tuổi', href: '/tro-choi/tu-vung-tieng-anh', color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
+            ] as const).map((g) => (
               <Link key={g.title} href={g.href}
-                className="group rounded-xl border border-slate-100 p-5 hover:border-[#6ec6c6] hover:shadow-sm transition-all flex flex-col">
-                <div className="text-4xl mb-3">{g.emoji}</div>
-                <h3 className="font-bold text-slate-900 group-hover:text-[#0e7490] text-sm leading-snug">{g.title}</h3>
-                <p className="mt-1 text-xs text-slate-400">{g.age}</p>
-                <span className="mt-4 text-xs font-bold text-[#c0392b] group-hover:underline">Chơi ngay →</span>
+                className="group rounded-3xl p-5 kid-card-hover flex flex-col"
+                style={{ background: g.bg, border: `3px solid ${g.color}`, boxShadow: `0 4px 0 ${g.color}66` }}>
+                <div className="text-5xl mb-3">{g.emoji}</div>
+                <h3 className="font-black text-base leading-snug kid-display" style={{ color: g.color }}>{g.title}</h3>
+                <p className="mt-1 text-xs font-bold text-slate-600">{g.age}</p>
+                <span className="mt-4 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: g.color, boxShadow: `0 2px 0 ${g.color}99` }}>Chơi ngay »</span>
               </Link>
             ))}
           </div>
@@ -214,35 +215,40 @@ export default async function HomePage() {
       {/* ── BÀI VIẾT ── */}
       {articles.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-          <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-            <div className="flex items-end justify-between mb-6">
+          <div className="bg-white rounded-3xl border-4 border-cyan-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(78,205,196,0.20)' }}>
+            <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#c0392b] mb-1">Góc kiến thức</p>
-                <h2 className="text-2xl font-black text-slate-900">Bài viết hữu ích cho ba mẹ</h2>
+                <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#4ECDC4' }}>📚 Góc kiến thức</p>
+                <h2 className="text-2xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #4ECDC4, #FF6B9D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Bài viết hữu ích cho ba mẹ</h2>
               </div>
-              <Link href="/bai-viet" className="text-sm font-bold text-[#0e7490] hover:underline shrink-0">
+              <Link href="/bai-viet" className="text-sm font-black kid-display px-4 py-2 rounded-full text-white shrink-0" style={{ background: 'linear-gradient(135deg, #4ECDC4, #6BCB77)', boxShadow: '0 3px 0 #0e9488' }}>
                 Xem tất cả →
               </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {articles.map((article) => (
-                <Link key={article.id} href={`/bai-viet/${article.slug}`}
-                  className="group flex flex-col rounded-xl border border-slate-100 overflow-hidden hover:border-[#c0392b]/30 hover:shadow-sm transition-all">
-                  <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-teal-400 to-[#c0392b] shrink-0">
-                    {article.thumbnailUrl
-                      ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
-                      : <div className="absolute inset-0 flex items-center justify-center text-3xl">📝</div>
-                    }
-                  </div>
-                  <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-bold text-slate-900 group-hover:text-[#c0392b] text-sm leading-snug line-clamp-2 flex-1">{article.title}</h3>
-                    {article.excerpt && (
-                      <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">{article.excerpt}</p>
-                    )}
-                    <span className="mt-3 text-xs font-bold text-[#c0392b] group-hover:underline">Đọc thêm →</span>
-                  </div>
-                </Link>
-              ))}
+              {articles.map((article, idx) => {
+                const colors = ['#FF6B9D', '#4ECDC4', '#A06CD5', '#FF9F45'];
+                const c = colors[idx % colors.length];
+                return (
+                  <Link key={article.id} href={`/bai-viet/${article.slug}`}
+                    className="group flex flex-col rounded-3xl overflow-hidden kid-card-hover bg-white"
+                    style={{ border: `3px solid ${c}`, boxShadow: `0 4px 0 ${c}66` }}>
+                    <div className="relative w-full aspect-[16/9] shrink-0" style={{ background: `linear-gradient(135deg, ${c}, ${c}88)` }}>
+                      {article.thumbnailUrl
+                        ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
+                        : <div className="absolute inset-0 flex items-center justify-center text-4xl">📝</div>
+                      }
+                    </div>
+                    <div className="p-4 flex flex-col flex-1">
+                      <h3 className="font-black text-slate-900 text-sm leading-snug line-clamp-2 flex-1 kid-display">{article.title}</h3>
+                      {article.excerpt && (
+                        <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">{article.excerpt}</p>
+                      )}
+                      <span className="mt-3 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: c, boxShadow: `0 2px 0 ${c}99` }}>Đọc thêm »</span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

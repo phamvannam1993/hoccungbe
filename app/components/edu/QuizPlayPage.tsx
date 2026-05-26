@@ -2166,8 +2166,8 @@ export default function QuizPlayPage({
       <div className="flex flex-1 items-start justify-center gap-3 px-4 sm:px-6 py-4 max-w-6xl mx-auto w-full">
 
         {/* Left sidebar — question list */}
-        <div className="hidden md:flex flex-col w-14 bg-white rounded-3xl overflow-hidden shadow-md shrink-0 border-4 border-purple-200 p-2 gap-2">
-          <div className="text-center text-xs font-black py-1.5 text-white rounded-full kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)' }}>KQ</div>
+        <div className="hidden md:flex flex-col w-16 bg-white rounded-3xl shadow-md shrink-0 border-4 border-purple-200 p-2 gap-1.5">
+          <div className="text-center text-xs font-black py-1.5 text-white rounded-full kid-display mx-auto w-10" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)' }}>KQ</div>
           {exercise.quizzes.map((qz, idx) => {
             const done = !!checked[qz.id];
             const ok = done && checkCorrectForNav(qz);

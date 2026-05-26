@@ -2009,6 +2009,7 @@ export default function QuizPlayPage({
   };
 
   const isCurrentCorrect = isChecked && isAnswerCorrect();
+  const isTraceQuestion = q.questionType === 'trace_number' || /^\s*tô\s*số\s*\d/i.test(q.questionText || '');
 
   // ─── Question type label ──────────────────────────────────────────────────
   const typeLabel: Record<string, string> = {
@@ -2441,12 +2442,13 @@ export default function QuizPlayPage({
                   onChange={(key, val) => setCountingAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [key]: val } }))}
                 />
               )}
-              {q.questionType === 'trace_number' && !isChecked && (
+              {isTraceQuestion && !isChecked && (
                 <NumberTrace
                   key={q.id}
                   number={(() => {
                     const ans = q.correctAnswerJson as any;
-                    return String(ans?.number ?? ans ?? q.questionText.replace(/\D/g, '').slice(0, 2) ?? '0');
+                    const fromText = (q.questionText || '').replace(/\D/g, '').slice(0, 2);
+                    return String(ans?.number ?? (typeof ans === 'string' || typeof ans === 'number' ? ans : '') ?? fromText ?? '0') || fromText || '0';
                   })()}
                   onDone={() => {
                     setScore((s) => s + (q.points || 10));
@@ -2457,7 +2459,7 @@ export default function QuizPlayPage({
             </div>
 
             {/* Explanation */}
-            {isChecked && q.questionType !== 'trace_number' && (
+            {isChecked && !isTraceQuestion && (
               <div className={`mb-3 px-4 py-3 rounded-2xl text-sm flex items-start gap-3 border-4 kid-pop-in ${isCurrentCorrect ? 'bg-gradient-to-r from-green-300 to-emerald-400 border-green-500 text-green-900' : 'bg-gradient-to-r from-red-300 to-pink-400 border-red-400 text-red-900'}`}>
                 <span className="text-3xl shrink-0 mt-0.5 kid-pop-in">{isCurrentCorrect ? '🎉' : '😢'}</span>
                 <div>
@@ -2474,7 +2476,7 @@ export default function QuizPlayPage({
 
             {/* Actions */}
             <div className="flex justify-center gap-3 pt-1">
-              {!isChecked && q.questionType !== 'trace_number' && (
+              {!isChecked && !isTraceQuestion && (
                 <button onClick={handleCheck} disabled={!hasAnswer()}
                   className="kid-btn-3d text-base"
                   style={{ background: hasAnswer() ? 'linear-gradient(135deg, #FFD93D, #FF9F45)' : '#d1d5db', boxShadow: hasAnswer() ? '0 6px 0 #b45309, 0 8px 16px rgba(255,159,69,0.45)' : 'none' }}>

@@ -139,7 +139,7 @@ export default function RootLayout({
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      email: 'support@behayhoc.com',
+      email: 'behayhoc@gmail.com',
       availableLanguage: 'Vietnamese',
     },
   };

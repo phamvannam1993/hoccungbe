@@ -104,8 +104,8 @@ export default function Footer() {
                 <Mail size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>
                   Email hỗ trợ:<br />
-                  <a href="mailto:support@behayhoc.com" className="font-semibold text-white transition hover:underline">
-                    support@behayhoc.com
+                  <a href="mailto:behayhoc@gmail.com" className="font-semibold text-white transition hover:underline">
+                    behayhoc@gmail.com
                   </a>
                 </span>
               </p>

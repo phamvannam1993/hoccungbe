@@ -116,7 +116,7 @@ const faqs = [
     icon: HelpCircle,
     question: 'Nếu gặp lỗi khi sử dụng thì liên hệ ở đâu?',
     answer:
-      'Nếu gặp lỗi đăng nhập, lỗi hiển thị, vấn đề với bài học, trò chơi hoặc tài khoản, phụ huynh có thể gửi email đến support@behayhoc.com hoặc truy cập trang Liên hệ để gửi yêu cầu hỗ trợ. Khi liên hệ, nên mô tả ngắn vấn đề, thiết bị đang dùng và tài khoản nếu có.',
+      'Nếu gặp lỗi đăng nhập, lỗi hiển thị, vấn đề với bài học, trò chơi hoặc tài khoản, phụ huynh có thể gửi email đến behayhoc@gmail.com hoặc truy cập trang Liên hệ để gửi yêu cầu hỗ trợ. Khi liên hệ, nên mô tả ngắn vấn đề, thiết bị đang dùng và tài khoản nếu có.',
   },
 ];
 

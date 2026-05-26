@@ -157,10 +157,10 @@ export default function TermsPage() {
             </p>
             <p>
               <a
-                href="mailto:support@behayhoc.com"
+                href="mailto:behayhoc@gmail.com"
                 className="font-semibold text-sky-700 no-underline hover:text-sky-800"
               >
-                support@behayhoc.com
+                behayhoc@gmail.com
               </a>
             </p>
           </section>

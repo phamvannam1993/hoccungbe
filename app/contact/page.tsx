@@ -66,14 +66,15 @@ const contactItems = [
     description:
       'Gửi câu hỏi về tài khoản, khóa học, trò chơi hoặc các vấn đề kỹ thuật khi sử dụng website.',
   },
-  {
-    icon: Phone,
-    title: 'Hotline',
-    value: '0123 456 789',
-    href: 'tel:0123456789',
-    description:
-      'Liên hệ trong giờ hỗ trợ để được tư vấn nhanh về lộ trình học và cách bắt đầu cho bé.',
-  },
+  // Hotline tạm ẩn
+  // {
+  //   icon: Phone,
+  //   title: 'Hotline',
+  //   value: '0123 456 789',
+  //   href: 'tel:0123456789',
+  //   description:
+  //     'Liên hệ trong giờ hỗ trợ để được tư vấn nhanh về lộ trình học và cách bắt đầu cho bé.',
+  // },
   {
     icon: MessageCircle,
     title: 'Tư vấn phụ huynh',

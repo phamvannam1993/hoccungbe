@@ -109,15 +109,7 @@ export default function Footer() {
                   </a>
                 </span>
               </p>
-              <p className="flex gap-3">
-                <Phone size={18} className="mt-1 shrink-0 text-white/90" />
-                <span>
-                  Hotline:<br />
-                  <a href="tel:0123456789" className="font-semibold text-white transition hover:underline">
-                    0123 456 789
-                  </a>
-                </span>
-              </p>
+              {/* Hotline tạm ẩn */}
               <p className="flex gap-3">
                 <MapPin size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>

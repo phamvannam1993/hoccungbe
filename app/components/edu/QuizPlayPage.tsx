@@ -2293,7 +2293,7 @@ export default function QuizPlayPage({
                 );
               })()}
               {q.questionType !== 'fill_blank' && (
-                <p className="text-xl font-bold text-gray-800 leading-snug pt-1 kid-display">{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
+                <p className="text-xl font-bold leading-snug pt-1" style={{ color: '#1e293b' }}>{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
               )}
             </div>
 

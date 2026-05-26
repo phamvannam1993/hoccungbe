@@ -827,7 +827,7 @@ export default function ExamPage({ slug }: { slug: string }) {
                   </span>
                   <div className="flex-1">
                     <div className="flex items-start gap-2">
-                      <p className="text-purple-900 font-bold leading-snug flex-1 kid-display">{q.questionText}</p>
+                      <p className="font-bold leading-snug flex-1 text-base sm:text-lg" style={{ color: '#1e293b' }}>{q.questionText}</p>
                       <SpeakButton text={q.questionText} />
                     </div>
                     <span

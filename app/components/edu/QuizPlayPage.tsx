@@ -699,6 +699,7 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
                 <span className="text-sm text-gray-500">Ô {idx + 1}:</span>
                 <input type="text" inputMode="numeric" value={val}
                   onChange={(e) => onChange(blank.key, e.target.value)}
+                  onFocus={() => onFocusBlank?.(blank.key)}
                   disabled={checked}
                   className={`w-16 h-12 text-center font-bold text-xl rounded-xl border-[3px] outline-none transition-all ${checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700') : 'border-blue-400 bg-white focus:border-blue-600'}`}
                 />
@@ -747,11 +748,13 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
 //   remaining items: key='rN' text='val1|_key1|_key2' (underscore prefix = blank cell, rest = static)
 // correctAnswerJson: { key1: 'answer', key2: 'answer' }
 
-function TableFill({ options, answers, checked, correctMap, onChange }: {
+function TableFill({ options, answers, checked, correctMap, activeKey, onFocus, onChange }: {
   options: OptionItem[];
   answers: Record<string, string>;
   checked: boolean;
   correctMap: Record<string, string>;
+  activeKey?: string | null;
+  onFocus?: (key: string) => void;
   onChange: (key: string, val: string) => void;
 }) {
   const headerRow = options.find((o) => o.key === 'headers');
@@ -779,12 +782,23 @@ function TableFill({ options, answers, checked, correctMap, onChange }: {
                     const val = answers[cellKey] ?? '';
                     const correct = correctMap[cellKey];
                     const isOk = checked ? val.trim() === String(correct) : null;
+                    const isActive = !checked && activeKey === cellKey;
                     return (
                       <td key={ci} className="border-2 border-gray-300 p-1 text-center">
-                        <input type="text" inputMode="numeric" value={val}
-                          onChange={(e) => onChange(cellKey, e.target.value)}
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={val}
                           disabled={checked}
-                          className={`w-12 h-9 text-center font-bold rounded-lg border-2 outline-none text-sm ${checked ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700') : 'border-dashed border-amber-400 bg-amber-50 focus:border-amber-600'}`}
+                          onChange={(e) => onChange(cellKey, e.target.value)}
+                          onFocus={() => onFocus?.(cellKey)}
+                          className={`w-12 h-9 text-center font-bold rounded-lg border-2 outline-none text-sm transition-all
+                            ${checked
+                              ? (isOk ? 'border-green-500 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700')
+                              : isActive
+                                ? 'border-amber-600 bg-amber-100 ring-2 ring-amber-400'
+                                : 'border-dashed border-amber-400 bg-amber-50 focus:border-amber-600 focus:bg-amber-100'
+                            }`}
                         />
                         {checked && !isOk && <div className="text-xs text-green-600 mt-0.5">→ {correct}</div>}
                       </td>
@@ -2105,9 +2119,15 @@ export default function QuizPlayPage({
     }
     if (!target) return;
     const { qid, bkey } = target;
-    const cur = fillBlankAns[qid]?.[bkey] ?? '';
-    const next = char === 'del' ? cur.slice(0, -1) : cur + char;
-    setFillBlankAns((p) => ({ ...p, [qid]: { ...(p[qid] ?? {}), [bkey]: next } }));
+    if (q.questionType === 'table_fill') {
+      const cur = tableFillAns[qid]?.[bkey] ?? '';
+      const next = char === 'del' ? cur.slice(0, -1) : cur + char;
+      setTableFillAns((p) => ({ ...p, [qid]: { ...(p[qid] ?? {}), [bkey]: next } }));
+    } else {
+      const cur = fillBlankAns[qid]?.[bkey] ?? '';
+      const next = char === 'del' ? cur.slice(0, -1) : cur + char;
+      setFillBlankAns((p) => ({ ...p, [qid]: { ...(p[qid] ?? {}), [bkey]: next } }));
+    }
   };
 
   // Text fill_blank: any correct answer contains non-numeric characters (letters/Vietnamese)
@@ -2262,9 +2282,9 @@ export default function QuizPlayPage({
                               type="text"
                               inputMode={isTextFillBlank ? 'text' : 'numeric'}
                               value={bval}
-                              readOnly={isTextFillBlank ? false : !isChecked}
                               disabled={isChecked}
                               onClick={() => !isChecked && setActiveBlankKey({ qid: q.id, bkey: bk })}
+                              onFocus={() => !isChecked && setActiveBlankKey({ qid: q.id, bkey: bk })}
                               onChange={(e) => !isChecked && setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [bk]: e.target.value } }))}
                               style={{
                                 width: isTextFillBlank ? Math.max(80, Math.min(200, (correctMatchMap[bk] ? String(correctMatchMap[bk]).length * 22 : 80))) : 80,
@@ -2354,6 +2374,8 @@ export default function QuizPlayPage({
                   answers={tableFillAns[q.id] ?? {}}
                   checked={isChecked}
                   correctMap={correctMatchMap}
+                  activeKey={activeBlankKey?.qid === q.id ? activeBlankKey.bkey : null}
+                  onFocus={(bkey) => setActiveBlankKey({ qid: q.id, bkey })}
                   onChange={(key, val) => setTableFillAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [key]: val } }))}
                 />
               )}

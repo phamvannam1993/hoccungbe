@@ -20,6 +20,7 @@ import {
   Layers,
   Tag,
   Newspaper,
+  MessageSquare,
 } from 'lucide-react';
 
 const navItems = [
@@ -36,6 +37,7 @@ const navItems = [
   { href: '/admin/rewards', label: 'Phần thưởng', icon: Star },
   { href: '/admin/subscriptions', label: 'Đăng ký', icon: CreditCard },
   { href: '/admin/articles', label: 'Bài viết', icon: Newspaper },
+  { href: '/admin/feedback', label: 'Góp ý', icon: MessageSquare },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {

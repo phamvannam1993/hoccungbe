@@ -119,10 +119,10 @@ export default function SiteHeader() {
 
       {/* Desktop Nav bar */}
       <div className="hidden md:block" ref={navRef}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-3">
-          <nav className="bg-[#c0392b] rounded-full px-2 py-1 flex items-center justify-center gap-1">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4">
+          <nav className="relative bg-gradient-to-r from-[#d04a3a] via-[#c0392b] to-[#a93226] rounded-full px-2 py-1.5 flex items-center justify-center gap-1 shadow-[0_6px_20px_-6px_rgba(192,57,43,0.6)] ring-1 ring-white/10">
             {NAV_MENU.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
               const hasChildren = item.children && item.children.length > 0;
               const isOpen = openMenu === item.href;
 
@@ -136,10 +136,14 @@ export default function SiteHeader() {
                         window.location.href = item.href;
                       }
                     }}
-                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold text-white transition
-                      ${isActive ? 'bg-white/20' : 'hover:bg-white/15'}`}
+                    className={`group relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all duration-200
+                      ${isActive
+                        ? 'bg-white text-[#c0392b] shadow-md scale-[1.03]'
+                        : 'text-white hover:bg-white/20 hover:scale-[1.05]'}`}
                   >
-                    <NavIcon label={item.label} />
+                    <span className="transition-transform group-hover:scale-110">
+                      <NavIcon label={item.label} />
+                    </span>
                     {item.label}
                     {hasChildren && (
                       <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -147,11 +151,12 @@ export default function SiteHeader() {
                   </button>
 
                   {hasChildren && isOpen && (
-                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-44 rounded-xl bg-white shadow-lg border border-gray-100 py-1 z-50">
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-52 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                      <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45" />
                       {item.children!.map((child) => (
                         <Link key={child.href} href={child.href}
                           onClick={() => setOpenMenu(null)}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#c0392b]">
+                          className="relative block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#fdecea] hover:text-[#c0392b] transition-colors">
                           {child.label}
                         </Link>
                       ))}

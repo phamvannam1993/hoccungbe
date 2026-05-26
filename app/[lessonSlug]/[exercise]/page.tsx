@@ -16,7 +16,7 @@ type Props = { params: Promise<{ lessonSlug: string; exercise: string }> };
 
 async function fetchLesson(slug: string) {
   try {
-    const res = await fetch(`${API}/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
       title: string; description?: string;

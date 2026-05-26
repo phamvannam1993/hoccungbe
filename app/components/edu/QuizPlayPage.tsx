@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '../../lib/api';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
+import NumberTrace from './NumberTrace';
 
 const KidsCtx = createContext(false);
 const useKids = () => useContext(KidsCtx);
@@ -24,7 +25,7 @@ function formatMath(text: string): string {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type OptionItem = { key: string; text: string; audioUrl?: string; imageUrl?: string; pair?: string };
+type OptionItem = { key: string; text: string; audioUrl?: string; imageUrl?: string; pair?: string; pairImageUrl?: string };
 
 type QuizItem = {
   id: number;
@@ -36,7 +37,7 @@ type QuizItem = {
     | 'drag_drop' | 'image_choice' | 'matching'
     | 'fill_blank' | 'table_fill' | 'number_line'
     | 'sorting' | 'cross_out' | 'coloring'
-    | 'puzzle' | 'game' | 'counting' | 'find_errors';
+    | 'puzzle' | 'game' | 'counting' | 'find_errors' | 'trace_number';
   difficultyLevel: 'easy' | 'medium' | 'hard';
   optionsJson?: OptionItem[];
   correctAnswerJson?: unknown;
@@ -98,12 +99,12 @@ function AudioBtn({ url, small }: { url?: string; small?: boolean }) {
 
 // ─── Existing interaction components ─────────────────────────────────────────
 
-function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
-  options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void;
+function SingleChoice({ options, selected, checked, correctKey, onSelect, compact }: {
+  options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void; compact?: boolean;
 }) {
   const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className={`flex flex-wrap justify-center ${compact ? 'gap-2' : 'gap-3'}`}>
       {options.map((opt) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
@@ -124,30 +125,36 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[130px] px-3 py-6 overflow-visible"
+            className={`relative flex flex-col items-center justify-center overflow-visible ${compact ? 'min-h-[70px] px-3 py-3' : 'min-h-[130px] px-3 py-6'}`}
           >
             {(() => {
               const idx2 = options.indexOf(opt);
               const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx2 % OPTION_COLORS.length];
               const isMath = isMathText(opt.text || opt.key);
+              const baseSize = compact
+                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 28 : 34)
+                : (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48);
               return (
-                <div className="flex items-center gap-2">
-                  {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
-                  <span style={{
-                    fontSize: isMath ? (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48) : 16,
-                    fontWeight: isMath ? 900 : 700,
-                    color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                    textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
-                    letterSpacing: '-0.5px',
-                    textAlign: 'center',
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word',
-                  }}>{formatMath(opt.text || opt.key)}</span>
+                <div className="flex flex-col items-center gap-1 w-full">
+                  {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
+                  <div className="flex items-center gap-2">
+                    {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
+                    <span style={{
+                      fontSize: isMath ? baseSize : (compact ? 14 : 16),
+                      fontWeight: isMath ? 900 : 700,
+                      color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                      textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                      letterSpacing: '-0.5px',
+                      textAlign: 'center',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word',
+                    }}>{formatMath(opt.text || opt.key)}</span>
+                  </div>
                 </div>
               );
             })()}
-            {isRight && <span className="absolute top-2 right-2.5 text-green-500 font-black text-base">✓</span>}
-            {isWrong && <span className="absolute top-2 right-2.5 text-red-500 font-black text-base">✗</span>}
+            {isRight && <span className="absolute top-1.5 right-2 text-green-500 font-black text-base">✓</span>}
+            {isWrong && <span className="absolute top-1.5 right-2 text-red-500 font-black text-base">✗</span>}
           </button>
         );
       })}
@@ -157,11 +164,11 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect }: {
 
 const OPTION_COLORS = ['#3b82f6','#e53935','#9c27b0','#f97316','#0d9488','#7c3aed'];
 
-function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
-  options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void;
+function MultipleChoice({ options, selected, checked, correctKeys, onToggle, compact }: {
+  options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void; compact?: boolean;
 }) {
   return (
-    <div className={`grid gap-4 ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+    <div className={`grid ${compact ? 'gap-2' : 'gap-4'} ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
       {options.map((opt, idx) => {
         const isSel = selected.includes(opt.key);
         const isRight = checked && correctKeys.includes(opt.key);
@@ -181,18 +188,22 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle }: {
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className="relative flex flex-col items-center justify-center min-h-[130px] pl-3 pr-10 py-6 overflow-visible"
+            className={`relative flex flex-col items-center justify-center overflow-visible ${compact ? 'min-h-[70px] pl-2 pr-8 py-3' : 'min-h-[130px] pl-3 pr-10 py-6'}`}
           >
             {/* Checkbox indicator */}
-            <span className={`absolute top-3 right-3 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
+            <span className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
               {isSel && '✓'}
             </span>
+            {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg ${compact ? 'max-h-14 mb-1' : 'max-h-24 mb-2'}`} />}
             {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
             {(() => {
               const isMath = isMathText(opt.text);
+              const baseSize = compact
+                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 28 : 34)
+                : (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48);
               return (
                 <span style={{
-                  fontSize: isMath ? (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48) : 16,
+                  fontSize: isMath ? baseSize : (compact ? 14 : 16),
                   fontWeight: isMath ? 900 : 700,
                   color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                   textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
@@ -275,6 +286,7 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 15, fontWeight: 900, color: OPTION_COLORS[idx % OPTION_COLORS.length],
             }}>{idx + 1}</span>
+            {opt?.imageUrl && <img src={opt.imageUrl} alt={opt.text} className="h-10 w-10 object-contain rounded shrink-0" />}
             <span style={{
               flex: 1,
               fontSize: isMathText(opt?.text ?? key) ? 28 : 18,
@@ -330,11 +342,14 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   const leftRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const rightItems = useState<string[]>(() => {
+  const rightItems = useState<{ text: string; imageUrl?: string }[]>(() => {
     const hasPair = options.some((o) => !!o.pair);
-    const items = hasPair ? options.map((o) => o.pair ?? '').filter(Boolean) : options.map((o) => correctMap[o.key] ?? '').filter(Boolean);
-    // Deduplicate so same-value right items appear only once
-    const unique = Array.from(new Set(items));
+    const rawItems = hasPair
+      ? options.map((o) => ({ text: o.pair ?? '', imageUrl: o.pairImageUrl })).filter((i) => !!i.text)
+      : options.map((o) => ({ text: correctMap[o.key] ?? '' })).filter((i) => !!i.text);
+    // Deduplicate by text so same-value right items appear only once
+    const seen = new Set<string>();
+    const unique = rawItems.filter((i) => { if (seen.has(i.text)) return false; seen.add(i.text); return true; });
     for (let i = unique.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [unique[i], unique[j]] = [unique[j], unique[i]]; }
     return unique;
   })[0];
@@ -345,7 +360,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
     options.forEach((opt) => {
       const matched = userMap[opt.key];
       if (matched) {
-        const pos = rightItems.indexOf(matched);
+        const pos = rightItems.findIndex((item) => item.text === matched);
         if (pos >= 0) initial[opt.key] = pos;
       }
     });
@@ -413,7 +428,10 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                 }}
                 className="w-full flex items-center px-5 py-4 transition-all"
               >
-                <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{formatMath(opt.text)}</span>
+                {opt.imageUrl
+                  ? <div className="flex flex-col items-center gap-1 flex-1"><img src={opt.imageUrl} alt={opt.text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', textAlign: 'center' }}>{opt.text}</span></div>
+                  : <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{formatMath(opt.text)}</span>
+                }
                 {isCorrect && <span className="text-green-600 font-black text-lg shrink-0">✓</span>}
                 {isWrong && <span className="text-red-500 font-black shrink-0">✗</span>}
               </button>
@@ -422,7 +440,8 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
         </div>
         <div className="w-8 shrink-0" />
         <div className="flex-1 space-y-3 min-w-0">
-          {rightItems.map((text, pos) => {
+          {rightItems.map((item, pos) => {
+            const text = item.text;
             const isConnected = connectedPositions.has(pos);
             const ownerKeys = Object.keys(posMap).filter((k) => posMap[k] === pos);
             const ownerKey = ownerKeys[0];
@@ -456,7 +475,10 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                 }}
                 className="w-full px-5 py-4 text-left transition-all"
               >
-                <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{formatMath(text)}</span>
+                {item.imageUrl
+                  ? <div className="flex flex-col items-center gap-1"><img src={item.imageUrl} alt={text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151', textAlign: 'center' }}>{text}</span></div>
+                  : <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{formatMath(text)}</span>
+                }
                 {isCorrect && <span className="ml-2 text-green-600 font-black">✓</span>}
                 {isWrong && ownerKey && <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>}
               </button>
@@ -1591,11 +1613,34 @@ function numToVi(n: number): string {
 function preprocessTTS(text: string): string {
   return text
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
+    // Compare pattern: "Dấu nào đúng? X _ Y" → "X lớn hơn, bé hơn hay bằng Y?"
+    .replace(/[Dd]ấu\s+nào\s+đúng\?\s*(\d+)\s*_\s*(\d+)/g, (_m, a, b) =>
+      `${numToVi(parseInt(a))} lớn hơn, bé hơn hay bằng ${numToVi(parseInt(b))}?`
+    )
+    // fill_blank compare single: "6 [b1] 4 (điền dấu so sánh)" → "Sáu lớn hơn, bé hơn hay bằng bốn?"
+    .replace(/(\d+)\s*\[b\d+\]\s*(\d+)\s*\(điền dấu so sánh\)/gi, (_m, a, b) =>
+      `${numToVi(parseInt(a))} lớn hơn, bé hơn hay bằng ${numToVi(parseInt(b))}?`
+    )
+    // fill_blank compare chain: "2 [b1] 5 [b2] 8" → "hai, năm, tám — điền dấu thích hợp"
+    .replace(/((?:\d+\s*\[b\d+\]\s*){1,}\d+)/g, (m) => {
+      const nums = m.split(/\[b\d+\]/g).map(s => s.trim()).filter(s => /^\d+$/.test(s));
+      return nums.map((n) => numToVi(parseInt(n))).join(', ') + ' — điền dấu thích hợp';
+    })
     .replace(/\[b\d+\]/g, 'mấy')
+    // "Điền dấu: 2+5 [?] 10-2" → "Điền dấu so sánh thích hợp vào chỗ trống: hai cộng năm như thế nào so với mười trừ hai?"
+    .replace(/[Dd]iền dấu[^:]*:\s*(.*?)\s*\[\?\]\s*([\w\d\s+\-×÷=<>]+)/g, (_m, left, right) => {
+      const mathToVi = (s: string) => s
+        .replace(/(?<!\d)(\d)[-−–](\d)/g, '$1 đến $2')
+        .replace(/[+＋]/g, ' cộng ').replace(/[-−–]/g, ' trừ ')
+        .replace(/[×✕*＊·]/g, ' nhân ').replace(/[÷]/g, ' chia ')
+        .replace(/\d+/g, (n) => numToVi(parseInt(n))).trim();
+      return `Điền dấu so sánh thích hợp vào chỗ trống: ${mathToVi(left)} như thế nào so với ${mathToVi(right)}?`;
+    })
+    .replace(/\[\?\]/g, 'như thế nào so với')
     .replace(/_{2,}/g, 'mấy')
     .replace(/_/g, 'mấy')
     .replace(/\?/g, '')
-    .replace(/(\d)[-−–](\d)/g, '$1 đến $2')
+    .replace(/(?<!\d)(\d)[-−–](\d)/g, '$1 đến $2')
     .replace(/[+＋]/g, ' cộng ')
     .replace(/[-−–]/g, ' trừ ')
     .replace(/[×✕*＊·]/g, ' nhân ')
@@ -1921,6 +1966,7 @@ export default function QuizPlayPage({
         return slots.every((s) => !!ans[s.key]);
       }
       case 'game': return gameComplete[q.id] ?? false;
+      case 'trace_number': return false; // handled internally — no "Kiểm tra" button
       case 'counting': {
         const ans = countingAns[q.id] ?? {};
         if (correctKey !== null && correctKey !== '') return !!(ans['total']?.trim());
@@ -2018,6 +2064,7 @@ export default function QuizPlayPage({
         return Object.entries(cm).every(([k, v]) => ans[k] === v);
       }
       case 'game': return gameComplete[qz.id] ?? false;
+      case 'trace_number': return true; // always correct
       case 'counting': {
         const ans = countingAns[qz.id] ?? {};
         const ck = typeof qz.correctAnswerJson === 'string' && qz.correctAnswerJson !== '' ? qz.correctAnswerJson : null;
@@ -2147,7 +2194,7 @@ export default function QuizPlayPage({
 
           <div className="px-6 py-5">
             {/* Question text */}
-            <div className="flex items-start gap-3 mb-5">
+            <div className="flex items-start gap-3 mb-4">
               <button
                 onClick={() => { if (q.questionAudioUrl) playAudio(q.questionAudioUrl); else speak(q.questionText); }}
                 className="shrink-0 w-11 h-11 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600 shadow transition-colors"
@@ -2222,7 +2269,10 @@ export default function QuizPlayPage({
                         );
                       }
                       if (!part2) return null;
-                      return <span key={pi}>{part2}</span>;
+                      // Strip the "(điền dấu so sánh)" annotation from display
+                      const cleanPart = part2.replace(/\s*\(điền dấu so sánh\)/gi, '');
+                      if (!cleanPart.trim()) return null;
+                      return <span key={pi}>{cleanPart}</span>;
                     })}
                   </p>
                 );
@@ -2233,16 +2283,17 @@ export default function QuizPlayPage({
             </div>
 
             {q.questionImageUrl && (
-              <div className="flex justify-center mb-5">
+              <div className="flex justify-center mb-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={q.questionImageUrl} alt="question" className="max-h-52 rounded-xl object-contain border border-gray-100 shadow-sm" />
+                <img src={q.questionImageUrl} alt="question" className="rounded-xl object-contain border border-gray-100 shadow-sm" style={{ maxHeight: 'min(28vh, 200px)' }} />
               </div>
             )}
 
             {/* Answer area */}
-            <div key={`${q.id}-answer`} className="mb-5">
+            <div key={`${q.id}-answer`} className="mb-3">
               {q.questionType === 'single_choice' && (
                 <SingleChoice options={options} selected={singleSel[q.id] ?? ''} checked={isChecked} correctKey={correctKey}
+                  compact={!!q.questionImageUrl}
                   onSelect={(k) => setSingleSel((p) => ({ ...p, [q.id]: k }))} />
               )}
               {q.questionType === 'image_choice' && (
@@ -2251,6 +2302,7 @@ export default function QuizPlayPage({
               )}
               {q.questionType === 'multiple_choice' && (
                 <MultipleChoice options={options} selected={multiSel[q.id] ?? []} checked={isChecked} correctKeys={correctKeys}
+                  compact={!!q.questionImageUrl}
                   onToggle={(k) => {
                     const cur2 = multiSel[q.id] ?? [];
                     setMultiSel((p) => ({ ...p, [q.id]: cur2.includes(k) ? cur2.filter((x) => x !== k) : [...cur2, k] }));
@@ -2374,11 +2426,24 @@ export default function QuizPlayPage({
                   onChange={(key, val) => setCountingAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [key]: val } }))}
                 />
               )}
+              {q.questionType === 'trace_number' && !isChecked && (
+                <NumberTrace
+                  key={q.id}
+                  number={(() => {
+                    const ans = q.correctAnswerJson as any;
+                    return String(ans?.number ?? ans ?? q.questionText.replace(/\D/g, '').slice(0, 2) ?? '0');
+                  })()}
+                  onDone={() => {
+                    setScore((s) => s + (q.points || 10));
+                    setChecked((prev) => ({ ...prev, [q.id]: true }));
+                  }}
+                />
+              )}
             </div>
 
             {/* Explanation */}
-            {isChecked && (
-              <div className={`mb-4 px-4 py-3 rounded-xl text-sm flex items-start gap-3 border-l-4 ${isCurrentCorrect ? 'bg-green-50 border-green-400 text-green-800' : 'bg-red-50 border-red-400 text-red-800'}`}>
+            {isChecked && q.questionType !== 'trace_number' && (
+              <div className={`mb-3 px-4 py-2.5 rounded-xl text-sm flex items-start gap-3 border-l-4 ${isCurrentCorrect ? 'bg-green-50 border-green-400 text-green-800' : 'bg-red-50 border-red-400 text-red-800'}`}>
                 <span className="text-xl shrink-0 mt-0.5">{isCurrentCorrect ? '✅' : '❌'}</span>
                 <div>
                   <p className="font-bold text-base mb-0.5">{isCurrentCorrect ? 'Chính xác!' : 'Chưa đúng!'}</p>
@@ -2394,25 +2459,26 @@ export default function QuizPlayPage({
 
             {/* Actions */}
             <div className="flex justify-center gap-3 pt-1">
-              {!isChecked ? (
+              {!isChecked && q.questionType !== 'trace_number' && (
                 <button onClick={handleCheck} disabled={!hasAnswer()}
-                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:brightness-105 hover:-translate-y-0.5 active:scale-95"
+                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:brightness-105 hover:-translate-y-0.5 active:scale-95"
                   style={{ background: hasAnswer() ? 'linear-gradient(135deg, #f59e0b, #e67e00)' : '#d1d5db', boxShadow: hasAnswer() ? '0 4px 0 #b45309, 0 6px 12px rgba(245,158,11,0.4)' : 'none' }}>
                   Kiểm tra »
                 </button>
-              ) : current < exercise.quizzes.length - 1 ? (
+              )}
+              {isChecked && (current < exercise.quizzes.length - 1 ? (
                 <button onClick={handleNext}
-                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
+                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg hover:-translate-y-0.5 transition-all active:scale-95"
                   style={{ background: `linear-gradient(135deg, ${diffColor}, ${diffColor}cc)`, boxShadow: `0 4px 0 ${diffColor}99` }}>
                   Câu tiếp theo »
                 </button>
               ) : (
                 <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
-                  className="px-10 py-3 rounded-full font-black text-white text-lg shadow-lg text-center inline-block transition-all hover:-translate-y-0.5"
+                  className="px-8 py-2.5 rounded-full font-black text-white text-base shadow-lg text-center inline-block transition-all hover:-translate-y-0.5"
                   style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 4px 0 #15803d' }}>
                   🎉 Hoàn thành! Quay lại
                 </Link>
-              )}
+              ))}
             </div>
 
             {/* Virtual keyboard */}

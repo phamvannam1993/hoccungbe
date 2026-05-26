@@ -137,8 +137,24 @@ function createQuestion(level: LevelConfig): CompareQuestion {
   };
 }
 
+const NUM_WORDS: Record<number, string> = {
+  0:'không',1:'một',2:'hai',3:'ba',4:'bốn',5:'năm',6:'sáu',7:'bảy',8:'tám',9:'chín',10:'mười',
+  11:'mười một',12:'mười hai',13:'mười ba',14:'mười bốn',15:'mười lăm',16:'mười sáu',
+  17:'mười bảy',18:'mười tám',19:'mười chín',20:'hai mươi',21:'hai mươi mốt',22:'hai mươi hai',
+  23:'hai mươi ba',24:'hai mươi bốn',25:'hai mươi lăm',26:'hai mươi sáu',27:'hai mươi bảy',
+  28:'hai mươi tám',29:'hai mươi chín',30:'ba mươi',31:'ba mươi mốt',32:'ba mươi hai',
+  33:'ba mươi ba',34:'ba mươi bốn',35:'ba mươi lăm',36:'ba mươi sáu',37:'ba mươi bảy',
+  38:'ba mươi tám',39:'ba mươi chín',40:'bốn mươi',41:'bốn mươi mốt',42:'bốn mươi hai',
+  43:'bốn mươi ba',44:'bốn mươi bốn',45:'bốn mươi lăm',46:'bốn mươi sáu',47:'bốn mươi bảy',
+  48:'bốn mươi tám',49:'bốn mươi chín',50:'năm mươi',
+};
+
+function toWord(n: number): string {
+  return NUM_WORDS[n] ?? String(n);
+}
+
 function buildQuestionSpeech(question: CompareQuestion) {
-  return `Bạn nhỏ hãy so sánh ${question.left} và ${question.right}, rồi chọn dấu đúng.`;
+  return `${toWord(question.left)} lớn hơn, bé hơn hay bằng ${toWord(question.right)}?`;
 }
 
 function buildCorrectSpeech(question: CompareQuestion) {
@@ -810,11 +826,11 @@ export default function CompareNumbersGame() {
           <div className="relative z-10 mx-auto max-w-4xl">
             <div className="rounded-[28px] bg-white/85 p-4 text-center shadow-lg backdrop-blur ring-1 ring-white sm:p-6">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-600">
-                Chọn dấu so sánh đúng
+                Dấu nào đúng?
               </p>
 
               <h2 className="mt-2 text-4xl font-black text-slate-900 sm:text-5xl">
-                {question.left} ? {question.right}
+                {question.left} <span className="text-slate-300">_</span> {question.right}
               </h2>
             </div>
 

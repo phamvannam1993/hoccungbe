@@ -32,6 +32,7 @@ export default function QuizzesPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [courseId, setCourseId] = useState('');
   const [lessonId, setLessonId] = useState('');
+  const [questionType, setQuestionType] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -48,16 +49,17 @@ export default function QuizzesPage() {
     apiFetch<Lesson[] | { data: Lesson[] }>('/lessons').then((res) => {
       setLessons(Array.isArray(res) ? res : (res as { data: Lesson[] }).data || []);
     }).catch(() => {});
-    fetchQuizzes('', '', '', 1);
+    fetchQuizzes('', '', '', '', 1);
   }, []);
 
-  const fetchQuizzes = useCallback(async (lid: string, cid: string, q: string, p: number) => {
+  const fetchQuizzes = useCallback(async (lid: string, cid: string, qt: string, q: string, p: number) => {
     setLoading(true);
     setError('');
     try {
       const params = new URLSearchParams({ page: String(p), limit: String(PAGE_SIZE) });
       if (lid) params.set('lessonId', lid);
       if (cid) params.set('courseId', cid);
+      if (qt) params.set('questionType', qt);
       if (q) params.set('search', q);
       const res = await apiFetch<QuizPage>(`/quizzes?${params.toString()}`);
       setQuizzes(res.data || []);
@@ -75,13 +77,19 @@ export default function QuizzesPage() {
     setCourseId(cid);
     setLessonId('');
     setPage(1);
-    fetchQuizzes('', cid, search, 1);
+    fetchQuizzes('', cid, questionType, search, 1);
   };
 
   const handleLessonChange = (lid: string) => {
     setLessonId(lid);
     setPage(1);
-    fetchQuizzes(lid, courseId, search, 1);
+    fetchQuizzes(lid, courseId, questionType, search, 1);
+  };
+
+  const handleTypeChange = (qt: string) => {
+    setQuestionType(qt);
+    setPage(1);
+    fetchQuizzes(lessonId, courseId, qt, search, 1);
   };
 
   const handleSearchChange = (val: string) => {
@@ -89,20 +97,20 @@ export default function QuizzesPage() {
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
       setPage(1);
-      fetchQuizzes(lessonId, courseId, val, 1);
+      fetchQuizzes(lessonId, courseId, questionType, val, 1);
     }, 350);
   };
 
   const handlePageChange = (p: number) => {
     setPage(p);
-    fetchQuizzes(lessonId, courseId, search, p);
+    fetchQuizzes(lessonId, courseId, questionType, search, p);
   };
 
   const deleteQuiz = async (quiz: Quiz) => {
     if (!window.confirm('Xóa câu hỏi này?')) return;
     try {
       await apiFetch(`/quizzes/${quiz.id}`, { method: 'DELETE' });
-      fetchQuizzes(lessonId, courseId, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi xóa');
     }
@@ -169,6 +177,30 @@ export default function QuizzesPage() {
         >
           <option value="">-- Tất cả bài học --</option>
           {filteredLessons.map((l) => <option key={l.id} value={l.id}>{l.title}</option>)}
+        </select>
+
+        <select
+          value={questionType}
+          onChange={(e) => handleTypeChange(e.target.value)}
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">-- Tất cả loại --</option>
+          <option value="single_choice">Trắc nghiệm 1 đáp án</option>
+          <option value="multiple_choice">Trắc nghiệm nhiều đáp án</option>
+          <option value="true_false">Đúng / Sai</option>
+          <option value="drag_drop">Kéo thả sắp xếp</option>
+          <option value="sorting">Sắp xếp thứ tự</option>
+          <option value="image_choice">Chọn theo hình ảnh</option>
+          <option value="matching">Câu nối</option>
+          <option value="fill_blank">Điền chỗ trống</option>
+          <option value="counting">Đếm và điền số</option>
+          <option value="coloring">Tô màu</option>
+          <option value="trace_number">Tô số</option>
+          <option value="number_line">Trục số</option>
+          <option value="table_fill">Bảng điền</option>
+          <option value="cross_out">Gạch chéo</option>
+          <option value="puzzle">Ghép hình</option>
+          <option value="game">Trò chơi</option>
         </select>
 
         {!loading && (

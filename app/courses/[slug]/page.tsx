@@ -17,7 +17,7 @@ async function fetchCourse(slug: string) {
       totalLessons?: number; estimatedMinutes?: number;
       lessons?: { title: string; slug: string; topicName?: string }[];
     }>;
-  } catch { return null; }
+  } catch (e) { console.error('[fetchCourse]', e); return null; }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

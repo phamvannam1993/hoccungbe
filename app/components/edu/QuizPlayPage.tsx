@@ -134,24 +134,29 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect, compac
               const idx2 = options.indexOf(opt);
               const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx2 % OPTION_COLORS.length];
               const isMath = isMathText(opt.text || opt.key);
+              const txt = opt.text || opt.key;
+              // Short text (≤4 chars, no image) → render BIG like math
+              const isShort = !opt.imageUrl && txt.trim().length <= 4;
+              const isBig = isMath || isShort;
               const baseSize = compact
-                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 28 : 34)
-                : (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48);
+                ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
+                : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
               return (
                 <div className="flex flex-col items-center gap-1 w-full">
                   {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
                   <div className="flex items-center gap-2">
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
-                      fontSize: isMath ? baseSize : (compact ? 14 : 16),
-                      fontWeight: isMath ? 900 : 700,
-                      color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                      textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                      fontSize: isBig ? baseSize : (compact ? 14 : 18),
+                      fontWeight: isBig ? 900 : 700,
+                      color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                      textShadow: isBig && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
                       letterSpacing: '-0.5px',
                       textAlign: 'center',
                       whiteSpace: 'pre-wrap',
                       wordBreak: 'break-word',
-                    }}>{formatMath(opt.text || opt.key)}</span>
+                      lineHeight: 1.1,
+                    }}>{formatMath(txt)}</span>
                   </div>
                 </div>
               );
@@ -203,18 +208,21 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle, com
             {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
             {(() => {
               const isMath = isMathText(opt.text);
+              const isShort = !opt.imageUrl && (opt.text || '').trim().length <= 4;
+              const isBig = isMath || isShort;
               const baseSize = compact
-                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 28 : 34)
-                : (opt.text.length > 11 ? 14 : opt.text.length > 8 ? 18 : opt.text.length > 5 ? 26 : opt.text.length > 3 ? 36 : 48);
+                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 32 : 40)
+                : (opt.text.length > 11 ? 16 : opt.text.length > 8 ? 20 : opt.text.length > 5 ? 30 : opt.text.length > 3 ? 44 : 64);
               return (
                 <span style={{
-                  fontSize: isMath ? baseSize : (compact ? 14 : 16),
-                  fontWeight: isMath ? 900 : 700,
-                  color: isMath ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                  textShadow: isMath && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                  fontSize: isBig ? baseSize : (compact ? 14 : 18),
+                  fontWeight: isBig ? 900 : 700,
+                  color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                  textShadow: isBig && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
                   letterSpacing: '-0.5px',
                   textAlign: 'center',
                   whiteSpace: 'nowrap',
+                  lineHeight: 1.1,
                 }}>{formatMath(opt.text)}</span>
               );
             })()}

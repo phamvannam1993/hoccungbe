@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { apiFetch, ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
+import { useMemo, useState } from 'react';
+import { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
 
 const COLORS = [
   { c: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
@@ -33,76 +33,54 @@ function getYouTubeEmbedUrl(url: string): string | null {
   }
 }
 
-export default function CourseDetailPage({ slug }: { slug: string }) {
-  const [course, setCourse] = useState<ApiCourse | null>(null);
-  const [lessons, setLessons] = useState<ApiLesson[]>([]);
-  const [volumes, setVolumes] = useState<ApiVolume[]>([]);
-  const [topics, setTopics] = useState<ApiTopic[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+interface CourseDetailProps {
+  slug: string;
+  initial: {
+    course: ApiCourse;
+    lessons: ApiLesson[];
+    volumes: ApiVolume[];
+    topics: ApiTopic[];
+  };
+}
+
+export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
+  const { course, lessons, volumes, topics } = initial;
   const [showVideo, setShowVideo] = useState(false);
 
-  useEffect(() => {
-    apiFetch<ApiCourse>(`/courses/slug/${slug}`)
-      .then(async (data) => {
-        setCourse(data);
-        const [lessonList, volList, topicList] = await Promise.all([
-          apiFetch<ApiLesson[]>(`/lessons?courseId=${data.id}`),
-          apiFetch<ApiVolume[]>(`/volumes?courseId=${data.id}`),
-          apiFetch<ApiTopic[]>(`/topics?courseId=${data.id}`),
-        ]);
-        setLessons(Array.isArray(lessonList) ? lessonList : []);
-        setVolumes(Array.isArray(volList) ? volList : []);
-        setTopics(Array.isArray(topicList) ? topicList : []);
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="kid-bg min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-pink-400 border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (notFound || !course) {
-    return (
-      <div className="kid-bg min-h-screen">
-        <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <div
-            className="bg-white rounded-[32px] border-4 border-pink-200 p-10"
-            style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}
-          >
-            <div className="text-6xl kid-bounce">📚</div>
-            <h1
-              className="mt-4 text-2xl sm:text-3xl font-black kid-display"
-              style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-            >
-              Không tìm thấy khóa học
-            </h1>
-            <Link
-              href="/khoa-hoc"
-              className="mt-6 inline-block kid-btn-3d text-sm text-white"
-              style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 6px 0 #c0392b' }}
-            >
-              🚀 Quay lại thư viện
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const embedUrl = course.videoUrl ? getYouTubeEmbedUrl(course.videoUrl) : null;
-
-  // Sort volumes by sortOrder
-  const sortedVolumes = [...volumes].sort((a, b) => a.sortOrder - b.sortOrder);
+  const embedUrl = useMemo(
+    () => (course.videoUrl ? getYouTubeEmbedUrl(course.videoUrl) : null),
+    [course.videoUrl],
+  );
+  const sortedVolumes = useMemo(
+    () => [...volumes].sort((a, b) => a.sortOrder - b.sortOrder),
+    [volumes],
+  );
   const hasVolumes = sortedVolumes.length > 0;
-
-  // Lessons with no volumeId
-  const lessonsNoVolume = lessons.filter((l) => !l.volumeId);
+  const lessonsNoVolume = useMemo(
+    () => lessons.filter((l) => !l.volumeId),
+    [lessons],
+  );
+  const lessonsByVolume = useMemo(() => {
+    const map = new Map<number, ApiLesson[]>();
+    for (const l of lessons) {
+      if (l.volumeId == null) continue;
+      const k = Number(l.volumeId);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k)!.push(l);
+    }
+    return map;
+  }, [lessons]);
+  const topicsByVolume = useMemo(() => {
+    const map = new Map<number, ApiTopic[]>();
+    const noVol: ApiTopic[] = [];
+    for (const t of topics) {
+      if (t.volumeId == null) { noVol.push(t); continue; }
+      const k = Number(t.volumeId);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k)!.push(t);
+    }
+    return { byVol: map, noVol };
+  }, [topics]);
 
   return (
     <div className="kid-bg min-h-screen relative overflow-hidden">
@@ -223,23 +201,19 @@ export default function CourseDetailPage({ slug }: { slug: string }) {
 
           {hasVolumes ? (
             <div className={`grid gap-6 ${sortedVolumes.length >= 2 ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
-              {sortedVolumes.map((vol, vIdx) => {
-                const volLessons = lessons.filter((l) => Number(l.volumeId) === Number(vol.id));
-                const volTopics = topics.filter((t) => Number(t.volumeId) === Number(vol.id));
-                return (
-                  <VolumeColumn
-                    key={vol.id}
-                    volumeTitle={vol.name}
-                    lessons={volLessons}
-                    topics={volTopics}
-                    courseSlug={slug}
-                    colorIdx={vIdx}
-                  />
-                );
-              })}
+              {sortedVolumes.map((vol, vIdx) => (
+                <VolumeColumn
+                  key={vol.id}
+                  volumeTitle={vol.name}
+                  lessons={lessonsByVolume.get(Number(vol.id)) ?? []}
+                  topics={topicsByVolume.byVol.get(Number(vol.id)) ?? []}
+                  courseSlug={slug}
+                  colorIdx={vIdx}
+                />
+              ))}
               {lessonsNoVolume.length > 0 && (
                 <div className="md:col-span-2">
-                  <TopicGroup lessons={lessonsNoVolume} topics={topics.filter((t) => !t.volumeId)} courseSlug={slug} colorIdx={sortedVolumes.length} />
+                  <TopicGroup lessons={lessonsNoVolume} topics={topicsByVolume.noVol} courseSlug={slug} colorIdx={sortedVolumes.length} />
                 </div>
               )}
             </div>

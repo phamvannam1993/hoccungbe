@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createContext, memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '../../lib/api';
@@ -100,7 +100,7 @@ function AudioBtn({ url, small }: { url?: string; small?: boolean }) {
 
 // ─── Existing interaction components ─────────────────────────────────────────
 
-function SingleChoice({ options, selected, checked, correctKey, onSelect, compact }: {
+const SingleChoice = memo(function SingleChoice({ options, selected, checked, correctKey, onSelect, compact }: {
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void; compact?: boolean;
 }) {
   const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
@@ -168,11 +168,11 @@ function SingleChoice({ options, selected, checked, correctKey, onSelect, compac
       })}
     </div>
   );
-}
+});
 
 const OPTION_COLORS = ['#3b82f6','#e53935','#9c27b0','#f97316','#0d9488','#7c3aed'];
 
-function MultipleChoice({ options, selected, checked, correctKeys, onToggle, compact }: {
+const MultipleChoice = memo(function MultipleChoice({ options, selected, checked, correctKeys, onToggle, compact }: {
   options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void; compact?: boolean;
 }) {
   return (
@@ -233,7 +233,7 @@ function MultipleChoice({ options, selected, checked, correctKeys, onToggle, com
       })}
     </div>
   );
-}
+});
 
 function TrueFalse({ selected, checked, correctAnswer, onSelect }: {
   selected: string; checked: boolean; correctAnswer: boolean | null; onSelect: (val: string) => void;
@@ -510,7 +510,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
 
 const NUMBER_COLORS = ['#3b82f6', '#ef4444', '#6366f1', '#ec4899', '#f97316', '#8b5cf6', '#14b8a6', '#b91c1c'];
 
-function FillBlank({ questionText, blanks, answers, checked, correctMap, activeKey, onFocusBlank, onChange }: {
+const FillBlank = memo(function FillBlank({ questionText, blanks, answers, checked, correctMap, activeKey, onFocusBlank, onChange }: {
   questionText: string;
   blanks: OptionItem[];
   answers: Record<string, string>;
@@ -537,7 +537,7 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
     return m || /^[\s\d\W]{0,5}$/.test(p.trim()) || p.trim() === '';
   }) && parts.some((p) => /^\[b\d+\]$/.test(p));
 
-  let numColorIdx = 0;
+  const numColorIdx = 0;
 
   // Split into rows of max 6 tokens for train display
   const trainTokens = parts.filter((p) => p.trim() !== '' || /^\[b\d+\]$/.test(p));
@@ -749,14 +749,14 @@ function FillBlank({ questionText, blanks, answers, checked, correctMap, activeK
       )}
     </div>
   );
-}
+});
 
 // ─── NEW: TableFill (TableInteraction) ───────────────────────────────────────
 // optionsJson encodes table: first item key='headers' text='Col1|Col2|Col3'
 //   remaining items: key='rN' text='val1|_key1|_key2' (underscore prefix = blank cell, rest = static)
 // correctAnswerJson: { key1: 'answer', key2: 'answer' }
 
-function TableFill({ options, answers, checked, correctMap, activeKey, onFocus, onChange }: {
+const TableFill = memo(function TableFill({ options, answers, checked, correctMap, activeKey, onFocus, onChange }: {
   options: OptionItem[];
   answers: Record<string, string>;
   checked: boolean;
@@ -823,7 +823,7 @@ function TableFill({ options, answers, checked, correctMap, activeKey, onFocus, 
       </table>
     </div>
   );
-}
+});
 
 // ─── NEW: NumberLine (NumberLineInteraction) ──────────────────────────────────
 // optionsJson: [{ key:'min', text:'0' }, { key:'max', text:'20' }, { key:'step', text:'1' }]
@@ -1688,11 +1688,18 @@ let _ttsAudio: HTMLAudioElement | null = null;
 function speak(text: string) {
   const cleaned = preprocessTTS(text);
   if (!cleaned) return;
-  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio = null; }
+  stopSpeak();
   const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
   const audio = new Audio(url);
   _ttsAudio = audio;
   audio.play().catch(() => speakWebSpeech(cleaned));
+}
+
+function stopSpeak() {
+  if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio.src = ''; _ttsAudio = null; }
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
 }
 
 function speakWebSpeech(text: string) {
@@ -1776,16 +1783,29 @@ export default function QuizPlayPage({
   const correctAudio = useRef<HTMLAudioElement | null>(null);
   const wrongAudio = useRef<HTMLAudioElement | null>(null);
 
+  // Stop all audio when page unmounts (navigate away)
+  useEffect(() => {
+    return () => {
+      stopSpeak();
+      correctAudio.current?.pause();
+      wrongAudio.current?.pause();
+    };
+  }, []);
+
   useEffect(() => {
     if (!exercise || !soundOn) return;
     const qz = exercise.quizzes[current];
+    let a: HTMLAudioElement | null = null;
     if (qz?.questionAudioUrl) {
-      const a = new Audio(qz.questionAudioUrl);
+      a = new Audio(qz.questionAudioUrl);
       a.play().catch(() => {});
-      return () => { a.pause(); };
     } else if (qz?.questionText) {
       speak(qz.questionText);
     }
+    return () => {
+      if (a) { a.pause(); a.src = ''; }
+      stopSpeak();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, exercise?.exerciseNumber, soundOn]);
 
@@ -1801,51 +1821,81 @@ export default function QuizPlayPage({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, exercise?.exerciseNumber]);
 
+  // Cache fetched exercises so revisiting an exercise doesn't refetch
+  const exerciseCacheRef = useRef<Record<string, ExerciseData>>({});
+
+  // Fetch lesson + all-exercises list ONCE per lesson (not per exercise switch)
   useEffect(() => {
-    setLoading(true);
+    const fetchLesson = lessonIdProp
+      ? apiFetch<LessonMeta>(`/lessons/${lessonIdProp}`)
+      : apiFetch<LessonMeta>(`/lessons/slug/${lessonSlugProp}`);
+
+    let cancelled = false;
+    fetchLesson
+      .then((lessonData) => {
+        if (cancelled) return null;
+        const lid = String(lessonData.id);
+        setResolvedLessonId(lid);
+        setLesson(lessonData);
+        return apiFetch<AllExercisesData>(`/quizzes/exercises/${lid}`);
+      })
+      .then((allData) => {
+        if (cancelled || !allData) return;
+        setAllExercises(allData.exercises);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [lessonIdProp, lessonSlugProp]);
+
+  // Fetch the current exercise (uses cache when available)
+  useEffect(() => {
+    if (!resolvedLessonId) return;
     setCurrent(0);
     setChecked({});
     setScore(0);
     setShuffledOpts({});
 
-    const fetchLesson = lessonIdProp
-      ? apiFetch<LessonMeta>(`/lessons/${lessonIdProp}`)
-      : apiFetch<LessonMeta>(`/lessons/slug/${lessonSlugProp}`);
+    const cacheKey = `${resolvedLessonId}:${exerciseNumber}`;
+    const applyExercise = (exData: ExerciseData) => {
+      setExercise(exData);
+      const initDrag: Record<number, string[]> = {};
+      const initShuffle: Record<number, OptionItem[]> = {};
+      exData.quizzes.forEach((q) => {
+        if ((q.questionType === 'drag_drop' || q.questionType === 'sorting') && Array.isArray(q.optionsJson)) {
+          initDrag[q.id] = q.optionsJson.map((o) => o.key);
+        }
+        if (['single_choice', 'multiple_choice', 'image_choice', 'cross_out'].includes(q.questionType) && Array.isArray(q.optionsJson)) {
+          const arr = [...q.optionsJson];
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          initShuffle[q.id] = arr;
+        }
+      });
+      setShuffledOpts(initShuffle);
+      setDragOrder(initDrag);
+    };
 
-    fetchLesson
-      .then((lessonData) => {
-        const lid = String(lessonData.id);
-        setResolvedLessonId(lid);
-        setLesson(lessonData);
-        return Promise.all([
-          apiFetch<ExerciseData>(`/quizzes/exercises/${lid}/${exerciseNumber}`),
-          apiFetch<AllExercisesData>(`/quizzes/exercises/${lid}`),
-        ]);
-      })
-      .then(([exData, allData]) => {
-        setExercise(exData);
-        setAllExercises(allData.exercises);
-        const initDrag: Record<number, string[]> = {};
-        const initShuffle: Record<number, OptionItem[]> = {};
-        exData.quizzes.forEach((q) => {
-          if ((q.questionType === 'drag_drop' || q.questionType === 'sorting') && Array.isArray(q.optionsJson)) {
-            initDrag[q.id] = q.optionsJson.map((o) => o.key);
-          }
-          if (['single_choice', 'multiple_choice', 'image_choice', 'cross_out'].includes(q.questionType) && Array.isArray(q.optionsJson)) {
-            const arr = [...q.optionsJson];
-            for (let i = arr.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            initShuffle[q.id] = arr;
-          }
-        });
-        setShuffledOpts(initShuffle);
-        setDragOrder(initDrag);
+    const cached = exerciseCacheRef.current[cacheKey];
+    if (cached) {
+      applyExercise(cached);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    let cancelled = false;
+    apiFetch<ExerciseData>(`/quizzes/exercises/${resolvedLessonId}/${exerciseNumber}`)
+      .then((exData) => {
+        if (cancelled) return;
+        exerciseCacheRef.current[cacheKey] = exData;
+        applyExercise(exData);
       })
       .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [lessonIdProp, lessonSlugProp, exerciseNumber]);
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [resolvedLessonId, exerciseNumber]);
 
   const navigateToExercise = (num: number) => {
     const target = allExercises.find((e) => e.exerciseNumber === num);
@@ -1859,6 +1909,28 @@ export default function QuizPlayPage({
     }
   };
 
+  // ─── Derived values (memoized) — MUST be declared before any early return ──
+  const q = exercise?.quizzes[current];
+  const options: OptionItem[] = useMemo(
+    () => (q ? (shuffledOpts[q.id] ?? (Array.isArray(q.optionsJson) ? q.optionsJson : [])) : []),
+    [shuffledOpts, q],
+  );
+  const totalPoints = useMemo(
+    () => (exercise ? exercise.quizzes.reduce((s, qz) => s + (qz.points || 10), 0) : 0),
+    [exercise],
+  );
+  const { correctKey, correctKeys, correctBool, correctDragOrder, correctMatchMap } = useMemo(() => {
+    const cj = q?.correctAnswerJson;
+    return {
+      correctKey: typeof cj === 'string' ? cj : typeof cj === 'number' ? String(cj) : null,
+      correctKeys: Array.isArray(cj) ? (cj as string[]) : [],
+      correctBool: typeof cj === 'boolean' ? cj : null,
+      correctDragOrder: Array.isArray(cj) ? (cj as string[]) : [],
+      correctMatchMap: (typeof cj === 'object' && cj !== null && !Array.isArray(cj))
+        ? cj as Record<string, string> : {},
+    };
+  }, [q?.correctAnswerJson]);
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center"
@@ -1868,7 +1940,7 @@ export default function QuizPlayPage({
     );
   }
 
-  if (!exercise || exercise.quizzes.length === 0) {
+  if (!exercise || exercise.quizzes.length === 0 || !q) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4"
         style={{ background: 'linear-gradient(135deg, #2d5a1b 0%, #4a8c2a 50%, #3d7a22 100%)' }}>
@@ -1881,20 +1953,8 @@ export default function QuizPlayPage({
     );
   }
 
-  const q = exercise.quizzes[current];
-  const options: OptionItem[] = shuffledOpts[q.id] ?? (Array.isArray(q.optionsJson) ? q.optionsJson : []);
   const isChecked = !!checked[q.id];
   const diffColor = DIFF_COLOR[exercise.difficultyLevel] || '#E8871A';
-  const totalPoints = exercise.quizzes.reduce((s, qz) => s + (qz.points || 10), 0);
-
-  const correctKey = typeof q.correctAnswerJson === 'string' ? q.correctAnswerJson
-    : typeof q.correctAnswerJson === 'number' ? String(q.correctAnswerJson)
-    : null;
-  const correctKeys = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
-  const correctBool = typeof q.correctAnswerJson === 'boolean' ? q.correctAnswerJson : null;
-  const correctDragOrder = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
-  const correctMatchMap = (typeof q.correctAnswerJson === 'object' && q.correctAnswerJson !== null && !Array.isArray(q.correctAnswerJson))
-    ? q.correctAnswerJson as Record<string, string> : {};
 
   // ─── isAnswerCorrect ───────────────────────────────────────────────────────
 
@@ -2476,9 +2536,14 @@ export default function QuizPlayPage({
                 <NumberTrace
                   key={q.id}
                   number={(() => {
-                    const ans = q.correctAnswerJson as any;
+                    const ans = q.correctAnswerJson;
                     const fromText = (q.questionText || '').replace(/\D/g, '').slice(0, 2);
-                    return String(ans?.number ?? (typeof ans === 'string' || typeof ans === 'number' ? ans : '') ?? fromText ?? '0') || fromText || '0';
+                    if (typeof ans === 'string' || typeof ans === 'number') return String(ans) || fromText || '0';
+                    if (ans && typeof ans === 'object' && !Array.isArray(ans) && 'number' in ans) {
+                      const n = (ans as { number?: string | number }).number;
+                      if (n !== undefined) return String(n);
+                    }
+                    return fromText || '0';
                   })()}
                   onDone={() => {
                     setScore((s) => s + (q.points || 10));

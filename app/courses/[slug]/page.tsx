@@ -1,28 +1,43 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CourseDetailPage from '../../components/edu/CourseDetailPage';
+import type { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 type Props = { params: Promise<{ slug: string }> };
 
-async function fetchCourse(slug: string) {
+async function fetchJson<T>(path: string): Promise<T | null> {
   try {
-    const res = await fetch(`${API}/api/courses/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api${path}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
-    return res.json() as Promise<{
-      title: string; description?: string; shortDescription?: string; slug: string;
-      thumbnailUrl?: string; targetAgeMin?: number; targetAgeMax?: number;
-      totalLessons?: number; estimatedMinutes?: number;
-      lessons?: { title: string; slug: string; topicName?: string }[];
-    }>;
-  } catch (e) { console.error('[fetchCourse]', e); return null; }
+    return (await res.json()) as T;
+  } catch (e) {
+    console.error('[fetch]', path, e);
+    return null;
+  }
+}
+
+async function fetchCourseBundle(slug: string) {
+  const course = await fetchJson<ApiCourse>(`/courses/slug/${slug}`);
+  if (!course) return null;
+  const [lessons, volumes, topics] = await Promise.all([
+    fetchJson<ApiLesson[]>(`/lessons?courseId=${course.id}`),
+    fetchJson<ApiVolume[]>(`/volumes?courseId=${course.id}`),
+    fetchJson<ApiTopic[]>(`/topics?courseId=${course.id}`),
+  ]);
+  return {
+    course,
+    lessons: Array.isArray(lessons) ? lessons : [],
+    volumes: Array.isArray(volumes) ? volumes : [],
+    topics: Array.isArray(topics) ? topics : [],
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const course = await fetchCourse(slug);
+  const course = await fetchJson<ApiCourse>(`/courses/slug/${slug}`);
 
   const title = course ? `${course.title} | Bé Hay Học` : 'Khóa học | Bé Hay Học';
   const description = course?.description
@@ -49,9 +64,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const course = await fetchCourse(slug);
+  const bundle = await fetchCourseBundle(slug);
 
-  if (!course) notFound();
+  if (!bundle) notFound();
+  const { course, lessons, volumes, topics } = bundle;
 
   const jsonLd = course ? {
     '@context': 'https://schema.org',
@@ -96,28 +112,7 @@ export default async function Page({ params }: Props) {
       {breadcrumb && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       )}
-      {/* SSR content — crawlable by Google */}
-      {course && (
-        <div className="sr-only" aria-hidden="true">
-          <h1>{course.title}</h1>
-          {(course.shortDescription || course.description) && (
-            <p>{course.shortDescription || course.description}</p>
-          )}
-          {course.targetAgeMin && course.targetAgeMax && (
-            <p>Dành cho bé {course.targetAgeMin}–{course.targetAgeMax} tuổi</p>
-          )}
-          {course.totalLessons && <p>Tổng số bài học: {course.totalLessons} bài</p>}
-          {course.lessons && course.lessons.length > 0 && (
-            <ul>
-              {course.lessons.slice(0, 30).map((l) => (
-                <li key={l.slug}><a href={`/${l.slug}`}>{l.title}</a></li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-
-      <CourseDetailPage slug={slug} />
+      <CourseDetailPage slug={slug} initial={{ course, lessons, volumes, topics }} />
     </>
   );
 }

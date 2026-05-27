@@ -12,11 +12,14 @@ const KidsCtx = createContext(false);
 const useKids = () => useContext(KidsCtx);
 
 // Returns true if text looks like a number or math expression (not plain words)
-function isMathText(text: string): boolean {
-  return /^[\d\s+\-×÷*/:=<>≤≥≠.,()%^√π]+$/.test(text.trim());
+const MATH_CHARS_RE = /^[\d\s+*/:=<>≤≥≠.,()%^√π×÷-]+$/;
+function isMathText(text: string | undefined | null): boolean {
+  if (!text) return false;
+  return MATH_CHARS_RE.test(text.trim());
 }
 
-function formatMath(text: string): string {
+function formatMath(text: string | undefined | null): string {
+  if (!text) return '';
   if (!isMathText(text)) return text;
   return text
     .replace(/\s*([+\-×÷*/:=<>≤≥≠])\s*/g, ' $1 ')
@@ -113,7 +116,7 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
         const baseColor = OPTION_COLORS[idx % OPTION_COLORS.length];
         const animClass = isRight ? 'kid-bounce' : isWrong ? 'kid-shake' : '';
         return (
-          <button key={opt.key}
+          <button key={opt.key ?? `opt-${idx}`}
             onClick={() => { if (!checked) { onSelect(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
             style={{
               flexBasis: basis,
@@ -133,8 +136,11 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
             {(() => {
               const idx2 = options.indexOf(opt);
               const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : OPTION_COLORS[idx2 % OPTION_COLORS.length];
-              const isMath = isMathText(opt.text || opt.key);
-              const txt = opt.text || opt.key;
+              const rawTxt = typeof opt === 'string' || typeof opt === 'number'
+                ? String(opt)
+                : (opt?.text ?? opt?.key ?? '');
+              const txt = String(rawTxt) || String.fromCharCode(65 + idx2);
+              const isMath = isMathText(txt);
               // Short text (≤4 chars, no image) → render BIG like math
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
@@ -143,7 +149,7 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
                 : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
               return (
                 <div className="flex flex-col items-center gap-1 w-full">
-                  {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
+                  {opt.imageUrl && <img src={opt.imageUrl} alt={txt} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
                   <div className="flex items-center gap-2">
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
@@ -185,7 +191,7 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
         const optColor = isRight ? '#15803d' : isWrong ? '#b91c1c' : baseColor;
         const animClass = isRight ? 'kid-bounce' : isWrong ? 'kid-shake' : '';
         return (
-          <button key={opt.key}
+          <button key={opt.key ?? `opt-${idx}`}
             onClick={() => { if (!checked) { onToggle(opt.key); if (opt.audioUrl) playAudio(opt.audioUrl); else speak(opt.text); } }}
             style={{
               borderWidth: 3,
@@ -207,12 +213,13 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
             {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg ${compact ? 'max-h-14 mb-1' : 'max-h-24 mb-2'}`} />}
             {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
             {(() => {
-              const isMath = isMathText(opt.text);
-              const isShort = !opt.imageUrl && (opt.text || '').trim().length <= 4;
+              const txt = String(opt.text ?? opt.key ?? '');
+              const isMath = isMathText(txt);
+              const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
               const baseSize = compact
-                ? (opt.text.length > 8 ? 16 : opt.text.length > 5 ? 22 : opt.text.length > 3 ? 32 : 40)
-                : (opt.text.length > 11 ? 16 : opt.text.length > 8 ? 20 : opt.text.length > 5 ? 30 : opt.text.length > 3 ? 44 : 64);
+                ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
+                : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
               return (
                 <span style={{
                   fontSize: isBig ? baseSize : (compact ? 14 : 18),
@@ -223,7 +230,7 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
                   textAlign: 'center',
                   whiteSpace: 'nowrap',
                   lineHeight: 1.1,
-                }}>{formatMath(opt.text)}</span>
+                }}>{formatMath(txt)}</span>
               );
             })()}
             {isRight && !isSel && <span className="absolute top-3 right-3 text-green-500 font-black text-base">✓</span>}
@@ -429,7 +436,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             const isWrong = checked && !!matched && correctMap[opt.key] !== matched;
             const col = OPTION_COLORS[idx % OPTION_COLORS.length];
             return (
-              <button key={opt.key} ref={(el) => { leftRefs.current[idx] = el; }}
+              <button key={opt.key ?? `opt-${idx}`} ref={(el) => { leftRefs.current[idx] = el; }}
                 onClick={() => { if (!checked) setSelectedLeft((prev) => prev === opt.key ? null : opt.key); }}
                 style={{
                   borderWidth: 3, borderStyle: 'solid',
@@ -1057,7 +1064,7 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
           const col = OPTION_COLORS[idx % OPTION_COLORS.length];
           const isMath = isMathText(opt.text);
           return (
-            <button key={opt.key} onClick={() => !checked && onToggle(opt.key)}
+            <button key={opt.key ?? `opt-${idx}`} onClick={() => !checked && onToggle(opt.key)}
               style={{
                 borderWidth: 3, borderStyle: 'solid',
                 borderColor: isCorrect && isCrossed ? '#22c55e' : isCorrect ? '#22c55e' : isWrong ? '#ef4444' : isCrossed ? '#9ca3af' : '#f0b429',
@@ -1240,7 +1247,7 @@ function Puzzle({ options, answers, checked, correctMap, onChange, correctKey, s
           const isOk = checked && opt.key === correctKey;
           const isWrong = checked && isSel && opt.key !== correctKey;
           return (
-            <button key={opt.key} onClick={() => !checked && onSelect?.(opt.key)}
+            <button key={opt.key ?? `opt-${idx}`} onClick={() => !checked && onSelect?.(opt.key)}
               className="w-full flex items-center gap-4 pl-3 pr-10 py-4 rounded-2xl transition-all relative text-left"
               style={{
                 background: isOk ? '#f0fdf4' : isWrong ? '#fef2f2' : isSel ? `${col}15` : '#f8fafc',
@@ -1834,16 +1841,23 @@ export default function QuizPlayPage({
     fetchLesson
       .then((lessonData) => {
         if (cancelled) return null;
+        if (!lessonData || !lessonData.id) {
+          setLoading(false);
+          return null;
+        }
         const lid = String(lessonData.id);
         setResolvedLessonId(lid);
         setLesson(lessonData);
-        return apiFetch<AllExercisesData>(`/quizzes/exercises/${lid}`);
+        return apiFetch<AllExercisesData>(`/quizzes/exercises/${lid}`).catch(() => null);
       })
       .then((allData) => {
         if (cancelled || !allData) return;
         setAllExercises(allData.exercises);
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error('[QuizPlayPage] lesson fetch failed:', err);
+        if (!cancelled) setLoading(false);
+      });
     return () => { cancelled = true; };
   }, [lessonIdProp, lessonSlugProp]);
 

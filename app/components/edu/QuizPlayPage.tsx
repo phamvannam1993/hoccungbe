@@ -1644,8 +1644,58 @@ function numToVi(n: number): string {
   return String(n);
 }
 
+// Bảng các viết tắt thường dùng → cách đọc đúng
+const ABBREVIATIONS: [RegExp, string][] = [
+  // Hình học
+  [/\bHCN\b/g, 'hình chữ nhật'],
+  [/\bHV\b/g, 'hình vuông'],
+  [/\bHTG\b/g, 'hình tam giác'],
+  [/\bHTR\b/g, 'hình tròn'],
+  [/\bHT\b/g, 'hình thoi'],
+  [/\bĐT\b/g, 'đoạn thẳng'],
+  // Đơn vị đo
+  [/(\d+)\s*cm²/gi, '$1 xăng ti mét vuông'],
+  [/(\d+)\s*m²/gi, '$1 mét vuông'],
+  [/(\d+)\s*km²/gi, '$1 ki lô mét vuông'],
+  [/(\d+)\s*km(?![a-zA-Zà-ỹ])/gi, '$1 ki lô mét'],
+  [/(\d+)\s*dm(?![a-zA-Zà-ỹ])/gi, '$1 đề xi mét'],
+  [/(\d+)\s*cm(?![a-zA-Zà-ỹ])/gi, '$1 xăng ti mét'],
+  [/(\d+)\s*mm(?![a-zA-Zà-ỹ])/gi, '$1 mi li mét'],
+  [/(\d+)\s*ml(?![a-zA-Zà-ỹ])/gi, '$1 mi li lít'],
+  [/(\d+)\s*kg(?![a-zA-Zà-ỹ])/gi, '$1 ki lô gam'],
+  [/(\d+)\s*g(?![a-zA-Zà-ỹ])/gi, '$1 gam'],
+  [/(\d+)\s*°C/g, '$1 độ C'],
+  [/°C/g, ' độ C'],
+  // Đơn vị tiền/khác
+  [/(\d+)\s*đ(?![a-zA-Zà-ỹ])/gi, '$1 đồng'],
+  [/(\d+)\s*k(?![a-zA-Zà-ỹ])/gi, '$1 nghìn đồng'],
+  // Thời gian viết tắt
+  [/\bg\.?\s*sau\b/gi, 'giờ sau'],
+  [/\bp\b/g, 'phút'],
+  [/\bs\b/g, 'giây'],
+  // Số La Mã thường gặp
+  [/\bXII\b/g, 'mười hai'],
+  [/\bXI\b/g, 'mười một'],
+  [/\bIX\b/g, 'chín'],
+  [/\bVIII\b/g, 'tám'],
+  [/\bVII\b/g, 'bảy'],
+  [/\bVI\b/g, 'sáu'],
+  [/\bIV\b/g, 'bốn'],
+  [/\bIII\b/g, 'ba'],
+  [/\bII\b/g, 'hai'],
+  // Thứ tự (tuần)
+  [/\bT(\d)\b/g, 'thứ $1'],
+  [/\bCN\b/g, 'chủ nhật'],
+  // Học sinh
+  [/\bHS\b/g, 'học sinh'],
+];
+
 function preprocessTTS(text: string): string {
-  return text
+  let processed = text;
+  for (const [re, replacement] of ABBREVIATIONS) {
+    processed = processed.replace(re, replacement);
+  }
+  return processed
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
     // Compare pattern: "Dấu nào đúng? X _ Y" → "X lớn hơn, bé hơn hay bằng Y?"
     .replace(/[Dd]ấu\s+nào\s+đúng\?\s*(\d+)\s*_\s*(\d+)/g, (_m, a, b) =>
@@ -1673,6 +1723,8 @@ function preprocessTTS(text: string): string {
     .replace(/\[\?\]/g, 'như thế nào so với')
     .replace(/_{2,}/g, 'mấy')
     .replace(/_/g, 'mấy')
+    // "= ?" → "bằng bao nhiêu" (đọc tự nhiên hơn)
+    .replace(/=\s*\?/g, ' bằng bao nhiêu')
     .replace(/\?/g, '')
     .replace(/(?<!\d)(\d)[-−–](\d)/g, '$1 đến $2')
     .replace(/[+＋]/g, ' cộng ')

@@ -1644,58 +1644,8 @@ function numToVi(n: number): string {
   return String(n);
 }
 
-// Bảng các viết tắt thường dùng → cách đọc đúng
-const ABBREVIATIONS: [RegExp, string][] = [
-  // Hình học
-  [/\bHCN\b/g, 'hình chữ nhật'],
-  [/\bHV\b/g, 'hình vuông'],
-  [/\bHTG\b/g, 'hình tam giác'],
-  [/\bHTR\b/g, 'hình tròn'],
-  [/\bHT\b/g, 'hình thoi'],
-  [/\bĐT\b/g, 'đoạn thẳng'],
-  // Đơn vị đo
-  [/(\d+)\s*cm²/gi, '$1 xăng ti mét vuông'],
-  [/(\d+)\s*m²/gi, '$1 mét vuông'],
-  [/(\d+)\s*km²/gi, '$1 ki lô mét vuông'],
-  [/(\d+)\s*km(?![a-zA-Zà-ỹ])/gi, '$1 ki lô mét'],
-  [/(\d+)\s*dm(?![a-zA-Zà-ỹ])/gi, '$1 đề xi mét'],
-  [/(\d+)\s*cm(?![a-zA-Zà-ỹ])/gi, '$1 xăng ti mét'],
-  [/(\d+)\s*mm(?![a-zA-Zà-ỹ])/gi, '$1 mi li mét'],
-  [/(\d+)\s*ml(?![a-zA-Zà-ỹ])/gi, '$1 mi li lít'],
-  [/(\d+)\s*kg(?![a-zA-Zà-ỹ])/gi, '$1 ki lô gam'],
-  [/(\d+)\s*g(?![a-zA-Zà-ỹ])/gi, '$1 gam'],
-  [/(\d+)\s*°C/g, '$1 độ C'],
-  [/°C/g, ' độ C'],
-  // Đơn vị tiền/khác
-  [/(\d+)\s*đ(?![a-zA-Zà-ỹ])/gi, '$1 đồng'],
-  [/(\d+)\s*k(?![a-zA-Zà-ỹ])/gi, '$1 nghìn đồng'],
-  // Thời gian viết tắt
-  [/\bg\.?\s*sau\b/gi, 'giờ sau'],
-  [/\bp\b/g, 'phút'],
-  [/\bs\b/g, 'giây'],
-  // Số La Mã thường gặp
-  [/\bXII\b/g, 'mười hai'],
-  [/\bXI\b/g, 'mười một'],
-  [/\bIX\b/g, 'chín'],
-  [/\bVIII\b/g, 'tám'],
-  [/\bVII\b/g, 'bảy'],
-  [/\bVI\b/g, 'sáu'],
-  [/\bIV\b/g, 'bốn'],
-  [/\bIII\b/g, 'ba'],
-  [/\bII\b/g, 'hai'],
-  // Thứ tự (tuần)
-  [/\bT(\d)\b/g, 'thứ $1'],
-  [/\bCN\b/g, 'chủ nhật'],
-  // Học sinh
-  [/\bHS\b/g, 'học sinh'],
-];
-
 function preprocessTTS(text: string): string {
-  let processed = text;
-  for (const [re, replacement] of ABBREVIATIONS) {
-    processed = processed.replace(re, replacement);
-  }
-  return processed
+  return text
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
     // Compare pattern: "Dấu nào đúng? X _ Y" → "X lớn hơn, bé hơn hay bằng Y?"
     .replace(/[Dd]ấu\s+nào\s+đúng\?\s*(\d+)\s*_\s*(\d+)/g, (_m, a, b) =>
@@ -1723,8 +1673,6 @@ function preprocessTTS(text: string): string {
     .replace(/\[\?\]/g, 'như thế nào so với')
     .replace(/_{2,}/g, 'mấy')
     .replace(/_/g, 'mấy')
-    // "= ?" → "bằng bao nhiêu" (đọc tự nhiên hơn)
-    .replace(/=\s*\?/g, ' bằng bao nhiêu')
     .replace(/\?/g, '')
     .replace(/(?<!\d)(\d)[-−–](\d)/g, '$1 đến $2')
     .replace(/[+＋]/g, ' cộng ')
@@ -1751,12 +1699,32 @@ function speak(text: string) {
   const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
   const audio = new Audio(url);
   _ttsAudio = audio;
-  // Nếu API TTS lỗi thì im lặng, không fallback sang giọng web
-  audio.play().catch(() => { _ttsAudio = null; });
+  audio.play().catch(() => speakWebSpeech(cleaned));
 }
 
 function stopSpeak() {
   if (_ttsAudio) { _ttsAudio.pause(); _ttsAudio.src = ''; _ttsAudio = null; }
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+function speakWebSpeech(text: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'vi-VN'; u.rate = 0.85; u.pitch = 1.0;
+  const VI_PRIORITY = ['Google tiếng Việt', 'Google Vietnamese', 'vi-VN-Neural2', 'vi-VN-Wavenet', 'Microsoft An Online'];
+  const go = () => {
+    const vi = window.speechSynthesis.getVoices().filter((v) => v.lang.startsWith('vi'));
+    if (vi.length) {
+      const match = VI_PRIORITY.map((n) => vi.find((v) => v.name.includes(n))).find(Boolean);
+      u.voice = match ?? vi.find((v) => !v.localService) ?? vi[0];
+    }
+    window.speechSynthesis.speak(u);
+  };
+  if (window.speechSynthesis.getVoices().length > 0) go();
+  else { window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; go(); }; }
 }
 
 const ENCOURAGE_CORRECT = ['Xuất sắc!', 'Tuyệt vời!', 'Giỏi lắm!', 'Chính xác!', 'Bạn thật thông minh!'];
@@ -2735,4 +2703,3 @@ export default function QuizPlayPage({
     </div>
   );
 }
-

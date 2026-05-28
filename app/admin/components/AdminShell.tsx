@@ -21,6 +21,7 @@ import {
   Tag,
   Newspaper,
   MessageSquare,
+  ClipboardList,
 } from 'lucide-react';
 
 const navItems = [
@@ -37,6 +38,7 @@ const navItems = [
   { href: '/admin/rewards', label: 'Phần thưởng', icon: Star },
   { href: '/admin/subscriptions', label: 'Đăng ký', icon: CreditCard },
   { href: '/admin/articles', label: 'Bài viết', icon: Newspaper },
+  { href: '/admin/exams', label: 'Đề thi', icon: ClipboardList },
   { href: '/admin/feedback', label: 'Góp ý', icon: MessageSquare },
 ];
 

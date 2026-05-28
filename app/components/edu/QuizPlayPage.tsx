@@ -130,8 +130,14 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               transform: isSel && !checked ? 'translateY(-2px)' : 'translateY(0)',
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
+              // Ép cứng căn giữa cả 2 trục
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
             }}
-            className={`relative flex flex-col items-center justify-center overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-3 py-3' : 'min-h-[130px] px-3 py-6'}`}
+            className={`relative overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-3 py-2' : 'min-h-[130px] px-3 py-2'}`}
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -147,21 +153,27 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               const baseSize = compact
                 ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
                 : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
+              // Mobile: dùng clamp để font tự co theo viewport, đảm bảo số như "518" không bị tách dòng
+              const fontSizeCss = isBig
+                ? `clamp(${Math.round(baseSize * 0.55)}px, ${(baseSize / 6).toFixed(1)}vw, ${baseSize}px)`
+                : (compact ? '14px' : '18px');
               return (
-                <div className="flex flex-col items-center gap-1 w-full">
+                <div className="flex flex-col items-center justify-center gap-1 w-full min-w-0">
                   {opt.imageUrl && <img src={opt.imageUrl} alt={txt} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2 min-w-0 max-w-full w-full">
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
-                      fontSize: isBig ? baseSize : (compact ? 14 : 18),
+                      fontSize: fontSizeCss,
                       fontWeight: isBig ? 900 : 700,
                       color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                      textShadow: isBig && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                      textShadow: isBig && !checked && !isSel ? `1px 2px 0 ${optColor}55` : undefined,
                       letterSpacing: '-0.5px',
                       textAlign: 'center',
-                      whiteSpace: 'pre-wrap',
-                      wordBreak: 'break-word',
-                      lineHeight: 1.1,
+                      whiteSpace: isBig ? 'nowrap' : 'pre-wrap',
+                      wordBreak: isBig ? 'keep-all' : 'break-word',
+                      lineHeight: 1,                // 1 thay vì 1.1 để bỏ khoảng dư trên/dưới
+                      maxWidth: '100%',
+                      display: 'inline-block',
                     }}>{formatMath(txt)}</span>
                   </div>
                 </div>
@@ -220,9 +232,12 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
               const baseSize = compact
                 ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
                 : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
+              const fontSizeCss = isBig
+                ? `clamp(${Math.round(baseSize * 0.55)}px, ${(baseSize / 6).toFixed(1)}vw, ${baseSize}px)`
+                : (compact ? '14px' : '18px');
               return (
                 <span style={{
-                  fontSize: isBig ? baseSize : (compact ? 14 : 18),
+                  fontSize: fontSizeCss,
                   fontWeight: isBig ? 900 : 700,
                   color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                   textShadow: isBig && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
@@ -230,6 +245,8 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
                   textAlign: 'center',
                   whiteSpace: 'nowrap',
                   lineHeight: 1.1,
+                  display: 'block',
+                  width: '100%',
                 }}>{formatMath(txt)}</span>
               );
             })()}

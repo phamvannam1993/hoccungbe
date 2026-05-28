@@ -1781,6 +1781,7 @@ export default function QuizPlayPage({
   const [puzzleAns, setPuzzleAns] = useState<Record<number, Record<string, string>>>({});
   const [gameComplete, setGameComplete] = useState<Record<number, boolean>>({});
   const [countingAns, setCountingAns] = useState<Record<number, Record<string, string>>>({});
+  const [traceScores, setTraceScores] = useState<Record<number, number>>({});
 
   const [shuffledOpts, setShuffledOpts] = useState<Record<number, OptionItem[]>>({});
   const [celebrate, setCelebrate] = useState<'correct' | 'wrong' | null>(null);
@@ -2169,7 +2170,7 @@ export default function QuizPlayPage({
         return Object.entries(cm).every(([k, v]) => ans[k] === v);
       }
       case 'game': return gameComplete[qz.id] ?? false;
-      case 'trace_number': return true; // always correct
+      case 'trace_number': return (traceScores[qz.id] ?? 0) >= 0.5;
       case 'counting': {
         const ans = countingAns[qz.id] ?? {};
         const ck = typeof qz.correctAnswerJson === 'string' && qz.correctAnswerJson !== '' ? qz.correctAnswerJson : null;
@@ -2559,12 +2560,55 @@ export default function QuizPlayPage({
                     }
                     return fromText || '0';
                   })()}
-                  onDone={() => {
-                    setScore((s) => s + (q.points || 10));
+                  onDone={(scoreRatio) => {
+                    const earned = Math.round((q.points || 10) * scoreRatio);
+                    setScore((s) => s + earned);
+                    setTraceScores((prev) => ({ ...prev, [q.id]: scoreRatio }));
                     setChecked((prev) => ({ ...prev, [q.id]: true }));
+
+                    // Hiệu ứng + giọng đọc giống các câu khác (≥ 0.5 = đạt)
+                    if (scoreRatio >= 0.5) {
+                      try {
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FF6B9D','#FFD93D','#4ECDC4','#A06CD5','#6BCB77'] });
+                      } catch {}
+                      const msg = ENCOURAGE_CORRECT[Math.floor(Math.random() * ENCOURAGE_CORRECT.length)];
+                      setCelebrateMsg(msg);
+                      setCelebrate('correct');
+                      setTimeout(() => setCelebrate(null), 1800);
+                      if (soundOn) { correctAudio.current?.play().catch(() => {}); setTimeout(() => speak(msg), 600); }
+                    } else {
+                      const msg = ENCOURAGE_WRONG[Math.floor(Math.random() * ENCOURAGE_WRONG.length)];
+                      setCelebrateMsg(msg);
+                      setCelebrate('wrong');
+                      setTimeout(() => setCelebrate(null), 1800);
+                      if (soundOn) { wrongAudio.current?.play().catch(() => {}); setTimeout(() => speak(msg), 600); }
+                    }
                   }}
                 />
               )}
+              {isTraceQuestion && isChecked && (() => {
+                const ratio = traceScores[q.id] ?? 0;
+                const earned = Math.round((q.points || 10) * ratio);
+                const total = q.points || 10;
+                const label = ratio >= 1 ? '🌟 Tuyệt vời!' : ratio >= 0.8 ? '😊 Tốt lắm!' : ratio >= 0.5 ? '👍 Khá rồi!' : '💪 Cần tô kỹ hơn nhé!';
+                const bg = ratio >= 1
+                  ? 'from-green-300 to-emerald-400 border-green-500 text-green-900'
+                  : ratio >= 0.8
+                    ? 'from-lime-200 to-green-300 border-green-400 text-green-900'
+                    : ratio >= 0.5
+                      ? 'from-yellow-200 to-amber-300 border-amber-500 text-amber-900'
+                      : 'from-red-200 to-pink-300 border-red-400 text-red-900';
+                const emoji = ratio >= 1 ? '🎉' : ratio >= 0.8 ? '😊' : ratio >= 0.5 ? '🤔' : '😕';
+                return (
+                  <div className={`mb-3 px-4 py-3 rounded-2xl text-sm flex items-start gap-3 border-4 bg-gradient-to-r ${bg} kid-pop-in`}>
+                    <span className="text-3xl shrink-0 mt-0.5">{emoji}</span>
+                    <div>
+                      <p className="font-bold text-base">{label}</p>
+                      <p className="opacity-80 leading-snug">Bạn được <b>{earned}/{total}</b> điểm cho câu tô số này.</p>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Explanation */}

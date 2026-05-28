@@ -44,9 +44,9 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
             ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
             : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-5xl">📝</div>
           }
-          {article.category && (
+          {article.category && CATEGORY_LABEL[article.category] && (
             <span className="absolute top-3 left-3 bg-[#c0392b] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow">
-              {CATEGORY_LABEL[article.category] || article.category}
+              {CATEGORY_LABEL[article.category]}
             </span>
           )}
         </div>
@@ -75,9 +75,9 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
           ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
           : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-3xl">📝</div>
         }
-        {article.category && (
+        {article.category && CATEGORY_LABEL[article.category] && (
           <span className="absolute top-2 left-2 bg-[#c0392b] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-            {CATEGORY_LABEL[article.category] || article.category}
+            {CATEGORY_LABEL[article.category]}
           </span>
         )}
       </div>

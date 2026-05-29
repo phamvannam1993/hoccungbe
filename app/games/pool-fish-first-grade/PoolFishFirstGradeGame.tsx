@@ -17,6 +17,19 @@ export default function PoolFishFirstGradeGame() {
   const [gameOver, setGameOver] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const lastSpokenRound = useRef<number>(-1);
+  const poolRef = useRef<HTMLDivElement>(null);
+  const [sceneScale, setSceneScale] = useState(1);
+  const VW = 1000;
+
+  useEffect(() => {
+    const update = () => {
+      const w = poolRef.current?.clientWidth ?? VW;
+      setSceneScale(w / VW);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const level = useMemo(() => generateLevel(round, prevAnswer), [round, prevAnswer]);
   const answer = getAnswer(level);
@@ -136,37 +149,40 @@ export default function PoolFishFirstGradeGame() {
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        <div className={styles.pool}>
-          {!audioUnlocked && (
-            <div className={styles.startOverlay}>
-              <div className={styles.gameOverBox}>
-                <div className={styles.gameOverTitle}>🐟 Cá trong hồ bơi</div>
-                <ul className={styles.instructions}>
-                  <li>👀 Quan sát <strong>số cá</strong> đang bơi trong hồ.</li>
-                  <li>➕ Theo dõi cá <strong>bơi tới</strong> hoặc <strong>bơi đi</strong>.</li>
-                  <li>✅ Chọn đúng số cá → sang câu mới.</li>
-                  <li>❌ Chọn sai → kết thúc, bấm <strong>Chơi lại</strong>.</li>
-                </ul>
-                <button className={styles.startButton} onClick={handleStart}>
-                  ▶ Bắt đầu chơi
-                </button>
-              </div>
+        {!audioUnlocked && (
+          <div className={styles.startOverlay}>
+            <div className={styles.gameOverBox}>
+              <div className={styles.gameOverTitle}>🐟 Cá trong hồ bơi</div>
+              <ul className={styles.instructions}>
+                <li>👀 Quan sát <strong>số cá</strong> đang bơi trong hồ.</li>
+                <li>➕ Theo dõi cá <strong>bơi tới</strong> hoặc <strong>bơi đi</strong>.</li>
+                <li>✅ Chọn đúng số cá → sang câu mới.</li>
+                <li>❌ Chọn sai → kết thúc, bấm <strong>Chơi lại</strong>.</li>
+              </ul>
+              <button className={styles.startButton} onClick={handleStart}>
+                ▶ Bắt đầu chơi
+              </button>
             </div>
-          )}
-          {gameOver && (
-            <div className={styles.startOverlay}>
-              <div className={styles.gameOverBox}>
-                <div className={styles.gameOverTitle}>Trò chơi kết thúc</div>
-                <div className={styles.gameOverScore}>
-                  Bạn đã trả lời đúng <strong>{bestRound}</strong> vòng
-                </div>
-                <button className={styles.startButton} onClick={handleRestart}>
-                  ↻ Chơi lại
-                </button>
+          </div>
+        )}
+        {gameOver && (
+          <div className={styles.startOverlay}>
+            <div className={styles.gameOverBox}>
+              <div className={styles.gameOverTitle}>Trò chơi kết thúc</div>
+              <div className={styles.gameOverScore}>
+                Bạn đã trả lời đúng <strong>{bestRound}</strong> vòng
               </div>
+              <button className={styles.startButton} onClick={handleRestart}>
+                ↻ Chơi lại
+              </button>
             </div>
-          )}
-
+          </div>
+        )}
+        <div className={styles.pool} ref={poolRef}>
+          <div
+            className={styles.stage}
+            style={{ width: VW, height: 500, transform: `scale(${sceneScale})`, transformOrigin: 'top left' }}
+          >
           <div className={styles.waterGlow} />
           <div className={styles.poolRim} />
           <div className={styles.lightOne} />
@@ -228,6 +244,7 @@ export default function PoolFishFirstGradeGame() {
           <div className={styles.sceneActions}>
             <button onClick={replay}>↻ Xem lại</button>
           </div>
+          </div>{/* end .stage */}
         </div>
 
         <div className={styles.questionPanel}>

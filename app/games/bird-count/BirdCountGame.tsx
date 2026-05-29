@@ -36,6 +36,7 @@ export default function BirdCountGame() {
   const [replayKey, setReplayKey] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [message, setMessage] = useState("Quan sát chim bay qua màn hình rồi chọn đáp án.");
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   const question = birdCountQuestions[questionIndex];
   const isAnswered = selectedAnswer !== null;
@@ -54,16 +55,21 @@ export default function BirdCountGame() {
     });
   }, [question.birdCount, replayKey]);
 
+
   useEffect(() => {
     setSelectedAnswer(null);
-    setMessage("Quan sát chim bay qua màn hình rồi chọn đáp án.");
+    const intro = "Quan sát chim bay qua màn hình rồi chọn đáp án.";
+    setMessage(intro);
+    if (audioUnlocked) speakText(intro, { lang: "vi-VN", rate: 0.95 });
 
     const timer = window.setTimeout(() => {
-      setMessage("Bây giờ hãy chọn số chim bạn vừa thấy.");
+      const prompt = "Bây giờ hãy chọn số chim bạn vừa thấy.";
+      setMessage(prompt);
+      if (audioUnlocked) speakText(prompt, { lang: "vi-VN", rate: 0.95 });
     }, 3400);
 
     return () => window.clearTimeout(timer);
-  }, [questionIndex, replayKey]);
+  }, [questionIndex, replayKey, audioUnlocked]);
 
   const handleChoose = (answer: number) => {
     if (isAnswered) return;
@@ -97,9 +103,21 @@ export default function BirdCountGame() {
     return () => stopSpeaking();
   }, []);
 
+  const handleStart = () => {
+    setAudioUnlocked(true);
+    speakText("Quan sát chim bay qua màn hình rồi chọn đáp án.", { lang: "vi-VN", rate: 0.95 });
+  };
+
   return (
     <main className={styles.app}>
       <section className={styles.game}>
+        {!audioUnlocked && (
+          <div className={styles.startOverlay}>
+            <button className={styles.startButton} onClick={handleStart}>
+              ▶ Bắt đầu
+            </button>
+          </div>
+        )}
         <div className={styles.scene}>
           <div className={styles.leftHill} />
           <div className={styles.treeTopLeft} />

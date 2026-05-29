@@ -107,6 +107,14 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void; compact?: boolean;
 }) {
   const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
+  // Tính font size CHUNG cho mọi đáp án dựa trên đáp án dài nhất → tất cả thẻ cùng size
+  const maxLen = Math.max(...options.map((o) => {
+    const t = typeof o === 'string' || typeof o === 'number' ? String(o) : String(o?.text ?? o?.key ?? '');
+    return formatMath(t).length;
+  }), 1);
+  const sharedBaseSize = compact
+    ? (maxLen > 10 ? 18 : maxLen > 7 ? 26 : maxLen > 4 ? 34 : 42)
+    : (maxLen > 14 ? 20 : maxLen > 10 ? 28 : maxLen > 7 ? 38 : maxLen > 4 ? 50 : 64);
   return (
     <div className={`flex flex-wrap justify-center ${compact ? 'gap-2' : 'gap-3'}`}>
       {options.map((opt, idx) => {
@@ -150,12 +158,13 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               // Short text (≤4 chars, no image) → render BIG like math
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
-              const baseSize = compact
-                ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
-                : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
-              // Mobile: dùng clamp để font tự co theo viewport, đảm bảo số như "518" không bị tách dòng
+              // Dùng sharedBaseSize → tất cả đáp án cùng font size
+              // Font tự co theo viewport: min 50% baseSize, scale theo % cards trên màn hình
+              // 2 cột → vw/13, 3 cột → vw/16
+              const colCount = options.length === 3 ? 3 : 2;
+              const vwFactor = colCount === 3 ? 18 : 13;
               const fontSizeCss = isBig
-                ? `clamp(${Math.round(baseSize * 0.55)}px, ${(baseSize / 6).toFixed(1)}vw, ${baseSize}px)`
+                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, calc(100vw / ${vwFactor}), ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
               return (
                 <div className="flex flex-col items-center justify-center gap-1 w-full min-w-0">
@@ -193,6 +202,11 @@ const OPTION_COLORS = ['#3b82f6','#e53935','#9c27b0','#f97316','#0d9488','#7c3ae
 const MultipleChoice = memo(function MultipleChoice({ options, selected, checked, correctKeys, onToggle, compact }: {
   options: OptionItem[]; selected: string[]; checked: boolean; correctKeys: string[]; onToggle: (key: string) => void; compact?: boolean;
 }) {
+  // Font size chung cho tất cả đáp án dựa trên option dài nhất
+  const maxLen = Math.max(...options.map((o) => formatMath(String(o?.text ?? o?.key ?? '')).length), 1);
+  const sharedBaseSize = compact
+    ? (maxLen > 10 ? 18 : maxLen > 7 ? 26 : maxLen > 4 ? 34 : 42)
+    : (maxLen > 14 ? 20 : maxLen > 10 ? 28 : maxLen > 7 ? 38 : maxLen > 4 ? 50 : 64);
   return (
     <div className={`grid ${compact ? 'gap-2' : 'gap-4'} ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
       {options.map((opt, idx) => {
@@ -229,11 +243,12 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
               const isMath = isMathText(txt);
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
-              const baseSize = compact
-                ? (txt.length > 8 ? 16 : txt.length > 5 ? 22 : txt.length > 3 ? 32 : 40)
-                : (txt.length > 11 ? 16 : txt.length > 8 ? 20 : txt.length > 5 ? 30 : txt.length > 3 ? 44 : 64);
+              // Font tự co theo viewport: min 50% baseSize, scale theo % cards trên màn hình
+              // 2 cột → vw/13, 3 cột → vw/16
+              const colCount = options.length === 3 ? 3 : 2;
+              const vwFactor = colCount === 3 ? 18 : 13;
               const fontSizeCss = isBig
-                ? `clamp(${Math.round(baseSize * 0.55)}px, ${(baseSize / 6).toFixed(1)}vw, ${baseSize}px)`
+                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, calc(100vw / ${vwFactor}), ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
               return (
                 <span style={{
@@ -1096,7 +1111,7 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
               }}
             >
               <span style={{
-                fontSize: isMath ? 36 : 18,
+                fontSize: isMath ? 'clamp(20px, 6vw, 36px)' : 18,
                 fontWeight: 900,
                 color: isCrossed ? '#9ca3af' : isCorrect ? '#15803d' : isWrong ? '#b91c1c' : col,
                 textDecorationLine: isCrossed ? 'line-through' : 'none',
@@ -1104,6 +1119,10 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
                 textDecorationThickness: '3px',
                 textShadow: !isCrossed && !checked ? `1px 2px 0 ${col}44` : undefined,
                 opacity: isCrossed ? 0.5 : 1,
+                whiteSpace: 'nowrap',
+                lineHeight: 1,
+                display: 'inline-block',
+                maxWidth: '100%',
               }}>{formatMath(opt.text)}</span>
               {/* Cross lines when crossed */}
               {isCrossed && !checked && (
@@ -1933,9 +1952,9 @@ export default function QuizPlayPage({
     const target = allExercises.find((e) => e.exerciseNumber === num);
     if (!target) return;
     if (lesson?.slug) {
-      router.push(
-        buildExerciseUrl(lesson.slug, resolvedLessonId, target.difficultyLevel as 'easy' | 'medium' | 'hard') + `?ex=${num}`,
-      );
+      // Reload trang để state reset hoàn toàn (tránh lỗi router.push không refetch)
+      const url = buildExerciseUrl(lesson.slug, resolvedLessonId, target.difficultyLevel as 'easy' | 'medium' | 'hard') + `?ex=${num}`;
+      window.location.href = url;
     } else {
       setExerciseNumber(num);
     }
@@ -2659,13 +2678,26 @@ export default function QuizPlayPage({
                   style={{ background: 'linear-gradient(135deg, #60a5fa, #A06CD5)', boxShadow: '0 6px 0 #6d28d9, 0 8px 16px rgba(160,108,213,0.4)' }}>
                   🚀 Câu tiếp theo
                 </button>
-              ) : (
-                <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
-                  className="kid-btn-3d text-base inline-block text-center"
-                  style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
-                  🏆 Hoàn thành! Quay lại
-                </Link>
-              ))}
+              ) : (() => {
+                // Tìm bài tiếp theo trong allExercises
+                const nextEx = allExercises.find((e) => e.exerciseNumber === exerciseNumber + 1);
+                if (nextEx) {
+                  return (
+                    <button onClick={() => navigateToExercise(nextEx.exerciseNumber)}
+                      className="kid-btn-3d text-base"
+                      style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
+                      🚀 Bài tiếp theo
+                    </button>
+                  );
+                }
+                return (
+                  <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
+                    className="kid-btn-3d text-base inline-block text-center"
+                    style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
+                    🏆 Hoàn thành! Quay lại
+                  </Link>
+                );
+              })())}
             </div>
 
             {/* Virtual keyboard */}

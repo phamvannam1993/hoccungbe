@@ -196,7 +196,7 @@ export default async function HomePage() {
             {([
               { emoji: '🐰', title: 'Thỏ vào hang', age: '3–7 tuổi', href: '/tro-choi/tho-vao-hang', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
               { emoji: '🥕', title: 'Thỏ cắp cà rốt', age: '3–7 tuổi', href: '/tro-choi/tho-cap-ca-rot', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
-              { emoji: '🧠', title: 'Săn hình ghi nhớ', age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
+              { emoji: '🐦', title: 'Chim bay mất', age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
               { emoji: '🐦', title: 'Đếm chim', age: '4–7 tuổi', href: '/tro-choi/dem-chim', color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
             ] as const).map((g) => (
               <Link key={g.title} href={g.href}

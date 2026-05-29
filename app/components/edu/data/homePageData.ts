@@ -97,7 +97,7 @@ export const parentResources: ParentResource[] = [
 const FEATURED_GAME_SLUGS = [
   'tho-vao-hang',
   'tho-cap-ca-rot',
-  'dem-chim',
+  'chim-bay-mat',
   'me-cung-nho',
 ] as const;
 

@@ -35,6 +35,7 @@ const GAME_MAP: Record<string, string> = {
   'where-belongs': 'tim-cho-cho-vat',
   'story-order': 'sap-xep-truyen',
   'bird-count': 'dem-chim',
+  'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
 };

@@ -21,6 +21,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
+  'pool-fish-first-grade': 'ca-trong-ho',
 };
 
 type GameStructuredDataProps = {

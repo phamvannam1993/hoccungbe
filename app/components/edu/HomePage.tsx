@@ -192,16 +192,20 @@ export default async function HomePage() {
               Xem tất cả →
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
             {([
-              { emoji: '🐰', title: 'Thỏ vào hang', age: '3–7 tuổi', href: '/tro-choi/tho-vao-hang', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
-              { emoji: '🥕', title: 'Thỏ cắp cà rốt', age: '3–7 tuổi', href: '/tro-choi/tho-cap-ca-rot', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
-              { emoji: '🐦', title: 'Chim bay mất', age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
-              { emoji: '🐦', title: 'Đếm chim', age: '4–7 tuổi', href: '/tro-choi/dem-chim', color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
-            ] as const).map((g) => (
+              { emoji: '🐰', title: 'Thỏ vào hang',     age: '3–7 tuổi', href: '/tro-choi/tho-vao-hang',       color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
+              { emoji: '🥕', title: 'Thỏ cắp cà rốt',   age: '3–7 tuổi', href: '/tro-choi/tho-cap-ca-rot',     color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
+              { emoji: '🐦', title: 'Chim bay mất',      age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat',       color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
+              { emoji: '🐦', title: 'Đếm chim',          age: '4–7 tuổi', href: '/tro-choi/dem-chim',           color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
+              { emoji: '🐟', title: 'Cá trong hồ bơi',  age: '4–7 tuổi', href: '/tro-choi/ca-trong-ho',        color: '#38BDF8', bg: 'linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)' },
+              { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu',            color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' },
+              { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui',           color: '#F59E0B', bg: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)' },
+              { emoji: '🧠', title: 'Săn hình ghi nhớ',  age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho',  color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
+            ]).map((g) => (
               <Link key={g.title} href={g.href}
-                className="group rounded-3xl p-5 kid-card-hover flex flex-col"
-                style={{ background: g.bg, border: `3px solid ${g.color}`, boxShadow: `0 4px 0 ${g.color}66` }}>
+                className="group rounded-3xl p-5 kid-card-hover flex flex-col snap-start shrink-0"
+                style={{ width: 180, background: g.bg, border: `3px solid ${g.color}`, boxShadow: `0 4px 0 ${g.color}66` }}>
                 <div className="text-5xl mb-3">{g.emoji}</div>
                 <h3 className="font-black text-base leading-snug kid-display" style={{ color: g.color }}>{g.title}</h3>
                 <p className="mt-1 text-xs font-bold text-slate-600">{g.age}</p>

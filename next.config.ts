@@ -38,6 +38,7 @@ const GAME_MAP: Record<string, string> = {
   'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
+  'pool-fish-first-grade': 'ca-trong-ho',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

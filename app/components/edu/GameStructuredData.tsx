@@ -19,6 +19,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'story-order': 'sap-xep-truyen',
   'bird-count': 'dem-chim',
   'rabbit-hole': 'tho-vao-hang',
+  'rabbit-steal-quantity': 'tho-cap-ca-rot',
 };
 
 type GameStructuredDataProps = {

@@ -36,6 +36,7 @@ const GAME_MAP: Record<string, string> = {
   'story-order': 'sap-xep-truyen',
   'bird-count': 'dem-chim',
   'rabbit-hole': 'tho-vao-hang',
+  'rabbit-steal-quantity': 'tho-cap-ca-rot',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

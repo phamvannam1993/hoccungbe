@@ -138,14 +138,14 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               transform: isSel && !checked ? 'translateY(-2px)' : 'translateY(0)',
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
-              // Ép cứng căn giữa cả 2 trục
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               textAlign: 'center',
+              overflow: 'hidden',  // chống số dài tràn ra ngoài card
             }}
-            className={`relative overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-3 py-2' : 'min-h-[130px] px-3 py-2'}`}
+            className={`relative hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-2 py-2' : 'min-h-[130px] px-2 py-2'}`}
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -159,12 +159,12 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
               // Dùng sharedBaseSize → tất cả đáp án cùng font size
-              // Font tự co theo viewport: min 50% baseSize, scale theo % cards trên màn hình
-              // 2 cột → vw/13, 3 cột → vw/16
-              const colCount = options.length === 3 ? 3 : 2;
-              const vwFactor = colCount === 3 ? 18 : 13;
+              // Font scale theo độ rộng card (vw) ÷ số ký tự để không tràn
+              // 3 cột: card ≈ 28vw, 2 cột: card ≈ 42vw (sau gap)
+              const cardVw = options.length === 3 ? 28 : 42;
+              const fitVw = Math.max(4, Math.min(15, cardVw / Math.max(maxLen, 1)));
               const fontSizeCss = isBig
-                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, calc(100vw / ${vwFactor}), ${sharedBaseSize}px)`
+                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, ${fitVw.toFixed(1)}vw, ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
               return (
                 <div className="flex flex-col items-center justify-center gap-1 w-full min-w-0">
@@ -243,12 +243,12 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
               const isMath = isMathText(txt);
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
               const isBig = isMath || isShort;
-              // Font tự co theo viewport: min 50% baseSize, scale theo % cards trên màn hình
-              // 2 cột → vw/13, 3 cột → vw/16
-              const colCount = options.length === 3 ? 3 : 2;
-              const vwFactor = colCount === 3 ? 18 : 13;
+              // Font scale theo độ rộng card (vw) ÷ số ký tự để không tràn
+              // 3 cột: card ≈ 28vw, 2 cột: card ≈ 42vw (sau gap)
+              const cardVw = options.length === 3 ? 28 : 42;
+              const fitVw = Math.max(4, Math.min(15, cardVw / Math.max(maxLen, 1)));
               const fontSizeCss = isBig
-                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, calc(100vw / ${vwFactor}), ${sharedBaseSize}px)`
+                ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, ${fitVw.toFixed(1)}vw, ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
               return (
                 <span style={{
@@ -1714,6 +1714,10 @@ function preprocessTTS(text: string): string {
     .replace(/[+＋]/g, ' cộng ')
     .replace(/[-−–]/g, ' trừ ')
     .replace(/[×✕*＊·]/g, ' nhân ')
+    // Dấu chia trong toán: "x : 6" hoặc "12 : 3" → đọc thành "chia"
+    // Chỉ áp dụng khi : có space cả 2 bên VÀ không phải label "Tên: nội dung"
+    .replace(/(?<=\w)\s+:\s+(?=\w)/g, ' chia ')
+    .replace(/(\d)\s*:\s*(\d)/g, '$1 chia $2')
     .replace(/[÷]/g, ' chia ')
     .replace(/=/g, ' bằng ')
     .replace(/</g, ' nhỏ hơn ')

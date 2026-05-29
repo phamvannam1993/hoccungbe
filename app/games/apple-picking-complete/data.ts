@@ -122,101 +122,109 @@ export function generateLevel(round: number, avoidAnswerStr?: string): AppleLess
 
     let candidate: AppleLessonLevel;
 
+    // Story templates for each skill
+    const countStories = [
+      (_n: number) => `Bé nhìn lên cây và thấy những quả táo đỏ mọng. Hỏi trên cây có tất cả bao nhiêu quả táo?`,
+      (_n: number) => `Trên cây có nhiều quả táo chín đỏ. Hỏi trên cây có tất cả bao nhiêu quả táo?`,
+      (_n: number) => `Bé và mẹ đi thăm vườn táo. Bé nhìn lên cây và đếm số táo. Hỏi trên cây có bao nhiêu quả táo?`,
+    ];
+    const addStories = [
+      (a: number, b: number) => `Trên cây có ${a} quả táo đỏ chín và ${b} quả táo xanh. Hỏi trên cây có tất cả bao nhiêu quả táo?`,
+      (a: number, b: number) => `Bác nông dân hái được ${a} quả táo để vào giỏ. Bé hái thêm được ${b} quả nữa. Hỏi trong giỏ có bao nhiêu quả táo?`,
+      (a: number, b: number) => `Buổi sáng bé hái được ${a} quả táo. Buổi chiều bé hái thêm ${b} quả nữa. Hỏi bé hái được tất cả bao nhiêu quả?`,
+    ];
+    const subStories = [
+      (a: number, b: number) => `Trên cây có ${a} quả táo chín mọng. Bé hái xuống ${b} quả để ăn. Hỏi trên cây còn lại bao nhiêu quả táo?`,
+      (a: number, b: number) => `Cây táo có ${a} quả. Gió thổi làm rụng mất ${b} quả. Hỏi trên cây còn lại bao nhiêu quả?`,
+      (a: number, b: number) => `Mẹ nhìn lên cây thấy ${a} quả táo. Mẹ hái ${b} quả cho bé. Hỏi còn bao nhiêu quả trên cây?`,
+    ];
+    const compareStories = [
+      (l: number, r: number) => `Cây bên trái có ${l} quả táo, cây bên phải có ${r} quả táo. Hỏi cây nào nhiều táo hơn?`,
+      (l: number, r: number) => `Giỏ bên trái đựng ${l} quả táo, giỏ bên phải đựng ${r} quả. Hỏi giỏ nào đựng nhiều táo hơn?`,
+    ];
+    const bondStories = [
+      (a: number, b: number) => `Bé để ${a} quả táo vào giỏ này và ${b} quả vào giỏ kia. Hỏi bé có tất cả bao nhiêu quả táo?`,
+      (a: number, b: number) => `Trên bàn có ${a} quả táo đỏ và ${b} quả táo vàng. Hỏi tất cả có bao nhiêu quả táo?`,
+    ];
+    const missingStories = [
+      (k: number, t: number) => `Bé đã có ${k} quả táo trong giỏ. Bé muốn có tất cả ${t} quả. Hỏi bé cần hái thêm bao nhiêu quả nữa?`,
+      (k: number, t: number) => `Trong rổ có ${k} quả táo. Mẹ muốn có đủ ${t} quả táo. Hỏi mẹ cần thêm bao nhiêu quả nữa?`,
+    ];
+    const beforeAfterStories = [
+      (n: number) => `Bé đang học đếm. Số liền sau của ${n} là số nào?`,
+      (n: number) => `Trên dây số, số đứng ngay sau số ${n} là số mấy?`,
+    ];
+    const tenFrameStories = [
+      (n: number) => `Khung 10 đang có ${n} quả táo đỏ. Hỏi cần thêm bao nhiêu quả để đủ 10 quả?`,
+      (n: number) => `Mẹ xếp táo vào khung 10 ô. Đã xếp được ${n} quả. Hỏi còn thiếu mấy ô nữa?`,
+    ];
+
+    const si = Math.floor(prng(seed + 77) * 3); // story index
+
     if (skill === "count") {
       const totalApples = intRange(r0, 3 + scale, 7 + scale * 2);
       candidate = {
-        id: round,
-        skill,
-        title: "Đếm số lượng",
-        totalApples,
-        question: `Trên cây có bao nhiêu quả táo?`,
+        id: round, skill, title: "Đếm số lượng", totalApples,
+        question: countStories[si % countStories.length](totalApples),
         options: makeOptions(String(totalApples), seed + 100, false),
       };
     } else if (skill === "addition") {
       const totalApples = intRange(r0, 3 + scale, 6 + scale * 2);
       const addApples = intRange(r1, 1, 3 + scale);
       candidate = {
-        id: round,
-        skill,
-        title: "Cộng thêm",
-        totalApples,
-        addApples,
-        question: `Cây có ${totalApples} quả táo, mọc thêm ${addApples} quả. Tất cả có bao nhiêu quả?`,
+        id: round, skill, title: "Cộng thêm", totalApples, addApples,
+        question: addStories[si % addStories.length](totalApples, addApples),
         options: makeOptions(String(totalApples + addApples), seed + 100, false),
       };
     } else if (skill === "subtraction") {
       const totalApples = intRange(r0, 5 + scale, 9 + scale * 2);
       const pickApples = intRange(r1, 1, Math.min(4 + scale, totalApples - 1));
       candidate = {
-        id: round,
-        skill,
-        title: "Bớt đi",
-        totalApples,
-        pickApples,
-        question: `Trên cây có ${totalApples} quả táo, hái xuống ${pickApples} quả. Còn lại bao nhiêu quả?`,
+        id: round, skill, title: "Bớt đi", totalApples, pickApples,
+        question: subStories[si % subStories.length](totalApples, pickApples),
         options: makeOptions(String(totalApples - pickApples), seed + 100, false),
       };
     } else if (skill === "compare") {
       let compareLeft = intRange(r0, 3, 8 + scale);
       let compareRight = intRange(r1, 2, 7 + scale);
-      // ensure they differ
       if (compareLeft === compareRight) compareRight = compareRight < 7 + scale ? compareRight + 1 : compareRight - 1;
       candidate = {
-        id: round,
-        skill,
-        title: "So sánh nhiều hơn - ít hơn",
-        totalApples: Math.max(compareLeft, compareRight),
-        compareLeft,
-        compareRight,
-        question: `Bên trái có ${compareLeft} quả, bên phải có ${compareRight} quả. Bên nào nhiều hơn?`,
+        id: round, skill, title: "So sánh nhiều hơn - ít hơn",
+        totalApples: Math.max(compareLeft, compareRight), compareLeft, compareRight,
+        question: compareStories[si % compareStories.length](compareLeft, compareRight),
         options: makeOptions(compareLeft > compareRight ? "Trái" : "Phải", seed + 100, true),
       };
     } else if (skill === "number_bond") {
       const compareLeft = intRange(r0, 2, 6 + scale);
       const compareRight = intRange(r1, 2, 5 + scale);
       candidate = {
-        id: round,
-        skill,
-        title: "Tách - gộp số",
-        totalApples: compareLeft + compareRight,
-        compareLeft,
-        compareRight,
-        question: `${compareLeft} quả táo và ${compareRight} quả táo gộp lại thành mấy quả?`,
+        id: round, skill, title: "Tách - gộp số",
+        totalApples: compareLeft + compareRight, compareLeft, compareRight,
+        question: bondStories[si % bondStories.length](compareLeft, compareRight),
         options: makeOptions(String(compareLeft + compareRight), seed + 100, false),
       };
     } else if (skill === "missing_addend") {
       const knownPart = intRange(r0, 2, 7 + scale);
       const missingTotal = knownPart + intRange(r1, 2, 5 + scale);
       candidate = {
-        id: round,
-        skill,
-        title: "Tìm số còn thiếu",
-        totalApples: missingTotal,
-        knownPart,
-        missingTotal,
-        question: `Có ${knownPart} quả táo. Cần thêm mấy quả để được ${missingTotal} quả?`,
+        id: round, skill, title: "Tìm số còn thiếu",
+        totalApples: missingTotal, knownPart, missingTotal,
+        question: missingStories[si % missingStories.length](knownPart, missingTotal),
         options: makeOptions(String(missingTotal - knownPart), seed + 100, false),
       };
     } else if (skill === "before_after") {
       const beforeAfterNumber = intRange(r0, 3, 18 + scale * 3);
       candidate = {
-        id: round,
-        skill,
-        title: "Số liền trước - liền sau",
-        totalApples: Math.min(beforeAfterNumber, 12),
-        beforeAfterNumber,
-        question: `Số liền sau của ${beforeAfterNumber} là số nào?`,
+        id: round, skill, title: "Số liền trước - liền sau",
+        totalApples: Math.min(beforeAfterNumber, 12), beforeAfterNumber,
+        question: beforeAfterStories[si % beforeAfterStories.length](beforeAfterNumber),
         options: makeOptions(String(beforeAfterNumber + 1), seed + 100, false),
       };
     } else {
-      // ten_frame
       const totalApples = intRange(r0, 3, 9);
       candidate = {
-        id: round,
-        skill,
-        title: "Khung 10",
-        totalApples,
-        question: `Khung 10 đang có ${totalApples} quả táo. Cần thêm mấy quả để đủ 10?`,
+        id: round, skill, title: "Khung 10", totalApples,
+        question: tenFrameStories[si % tenFrameStories.length](totalApples),
         options: makeOptions(String(10 - totalApples), seed + 100, false),
       };
     }

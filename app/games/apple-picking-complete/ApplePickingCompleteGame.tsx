@@ -24,6 +24,19 @@ export default function ApplePickingCompleteGame() {
   const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   const lastSpokenRound = useRef(-1);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const [sceneScale, setSceneScale] = useState(1);
+  const VW = 1000;
+
+  useEffect(() => {
+    const update = () => {
+      const w = sceneRef.current?.clientWidth ?? VW;
+      setSceneScale(w / VW);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const level = useMemo(() => generateLevel(round, prevAnswerStr), [round, prevAnswerStr]);
   const answer = getAnswer(level);
@@ -51,12 +64,12 @@ export default function ApplePickingCompleteGame() {
     setPickedIds([]);
     setSelectedAnswer(null);
     setPhase("watch");
+    if (audioUnlocked && lastSpokenRound.current !== round) {
+      lastSpokenRound.current = round;
+      speakText(level.question, { lang: "vi-VN", rate: 0.95 });
+    }
     const timer = window.setTimeout(() => {
       setPhase("answer");
-      if (audioUnlocked) {
-        speakText(level.question, { lang: "vi-VN", rate: 0.95 });
-        lastSpokenRound.current = round;
-      }
     }, 3400);
     return () => window.clearTimeout(timer);
   }, [round, replayKey, audioUnlocked, gameOver]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -112,8 +125,6 @@ export default function ApplePickingCompleteGame() {
 
   const handleStart = () => {
     setAudioUnlocked(true);
-    lastSpokenRound.current = round;
-    speakText(level.question, { lang: "vi-VN", rate: 0.95 });
   };
 
   const handleRestart = () => {
@@ -151,7 +162,7 @@ export default function ApplePickingCompleteGame() {
       if (level.skill === "pick" || level.skill === "make_number") return `Hãy bấm vào táo để hái: ${pickedIds.length}/${answer} quả.`;
       return "Bây giờ hãy chọn đáp án đúng.";
     }
-    if (level.skill === "addition") return `${level.totalApples} quả táo trên cây, thêm ${level.addApples} quả mới xuất hiện.`;
+    if (level.skill === "addition") return `${level.totalApples} quả táo trên cây, có thêm ${level.addApples} quả.`;
     if (level.skill === "subtraction") return `${level.totalApples} quả táo trên cây, ${level.pickApples} quả được hái xuống.`;
     if (level.skill === "compare") return `Nhóm trái có ${level.compareLeft} quả, nhóm phải có ${level.compareRight} quả.`;
     if (level.skill === "number_bond") return `Tách số thành ${level.compareLeft} quả và ${level.compareRight} quả.`;
@@ -170,7 +181,7 @@ export default function ApplePickingCompleteGame() {
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        <div className={styles.scene}>
+        <div className={styles.scene} ref={sceneRef}>
           {!audioUnlocked && (
             <div className={styles.startOverlay}>
               <button className={styles.startButton} onClick={handleStart}>
@@ -192,6 +203,10 @@ export default function ApplePickingCompleteGame() {
             </div>
           )}
 
+          <div
+            className={styles.stage}
+            style={{ width: VW, height: 500, transform: `scale(${sceneScale})`, transformOrigin: 'top left' }}
+          >
           <div className={styles.sun} />
           <div className={`${styles.cloud} ${styles.cloudOne}`} />
           <div className={`${styles.cloud} ${styles.cloudTwo}`} />
@@ -251,6 +266,7 @@ export default function ApplePickingCompleteGame() {
           <div className={styles.sceneActions}>
             <button onClick={handleReplay}>↻ Xem lại</button>
           </div>
+          </div>{/* end .stage */}
         </div>
 
         <div className={styles.questionPanel}>

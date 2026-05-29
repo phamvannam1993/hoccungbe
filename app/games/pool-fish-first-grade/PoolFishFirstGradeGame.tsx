@@ -50,13 +50,11 @@ export default function PoolFishFirstGradeGame() {
 
     if (audioUnlocked && lastSpokenRound.current !== round) {
       lastSpokenRound.current = round;
+      speakText(level.question, { lang: "vi-VN", rate: 0.95 });
     }
 
     const timer = window.setTimeout(() => {
       setPhase("answer");
-      if (audioUnlocked) {
-        speakText(level.question, { lang: "vi-VN", rate: 0.95 });
-      }
     }, 3900);
 
     return () => window.clearTimeout(timer);

@@ -35,15 +35,11 @@ export default function BirdSubtractionGame() {
 
     if (audioUnlocked && lastSpokenRound.current !== round) {
       lastSpokenRound.current = round;
-      const intro = `Có ${level.total} con chim, ${level.flyAway} con sắp bay đi. Quan sát nhé!`;
-      speakText(intro, { lang: "vi-VN", rate: 0.95 });
+      speakText(`Có ${level.total} con chim, ${level.flyAway} con bay mất. Còn lại bao nhiêu con?`, { lang: "vi-VN", rate: 0.95 });
     }
 
     const timer = window.setTimeout(() => {
       setPhase("answer");
-      if (audioUnlocked) {
-        speakText(`Có ${level.total} con chim, ${level.flyAway} con bay mất. Còn lại bao nhiêu con?`, { lang: "vi-VN", rate: 0.95 });
-      }
     }, 3600);
 
     return () => window.clearTimeout(timer);

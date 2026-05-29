@@ -111,7 +111,8 @@ export default function BirdCountGame() {
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        {!audioUnlocked && (
+        {/* Tạm ẩn overlay Bắt đầu */}
+        {false && !audioUnlocked && (
           <div className={styles.startOverlay}>
             <button className={styles.startButton} onClick={handleStart}>
               ▶ Bắt đầu

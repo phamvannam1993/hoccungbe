@@ -65,9 +65,10 @@ export function speakText(
   _currentAudio = audio;
 
   audio.play().catch(() => {
-    // Fallback to Web Speech API if Google TTS fails
-    speakWebSpeech(text, options);
+    // Tạm bỏ fallback Web Speech — chỉ dùng giọng Google TTS
   });
+  void options;
+  void speakWebSpeech;
 }
 
 export function stopSpeaking(): void {

@@ -22,6 +22,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
   'pool-fish-first-grade': 'ca-trong-ho',
+  'apple-picking-complete': 'hai-tao-hoc',
 };
 
 type GameStructuredDataProps = {

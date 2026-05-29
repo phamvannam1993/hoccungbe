@@ -199,7 +199,7 @@ export default async function HomePage() {
               { emoji: '🐦', title: 'Chim bay mất',      age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat',       color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
               { emoji: '🐦', title: 'Đếm chim',          age: '4–7 tuổi', href: '/tro-choi/dem-chim',           color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
               { emoji: '🐟', title: 'Cá trong hồ bơi',  age: '4–7 tuổi', href: '/tro-choi/ca-trong-ho',        color: '#38BDF8', bg: 'linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)' },
-              { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu',            color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' },
+              { emoji: '🍎', title: 'Hái táo học toán',  age: '4–8 tuổi', href: '/tro-choi/hai-tao-hoc',        color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' },
               { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui',           color: '#F59E0B', bg: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)' },
               { emoji: '🧠', title: 'Săn hình ghi nhớ',  age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho',  color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
             ]).map((g) => (

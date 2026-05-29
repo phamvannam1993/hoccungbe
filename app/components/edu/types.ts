@@ -59,6 +59,7 @@ export type PageKey =
 
   // ─── Hoạt động sống ───────────────────────────────────────
   | 'hai-tao'
+  | 'hai-tao-hoc'
   | 'cho-vat-an';
 
 export type SetPage = (page: PageKey) => void;

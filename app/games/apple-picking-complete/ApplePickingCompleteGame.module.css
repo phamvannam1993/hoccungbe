@@ -1,0 +1,493 @@
+.app {
+  width: 100%;
+  max-width: 1152px;
+  margin: 16px auto;
+  padding: 14px;
+  background: #2d5a1b;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+.game {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: calc(100vh - 120px);
+  border: 8px solid #1e4012;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #e8f7dc;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+/* ─── Overlays ────────────────────────────────────────────── */
+.startOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(45, 90, 27, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.startButton {
+  padding: 18px 38px;
+  font-size: 22px;
+  font-weight: 900;
+  color: #18425f;
+  background: #ffe066;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease;
+}
+
+.startButton:hover {
+  transform: scale(1.05);
+}
+
+.gameOverBox {
+  background: #fff;
+  padding: 26px 32px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100% - 40px);
+}
+
+.gameOverTitle {
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+  color: #c0392b;
+}
+
+.gameOverScore {
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: #18425f;
+  font-weight: 700;
+}
+
+.gameOverScore strong {
+  color: #2bb24c;
+  font-size: 1.4em;
+}
+
+/* ─── Scene ───────────────────────────────────────────────── */
+.scene {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255,238,141,.9), transparent 12%),
+    linear-gradient(180deg, #8fd7f0 0%, #bcecf6 50%, #b6df8e 100%);
+}
+
+.sun {
+  position: absolute;
+  right: 120px;
+  top: 56px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #fff1a8;
+  box-shadow: 0 0 60px rgba(255,235,130,.75);
+}
+
+.cloud {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+}
+
+.cloud:before, .cloud:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.cloudOne { left: 115px; top: 82px; width: 160px; height: 45px; }
+.cloudOne:before { left: 32px; top: -32px; width: 70px; height: 70px; }
+.cloudOne:after  { left: 82px; top: -42px; width: 86px; height: 86px; }
+
+.cloudTwo { right: 290px; top: 128px; width: 130px; height: 36px; opacity: .62; }
+.cloudTwo:before { left: 22px; top: -28px; width: 56px; height: 56px; }
+.cloudTwo:after  { left: 66px; top: -31px; width: 62px; height: 62px; }
+
+.farHills {
+  position: absolute;
+  left: -40px; right: -40px; bottom: 160px;
+  height: 255px;
+  background:
+    radial-gradient(ellipse at 15% 100%, #7bbf68 0 45%, transparent 46%),
+    radial-gradient(ellipse at 50% 100%, #6eb066 0 48%, transparent 49%),
+    radial-gradient(ellipse at 86% 100%, #77b861 0 45%, transparent 46%);
+  opacity: .78;
+}
+
+.nearGround {
+  position: absolute;
+  left: -60px; right: -60px; bottom: -50px;
+  height: 290px;
+  background:
+    radial-gradient(circle, #ff6aa7 0 3px, transparent 4px) 0 30px / 64px 54px,
+    radial-gradient(circle, #ffd64d 0 3px, transparent 4px) 22px 10px / 72px 62px,
+    radial-gradient(circle, #69d3ff 0 3px, transparent 4px) 36px 28px / 80px 58px,
+    linear-gradient(180deg, #a9d976 0%, #83bd55 72%, #67a345 100%);
+  border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+}
+
+/* ─── Tree ────────────────────────────────────────────────── */
+.tree {
+  position: absolute;
+  left: 270px; bottom: 62px;
+  width: 670px; height: 490px;
+  z-index: 20;
+}
+
+.trunk {
+  position: absolute;
+  left: 300px; bottom: 0;
+  width: 92px; height: 260px;
+  border-radius: 48px 48px 18px 18px;
+  background: linear-gradient(90deg, #7d4b25, #9b6335, #6d3e1d);
+  box-shadow: inset 14px 0 0 rgba(255,255,255,.08);
+}
+
+.branchOne, .branchTwo {
+  position: absolute;
+  height: 34px;
+  border-radius: 999px;
+  background: #7b4b25;
+  transform-origin: left center;
+}
+
+.branchOne { left: 330px; bottom: 205px; width: 220px; transform: rotate(-28deg); }
+.branchTwo { left: 190px; bottom: 210px; width: 240px; transform: rotate(24deg); }
+
+.crown span {
+  position: absolute;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.16) 0 2px, transparent 3px) 0 0 / 14px 14px,
+    #4f9b35;
+  border: 4px solid rgba(42,110,37,.32);
+}
+
+.crown span:nth-child(1) { left: 120px; top:  80px; width: 300px; height: 260px; }
+.crown span:nth-child(2) { left: 250px; top:  20px; width: 310px; height: 270px; }
+.crown span:nth-child(3) { left:  20px; top: 140px; width: 270px; height: 240px; }
+.crown span:nth-child(4) { left: 380px; top: 135px; width: 280px; height: 240px; }
+.crown span:nth-child(5) { left: 190px; top: 190px; width: 300px; height: 245px; }
+
+/* ─── Apples ──────────────────────────────────────────────── */
+.applesLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 35;
+}
+
+.apple {
+  position: absolute;
+  width: 54px; height: 58px;
+  border: none;
+  border-radius: 50% 50% 48% 48%;
+  background: radial-gradient(circle at 30% 22%, #fff0ed 0 10%, #ef3030 11% 60%, #b81018 100%);
+  box-shadow: inset -8px -8px 0 rgba(80,0,0,.16), 0 8px 10px rgba(28,80,30,.18);
+  cursor: pointer;
+  animation: appleIdle 1.6s ease-in-out infinite alternate;
+}
+
+.apple:before {
+  content: '';
+  position: absolute;
+  left: 22px; top: -9px;
+  width: 9px; height: 16px;
+  border-radius: 999px;
+  background: #6b3f1b;
+}
+
+.leaf {
+  position: absolute;
+  left: 29px; top: -12px;
+  width: 20px; height: 13px;
+  border-radius: 80% 20% 80% 20%;
+  background: #43a34b;
+  transform: rotate(-25deg);
+}
+
+.leftApple  { box-shadow: 0 0 0 6px rgba(255,229,59,.85),  inset -8px -8px 0 rgba(80,0,0,.16); }
+.rightApple { box-shadow: 0 0 0 6px rgba(78,203,255,.85),  inset -8px -8px 0 rgba(80,0,0,.16); }
+
+.newApple { animation: newApplePop .9s ease-out both, appleIdle 1.6s ease-in-out infinite alternate; }
+.newApple:after {
+  content: '+1';
+  position: absolute;
+  left: 10px; top: -32px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #fff141;
+  border: 3px solid #ffb21c;
+  color: #174258;
+  font-weight: 900;
+}
+
+.autoPickedApple { animation: appleFall 2.9s ease-in forwards; }
+.pickedApple     { animation: applePick .55s ease-in forwards; }
+
+/* ─── Basket ──────────────────────────────────────────────── */
+.basket {
+  position: absolute;
+  left: 72px; bottom: 28px;
+  z-index: 70;
+  width: 210px; min-height: 126px;
+  border-radius: 26px;
+  background: #fff7df;
+  border: 6px solid #c58b45;
+  color: #174258;
+  display: grid;
+  place-items: center;
+  padding: 10px 12px 12px;
+  box-shadow: 0 12px 20px rgba(64,50,30,.16);
+}
+
+.basket:before {
+  content: '';
+  position: absolute;
+  left: 26px; right: 26px; top: -28px;
+  height: 48px;
+  border: 8px solid #a66f35;
+  border-bottom: 0;
+  border-radius: 60px 60px 0 0;
+}
+
+.basket span   { font-size: 16px; font-weight: 900; }
+.basket strong { font-size: 42px; line-height: .8; }
+.basket small  { font-size: 15px; font-weight: 900; }
+
+/* ─── HUD ─────────────────────────────────────────────────── */
+.topHud {
+  position: absolute;
+  left: 24px; top: 20px;
+  z-index: 80;
+  display: flex;
+  gap: 12px;
+}
+
+.badge, .score {
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: #174258;
+  font-size: 18px;
+  font-weight: 900;
+  padding: 12px 18px;
+  box-shadow: 0 8px 20px rgba(19,61,77,.12);
+}
+
+.lessonTag {
+  position: absolute;
+  left: 24px; top: 78px;
+  z-index: 80;
+  border-radius: 999px;
+  background: #fff141;
+  color: #174258;
+  font-size: 17px; font-weight: 900;
+  padding: 10px 16px;
+  box-shadow: 0 8px 20px rgba(19,61,77,.12);
+}
+
+.message {
+  position: absolute;
+  right: 28px; top: 20px;
+  z-index: 80;
+  max-width: 620px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: #174258;
+  font-size: 21px; font-weight: 900;
+  box-shadow: 0 8px 20px rgba(19,61,77,.12);
+}
+
+.message.correct { background: #d9ffd7; color: #145c22; }
+.message.wrong   { background: #ffe0e0; color: #9b1c1c; }
+
+.equationBox {
+  position: absolute;
+  left: 50%; bottom: 34px;
+  z-index: 78;
+  transform: translateX(-50%);
+  min-width: 210px;
+  text-align: center;
+  padding: 16px 28px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 12px 24px rgba(0,0,0,.12);
+  font-size: 38px; font-weight: 900;
+  color: #174258;
+}
+
+.sceneActions {
+  position: absolute;
+  right: 28px; bottom: 30px;
+  z-index: 80;
+  display: flex;
+  gap: 12px;
+}
+
+.sceneActions button {
+  height: 62px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 999px;
+  background: #dfe524;
+  color: #164461;
+  font-size: 19px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+}
+
+/* ─── Ten-frame ───────────────────────────────────────────── */
+.tenFrame {
+  position: absolute;
+  right: 100px; top: 125px;
+  z-index: 74;
+  width: 300px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 14px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 12px 24px rgba(0,0,0,.12);
+}
+
+.tenFrame span {
+  height: 48px;
+  border-radius: 14px;
+  background: #e6eef1;
+  border: 3px solid #b7c7ce;
+}
+
+.tenFrame .filledCell {
+  background: radial-gradient(circle at 30% 22%, #fff0ed 0 10%, #ef3030 11% 60%, #b81018 100%);
+  border-color: #a91818;
+}
+
+/* ─── Question panel ──────────────────────────────────────── */
+.questionPanel {
+  min-height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 24px;
+  background: #f5fdf0;
+  border-top: 1px solid rgba(0,0,0,.06);
+}
+
+.questionLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.audioButton {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 4px solid #4ccbe2;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: #fff;
+  color: #1184a2;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.questionLeft h1 { margin: 0 0 8px; color: #173d63; font-size: 32px; line-height: 1.1; }
+.questionLeft p  { margin: 0; color: #2b4c69; font-size: 24px; font-weight: 800; line-height: 1.25; }
+
+.options {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.optionButton {
+  width: 72px; height: 72px;
+  border: none;
+  border-radius: 50%;
+  background: #2d7d1a;
+  color: white;
+  font-size: 28px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: inset 0 -5px 0 rgba(255,255,255,.08), 0 7px 14px rgba(0,0,0,.12);
+  transition: transform .15s ease, background .15s ease;
+}
+
+.optionButton:hover { transform: translateY(-3px); }
+.selectedOption { outline: 5px solid rgba(79,203,226,.45); }
+.correctOption  { background: #1a8a35; }
+.wrongOption    { background: #c0392b; }
+
+.pickHint {
+  padding: 18px 24px;
+  border-radius: 999px;
+  background: #2d7d1a;
+  color: white;
+  font-size: 22px; font-weight: 900;
+}
+
+/* ─── Keyframes ───────────────────────────────────────────── */
+@keyframes appleIdle {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-5px); }
+}
+
+@keyframes newApplePop {
+  0%   { transform: scale(.1); opacity: 0; }
+  70%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes appleFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  50%  { transform: translateY(170px) rotate(120deg); opacity: 1; }
+  100% { transform: translate(-420px, 330px) rotate(240deg); opacity: 0; }
+}
+
+@keyframes applePick {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translate(-420px, 300px) scale(.35); opacity: 0; }
+}
+
+/* ─── Mobile responsive ───────────────────────────────────── */
+@media (max-width: 720px) {
+  .app { padding: 8px; margin: 8px auto; }
+  .game { border-width: 5px; }
+  .tree { transform: scale(.62); transform-origin: center bottom; left: 80px; }
+  .questionPanel { min-height: 140px; padding: 12px 14px; gap: 14px; }
+  .questionLeft h1 { font-size: 20px; }
+  .questionLeft p  { font-size: 16px; }
+  .optionButton    { width: 52px; height: 52px; font-size: 20px; }
+  .message         { font-size: 15px; max-width: 280px; }
+  .sceneActions button { height: 48px; font-size: 15px; padding: 0 14px; }
+  .equationBox     { bottom: 18px; font-size: 26px; padding: 12px 18px; }
+  .pickHint        { font-size: 16px; padding: 12px 16px; }
+  .tenFrame        { right: 30px; transform: scale(.7); transform-origin: right top; }
+  .basket          { width: 150px; min-height: 90px; left: 12px; bottom: 18px; }
+  .badge, .score   { font-size: 14px; padding: 8px 12px; }
+  .lessonTag       { font-size: 13px; padding: 7px 12px; top: 62px; }
+}

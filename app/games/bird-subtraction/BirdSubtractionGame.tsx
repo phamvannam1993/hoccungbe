@@ -42,7 +42,7 @@ export default function BirdSubtractionGame() {
     const timer = window.setTimeout(() => {
       setPhase("answer");
       if (audioUnlocked) {
-        speakText("Hãy chọn số chim còn lại.", { lang: "vi-VN", rate: 0.95 });
+        speakText(`Có ${level.total} con chim, ${level.flyAway} con bay mất. Còn lại bao nhiêu con?`, { lang: "vi-VN", rate: 0.95 });
       }
     }, 3600);
 
@@ -66,7 +66,7 @@ export default function BirdSubtractionGame() {
         setPrevAnswer(answer);
         setRound((r) => r + 1);
         setReplayKey((k) => k + 1);
-      }, 2200);
+      }, 2800);
     } else {
       setPhase("wrong");
       const msg = `Chưa đúng rồi. Trò chơi kết thúc.`;

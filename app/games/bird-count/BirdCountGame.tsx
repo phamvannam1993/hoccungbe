@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { birdCountQuestions } from "./data";
+import { generateQuestion } from "./data";
 import { speakText, stopSpeaking } from "../../components/edu/utils/speech";
 import styles from "./BirdCountGame.module.css";
 
@@ -32,31 +32,33 @@ function Bird({ top, delay, duration }: BirdProps) {
 }
 
 export default function BirdCountGame() {
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [round, setRound] = useState(0);
+  const [bestRound, setBestRound] = useState(0);
+  const [prevBirdCount, setPrevBirdCount] = useState<number | undefined>(undefined);
   const [replayKey, setReplayKey] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [message, setMessage] = useState("Quan sát chim bay qua màn hình rồi chọn đáp án.");
   const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
 
-  const question = birdCountQuestions[questionIndex];
+  const question = useMemo(() => generateQuestion(round, prevBirdCount), [round, prevBirdCount]);
   const isAnswered = selectedAnswer !== null;
 
-  // Deterministic pseudo-random theo index để tránh hydration mismatch (SSR vs CSR)
   const birds = useMemo(() => {
+    const baseDuration = 6.2 * question.speedFactor;
     return Array.from({ length: question.birdCount }, (_, index) => {
-      // Hàm pseudo-random gieo bởi index + replayKey, kết quả ổn định
-      const seed = (index * 9301 + replayKey * 49297) % 233280;
-      const rand = seed / 233280; // 0..1
+      const seed = (index * 9301 + replayKey * 49297 + round * 7919) % 233280;
+      const rand = seed / 233280;
       return {
         top: 110 + (index % 3) * 64 + rand * 10,
-        delay: index * 0.55,
-        duration: 6.2 + (index % 3) * 0.45,
+        delay: index * 0.55 * question.speedFactor,
+        duration: baseDuration + (index % 3) * 0.45,
       };
     });
-  }, [question.birdCount, replayKey]);
-
+  }, [question.birdCount, question.speedFactor, replayKey, round]);
 
   useEffect(() => {
+    if (gameOver) return;
     setSelectedAnswer(null);
     const intro = "Quan sát chim bay qua màn hình rồi chọn đáp án.";
     setMessage(intro);
@@ -69,10 +71,10 @@ export default function BirdCountGame() {
     }, 3400);
 
     return () => window.clearTimeout(timer);
-  }, [questionIndex, replayKey, audioUnlocked]);
+  }, [round, replayKey, audioUnlocked, gameOver]);
 
   const handleChoose = (answer: number) => {
-    if (isAnswered) return;
+    if (isAnswered || gameOver) return;
 
     setSelectedAnswer(answer);
 
@@ -80,14 +82,17 @@ export default function BirdCountGame() {
       const msg = `Đúng rồi! Có ${question.birdCount} chú chim.`;
       setMessage(msg);
       speakText(msg, { lang: "vi-VN", rate: 0.95 });
+      setBestRound((b) => Math.max(b, round + 1));
       window.setTimeout(() => {
-        setQuestionIndex((current) => (current + 1) % birdCountQuestions.length);
+        setPrevBirdCount(question.birdCount);
+        setRound((r) => r + 1);
         setReplayKey((current) => current + 1);
       }, 1600);
     } else {
-      const msg = `Chưa đúng. Có ${question.birdCount} chú chim. Bấm Xem lại để quan sát lại.`;
+      const msg = `Sai rồi! Có ${question.birdCount} chú chim. Trò chơi kết thúc.`;
       setMessage(msg);
       speakText(msg, { lang: "vi-VN", rate: 0.95 });
+      setGameOver(true);
     }
   };
 
@@ -99,24 +104,44 @@ export default function BirdCountGame() {
     speakText(question.question, { lang: "vi-VN", rate: 0.95 });
   };
 
+  const handleRestart = () => {
+    setRound(0);
+    setPrevBirdCount(undefined);
+    setReplayKey((current) => current + 1);
+    setSelectedAnswer(null);
+    setGameOver(false);
+  };
+
   useEffect(() => {
     return () => stopSpeaking();
   }, []);
 
   const handleStart = () => {
     setAudioUnlocked(true);
-    speakText("Quan sát chim bay qua màn hình rồi chọn đáp án.", { lang: "vi-VN", rate: 0.95 });
+    // Không gọi speakText ở đây — useEffect sẽ tự đọc intro khi audioUnlocked đổi
   };
 
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        {/* Tạm ẩn overlay Bắt đầu */}
-        {false && !audioUnlocked && (
+        {!audioUnlocked && (
           <div className={styles.startOverlay}>
             <button className={styles.startButton} onClick={handleStart}>
               ▶ Bắt đầu
             </button>
+          </div>
+        )}
+        {gameOver && (
+          <div className={styles.startOverlay}>
+            <div className={styles.gameOverBox}>
+              <div className={styles.gameOverTitle}>Trò chơi kết thúc</div>
+              <div className={styles.gameOverScore}>
+                Bạn đã trả lời đúng <strong>{bestRound}</strong> câu
+              </div>
+              <button className={styles.startButton} onClick={handleRestart}>
+                ↻ Chơi lại
+              </button>
+            </div>
           </div>
         )}
         <div className={styles.scene}>
@@ -154,7 +179,7 @@ export default function BirdCountGame() {
             <div className={styles.trunk} />
           </div>
 
-          <div className={styles.birdsLayer} key={replayKey}>
+          <div className={styles.birdsLayer} key={`${round}-${replayKey}`}>
             {birds.map((bird, index) => (
               <Bird
                 key={index}
@@ -166,7 +191,7 @@ export default function BirdCountGame() {
           </div>
 
           <div className={styles.hudTop}>
-            <span className={styles.roundBadge}>{questionIndex + 1}</span>
+            <span className={styles.roundBadge}>{round + 1}</span>
             <span>Lượt chơi</span>
           </div>
 

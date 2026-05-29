@@ -15,6 +15,19 @@ export default function BirdSubtractionGame() {
   const [gameOver, setGameOver] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const lastSpokenRound = useRef<number>(-1);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const [sceneScale, setSceneScale] = useState(1);
+  const VW = 1000;
+
+  useEffect(() => {
+    const update = () => {
+      const w = sceneRef.current?.clientWidth ?? VW;
+      setSceneScale(w / VW);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const level = useMemo(() => generateLevel(round, prevAnswer), [round, prevAnswer]);
   const answer = level.total - level.flyAway;
@@ -110,7 +123,6 @@ export default function BirdSubtractionGame() {
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        <div className={styles.scene}>
         {!audioUnlocked && (
           <div className={styles.startOverlay}>
             <div className={styles.gameOverBox}>
@@ -140,6 +152,8 @@ export default function BirdSubtractionGame() {
             </div>
           </div>
         )}
+        <div className={styles.scene} ref={sceneRef}>
+          <div className={styles.stage} style={{ width: VW, height: 500, transform: `scale(${sceneScale})`, transformOrigin: 'top left' }}>
           <div className={styles.sun} />
           <div className={`${styles.cloud} ${styles.cloudOne}`} />
           <div className={`${styles.cloud} ${styles.cloudTwo}`} />
@@ -200,6 +214,7 @@ export default function BirdSubtractionGame() {
           <div className={styles.sceneActions}>
             <button onClick={replay}>↻ Xem lại</button>
           </div>
+          </div>{/* end .stage */}
         </div>{/* end .scene */}
 
         <div className={styles.questionPanel}>

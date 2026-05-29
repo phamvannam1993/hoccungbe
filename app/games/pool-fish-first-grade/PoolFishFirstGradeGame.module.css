@@ -57,6 +57,7 @@
   background: #ffe066;
   border: none;
   border-radius: 999px;
+  white-space: nowrap;
   cursor: pointer;
   box-shadow: 0 12px 24px rgba(0,0,0,0.2);
   transition: transform 0.15s ease;

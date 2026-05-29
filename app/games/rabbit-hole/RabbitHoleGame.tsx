@@ -20,6 +20,7 @@ export default function RabbitHoleGame() {
   const [gameOver, setGameOver] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const boardRef = useRef<HTMLDivElement | null>(null);
+  const lastSpokenRound = useRef<number>(-1);
   const [sceneScale, setSceneScale] = useState(1);
 
   // Virtual scene size (positions tính theo 1000x500)
@@ -44,7 +45,10 @@ export default function RabbitHoleGame() {
     setRabbitPosition(START_POSITION);
     setStatus("idle");
     setMessage(level.question);
-    if (audioUnlocked) speakText(level.question, { lang: "vi-VN", rate: 0.95 });
+    if (audioUnlocked && lastSpokenRound.current !== round) {
+      lastSpokenRound.current = round;
+      speakText(level.question, { lang: "vi-VN", rate: 0.95 });
+    }
   }, [round, level.question, audioUnlocked, gameOver]);
 
   useEffect(() => () => stopSpeaking(), []);
@@ -116,7 +120,7 @@ export default function RabbitHoleGame() {
       window.setTimeout(() => {
         setPrevTarget(level.targetHole);
         setRound((r) => r + 1);
-      }, 1400);
+      }, 2200);
     } else {
       setStatus("wrong");
       const msg = `Sai rồi! Đây là hang số ${selectedHole}, thỏ cần hang số ${level.targetHole}. Trò chơi kết thúc.`;
@@ -136,7 +140,14 @@ export default function RabbitHoleGame() {
     speakText(level.question, { lang: "vi-VN", rate: 0.95 });
   };
 
-  const handleStart = () => setAudioUnlocked(true);
+  const handleStart = () => {
+    setAudioUnlocked(true);
+    // Đọc hướng dẫn + câu hỏi đầu tiên trong một lượt phát
+    lastSpokenRound.current = round;
+    const guide =
+      "Quan sát số trên hang cần tìm, rồi kéo chú thỏ vào đúng hang có số đó. Nếu sai, trò chơi sẽ kết thúc.";
+    speakText(`${guide} ${level.question}`, { lang: "vi-VN", rate: 0.95 });
+  };
 
   const handleRestart = () => {
     setRound(0);
@@ -144,6 +155,7 @@ export default function RabbitHoleGame() {
     setStatus("idle");
     setRabbitPosition(START_POSITION);
     setGameOver(false);
+    lastSpokenRound.current = -1; // cho phép đọc lại câu round 0
   };
 
   return (
@@ -151,9 +163,18 @@ export default function RabbitHoleGame() {
       <section className={styles.game}>
         {!audioUnlocked && (
           <div className={styles.startOverlay}>
-            <button className={styles.startButton} onClick={handleStart}>
-              ▶ Bắt đầu
-            </button>
+            <div className={styles.gameOverBox}>
+              <div className={styles.gameOverTitle}>🐰 Thỏ vào hang</div>
+              <ul className={styles.instructions}>
+                <li>👀 Quan sát số trên <strong>hang cần tìm</strong>.</li>
+                <li>🐰 Kéo chú thỏ vào hang có số trùng.</li>
+                <li>✅ Đúng → sang câu mới khó hơn.</li>
+                <li>❌ Sai → kết thúc, bấm <strong>Chơi lại</strong>.</li>
+              </ul>
+              <button className={styles.startButton} onClick={handleStart}>
+                ▶ Bắt đầu chơi
+              </button>
+            </div>
           </div>
         )}
         {gameOver && (

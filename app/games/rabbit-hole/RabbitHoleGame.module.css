@@ -79,6 +79,26 @@
   font-size: 1.4em;
 }
 
+.instructions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-size: clamp(13px, 1.6vw, 16px);
+  color: #18425f;
+  font-weight: 600;
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+.instructions li {
+  padding: 4px 0;
+}
+
+.instructions strong {
+  color: #c0392b;
+}
+
 .scene {
   position: relative;
   flex: 1;

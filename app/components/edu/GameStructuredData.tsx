@@ -17,6 +17,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'number-line-addition': 'cong-tren-so-do', 'compare-numbers': 'so-sanh-so',
   'number-sequence-write': 'viet-day-so', 'falling-number': 'so-roi', 'where-belongs': 'tim-cho-cho-vat',
   'story-order': 'sap-xep-truyen',
+  'bird-count': 'dem-chim',
 };
 
 type GameStructuredDataProps = {

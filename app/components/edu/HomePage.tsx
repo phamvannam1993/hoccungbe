@@ -197,7 +197,7 @@ export default async function HomePage() {
               { emoji: '🔤', title: 'Ghép chữ với hình', age: '4–6 tuổi', href: '/tro-choi/ghep-tu', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
               { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
               { emoji: '🧠', title: 'Săn hình ghi nhớ', age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
-              { emoji: '🌍', title: 'Từ vựng tiếng Anh', age: '6–8 tuổi', href: '/tro-choi/tu-vung-tieng-anh', color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
+              { emoji: '🐦', title: 'Đếm chim', age: '4–7 tuổi', href: '/tro-choi/dem-chim', color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
             ] as const).map((g) => (
               <Link key={g.title} href={g.href}
                 className="group rounded-3xl p-5 kid-card-hover flex flex-col"

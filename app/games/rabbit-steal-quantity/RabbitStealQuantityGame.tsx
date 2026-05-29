@@ -190,7 +190,6 @@ export default function RabbitStealQuantityGame() {
   return (
     <main className={styles.app}>
       <section className={styles.game}>
-        <div className={styles.scene} ref={boardRef}>
         {!audioUnlocked && (
           <div className={styles.startOverlay}>
             <div className={styles.gameOverBox}>
@@ -220,6 +219,7 @@ export default function RabbitStealQuantityGame() {
             </div>
           </div>
         )}
+        <div className={styles.scene} ref={boardRef}>
           <div
             className={styles.stage}
             ref={stageRef}

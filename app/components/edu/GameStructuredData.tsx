@@ -18,6 +18,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'number-sequence-write': 'viet-day-so', 'falling-number': 'so-roi', 'where-belongs': 'tim-cho-cho-vat',
   'story-order': 'sap-xep-truyen',
   'bird-count': 'dem-chim',
+  'rabbit-hole': 'tho-vao-hang',
 };
 
 type GameStructuredDataProps = {

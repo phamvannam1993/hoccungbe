@@ -17,6 +17,7 @@ export type PageKey =
   | 'tim-so-thieu'
   | 'dem-dong-vat'
   | 'dem-chim'
+  | 'tho-vao-hang'
   | 'so-va-so-luong'
   | 'so-sanh-so'
   | 'so-roi'

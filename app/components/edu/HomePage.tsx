@@ -195,6 +195,7 @@ export default async function HomePage() {
           <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
             {([
               { emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', href: '/tro-choi/tau-hoc-toan',        color: '#1a3a6b', bg: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)' },
+              { emoji: '🔢', title: 'Dãy số',             age: '5–8 tuổi', href: '/tro-choi/day-so',             color: '#7C3AED', bg: 'linear-gradient(135deg, #EDE9FE 0%, #C4B5FD 100%)' },
               { emoji: '🐰', title: 'Thỏ vào hang',     age: '3–7 tuổi', href: '/tro-choi/tho-vao-hang',       color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
               { emoji: '🥕', title: 'Thỏ cắp cà rốt',   age: '3–7 tuổi', href: '/tro-choi/tho-cap-ca-rot',     color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
               { emoji: '🐦', title: 'Chim bay mất',      age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat',       color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },

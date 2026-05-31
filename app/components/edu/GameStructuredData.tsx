@@ -24,6 +24,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'pool-fish-first-grade': 'ca-trong-ho',
   'apple-picking-complete': 'hai-tao-hoc',
   'train-complete-lessons': 'tau-hoc-toan',
+  'number-sequence': 'day-so',
 };
 
 type GameStructuredDataProps = {

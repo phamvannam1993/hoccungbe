@@ -147,16 +147,16 @@ export default function NumberSequenceGame() {
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Bottom bar outside scene */}
-          <div className={styles.bottom}>
-            <button className={styles.sound} onClick={speak}>🔊</button>
-            <div className={styles.progress}>
-              <div><span style={{ width: `${progress}%` }} /></div>
-              <small>Vòng {round + 1} &nbsp;·&nbsp; ⭐ {bestRound}</small>
+            {/* Bottom bar inside scene, z-index above panel */}
+            <div className={styles.bottom}>
+              <button className={styles.sound} onClick={speak}>🔊</button>
+              <div className={styles.progress}>
+                <div><span style={{ width: `${progress}%` }} /></div>
+                <small>Vòng {round + 1} &nbsp;·&nbsp; ⭐ {bestRound}</small>
+              </div>
+              <button className={`${styles.check} ${value ? styles.active : ""}`} onClick={check} disabled={!value}>✓</button>
             </div>
-            <button className={`${styles.check} ${value ? styles.active : ""}`} onClick={check} disabled={!value}>✓</button>
           </div>
         </div>
 

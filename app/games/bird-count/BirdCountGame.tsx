@@ -62,15 +62,20 @@ export default function BirdCountGame() {
     setSelectedAnswer(null);
     const intro = "Quan sát chim bay qua màn hình rồi chọn đáp án.";
     setMessage(intro);
-    if (audioUnlocked) speakText(intro, { lang: "vi-VN", rate: 0.95 });
+    const introTimer = window.setTimeout(() => {
+      if (audioUnlocked) speakText(intro, { lang: "vi-VN", rate: 0.95 });
+    }, 600);
 
     const timer = window.setTimeout(() => {
       const prompt = "Bây giờ hãy chọn số chim bạn vừa thấy.";
       setMessage(prompt);
       if (audioUnlocked) speakText(prompt, { lang: "vi-VN", rate: 0.95 });
-    }, 3400);
+    }, 4000);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(introTimer);
+      window.clearTimeout(timer);
+    };
   }, [round, replayKey, audioUnlocked, gameOver]);
 
   const handleChoose = (answer: number) => {
@@ -87,7 +92,7 @@ export default function BirdCountGame() {
         setPrevBirdCount(question.birdCount);
         setRound((r) => r + 1);
         setReplayKey((current) => current + 1);
-      }, 1600);
+      }, 2800);
     } else {
       const msg = `Sai rồi! Có ${question.birdCount} chú chim. Trò chơi kết thúc.`;
       setMessage(msg);

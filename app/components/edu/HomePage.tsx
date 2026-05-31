@@ -202,6 +202,7 @@ export default async function HomePage() {
               { emoji: '🍎', title: 'Hái táo học toán',  age: '4–8 tuổi', href: '/tro-choi/hai-tao-hoc',        color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' },
               { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui',           color: '#F59E0B', bg: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)' },
               { emoji: '🧠', title: 'Săn hình ghi nhớ',  age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho',  color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
+              { emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', href: '/tro-choi/tau-hoc-toan',        color: '#1a3a6b', bg: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)' },
             ]).map((g) => (
               <Link key={g.title} href={g.href}
                 className="group rounded-3xl p-5 kid-card-hover flex flex-col snap-start shrink-0"

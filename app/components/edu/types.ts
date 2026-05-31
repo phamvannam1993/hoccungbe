@@ -27,6 +27,7 @@ export type PageKey =
   | 'viet-day-so'
   | 'cong-tren-so-do'
   | 'ca-trong-ho'
+  | 'tau-hoc-toan'
 
   // ─── Ngôn ngữ & chữ ───────────────────────────────────────
   | 'ghep-tu'

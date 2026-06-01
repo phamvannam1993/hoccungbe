@@ -25,6 +25,7 @@ const EN_TO_PAGE: Record<string, string> = {
   'apple-picking-complete': 'hai-tao-hoc',
   'train-complete-lessons': 'tau-hoc-toan',
   'number-sequence': 'day-so',
+  'column-lift-drag': 'keo-cot-so',
 };
 
 type GameStructuredDataProps = {

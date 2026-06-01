@@ -1,0 +1,515 @@
+/* ── Layout ─────────────────────────────────────────────── */
+.app {
+  max-width: 1152px;
+  margin: 16px auto;
+  padding: 14px;
+  background: #1a3a2a;
+  border-radius: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+  min-height: 520px;
+}
+
+/* ── Overlays ───────────────────────────────────────────── */
+.startOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 30, 20, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.gameOverBox {
+  background: white;
+  border-radius: 20px;
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 360px;
+  width: 90%;
+}
+
+.gameOverTitle {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1f3440;
+}
+
+.gameOverScore {
+  font-size: 18px;
+  color: #536c78;
+  font-weight: 700;
+}
+
+.gameOverScore strong {
+  color: #1f3440;
+  font-size: 22px;
+}
+
+.instructions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: #3a5060;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.instructions li::before {
+  content: "✓ ";
+  color: #2a9c6e;
+}
+
+.startButton {
+  white-space: nowrap;
+  min-width: 160px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: #f5d300;
+  color: #164456;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.14), 0 6px 14px rgba(0, 0, 0, 0.14);
+  padding: 0 28px;
+}
+
+.startButton:hover {
+  background: #ffe020;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.header {
+  height: 66px;
+  flex: 0 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #1f3440;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.header span {
+  color: #607276;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ── Board ──────────────────────────────────────────────── */
+.board {
+  position: relative;
+  flex: 1;
+  min-height: 700px;
+  overflow: hidden;
+  border: 14px solid #084a57;
+  border-radius: 18px 18px 12px 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 227, 224, 0.68), rgba(225, 245, 209, 0.74) 42%, rgba(186, 224, 161, 0.8) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255, 166, 170, 0.32), transparent 23%),
+    radial-gradient(circle at 50% 32%, rgba(197, 237, 189, 0.38), transparent 24%),
+    radial-gradient(circle at 78% 18%, rgba(255, 196, 170, 0.32), transparent 22%);
+}
+
+.texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px);
+  background-size: 18px 18px, 42px 42px;
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.replayButton {
+  position: absolute;
+  right: 26px;
+  top: 18px;
+  z-index: 8;
+  width: 82px;
+  height: 82px;
+  border: 10px solid rgba(10, 110, 117, 0.48);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0ea6b8;
+  font-size: 48px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ── Chart ──────────────────────────────────────────────── */
+.chartArea {
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  top: 20px;
+  bottom: 120px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  gap: 16px;
+  padding: 0 12px;
+  touch-action: none;
+}
+
+.columnGroup {
+  position: relative;
+  height: 100%;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.numberLabel {
+  position: absolute;
+  z-index: 6;
+  color: #063f51;
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.75), 0 0 8px rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+}
+
+.activeValueBadge {
+  position: absolute;
+  z-index: 14;
+  min-width: 110px;
+  height: 66px;
+  padding: 0 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  background: #fff;
+  border: 8px solid #0eb0c4;
+  color: #063f51;
+  font-size: 44px;
+  line-height: 1;
+  font-weight: 900;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18), inset 0 -4px 0 rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+}
+
+.column {
+  width: 88px;
+  min-height: 42px;
+  border: 4px solid #e75b67;
+  border-bottom: 0;
+  background: rgba(242, 230, 236, 0.84);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.45), 0 10px 16px rgba(60, 30, 30, 0.08);
+  transition: height 0.12s ease, background 0.15s ease;
+  position: relative;
+}
+
+.activeColumn {
+  background: #d7565d;
+  cursor: ns-resize;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18), 0 12px 20px rgba(96, 20, 20, 0.18);
+}
+
+.wrongColumn {
+  animation: shake 0.28s ease-in-out 2;
+}
+
+.dragGrip {
+  position: absolute;
+  left: 50%;
+  top: 92px;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  display: grid;
+  place-items: center;
+  color: #7e2b2f;
+  font-weight: 900;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.arrow {
+  margin-top: 8px;
+  color: #063f51;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.helpText {
+  color: #063f51;
+  font-size: 14px;
+  font-weight: 900;
+  margin: 0 0 4px;
+  white-space: nowrap;
+}
+
+.nudgeControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nudgeControls button {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: #08aeba;
+  color: white;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18);
+  line-height: 1;
+}
+
+/* ── Mobile slider ─────────────────────────────────────── */
+.sliderRow {
+  display: none;
+}
+
+.slider {
+  width: 100%;
+  accent-color: #08aeba;
+  height: 6px;
+  cursor: pointer;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.footer {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 14px;
+  height: 104px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
+}
+
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.audioButton {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #13b6c4;
+  border-radius: 50%;
+  background: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.footer strong {
+  display: block;
+  color: #133c52;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.footer span {
+  display: block;
+  margin-top: 6px;
+  color: #607276;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.doneButton {
+  min-width: 168px;
+  height: 72px;
+  border: none;
+  border-radius: 999px;
+  background: #dce400;
+  color: #164456;
+  font-size: 30px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.14), 0 8px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Feedback ───────────────────────────────────────────── */
+.feedback {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%);
+  min-width: 330px;
+  z-index: 20;
+  text-align: center;
+  padding: 18px 24px;
+  border-radius: 22px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.20);
+}
+
+.feedback strong {
+  display: block;
+  font-size: 30px;
+}
+
+.feedback span {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.correct {
+  background: #e0ffd6;
+  color: #246c27;
+}
+
+.wrong {
+  background: #ffe1e1;
+  color: #963333;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1250px) {
+  .chartArea { gap: 8px; left: 24px; right: 24px; }
+  .columnGroup { width: 96px; }
+  .column { width: 70px; }
+  .numberLabel { font-size: 30px; }
+  .activeValueBadge { min-width: 96px; height: 58px; font-size: 36px; border-width: 7px; }
+  .nudgeControls button { width: 42px; height: 42px; font-size: 13px; }
+  .footer strong { font-size: 24px; }
+  .footer span { font-size: 14px; }
+}
+
+@media (max-width: 720px) {
+  .app { margin: 6px; padding: 6px; border-radius: 16px; }
+
+  .modal { border-radius: 14px; min-height: 0; }
+
+  .header { height: 52px; padding: 0 12px; }
+  .header h1 { font-size: 17px; }
+  .header span { font-size: 12px; }
+
+  .board { min-height: 340px; border-width: 6px; border-radius: 12px 12px 10px 10px; }
+
+  /* chart fills the board, tight margins */
+  .chartArea {
+    top: 8px;
+    bottom: 100px;
+    left: 6px;
+    right: 6px;
+    gap: 6px;
+    padding: 0 2px;
+  }
+
+  /* columns adapt to number of items */
+  .columnGroup { width: auto; flex: 1; }
+  .column { width: 100%; }
+
+  .numberLabel { font-size: 15px; }
+
+  /* active badge smaller, centered */
+  .activeValueBadge {
+    min-width: 52px;
+    height: 36px;
+    font-size: 20px;
+    border-width: 3px;
+    border-radius: 16px;
+  }
+
+  /* nudge buttons: big and easy to tap */
+  .nudgeControls {
+    flex-direction: row;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .nudgeControls button {
+    width: 48px;
+    height: 48px;
+    font-size: 26px;
+    box-shadow: 0 4px 0 rgba(0,0,0,.2);
+  }
+
+  /* footer: single row, no wrapping */
+  .footer {
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    height: 80px;
+    padding: 0 10px;
+    gap: 10px;
+    border-radius: 16px;
+  }
+  .audioButton { width: 44px; height: 44px; font-size: 22px; border-width: 3px; flex-shrink: 0; }
+  .footerLeft { gap: 10px; overflow: hidden; }
+  .footer strong { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .footer span { font-size: 11px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doneButton { min-width: 80px; height: 52px; font-size: 17px; padding: 0 14px; flex-shrink: 0; }
+
+  .replayButton { width: 44px; height: 44px; font-size: 24px; border-width: 4px; right: 8px; top: 6px; }
+
+  .feedback { top: 50%; transform: translate(-50%, -50%); }
+
+  /* Show slider on mobile instead of drag */
+  .sliderRow {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px 4px;
+    background: white;
+  }
+
+  /* move footer bottom offset to account for sliderRow */
+  .footer { bottom: 6px; }
+}

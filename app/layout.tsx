@@ -23,26 +23,51 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
-    template: '%s | Bé Hay Học',
+      'Bé Hay Học – Game học toán, trò chơi giáo dục cho bé 3-10 tuổi miễn phí',
+    template: '%s | Bé Hay Học – Game giáo dục cho bé',
   },
 
   description:
-    'Bé Hay Học giúp trẻ 3-10 tuổi học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, trực quan; phụ huynh dễ theo dõi tiến độ mỗi ngày.',
+    'Bé Hay Học – nền tảng game học toán cho bé, trò chơi giáo dục cho trẻ 3-10 tuổi miễn phí. Game đếm số, học chữ cái, tư duy logic, ghi nhớ. Phụ huynh theo dõi tiến độ học tập dễ dàng.',
 
   keywords: [
+    // Core brand
     'Bé Hay Học',
-    'Bé Hay Học',
-    'nền tảng học tập cho bé',
+    'behayhoc',
+    // High-traffic transactional
+    'game học toán cho bé',
     'trò chơi giáo dục cho bé',
-    'học online cho trẻ em',
-    'khóa học cho bé 3-10 tuổi',
-    'học chữ cái cho bé',
-    'học toán vui cho bé',
-    'học tiếng Anh cho bé',
-    'trò chơi tư duy cho trẻ em',
-    'ứng dụng học tập cho trẻ em',
-    'website học tập cho bé tại nhà',
+    'game đếm số cho bé',
+    'trò chơi học toán trực tuyến',
+    'ứng dụng học toán cho trẻ',
+    'game học chữ cái',
+    'game trí nhớ cho bé',
+    'game tư duy logic cho bé',
+    'trò chơi giáo dục cho trẻ 3-6 tuổi',
+    // Age-specific (high intent)
+    'game cho bé 3 tuổi',
+    'trò chơi học tập cho bé 4 tuổi',
+    'game giáo dục bé 5 tuổi',
+    'game tiểu học',
+    'ứng dụng lớp 1',
+    // Subject-specific
+    'bài tập toán cho bé',
+    'game cộng trừ nhân chia',
+    'trò chơi đếm số từ 1 đến 100',
+    'học bảng chữ cái tiếng Việt',
+    'game ghép chữ cho trẻ',
+    'game ghi nhớ cho bé',
+    // Parent-centric
+    'ứng dụng giáo dục miễn phí cho bé',
+    'game giáo dục tốt cho trẻ em',
+    'phương pháp dạy con thông qua trò chơi',
+    'game học vui cho con',
+    // Long-tail
+    'học toán cho bé lớp 1',
+    'học toán cho bé lớp 2',
+    'trò chơi phát triển trí thông minh',
+    'game STEM cho trẻ em',
+    'game học vần tiếng Việt',
   ],
 
   authors: [{ name: 'Bé Hay Học' }],

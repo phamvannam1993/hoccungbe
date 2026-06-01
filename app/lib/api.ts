@@ -117,3 +117,23 @@ export function lessonTypeLabel(type: string) {
 export function ageLabel(min: number, max: number) {
   return `${min}–${max} tuổi`;
 }
+
+export type ApiMiniGame = {
+  id: number;
+  slug: string;
+  routeKey: string;
+  title: string;
+  emoji: string;
+  description: string;
+  age: string;
+  ageGroup: string;
+  category: string;
+  groupKey: string;
+  difficulty: string;
+  skills: string[];
+  sortOrder: number;
+  showOnHomepage: boolean;
+  homepageOrder: number;
+  isActive: boolean;
+  status: string;
+};

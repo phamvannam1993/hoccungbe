@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import type { ApiCourse } from '../../lib/api';
+import type { ApiCourse, ApiMiniGame } from '../../lib/api';
 
 interface Article {
   id: number; title: string; slug: string;
@@ -17,6 +17,36 @@ async function fetchArticles(): Promise<Article[]> {
     return data.data || [];
   } catch { return []; }
 }
+
+async function fetchHomepageGames(): Promise<ApiMiniGame[]> {
+  try {
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${base}/api/mini-games/homepage`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+// Deterministic color mapping based on groupKey
+const GROUP_COLORS: Record<string, { color: string; bg: string }> = {
+  'math-counting': { color: '#1a3a6b', bg: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)' },
+  'math-logic':    { color: '#7C3AED', bg: 'linear-gradient(135deg, #EDE9FE 0%, #C4B5FD 100%)' },
+  'language':      { color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
+  'memory':        { color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
+  'listening':     { color: '#059669', bg: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)' },
+  'thinking-observation': { color: '#38BDF8', bg: 'linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)' },
+  'english':       { color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
+};
+
+const FALLBACK_GAMES = [
+  { slug: 'tau-hoc-toan', routeKey: 'train-complete-lessons', emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', groupKey: 'math-counting' },
+  { slug: 'day-so', routeKey: 'number-sequence', emoji: '🔢', title: 'Dãy số', age: '5–8 tuổi', groupKey: 'math-logic' },
+  { slug: 'dem-chim', routeKey: 'bird-count', emoji: '🐦', title: 'Đếm chim', age: '3–6 tuổi', groupKey: 'math-counting' },
+  { slug: 'keo-cot-so', routeKey: 'column-lift-drag', emoji: '📊', title: 'Kéo cột số', age: '5–8 tuổi', groupKey: 'math-logic' },
+];
 
 async function fetchCourses(): Promise<ApiCourse[]> {
   try {
@@ -45,7 +75,8 @@ const STATS = [
 ];
 
 export default async function HomePage() {
-  const [courses, articles] = await Promise.all([fetchCourses(), fetchArticles()]);
+  const [courses, articles, apiGames] = await Promise.all([fetchCourses(), fetchArticles(), fetchHomepageGames()]);
+  const homepageGames = apiGames.length > 0 ? apiGames : FALLBACK_GAMES;
 
   return (
     <main className="kid-bg relative overflow-hidden">
@@ -193,28 +224,19 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
-            {([
-              { emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', href: '/tro-choi/tau-hoc-toan',        color: '#1a3a6b', bg: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)' },
-              { emoji: '🔢', title: 'Dãy số',             age: '5–8 tuổi', href: '/tro-choi/day-so',             color: '#7C3AED', bg: 'linear-gradient(135deg, #EDE9FE 0%, #C4B5FD 100%)' },
-              { emoji: '📊', title: 'Kéo cột số',         age: '5–8 tuổi', href: '/tro-choi/keo-cot-so',          color: '#059669', bg: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)' },
-              { emoji: '🐰', title: 'Thỏ vào hang',     age: '3–7 tuổi', href: '/tro-choi/tho-vao-hang',       color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
-              { emoji: '🥕', title: 'Thỏ cắp cà rốt',   age: '3–7 tuổi', href: '/tro-choi/tho-cap-ca-rot',     color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
-              { emoji: '🐦', title: 'Chim bay mất',      age: '4–7 tuổi', href: '/tro-choi/chim-bay-mat',       color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
-              { emoji: '🐦', title: 'Đếm chim',          age: '4–7 tuổi', href: '/tro-choi/dem-chim',           color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
-              { emoji: '🐟', title: 'Cá trong hồ bơi',  age: '4–7 tuổi', href: '/tro-choi/ca-trong-ho',        color: '#38BDF8', bg: 'linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)' },
-              { emoji: '🍎', title: 'Hái táo học toán',  age: '4–8 tuổi', href: '/tro-choi/hai-tao-hoc',        color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' },
-              { emoji: '➕', title: 'Toán vui cộng trừ', age: '5–7 tuổi', href: '/tro-choi/toan-vui',           color: '#F59E0B', bg: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)' },
-              { emoji: '🧠', title: 'Săn hình ghi nhớ',  age: '4–6 tuổi', href: '/tro-choi/san-hinh-ghi-nho',  color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
-            ]).map((g) => (
-              <Link key={g.title} href={g.href}
-                className="group rounded-3xl p-5 kid-card-hover flex flex-col snap-start shrink-0"
-                style={{ width: 180, background: g.bg, border: `3px solid ${g.color}`, boxShadow: `0 4px 0 ${g.color}66` }}>
-                <div className="text-5xl mb-3">{g.emoji}</div>
-                <h3 className="font-black text-base leading-snug kid-display" style={{ color: g.color }}>{g.title}</h3>
-                <p className="mt-1 text-xs font-bold text-slate-600">{g.age}</p>
-                <span className="mt-4 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: g.color, boxShadow: `0 2px 0 ${g.color}99` }}>Chơi ngay »</span>
-              </Link>
-            ))}
+            {homepageGames.map((g) => {
+              const scheme = GROUP_COLORS[g.groupKey] ?? { color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' };
+              return (
+                <Link key={g.slug} href={`/tro-choi/${g.slug}`}
+                  className="group rounded-3xl p-5 kid-card-hover flex flex-col snap-start shrink-0"
+                  style={{ width: 180, background: scheme.bg, border: `3px solid ${scheme.color}`, boxShadow: `0 4px 0 ${scheme.color}66` }}>
+                  <div className="text-5xl mb-3">{g.emoji}</div>
+                  <h3 className="font-black text-base leading-snug kid-display" style={{ color: scheme.color }}>{g.title}</h3>
+                  <p className="mt-1 text-xs font-bold text-slate-600">{g.age}</p>
+                  <span className="mt-4 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: scheme.color, boxShadow: `0 2px 0 ${scheme.color}99` }}>Chơi ngay »</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

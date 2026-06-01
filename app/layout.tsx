@@ -31,43 +31,46 @@ export const metadata: Metadata = {
     'Bé Hay Học – nền tảng game học toán cho bé, trò chơi giáo dục cho trẻ 3-10 tuổi miễn phí. Game đếm số, học chữ cái, tư duy logic, ghi nhớ. Phụ huynh theo dõi tiến độ học tập dễ dàng.',
 
   keywords: [
-    // Core brand
+    // Brand
     'Bé Hay Học',
     'behayhoc',
-    // High-traffic transactional
+    // Toán học
+    'học toán lớp 1',
+    'học toán lớp 2',
+    'toán tư duy cho trẻ em',
+    'trò chơi toán học',
+    'phép cộng cho bé',
+    'phép trừ cho bé',
+    'bảng cửu chương',
     'game học toán cho bé',
     'trò chơi giáo dục cho bé',
     'game đếm số cho bé',
-    'trò chơi học toán trực tuyến',
-    'ứng dụng học toán cho trẻ',
-    'game học chữ cái',
-    'game trí nhớ cho bé',
-    'game tư duy logic cho bé',
-    'trò chơi giáo dục cho trẻ 3-6 tuổi',
-    // Age-specific (high intent)
-    'game cho bé 3 tuổi',
-    'trò chơi học tập cho bé 4 tuổi',
-    'game giáo dục bé 5 tuổi',
-    'game tiểu học',
-    'ứng dụng lớp 1',
-    // Subject-specific
-    'bài tập toán cho bé',
-    'game cộng trừ nhân chia',
-    'trò chơi đếm số từ 1 đến 100',
-    'học bảng chữ cái tiếng Việt',
-    'game ghép chữ cho trẻ',
-    'game ghi nhớ cho bé',
-    // Parent-centric
-    'ứng dụng giáo dục miễn phí cho bé',
-    'game giáo dục tốt cho trẻ em',
-    'phương pháp dạy con thông qua trò chơi',
-    'game học vui cho con',
-    // Long-tail
-    'học toán cho bé lớp 1',
-    'học toán cho bé lớp 2',
-    'trò chơi phát triển trí thông minh',
-    'game STEM cho trẻ em',
-    'game học vần tiếng Việt',
+    // Tiếng Việt
+    'học chữ cái tiếng Việt',
+    'tập đánh vần cho bé',
+    'học đọc cho bé',
+    'học viết chữ cho bé',
+    'tiếng Việt lớp 1',
+    // Tiếng Anh
+    'học tiếng Anh cho bé',
+    'từ vựng tiếng Anh cho trẻ em',
+    'học tiếng Anh lớp 1',
+    'trò chơi tiếng Anh cho bé',
+    'học phát âm tiếng Anh cho trẻ em',
+    // Tư duy
+    'trò chơi trí tuệ cho trẻ em',
+    'trò chơi tư duy logic',
+    'câu đố cho trẻ em',
+    'bài tập IQ cho bé',
+    'phát triển tư duy cho trẻ em',
+    // Phụ huynh tìm
+    'ứng dụng học tập cho trẻ em',
+    'website học tập cho trẻ em',
+    'học online miễn phí cho bé',
+    'học tại nhà cho trẻ em',
+    'chương trình học cho bé 5 tuổi',
+    'chương trình học cho bé 6 tuổi',
+    'chương trình học cho bé 7 tuổi',
   ],
 
   authors: [{ name: 'Bé Hay Học' }],

@@ -580,37 +580,162 @@
 }
 
 @media (max-width: 480px) {
-  .game {
-    padding: 12px;
-    border-radius: 15px;
+  .app {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-.board { 
-  padding: 5px;
-}
+
+  .game {
+    padding: 8px;
+    border-radius: 12px;
+    width: calc(100% - 16px);
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .board {
+    padding: 8px;
+    gap: 8px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .puzzleContainer {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .header {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .title {
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .audioBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .instruction {
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding: 8px;
+  }
+
+  .piecesTitle,
+  .puzzleTitle {
+    font-size: 13px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .piecesArea {
+    gap: 10px;
   }
 
   .piecesGrid {
-    gap: 10px !important;
-    padding: 10px  !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 4px;
+    padding: 6px;
+    min-height: auto;
+    border: 2px dashed var(--forest-light-green);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
+
   .piece {
-    border-radius: 12px !important;
-    padding: 8px !important;
-    font-size: 16px !important;
+    font-size: 16px;
+    padding: 2px;
+    border: 2px solid var(--forest-green);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(45, 80, 22, 0.15);
+    touch-action: manipulation;
+  }
+
+  .piece:hover:not(.placed) {
+    transform: translateY(-3px) scale(1.03);
+  }
+
+  .puzzleArea {
+    gap: 10px;
+  }
+
+  .puzzleGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+    padding: 6px;
+    min-height: 160px;
+    border: 3px solid var(--forest-green);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .slot {
     border-radius: 0;
-    border: 0.5px solid rgba(45, 80, 22, 0.3);
+    border: 1px solid rgba(45, 80, 22, 0.2);
+    font-size: 16px;
+    min-height: 80px;
+  }
+
+  .slot:hover:not(.filled) {
+    box-shadow: 0 2px 8px rgba(255, 179, 0, 0.3);
   }
 
   .slotContent {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .slotLabel {
-    font-size: 24px;
+    font-size: 18px;
+  }
+
+  .overlayBox {
+    max-width: 90vw;
+    max-height: 90vh;
+    padding: 20px 15px;
+  }
+
+  .overlayTitle {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .startButton {
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+
+  .memoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    padding: 10px;
+    min-height: auto;
+  }
+
+  .memoryCard {
+    height: 70px;
+  }
+
+  .circle {
+    width: 30px;
+    height: 30px;
   }
 }

@@ -354,6 +354,56 @@ export default function PuzzleGame() {
     setDraggedPiece(null);
   };
 
+  // Touch handlers for mobile drag-drop
+  const handleTouchStart = (pieceId: string, e: React.TouchEvent) => {
+    if (!placedPieces.has(pieceId) && !gameOver) {
+      setDraggedPiece(pieceId);
+      (e.currentTarget as HTMLElement).style.opacity = '0.6';
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    (e.currentTarget as HTMLElement).style.opacity = '1';
+  };
+
+  const handleSlotTouchStart = (e: React.TouchEvent) => {
+    const slot = e.currentTarget as HTMLElement;
+    slot.style.opacity = '0.8';
+  };
+
+  const handleSlotTouchEnd = (slotIndex: number, e: React.TouchEvent) => {
+    const slot = e.currentTarget as HTMLElement;
+    slot.style.opacity = '1';
+
+    if (!draggedPiece) return;
+
+    const draggedPieceObj = pieces.find((p) => p.id === draggedPiece);
+    if (!draggedPieceObj) return;
+
+    if (placedPieces.has(draggedPiece)) return;
+
+    if (canPlacePieceAt(draggedPieceObj, slotIndex)) {
+      const newPlaced = new Set(placedPieces);
+      newPlaced.add(draggedPiece);
+
+      setPlacedPieces(newPlaced);
+      speakText('Đúng rồi! ✨', { lang: 'vi-VN', rate: 1.0 });
+
+      if (newPlaced.size === level.pieces.length) {
+        setBestRound((b) => Math.max(b, round + 1));
+
+        window.setTimeout(() => {
+          setRound((r) => r + 1);
+          setReplayKey((k) => k + 1);
+        }, 1500);
+      }
+    } else {
+      speakText('Không khớp! Thử mảnh khác.', { lang: 'vi-VN', rate: 1.0 });
+    }
+
+    setDraggedPiece(null);
+  };
+
   const handleStart = () => setAudioUnlocked(true);
 
   const handleRestart = () => {
@@ -558,6 +608,8 @@ export default function PuzzleGame() {
                     draggable={!placedPieces.has(piece.id)}
                     onDragStart={() => handleDragStart(piece.id)}
                     onDragEnd={handleDragEnd}
+                    onTouchStart={(e) => handleTouchStart(piece.id, e)}
+                    onTouchEnd={handleTouchEnd}
                     style={{
                       aspectRatio: '1 / 1',
                       overflow: 'hidden',
@@ -605,6 +657,8 @@ export default function PuzzleGame() {
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDropOnSlot(idx, e)}
+                      onTouchStart={handleSlotTouchStart}
+                      onTouchEnd={(e) => handleSlotTouchEnd(idx, e)}
                       style={{
                         aspectRatio: '1 / 1',
                         overflow: 'hidden',

@@ -1,0 +1,311 @@
+/* ─── Forest Theme Colors ───────────────────────────────────────────────── */
+:root {
+  --forest-dark-green: #2d5016;
+  --forest-green: #3d6b1f;
+  --forest-light-green: #5a9d3e;
+  --forest-lighter-green: #7cb342;
+  --forest-cream: #fef7e0;
+  --forest-brown: #8b6f47;
+  --accent-correct: #4caf50;
+  --accent-gold: #ffd700;
+}
+
+/* ─── Main Container ────────────────────────────────────────────────────── */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ─── User Stats Card ───────────────────────────────────────────────────── */
+.userStatsCard {
+  background: linear-gradient(135deg, var(--forest-cream) 0%, #fffacd 100%);
+  border: 3px solid var(--forest-green);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(45, 80, 22, 0.2);
+}
+
+.userStatsCard h3 {
+  margin: 0 0 20px 0;
+  font-size: 22px;
+  color: var(--forest-dark-green);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.stat {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 245, 0.8));
+  border: 2px solid var(--forest-light-green);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(93, 157, 62, 0.3);
+  border-color: var(--forest-lighter-green);
+}
+
+.statLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--forest-light-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--forest-dark-green);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Leaderboard Section ───────────────────────────────────────────────── */
+.leaderboardSection {
+  background: linear-gradient(135deg, rgba(254, 247, 224, 0.95), rgba(254, 247, 224, 0.9));
+  border-radius: 15px;
+  padding: 25px;
+  border: 3px solid var(--forest-green);
+  box-shadow: 0 8px 20px rgba(45, 80, 22, 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px dashed var(--forest-green);
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 26px;
+  color: var(--forest-dark-green);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.sortButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.sortBtn {
+  background: linear-gradient(135deg, var(--forest-lighter-green), var(--forest-light-green));
+  border: 2px solid var(--forest-dark-green);
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+}
+
+.sortBtn:hover:not(.active) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(93, 157, 62, 0.3);
+}
+
+.sortBtn.active {
+  background: var(--accent-gold);
+  color: var(--forest-dark-green);
+  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
+}
+
+/* ─── Loading / Empty State ────────────────────────────────────────────── */
+.loading,
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--forest-brown);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ─── Table ────────────────────────────────────────────────────────────── */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--forest-green);
+  background: white;
+}
+
+.tableHead {
+  background: linear-gradient(135deg, var(--forest-green), var(--forest-light-green));
+  color: white;
+  display: grid;
+  grid-template-columns: 60px 1fr 100px 120px 100px 80px;
+  gap: 12px;
+  padding: 15px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.tableBody {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 60px 1fr 100px 120px 100px 80px;
+  gap: 12px;
+  padding: 15px;
+  align-items: center;
+  border-bottom: 1px solid rgba(139, 111, 71, 0.1);
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.tableRow:hover {
+  background: rgba(124, 179, 66, 0.05);
+}
+
+.tableRow.currentUser {
+  background: linear-gradient(135deg, rgba(124, 179, 66, 0.1), rgba(160, 130, 109, 0.05));
+  border-left: 4px solid var(--forest-lighter-green);
+  padding-left: 11px;
+}
+
+.rankCol {
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.medal {
+  font-size: 20px;
+}
+
+.nameCol {
+  font-weight: 600;
+  color: var(--forest-dark-green);
+}
+
+.playerName {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pointsCol,
+.timeCol,
+.completedCol,
+.rateCol {
+  text-align: center;
+  font-weight: 600;
+  color: var(--forest-brown);
+}
+
+.pointsCol {
+  color: var(--accent-correct);
+  font-size: 16px;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .sortButtons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .sortBtn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .tableHead,
+  .tableRow {
+    grid-template-columns: 50px 1fr 80px 100px 70px 60px;
+    gap: 8px;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .playerName {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .sortButtons {
+    width: 100%;
+  }
+
+  .sortBtn {
+    flex: 1;
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .tableHead,
+  .tableRow {
+    grid-template-columns: 40px 1fr 60px 80px 60px 50px;
+    gap: 6px;
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .rankCol {
+    font-size: 14px;
+  }
+
+  .medal {
+    font-size: 16px;
+  }
+}
+
+/* ─── Scrollbar Styling ────────────────────────────────────────────────── */
+.tableBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tableBody::-webkit-scrollbar-track {
+  background: rgba(124, 179, 66, 0.1);
+}
+
+.tableBody::-webkit-scrollbar-thumb {
+  background: var(--forest-light-green);
+  border-radius: 4px;
+}
+
+.tableBody::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-green);
+}

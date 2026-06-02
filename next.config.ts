@@ -43,6 +43,8 @@ const GAME_MAP: Record<string, string> = {
   'train-complete-lessons': 'tau-hoc-toan',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
+  'forest-match': 'ghep-hinh-rung',
+  'puzzle-game': 'ghep-manh-hinh',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

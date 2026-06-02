@@ -16,7 +16,7 @@ export function speakText(
   text: string,
   _options: SpeakTextOptions = {}
 ): void {
-  if (typeof window === 'undefined' || !text.trim()) return;
+  if (typeof window === 'undefined' || !text || !text.trim()) return;
 
   // Stop any current audio
   if (_currentAudio) {

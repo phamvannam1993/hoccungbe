@@ -103,9 +103,11 @@ export default function ForestMatchGame() {
           </div>
         );
       }
+      if (item.display === 'dots-pattern') {
+        return <div className={styles.dotsPattern}>{item.label}</div>;
+      }
       if (item.display === 'emoji') return <span className={styles.emoji}>{item.label}</span>;
       if (item.display === 'number') return <span className={styles.number}>{item.label}</span>;
-      if (item.display === 'math') return <span className={styles.math}>{item.label}</span>;
       return <span className={styles.text}>{item.label}</span>;
     })();
 

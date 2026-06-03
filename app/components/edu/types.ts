@@ -68,6 +68,7 @@ export type PageKey =
   // ─── Ghép hình & logic ────────────────────────────────────
   | 'ghep-hinh-rung'
   | 'ghep-manh-hinh'
-  | 'puzzle-game';
+  | 'puzzle-game'
+  | 'toan-bong-bong-bien';
 
 export type SetPage = (page: PageKey) => void;

@@ -116,6 +116,7 @@ export default function PuzzleGame() {
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [placedPieces, setPlacedPieces] = useState<Set<string>>(new Set());
   const [draggedPiece, setDraggedPiece] = useState<string | null>(null);
+  const [selectedPiece, setSelectedPiece] = useState<string | null>(null);
   const [replayKey, setReplayKey] = useState(0);
   const [dbPuzzles, setDbPuzzles] = useState<PuzzleLevelWithImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -354,40 +355,29 @@ export default function PuzzleGame() {
     setDraggedPiece(null);
   };
 
-  // Touch handlers for mobile drag-drop
-  const handleTouchStart = (pieceId: string, e: React.TouchEvent) => {
-    if (!placedPieces.has(pieceId) && !gameOver) {
-      setDraggedPiece(pieceId);
-      (e.currentTarget as HTMLElement).style.opacity = '0.6';
+  // Mobile: tap piece to select
+  const handlePieceTap = (pieceId: string) => {
+    if (placedPieces.has(pieceId) || gameOver) return;
+    setSelectedPiece(selectedPiece === pieceId ? null : pieceId);
+  };
+
+  // Mobile: tap slot to place selected piece
+  const handleSlotTap = (slotIndex: number) => {
+    if (!selectedPiece || gameOver) return;
+
+    const selectedPieceObj = pieces.find((p) => p.id === selectedPiece);
+    if (!selectedPieceObj || placedPieces.has(selectedPiece)) {
+      setSelectedPiece(null);
+      return;
     }
-  };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    (e.currentTarget as HTMLElement).style.opacity = '1';
-  };
-
-  const handleSlotTouchStart = (e: React.TouchEvent) => {
-    const slot = e.currentTarget as HTMLElement;
-    slot.style.opacity = '0.8';
-  };
-
-  const handleSlotTouchEnd = (slotIndex: number, e: React.TouchEvent) => {
-    const slot = e.currentTarget as HTMLElement;
-    slot.style.opacity = '1';
-
-    if (!draggedPiece) return;
-
-    const draggedPieceObj = pieces.find((p) => p.id === draggedPiece);
-    if (!draggedPieceObj) return;
-
-    if (placedPieces.has(draggedPiece)) return;
-
-    if (canPlacePieceAt(draggedPieceObj, slotIndex)) {
+    if (canPlacePieceAt(selectedPieceObj, slotIndex)) {
       const newPlaced = new Set(placedPieces);
-      newPlaced.add(draggedPiece);
+      newPlaced.add(selectedPiece);
 
       setPlacedPieces(newPlaced);
       speakText('Đúng rồi! ✨', { lang: 'vi-VN', rate: 1.0 });
+      setSelectedPiece(null);
 
       if (newPlaced.size === level.pieces.length) {
         setBestRound((b) => Math.max(b, round + 1));
@@ -400,8 +390,6 @@ export default function PuzzleGame() {
     } else {
       speakText('Không khớp! Thử mảnh khác.', { lang: 'vi-VN', rate: 1.0 });
     }
-
-    setDraggedPiece(null);
   };
 
   const handleStart = () => setAudioUnlocked(true);
@@ -608,13 +596,15 @@ export default function PuzzleGame() {
                     draggable={!placedPieces.has(piece.id)}
                     onDragStart={() => handleDragStart(piece.id)}
                     onDragEnd={handleDragEnd}
-                    onTouchStart={(e) => handleTouchStart(piece.id, e)}
-                    onTouchEnd={handleTouchEnd}
+                    onClick={() => handlePieceTap(piece.id)}
                     style={{
                       aspectRatio: '1 / 1',
                       overflow: 'hidden',
-                      opacity: placedPieces.has(piece.id) ? 0.28 : 1,
-                      cursor: placedPieces.has(piece.id) ? 'default' : 'grab',
+                      opacity: placedPieces.has(piece.id) ? 0.28 : selectedPiece === piece.id ? 0.6 : 1,
+                      cursor: placedPieces.has(piece.id) ? 'default' : 'pointer',
+                      border: selectedPiece === piece.id ? '3px solid #4CAF50' : 'none',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s',
                     }}
                   >
                     {renderPieceContent(piece)}
@@ -653,15 +643,18 @@ export default function PuzzleGame() {
                   return (
                     <div
                       key={idx}
+                      data-slot-index={idx}
                       className={`${styles.slot} ${content ? styles.filled : ''}`}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDropOnSlot(idx, e)}
-                      onTouchStart={handleSlotTouchStart}
-                      onTouchEnd={(e) => handleSlotTouchEnd(idx, e)}
+                      onClick={() => handleSlotTap(idx)}
                       style={{
                         aspectRatio: '1 / 1',
                         overflow: 'hidden',
+                        cursor: selectedPiece ? 'pointer' : 'default',
+                        backgroundColor: selectedPiece ? 'rgba(76, 175, 80, 0.1)' : 'transparent',
+                        transition: 'all 0.2s',
                       }}
                     >
                       {content ? (

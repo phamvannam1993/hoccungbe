@@ -76,7 +76,7 @@ export default function AdminLessons() {
         body: JSON.stringify(data),
       });
 
-      setLessons((l) =>
+      setLessons((l: Lesson[]) =>
         l.map((item) => (item.id === lesson.id ? { ...item, ...data } : item))
       );
       setEditingId(null);
@@ -117,7 +117,7 @@ export default function AdminLessons() {
           onSave={(l, file) => handleSave(l, file)}
           onCancel={() => setEditingId(null)}
           onChange={(field, value) => {
-            setLessons((l) =>
+            setLessons((l: Lesson[]) =>
               l.map((item) =>
                 item.id === editingId
                   ? { ...item, [field]: value }

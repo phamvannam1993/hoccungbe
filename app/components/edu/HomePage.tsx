@@ -11,7 +11,7 @@ interface Article {
 async function fetchArticles(): Promise<Article[]> {
   try {
     const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const res = await fetch(`${base}/api/articles?limit=4`, { next: { revalidate: 60 } });
+    const res = await fetch(`${base}/api/articles?limit=12&sortBy=createdAt&sortOrder=desc`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();
     return data.data || [];
@@ -255,14 +255,14 @@ export default async function HomePage() {
                 Xem tất cả →
               </Link>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
               {articles.map((article, idx) => {
                 const colors = ['#FF6B9D', '#4ECDC4', '#A06CD5', '#FF9F45'];
                 const c = colors[idx % colors.length];
                 return (
                   <Link key={article.id} href={`/bai-viet/${article.slug}`}
-                    className="group flex flex-col rounded-3xl overflow-hidden kid-card-hover bg-white"
-                    style={{ border: `3px solid ${c}`, boxShadow: `0 4px 0 ${c}66` }}>
+                    className="group flex flex-col rounded-3xl overflow-hidden kid-card-hover bg-white snap-start shrink-0"
+                    style={{ width: 220, border: `3px solid ${c}`, boxShadow: `0 4px 0 ${c}66` }}>
                     <div className="relative w-full aspect-[16/9] shrink-0" style={{ background: `linear-gradient(135deg, ${c}, ${c}88)` }}>
                       {article.thumbnailUrl
                         ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />

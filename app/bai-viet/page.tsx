@@ -113,7 +113,7 @@ function ArticlesContent() {
   const fetchArticles = useCallback(async (cat: string, pg: number, append: boolean) => {
     if (!append) setLoading(true); else setLoadingMore(true);
     try {
-      const p = new URLSearchParams({ page: String(pg), limit: String(limit) });
+      const p = new URLSearchParams({ page: String(pg), limit: String(limit), sortBy: 'createdAt', sortOrder: 'desc' });
       if (cat) p.set('category', cat);
       const res = await fetch(`${BASE_URL}/api/articles?${p}`);
       const json: ArticlesResponse = await res.json();

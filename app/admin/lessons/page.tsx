@@ -114,7 +114,7 @@ export default function AdminLessons() {
           lesson={lessons.find((l) => l.id === editingId)!}
           courses={courses}
           saving={saving}
-          onSave={(l: Lesson, file) => handleSave(l, file)}
+          onSave={(l: Lesson, file?: File) => handleSave(l, file)}
           onCancel={() => setEditingId(null)}
           onChange={(field, value) => {
             setLessons((l: Lesson[]) =>

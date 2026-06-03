@@ -23,6 +23,40 @@ const DIFF_BG   = { easy: 'linear-gradient(135deg,#dcfce7,#bbf7d0)', medium: 'li
 const DIFF_LABEL = { easy: 'Dễ', medium: 'Trung bình', hard: 'Nâng cao' };
 const DIFF_EMOJI: Record<string, string> = { easy: '🌱', medium: '🌿', hard: '🌳' };
 
+// Auto-generate meaningful exercise labels
+const EXERCISE_TEMPLATES = {
+  easy: [
+    'Luyện tập cơ bản',
+    'Nhận biết & xác định',
+    'Chọn đáp án đúng',
+    'Sắp xếp & phân loại',
+    'Hoàn thành mẫu',
+    'Quan sát & trả lời',
+  ],
+  medium: [
+    'Tính toán & áp dụng',
+    'Giải quyết vấn đề',
+    'Kết hợp kiến thức',
+    'Phân tích & so sánh',
+    'Vận dụng linh hoạt',
+    'Tìm quy luật',
+  ],
+  hard: [
+    'Thách thức & sáng tạo',
+    'Tư duy nâng cao',
+    'Giải pháp phức hợp',
+    'Suy luận logic',
+    'Ứng dụng toàn diện',
+    'Đột phá tư duy',
+  ],
+};
+
+function generateExerciseLabel(exerciseNumber: number, difficultyLevel: 'easy' | 'medium' | 'hard'): string {
+  const templates = EXERCISE_TEMPLATES[difficultyLevel];
+  const index = (exerciseNumber - 1) % templates.length;
+  return templates[index];
+}
+
 function StarBubbles({ count, color }: { count: number; color: string }) {
   return (
     <div className="flex items-center gap-1">
@@ -74,13 +108,18 @@ export default function LessonQuizList({
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {data.exercises.map((ex) => {
           const color = DIFF_COLOR[ex.difficultyLevel];
           const bg = DIFF_BG[ex.difficultyLevel];
           const href = lessonSlug
             ? buildExerciseUrl(lessonSlug, lessonId, ex.difficultyLevel, ex.exerciseNumber)
             : `/lessons/${lessonId}/play/${ex.exerciseNumber}`;
+
+          // Use manual label or auto-generate
+          const displayLabel = ex.label && ex.label.trim()
+            ? ex.label
+            : generateExerciseLabel(ex.exerciseNumber, ex.difficultyLevel);
 
           return (
             <Link
@@ -100,6 +139,7 @@ export default function LessonQuizList({
                   padding: '6px 20px 6px 12px',
                   minWidth: '90px',
                 }}
+                title={displayLabel}
               >
                 Bài {ex.exerciseNumber}
               </div>
@@ -107,10 +147,10 @@ export default function LessonQuizList({
               {/* Nội dung giữa */}
               <div className="flex-1 min-w-0">
                 <div className="text-base font-black truncate kid-display" style={{ color }}>
-                  {DIFF_LABEL[ex.difficultyLevel]}
+                  {displayLabel}
                 </div>
-                <div className="mt-1">
-                  <StarBubbles count={ex.stars} color={color} />
+                <div className="mt-1 text-xs text-gray-600">
+                  {DIFF_LABEL[ex.difficultyLevel]} • {ex.quizCount} câu hỏi
                 </div>
               </div>
 

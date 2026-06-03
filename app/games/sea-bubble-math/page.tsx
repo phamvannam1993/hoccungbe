@@ -25,13 +25,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <GameStructuredData
-        gameTitle="Bóng Biển - Toán"
-        gameSlug="toan-bong-bong-bien"
-        description="Trò chơi Bóng Biển - Toán giúp bé phát triển kỹ năng tính toán, tư duy logic và phản xạ nhanh qua các phép cộng trừ."
-        keywords={['bóng biển', 'toán cộng trừ', 'toán nhanh', 'tính toán']}
-        ageGroup="4-6"
-      />
+      <GameStructuredData slug="toan-bong-bong-bien" />
       <SeaBubbleMathGame />
     </>
   );

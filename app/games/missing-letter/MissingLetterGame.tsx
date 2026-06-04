@@ -58,11 +58,8 @@ export default function MissingLetterGame() {
     }
   }, [questionIndex, status]);
 
-  const isCorrect = (answer: string | string[]): boolean => {
+  const isCorrect = (answer: string): boolean => {
     if (!question) return false;
-    if (Array.isArray(answer)) {
-      return Array.isArray(question.answer) && (answer as string[]).every(a => (question.answer as string[]).includes(a));
-    }
     return answer === question.answer;
   };
 

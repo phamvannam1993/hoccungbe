@@ -40,6 +40,7 @@ export type PageKey =
   | 'tu-vung-tieng-anh'
   | 'fishing-letters'
   | 'missing-letter'
+  | 'letter-tracing'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

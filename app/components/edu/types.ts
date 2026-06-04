@@ -38,6 +38,7 @@ export type PageKey =
   | 'am-dau'
   | 'cap-doi-trai-nghia'
   | 'tu-vung-tieng-anh'
+  | 'fishing-letters'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

@@ -98,6 +98,28 @@ export const gameGroups: {
 
 export const gamesData: GameItem[] = [
   {
+    id: 'game-fishing-letters',
+    title: 'Câu Cá Chữ Cái',
+    slug: 'cau-ca-chu-cai',
+    shortDescription: 'Bé câu con cá có chữ cái đúng qua trò chơi vui nhộn.',
+    description:
+      'Trò chơi câu cá chữ cái giúp bé học nhận diện chữ cái, phân biệt chữ hoa/thường, từ vựng tiếng Việt qua gameplay hấp dẫn với âm thanh TTS, gợi ý, và theo dõi tiến độ học tập.',
+    age: '3-6 tuổi',
+    ageGroup: '4-6',
+    time: '15 phút',
+    durationMinutes: 15,
+    badge: 'Mới',
+    emoji: '🎣',
+    category: 'Ngôn ngữ',
+    groupKey: 'language',
+    difficulty: 'Dễ',
+    skills: ['Chữ cái', 'Từ vựng', 'Tư duy logic', 'Phát âm'],
+    isFeatured: true,
+    hasReport: true,
+    page: 'fishing-letters',
+    status: 'ready',
+  },
+  {
     id: 'game-puzzle',
     title: 'Ghép Hình',
     slug: 'ghep-hinh-rung',

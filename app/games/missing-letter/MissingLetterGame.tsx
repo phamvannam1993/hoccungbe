@@ -45,15 +45,18 @@ export default function MissingLetterGame() {
     }
   }, [status]);
 
-  // Auto-read hint when question changes
+  // Auto-read question and hint on load and when question changes
   useEffect(() => {
     if (question && status === "playing") {
-      setTimeout(() => {
+      const delay = questionIndex === 0 ? 100 : 300;
+      const timer = setTimeout(() => {
         const questionNum = questionIndex + 1;
-        speakText(`Câu số ${questionNum}. Tìm chữ bị mất. ${question.hint}.`);
-      }, 400);
+        const typeText = question.type === "scramble" ? "Sắp xếp chữ cái để tạo từ" : "Tìm chữ bị mất";
+        speakText(`Câu số ${questionNum}. ${typeText}. ${question.hint}.`);
+      }, delay);
+      return () => clearTimeout(timer);
     }
-  }, [questionIndex, question, status]);
+  }, [questionIndex, status]);
 
   const isCorrect = (answer: string | string[]): boolean => {
     if (!question) return false;

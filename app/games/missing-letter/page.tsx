@@ -44,13 +44,7 @@ export const metadata: Metadata = {
 export default function MissingLetterGamePage() {
   return (
     <>
-      <GameStructuredData
-        gameTitle="Tìm Chữ Bị Mất"
-        gameSlug="tim-chu-bi-mat"
-        description="Trò chơi tìm chữ bị mất với 100 câu hỏi giúp bé phát triển kỹ năng nhận diện chữ, suy luận, từ vựng tiếng Việt qua 5 dạng câu hỏi đa dạng."
-        keywords={['tìm chữ bị mất', 'từ vựng', 'tư duy logic', 'sắp xếp chữ cái']}
-        ageGroup="4-7"
-      />
+      <GameStructuredData slug="tim-chu-bi-mat" />
       <MissingLetterGame />
     </>
   );

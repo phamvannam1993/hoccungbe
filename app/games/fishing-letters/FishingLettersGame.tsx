@@ -322,7 +322,7 @@ export default function FishingLettersGame() {
             </h1>
             <p className="mt-1 text-base font-bold text-slate-500">
               {level.name} · {level.label} · Điểm {score}
-              {levelStats_ && (
+              {levelStats_ && levelStats && (
                 <span className="ml-4 text-xs text-slate-400">
                   {levelStats_.overallAccuracy}% chính xác · {levelStats_.masteredCount}/{levelStats.questionsStats.length} thành thạo
                 </span>

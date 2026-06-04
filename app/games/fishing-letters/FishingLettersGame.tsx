@@ -225,7 +225,7 @@ export default function FishingLettersGame() {
 
   const handleConfidenceSubmit = useCallback(
     (confidenceLevel: ConfidenceLevel) => {
-      if (!progress) return;
+      if (!progress || !question) return;
 
       // Record attempt with confidence
       const updated = recordAttempt(

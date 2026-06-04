@@ -48,10 +48,11 @@ export default function MissingLetterGame() {
   // Auto-read removed - only read when button clicked
 
   const isCorrect = (answer: string | string[]): boolean => {
+    if (!question) return false;
     if (Array.isArray(answer)) {
-      return Array.isArray(question?.answer) && question.answer.includes(answer as string);
+      return Array.isArray(question.answer) && (answer as string[]).every(a => (question.answer as string[]).includes(a));
     }
-    return answer === (question?.answer as string);
+    return answer === question.answer;
   };
 
   const choose = (letter: string) => {

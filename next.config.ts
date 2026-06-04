@@ -47,6 +47,7 @@ const GAME_MAP: Record<string, string> = {
   'puzzle-game': 'ghep-manh-hinh',
   'sea-bubble-math': 'toan-bong-bong-bien',
   'fishing-letters': 'cau-ca-chu-cai',
+  'missing-letter': 'tim-chu-bi-mat',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

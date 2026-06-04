@@ -45,7 +45,15 @@ export default function MissingLetterGame() {
     }
   }, [status]);
 
-  // Auto-read removed - only read when button clicked
+  // Auto-read hint when question changes
+  useEffect(() => {
+    if (question && status === "playing") {
+      setTimeout(() => {
+        const questionNum = questionIndex + 1;
+        speakText(`Câu số ${questionNum}. Tìm chữ bị mất. ${question.hint}.`);
+      }, 400);
+    }
+  }, [questionIndex, question, status]);
 
   const isCorrect = (answer: string | string[]): boolean => {
     if (!question) return false;

@@ -3,6 +3,7 @@
 import React, { PointerEvent, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './letterTracing.module.css';
 import { TRACE_LETTERS, TraceLetter } from './letters';
+import { speakText } from '@/app/components/edu/utils/speech';
 
 type Point = { x: number; y: number };
 
@@ -136,6 +137,13 @@ export default function LetterTracingGame() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [letterIndex]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      speakText(currentLetter.speak);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [letterIndex, currentLetter.speak]);
+
   function getSvgPoint(event: PointerEvent<HTMLCanvasElement>): Point {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
@@ -254,12 +262,7 @@ export default function LetterTracingGame() {
   }
 
   function speak() {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(currentLetter.speak);
-    utterance.lang = 'vi-VN';
-    utterance.rate = 0.82;
-    window.speechSynthesis.speak(utterance);
+    speakText(currentLetter.speak);
   }
 
   function playGuide() {

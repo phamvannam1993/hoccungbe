@@ -11,6 +11,7 @@ const SVG_W = 600;
 const SVG_H = 520;
 const HIT_RADIUS = 36;
 const SAMPLE_STEP = 7;
+const PENCIL_TILT = 35;
 
 function distance(a: Point, b: Point) {
   return Math.hypot(a.x - b.x, a.y - b.y);
@@ -36,7 +37,7 @@ export default function LetterTracingGame() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [isDemoing, setIsDemoing] = useState(false);
   const [pencilPoint, setPencilPoint] = useState<Point | null>(null);
-  const [pencilAngle, setPencilAngle] = useState(-22);
+  const [pencilAngle, setPencilAngle] = useState(PENCIL_TILT);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const demoCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -102,7 +103,8 @@ export default function LetterTracingGame() {
   function rebuildSamples() {
     const points: Point[] = [];
 
-    pathRefs.current.forEach((path) => {
+    currentLetter.paths.forEach((_, index) => {
+      const path = pathRefs.current[index];
       if (!path) return;
       const length = path.getTotalLength();
       for (let d = 0; d <= length; d += SAMPLE_STEP) {
@@ -125,7 +127,6 @@ export default function LetterTracingGame() {
 
   useEffect(() => {
     stopDemo();
-    pathRefs.current = [];
     resizeCanvas();
     const t = window.setTimeout(rebuildSamples, 80);
     window.addEventListener('resize', resizeCanvas);
@@ -173,9 +174,9 @@ export default function LetterTracingGame() {
     return { best, bestIndex };
   }
 
-  function updateCoverage(point: Point) {
+  function updateCoverage(point: Point, nearest = nearestDistance(point)) {
     const samples = samplePointsRef.current;
-    const { best, bestIndex } = nearestDistance(point);
+    const { best, bestIndex } = nearest;
     totalRef.current += 1;
 
     if (best <= HIT_RADIUS) {
@@ -202,8 +203,19 @@ export default function LetterTracingGame() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const nearest = nearestDistance(point);
+    setPencilPoint(point);
+    updateCoverage(point, nearest);
+
+    if (nearest.best > HIT_RADIUS) {
+      lastPointRef.current = null;
+      setMessage('Đầu bút đang lệch khỏi nét mờ, bé kéo chậm lại nhé.');
+      return;
+    }
+
     const canvasPoint = getCanvasPoint(point);
     const last = lastPointRef.current ? getCanvasPoint(lastPointRef.current) : canvasPoint;
+
     ctx.beginPath();
     ctx.moveTo(last.x, last.y);
     ctx.lineTo(canvasPoint.x, canvasPoint.y);
@@ -212,20 +224,31 @@ export default function LetterTracingGame() {
     if (lastPointRef.current) {
       const dx = point.x - lastPointRef.current.x;
       const dy = point.y - lastPointRef.current.y;
-      if (Math.abs(dx) + Math.abs(dy) > 0.5) setPencilAngle((Math.atan2(dy, dx) * 180) / Math.PI + 68);
+      if (Math.abs(dx) + Math.abs(dy) > 0.5) {
+        setPencilAngle((Math.atan2(dy, dx) * 180) / Math.PI + PENCIL_TILT);
+      }
     }
 
     lastPointRef.current = point;
-    setPencilPoint(point);
-    updateCoverage(point);
   }
 
   function handlePointerDown(event: PointerEvent<HTMLCanvasElement>) {
     if (isDemoing) return;
     event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDrawing(true);
+
     const point = getSvgPoint(event);
-    lastPointRef.current = point;
+    setPencilPoint(point);
+
+    const nearest = nearestDistance(point);
+    if (nearest.best > HIT_RADIUS * 1.2) {
+      setIsDrawing(false);
+      lastPointRef.current = null;
+      setMessage('Bé đặt đầu bút vào trong nét mờ rồi bắt đầu tô nhé.');
+      return;
+    }
+
+    setIsDrawing(true);
+    lastPointRef.current = null;
     drawTo(point);
   }
 
@@ -312,7 +335,7 @@ export default function LetterTracingGame() {
       if (lastSvgPoint) {
         const dx = svgPoint.x - lastSvgPoint.x;
         const dy = svgPoint.y - lastSvgPoint.y;
-        if (Math.abs(dx) + Math.abs(dy) > 0.5) setPencilAngle((Math.atan2(dy, dx) * 180) / Math.PI + 68);
+        if (Math.abs(dx) + Math.abs(dy) > 0.5) setPencilAngle((Math.atan2(dy, dx) * 180) / Math.PI + PENCIL_TILT);
       }
 
       lastCanvasPoint = canvasPoint;
@@ -400,18 +423,24 @@ export default function LetterTracingGame() {
             className={`${styles.pencil} ${pencilPoint ? styles.pencilVisible : ''}`}
             style={
               pencilPoint
-                ? {
+                ? ({
                     left: `${(pencilPoint.x / SVG_W) * 100}%`,
                     top: `${(pencilPoint.y / SVG_H) * 100}%`,
-                    transform: `translate(-50%, -86%) rotate(${pencilAngle}deg)`,
-                  }
+                    '--pencil-angle': `${pencilAngle}deg`,
+                  } as React.CSSProperties)
                 : undefined
             }
             aria-hidden="true"
           >
-            <div className={styles.pencilEraser} />
-            <div className={styles.pencilBody} />
-            <div className={styles.pencilTip} />
+            <svg className={styles.pencilIcon} viewBox="-18 -164 36 164" focusable="false">
+              <polygon points="0,0 -12,-34 12,-34" className={styles.pencilWood} />
+              <polygon points="0,0 -4,-11 4,-11" className={styles.pencilLead} />
+              <rect x="-11" y="-145" width="22" height="105" rx="8" className={styles.pencilBody} />
+              <rect x="-11" y="-164" width="22" height="18" rx="7" className={styles.pencilEraser} />
+              <rect x="-11" y="-150" width="22" height="8" rx="2" className={styles.pencilMetal} />
+              <line x1="-4" y1="-138" x2="-4" y2="-47" className={styles.pencilHighlight} />
+              <line x1="5" y1="-138" x2="5" y2="-47" className={styles.pencilShadow} />
+            </svg>
           </div>
         </div>
       </div>

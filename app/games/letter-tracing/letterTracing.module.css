@@ -32,13 +32,20 @@
   line-height: 1.05;
 }
 
-.scoreBox {
+.scoreBox,
+.strokeBox {
   min-width: 96px;
   padding: 12px 14px;
   border-radius: 22px;
   background: #ffffff;
   text-align: center;
   box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+  font-weight: 900;
+}
+
+.strokeBox {
+  color: #0369a1;
+  white-space: nowrap;
 }
 
 .scoreBox span {
@@ -106,106 +113,131 @@
   box-shadow: inset 0 0 0 2px rgba(248, 177, 83, 0.35);
 }
 
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(96, 165, 250, 0.25) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(96, 165, 250, 0.25) 1px, transparent 1px),
-    linear-gradient(to bottom, transparent calc(50% - 1px), rgba(239, 68, 68, 0.35) calc(50% - 1px), rgba(239, 68, 68, 0.35) calc(50% + 1px), transparent calc(50% + 1px));
-  background-size: 64px 64px, 64px 64px, 100% 100%;
-}
-
-.svgLayer,
-.demoCanvas,
-.canvas {
-  position: absolute;
-  inset: 0;
+.traceSvg {
+  display: block;
   width: 100%;
   height: 100%;
+  cursor: none;
+  user-select: none;
+  touch-action: none;
 }
 
-.svgLayer {
-  z-index: 1;
-  pointer-events: none;
+.boardBg {
+  fill: #fffdf8;
+}
+
+.gridLines line {
+  stroke: rgba(59, 130, 246, 0.28);
+  stroke-width: 1.5;
+}
+
+.gridLines .middleLine {
+  stroke: rgba(239, 68, 68, 0.36);
+  stroke-width: 2;
 }
 
 .tracePath {
   fill: none;
-  stroke: #93c5fd;
-  stroke-width: 54;
+  stroke: #111111;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.6;
+  opacity: 0.18;
 }
 
-.demoCanvas {
-  z-index: 2;
+.activeTracePath {
+  opacity: 0.42;
+  stroke-dasharray: 12 10;
+}
+
+.doneTracePath {
+  opacity: 0.5;
+}
+
+.drawnPath {
+  fill: none;
+  stroke: #111111;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   pointer-events: none;
 }
 
-.canvas {
-  z-index: 3;
-  cursor: crosshair;
-  touch-action: none;
-}
-
-.pencil {
-  position: absolute;
-  z-index: 4;
-  width: 0;
-  height: 0;
+.arrowLayer {
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.12s ease;
 }
 
-.pencilVisible {
-  opacity: 1;
+.arrow {
+  fill: none;
+  stroke: #111111;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  marker-end: url(#traceArrowHead);
+  transition: opacity 0.15s ease;
 }
 
-.pencilIcon {
-  position: absolute;
-  left: -18px;
-  top: -164px;
-  width: 36px;
-  height: 164px;
-  overflow: visible;
-  transform: rotate(var(--pencil-angle, 35deg));
-  transform-origin: 18px 164px;
+.arrowHead {
+  fill: #111111;
+}
+
+.strokeNumber {
+  pointer-events: none;
+}
+
+.strokeNumber circle {
+  fill: #ffffff;
+  stroke: #111111;
+  stroke-width: 2;
+}
+
+.strokeNumber text {
+  font-size: 22px;
+  font-weight: 900;
+  fill: #111111;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.activeStrokeNumber circle {
+  fill: #fff7ed;
+  stroke: #f97316;
+  stroke-width: 3;
+}
+
+.activeStrokeNumber text {
+  fill: #f97316;
+}
+
+.pencilSvg {
+  pointer-events: none;
   filter: drop-shadow(0 12px 12px rgba(15, 23, 42, 0.22));
 }
 
-.pencilBody {
-  fill: #f59e0b;
-}
-
 .pencilWood {
-  fill: #c08457;
+  fill: #6b3f1d;
 }
 
-.pencilLead {
-  fill: #1f2937;
+.pencilTipBody {
+  fill: #f6d2a2;
 }
 
-.pencilEraser {
-  fill: #f472b6;
+.pencilBodySvg {
+  fill: #d88b35;
 }
 
-.pencilMetal {
-  fill: #94a3b8;
+.pencilEraserSvg {
+  fill: #7c8be8;
 }
 
-.pencilHighlight {
-  stroke: rgba(255, 255, 255, 0.62);
+.pencilLineDark {
+  stroke: #b96c22;
   stroke-width: 2;
-  stroke-linecap: round;
+  opacity: 0.7;
 }
 
-.pencilShadow {
-  stroke: rgba(120, 53, 15, 0.28);
+.pencilLineLight {
+  stroke: #f4b15c;
   stroke-width: 2;
-  stroke-linecap: round;
+  opacity: 0.7;
 }
 
 .status {
@@ -254,22 +286,7 @@
   color: #ffffff;
 }
 
-.actions button:nth-child(2) {
-  background: #7c3aed;
-  color: #ffffff;
-}
-
-.actions button:nth-child(3) {
-  background: #f97316;
-  color: #ffffff;
-}
-
-.actions button:last-child {
-  background: #16a34a;
-  color: #ffffff;
-}
-
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .module {
     padding: 16px;
     border-radius: 22px;
@@ -277,23 +294,21 @@
 
   .header {
     align-items: flex-start;
+    flex-direction: column;
   }
 
-  .scoreBox {
-    min-width: 76px;
-  }
-
-  .scoreBox span {
-    font-size: 28px;
+  .scoreBox,
+  .strokeBox {
+    min-width: 0;
   }
 
   .letterList button {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     font-size: 24px;
   }
 
-  .actions button {
-    flex: 1 1 120px;
+  .boardWrap {
+    padding: 8px;
   }
 }

@@ -1,58 +1,33 @@
-# Letter Tracing Game
+# Letter Tracing Game - bản chuẩn từng nét
 
-Thư mục này là một game luyện viết chữ tiếng Việt dạng Next.js App Router.
+Bản này đã được chuẩn hóa theo hướng luyện viết:
+- Chữ mảnh kiểu 1 nét.
+- Mỗi chữ tách thành từng nét riêng.
+- Có số thứ tự nét.
+- Có mũi tên hướng dẫn chiều viết.
+- Chỉ cho bé viết đúng nét đang active.
+- Viết đủ nét hiện tại mới chuyển sang nét tiếp theo.
+- Đầu bút nằm đúng tại vị trí chạm/kéo.
 
 ## Cách dùng
 
-Copy nguyên thư mục `letter-tracing` vào:
-
-```txt
-src/app/games/letter-tracing
-```
-
-Sau đó chạy project và mở:
-
-```txt
-/games/letter-tracing
-```
-
-## File chính
-
-```txt
-letter-tracing/
-├─ page.tsx
-├─ LetterTracingGame.tsx
-├─ letters.ts
-├─ letterTracing.module.css
-└─ README.md
-```
-
-## Nội dung đã sửa
-
-- Thêm bút chì đi theo tay bé khi vẽ.
-- Thêm nút `Xem bút mẫu` để bút tự chạy theo nét chữ.
-- Sửa lại nhiều path chữ cho gọn hơn, đặc biệt nhóm dấu: `ă`, `â`, `ô`, `ơ`, `ư`, `Ơ`, `Ư`.
-- Thêm `strokeWidths` trong `letters.ts` để dấu/móc/thanh ngang mảnh hơn thân chữ, tránh bị phình thành cục.
-- Sửa chữ `g` thường gọn hơn và giảm độ dày nét riêng để không bị thừa viền.
-- Giữ hệ tọa độ SVG 600x520 để dễ mở rộng chữ mới.
-
-## Thêm chữ mới
-
-Mở file `letters.ts`, thêm object mới vào mảng `TRACE_LETTERS`.
+Copy thư mục `letter-tracing` vào project Next.js App Router.
 
 Ví dụ:
 
-```ts
-{
-  key: 'ơ',
-  label: 'ơ',
-  speak: 'chữ ơ',
-  paths: [
-    '...',
-    '...'
-  ],
-  strokeWidths: [54, 30]
+```tsx
+import LetterTracingGame from './LetterTracingGame';
+
+export default function Page() {
+  return <LetterTracingGame />;
 }
 ```
 
-`strokeWidths` là tuỳ chọn. Nếu không khai báo, path sẽ dùng độ dày mặc định trong CSS.
+File chính:
+- `LetterTracingGame.tsx`
+- `letters.ts`
+- `letterTracing.module.css`
+- `page.tsx`
+
+Lưu ý: component đang import `speakText` từ `@/app/components/edu/utils/speech`.
+Nếu project của bạn không có hàm này, hãy đổi import hoặc thay bằng `window.speechSynthesis`.

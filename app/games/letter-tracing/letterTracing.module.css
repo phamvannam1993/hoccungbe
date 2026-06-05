@@ -295,39 +295,68 @@
 
 @media (max-width: 680px) {
   .module {
-    padding: 12px;
-    border-radius: 22px;
+    padding: 8px;
+    border-radius: 16px;
   }
 
   .header {
     align-items: flex-start;
     flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .header h2 {
+    font-size: clamp(22px, 3vw, 32px);
   }
 
   .scoreBox,
   .strokeBox {
     min-width: 0;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .scoreBox span {
+    font-size: 28px;
+  }
+
+  .letterList {
+    gap: 6px;
+    margin-bottom: 8px;
   }
 
   .letterList button {
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 
   .boardWrap {
-    padding: 6px;
+    padding: 4px;
   }
 
   .board {
-    aspect-ratio: 600 / 640;
+    aspect-ratio: 600 / 520;
+    min-height: 280px;
   }
 
   .traceSvg {
-    min-height: 560px;
+    min-height: auto;
+  }
+
+  .status {
+    margin: 8px 0 0;
+  }
+
+  .status p {
+    font-size: 13px;
+    margin: 4px 0 0;
   }
 
   .actions button {
-    flex: 1 1 calc(50% - 8px);
+    flex: 1 1 calc(50% - 6px);
+    padding: 10px 12px;
+    font-size: 13px;
   }
 }

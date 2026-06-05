@@ -308,6 +308,16 @@ export default function LetterTracingGame() {
     });
   }
 
+  function completeStrokeIfEnough() {
+    const samples = samplePointsRef.current;
+    const coverage = samples.length ? coveredRef.current.size / samples.length : 0;
+    const completeCoverage = getCompleteCoverage();
+
+    if (coverage >= completeCoverage && activeStrokeIndex < strokeTotal - 1) {
+      setActiveStrokeIndex(activeStrokeIndex + 1);
+    }
+  }
+
   function startDrawingAt(point: Point, pointerType = 'touch') {
     if (isDemoing || isComplete) return;
 

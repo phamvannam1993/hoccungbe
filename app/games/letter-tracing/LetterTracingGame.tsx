@@ -104,13 +104,13 @@ export default function LetterTracingGame() {
     setPencilPoint(null);
   }
 
-  function getSvgPoint(event: PointerEvent<SVGSVGElement>): Point {
+  function getSvgPointFromClient(clientX: number, clientY: number): Point {
     const svg = svgRef.current;
     if (!svg) return { x: 0, y: 0 };
 
     const pt = svg.createSVGPoint();
-    pt.x = event.clientX;
-    pt.y = event.clientY;
+    pt.x = clientX;
+    pt.y = clientY;
 
     const matrix = svg.getScreenCTM();
     if (!matrix) return { x: 0, y: 0 };
@@ -121,6 +121,10 @@ export default function LetterTracingGame() {
       x: transformed.x,
       y: transformed.y,
     };
+  }
+
+  function getSvgPoint(event: PointerEvent<SVGSVGElement>): Point {
+    return getSvgPointFromClient(event.clientX, event.clientY);
   }
 
   function buildStrokeSamples(strokeIndex: number) {
@@ -304,13 +308,10 @@ export default function LetterTracingGame() {
     });
   }
 
-  function handlePointerDown(event: PointerEvent<SVGSVGElement>) {
+  function startDrawingAt(point: Point, pointerType = 'touch') {
     if (isDemoing || isComplete) return;
 
-    event.currentTarget.setPointerCapture(event.pointerId);
-
-    pointerTypeRef.current = event.pointerType;
-    const point = getSvgPoint(event);
+    pointerTypeRef.current = pointerType;
     updatePencil(point);
 
     const { isValid, snapPoint } = updateCoverage(point);
@@ -322,11 +323,10 @@ export default function LetterTracingGame() {
     lastPointRef.current = point;
   }
 
-  function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
+  function moveDrawingAt(point: Point, pointerType = 'touch') {
     if (isDemoing || isComplete) return;
 
-    pointerTypeRef.current = event.pointerType;
-    const point = getSvgPoint(event);
+    pointerTypeRef.current = pointerType;
     updatePencil(point);
 
     if (!isDrawing) return;
@@ -338,45 +338,56 @@ export default function LetterTracingGame() {
     lastPointRef.current = point;
   }
 
-  function completeStrokeIfEnough() {
-    const coverage = samplePointsRef.current.length
-      ? coveredRef.current.size / samplePointsRef.current.length
-      : 0;
+  function finishDrawing() {
+    setIsDrawing(false);
+    lastPointRef.current = null;
+    completeStrokeIfEnough();
+  }
 
-    if (coverage < getCompleteCoverage()) {
-      setMessage(`Bé tô thêm cho đủ nét số ${activeStrokeIndex + 1} nhé!`);
-      return;
-    }
+  function handlePointerDown(event: PointerEvent<SVGSVGElement>) {
+    if (event.pointerType === 'touch') return;
 
-    if (activeStrokeIndex < strokeTotal - 1) {
-      const nextStroke = activeStrokeIndex + 1;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    startDrawingAt(getSvgPoint(event), event.pointerType);
+  }
 
-      activeDrawPathRef.current = '';
-      lastPointRef.current = null;
-      coveredRef.current = new Set();
-      goodRef.current = 0;
-      totalRef.current = 0;
+  function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
+    if (event.pointerType === 'touch') return;
 
-      setActiveStrokeIndex(nextStroke);
-      setScore(0);
-      setMessage(`Giỏi quá! Bây giờ viết nét số ${nextStroke + 1} nhé!`);
-      return;
-    }
-
-    setActiveStrokeIndex(strokeTotal);
-    setScore(100);
-    setMessage('Hoàn thành rồi! Bé viết rất đẹp.');
-    window.setTimeout(() => setPencilPoint(null), 180);
+    moveDrawingAt(getSvgPoint(event), event.pointerType);
   }
 
   function stopDrawing(event: PointerEvent<SVGSVGElement>) {
+    if (event.pointerType === 'touch') return;
+
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    setIsDrawing(false);
-    lastPointRef.current = null;
-    completeStrokeIfEnough();
+    finishDrawing();
+  }
+
+  function handleTouchStart(event: React.TouchEvent<SVGSVGElement>) {
+    event.preventDefault();
+
+    const touch = event.touches[0] ?? event.changedTouches[0];
+    if (!touch) return;
+
+    startDrawingAt(getSvgPointFromClient(touch.clientX, touch.clientY), 'touch');
+  }
+
+  function handleTouchMove(event: React.TouchEvent<SVGSVGElement>) {
+    event.preventDefault();
+
+    const touch = event.touches[0] ?? event.changedTouches[0];
+    if (!touch) return;
+
+    moveDrawingAt(getSvgPointFromClient(touch.clientX, touch.clientY), 'touch');
+  }
+
+  function handleTouchEnd(event: React.TouchEvent<SVGSVGElement>) {
+    event.preventDefault();
+    finishDrawing();
   }
 
   function nextLetter() {
@@ -509,7 +520,12 @@ export default function LetterTracingGame() {
             onPointerMove={handlePointerMove}
             onPointerUp={stopDrawing}
             onPointerCancel={stopDrawing}
-            onPointerLeave={() => {
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
+            onPointerLeave={(event) => {
+              if (event.pointerType === 'touch') return;
               setIsDrawing(false);
               lastPointRef.current = null;
             }}

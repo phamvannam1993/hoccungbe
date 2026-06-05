@@ -37,3 +37,8 @@ Nếu project của bạn không có hàm này, hãy đổi import hoặc thay b
 - Tự tăng vùng nhận nét trên màn hình nhỏ và cảm ứng.
 - Khi bé kéo gần đúng, nét vẽ được snap nhẹ vào đường mẫu để không bị run tay.
 - Giảm tỷ lệ hoàn thành cần thiết trên mobile để bé dễ qua nét hơn.
+
+## Sửa lỗi iPhone / iOS Safari
+
+Bản này thêm `onTouchStart`, `onTouchMove`, `onTouchEnd` riêng cho iPhone.
+Lý do: trong một số WebView/Safari iOS, `PointerEvent` trên SVG có thể không chạy ổn hoặc thao tác bị trang cuộn chặn.

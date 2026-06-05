@@ -31,3 +31,9 @@ File chính:
 
 Lưu ý: component đang import `speakText` từ `@/app/components/edu/utils/speech`.
 Nếu project của bạn không có hàm này, hãy đổi import hoặc thay bằng `window.speechSynthesis`.
+
+## Bản mobile dễ viết
+
+- Tự tăng vùng nhận nét trên màn hình nhỏ và cảm ứng.
+- Khi bé kéo gần đúng, nét vẽ được snap nhẹ vào đường mẫu để không bị run tay.
+- Giảm tỷ lệ hoàn thành cần thiết trên mobile để bé dễ qua nét hơn.

@@ -288,7 +288,7 @@
 
 @media (max-width: 680px) {
   .module {
-    padding: 16px;
+    padding: 12px;
     border-radius: 22px;
   }
 
@@ -309,6 +309,18 @@
   }
 
   .boardWrap {
-    padding: 8px;
+    padding: 6px;
+  }
+
+  .board {
+    aspect-ratio: 600 / 640;
+  }
+
+  .traceSvg {
+    min-height: 560px;
+  }
+
+  .actions button {
+    flex: 1 1 calc(50% - 8px);
   }
 }

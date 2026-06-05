@@ -10,9 +10,11 @@ type ArrowInfo = { d: string; x: number; y: number };
 
 const SVG_W = 600;
 const SVG_H = 520;
-const HIT_RADIUS = 22;
+const DESKTOP_HIT_RADIUS = 24;
+const MOBILE_HIT_RADIUS = 42;
 const SAMPLE_STEP = 7;
-const COMPLETE_COVERAGE = 0.62;
+const DESKTOP_COMPLETE_COVERAGE = 0.58;
+const MOBILE_COMPLETE_COVERAGE = 0.42;
 const DEFAULT_STROKE_WIDTH = 16;
 
 function distance(a: Point, b: Point) {
@@ -37,6 +39,20 @@ function makeEmptyPaths(total: number) {
   return Array.from({ length: total }, () => '');
 }
 
+function isSmallScreen() {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(max-width: 680px)').matches;
+}
+
+function getHitRadius(pointerType?: string) {
+  if (pointerType === 'touch' || isSmallScreen()) return MOBILE_HIT_RADIUS;
+  return DESKTOP_HIT_RADIUS;
+}
+
+function getCompleteCoverage() {
+  return isSmallScreen() ? MOBILE_COMPLETE_COVERAGE : DESKTOP_COMPLETE_COVERAGE;
+}
+
 export default function LetterTracingGame() {
   const title = 'Bé tập viết chữ';
   const letters: TraceLetter[] = TRACE_LETTERS;
@@ -59,6 +75,7 @@ export default function LetterTracingGame() {
   const goodRef = useRef(0);
   const totalRef = useRef(0);
   const lastPointRef = useRef<Point | null>(null);
+  const pointerTypeRef = useRef<string>('mouse');
   const activeDrawPathRef = useRef('');
   const animationRef = useRef<number | null>(null);
 
@@ -220,13 +237,17 @@ export default function LetterTracingGame() {
   function updateCoverage(point: Point) {
     const samples = samplePointsRef.current;
     const { best, bestIndex } = nearestDistance(point);
+    const hitRadius = getHitRadius(pointerTypeRef.current);
+    const snapPoint = bestIndex >= 0 ? samples[bestIndex] : point;
 
     totalRef.current += 1;
 
-    if (best <= HIT_RADIUS) {
+    if (best <= hitRadius && bestIndex >= 0) {
       goodRef.current += 1;
 
-      for (let i = bestIndex - 3; i <= bestIndex + 3; i += 1) {
+      const coverRange = isSmallScreen() ? 6 : 3;
+
+      for (let i = bestIndex - coverRange; i <= bestIndex + coverRange; i += 1) {
         if (i >= 0 && i < samples.length) {
           coveredRef.current.add(i);
         }
@@ -235,17 +256,20 @@ export default function LetterTracingGame() {
 
     const accuracy = totalRef.current ? goodRef.current / totalRef.current : 0;
     const coverage = samples.length ? coveredRef.current.size / samples.length : 0;
-    const nextScore = Math.round(clamp((accuracy * 0.42 + coverage * 0.58) * 100, 0, 100));
+    const nextScore = Math.round(clamp((accuracy * 0.36 + coverage * 0.64) * 100, 0, 100));
 
     setScore(nextScore);
 
-    if (best > HIT_RADIUS) {
+    if (best > hitRadius) {
       setMessage(`Chưa đúng nét số ${activeStrokeIndex + 1}, bé kéo chậm lại nhé!`);
     } else {
       setMessage(`Tốt rồi, tiếp tục nét số ${activeStrokeIndex + 1} nhé!`);
     }
 
-    return best <= HIT_RADIUS;
+    return {
+      isValid: best <= hitRadius,
+      snapPoint,
+    };
   }
 
   function updatePencil(point: Point) {
@@ -285,30 +309,32 @@ export default function LetterTracingGame() {
 
     event.currentTarget.setPointerCapture(event.pointerId);
 
+    pointerTypeRef.current = event.pointerType;
     const point = getSvgPoint(event);
     updatePencil(point);
 
-    const isValid = updateCoverage(point);
+    const { isValid, snapPoint } = updateCoverage(point);
     if (!isValid) return;
 
     activeDrawPathRef.current = '';
     setIsDrawing(true);
-    appendDrawPoint(point);
+    appendDrawPoint(snapPoint);
     lastPointRef.current = point;
   }
 
   function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
     if (isDemoing || isComplete) return;
 
+    pointerTypeRef.current = event.pointerType;
     const point = getSvgPoint(event);
     updatePencil(point);
 
     if (!isDrawing) return;
 
-    const isValid = updateCoverage(point);
+    const { isValid, snapPoint } = updateCoverage(point);
     if (!isValid) return;
 
-    appendDrawPoint(point);
+    appendDrawPoint(snapPoint);
     lastPointRef.current = point;
   }
 
@@ -317,7 +343,7 @@ export default function LetterTracingGame() {
       ? coveredRef.current.size / samplePointsRef.current.length
       : 0;
 
-    if (coverage < COMPLETE_COVERAGE) {
+    if (coverage < getCompleteCoverage()) {
       setMessage(`Bé tô thêm cho đủ nét số ${activeStrokeIndex + 1} nhé!`);
       return;
     }

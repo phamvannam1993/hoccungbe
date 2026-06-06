@@ -1,0 +1,643 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff4d8, #ffe1ef);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  width: 100%;
+  max-width: 860px;
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(255, 107, 154, 0.22);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.label {
+  margin: 0 0 6px;
+  color: #ff6b9a;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.title {
+  margin: 0;
+  font-size: 34px;
+  color: #333333;
+}
+
+.star {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  background: #fff0a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.lessonStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0a6;
+  color: #8a5a00;
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.selectLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #555555;
+}
+
+.select {
+  border: 2px solid #ffd0df;
+  border-radius: 12px;
+  padding: 9px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #9b3157;
+  background: #fff7fb;
+  outline: none;
+  max-width: 230px;
+}
+
+.instruction {
+  background: #fff7fb;
+  border: 2px dashed #ffb4cf;
+  border-radius: 18px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  color: #9b3157;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.instructionContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.instruction p {
+  margin: 0;
+  flex: 1;
+}
+
+.audioBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #ff6b9a;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.audioBtn:hover {
+  background: #ff4d7f;
+  transform: scale(1.1);
+}
+
+.audioBtn:active {
+  transform: scale(0.95);
+}
+
+.sampleBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fbff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.sampleBox span {
+  color: #666666;
+  font-weight: 700;
+}
+
+.sampleBox strong {
+  font-size: 30px;
+  color: #333333;
+  flex: 1;
+}
+
+.sampleAudioBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 2px solid #4a9fd8;
+  border-radius: 50%;
+  background: #e3f2fd;
+  color: #1976d2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sampleAudioBtn:hover {
+  background: #1976d2;
+  color: white;
+  transform: scale(1.1);
+}
+
+.sampleAudioBtn:active {
+  transform: scale(0.95);
+}
+
+.tracingArea {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #fffdf7;
+  border: 3px solid #ffe0a3;
+  border-radius: 24px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.cursorPreview {
+  position: absolute;
+  border: 2px solid #ff6b9a;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.6;
+  box-shadow: 0 0 8px rgba(255, 107, 154, 0.3);
+  transition: opacity 0.1s ease;
+}
+
+.tracingArea:hover .cursorPreview {
+  opacity: 0.8;
+}
+
+.guideLineTop,
+.guideLineMiddle,
+.guideLineBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 207, 112, 0.45);
+  z-index: 0;
+}
+
+.guideLineTop {
+  top: 30%;
+}
+
+.guideLineMiddle {
+  top: 50%;
+}
+
+.guideLineBottom {
+  top: 70%;
+}
+
+.traceText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  font-size: clamp(80px, 16vw, 150px);
+  font-weight: 900;
+  color: rgba(200, 200, 200, 0.3);
+  -webkit-text-stroke: 2px #d0d0d0;
+  letter-spacing: 3px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  line-height: 1.2;
+  paint-order: stroke fill;
+}
+
+.traceTextSmall {
+  font-size: clamp(65px, 12vw, 120px);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  z-index: 2;
+}
+
+.progressBox {
+  margin-top: 20px;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #444444;
+  font-weight: 700;
+}
+
+.progressBar {
+  width: 100%;
+  height: 16px;
+  background: #eeeeee;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8bb0, #ffd36a);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.resetButton,
+.prevButton,
+.nextButton {
+  flex: 1;
+  min-width: 150px;
+  border: none;
+  border-radius: 16px;
+  padding: 15px 18px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.resetButton {
+  background: #f1f1f1;
+  color: #444444;
+}
+
+.prevButton {
+  background: #e8f3ff;
+  color: #246ba8;
+}
+
+.prevButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nextButton {
+  background: #ff6b9a;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(255, 107, 154, 0.28);
+}
+
+.reward {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #fff8c7;
+  color: #8a5a00;
+  font-weight: 800;
+  text-align: center;
+  font-size: 20px;
+}
+
+.sentenceList {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sentenceChip {
+  border: 2px solid #ffe0ec;
+  background: #fff7fb;
+  color: #9b3157;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sentenceChipActive {
+  background: #ff6b9a;
+  border-color: #ff6b9a;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .header {
+    margin-bottom: 12px;
+  }
+
+  .label {
+    font-size: 13px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .star {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .topRow {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .lessonStatus {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .selectLabel {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  .select {
+    width: 100%;
+    max-width: none;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .instruction {
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  .instructionContent {
+    gap: 8px;
+  }
+
+  .audioBtn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .audioBtn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .sampleBox {
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .sampleBox span {
+    font-size: 13px;
+  }
+
+  .sampleBox strong {
+    font-size: 20px;
+  }
+
+  .tracingArea {
+    height: 240px;
+    border-radius: 18px;
+  }
+
+  .traceText {
+    font-size: clamp(75px, 15vw, 140px);
+    padding: 0 16px;
+    letter-spacing: 2px;
+  }
+
+  .traceTextSmall {
+    font-size: clamp(60px, 11vw, 115px);
+  }
+
+  .progressBox {
+    margin-top: 16px;
+  }
+
+  .progressInfo {
+    font-size: 13px;
+  }
+
+  .progressBar {
+    height: 14px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .resetButton,
+  .prevButton,
+  .nextButton {
+    min-width: auto;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  .reward {
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 14px;
+  }
+
+  .sentenceList {
+    margin-top: 14px;
+    gap: 6px;
+  }
+
+  .sentenceChip {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 18px;
+    border-width: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .star {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .topRow {
+    gap: 8px;
+  }
+
+  .lessonStatus {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 18px;
+  }
+
+  .selectLabel {
+    font-size: 13px;
+    gap: 4px;
+  }
+
+  .select {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .instruction {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+
+  .sampleBox {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .sampleBox span {
+    font-size: 12px;
+  }
+
+  .sampleBox strong {
+    font-size: 18px;
+  }
+
+  .tracingArea {
+    height: 220px;
+    border: 2px solid #ffe0a3;
+  }
+
+  .traceText {
+    font-size: clamp(70px, 14vw, 140px);
+    padding: 0 12px;
+    letter-spacing: 1px;
+  }
+
+  .traceTextSmall {
+    font-size: clamp(55px, 10vw, 115px);
+  }
+
+  .canvas {
+    cursor: pointer;
+  }
+
+  .progressInfo {
+    font-size: 12px;
+  }
+
+  .progressBar {
+    height: 12px;
+  }
+
+  .buttonGroup {
+    gap: 8px;
+  }
+
+  .resetButton,
+  .prevButton,
+  .nextButton {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .reward {
+    margin-top: 12px;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .sentenceList {
+    margin-top: 12px;
+  }
+
+  .sentenceChip {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+}

@@ -36,7 +36,7 @@ export default function SiteHeader() {
 
   // Fetch courses thật để link đúng slug, tránh 404
   useEffect(() => {
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     fetch(`${API}/api/courses`)
       .then((r) => r.ok ? r.json() : [])
       .then((courses: { slug: string; title: string }[]) => {

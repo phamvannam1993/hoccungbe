@@ -5,7 +5,7 @@ import GamesFilter from './GamesFilter';
 
 async function fetchGames(): Promise<ApiMiniGame[]> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const res = await fetch(`${base}/api/mini-games?isActive=true`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();

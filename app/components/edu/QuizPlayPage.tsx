@@ -3,9 +3,13 @@
 import { createContext, memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
 import { apiFetch } from '../../lib/api';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
 import NumberTrace from './NumberTrace';
+import LetterTracingGame, { type LetterTracingGameRef } from '../../games/letter-tracing/LetterTracingGame';
+import QuestionLetterTracing, { type QuestionLetterTracingRef } from './QuestionLetterTracing';
+import QuestionTraceSentence, { type QuestionTraceSentenceRef } from './QuestionTraceSentence';
 import confetti from 'canvas-confetti';
 
 const KidsCtx = createContext(false);
@@ -41,7 +45,7 @@ type QuizItem = {
     | 'drag_drop' | 'image_choice' | 'matching'
     | 'fill_blank' | 'table_fill' | 'number_line'
     | 'sorting' | 'cross_out' | 'coloring'
-    | 'puzzle' | 'game' | 'counting' | 'find_errors' | 'trace_number';
+    | 'puzzle' | 'game' | 'counting' | 'find_errors' | 'trace_number' | 'letter_tracing' | 'trace_sentence';
   difficultyLevel: 'easy' | 'medium' | 'hard';
   optionsJson?: OptionItem[];
   correctAnswerJson?: unknown;
@@ -309,7 +313,7 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
         const isRight = checked && correctOrder[idx] === key;
         const isWrong = checked && correctOrder[idx] !== key;
         return (
-          <div key={key} draggable={!checked}
+          <div key={`${idx}-${key}`} draggable={!checked}
             onDragStart={() => { dragIdx.current = idx; }}
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => {
@@ -395,13 +399,18 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const rightItems = useState<{ text: string; imageUrl?: string }[]>(() => {
-    const hasPair = options.some((o) => !!o.pair);
+    const hasPair = options.some((o) => !!o.pair || !!o.pairImageUrl);
     const rawItems = hasPair
-      ? options.map((o) => ({ text: o.pair ?? '', imageUrl: o.pairImageUrl })).filter((i) => !!i.text)
-      : options.map((o) => ({ text: correctMap[o.key] ?? '' })).filter((i) => !!i.text);
-    // Deduplicate by text so same-value right items appear only once
+      ? options.map((o) => ({ text: o.pair ?? '', imageUrl: o.pairImageUrl })).filter((i) => !!i.text || !!i.imageUrl)
+      : options.map((o) => ({ text: correctMap[o.key] ?? '', imageUrl: undefined })).filter((i) => !!i.text);
+    // Deduplicate by text (or imageUrl if no text) so same-value right items appear only once
     const seen = new Set<string>();
-    const unique = rawItems.filter((i) => { if (seen.has(i.text)) return false; seen.add(i.text); return true; });
+    const unique = rawItems.filter((i) => {
+      const key = i.text || i.imageUrl || '';
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
     for (let i = unique.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [unique[i], unique[j]] = [unique[j], unique[i]]; }
     return unique;
   })[0];
@@ -412,7 +421,8 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
     options.forEach((opt) => {
       const matched = userMap[opt.key];
       if (matched) {
-        const pos = rightItems.findIndex((item) => item.text === matched);
+        // Try to match by text first, then by imageUrl
+        const pos = rightItems.findIndex((item) => item.text === matched || item.imageUrl === matched);
         if (pos >= 0) initial[opt.key] = pos;
       }
     });
@@ -447,7 +457,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   return (
     <div className="space-y-2">
       <p className="text-xs text-gray-400 mb-1">Chọn vế trái rồi chọn vế phải để nối</p>
-      <div ref={containerRef} className="relative flex gap-2">
+      <div ref={containerRef} className="relative flex gap-8 items-stretch">
         <svg className="absolute inset-0 pointer-events-none" width={svgSize.w} height={svgSize.h} style={{ overflow: 'visible' }}>
           {lines.map((ln, i) => {
             const mx = (ln.x1 + ln.x2) / 2;
@@ -460,7 +470,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </svg>
-        <div className="flex-1 space-y-3 min-w-0">
+        <div className="flex-1 space-y-3 min-w-0 flex flex-col">
           {options.map((opt, idx) => {
             const isSelected = selectedLeft === opt.key;
             const matched = userMap[opt.key];
@@ -478,11 +488,11 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                   boxShadow: isSelected ? '0 2px 8px rgba(245,158,11,0.3)' : '0 1px 3px rgba(0,0,0,0.06)',
                   cursor: checked ? 'default' : 'pointer',
                 }}
-                className="w-full flex items-center px-5 py-4 transition-all"
+                className="w-full flex items-center justify-center px-5 py-4 transition-all flex-1 min-h-[120px]"
               >
                 {opt.imageUrl
-                  ? <div className="flex flex-col items-center gap-1 flex-1"><img src={opt.imageUrl} alt={opt.text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', textAlign: 'center' }}>{opt.text}</span></div>
-                  : <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="flex-1 text-left">{formatMath(opt.text)}</span>
+                  ? <div className="flex flex-col items-center justify-center gap-1 flex-1"><img src={opt.imageUrl} alt={opt.text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', textAlign: 'center' }}>{opt.text}</span></div>
+                  : <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="text-center">{formatMath(opt.text)}</span>
                 }
                 {isCorrect && <span className="text-green-600 font-black text-lg shrink-0">✓</span>}
                 {isWrong && <span className="text-red-500 font-black shrink-0">✗</span>}
@@ -490,8 +500,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </div>
-        <div className="w-8 shrink-0" />
-        <div className="flex-1 space-y-3 min-w-0">
+        <div className="flex-1 space-y-3 min-w-0 flex flex-col">
           {rightItems.map((item, pos) => {
             const text = item.text;
             const isConnected = connectedPositions.has(pos);
@@ -499,8 +508,15 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             const ownerKey = ownerKeys[0];
             const ownerIdx = ownerKey ? options.findIndex((o) => o.key === ownerKey) : -1;
             const col = ownerIdx >= 0 ? OPTION_COLORS[ownerIdx % OPTION_COLORS.length] : '#6b7280';
-            const allCorrect = checked && ownerKeys.length > 0 && ownerKeys.every((k) => correctMap[k] === text);
-            const anyWrong = checked && ownerKeys.some((k) => correctMap[k] !== text);
+            // For image-only items, check both text and imageUrl
+            const allCorrect = checked && ownerKeys.length > 0 && ownerKeys.every((k) => {
+              const correct = correctMap[k];
+              return correct === text || (item.imageUrl && correct === item.imageUrl) || (!text && correct === item.imageUrl);
+            });
+            const anyWrong = checked && ownerKeys.some((k) => {
+              const correct = correctMap[k];
+              return correct !== text && !(item.imageUrl && correct === item.imageUrl) && !(correct === item.imageUrl);
+            });
             const isCorrect = allCorrect;
             const isWrong = anyWrong && !allCorrect;
             const isTarget = !checked && !!selectedLeft;
@@ -513,7 +529,8 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                   newPosMap[selectedLeft] = pos;
                   setPosMap(newPosMap);
                   const newMap = { ...userMap };
-                  newMap[selectedLeft] = text;
+                  // Use text as key, fallback to imageUrl if no text
+                  newMap[selectedLeft] = text || item.imageUrl || '';
                   onChange(newMap);
                   setSelectedLeft(null);
                 }}
@@ -525,14 +542,14 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                   background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isConnected ? '#eff6ff' : '#fff',
                   cursor: checked ? 'default' : 'pointer',
                 }}
-                className="w-full px-5 py-4 text-left transition-all"
+                className="w-full px-5 py-4 text-center transition-all flex-1 min-h-[120px] flex flex-col items-center justify-center"
               >
                 {item.imageUrl
-                  ? <div className="flex flex-col items-center gap-1"><img src={item.imageUrl} alt={text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151', textAlign: 'center' }}>{text}</span></div>
+                  ? <div className="flex flex-col items-center justify-center gap-1"><img src={item.imageUrl} alt={text} style={{ width: 80, height: 80, objectFit: 'contain' }} />{text && !text.includes('http') && <span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151', textAlign: 'center' }}>{text}</span>}</div>
                   : <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{formatMath(text)}</span>
                 }
                 {isCorrect && <span className="ml-2 text-green-600 font-black">✓</span>}
-                {isWrong && ownerKey && <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>}
+                {isWrong && ownerKey && correctMap[ownerKey] && !correctMap[ownerKey].includes('http') && <span className="ml-1 text-xs text-red-500">(đúng: {correctMap[ownerKey]})</span>}
               </button>
             );
           })}
@@ -988,7 +1005,7 @@ function Sorting({ options, order, checked, correctOrder, onReorder }: {
         const text = opt?.text ?? key;
         const isMath = isMathText(text);
         return (
-          <div key={key} style={{
+          <div key={`${idx}-${key}`} style={{
             display: 'flex', alignItems: 'center', gap: 14,
             padding: '14px 18px', borderRadius: 16,
             borderWidth: 2, borderStyle: 'solid',
@@ -1147,6 +1164,7 @@ function CrossOut({ options, selected, checked, correctKeys, onToggle }: {
 // A color palette is shown; tap shape to select it, tap color to paint it
 
 const COLORING_PALETTE = [
+  { id: 'white', hex: '#ffffff', label: 'Trắng' },
   { id: 'red', hex: '#ef4444', label: 'Đỏ' },
   { id: 'blue', hex: '#3b82f6', label: 'Xanh dương' },
   { id: 'yellow', hex: '#eab308', label: 'Vàng' },
@@ -1184,68 +1202,56 @@ function Coloring({ options, colorMap, checked, correctMap, onChange }: {
   correctMap: Record<string, string>;
   onChange: (map: Record<string, string>) => void;
 }) {
-  const [selectedShape, setSelectedShape] = useState<string | null>(null);
-  const [activePaint, setActivePaint] = useState<string>('red');
-
-  const applyColor = (shapeKey: string, colorId: string) => {
-    onChange({ ...colorMap, [shapeKey]: colorId });
+  const toggleColoring = (shapeKey: string) => {
+    const isColored = colorMap[shapeKey] && colorMap[shapeKey] !== 'white';
+    onChange({ ...colorMap, [shapeKey]: isColored ? 'white' : 'red' });
   };
 
   return (
     <div className="space-y-4">
-      <p className="text-xs text-gray-400">Chọn hình, sau đó chọn màu để tô</p>
+      <p className="text-xs text-gray-400">Bấm vào chữ để tô màu</p>
 
       {/* Shapes grid */}
       <div className={`grid gap-4 ${options.length <= 3 ? 'grid-cols-3' : 'grid-cols-4'}`}>
         {options.map((opt) => {
           const colorId = colorMap[opt.key] ?? 'white';
-          const hexColor = COLORING_PALETTE.find((c) => c.id === colorId)?.hex ?? '#ffffff';
-          const correctColor = correctMap[opt.key];
-          const isCorrect = checked && colorId === correctColor;
-          const isWrong = checked && colorId !== correctColor && colorId !== 'white';
-          const isSelected = selectedShape === opt.key;
+          const isColored = colorId !== 'white';
+          const shouldBeColored = correctMap[opt.key] !== 'white';
+
+          // Check if correct
+          const isCorrect = checked && isColored === shouldBeColored;
+          const isWrong = checked && isColored !== shouldBeColored;
+
           return (
             <div key={opt.key} className="flex flex-col items-center gap-1">
               <button
                 onClick={() => {
                   if (checked) return;
-                  applyColor(opt.key, activePaint);
+                  toggleColoring(opt.key);
                 }}
                 className={`w-16 h-16 rounded-2xl border-3 flex items-center justify-center transition-all ${
                   isCorrect ? 'border-green-500 shadow-lg shadow-green-200' :
                   isWrong ? 'border-red-400 shadow-lg shadow-red-100' :
-                  isSelected ? 'border-amber-400 shadow-md scale-105' :
+                  isColored ? 'border-amber-400 shadow-md scale-105' :
                   'border-gray-300 hover:border-amber-300 hover:scale-105'
                 }`}
-                style={{ border: `3px solid ${isSelected ? '#f59e0b' : '#d1d5db'}` }}
               >
-                {getShapeRenderer(opt.text, hexColor)}
+                {getShapeRenderer(opt.text, isColored ? '#ef4444' : '#ffffff')}
               </button>
               <span className="text-xs text-gray-600 text-center leading-tight">{formatMath(opt.text)}</span>
-              {checked && !isCorrect && (
-                <span className="text-xs text-green-600">→ {COLORING_PALETTE.find((c) => c.id === correctColor)?.label}</span>
+              {checked && isWrong && (
+                <span className="text-xs text-amber-600">
+                  {shouldBeColored ? '✓ Tô màu' : '✗ Không tô'}
+                </span>
               )}
             </div>
           );
         })}
       </div>
 
-      {/* Color palette */}
-      {!checked && (
-        <div className="space-y-2">
-          <p className="text-xs text-gray-500 font-medium">Chọn màu để tô:</p>
-          <div className="flex flex-wrap gap-2">
-            {COLORING_PALETTE.map((c) => (
-              <button key={c.id} onClick={() => setActivePaint(c.id)}
-                className={`w-9 h-9 rounded-full border-3 transition-all hover:scale-110 ${activePaint === c.id ? 'border-gray-800 scale-110 shadow-md' : 'border-white shadow-sm'}`}
-                style={{ backgroundColor: c.hex, border: `3px solid ${activePaint === c.id ? '#1f2937' : '#fff'}`, boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}
-                title={c.label}
-              />
-            ))}
-          </div>
-          <p className="text-xs text-amber-600">Màu đang chọn: <strong>{COLORING_PALETTE.find((c) => c.id === activePaint)?.label}</strong> — Bấm vào hình để tô</p>
-        </div>
-      )}
+      <p className="text-xs text-center text-gray-500 mt-4">
+        {checked ? '✓ Hoàn thành!' : '← Bấm vào các chữ cần tô'}
+      </p>
     </div>
   );
 }
@@ -1828,6 +1834,9 @@ export default function QuizPlayPage({
   const [celebrateMsg, setCelebrateMsg] = useState('');
   const [activeBlankKey, setActiveBlankKey] = useState<{ qid: number; bkey: string } | null>(null);
 
+  const letterTracingRef = useRef<LetterTracingGameRef>(null);
+  const traceSentenceRef = useRef<QuestionTraceSentenceRef>(null);
+
   const correctAudio = useRef<HTMLAudioElement | null>(null);
   const wrongAudio = useRef<HTMLAudioElement | null>(null);
 
@@ -1975,8 +1984,23 @@ export default function QuizPlayPage({
     [exercise],
   );
   const { correctKey, correctKeys, correctBool, correctDragOrder, correctMatchMap } = useMemo(() => {
-    const cj = q?.correctAnswerJson;
-    return {
+    let cj = q?.correctAnswerJson;
+
+    // Parse JSON string if needed (coloring, matching, fill_blank, etc.)
+    if (typeof cj === 'string') {
+      // Try to parse as JSON if it looks like JSON
+      if (cj.startsWith('{') || cj.startsWith('[')) {
+        try {
+          cj = JSON.parse(cj);
+          console.log('[correctAnswer] Parsed JSON:', cj);
+        } catch (e) {
+          console.warn('[correctAnswer] Failed to parse JSON:', cj, e);
+          // If parse fails, treat as string
+        }
+      }
+    }
+
+    const result = {
       correctKey: typeof cj === 'string' ? cj : typeof cj === 'number' ? String(cj) : null,
       correctKeys: Array.isArray(cj) ? (cj as string[]) : [],
       correctBool: typeof cj === 'boolean' ? cj : null,
@@ -1984,7 +2008,13 @@ export default function QuizPlayPage({
       correctMatchMap: (typeof cj === 'object' && cj !== null && !Array.isArray(cj))
         ? cj as Record<string, string> : {},
     };
-  }, [q?.correctAnswerJson]);
+
+    if (q?.questionType === 'coloring') {
+      console.log('[coloring] correctMatchMap:', result.correctMatchMap);
+    }
+
+    return result;
+  }, [q?.correctAnswerJson, q?.questionType]);
 
   if (loading) {
     return (
@@ -2010,6 +2040,7 @@ export default function QuizPlayPage({
 
   const isChecked = !!checked[q.id];
   const diffColor = DIFF_COLOR[exercise.difficultyLevel] || '#E8871A';
+  const isLetterTracing = q.questionType === 'letter_tracing' || /^\s*(?:tô|viết)\s*(?:chữ|ký\s*tự)/i.test(q.questionText || '');
 
   // ─── isAnswerCorrect ───────────────────────────────────────────────────────
 
@@ -2049,7 +2080,31 @@ export default function QuizPlayPage({
       }
       case 'coloring': {
         const map = coloringMap[q.id] ?? {};
-        return Object.entries(correctMatchMap).every(([k, v]) => map[k] === v);
+
+        // If correctMatchMap is empty, it means the answer data is corrupted
+        if (Object.keys(correctMatchMap).length === 0) {
+          console.warn('[coloring] correctMatchMap is empty - possible corrupted data!', { q: q?.id, correctAnswerJson: q?.correctAnswerJson });
+          // Fallback: require user to have colored something
+          return Object.keys(map).length > 0 && Object.values(map).some(v => v && v !== 'white');
+        }
+
+        // Validation: check if items are colored correctly
+        // Items not in map default to 'white' (not colored)
+        const isCorrect = Object.entries(correctMatchMap).every(([k, v]) => {
+          const userColor = map[k] ?? 'white'; // Default to 'white' if not set
+          const userColored = userColor !== 'white';
+          const shouldBeColored = v !== 'white';
+          return userColored === shouldBeColored;
+        });
+
+        const userAnswerDebug = Object.fromEntries(
+          Object.keys(correctMatchMap).map(k => [k, (map[k] ?? 'white') !== 'white' ? 'colored' : 'not colored'])
+        );
+        const correctAnswerDebug = Object.fromEntries(
+          Object.entries(correctMatchMap).map(([k, v]) => [k, v !== 'white' ? 'colored' : 'not colored'])
+        );
+        console.log('[coloring] validation:', { id: q?.id, isCorrect, userAnswer: userAnswerDebug, correctAnswer: correctAnswerDebug });
+        return isCorrect;
       }
       case 'puzzle': {
         const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
@@ -2060,6 +2115,10 @@ export default function QuizPlayPage({
       }
       case 'game':
         return gameComplete[q.id] ?? false;
+      case 'trace_number':
+        return (traceScores[q.id] ?? 0) >= 0.5;
+      case 'letter_tracing':
+        return true; // auto-complete when answered
       case 'counting': {
         const ans = countingAns[q.id] ?? {};
         if (correctKey !== null && correctKey !== '') return !!(ans['total']?.trim()) && ans['total']?.trim() === correctKey;
@@ -2098,7 +2157,8 @@ export default function QuizPlayPage({
       case 'find_errors': return (crossOutSel[q.id]?.length ?? 0) > 0;
       case 'coloring': {
         const map = coloringMap[q.id] ?? {};
-        return Object.keys(correctMatchMap).every((k) => !!map[k]);
+        // Check if user has colored at least one item
+        return Object.values(map).some(v => v && v !== 'white');
       }
       case 'puzzle': {
         const hasSlots = options.some((o) => o.key.startsWith('slot_'));
@@ -2109,6 +2169,8 @@ export default function QuizPlayPage({
       }
       case 'game': return gameComplete[q.id] ?? false;
       case 'trace_number': return false; // handled internally — no "Kiểm tra" button
+      case 'letter_tracing': return false; // handled internally — auto-completes
+      case 'trace_sentence': return false; // handled internally — auto-completes
       case 'counting': {
         const ans = countingAns[q.id] ?? {};
         if (correctKey !== null && correctKey !== '') return !!(ans['total']?.trim());
@@ -2162,6 +2224,9 @@ export default function QuizPlayPage({
     find_errors: 'Tìm từ viết sai chính tả',
     coloring: 'Tô màu theo yêu cầu',
     puzzle: 'Điền vào ô trống',
+    letter_tracing: 'Viết/tô theo chữ',
+    trace_number: 'Viết/tô theo số',
+    trace_sentence: 'Tô theo nét câu',
     game: 'Lật thẻ tìm cặp đôi',
     counting: 'Đếm và điền số',
   };
@@ -2211,6 +2276,7 @@ export default function QuizPlayPage({
       }
       case 'game': return gameComplete[qz.id] ?? false;
       case 'trace_number': return (traceScores[qz.id] ?? 0) >= 0.5;
+      case 'trace_sentence': return (traceScores[qz.id] ?? 0) >= 0.5;
       case 'counting': {
         const ans = countingAns[qz.id] ?? {};
         const ck = typeof qz.correctAnswerJson === 'string' && qz.correctAnswerJson !== '' ? qz.correctAnswerJson : null;
@@ -2558,6 +2624,37 @@ export default function QuizPlayPage({
                   onChange={(map) => setColoringMap((p) => ({ ...p, [q.id]: map }))}
                 />
               )}
+              {isLetterTracing && !isChecked && (
+                <QuestionLetterTracing
+                  key={q.id}
+                  ref={letterTracingRef as React.Ref<QuestionLetterTracingRef>}
+                  letter={(() => {
+                    const ans = q.correctAnswerJson;
+                    if (ans && typeof ans === 'object' && !Array.isArray(ans) && 'letter' in ans) {
+                      return (ans as { letter?: string }).letter || '';
+                    }
+                    return '';
+                  })()}
+                  instruction={q.questionText}
+                />
+              )}
+              {isLetterTracing && isChecked && (
+                <div className="py-4 text-center text-gray-500 text-sm">
+                  ✓ Đã hoàn thành bài tập viết chữ
+                </div>
+              )}
+              {q.questionType === 'trace_sentence' && !isChecked && (
+                <QuestionTraceSentence
+                  key={q.id}
+                  ref={traceSentenceRef as React.Ref<QuestionTraceSentenceRef>}
+                  sentence={q.questionText}
+                />
+              )}
+              {q.questionType === 'trace_sentence' && isChecked && (
+                <div className="py-4 text-center text-gray-500 text-sm">
+                  ✓ Đã hoàn thành bài tập tô theo nét câu
+                </div>
+              )}
               {q.questionType === 'puzzle' && (
                 <Puzzle key={q.id}
                   options={Array.isArray(q.optionsJson) ? q.optionsJson : []}
@@ -2669,11 +2766,47 @@ export default function QuizPlayPage({
 
             {/* Actions */}
             <div className="flex justify-center gap-3 pt-1">
-              {!isChecked && !isTraceQuestion && (
+              {!isChecked && !isTraceQuestion && !isLetterTracing && (
                 <button onClick={handleCheck} disabled={!hasAnswer()}
                   className="kid-btn-3d text-base"
                   style={{ background: hasAnswer() ? 'linear-gradient(135deg, #FFD93D, #FF9F45)' : '#d1d5db', boxShadow: hasAnswer() ? '0 6px 0 #b45309, 0 8px 16px rgba(255,159,69,0.45)' : 'none' }}>
                   ▶️ Kiểm tra
+                </button>
+              )}
+              {!isChecked && isLetterTracing && (
+                <button onClick={() => {
+                  const score = letterTracingRef.current?.getScore() ?? 0;
+                  // Only award points if score >= 50 (50% accuracy)
+                  if (score >= 50) {
+                    setChecked((prev) => ({ ...prev, [q.id]: true }));
+                    const earned = Math.round(((q.points || 10) * score) / 100);
+                    setScore((s) => s + earned);
+                  } else {
+                    // Show error message if score too low
+                    toast.error(`Tô chưa đủ tốt (${score}%). Hãy tô lại để đạt ≥50%!`);
+                  }
+                }}
+                  className="kid-btn-3d text-base"
+                  style={{ background: 'linear-gradient(135deg, #A78BFA, #C084FC)', boxShadow: '0 6px 0 #7c3aed, 0 8px 16px rgba(192,132,252,0.4)' }}>
+                  ✏️ Tô xong
+                </button>
+              )}
+              {!isChecked && q.questionType === 'trace_sentence' && (
+                <button onClick={() => {
+                  const score = traceSentenceRef.current?.getScore() ?? 0;
+                  // Only award points if score >= 50 (50% accuracy)
+                  if (score >= 50) {
+                    setChecked((prev) => ({ ...prev, [q.id]: true }));
+                    const earned = Math.round(((q.points || 10) * score) / 100);
+                    setScore((s) => s + earned);
+                  } else {
+                    // Show error message if score too low
+                    toast.error(`Tô chưa đủ tốt (${score}%). Hãy tô lại để đạt ≥50%!`);
+                  }
+                }}
+                  className="kid-btn-3d text-base"
+                  style={{ background: 'linear-gradient(135deg, #A78BFA, #C084FC)', boxShadow: '0 6px 0 #7c3aed, 0 8px 16px rgba(192,132,252,0.4)' }}>
+                  ✏️ Tô xong
                 </button>
               )}
               {isChecked && (current < exercise.quizzes.length - 1 ? (

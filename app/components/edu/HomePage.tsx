@@ -10,7 +10,7 @@ interface Article {
 
 async function fetchArticles(): Promise<Article[]> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const res = await fetch(`${base}/api/articles?limit=12&sortBy=createdAt&sortOrder=desc`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();
@@ -20,7 +20,7 @@ async function fetchArticles(): Promise<Article[]> {
 
 async function fetchHomepageGames(): Promise<ApiMiniGame[]> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const res = await fetch(`${base}/api/mini-games/homepage`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();
@@ -51,7 +51,7 @@ const FALLBACK_GAMES = [
 
 async function fetchCourses(): Promise<ApiCourse[]> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const res = await fetch(`${base}/api/courses?published=true`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const data = await res.json();

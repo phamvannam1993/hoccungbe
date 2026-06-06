@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ArticleContent from '../../components/edu/ArticleContent';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 interface Article {

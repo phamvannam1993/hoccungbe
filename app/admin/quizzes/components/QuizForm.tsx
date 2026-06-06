@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Plus, Trash2, ArrowLeft, Upload, X, Volume2, ImageIcon } from 'lucide-react';
 import MediaPicker from '../../components/MediaPicker';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export type QuizFormData = {
   lessonId: string;
@@ -40,6 +40,8 @@ const QUESTION_TYPES = [
   { value: 'counting', label: 'Đếm và điền số' },
   { value: 'coloring', label: 'Tô màu' },
   { value: 'trace_number', label: 'Tô số (viết tay)' },
+  { value: 'letter_tracing', label: 'Tô chữ (viết tay)' },
+  { value: 'trace_sentence', label: 'Tô theo nét câu' },
 ];
 
 const KEY_LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -272,6 +274,8 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
   const isMatching = form.questionType === 'matching';
   const isFillBlank = form.questionType === 'fill_blank';
   const isTraceNumber = form.questionType === 'trace_number';
+  const isLetterTracing = form.questionType === 'letter_tracing';
+  const isTraceSentence = form.questionType === 'trace_sentence';
 
   return (
     <div>
@@ -643,6 +647,34 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
           </div>
         )}
 
+        {/* Tô chữ */}
+        {isLetterTracing && (
+          <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg text-sm text-purple-700 space-y-2">
+            <p className="font-medium">Dạng tô chữ (viết tay)</p>
+            <p>Trẻ sẽ dùng ngón tay tô theo chữ/ký tự. Ký tự cần tô lấy từ câu hỏi hoặc đáp án đúng.</p>
+            <div>
+              <label className="block text-xs font-medium text-purple-800 mb-1">Chữ/ký tự cần tô</label>
+              <input
+                type="text"
+                maxLength={10}
+                value={typeof form.correctKeys[0] === 'string' ? form.correctKeys[0] : ''}
+                placeholder="Ví dụ: A hoặc Áo"
+                onChange={(e) => set('correctKeys', [e.target.value])}
+                className="w-full px-3 py-2 border border-purple-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Tô theo nét câu */}
+        {isTraceSentence && (
+          <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-indigo-700 space-y-2">
+            <p className="font-medium">Dạng tô theo nét câu</p>
+            <p>Trẻ sẽ dùng ngón tay tô theo nét của câu. Câu cần tô từ "Nội dung câu hỏi" ở trên.</p>
+            <p className="text-xs text-indigo-600">Điểm được tính dựa trên % tô (tối thiểu 50% để đạt điểm).</p>
+          </div>
+        )}
+
         {/* Giải thích + audio */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Giải thích đáp án</label>
@@ -729,6 +761,8 @@ export function formToPayload(form: QuizFormData) {
     try { correctAnswerJson = JSON.parse(form.correctKeys[0] ?? '{}'); } catch { correctAnswerJson = {}; }
   } else if (form.questionType === 'trace_number') {
     correctAnswerJson = { number: form.correctKeys[0] ?? '' };
+  } else if (form.questionType === 'letter_tracing') {
+    correctAnswerJson = { letter: form.correctKeys[0] ?? '' };
   } else if (form.questionType === 'matching') {
     optionsJson = form.options.length > 0
       ? form.options.map((o) => ({
@@ -739,9 +773,10 @@ export function formToPayload(form: QuizFormData) {
           ...(o.pairImageUrl ? { pairImageUrl: o.pairImageUrl } : {}),
         }))
       : undefined;
-    // correctAnswerJson: { A: 'pair of A', B: 'pair of B', ... }
+    // correctAnswerJson: { A: 'pair of A', B: 'pair of B', ... } or { A: imageUrl, ... }
     correctAnswerJson = form.options.reduce<Record<string, string>>((acc, o) => {
-      acc[o.key] = o.pair ?? '';
+      // Use pair text if available, otherwise use pairImageUrl
+      acc[o.key] = o.pair || o.pairImageUrl || '';
       return acc;
     }, {});
   } else {
@@ -805,6 +840,9 @@ export function payloadToForm(quiz: {
   } else if (quiz.questionType === 'trace_number') {
     const n = (correct as { number?: string })?.number ?? String(correct ?? '');
     correctKeys = [n];
+  } else if (quiz.questionType === 'letter_tracing') {
+    const l = (correct as { letter?: string })?.letter ?? String(correct ?? '');
+    correctKeys = [l];
   } else {
     correctKeys = Array.isArray(correct)
       ? (correct as string[])

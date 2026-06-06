@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch tất cả bài học từ database
     const lessonsResponse = await fetch(
-      `${process.env.API_URL || 'http://localhost:3000'}/api/lessons/all`,
+      `${process.env.API_URL || 'http://localhost:3001'}/api/lessons/all`,
       { method: 'GET' }
     );
 
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
         // Save to database
         const saveResponse = await fetch(
-          `${process.env.API_URL || 'http://localhost:3000'}/api/lessons/${lesson.id}/seo`,
+          `${process.env.API_URL || 'http://localhost:3001'}/api/lessons/${lesson.id}/seo`,
           {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

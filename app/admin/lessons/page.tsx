@@ -34,7 +34,7 @@ export default function AdminLessons() {
   const [filterTitle, setFilterTitle] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [saving, setSaving] = useState(false);
-
+  const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   useEffect(() => {
     Promise.all([
       apiFetch<Lesson[]>('/lessons').then(setLessons).catch(() => {}),
@@ -70,7 +70,7 @@ export default function AdminLessons() {
         }
       }
 
-      await fetch(`/api/lessons/${lesson.id}`, {
+      await fetch(API+`/api/lessons/${lesson.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -197,12 +197,20 @@ export default function AdminLessons() {
                       )}
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <button
-                        onClick={() => setEditingId(lesson.id)}
-                        className="px-3 py-1 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700"
-                      >
-                        ✎ Sửa
-                      </button>
+                      <div className="flex gap-2 justify-center">
+                        <button
+                          onClick={() => setEditingId(lesson.id)}
+                          className="px-3 py-1 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700"
+                        >
+                          ✎ Sửa
+                        </button>
+                        <a
+                          href={`/admin/lessons/${lesson.id}/import`}
+                          className="px-3 py-1 rounded-lg bg-green-600 text-white text-xs font-bold hover:bg-green-700"
+                        >
+                          📥 Import
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { PointerEvent, useEffect, useMemo, useRef, useState } from 'react';
+import React, { PointerEvent, useEffect, useMemo, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import styles from './letterTracing.module.css';
 import { TRACE_LETTERS, TraceLetter } from './letters';
 import { speakText } from '@/app/components/edu/utils/speech';
@@ -53,11 +53,29 @@ function getCompleteCoverage() {
   return isSmallScreen() ? MOBILE_COMPLETE_COVERAGE : DESKTOP_COMPLETE_COVERAGE;
 }
 
-export default function LetterTracingGame() {
+interface LetterTracingGameProps {
+  letter?: string;
+  onScoreReady?: (score: number) => void;
+  displayMode?: 'standalone' | 'question'; // 'question' = hide letter grid & next button
+}
+
+export interface LetterTracingGameRef {
+  getScore: () => number;
+}
+
+const LetterTracingGame = forwardRef<LetterTracingGameRef, LetterTracingGameProps>(
+  function LetterTracingGame({ letter, onScoreReady, displayMode = 'standalone' } = {}, ref) {
   const title = 'Bé tập viết chữ';
   const letters: TraceLetter[] = TRACE_LETTERS;
+  const isQuestionMode = displayMode === 'question';
 
-  const [letterIndex, setLetterIndex] = useState(0);
+  // Find the letter to trace, or default to first letter
+  const initialIndex = letter
+    ? letters.findIndex((l) => l.key.toUpperCase() === letter.toUpperCase())
+    : 0;
+  const startIndex = initialIndex >= 0 ? initialIndex : 0;
+
+  const [letterIndex, setLetterIndex] = useState(startIndex);
   const [activeStrokeIndex, setActiveStrokeIndex] = useState(0);
   const [drawnPaths, setDrawnPaths] = useState<string[]>([]);
   const [score, setScore] = useState(0);
@@ -67,6 +85,10 @@ export default function LetterTracingGame() {
   const [pencilPoint, setPencilPoint] = useState<Point | null>(null);
   const [pencilAngle, setPencilAngle] = useState(35);
   const [arrowInfos, setArrowInfos] = useState<ArrowInfo[]>([]);
+
+  useImperativeHandle(ref, () => ({
+    getScore: () => score,
+  }), [score]);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
@@ -500,25 +522,29 @@ export default function LetterTracingGame() {
           {isComplete ? 'Hoàn thành' : `Nét ${activeStrokeIndex + 1} / ${strokeTotal}`}
         </div>
 
-        <div className={styles.scoreBox}>
-          <span>{score}</span>
-          <small>điểm</small>
-        </div>
+        {!isQuestionMode && (
+          <div className={styles.scoreBox}>
+            <span>{score}</span>
+            <small>điểm</small>
+          </div>
+        )}
       </div>
 
-      <div className={styles.letterList} aria-label="Chọn chữ">
-        {letters.map((item, index) => (
-          <button
-            type="button"
-            key={`${item.key}-${index}`}
-            className={index === letterIndex ? styles.activeLetter : ''}
-            onClick={() => chooseLetter(index)}
-            disabled={isDemoing}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      {!isQuestionMode && (
+        <div className={styles.letterList} aria-label="Chọn chữ">
+          {letters.map((item, index) => (
+            <button
+              type="button"
+              key={`${item.key}-${index}`}
+              className={index === letterIndex ? styles.activeLetter : ''}
+              onClick={() => chooseLetter(index)}
+              disabled={isDemoing}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className={styles.boardWrap}>
         <div className={styles.board}>
@@ -665,10 +691,16 @@ export default function LetterTracingGame() {
         <button type="button" onClick={reset} disabled={isDemoing}>
           Làm lại
         </button>
-        <button type="button" onClick={nextLetter} disabled={isDemoing}>
-          Chữ tiếp theo
-        </button>
+        {!isQuestionMode && (
+          <button type="button" onClick={nextLetter} disabled={isDemoing}>
+            Chữ tiếp theo
+          </button>
+        )}
       </div>
     </section>
   );
-}
+  }
+);
+
+LetterTracingGame.displayName = 'LetterTracingGame';
+export default LetterTracingGame;

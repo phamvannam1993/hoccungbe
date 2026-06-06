@@ -49,6 +49,7 @@ const GAME_MAP: Record<string, string> = {
   'fishing-letters': 'cau-ca-chu-cai',
   'missing-letter': 'tim-chu-bi-mat',
   'letter-tracing': 'tap-viet-chu',
+  'trace-sentence': 'to-theo-net-cau',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

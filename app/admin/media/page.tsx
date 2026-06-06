@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Trash2, Upload, Search, ImageIcon } from 'lucide-react';
 import { apiFetch, getToken } from '../lib/api';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 interface MediaItem {
   id: number;

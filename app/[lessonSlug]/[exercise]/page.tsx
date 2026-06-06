@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { parseExerciseParam } from '../../lib/quiz-slug';
 import QuizPlayPage from '../../components/edu/QuizPlayPage';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 const DIFF_LABEL: Record<string, string> = {

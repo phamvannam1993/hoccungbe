@@ -41,6 +41,7 @@ export type PageKey =
   | 'fishing-letters'
   | 'missing-letter'
   | 'letter-tracing'
+  | 'trace-sentence'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

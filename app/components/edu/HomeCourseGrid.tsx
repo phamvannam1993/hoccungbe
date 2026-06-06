@@ -15,7 +15,7 @@ const cache: Record<number, CourseDetail> = {};
 
 async function loadCourseDetail(courseId: number): Promise<CourseDetail> {
   if (cache[courseId]) return cache[courseId];
-  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   const [lessons, volumes, topics] = await Promise.all([
     fetch(`${base}/api/lessons?courseId=${courseId}`).then((r) => r.json()),
     fetch(`${base}/api/volumes?courseId=${courseId}`).then((r) => r.json()),

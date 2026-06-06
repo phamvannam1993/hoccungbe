@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {

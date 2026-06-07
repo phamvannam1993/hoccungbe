@@ -185,6 +185,117 @@
   transform: scale(0.95);
 }
 
+.brushToolbox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f5f0ff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.brushLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b5b95;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.brushLabel svg {
+  color: #8b6bb8;
+}
+
+.brushOptions {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.brushBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 2px solid #d4c5f9;
+  background: #ffffff;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b5b95;
+  flex: 1;
+}
+
+.brushBtn:hover {
+  border-color: #8b6bb8;
+  background: #faf8ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 107, 184, 0.15);
+}
+
+.brushBtn:active {
+  transform: translateY(0);
+}
+
+.brushBtnActive {
+  background: #8b6bb8;
+  border-color: #8b6bb8;
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(139, 107, 184, 0.3);
+}
+
+.brushPreview {
+  background: #ff6b9a;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(255, 107, 154, 0.3);
+}
+
+.brushBtnActive .brushPreview {
+  box-shadow: 0 4px 12px rgba(255, 107, 154, 0.6);
+}
+
+.brushDemoArea {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fffdf7;
+  border: 2px solid #ffe0a3;
+  border-radius: 18px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+}
+
+.demoLabel {
+  color: #8a6b5a;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.demoPad {
+  flex: 1;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffe8cc;
+  overflow: hidden;
+}
+
+.demoSvg {
+  width: 100%;
+  height: 100%;
+}
+
 .tracingArea {
   position: relative;
   width: 100%;
@@ -196,19 +307,19 @@
   touch-action: none;
 }
 
-.cursorPreview {
+.penCursor {
   position: absolute;
-  border: 2px solid #ff6b9a;
-  border-radius: 50%;
+  width: 140px;
+  height: 200px;
   pointer-events: none;
   z-index: 3;
-  opacity: 0.6;
-  box-shadow: 0 0 8px rgba(255, 107, 154, 0.3);
-  transition: opacity 0.1s ease;
+  opacity: 0.8;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.2));
+  transition: opacity 0.05s ease;
 }
 
-.tracingArea:hover .cursorPreview {
-  opacity: 0.8;
+.tracingArea:hover .penCursor {
+  opacity: 0.9;
 }
 
 .guideLineTop,
@@ -263,7 +374,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  cursor: crosshair;
+  cursor: none;
   z-index: 2;
 }
 
@@ -460,6 +571,42 @@
     font-size: 20px;
   }
 
+  .brushToolbox {
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+
+  .brushLabel {
+    font-size: 13px;
+  }
+
+  .brushOptions {
+    gap: 8px;
+  }
+
+  .brushBtn {
+    padding: 10px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .brushDemoArea {
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+  }
+
+  .demoLabel {
+    font-size: 12px;
+  }
+
+  .demoPad {
+    height: 36px;
+    border-radius: 10px;
+  }
+
   .tracingArea {
     height: 240px;
     border-radius: 18px;
@@ -585,6 +732,46 @@
 
   .sampleBox strong {
     font-size: 18px;
+  }
+
+  .brushToolbox {
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .brushLabel {
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .brushOptions {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .brushBtn {
+    padding: 8px 10px;
+    font-size: 11px;
+    gap: 5px;
+  }
+
+  .brushDemoArea {
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border-width: 1.5px;
+  }
+
+  .demoLabel {
+    font-size: 11px;
+  }
+
+  .demoPad {
+    height: 32px;
+    border-radius: 8px;
   }
 
   .tracingArea {

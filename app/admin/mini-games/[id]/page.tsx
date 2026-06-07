@@ -23,6 +23,9 @@ interface MiniGameForm {
   homepageOrder: number;
   isActive: boolean;
   status: string;
+  id?: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 const EMPTY_FORM: MiniGameForm = {
@@ -71,8 +74,9 @@ export default function MiniGameEditPage() {
     e.preventDefault();
     setSaving(true);
     try {
+      const { id: _id, createdAt, updatedAt, ...cleanForm } = form;
       const payload = {
-        ...form,
+        ...cleanForm,
         skills: form.skills.split(',').map(s => s.trim()).filter(Boolean),
         sortOrder: Number(form.sortOrder),
         homepageOrder: Number(form.homepageOrder),

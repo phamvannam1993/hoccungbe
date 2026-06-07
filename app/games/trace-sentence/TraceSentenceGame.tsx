@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Volume2 } from "lucide-react";
+import { Volume2, Pen } from "lucide-react";
 import styles from "./TraceSentenceGame.module.css";
 import { sentences } from "./data";
+
+type BrushSize = 'small' | 'medium' | 'large';
+
+const BRUSH_SIZES: Record<BrushSize, { mobile: number; desktop: number }> = {
+  small: { mobile: 2, desktop: 5 },
+  medium: { mobile: 4, desktop: 10 },
+  large: { mobile: 6, desktop: 16 },
+};
 
 export default function TraceSentenceGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -18,6 +26,8 @@ export default function TraceSentenceGame() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(null);
+  const [brushSize, setBrushSize] = useState<BrushSize>('medium');
+  const [showPenGuide, setShowPenGuide] = useState(false);
 
   const currentSentence = sentences[currentIndex];
 
@@ -53,6 +63,15 @@ export default function TraceSentenceGame() {
     playAudio(currentSentence.text);
   }, [currentIndex]);
 
+  useEffect(() => {
+    setupCanvas();
+  }, [brushSize, isMobile]);
+
+  const getBrushWidth = () => {
+    const sizes = BRUSH_SIZES[brushSize];
+    return isMobile ? sizes.mobile : sizes.desktop;
+  };
+
   const setupCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -69,10 +88,10 @@ export default function TraceSentenceGame() {
     ctx.setTransform(scale, 0, 0, scale, 0, 0);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.lineWidth = isMobile ? 5 : 16;
-    // Add shadow/glow for solid look
-    ctx.shadowColor = "rgba(255, 107, 154, 0.4)";
-    ctx.shadowBlur = isMobile ? 3 : 8;
+    ctx.lineWidth = getBrushWidth();
+    // Enhanced brush appearance - multiple layers for pen-like effect
+    ctx.shadowColor = "rgba(255, 107, 154, 0.5)";
+    ctx.shadowBlur = isMobile ? 4 : 12;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
     ctx.strokeStyle = "#ff6b9a";
@@ -153,11 +172,12 @@ export default function TraceSentenceGame() {
   const updateCursorPreview = (x: number, y: number) => {
     setCursorPos({ x, y });
     if (cursorRef.current) {
-      const brushSize = isMobile ? 5 : 16;
-      cursorRef.current.style.left = `${x - brushSize / 2}px`;
-      cursorRef.current.style.top = `${y - brushSize / 2}px`;
-      cursorRef.current.style.width = `${brushSize}px`;
-      cursorRef.current.style.height = `${brushSize}px`;
+      const size = getBrushWidth();
+      // Position the brush tip center
+      cursorRef.current.style.left = `${x - size / 2}px`;
+      cursorRef.current.style.top = `${y - size / 2}px`;
+      cursorRef.current.style.width = `${size}px`;
+      cursorRef.current.style.height = `${size}px`;
     }
   };
 
@@ -322,6 +342,71 @@ export default function TraceSentenceGame() {
           </button>
         </div>
 
+        <div className={styles.brushToolbox}>
+          <div className={styles.brushLabel}>
+            <Pen size={16} /> Cái bút:
+          </div>
+          <div className={styles.brushOptions}>
+            {(['small', 'medium', 'large'] as const).map((size) => (
+              <button
+                key={size}
+                onClick={() => setBrushSize(size)}
+                className={`${styles.brushBtn} ${brushSize === size ? styles.brushBtnActive : ''}`}
+                title={size === 'small' ? 'Bút nhỏ' : size === 'medium' ? 'Bút vừa' : 'Bút to'}
+              >
+                <div
+                  className={styles.brushPreview}
+                  style={{
+                    width: BRUSH_SIZES[size][isMobile ? 'mobile' : 'desktop'] * 1.5,
+                    height: BRUSH_SIZES[size][isMobile ? 'mobile' : 'desktop'] * 1.5,
+                  }}
+                />
+                <span>{size === 'small' ? 'Nhỏ' : size === 'medium' ? 'Vừa' : 'To'}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.brushDemoArea}>
+          <span className={styles.demoLabel}>Bút của bé:</span>
+          <div className={styles.demoPad}>
+            <svg viewBox="0 0 140 140" className={styles.demoSvg}>
+              {/* Hand - thumb */}
+              <path d="M 20 60 Q 15 50 18 35 Q 20 30 25 32 Q 22 45 28 65 Z" fill="#f5d5b8" stroke="#d4a574" strokeWidth="0.5" />
+
+              {/* Hand - fingers (holding pen) */}
+              <ellipse cx="35" cy="75" rx="6" ry="16" fill="#f5d5b8" stroke="#d4a574" strokeWidth="0.5" />
+              <ellipse cx="45" cy="70" rx="6" ry="18" fill="#f5d5b8" stroke="#d4a574" strokeWidth="0.5" />
+
+              {/* Hand palm */}
+              <ellipse cx="32" cy="85" rx="16" ry="18" fill="#f5d5b8" stroke="#d4a574" strokeWidth="0.5" />
+
+              {/* Pen rotated at angle */}
+              <g transform="translate(50, 40) rotate(25)">
+                {/* Eraser cap (blue) */}
+                <ellipse cx="0" cy="-15" rx="8" ry="6" fill="#6b7fd8" />
+                <rect x="-6" y="-15" width="12" height="10" fill="#6b7fd8" rx="1" />
+
+                {/* Pen barrel (wood color) */}
+                <path d="M -5 -5 L -6 35 Q -6 40 -2 42 L 2 42 Q 6 40 6 35 L 5 -5 Z" fill="#d4a76a" stroke="#c49850" strokeWidth="0.8" />
+
+                {/* Ferrule (cream/beige) */}
+                <rect x="-5" y="35" width="10" height="7" fill="#f5e6d3" />
+
+                {/* Brush tip */}
+                <path d="M -4 42 L -5 52 Q -5 55 0 58 Q 5 55 5 52 L 4 42 Z" fill="#ff6b9a" />
+                <ellipse cx="0" cy="58" rx="3" ry="2" fill="#cc5a7a" opacity="0.6" />
+
+                {/* Highlight */}
+                <ellipse cx="-3" cy="15" rx="1" ry="10" fill="#f0d999" opacity="0.4" />
+              </g>
+
+              {/* Wrist */}
+              <ellipse cx="30" cy="105" rx="14" ry="12" fill="#f5d5b8" stroke="#d4a574" strokeWidth="0.5" />
+            </svg>
+          </div>
+        </div>
+
         <div className={styles.tracingArea}>
           <div className={styles.guideLineTop}></div>
           <div className={styles.guideLineMiddle}></div>
@@ -335,7 +420,45 @@ export default function TraceSentenceGame() {
             {currentSentence.text}
           </div>
 
-          <div ref={cursorRef} className={styles.cursorPreview} />
+          {cursorPos && (
+            <svg
+              className={styles.penCursor}
+              viewBox="0 0 100 160"
+              style={{
+                left: `${cursorPos.x - 70}px`,
+                top: `${cursorPos.y - 194}px`,
+                transform: 'rotate(30deg)',
+                transformOrigin: '70px 194px',
+              }}
+            >
+              {/* Eraser cap (blue) */}
+              <ellipse cx="50" cy="20" rx="16" ry="12" fill="#6b7fd8" />
+              <rect x="34" y="20" width="32" height="18" fill="#6b7fd8" rx="3" />
+
+              {/* Pen barrel (wood color) */}
+              <path d="M 40 38 L 36 110 Q 36 120 44 125 L 56 125 Q 64 120 64 110 L 60 38 Z" fill="#d4a76a" stroke="#c49850" strokeWidth="1.5" />
+
+              {/* Ferrule (cream/beige) */}
+              <rect x="40" y="110" width="20" height="15" fill="#f5e6d3" />
+
+              {/* Brush tip (pink) */}
+              <path d="M 40 125 L 38 145 Q 38 152 50 158 Q 62 152 62 145 L 60 125 Z" fill="#ff6b9a" />
+              <ellipse cx="50" cy="158" rx="6" ry="4" fill="#cc5a7a" opacity="0.7" />
+
+              {/* Highlight on barrel */}
+              <ellipse cx="43" cy="70" rx="3" ry="25" fill="#f0d999" opacity="0.5" />
+
+              {/* Hand - thumb */}
+              <path d="M 25 85 Q 18 75 22 55 Q 25 48 32 52 Q 28 70 36 95 Z" fill="#f5d5b8" stroke="#d4a574" strokeWidth="1" opacity="0.8" />
+
+              {/* Hand - fingers */}
+              <ellipse cx="28" cy="100" rx="8" ry="20" fill="#f5d5b8" stroke="#d4a574" strokeWidth="1" opacity="0.8" />
+              <ellipse cx="20" cy="95" rx="7" ry="22" fill="#f5d5b8" stroke="#d4a574" strokeWidth="1" opacity="0.8" />
+
+              {/* Hand palm */}
+              <ellipse cx="30" cy="115" rx="18" ry="22" fill="#f5d5b8" stroke="#d4a574" strokeWidth="1" opacity="0.8" />
+            </svg>
+          )}
 
           <canvas
             ref={canvasRef}
@@ -343,10 +466,12 @@ export default function TraceSentenceGame() {
             onMouseDown={startDrawing}
             onMouseMove={draw}
             onMouseUp={stopDrawing}
-            onMouseLeave={stopDrawing}
+            onMouseLeave={() => { stopDrawing(); setShowPenGuide(false); }}
+            onMouseEnter={() => setShowPenGuide(true)}
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
+            onTouchCancel={() => { stopDrawing(); setShowPenGuide(false); }}
           />
         </div>
 

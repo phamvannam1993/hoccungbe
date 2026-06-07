@@ -309,8 +309,6 @@
 
 .penCursor {
   position: absolute;
-  width: 140px;
-  height: 200px;
   pointer-events: none;
   z-index: 3;
   opacity: 0.8;

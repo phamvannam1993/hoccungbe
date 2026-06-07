@@ -72,6 +72,17 @@ export default function TraceSentenceGame() {
     return isMobile ? sizes.mobile : sizes.desktop;
   };
 
+  const getPenSize = () => {
+    return isMobile ? { width: 60, height: 90 } : { width: 140, height: 200 };
+  };
+
+  const getPenOffsets = () => {
+    const size = getPenSize();
+    return isMobile
+      ? { offsetX: 30, offsetY: 85 }
+      : { offsetX: 70, offsetY: 194 };
+  };
+
   const setupCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -425,10 +436,12 @@ export default function TraceSentenceGame() {
               className={styles.penCursor}
               viewBox="0 0 100 160"
               style={{
-                left: `${cursorPos.x - 70}px`,
-                top: `${cursorPos.y - 194}px`,
+                width: `${getPenSize().width}px`,
+                height: `${getPenSize().height}px`,
+                left: `${cursorPos.x - getPenOffsets().offsetX}px`,
+                top: `${cursorPos.y - getPenOffsets().offsetY}px`,
                 transform: 'rotate(30deg)',
-                transformOrigin: '70px 194px',
+                transformOrigin: `${getPenOffsets().offsetX}px ${getPenOffsets().offsetY}px`,
               }}
             >
               {/* Eraser cap (blue) */}

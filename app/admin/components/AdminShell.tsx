@@ -22,6 +22,7 @@ import {
   Newspaper,
   MessageSquare,
   ClipboardList,
+  File,
 } from 'lucide-react';
 
 const navItems = [
@@ -31,6 +32,8 @@ const navItems = [
   { href: '/admin/volumes', label: 'Tập (Volume)', icon: Layers },
   { href: '/admin/topics', label: 'Chủ đề', icon: Tag },
   { href: '/admin/lessons', label: 'Bài học', icon: FileText },
+  { href: '/admin/documents', label: '📄 Kho Tài Liệu', icon: File },
+  { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
   { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },
   { href: '/admin/mini-games', label: 'Mini Game', icon: Gamepad2 },

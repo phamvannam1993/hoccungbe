@@ -20,6 +20,7 @@ const NAV_MENU: NavItem[] = [
   { href: '/tro-choi', label: 'KHO TRÒ CHƠI' },
   // { href: '/tien-do', label: 'THI ĐẤU' },  // tạm ẩn
   { href: '/de-thi', label: 'ÔN THI' },
+  { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },
   { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },
   { href: '/ho-tro', label: 'HỖ TRỢ' },
 ];
@@ -305,9 +306,10 @@ export default function SiteHeader() {
 function NavIcon({ label }: { label: string }) {
   if (label.includes('TRANG')) return <span className="text-base">🏠</span>;
   if (label.includes('LỚP')) return <span className="text-base">📚</span>;
-  if (label.includes('KHO')) return <span className="text-base">🎮</span>;
+  if (label.includes('TRÒ CHƠI')) return <span className="text-base">🎮</span>;
   if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
   if (label.includes('ÔN')) return <span className="text-base">📝</span>;
+  if (label.includes('TÀI LIỆU')) return <span className="text-base">📄</span>;
   if (label.includes('GÓC')) return <span className="text-base">👨‍👩‍👧</span>;
   if (label.includes('HỖ')) return <span className="text-base">🎧</span>;
   return null;

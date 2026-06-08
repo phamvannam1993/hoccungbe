@@ -352,8 +352,8 @@
   padding: 0 20px;
   font-size: clamp(80px, 16vw, 150px);
   font-weight: 900;
-  color: rgba(200, 200, 200, 0.3);
-  -webkit-text-stroke: 2px #d0d0d0;
+  color: transparent;
+  -webkit-text-stroke: 4px #888888;
   letter-spacing: 3px;
   user-select: none;
   pointer-events: none;

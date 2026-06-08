@@ -8,9 +8,9 @@ import { sentences } from "./data";
 type BrushSize = 'small' | 'medium' | 'large';
 
 const BRUSH_SIZES: Record<BrushSize, { mobile: number; desktop: number }> = {
-  small: { mobile: 2, desktop: 5 },
-  medium: { mobile: 4, desktop: 10 },
-  large: { mobile: 6, desktop: 16 },
+  small: { mobile: 16, desktop: 5 },
+  medium: { mobile: 20, desktop: 10 },
+  large: { mobile: 28, desktop: 16 },
 };
 
 export default function TraceSentenceGame() {
@@ -444,19 +444,20 @@ export default function TraceSentenceGame() {
                 transformOrigin: `${getPenOffsets().offsetX}px ${getPenOffsets().offsetY}px`,
               }}
             >
-              {/* Eraser cap (blue) */}
-              <ellipse cx="50" cy="20" rx="16" ry="12" fill="#6b7fd8" />
-              <rect x="34" y="20" width="32" height="18" fill="#6b7fd8" rx="3" />
+              {/* Eraser cap (red/pink) */}
+              <ellipse cx="50" cy="20" rx="16" ry="12" fill="#e74c3c" />
+              <rect x="34" y="20" width="32" height="18" fill="#e74c3c" rx="3" />
 
               {/* Pen barrel (wood color) */}
-              <path d="M 40 38 L 36 110 Q 36 120 44 125 L 56 125 Q 64 120 64 110 L 60 38 Z" fill="#d4a76a" stroke="#c49850" strokeWidth="1.5" />
+              <path d="M 40 38 L 36 110 Q 36 120 44 125 L 56 125 Q 64 120 64 110 L 60 38 Z" fill="#d4a574" stroke="#b8860b" strokeWidth="1.5" />
 
-              {/* Ferrule (cream/beige) */}
-              <rect x="40" y="110" width="20" height="15" fill="#f5e6d3" />
+              {/* Ferrule (gray/metal) */}
+              <rect x="40" y="110" width="20" height="15" fill="#888888" />
+              <rect x="40" y="110" width="20" height="3" fill="#aaaaaa" opacity="0.6" />
 
-              {/* Brush tip (pink) */}
-              <path d="M 40 125 L 38 145 Q 38 152 50 158 Q 62 152 62 145 L 60 125 Z" fill="#ff6b9a" />
-              <ellipse cx="50" cy="158" rx="6" ry="4" fill="#cc5a7a" opacity="0.7" />
+              {/* Brush tip (black/dark) */}
+              <path d="M 40 125 L 38 145 Q 38 152 50 158 Q 62 152 62 145 L 60 125 Z" fill="#2c3e50" />
+              <ellipse cx="50" cy="158" rx="6" ry="4" fill="#1a252f" opacity="0.8" />
 
               {/* Highlight on barrel */}
               <ellipse cx="43" cy="70" rx="3" ry="25" fill="#f0d999" opacity="0.5" />

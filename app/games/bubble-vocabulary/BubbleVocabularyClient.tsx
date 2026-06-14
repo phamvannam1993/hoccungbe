@@ -91,10 +91,16 @@ export default function BubbleVocabularyClient() {
     }
 
     setSelectedWrongId(item.id);
+    const errorMessage = "Chưa đúng rồi. Bé nghe lại và thử lần nữa nhé!";
     setMessage({
       type: "bad",
-      text: "Chưa đúng rồi. Bé nghe lại và thử lần nữa nhé!",
+      text: errorMessage,
     });
+
+    // Đọc tin nhắn lỗi
+    setTimeout(() => {
+      speakText(errorMessage);
+    }, 300);
 
     setTimeout(() => {
       setSelectedWrongId("");

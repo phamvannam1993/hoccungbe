@@ -1,4 +1,4 @@
-export type BubbleColor = "pink" | "orange" | "purple" | "blue" | "green";
+export type BubbleColor = "pink" | "orange" | "purple" | "blue" | "green" | "red" | "yellow" | "teal" | "magenta";
 
 export interface VocabularyItem {
   id: string;

@@ -314,6 +314,22 @@
   background: radial-gradient(circle at 35% 25%, #fff, #c9f6c2 42%, #63cf6e 100%);
 }
 
+.red {
+  background: radial-gradient(circle at 35% 25%, #fff, #ffb3ba 42%, #ff5757 100%);
+}
+
+.yellow {
+  background: radial-gradient(circle at 35% 25%, #fff, #fff4a3 42%, #ffd700 100%);
+}
+
+.teal {
+  background: radial-gradient(circle at 35% 25%, #fff, #a8f0f0 42%, #20b2aa 100%);
+}
+
+.magenta {
+  background: radial-gradient(circle at 35% 25%, #fff, #ffb3e6 42%, #e91e63 100%);
+}
+
 .wrong {
   animation: wrongShake .35s ease, floatBubble 5.8s ease-in-out infinite;
 }

@@ -6,7 +6,7 @@ import { bubbleLayout, lessons, type VocabularyItem, type BubbleColor } from "./
 import { speakText } from "@/app/components/edu/utils/speech";
 import styles from "./BubbleVocabulary.module.css";
 
-const COLORS: BubbleColor[] = ["pink", "orange", "purple", "blue", "green"];
+const COLORS: BubbleColor[] = ["pink", "orange", "purple", "blue", "green", "red", "yellow", "teal", "magenta"];
 
 function shuffleWithTarget<T extends { id: string }>(items: T[], seed: number) {
   const shuffled = [...items];
@@ -55,9 +55,7 @@ export default function BubbleVocabularyClient() {
 
   const bubbles = useMemo(() => {
     const shuffled = shuffleWithTarget(lesson.items, roundIndex);
-    // Limita a apenas 5 bolinhas para garantir cores completamente diferentes
-    const limited = shuffled.slice(0, 5);
-    return assignUniqueColors(limited, roundIndex);
+    return assignUniqueColors(shuffled, roundIndex);
   }, [lesson.items, roundIndex]);
 
   const progress = Math.round(((roundIndex % lesson.items.length) / lesson.items.length) * 100);

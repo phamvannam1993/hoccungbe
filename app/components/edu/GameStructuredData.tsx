@@ -26,6 +26,8 @@ const EN_TO_PAGE: Record<string, string> = {
   'train-complete-lessons': 'tau-hoc-toan',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
+  'bubble-vocabulary': 'bat-bong-tu-vung',
+  'doc-van-ghep-chu': 'ghep-chu-thanh-van',
 };
 
 type GameStructuredDataProps = {

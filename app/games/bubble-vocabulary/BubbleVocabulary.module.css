@@ -4,7 +4,6 @@
 }
 
 .gameShell {
-  width: min(1180px, 96vw);
   min-height: 720px;
   position: relative;
   overflow: hidden;

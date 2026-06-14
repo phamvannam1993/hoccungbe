@@ -42,6 +42,7 @@ export type PageKey =
   | 'missing-letter'
   | 'letter-tracing'
   | 'trace-sentence'
+  | 'doc-van-ghep-chu'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

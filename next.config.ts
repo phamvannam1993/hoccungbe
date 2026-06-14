@@ -51,6 +51,7 @@ const GAME_MAP: Record<string, string> = {
   'letter-tracing': 'tap-viet-chu',
   'trace-sentence': 'to-theo-net-cau',
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
+  'bubble-vocabulary': 'bat-bong-tu-vung',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

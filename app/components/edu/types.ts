@@ -64,6 +64,7 @@ export type PageKey =
   // ─── Nghe & tương tác ─────────────────────────────────────
   | 'ghep-am-thanh'
   | 'nghe-va-lam'
+  | 'bubble-vocabulary'
 
   // ─── Hoạt động sống ───────────────────────────────────────
   | 'hai-tao'

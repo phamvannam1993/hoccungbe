@@ -1232,7 +1232,7 @@ export const gamesData: GameItem[] = [
     durationMinutes: 8,
     badge: 'Mới',
     emoji: '🎈',
-    category: 'Nghe hiểu & âm thanh',
+    category: 'Âm thanh',
     groupKey: 'listening',
     difficulty: 'Dễ',
     skills: ['Nghe hiểu', 'Từ vựng', 'Ghi nhớ', 'Phân biệt âm'],

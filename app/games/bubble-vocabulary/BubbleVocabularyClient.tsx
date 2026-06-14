@@ -6,9 +6,18 @@ import { bubbleLayout, lessons, type VocabularyItem } from "./data";
 import { speakText } from "@/app/components/edu/utils/speech";
 import styles from "./BubbleVocabulary.module.css";
 
-function rotateItems<T>(items: T[], step: number) {
-  const offset = step % items.length;
-  return [...items.slice(offset), ...items.slice(0, offset)];
+function shuffleWithTarget<T extends { id: string }>(items: T[], seed: number) {
+  const shuffled = [...items];
+
+  // Fisher-Yates shuffle com seed determinístico
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    // Gera número pseudo-aleatório usando seed
+    const rand = Math.abs(Math.sin((seed + i) * 12.9898) * 43758.5453) % 1;
+    const j = Math.floor(rand * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
 }
 
 export default function BubbleVocabularyClient() {
@@ -27,7 +36,7 @@ export default function BubbleVocabularyClient() {
   const target = lesson.items[roundIndex % lesson.items.length];
 
   const bubbles = useMemo(() => {
-    return rotateItems(lesson.items, roundIndex);
+    return shuffleWithTarget(lesson.items, roundIndex);
   }, [lesson.items, roundIndex]);
 
   const progress = Math.round(((roundIndex % lesson.items.length) / lesson.items.length) * 100);
@@ -139,7 +148,7 @@ export default function BubbleVocabularyClient() {
           <div className={styles.cloudTwo} />
           <div className={styles.sun} />
 
-          {bubbles.map((item, index) => {
+          {bubbles.map((item: VocabularyItem, index: number) => {
             const layout = bubbleLayout[index % bubbleLayout.length];
 
             return (

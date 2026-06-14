@@ -2,9 +2,11 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { bubbleLayout, lessons, type VocabularyItem } from "./data";
+import { bubbleLayout, lessons, type VocabularyItem, type BubbleColor } from "./data";
 import { speakText } from "@/app/components/edu/utils/speech";
 import styles from "./BubbleVocabulary.module.css";
+
+const COLORS: BubbleColor[] = ["pink", "orange", "purple", "blue", "green"];
 
 function shuffleWithTarget<T extends { id: string }>(items: T[], seed: number) {
   const shuffled = [...items];
@@ -18,6 +20,22 @@ function shuffleWithTarget<T extends { id: string }>(items: T[], seed: number) {
   }
 
   return shuffled;
+}
+
+function assignUniqueColors<T extends { id: string }>(items: T[], seed: number): (T & { displayColor: BubbleColor })[] {
+  // Embaralha as cores usando seed para consistência
+  const shuffledColors = [...COLORS];
+  for (let i = shuffledColors.length - 1; i > 0; i--) {
+    const rand = Math.abs(Math.sin((seed * 77.7777 + i) * 12.9898) * 43758.5453) % 1;
+    const j = Math.floor(rand * (i + 1));
+    [shuffledColors[i], shuffledColors[j]] = [shuffledColors[j], shuffledColors[i]];
+  }
+
+  // Atribui cor única para cada item
+  return items.map((item, index) => ({
+    ...item,
+    displayColor: shuffledColors[index % COLORS.length],
+  }));
 }
 
 export default function BubbleVocabularyClient() {
@@ -36,7 +54,8 @@ export default function BubbleVocabularyClient() {
   const target = lesson.items[roundIndex % lesson.items.length];
 
   const bubbles = useMemo(() => {
-    return shuffleWithTarget(lesson.items, roundIndex);
+    const shuffled = shuffleWithTarget(lesson.items, roundIndex);
+    return assignUniqueColors(shuffled, roundIndex);
   }, [lesson.items, roundIndex]);
 
   const progress = Math.round(((roundIndex % lesson.items.length) / lesson.items.length) * 100);
@@ -148,13 +167,13 @@ export default function BubbleVocabularyClient() {
           <div className={styles.cloudTwo} />
           <div className={styles.sun} />
 
-          {bubbles.map((item: VocabularyItem, index: number) => {
+          {bubbles.map((item: any, index: number) => {
             const layout = bubbleLayout[index % bubbleLayout.length];
 
             return (
               <button
                 key={`${item.id}-${roundIndex}`}
-                className={`${styles.bubble} ${styles[item.color]} ${
+                className={`${styles.bubble} ${styles[item.displayColor]} ${
                   selectedWrongId === item.id ? styles.wrong : ""
                 }`}
                 style={{

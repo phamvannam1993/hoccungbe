@@ -55,7 +55,9 @@ export default function BubbleVocabularyClient() {
 
   const bubbles = useMemo(() => {
     const shuffled = shuffleWithTarget(lesson.items, roundIndex);
-    return assignUniqueColors(shuffled, roundIndex);
+    // Limita a apenas 5 bolinhas para garantir cores completamente diferentes
+    const limited = shuffled.slice(0, 5);
+    return assignUniqueColors(limited, roundIndex);
   }, [lesson.items, roundIndex]);
 
   const progress = Math.round(((roundIndex % lesson.items.length) / lesson.items.length) * 100);

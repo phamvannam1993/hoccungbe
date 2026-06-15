@@ -3,17 +3,15 @@ import BubbleVocabularyClient from './BubbleVocabularyClient';
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Bắt Bong Bóng Từ Vựng | Trò Chơi Học Tiếng Việt Cho Bé',
-  description:
-    'Trò chơi bắt bong bóng từ vựng giúp bé phát triển kỹ năng nghe hiểu, ghi nhớ từ vựng tiếng Việt qua hình ảnh trực quan. Bé nghe âm thanh TTS rồi chọn bong bóng đúng với từ được gọi.',
-  keywords: ['bắt bong bóng', 'từ vựng tiếng Việt', 'học tiếng Việt', 'trò chơi giáo dục', 'nghe hiểu', 'trẻ em'],
+  title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi bắt bóng từ vựng giúp bé từ vựng, nghe hiểu, phân biệt. Phù hợp với trẻ 3-5 tuổi. Tải ngay để bé học từ vựng.',
+  keywords: ['bóng', 'từ vựng', 'nghe hiểu', 'tiếng Việt', 'game bắt bóng từ vựng', 'bubble vocabulary game', 'learn Vietnamese vocabulary'],
   alternates: {
     canonical: '/tro-choi/bat-bong-tu-vung',
   },
   openGraph: {
-    title: 'Bắt Bong Bóng Từ Vựng | Bé Hay Học',
-    description:
-      'Trò chơi nghe từ vựng tiếng Việt và bắt bong bóng đúng. Giúp bé phát triển kỹ năng nghe hiểu, ghi nhớ và khám phá từ vựng mới.',
+    title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi bắt bóng từ vựng giúp bé từ vựng, nghe hiểu, phân biệt. Phù hợp với trẻ 3-5 tuổi. Tải ngay để bé học từ vựng.',
     url: '/tro-choi/bat-bong-tu-vung',
     type: 'website',
     images: [
@@ -27,9 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bắt Bong Bóng Từ Vựng | Bé Hay Học',
-    description:
-      'Bé nghe từ vựng tiếng Việt và bắt bong bóng đúng để phát triển kỹ năng nghe hiểu.',
+    title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi bắt bóng từ vựng giúp bé từ vựng, nghe hiểu, phân biệt. Phù hợp với trẻ 3-5 tuổi. Tải ngay để bé học từ vựng.',
     images: ['/og-bubble-vocabulary.jpg'],
   },
 };

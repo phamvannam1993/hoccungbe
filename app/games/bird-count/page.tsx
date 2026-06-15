@@ -3,21 +3,21 @@ import BirdCountGame from "./BirdCountGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Đếm chim | Bé Hay Học',
-  description: 'Trò chơi đếm chim giúp bé luyện kỹ năng đếm số, nhận biết số lượng và phát triển khả năng quan sát. Độ khó tăng dần, vô hạn câu hỏi.',
-  keywords: ['đếm chim', 'trò chơi đếm số cho bé', 'học đếm cho trẻ em', 'nhận biết số lượng', 'trò chơi toán học cho bé', 'bé hay học'],
+  title: 'Đếm Chim | 3-6 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi đếm chim giúp bé đếm số, nhận diện số lượng. Phù hợp với trẻ 3-6 tuổi. Tải ngay để bé học đếm số.',
+  keywords: ['đếm chim', 'đếm số', 'số lượng', 'trò chơi đếm chim cho bé', 'game học đếm số qua hình ảnh', 'đếm vật thể'],
   alternates: { canonical: '/tro-choi/dem-chim' },
   openGraph: {
-    title: 'Đếm chim | Bé Hay Học',
-    description: 'Bé quan sát đàn chim bay qua và chọn đúng số lượng. Trò chơi rèn kỹ năng đếm số trực quan cho trẻ 3–7 tuổi.',
+    title: 'Đếm Chim | 3-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi đếm chim giúp bé đếm số, nhận diện số lượng. Phù hợp với trẻ 3-6 tuổi. Tải ngay để bé học đếm số.',
     url: '/tro-choi/dem-chim',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Đếm chim - Bé Hay Học' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Đếm Chim - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Đếm chim | Bé Hay Học',
-    description: 'Đếm số chim bay qua màn hình – trò chơi toán học thú vị cho bé.',
+    title: 'Đếm Chim | 3-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi đếm chim giúp bé đếm số, nhận diện số lượng. Phù hợp với trẻ 3-6 tuổi. Tải ngay để bé học đếm số.',
     images: ['/og-image.jpg'],
   },
 };

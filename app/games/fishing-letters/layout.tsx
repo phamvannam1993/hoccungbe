@@ -1,27 +1,15 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Câu Cá Chữ Cái - Game Học Chữ Cái Tiếng Việt | Bé Hay Học',
-  description:
-    'Game câu cá chữ cái giúp bé học nhận diện chữ cái, phân biệt chữ hoa/thường, từ hoàn chỉnh qua trò chơi vui nhộn. Có 5 cấp độ, âm thanh TTS, theo dõi tiến độ.',
-  keywords: [
-    'game học chữ cái',
-    'câu cá chữ cái',
-    'học tiếng việt cho bé',
-    'game tiếng việt',
-    'trò chơi giáo dục',
-    'học chữ hoa chữ thường',
-    'từ hoàn chỉnh',
-    'game tư duy cho bé',
-    'game học toán tư duy',
-  ],
+  title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
+  keywords: ['câu cá', 'chữ cái', 'học chữ', 'ngôn ngữ', 'trò chơi câu cá chữ cái', 'game học chữ cái cho bé', 'fishing letters game'],
   alternates: {
     canonical: 'https://behayhoc.com/tro-choi/cau-ca-chu-cai',
   },
   openGraph: {
-    title: 'Câu Cá Chữ Cái - Game Học Chữ Cái Cho Bé 3-6 Tuổi',
-    description:
-      'Trò chơi câu cá chữ cái vui nhộn giúp bé học nhận diện chữ cái, từ vựng tiếng Việt qua gameplay hấp dẫn.',
+    title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
     url: 'https://behayhoc.com/tro-choi/cau-ca-chu-cai',
     type: 'website',
     images: [
@@ -29,15 +17,14 @@ export const metadata: Metadata = {
         url: 'https://behayhoc.com/og-fishing-letters.jpg',
         width: 1200,
         height: 630,
-        alt: 'Trò chơi câu cá chữ cái - Game học chữ cái tiếng Việt',
+        alt: 'Câu Cá Chữ Cái - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Câu Cá Chữ Cái - Game Học Chữ Cái Cho Bé',
-    description:
-      'Game học chữ cái tiếng Việt cho bé 3-6 tuổi với âm thanh TTS, 5 cấp độ, và theo dõi tiến độ.',
+    title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
     images: ['https://behayhoc.com/og-fishing-letters.jpg'],
   },
 };

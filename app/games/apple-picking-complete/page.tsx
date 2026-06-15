@@ -3,21 +3,21 @@ import ApplePickingCompleteGame from "./ApplePickingCompleteGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Hái táo học toán | Bé Hay Học',
-  description: 'Trò chơi hái táo giúp bé luyện phép cộng, phép trừ, đếm số, so sánh và nhiều kỹ năng toán học khác. Độ khó tăng dần, vô hạn câu hỏi.',
-  keywords: ['hái táo học toán', 'trò chơi toán học cho bé', 'học cộng trừ', 'đếm số', 'so sánh số', 'bé hay học'],
+  title: 'Hái Táo Học Toán | 5-7 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi hái táo giúp bé luyện phép cộng, dãy số. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học phép cộng.',
+  keywords: ['hái táo', 'cộng', 'toán', 'dãy số', 'game hái táo học cộng', 'trò chơi cộng số cho bé', 'harvest math'],
   alternates: { canonical: '/tro-choi/hai-tao-hoc' },
   openGraph: {
-    title: 'Hái táo học toán | Bé Hay Học',
-    description: 'Bé hái táo để luyện cộng, trừ, đếm số và so sánh. Trò chơi toán học tổng hợp cho trẻ 4–8 tuổi.',
+    title: 'Hái Táo Học Toán | 5-7 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi hái táo giúp bé luyện phép cộng, dãy số. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học phép cộng.',
     url: '/tro-choi/hai-tao-hoc',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Hái táo học toán - Bé Hay Học' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Hái Táo Học Toán - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hái táo học toán | Bé Hay Học',
-    description: 'Hái táo học toán – trò chơi tổng hợp kỹ năng toán học cho bé.',
+    title: 'Hái Táo Học Toán | 5-7 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi hái táo giúp bé luyện phép cộng, dãy số. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học phép cộng.',
     images: ['/og-image.jpg'],
   },
 };

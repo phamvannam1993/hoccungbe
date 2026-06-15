@@ -3,17 +3,15 @@ import DocVanGhepChuGame from './DocVanGhepChuGame';
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Ghép Chữ Thành Vần | Trò Chơi Học Đọc Tiếng Việt Cho Bé',
-  description:
-    'Trò chơi ghép chữ thành vần giúp bé nhận diện chữ cái, kết hợp để tạo vần đúng. Bé nghe phát âm, quan sát chữ đầu, chọn chữ tiếp để ghép thành vần hoàn chỉnh với âm thanh TTS.',
-  keywords: ['ghép vần', 'học đọc', 'chữ cái', 'tiếng Việt', 'kéo thả', 'trẻ em'],
+  title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
+  keywords: ['ghép chữ', 'vần', 'tiếng Việt', 'âm thanh', 'trò chơi ghép chữ thành vần', 'game học vần tiếng Việt', 'syllable building'],
   alternates: {
     canonical: '/tro-choi/ghep-chu-thanh-van',
   },
   openGraph: {
-    title: 'Ghép Chữ Thành Vần | Bé Hay Học',
-    description:
-      'Trò chơi kéo thả ghép chữ thành vần giúp bé phát triển kỹ năng đọc, nhận diện chữ cái và phát âm tiếng Việt.',
+    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
     url: '/tro-choi/ghep-chu-thanh-van',
     type: 'website',
     images: [
@@ -27,9 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép Chữ Thành Vần | Bé Hay Học',
-    description:
-      'Bé ghép chữ thành vần để học đọc và phát âm tiếng Việt qua trò chơi vui nhộn.',
+    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
     images: ['/og-doc-van-ghep-chu.jpg'],
   },
 };

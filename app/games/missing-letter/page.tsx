@@ -3,25 +3,15 @@ import MissingLetterGame from './MissingLetterGame';
 import GameStructuredData from '@/app/components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Tìm Chữ Bị Mất - Trò Chơi Học Từ Vựng Cho Bé | Bé Hay Học',
-  description:
-    'Trò chơi tìm chữ bị mất với 100 câu hỏi giúp bé phát triển kỹ năng nhận diện chữ, suy luận từ vựng. 5 dạng câu: điền chữ, sắp xếp chữ cái. Có âm thanh TTS và theo dõi tiến độ.',
-  keywords: [
-    'tìm chữ bị mất',
-    'trò chơi chữ cái',
-    'học từ vựng tiếng Việt',
-    'trò chơi ngôn ngữ cho bé',
-    'phát triển kỹ năng đọc',
-    'sắp xếp chữ cái',
-    'nhận diện chữ',
-    'giáo dục trẻ em',
-  ],
+  title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+  description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
+  keywords: ['tìm chữ', 'chữ bị mất', 'từ vựng', 'logic', 'game tìm chữ bị mất', 'missing letter puzzle', 'hoàn thành từ'],
   alternates: {
     canonical: 'https://behayhoc.com/tro-choi/tim-chu-bi-mat',
   },
   openGraph: {
-    title: 'Tìm Chữ Bị Mất - Trò Chơi Học Từ Vựng Cho Bé',
-    description: 'Trò chơi tìm chữ bị mất giúp bé nhận diện chữ, suy luận và phát triển từ vựng tiếng Việt',
+    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
     url: '/tro-choi/tim-chu-bi-mat',
     type: 'website',
     images: [
@@ -29,14 +19,14 @@ export const metadata: Metadata = {
         url: 'https://behayhoc.com/og-missing-letter.jpg',
         width: 1200,
         height: 630,
-        alt: 'Trò chơi tìm chữ bị mất cho bé',
+        alt: 'Tìm Chữ Bị Mất - Bé Hay Học',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tìm Chữ Bị Mất - Bé Hay Học',
-    description: 'Trò chơi tìm chữ bị mất giúp bé học từ vựng tiếng Việt',
+    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+    description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
     images: ['https://behayhoc.com/og-missing-letter.jpg'],
   },
 };

@@ -313,7 +313,7 @@ export default function FishingLettersGame() {
   const instructionParts = question.instruction.split(question.target);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 p-4" suppressHydrationWarning>
+    <main className="flex min-h-screen items-center justify-center p-4" suppressHydrationWarning>
       <section className="w-full max-w-7xl overflow-hidden rounded-2xl bg-white shadow-2xl">
         <header className="flex h-20 items-center justify-between border-b border-slate-100 px-6">
           <div>

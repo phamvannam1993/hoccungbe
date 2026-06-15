@@ -1,39 +1,8 @@
 import type { NextConfig } from "next";
 
 const GAME_MAP: Record<string, string> = {
-  'match-word': 'ghep-tu',
-  'math-fun': 'toan-vui',
-  'memory-hunt': 'san-hinh-ghi-nho',
-  'english-vocab': 'tu-vung-tieng-anh',
-  'sound-match': 'ghep-am-thanh',
-  'quick-pick': 'chon-nhanh',
-  'missing-number': 'tim-so-thieu',
-  'shadow-match': 'ghep-bong',
-  'color-sort': 'sap-xep-mau',
-  'count-animals': 'dem-dong-vat',
-  'first-letter': 'chu-cai-dau',
-  'group-match': 'ghep-nhom',
-  'opposite-pairs': 'cap-doi-trai-nghia',
-  'sequence-sort': 'sap-xep-thu-tu',
-  'odd-one-out': 'tim-ke-le',
-  'initial-sound': 'am-dau',
-  'number-quantity-match': 'so-va-so-luong',
-  'pattern-complete': 'hoan-thanh-quy-luat',
-  'listen-and-do': 'nghe-va-lam',
-  'mini-maze': 'me-cung-nho',
-  'half-match': 'ghep-doi',
-  'sequence-memory': 'nho-thu-tu',
-  'rhyme-match': 'ghep-van',
-  'connect-numbers': 'noi-so',
-  'apple-pick': 'hai-tao',
-  'animal-feed': 'cho-vat-an',
-  'bubble-math': 'toan-bong-bong',
-  'number-line-addition': 'cong-tren-so-do',
-  'compare-numbers': 'so-sanh-so',
-  'number-sequence-write': 'viet-day-so',
-  'falling-number': 'so-roi',
-  'where-belongs': 'tim-cho-cho-vat',
-  'story-order': 'sap-xep-truyen',
+  // Toán học
+  'sea-bubble-math': 'toan-bong-bong-bien',
   'bird-count': 'dem-chim',
   'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
@@ -43,15 +12,17 @@ const GAME_MAP: Record<string, string> = {
   'train-complete-lessons': 'tau-hoc-toan',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
-  'forest-match': 'ghep-hinh-rung',
-  'puzzle-game': 'ghep-manh-hinh',
-  'sea-bubble-math': 'toan-bong-bong-bien',
+
+  // Ngôn ngữ
   'fishing-letters': 'cau-ca-chu-cai',
   'missing-letter': 'tim-chu-bi-mat',
   'letter-tracing': 'tap-viet-chu',
   'trace-sentence': 'to-theo-net-cau',
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
   'bubble-vocabulary': 'bat-bong-tu-vung',
+
+  // Tư duy
+  'puzzle-game': 'ghep-manh-hinh',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));

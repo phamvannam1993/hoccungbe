@@ -87,7 +87,8 @@ export const useTts = (): UseTtsReturn => {
         );
       }
 
-      const response = await fetch('/api/tts', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/tts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

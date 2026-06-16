@@ -54,6 +54,7 @@ const nextConfig: NextConfig = {
       { source: '/dieu-khoan', destination: '/terms' },
       { source: '/huong-dan', destination: '/how-it-works' },
       { source: '/cau-hoi-thuong-gap', destination: '/faq' },
+      { source: '/tts', destination: '/cong-cu/chuyen-van-ban-thanh-giong-noi' },
       ...gameRewrites,
     ];
   },
@@ -78,6 +79,7 @@ const nextConfig: NextConfig = {
       { source: '/terms', destination: '/dieu-khoan', permanent: true },
       { source: '/how-it-works', destination: '/huong-dan', permanent: true },
       { source: '/faq', destination: '/cau-hoi-thuong-gap', permanent: true },
+      { source: '/tts', destination: '/cong-cu/chuyen-van-ban-thanh-giong-noi', permanent: true },
       ...gameRedirects,
     ];
   },

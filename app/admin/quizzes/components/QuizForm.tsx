@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Plus, Trash2, ArrowLeft, Upload, X, Volume2, ImageIcon } from 'lucide-react';
 import MediaPicker from '../../components/MediaPicker';
+import AudioLibrarySelector from '../../components/AudioLibrarySelector';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -225,9 +226,31 @@ interface Props {
 
 export default function QuizForm({ title, lessons, initial, saving, error, onSubmit }: Props) {
   const [form, setForm] = useState<QuizFormData>(initial);
+  const [audioSelectorOpen, setAudioSelectorOpen] = useState(false);
+  const [audioSelectorType, setAudioSelectorType] = useState<'question' | 'explanation' | { type: 'option'; index: number } | null>(null);
 
   const set = <K extends keyof QuizFormData>(key: K, val: QuizFormData[K]) =>
     setForm((f) => ({ ...f, [key]: val }));
+
+  const openAudioSelector = (type: 'question' | 'explanation' | { type: 'option'; index: number }) => {
+    setAudioSelectorType(type);
+    setAudioSelectorOpen(true);
+  };
+
+  const handleAudioSelect = (audioUrl: string) => {
+    if (!audioSelectorType) return;
+
+    if (audioSelectorType === 'question') {
+      set('questionAudioUrl', audioUrl);
+    } else if (audioSelectorType === 'explanation') {
+      set('explanationAudioUrl', audioUrl);
+    } else if (typeof audioSelectorType === 'object' && audioSelectorType.type === 'option') {
+      updateOption(audioSelectorType.index, { audioUrl });
+    }
+
+    setAudioSelectorOpen(false);
+    setAudioSelectorType(null);
+  };
 
   const addOption = () => {
     const key = KEY_LABELS[form.options.length] ?? String(form.options.length + 1);
@@ -329,12 +352,34 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             placeholder="Nhập nội dung câu hỏi..."
             className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <AudioUploader
-            label="Audio đọc câu hỏi"
-            value={form.questionAudioUrl}
-            folder="quizzes/questions"
-            onChange={(url) => set('questionAudioUrl', url)}
-          />
+          <div className="mt-1.5">
+            <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+              <Volume2 size={12} /> Audio đọc câu hỏi
+            </span>
+            <div className="flex items-center gap-2">
+              {form.questionAudioUrl ? (
+                <>
+                  <audio src={form.questionAudioUrl} controls className="h-8 flex-1 min-w-0" />
+                  <button
+                    type="button"
+                    onClick={() => set('questionAudioUrl', '')}
+                    className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                    title="Xóa audio"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => openAudioSelector('question')}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50"
+              >
+                <Volume2 size={13} />
+                {form.questionAudioUrl ? 'Đổi audio' : 'Chọn audio'}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Loại câu hỏi + ảnh */}
@@ -510,16 +555,32 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <AudioUploader
-                          label={
-                            <span className="flex items-center gap-1">
-                              <Volume2 size={11} /> Audio đáp án {opt.key}
-                            </span> as unknown as string
-                          }
-                          value={opt.audioUrl ?? ''}
-                          folder="quizzes/answers"
-                          onChange={(url) => updateOption(idx, { audioUrl: url })}
-                        />
+                        <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+                          <Volume2 size={11} /> Audio đáp án {opt.key}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          {opt.audioUrl ? (
+                            <>
+                              <audio src={opt.audioUrl} controls className="h-6 flex-1 min-w-0" />
+                              <button
+                                type="button"
+                                onClick={() => updateOption(idx, { audioUrl: '' })}
+                                className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                                title="Xóa audio"
+                              >
+                                <X size={12} />
+                              </button>
+                            </>
+                          ) : null}
+                          <button
+                            type="button"
+                            onClick={() => openAudioSelector({ type: 'option', index: idx })}
+                            className="flex items-center gap-1.5 px-2 py-1 border border-blue-300 rounded text-xs text-blue-600 hover:bg-blue-50 shrink-0"
+                          >
+                            <Volume2 size={11} />
+                            {opt.audioUrl ? 'Đổi' : 'Thêm'}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -685,12 +746,34 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             placeholder="Giải thích tại sao đây là đáp án đúng..."
             className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <AudioUploader
-            label="Audio giải thích đáp án"
-            value={form.explanationAudioUrl}
-            folder="quizzes/explanations"
-            onChange={(url) => set('explanationAudioUrl', url)}
-          />
+          <div className="mt-1.5">
+            <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+              <Volume2 size={12} /> Audio giải thích đáp án
+            </span>
+            <div className="flex items-center gap-2">
+              {form.explanationAudioUrl ? (
+                <>
+                  <audio src={form.explanationAudioUrl} controls className="h-8 flex-1 min-w-0" />
+                  <button
+                    type="button"
+                    onClick={() => set('explanationAudioUrl', '')}
+                    className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                    title="Xóa audio"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => openAudioSelector('explanation')}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50"
+              >
+                <Volume2 size={13} />
+                {form.explanationAudioUrl ? 'Đổi audio' : 'Chọn audio'}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Điểm & Thứ tự */}
@@ -744,6 +827,26 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
           </Link>
         </div>
       </form>
+
+      {/* Audio Library Selector Modal */}
+      <AudioLibrarySelector
+        isOpen={audioSelectorOpen}
+        onClose={() => {
+          setAudioSelectorOpen(false);
+          setAudioSelectorType(null);
+        }}
+        onSelect={(audioUrl) => handleAudioSelect(audioUrl)}
+        currentAudioUrl={
+          audioSelectorType === 'question'
+            ? form.questionAudioUrl
+            : audioSelectorType === 'explanation'
+            ? form.explanationAudioUrl
+            : typeof audioSelectorType === 'object' && audioSelectorType.type === 'option'
+            ? form.options[audioSelectorType.index]?.audioUrl
+            : undefined
+        }
+        allowUpload={true}
+      />
     </div>
   );
 }

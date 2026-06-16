@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Volume2, X } from 'lucide-react';
+import AudioLibrarySelector from '../../components/AudioLibrarySelector';
 
 export type QType = 'single_choice' | 'multiple_choice' | 'true_false' | 'matching' | 'fill_blank' | 'number_compare' | 'table_fill' | 'drag_to_position';
 
@@ -10,10 +11,12 @@ export interface ExamQuestion {
   questionText: string;
   questionType: QType;
   difficultyLevel: 'easy' | 'medium' | 'hard';
-  optionsJson?: { key: string; text: string; pair?: string }[];
+  optionsJson?: { key: string; text: string; pair?: string; audioUrl?: string }[];
   correctAnswerJson?: unknown;
   explanation?: string;
   questionImageUrl?: string;
+  questionAudioUrl?: string;
+  explanationAudioUrl?: string;
   points: number;
   sortOrder: number;
 }
@@ -50,8 +53,33 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [audioSelectorOpen, setAudioSelectorOpen] = useState(false);
+  const [audioSelectorType, setAudioSelectorType] = useState<'question' | 'explanation' | { type: 'option'; index: number } | null>(null);
 
   const update = <K extends keyof ExamQuestion>(k: K, v: ExamQuestion[K]) => setQ((p) => ({ ...p, [k]: v }));
+
+  const openAudioSelector = (type: 'question' | 'explanation' | { type: 'option'; index: number }) => {
+    setAudioSelectorType(type);
+    setAudioSelectorOpen(true);
+  };
+
+  const handleAudioSelect = (audioUrl: string) => {
+    if (!audioSelectorType) return;
+
+    if (audioSelectorType === 'question') {
+      update('questionAudioUrl', audioUrl);
+    } else if (audioSelectorType === 'explanation') {
+      update('explanationAudioUrl', audioUrl);
+    } else if (typeof audioSelectorType === 'object' && audioSelectorType.type === 'option') {
+      const opts = q.optionsJson ?? [];
+      const updated = [...opts];
+      updated[audioSelectorType.index] = { ...updated[audioSelectorType.index], audioUrl };
+      update('optionsJson', updated);
+    }
+
+    setAudioSelectorOpen(false);
+    setAudioSelectorType(null);
+  };
 
   const setType = (t: QType) => {
     let opts: { key: string; text: string; pair?: string }[] = [];
@@ -153,41 +181,98 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-1">
+          <Volume2 size={14} /> Audio đọc câu hỏi (tùy chọn)
+        </label>
+        <div className="flex items-center gap-2">
+          {q.questionAudioUrl ? (
+            <>
+              <audio src={q.questionAudioUrl} controls className="h-8 flex-1 min-w-0" />
+              <button
+                type="button"
+                onClick={() => update('questionAudioUrl', '')}
+                className="shrink-0 p-1 text-gray-400 hover:text-red-500 transition-colors"
+                title="Xóa audio"
+              >
+                <X size={14} />
+              </button>
+            </>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => openAudioSelector('question')}
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50 transition-colors shrink-0"
+          >
+            <Volume2 size={13} />
+            {q.questionAudioUrl ? 'Đổi' : 'Thêm'}
+          </button>
+        </div>
+      </div>
+
       {/* Type-specific editor */}
       {(q.questionType === 'single_choice' || q.questionType === 'multiple_choice') && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Đáp án</label>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {opts.map((o, i) => {
               const isCorrect = q.questionType === 'single_choice'
                 ? q.correctAnswerJson === o.key
                 : Array.isArray(q.correctAnswerJson) && (q.correctAnswerJson as string[]).includes(o.key);
               return (
-                <div key={i} className="flex items-center gap-2">
-                  <input
-                    type={q.questionType === 'single_choice' ? 'radio' : 'checkbox'}
-                    name="correct"
-                    checked={isCorrect}
-                    onChange={() => {
-                      if (q.questionType === 'single_choice') {
-                        update('correctAnswerJson', o.key);
-                      } else {
-                        const cur = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
-                        update('correctAnswerJson', cur.includes(o.key) ? cur.filter((k) => k !== o.key) : [...cur, o.key]);
-                      }
-                    }}
-                  />
-                  <span className="w-8 text-center font-bold text-gray-600">{o.key}</span>
-                  <input type="text" value={o.text}
-                    onChange={(e) => updateOpt(i, { text: e.target.value })}
-                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg outline-none focus:border-blue-500"
-                    placeholder={`Đáp án ${o.key}`}
-                  />
-                  {opts.length > 2 && (
-                    <button type="button" onClick={() => removeOpt(i)} className="p-1.5 text-red-500 hover:bg-red-50 rounded">
-                      <Trash2 size={14} />
+                <div key={i} className="p-2.5 border border-gray-200 rounded-lg space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type={q.questionType === 'single_choice' ? 'radio' : 'checkbox'}
+                      name="correct"
+                      checked={isCorrect}
+                      onChange={() => {
+                        if (q.questionType === 'single_choice') {
+                          update('correctAnswerJson', o.key);
+                        } else {
+                          const cur = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as string[]) : [];
+                          update('correctAnswerJson', cur.includes(o.key) ? cur.filter((k) => k !== o.key) : [...cur, o.key]);
+                        }
+                      }}
+                    />
+                    <span className="w-8 text-center font-bold text-gray-600">{o.key}</span>
+                    <input type="text" value={o.text}
+                      onChange={(e) => updateOpt(i, { text: e.target.value })}
+                      className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg outline-none focus:border-blue-500 text-sm"
+                      placeholder={`Đáp án ${o.key}`}
+                    />
+                    {opts.length > 2 && (
+                      <button type="button" onClick={() => removeOpt(i)} className="p-1.5 text-red-500 hover:bg-red-50 rounded">
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </div>
+                  <div className="pl-7 flex items-center gap-2">
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <Volume2 size={11} /> Audio
+                    </span>
+                    {o.audioUrl ? (
+                      <>
+                        <audio src={o.audioUrl} controls className="h-6 flex-1 min-w-0" />
+                        <button
+                          type="button"
+                          onClick={() => updateOpt(i, { audioUrl: '' })}
+                          className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                          title="Xóa audio"
+                        >
+                          <X size={12} />
+                        </button>
+                      </>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => openAudioSelector({ type: 'option', index: i })}
+                      className="flex items-center gap-1 px-2 py-1 border border-blue-300 rounded text-xs text-blue-600 hover:bg-blue-50 shrink-0"
+                    >
+                      <Volume2 size={11} />
+                      {o.audioUrl ? 'Đổi' : 'Thêm'}
                     </button>
-                  )}
+                  </div>
                 </div>
               );
             })}
@@ -376,6 +461,34 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
           className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-blue-500 outline-none resize-y"
           placeholder="Giải thích sau khi học sinh chọn đáp án..."
         />
+        <div className="mt-1.5">
+          <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-1">
+            <Volume2 size={14} /> Audio giải thích (tùy chọn)
+          </label>
+          <div className="flex items-center gap-2">
+            {q.explanationAudioUrl ? (
+              <>
+                <audio src={q.explanationAudioUrl} controls className="h-8 flex-1 min-w-0" />
+                <button
+                  type="button"
+                  onClick={() => update('explanationAudioUrl', '')}
+                  className="shrink-0 p-1 text-gray-400 hover:text-red-500 transition-colors"
+                  title="Xóa audio"
+                >
+                  <X size={14} />
+                </button>
+              </>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => openAudioSelector('explanation')}
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50 transition-colors shrink-0"
+            >
+              <Volume2 size={13} />
+              {q.explanationAudioUrl ? 'Đổi' : 'Thêm'}
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -403,6 +516,26 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
           Hủy
         </button>
       </div>
+
+      {/* Audio Library Selector Modal */}
+      <AudioLibrarySelector
+        isOpen={audioSelectorOpen}
+        onClose={() => {
+          setAudioSelectorOpen(false);
+          setAudioSelectorType(null);
+        }}
+        onSelect={(audioUrl) => handleAudioSelect(audioUrl)}
+        currentAudioUrl={
+          audioSelectorType === 'question'
+            ? q.questionAudioUrl
+            : audioSelectorType === 'explanation'
+            ? q.explanationAudioUrl
+            : typeof audioSelectorType === 'object' && audioSelectorType.type === 'option'
+            ? (q.optionsJson?.[audioSelectorType.index]?.audioUrl)
+            : undefined
+        }
+        allowUpload={true}
+      />
     </form>
   );
 }

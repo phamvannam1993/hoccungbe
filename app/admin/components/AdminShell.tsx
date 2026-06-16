@@ -23,6 +23,7 @@ import {
   MessageSquare,
   ClipboardList,
   File,
+  Music,
 } from 'lucide-react';
 
 const navItems = [
@@ -33,6 +34,7 @@ const navItems = [
   { href: '/admin/topics', label: 'Chủ đề', icon: Tag },
   { href: '/admin/lessons', label: 'Bài học', icon: FileText },
   { href: '/admin/documents', label: '📄 Kho Tài Liệu', icon: File },
+  { href: '/admin/audio-library', label: '🎵 Kho Âm Thanh', icon: Music },
   { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
   { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },

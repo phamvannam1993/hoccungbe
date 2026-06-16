@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { Download, AlertCircle, CheckCircle } from 'lucide-react';
 import { useTts } from './hooks/useTts';
-import { vietnameseVoices } from './data/voices';
+import { vietnameseVoices, VIETNAMESE_VOICES } from './data/voices';
 import { validateText, MAX_CHARACTERS, WARNING_THRESHOLD } from './lib/validators';
 import styles from './Tts.module.css';
 
@@ -203,11 +203,21 @@ export default function TtsPageClient() {
               onChange={(e) => setVoice(e.target.value)}
               disabled={isLoading || isRateLimited}
             >
-              {vietnameseVoices.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.label}
-                </option>
-              ))}
+              {/* Group by speaker (Hoài My and Nam Minh) */}
+              <optgroup label="👩 Hoài My - Giọng Nữ">
+                {VIETNAMESE_VOICES.filter((v) => v.id.includes('HoaiMy')).map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.label} - {v.category}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="👨 Nam Minh - Giọng Nam">
+                {VIETNAMESE_VOICES.filter((v) => v.id.includes('NamMinh')).map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.label} - {v.category}
+                  </option>
+                ))}
+              </optgroup>
             </select>
           </div>
 
@@ -317,7 +327,9 @@ export default function TtsPageClient() {
       <div className={styles.card}>
         <h2 className={styles.audioSectionTitle}>Tính năng</h2>
         <ul style={{ lineHeight: '1.8', color: '#4b5563' }}>
-          <li>✓ Hỗ trợ 50+ giọng nói tiếng Việt tự nhiên</li>
+          <li>✓ {VIETNAMESE_VOICES.length} giọng nói tiếng Việt chất lượng cao (Edge TTS)</li>
+          <li>✓ 2 diễn viên: Hoài My (Nữ) và Nam Minh (Nam)</li>
+          <li>✓ 5+ phong cách: Bình Thường, Chậm, Rất Chậm, Mềm, Sâu, Podcast</li>
           <li>✓ Điều chỉnh tốc độ phát âm từ -100% đến +100%</li>
           <li>✓ Điều chỉnh cao độ từ -20Hz đến +20Hz</li>
           <li>✓ Tải xuống âm thanh dưới dạng MP3</li>

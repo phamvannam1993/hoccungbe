@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import { Plus, Trash2, Volume2, X } from 'lucide-react';
-import AudioLibrarySelector from '../../components/AudioLibrarySelector';
+// TODO: Audio Library integration for exam questions (Phase 4)
+// import AudioLibrarySelector from '../../components/AudioLibrarySelector';
 
 export type QType = 'single_choice' | 'multiple_choice' | 'true_false' | 'matching' | 'fill_blank' | 'number_compare' | 'table_fill' | 'drag_to_position';
 
@@ -133,7 +134,7 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
     update('optionsJson', [...opts, newOpt]);
   };
   const removeOpt = (i: number) => update('optionsJson', opts.filter((_, idx) => idx !== i));
-  const updateOpt = (i: number, patch: Partial<{ key: string; text: string; pair: string }>) =>
+  const updateOpt = (i: number, patch: Partial<{ key: string; text: string; pair: string; audioUrl: string }>) =>
     update('optionsJson', opts.map((o, idx) => idx === i ? { ...o, ...patch } : o));
 
   return (
@@ -517,7 +518,8 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
         </button>
       </div>
 
-      {/* Audio Library Selector Modal */}
+      {/* TODO: Audio Library Selector Modal (Phase 4) */}
+      {/*
       <AudioLibrarySelector
         isOpen={audioSelectorOpen}
         onClose={() => {
@@ -536,6 +538,7 @@ export default function QuestionForm({ initial, onSubmit, onCancel }: Props) {
         }
         allowUpload={true}
       />
+      */}
     </form>
   );
 }

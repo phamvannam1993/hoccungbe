@@ -16,12 +16,12 @@ export interface ValidationResult {
 
 // Vietnamese diacritics and allowed characters
 const VIETNAMESE_PATTERN =
-  /^[\p{L}\p{N}\s.,!?;:\-—()\[\]'"\"\/\\àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]*$/u;
+  /^[\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]*$/u;
 
 // Profanity patterns (basic list - can be extended)
 const PROFANITY_PATTERNS = [
   /\b(đĩ|đĩ\s*ba|chó|chó\s*đẻ|thằng|ngu|óc|tạo|vãi)\b/gi,
-  /[^\p{L}\p{N}\s.,!?;:\-—()\[\]'"\/\\]/gu, // Special characters not in whitelist
+  /[^\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\]/gu, // Special characters not in whitelist
 ];
 
 export const MAX_CHARACTERS = 500;
@@ -59,7 +59,7 @@ export function validateCharacters(text: string): ValidationError[] {
   const errors: ValidationError[] = [];
 
   // Check for invalid characters
-  const invalidChars = text.match(/[^\p{L}\p{N}\s.,!?;:\-—()\[\]'"\/\\]/gu);
+  const invalidChars = text.match(/[^\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\]/gu);
   if (invalidChars && invalidChars.length > 0) {
     const uniqueChars = [...new Set(invalidChars)].join('');
     errors.push({
@@ -141,7 +141,7 @@ export function validateText(text: string): ValidationResult {
 export function sanitizeText(text: string): string {
   // Remove characters outside whitelist
   return text
-    .replace(/[^\p{L}\p{N}\s.,!?;:\-—()\[\]'"\/\\]/gu, '')
+    .replace(/[^\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\]/gu, '')
     .trim();
 }
 

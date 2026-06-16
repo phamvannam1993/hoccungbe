@@ -841,7 +841,7 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             ? form.questionAudioUrl
             : audioSelectorType === 'explanation'
             ? form.explanationAudioUrl
-            : typeof audioSelectorType === 'object' && audioSelectorType.type === 'option'
+            : audioSelectorType && typeof audioSelectorType === 'object' && audioSelectorType.type === 'option'
             ? form.options[audioSelectorType.index]?.audioUrl
             : undefined
         }

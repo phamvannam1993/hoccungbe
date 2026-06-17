@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * Rate Limiting Service
  * Implements token bucket algorithm for per-IP rate limiting

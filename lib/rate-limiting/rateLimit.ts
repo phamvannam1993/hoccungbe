@@ -41,7 +41,7 @@ class RateLimiter {
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.buckets = new Map();
     this.whitelistSet = new Set();
-    this.blacklist = new Map();
+    this.blacklistMap = new Map();
   }
 
   /**

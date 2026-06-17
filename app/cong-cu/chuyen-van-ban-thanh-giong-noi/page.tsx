@@ -2,24 +2,24 @@ import type { Metadata } from 'next';
 import TtsPageClient from './TtsPageClient';
 
 export const metadata: Metadata = {
-  title: 'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học',
+  title: 'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé | Bé Hay Học',
 
   description:
-    'Công cụ TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt. 50+ giọng, tốc độ và cao độ tuỳ chỉnh. Hỗ trợ trẻ em luyện phát âm và nghe lại bài học.',
+    'Công cụ TTS miễn phí giúp bé luyện phát âm tiếng Việt. Nghe bài học qua 11 giọng nói tự nhiên, điều chỉnh tốc độ & cao độ. Tải MP3 cho bé 3-8 tuổi.',
 
   keywords: [
-    'TTS',
+    'luyện phát âm cho bé',
+    'tts tiếng việt',
+    'công cụ nghe bài học',
+    'giọng nói tự nhiên',
+    'đọc văn bản cho bé',
+    'nghe lại bài học',
     'text to speech',
     'chuyển văn bản thành giọng nói',
-    'giọng nói tiếng Việt',
-    'tts tiếng Việt',
-    'công cụ phát âm',
-    'luyện phát âm cho bé',
-    'nghe bài học',
-    'âm thanh tổng hợp',
-    'đọc văn bản tự động',
     'công cụ giáo dục',
     'bé hay học',
+    'học tiếng việt',
+    'kỹ năng nghe cho bé',
   ],
 
   authors: [{ name: 'Bé Hay Học' }],
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học - 50+ Giọng Nói Tiếng Việt',
+      'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé | Bé Hay Học',
     description:
-      'TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt. Điều chỉnh tốc độ, cao độ. Luyện phát âm cho bé. Tải âm thanh MP3.',
+      'Công cụ TTS giúp bé luyện phát âm tiếng Việt với 11 giọng nói tự nhiên. Điều chỉnh tốc độ, cao độ. Tải MP3 miễn phí.',
     url: '/cong-cu/chuyen-van-ban-thanh-giong-noi',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học',
+    title: 'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé',
     description:
-      'TTS miễn phí, 50+ giọng nói tiếng Việt, điều chỉnh tốc độ & cao độ, tải MP3.',
+      'Giúp bé luyện phát âm qua giọng nói tự nhiên. 11 giọng nói, điều chỉnh tốc độ & cao độ, tải MP3 miễn phí.',
     images: ['/og-tts.jpg'],
   },
 
@@ -69,10 +69,10 @@ export default function TtsPage() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Công Cụ Chuyển Text Thành Giọng Nói',
+    name: 'Công Cụ Luyện Phát Âm - TTS Tiếng Việt',
     applicationCategory: 'EducationalApplication',
     description:
-      'Công cụ TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt với 50+ giọng nói tự nhiên',
+      'Công cụ TTS miễn phí giúp bé luyện phát âm tiếng Việt với 11 giọng nói tự nhiên, điều chỉnh tốc độ và cao độ',
     url: 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi',
     image: 'https://behayhoc.com/logo.png',
     offers: {
@@ -81,12 +81,12 @@ export default function TtsPage() {
       priceCurrency: 'VND',
     },
     featureList: [
-      '50+ giọng nói tiếng Việt',
+      '11 giọng nói tiếng Việt tự nhiên',
+      'Luyện phát âm và kỹ năng nghe',
       'Điều chỉnh tốc độ phát âm',
       'Điều chỉnh cao độ giọng',
       'Tải xuống dưới dạng MP3',
-      'Hỗ trợ tối đa 500 ký tự',
-      'Không yêu cầu đăng ký',
+      'Miễn phí, không cần đăng ký',
     ],
     inLanguage: 'vi-VN',
   };

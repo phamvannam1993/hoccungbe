@@ -1,58 +1,63 @@
 import type { Metadata } from 'next';
 import TtsPageClient from './TtsPageClient';
 
+const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi';
+const ogImage = 'https://behayhoc.com/og-tts.jpg';
+
 export const metadata: Metadata = {
-  title: 'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé | Bé Hay Học',
+  title: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt | Bé Hay Học',
 
   description:
-    'Công cụ TTS miễn phí giúp bé luyện phát âm tiếng Việt. Nghe bài học qua 11 giọng nói tự nhiên, điều chỉnh tốc độ & cao độ. Tải MP3 cho bé 3-8 tuổi.',
+    'Công cụ chuyển văn bản thành giọng nói tiếng Việt online miễn phí. Tạo giọng đọc tự nhiên, điều chỉnh tốc độ và tải file MP3 cho bài học, video, luyện nghe.',
 
   keywords: [
-    'luyện phát âm cho bé',
-    'tts tiếng việt',
-    'công cụ nghe bài học',
-    'giọng nói tự nhiên',
-    'đọc văn bản cho bé',
-    'nghe lại bài học',
-    'text to speech',
     'chuyển văn bản thành giọng nói',
-    'công cụ giáo dục',
+    'chuyển text thành giọng nói',
+    'text to speech tiếng Việt',
+    'tts tiếng Việt',
+    'tạo giọng đọc tiếng Việt',
+    'công cụ đọc văn bản',
+    'đọc văn bản thành tiếng',
+    'chuyển chữ thành giọng nói',
+    'tạo file mp3 từ văn bản',
+    'luyện nghe cho bé',
+    'luyện phát âm tiếng Việt',
+    'đọc bài học cho bé',
     'bé hay học',
-    'học tiếng việt',
-    'kỹ năng nghe cho bé',
   ],
 
   authors: [{ name: 'Bé Hay Học' }],
+  creator: 'Bé Hay Học',
+  publisher: 'Bé Hay Học',
 
   alternates: {
-    canonical: '/cong-cu/chuyen-van-ban-thanh-giong-noi',
+    canonical: pageUrl,
   },
 
   openGraph: {
-    title:
-      'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé | Bé Hay Học',
+    title: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt Online',
     description:
-      'Công cụ TTS giúp bé luyện phát âm tiếng Việt với 11 giọng nói tự nhiên. Điều chỉnh tốc độ, cao độ. Tải MP3 miễn phí.',
-    url: '/cong-cu/chuyen-van-ban-thanh-giong-noi',
+      'Công cụ TTS miễn phí giúp chuyển văn bản thành giọng nói tiếng Việt. Phù hợp tạo bài học, video thuyết minh, luyện nghe và luyện phát âm cho bé.',
+    url: pageUrl,
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
       {
-        url: '/og-tts.jpg',
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Công Cụ Chuyển Text Thành Giọng Nói - Bé Hay Học',
+        alt: 'Công cụ chuyển văn bản thành giọng nói tiếng Việt - Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Luyện Phát Âm Tiếng Việt - Công Cụ TTS Cho Bé',
+    title: 'Chuyển Văn Bản Thành Giọng Nói | Bé Hay Học',
     description:
-      'Giúp bé luyện phát âm qua giọng nói tự nhiên. 11 giọng nói, điều chỉnh tốc độ & cao độ, tải MP3 miễn phí.',
-    images: ['/og-tts.jpg'],
+      'Tạo giọng đọc tiếng Việt từ văn bản, hỗ trợ luyện nghe, luyện phát âm, bài học và video.',
+    images: [ogImage],
   },
 
   robots: {
@@ -68,27 +73,124 @@ export const metadata: Metadata = {
 export default function TtsPage() {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Công Cụ Luyện Phát Âm - TTS Tiếng Việt',
-    applicationCategory: 'EducationalApplication',
-    description:
-      'Công cụ TTS miễn phí giúp bé luyện phát âm tiếng Việt với 11 giọng nói tự nhiên, điều chỉnh tốc độ và cao độ',
-    url: 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi',
-    image: 'https://behayhoc.com/logo.png',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'VND',
-    },
-    featureList: [
-      '11 giọng nói tiếng Việt tự nhiên',
-      'Luyện phát âm và kỹ năng nghe',
-      'Điều chỉnh tốc độ phát âm',
-      'Điều chỉnh cao độ giọng',
-      'Tải xuống dưới dạng MP3',
-      'Miễn phí, không cần đăng ký',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt',
+        description:
+          'Công cụ chuyển văn bản thành giọng nói tiếng Việt online miễn phí, hỗ trợ tạo giọng đọc cho bài học, video và luyện nghe.',
+        inLanguage: 'vi-VN',
+        isPartOf: {
+          '@type': 'WebSite',
+          name: 'Bé Hay Học',
+          url: 'https://behayhoc.com',
+        },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: ogImage,
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': `${pageUrl}#software`,
+        name: 'Công Cụ Chuyển Văn Bản Thành Giọng Nói',
+        alternateName: 'Text to Speech Tiếng Việt Bé Hay Học',
+        applicationCategory: 'EducationalApplication',
+        operatingSystem: 'Web',
+        isAccessibleForFree: true,
+        inLanguage: 'vi-VN',
+        url: pageUrl,
+        image: ogImage,
+        description:
+          'Công cụ TTS miễn phí giúp chuyển văn bản thành giọng nói tiếng Việt, hỗ trợ tạo âm thanh cho bài học, video, luyện nghe và luyện phát âm.',
+        publisher: {
+          '@type': 'Organization',
+          name: 'Bé Hay Học',
+          url: 'https://behayhoc.com',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://behayhoc.com/logo.png',
+          },
+        },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'VND',
+        },
+        audience: {
+          '@type': 'EducationalAudience',
+          educationalRole: 'student',
+        },
+        featureList: [
+          'Chuyển văn bản thành giọng nói tiếng Việt',
+          'Tạo giọng đọc tự nhiên từ văn bản',
+          'Hỗ trợ nhiều giọng đọc',
+          'Điều chỉnh tốc độ đọc',
+          'Tải xuống dưới dạng MP3',
+          'Phù hợp cho bài học, video và luyện nghe',
+          'Miễn phí, không cần đăng ký',
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Công cụ chuyển văn bản thành giọng nói dùng để làm gì?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text:
+                'Công cụ giúp chuyển nội dung chữ viết thành giọng đọc tiếng Việt, phù hợp để tạo bài học, video thuyết minh, luyện nghe và luyện phát âm.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Có thể tải file âm thanh sau khi tạo không?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text:
+                'Có. Sau khi tạo giọng đọc, người dùng có thể nghe lại và tải file âm thanh để sử dụng cho học tập hoặc nội dung số.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Công cụ có phù hợp cho trẻ em không?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text:
+                'Có. Công cụ phù hợp để tạo giọng đọc cho bài học, câu chuyện, nội dung luyện nghe và luyện phát âm tiếng Việt cho trẻ em.',
+            },
+          },
+        ],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Trang chủ',
+            item: 'https://behayhoc.com',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Công cụ',
+            item: 'https://behayhoc.com/cong-cu',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: 'Chuyển văn bản thành giọng nói',
+            item: pageUrl,
+          },
+        ],
+      },
     ],
-    inLanguage: 'vi-VN',
   };
 
   return (
@@ -101,3 +203,4 @@ export default function TtsPage() {
     </>
   );
 }
+

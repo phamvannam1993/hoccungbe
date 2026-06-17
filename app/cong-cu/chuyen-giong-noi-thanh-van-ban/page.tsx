@@ -1,59 +1,60 @@
 import type { Metadata } from 'next';
 import SttPageClient from './SttPageClient';
 
+const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-giong-noi-thanh-van-ban';
+const ogImage = 'https://behayhoc.com/og-stt.jpg';
+
 export const metadata: Metadata = {
-  title: 'Công Cụ Chuyển Giọng Nói Thành Text | Nhận Dạng Giọng Nói | Bé Hay Học',
+  title: 'Chuyển Giọng Nói Thành Văn Bản Online Miễn Phí | Bé Hay Học',
 
   description:
-    'Công cụ STT miễn phí chuyển giọng nói thành văn bản. Hỗ trợ 10+ ngôn ngữ, tất cả định dạng âm thanh. Hỗ trợ trẻ em luyện nghe và hiểu lời nói.',
+    'Công cụ chuyển giọng nói thành văn bản online miễn phí. Hỗ trợ tiếng Việt, nhiều ngôn ngữ và các định dạng âm thanh phổ biến như MP3, WAV, FLAC, M4A.',
 
   keywords: [
-    'STT',
-    'speech to text',
+    'chuyển giọng nói thành văn bản',
     'chuyển giọng nói thành text',
+    'speech to text',
+    'STT tiếng Việt',
     'nhận dạng giọng nói',
-    'speech recognition',
-    'giọng nói tiếng Việt',
-    'chuyển đổi giọng nói',
-    'công cụ nhận dạng',
-    'luyện nghe cho bé',
-    'hiểu lời nói',
     'phiên âm tiếng Việt',
-    'công cụ giáo dục',
+    'chuyển audio thành text',
+    'công cụ speech to text',
+    'chuyển file âm thanh thành văn bản',
     'bé hay học',
   ],
 
   authors: [{ name: 'Bé Hay Học' }],
+  creator: 'Bé Hay Học',
+  publisher: 'Bé Hay Học',
 
   alternates: {
-    canonical: '/cong-cu/chuyen-giong-noi-thanh-van-ban',
+    canonical: pageUrl,
   },
 
   openGraph: {
-    title:
-      'Công Cụ Chuyển Giọng Nói Thành Text | Bé Hay Học - Hỗ Trợ 10+ Ngôn Ngữ',
+    title: 'Chuyển Giọng Nói Thành Văn Bản Online Miễn Phí',
     description:
-      'STT miễn phí chuyển giọng nói thành văn bản. Hỗ trợ 10+ ngôn ngữ, tất cả định dạng âm thanh (MP3, WAV, FLAC...). Luyện nghe và hiểu lời nói cho bé.',
-    url: '/cong-cu/chuyen-giong-noi-thanh-van-ban',
+      'Công cụ STT miễn phí giúp chuyển giọng nói, file audio thành văn bản. Hỗ trợ tiếng Việt, nhiều ngôn ngữ và các định dạng âm thanh phổ biến.',
+    url: pageUrl,
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
       {
-        url: '/og-stt.jpg',
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Công Cụ Chuyển Giọng Nói Thành Text - Bé Hay Học',
+        alt: 'Công cụ chuyển giọng nói thành văn bản - Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Công Cụ Chuyển Giọng Nối Thành Text | Bé Hay Học',
+    title: 'Chuyển Giọng Nói Thành Văn Bản | Bé Hay Học',
     description:
-      'STT miễn phí, 10+ ngôn ngữ, hỗ trợ MP3/WAV/FLAC, luyện nghe cho bé.',
-    images: ['/og-stt.jpg'],
+      'Công cụ STT miễn phí, hỗ trợ tiếng Việt, nhiều ngôn ngữ và các định dạng âm thanh phổ biến.',
+    images: [ogImage],
   },
 
   robots: {
@@ -70,26 +71,39 @@ export default function SttPage() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Công Cụ Chuyển Giọng Nói Thành Text',
+    '@id': `${pageUrl}#software`,
+    name: 'Công Cụ Chuyển Giọng Nói Thành Văn Bản',
+    alternateName: 'Speech to Text Bé Hay Học',
     applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Web',
+    isAccessibleForFree: true,
+    inLanguage: 'vi-VN',
+    url: pageUrl,
+    image: ogImage,
     description:
-      'Công cụ STT miễn phí chuyển giọng nói thành văn bản với hỗ trợ 10+ ngôn ngữ',
-    url: 'https://behayhoc.com/cong-cu/chuyen-giong-noi-thanh-van-ban',
-    image: 'https://behayhoc.com/logo.png',
+      'Công cụ chuyển giọng nói thành văn bản online miễn phí, hỗ trợ tiếng Việt, nhiều ngôn ngữ và các định dạng âm thanh phổ biến.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Bé Hay Học',
+      url: 'https://behayhoc.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://behayhoc.com/logo.png',
+      },
+    },
     offers: {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'VND',
     },
     featureList: [
-      'Hỗ trợ 10+ ngôn ngữ',
-      'Nhận dạng giọng nói tự nhiên',
+      'Chuyển giọng nói thành văn bản',
+      'Hỗ trợ tiếng Việt',
+      'Hỗ trợ nhiều ngôn ngữ',
       'Hỗ trợ MP3, WAV, FLAC, M4A, OGG',
-      'Tự động chuyển đổi định dạng âm thanh',
-      'Tối đa 50MB mỗi file',
+      'Tự động xử lý file âm thanh',
       'Không yêu cầu đăng ký',
     ],
-    inLanguage: 'vi-VN',
   };
 
   return (

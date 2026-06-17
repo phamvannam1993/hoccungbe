@@ -65,13 +65,26 @@ export default function TtsPageClient() {
     reset();
   }, [reset]);
 
-  const handleDownload = useCallback(() => {
+  const handleDownload = useCallback(async () => {
     if (!audioUrl || !filename) return;
 
-    const link = document.createElement('a');
-    link.href = audioUrl;
-    link.download = filename;
-    link.click();
+    try {
+      const response = await fetch(audioUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download failed:', err);
+      // Fallback: try direct download
+      const link = document.createElement('a');
+      link.href = audioUrl;
+      link.download = filename;
+      link.click();
+    }
   }, [audioUrl, filename]);
 
   const handleCopyUrl = useCallback(() => {

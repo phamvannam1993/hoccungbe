@@ -87,12 +87,24 @@ export const useTts = (): UseTtsReturn => {
         );
       }
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-      const response = await fetch(`${apiUrl}/api/tts`, {
+      const response = await fetch('https://api-v2.behayhoc.com/tts', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'accept': '*/*',
+          'accept-language': 'en-US,en;q=0.9,vi;q=0.8',
+          'content-type': 'application/json',
+          'origin': 'https://api-v2.behayhoc.com',
+          'priority': 'u=1, i',
+          'referer': 'https://api-v2.behayhoc.com/web/',
+          'sec-ch-ua': '"Google Chrome";v="149", "Chromium";v="149", "Not)A;Brand";v="24"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'same-origin',
+          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
         },
+        credentials: 'include',
         body: JSON.stringify({
           text: text.trim(),
           voice,

@@ -177,13 +177,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const buf = Buffer.from(await upstream.arrayBuffer());
+    const data = await upstream.json();
 
-    // Cache the result
-    if (cache.size >= MAX_CACHE) {
-      cache.delete(cache.keys().next().value!);
+    // Convert relative audio_url to absolute URL
+    if (data.audio_url && data.audio_url.startsWith('/')) {
+      data.audio_url = `https://api-v2.behayhoc.com${data.audio_url}`;
     }
-    cache.set(cacheKey, buf);
 
     // Log successful request
     storage.logRequest(
@@ -194,22 +193,16 @@ export async function POST(req: NextRequest) {
       req.headers.get('user-agent') || undefined,
     );
 
-    // Return success response
-    const filename = `audio_${Date.now()}.mp3`;
-
-    return NextResponse.json(
-      {
-        status: 'success',
-        audio_url: `data:audio/mpeg;base64,${buf.toString('base64')}`,
-        filename,
+    // Return JSON response from external API
+    return NextResponse.json(data, {
+      headers: {
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': rateLimitResult.resetTimeUnix.toString(),
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
       },
-      {
-        headers: {
-          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-          'X-RateLimit-Reset': rateLimitResult.resetTimeUnix.toString(),
-        },
-      },
-    );
+    });
   } catch (error) {
     console.error('TTS API Error:', error);
 

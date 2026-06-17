@@ -87,7 +87,9 @@ export const useTts = (): UseTtsReturn => {
         );
       }
 
-      const response = await fetch('/api/tts', {
+      // Call backend API instead of local proxy
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+      const response = await fetch(`${backendUrl}/api/tts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

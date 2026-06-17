@@ -69,8 +69,13 @@ export default function TtsPageClient() {
     if (!audioUrl || !filename) return;
 
     try {
-      // Use proxy download endpoint
-      const downloadUrl = `/api/tts/download?url=${encodeURIComponent(audioUrl)}`;
+      // Extract filename from audio URL (e.g., "c5443f77cc894e6ee82883b5bd9761d5.mp3")
+      const urlFilename = audioUrl.split('/').pop() || filename;
+
+      // Call backend API to download file
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+      const downloadUrl = `${backendUrl}/api/tts/download?filename=${encodeURIComponent(urlFilename)}`;
+
       const response = await fetch(downloadUrl);
 
       if (!response.ok) {
@@ -81,7 +86,7 @@ export default function TtsPageClient() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename.endsWith('.mp3') ? filename : `${filename}.mp3`;
+      link.download = urlFilename.endsWith('.mp3') ? urlFilename : `${urlFilename}.mp3`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

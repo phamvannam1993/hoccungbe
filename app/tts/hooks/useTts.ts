@@ -63,9 +63,8 @@ export const useTts = (): UseTtsReturn => {
         throw new Error('Please select a voice');
       }
 
-      // Call backend API instead of local proxy
-      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
-      const response = await fetch(`${backendUrl}/api/tts`, {
+      // Call external TTS API directly
+      const response = await fetch('https://api-v2.behayhoc.com/tts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

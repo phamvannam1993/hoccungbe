@@ -63,7 +63,7 @@ export const useTts = (): UseTtsReturn => {
         throw new Error('Please select a voice');
       }
 
-      const response = await fetch('https://api-v2.behayhoc.com/tts', {
+      const response = await fetch('/api/tts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

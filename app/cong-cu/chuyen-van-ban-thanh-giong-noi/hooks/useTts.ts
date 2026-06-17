@@ -87,8 +87,9 @@ export const useTts = (): UseTtsReturn => {
         );
       }
 
-      // Call external TTS API directly
-      const response = await fetch('https://api-v2.behayhoc.com/tts', {
+      // Call backend TTS API (backend calls external API to avoid CORS)
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+      const response = await fetch(`${backendUrl}/api/tts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

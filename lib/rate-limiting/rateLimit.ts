@@ -35,7 +35,7 @@ class RateLimiter {
   private config: RateLimitConfig;
   private buckets: Map<string, TokenBucket>;
   private whitelistSet: Set<string>;
-  private blacklist: Map<string, { expiresAt?: number }>;
+  private blacklistMap: Map<string, { expiresAt?: number }>;
 
   constructor(config: Partial<RateLimitConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };

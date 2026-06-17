@@ -51,11 +51,11 @@ class RateLimiter {
     const now = Date.now();
 
     // Check blacklist first
-    const blacklistEntry = this.blacklist.get(ipAddress);
+    const blacklistEntry = this.blacklistMap.get(ipAddress);
     if (blacklistEntry) {
       if (blacklistEntry.expiresAt && blacklistEntry.expiresAt < now) {
         // Entry expired, remove it
-        this.blacklist.delete(ipAddress);
+        this.blacklistMap.delete(ipAddress);
       } else {
         // IP is blacklisted
         const resetTime = new Date(now + this.config.windowMs);
@@ -167,7 +167,7 @@ class RateLimiter {
    */
   blacklist(ipAddress: string, expiresIn?: number): void {
     const expiresAt = expiresIn ? Date.now() + expiresIn : undefined;
-    this.blacklist.set(ipAddress, { expiresAt });
+    this.blacklistMap.set(ipAddress, { expiresAt });
     this.buckets.delete(ipAddress); // Remove from rate limiting
     this.whitelist.delete(ipAddress); // Remove from whitelist if present
   }
@@ -176,19 +176,19 @@ class RateLimiter {
    * Remove IP from blacklist
    */
   removeFromBlacklist(ipAddress: string): void {
-    this.blacklist.delete(ipAddress);
+    this.blacklistMap.delete(ipAddress);
   }
 
   /**
    * Check if IP is blacklisted
    */
   isBlacklisted(ipAddress: string): boolean {
-    const entry = this.blacklist.get(ipAddress);
+    const entry = this.blacklistMap.get(ipAddress);
     if (!entry) return false;
 
     // Check if entry has expired
     if (entry.expiresAt && entry.expiresAt < Date.now()) {
-      this.blacklist.delete(ipAddress);
+      this.blacklistMap.delete(ipAddress);
       return false;
     }
 

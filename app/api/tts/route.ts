@@ -147,23 +147,20 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Call external TTS API (Google Translate)
-    const params = new URLSearchParams({
-      ie: 'UTF-8',
-      q: text,
-      tl: 'vi',
-      client: 'tw-ob',
-      ttsspeed: '0.8',
-    });
-
+    // Call external TTS API (behayhoc)
     const upstream = await fetch(
-      `https://translate.google.com/translate_tts?${params.toString()}`,
+      'https://api-v2.behayhoc.com/tts',
       {
+        method: 'POST',
         headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-          Referer: 'https://translate.google.com/',
+          'content-type': 'application/json',
         },
+        body: JSON.stringify({
+          text: text,
+          voice: voice,
+          rate: rate || '+0%',
+          pitch: pitch || '+0Hz',
+        }),
       },
     );
 

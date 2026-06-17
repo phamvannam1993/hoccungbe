@@ -18,11 +18,6 @@ export interface ValidationResult {
 const VIETNAMESE_PATTERN =
   /^[\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]*$/u;
 
-// Profanity patterns (basic list - can be extended)
-const PROFANITY_PATTERNS = [
-  /\b(đĩ|đĩ\s*ba|chó|chó\s*đẻ|thằng|ngu|óc|tạo|vãi)\b/gi,
-  /[^\p{L}\p{N}\s.,:!?;'\-—()\[\]"\/\\]/gu, // Special characters not in whitelist
-];
 
 export const MAX_CHARACTERS = 500;
 export const MIN_CHARACTERS = 1;
@@ -72,26 +67,6 @@ export function validateCharacters(text: string): ValidationError[] {
 }
 
 /**
- * Validate for profanity or inappropriate content
- */
-export function validateProfanity(text: string): ValidationError[] {
-  const errors: ValidationError[] = [];
-
-  // Check against profanity patterns
-  for (const pattern of PROFANITY_PATTERNS) {
-    if (pattern.test(text)) {
-      errors.push({
-        code: 'INAPPROPRIATE_CONTENT',
-        message: 'Nội dung chứa từ không phù hợp. Vui lòng kiểm tra lại.',
-      });
-      break; // Only report once
-    }
-  }
-
-  return errors;
-}
-
-/**
  * Get validation warnings
  */
 export function getWarnings(charCount: number): ValidationError[] {
@@ -121,7 +96,6 @@ export function validateText(text: string): ValidationResult {
   // Only check character validity if length is OK
   if (text.trim().length > 0 && charCount <= MAX_CHARACTERS) {
     errors.push(...validateCharacters(text));
-    errors.push(...validateProfanity(text));
   }
 
   // Get warnings

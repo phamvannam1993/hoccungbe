@@ -70,7 +70,7 @@ class RateLimiter {
     }
 
     // Whitelist has no limits
-    if (this.whitelist.has(ipAddress)) {
+    if (this.whitelistSet.has(ipAddress)) {
       const resetTime = new Date(now + this.config.windowMs);
       return {
         allowed: true,
@@ -142,7 +142,7 @@ class RateLimiter {
    * Add IP to whitelist (unlimited requests)
    */
   whitelist(ipAddress: string): void {
-    this.whitelist.add(ipAddress);
+    this.whitelistSet.add(ipAddress);
     this.buckets.delete(ipAddress); // Remove from rate limiting
   }
 
@@ -150,14 +150,14 @@ class RateLimiter {
    * Remove IP from whitelist
    */
   removeFromWhitelist(ipAddress: string): void {
-    this.whitelist.delete(ipAddress);
+    this.whitelistSet.delete(ipAddress);
   }
 
   /**
    * Check if IP is whitelisted
    */
   isWhitelisted(ipAddress: string): boolean {
-    return this.whitelist.has(ipAddress);
+    return this.whitelistSet.has(ipAddress);
   }
 
   /**
@@ -169,7 +169,7 @@ class RateLimiter {
     const expiresAt = expiresIn ? Date.now() + expiresIn : undefined;
     this.blacklistMap.set(ipAddress, { expiresAt });
     this.buckets.delete(ipAddress); // Remove from rate limiting
-    this.whitelist.delete(ipAddress); // Remove from whitelist if present
+    this.whitelistSet.delete(ipAddress); // Remove from whitelist if present
   }
 
   /**
@@ -216,7 +216,7 @@ class RateLimiter {
     const bucket = this.buckets.get(ipAddress);
     return {
       ipAddress,
-      isWhitelisted: this.whitelist.has(ipAddress),
+      isWhitelisted: this.whitelistSet.has(ipAddress),
       isBlacklisted: this.isBlacklisted(ipAddress),
       tokens: bucket?.tokens || this.config.maxRequests,
       requestCount: bucket?.requestCount || 0,

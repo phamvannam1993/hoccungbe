@@ -95,20 +95,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check for invalid characters
-    const invalidCharPattern = /[^\p{L}\p{N}\s.,!?;:\-—()\[\]'"\/\\]/gu;
-    if (invalidCharPattern.test(text)) {
-      return NextResponse.json(
-        { error: 'Text contains invalid characters' },
-        {
-          status: 400,
-          headers: {
-            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-            'X-RateLimit-Reset': rateLimitResult.resetTimeUnix.toString(),
-          },
-        },
-      );
-    }
+    // Let external API handle character validation
+    // Remove overly strict validation that was causing issues with Vietnamese text
 
     if (!voice || typeof voice !== 'string') {
       return NextResponse.json(
@@ -148,6 +136,15 @@ export async function POST(req: NextRequest) {
     }
 
     // Call external TTS API (behayhoc)
+    const requestPayload = {
+      text: text,
+      voice: voice,
+      rate: rate || '+0%',
+      pitch: pitch || '+0Hz',
+    };
+
+    console.log('[TTS] Calling external API with:', requestPayload);
+
     const upstream = await fetch(
       'https://api-v2.behayhoc.com/tts',
       {
@@ -155,18 +152,20 @@ export async function POST(req: NextRequest) {
         headers: {
           'content-type': 'application/json',
         },
-        body: JSON.stringify({
-          text: text,
-          voice: voice,
-          rate: rate || '+0%',
-          pitch: pitch || '+0Hz',
-        }),
+        body: JSON.stringify(requestPayload),
       },
-    );
+    ).catch((err) => {
+      console.error('[TTS] Fetch error:', err);
+      throw err;
+    });
+
+    console.log('[TTS] API Response status:', upstream.status);
 
     if (!upstream.ok) {
+      const errorText = await upstream.text().catch(() => '(no response body)');
+      console.error('[TTS] API Error:', errorText);
       return NextResponse.json(
-        { error: 'Failed to generate speech' },
+        { error: 'Failed to generate speech', details: errorText },
         {
           status: 502,
           headers: {

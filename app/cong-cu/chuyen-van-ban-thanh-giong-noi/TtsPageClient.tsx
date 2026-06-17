@@ -69,21 +69,26 @@ export default function TtsPageClient() {
     if (!audioUrl || !filename) return;
 
     try {
-      const response = await fetch(audioUrl);
+      // Use proxy download endpoint
+      const downloadUrl = `/api/tts/download?url=${encodeURIComponent(audioUrl)}`;
+      const response = await fetch(downloadUrl);
+
+      if (!response.ok) {
+        throw new Error(`Download failed with status ${response.status}`);
+      }
+
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename;
+      link.download = filename.endsWith('.mp3') ? filename : `${filename}.mp3`;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Download failed:', err);
-      // Fallback: try direct download
-      const link = document.createElement('a');
-      link.href = audioUrl;
-      link.download = filename;
-      link.click();
+      alert('Lỗi tải xuống: ' + (err instanceof Error ? err.message : 'Không xác định'));
     }
   }, [audioUrl, filename]);
 

@@ -34,7 +34,7 @@ const DEFAULT_CONFIG: RateLimitConfig = {
 class RateLimiter {
   private config: RateLimitConfig;
   private buckets: Map<string, TokenBucket>;
-  private whitelist: Set<string>;
+  private whitelistSet: Set<string>;
   private blacklist: Map<string, { expiresAt?: number }>;
 
   constructor(config: Partial<RateLimitConfig> = {}) {

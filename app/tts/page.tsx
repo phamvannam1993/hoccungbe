@@ -2,17 +2,20 @@ import type { Metadata } from 'next';
 import TtsPageClient from './TtsPageClient';
 
 export const metadata: Metadata = {
-  title: 'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học',
+  title: 'Công Cụ Chuyển Text ↔ Âm Thanh | TTS & STT | Bé Hay Học',
 
   description:
-    'Công cụ TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt. 50+ giọng, tốc độ và cao độ tuỳ chỉnh. Hỗ trợ trẻ em luyện phát âm và nghe lại bài học.',
+    'Công cụ TTS & STT miễn phí: Chuyển văn bản thành giọng nói (50+ giọng Việt) và âm thanh thành text (10+ ngôn ngữ). Hỗ trợ trẻ em luyện phát âm và nghe hiểu.',
 
   keywords: [
     'TTS',
+    'STT',
     'text to speech',
+    'speech to text',
     'chuyển văn bản thành giọng nói',
+    'chuyển giọng nói thành text',
     'giọng nói tiếng Việt',
-    'tts tiếng Việt',
+    'nhận dạng giọng nói',
     'công cụ phát âm',
     'luyện phát âm cho bé',
     'nghe bài học',
@@ -30,9 +33,9 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học - 50+ Giọng Nói Tiếng Việt',
+      'Công Cụ Text-to-Speech & Speech-to-Text | TTS & STT | Bé Hay Học',
     description:
-      'TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt. Điều chỉnh tốc độ, cao độ. Luyện phát âm cho bé. Tải âm thanh MP3.',
+      'TTS & STT miễn phí: Text→Âm thanh (50+ giọng Việt) + Âm thanh→Text (10+ ngôn ngữ). Luyện phát âm, nghe hiểu, tải MP3.',
     url: '/tts',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
@@ -42,16 +45,16 @@ export const metadata: Metadata = {
         url: '/og-tts.jpg',
         width: 1200,
         height: 630,
-        alt: 'Công Cụ Chuyển Text Thành Giọng Nói - Bé Hay Học',
+        alt: 'Công Cụ Chuyển Text ↔ Âm Thanh - Bé Hay Học',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Công Cụ Chuyển Text Thành Giọng Nói | Bé Hay Học',
+    title: 'TTS & STT miễn phí | Bé Hay Học',
     description:
-      'TTS miễn phí, 50+ giọng nói tiếng Việt, điều chỉnh tốc độ & cao độ, tải MP3.',
+      'Chuyển text thành giọng nói (50+ giọng) & âm thanh thành text (10+ ngôn ngữ).',
     images: ['/og-tts.jpg'],
   },
 

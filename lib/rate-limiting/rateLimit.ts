@@ -40,7 +40,7 @@ class RateLimiter {
   constructor(config: Partial<RateLimitConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.buckets = new Map();
-    this.whitelist = new Set();
+    this.whitelistSet = new Set();
     this.blacklist = new Map();
   }
 

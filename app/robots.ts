@@ -1,20 +1,21 @@
 import type { MetadataRoute } from 'next';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
+import { SITE_URL } from './lib/seo';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      // AI search crawlers — allow for citation visibility
-      { userAgent: 'GPTBot',          allow: ['/'] },
-      { userAgent: 'OAI-SearchBot',   allow: ['/'] },
-      { userAgent: 'PerplexityBot',   allow: ['/'] },
-      { userAgent: 'ClaudeBot',       allow: ['/'] },
+      // AI search crawlers — allow discovery/citation of public educational pages.
+      { userAgent: 'GPTBot', allow: ['/'] },
+      { userAgent: 'OAI-SearchBot', allow: ['/'] },
+      { userAgent: 'PerplexityBot', allow: ['/'] },
+      { userAgent: 'ClaudeBot', allow: ['/'] },
       { userAgent: 'Google-Extended', allow: ['/'] },
-      // Training-only scrapers — protect content IP
-      { userAgent: 'CCBot',           disallow: ['/'] },
-      { userAgent: 'anthropic-ai',    disallow: ['/'] },
-      // Standard crawlers
+
+      // Training-only scrapers — protect original content IP.
+      { userAgent: 'CCBot', disallow: ['/'] },
+      { userAgent: 'anthropic-ai', disallow: ['/'] },
+
+      // Standard crawlers. Do not block /_next because search engines need CSS/JS to render pages.
       {
         userAgent: '*',
         allow: '/',
@@ -22,13 +23,10 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',
           '/api/',
           '/dashboard/',
-          '/_next/',
-          '/login',
-          '/register',
         ],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

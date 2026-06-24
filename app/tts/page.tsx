@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Bé Hay Học' }],
 
   alternates: {
-    canonical: '/tts',
+    canonical: '/cong-cu/chuyen-van-ban-thanh-giong-noi',
   },
 
   openGraph: {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
       'Công Cụ Text-to-Speech & Speech-to-Text | TTS & STT | Bé Hay Học',
     description:
       'TTS & STT miễn phí: Text→Âm thanh (50+ giọng Việt) + Âm thanh→Text (10+ ngôn ngữ). Luyện phát âm, nghe hiểu, tải MP3.',
-    url: '/tts',
+    url: '/cong-cu/chuyen-van-ban-thanh-giong-noi',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
@@ -59,10 +59,10 @@ export const metadata: Metadata = {
   },
 
   robots: {
-    index: true,
+    index: false,
     follow: true,
     googleBot: {
-      index: true,
+      index: false,
       follow: true,
     },
   },
@@ -76,7 +76,7 @@ export default function TtsPage() {
     applicationCategory: 'EducationalApplication',
     description:
       'Công cụ TTS miễn phí chuyển văn bản thành giọng nói tiếng Việt với 50+ giọng nói tự nhiên',
-    url: 'https://behayhoc.com/tts',
+    url: 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi',
     image: 'https://behayhoc.com/logo.png',
     offers: {
       '@type': 'Offer',

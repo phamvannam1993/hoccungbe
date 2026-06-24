@@ -4,9 +4,15 @@ const TTS_API_URL = process.env.NEXT_PUBLIC_TTS_API_URL || 'https://api-v2.behay
 
 // Remove emoji and special icons from text
 function removeEmojis(text: string): string {
+  // Comprehensive emoji removal regex
   return text
-    .replace(/[\p{Emoji}\p{Emoji_Component}]/gu, '') // Remove emoji
-    .replace(/[​-‍﻿]/g, '') // Remove zero-width chars
+    // Remove emoji ranges
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Emoticons, symbols, pictures
+    .replace(/[\u{2600}-\u{27BF}]/gu, '') // Miscellaneous symbols
+    .replace(/[\u{2B50}]/gu, '') // Star ⭐
+    .replace(/[\u{1F000}-\u{1F02F}]/gu, '') // Mahjong/Domino tiles
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '') // Variation selectors
+    .replace(/\s+/g, ' ') // Normalize spaces
     .trim();
 }
 
@@ -38,6 +44,11 @@ export async function GET(request: NextRequest) {
 
     // Remove emoji/icons before sending
     const cleanText = removeEmojis(text.trim());
+
+    console.log('🔍 TTS Input:', {
+      original: text.trim(),
+      cleaned: cleanText,
+    });
 
     if (!cleanText) {
       return NextResponse.json(

@@ -3,14 +3,14 @@ import DocVanGhepChuGame from './DocVanGhepChuGame';
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+  title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2026',
   description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
   keywords: ['ghép chữ', 'vần', 'tiếng Việt', 'âm thanh', 'trò chơi ghép chữ thành vần', 'game học vần tiếng Việt', 'syllable building'],
   alternates: {
     canonical: '/tro-choi/ghep-chu-thanh-van',
   },
   openGraph: {
-    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
     url: '/tro-choi/ghep-chu-thanh-van',
     type: 'website',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2025',
+    title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
     images: ['/og-doc-van-ghep-chu.jpg'],
   },

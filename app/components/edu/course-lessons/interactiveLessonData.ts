@@ -39,7 +39,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Quả táo chữ A',
       emoji: '🍎',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-02',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-02',
     tips: [
       'Cho bé học trong 5 đến 10 phút để giữ sự tập trung và hứng thú.',
       'Khen bé ngay khi bé đọc đúng hoặc chọn đúng để tạo động lực tích cực.',
@@ -75,7 +75,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Cái ấm chữ Ă',
       emoji: '🫖',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-03',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-03',
     tips: [
       'Nhấn mạnh dấu trên chữ Ă để bé phân biệt với A.',
       'Không cần học quá lâu, chỉ cần lặp lại ngắn nhiều lần.',
@@ -111,7 +111,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Cái cân chữ Â',
       emoji: '⚖️',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-04',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-04',
     tips: [
       'Cho bé nhìn kỹ dấu mũ của chữ Â.',
       'Ôn cùng A, Ă, Â để bé phân biệt theo nhóm.',
@@ -147,7 +147,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Que kem chữ E',
       emoji: '🍦',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-05',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-05',
     tips: [
       'Cho bé đọc chậm chữ E rồi lặp lại nhiều lần.',
       'Kết hợp hình ảnh có thật để bé ghi nhớ tốt hơn.',
@@ -183,7 +183,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Cái ghế chữ Ê',
       emoji: '🪑',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-06',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-06',
     tips: [
       'Nhấn mạnh dấu mũ trên chữ Ê để bé nhìn ra điểm khác với E.',
       'Cho bé so sánh trực tiếp E và Ê trên màn hình.',
@@ -219,7 +219,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Cây kim chữ I',
       emoji: '🪡',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-07',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-07',
     tips: [
       'Cho bé nhận ra chữ i thường có chấm phía trên.',
       'Có thể cho bé tìm chữ i trong các từ rất ngắn.',
@@ -255,7 +255,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Ông chữ O',
       emoji: '👴',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-08',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-08',
     tips: [
       'Cho bé nhìn chữ O như một hình tròn để dễ nhớ.',
       'Kết hợp cho bé dùng tay vẽ vòng tròn trong không khí.',
@@ -291,7 +291,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Ô tô chữ Ô',
       emoji: '🚗',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-09',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-09',
     tips: [
       'Cho bé chú ý dấu mũ trên chữ Ô để phân biệt với O.',
       'Đặt O và Ô cạnh nhau để bé so sánh trực tiếp.',
@@ -327,7 +327,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Lá cờ chữ Ơ',
       emoji: '🚩',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-10',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-10',
     tips: [
       'Cho bé so sánh ba chữ O, Ô, Ơ thành một nhóm.',
       'Bé chỉ cần nhìn ra dấu khác nhau trước là đã rất tốt.',
@@ -363,7 +363,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Đôi ủng chữ U',
       emoji: '🥾',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-11',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-11',
     tips: [
       'Đọc âm u ngắn, rõ để bé dễ bắt chước.',
       'Cho bé nhìn mặt chữ và nói to cùng lúc.',
@@ -399,7 +399,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Lá thư chữ Ư',
       emoji: '✉️',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-12',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-12',
     tips: [
       'Cho bé nhìn sự khác nhau giữa U và Ư.',
       'Không cần ép bé nhớ quá nhanh, chỉ cần nhận diện dần dần.',
@@ -435,7 +435,7 @@ export const interactiveLessonDataMap: Record<string, InteractiveLessonData> = {
       name: 'Y tá chữ Y',
       emoji: '🧑‍⚕️',
     },
-    nextLessonHref: '/courses/lam-quen-mat-chu/lessons/lqmc-13',
+    nextLessonHref: '/khoa-hoc/lam-quen-mat-chu/lessons/lqmc-13',
     tips: [
       'Đây là bài chốt nhóm nguyên âm, nên ôn lại toàn bộ sau khi học xong.',
       'Có thể cho bé chơi trò gọi tên các chữ nguyên âm đã học.',

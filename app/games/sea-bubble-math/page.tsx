@@ -3,12 +3,12 @@ import SeaBubbleMathGame from "./SeaBubbleMathGame";
 import GameStructuredData from '@/app/components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2025',
+  title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2026',
   description: 'Trò chơi toán bong bóng biển giúp bé đếm số, tính toán, phản xạ. Phù hợp với trẻ 4-8 tuổi. Tải ngay để bé học tính toán.',
   keywords: ['bóng biển', 'toán học', 'bắt bóng', 'số học', 'trò chơi bóng biển toán học cho bé', 'game bắt bóng số đếm', 'toán thử thách biển'],
   alternates: { canonical: 'https://behayhoc.com/tro-choi/toan-bong-bong-bien' },
   openGraph: {
-    title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2025',
+    title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi toán bong bóng biển giúp bé đếm số, tính toán, phản xạ. Phù hợp với trẻ 4-8 tuổi. Tải ngay để bé học tính toán.',
     url: '/tro-choi/toan-bong-bong-bien',
     type: 'website',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2025',
+    title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi toán bong bóng biển giúp bé đếm số, tính toán, phản xạ. Phù hợp với trẻ 4-8 tuổi. Tải ngay để bé học tính toán.',
     images: ['/og-sea-bubble-math.jpg'],
   },

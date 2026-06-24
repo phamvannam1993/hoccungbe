@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Liên hệ | Bé Hay Học',
     description:
       'Cần hỗ trợ về tài khoản, khóa học, trò chơi giáo dục hoặc bảng giá? Liên hệ Bé Hay Học để được đồng hành.',
-    url: '/contact',
+    url: '/lien-he',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',

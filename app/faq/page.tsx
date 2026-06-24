@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Câu hỏi thường gặp | Bé Hay Học',
     description:
       'Giải đáp các thắc mắc phổ biến của phụ huynh khi cho bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục.',
-    url: '/faq',
+    url: '/cau-hoi-thuong-gap',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',

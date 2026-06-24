@@ -43,7 +43,7 @@ const GROUP_COLORS: Record<string, { color: string; bg: string }> = {
 
 const FALLBACK_GAMES = [
   { slug: 'ghep-hinh-rung', routeKey: 'puzzle-game', emoji: '🧩', title: 'Ghép Hình', age: '3–6 tuổi', groupKey: 'thinking-observation' },
-  { slug: 'tau-hoc-toan', routeKey: 'train-complete-lessons', emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', groupKey: 'math-counting' },
+  { slug: 'doan-tau-toan-hoc', routeKey: 'train-complete-lessons', emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', groupKey: 'math-counting' },
   { slug: 'day-so', routeKey: 'number-sequence', emoji: '🔢', title: 'Dãy số', age: '5–8 tuổi', groupKey: 'math-logic' },
   { slug: 'dem-chim', routeKey: 'bird-count', emoji: '🐦', title: 'Đếm chim', age: '3–6 tuổi', groupKey: 'math-counting' },
   { slug: 'keo-cot-so', routeKey: 'column-lift-drag', emoji: '📊', title: 'Kéo cột số', age: '5–8 tuổi', groupKey: 'math-logic' },

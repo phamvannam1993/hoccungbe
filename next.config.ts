@@ -7,9 +7,9 @@ const GAME_MAP: Record<string, string> = {
   'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
-  'pool-fish-first-grade': 'ca-trong-ho',
-  'apple-picking-complete': 'hai-tao-hoc',
-  'train-complete-lessons': 'tau-hoc-toan',
+  'pool-fish-first-grade': 'ca-trong-ho-boi',
+  'apple-picking-complete': 'hai-tao-hoc-toan',
+  'train-complete-lessons': 'doan-tau-toan-hoc',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
 
@@ -22,7 +22,7 @@ const GAME_MAP: Record<string, string> = {
   'bubble-vocabulary': 'bat-bong-tu-vung',
 
   // Tư duy
-  'puzzle-game': 'ghep-manh-hinh',
+  'puzzle-game': 'ghep-hinh-rung',
 };
 
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));
@@ -49,12 +49,12 @@ const nextConfig: NextConfig = {
       { source: '/tien-do', destination: '/progress' },
       { source: '/ho-tro', destination: '/support' },
       { source: '/goc-phu-huynh', destination: '/blog' },
+      { source: '/goc-phu-huynh/:path*', destination: '/blog/:path*' },
       { source: '/lien-he', destination: '/contact' },
       { source: '/chinh-sach-bao-mat', destination: '/privacy-policy' },
       { source: '/dieu-khoan', destination: '/terms' },
       { source: '/huong-dan', destination: '/how-it-works' },
       { source: '/cau-hoi-thuong-gap', destination: '/faq' },
-      { source: '/tts', destination: '/cong-cu/chuyen-van-ban-thanh-giong-noi' },
       ...gameRewrites,
     ];
   },
@@ -74,6 +74,11 @@ const nextConfig: NextConfig = {
       { source: '/progress', destination: '/tien-do', permanent: true },
       { source: '/support', destination: '/ho-tro', permanent: true },
       { source: '/blog', destination: '/goc-phu-huynh', permanent: true },
+      { source: '/blog/:path*', destination: '/goc-phu-huynh/:path*', permanent: true },
+      { source: '/tro-choi/ghep-manh-hinh', destination: '/tro-choi/ghep-hinh-rung', permanent: true },
+      { source: '/tro-choi/ca-trong-ho', destination: '/tro-choi/ca-trong-ho-boi', permanent: true },
+      { source: '/tro-choi/hai-tao-hoc', destination: '/tro-choi/hai-tao-hoc-toan', permanent: true },
+      { source: '/tro-choi/tau-hoc-toan', destination: '/tro-choi/doan-tau-toan-hoc', permanent: true },
       { source: '/contact', destination: '/lien-he', permanent: true },
       { source: '/privacy-policy', destination: '/chinh-sach-bao-mat', permanent: true },
       { source: '/terms', destination: '/dieu-khoan', permanent: true },

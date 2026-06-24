@@ -65,7 +65,7 @@ export default async function Page({ params }: Props) {
     isPartOf: lesson.course ? {
       '@type': 'Course',
       name: lesson.course.title,
-      url: `${SITE}/courses/${lesson.course.slug}`,
+      url: `${SITE}/khoa-hoc/${lesson.course.slug}`,
     } : undefined,
     provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
   } : null;

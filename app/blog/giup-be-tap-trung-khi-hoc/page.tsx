@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'phụ huynh đồng hành cùng con học',
   ],
   alternates: {
-    canonical: '/blog/giup-be-tap-trung-khi-hoc',
+    canonical: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
   },
   openGraph: {
     title: '5 cách giúp bé tập trung hơn khi học tại nhà',
     description:
       'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-    url: '/blog/giup-be-tap-trung-khi-hoc',
+    url: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
     type: 'article',
     images: [
       {

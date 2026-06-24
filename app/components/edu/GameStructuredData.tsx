@@ -1,59 +1,64 @@
 import { gamesData } from './data/gamesData';
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from '@/app/lib/seo';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
-const DEFAULT_OG_IMAGE = '/og-image.jpg';
-
-// Maps English route name → Vietnamese page key (matches next.config.ts GAME_MAP)
-const EN_TO_PAGE: Record<string, string> = {
-  'match-word': 'ghep-tu', 'math-fun': 'toan-vui', 'memory-hunt': 'san-hinh-ghi-nho',
-  'english-vocab': 'tu-vung-tieng-anh', 'sound-match': 'ghep-am-thanh', 'quick-pick': 'chon-nhanh',
-  'missing-number': 'tim-so-thieu', 'shadow-match': 'ghep-bong', 'color-sort': 'sap-xep-mau',
-  'count-animals': 'dem-dong-vat', 'first-letter': 'chu-cai-dau', 'group-match': 'ghep-nhom',
-  'opposite-pairs': 'cap-doi-trai-nghia', 'sequence-sort': 'sap-xep-thu-tu', 'odd-one-out': 'tim-ke-le',
-  'initial-sound': 'am-dau', 'number-quantity-match': 'so-va-so-luong', 'pattern-complete': 'hoan-thanh-quy-luat',
-  'listen-and-do': 'nghe-va-lam', 'mini-maze': 'me-cung-nho', 'half-match': 'ghep-doi',
-  'sequence-memory': 'nho-thu-tu', 'rhyme-match': 'ghep-van', 'connect-numbers': 'noi-so',
-  'apple-pick': 'hai-tao', 'animal-feed': 'cho-vat-an', 'bubble-math': 'toan-bong-bong',
-  'number-line-addition': 'cong-tren-so-do', 'compare-numbers': 'so-sanh-so',
-  'number-sequence-write': 'viet-day-so', 'falling-number': 'so-roi', 'where-belongs': 'tim-cho-cho-vat',
-  'story-order': 'sap-xep-truyen',
+// Folder/route-key → public Vietnamese slug. Keep this in sync with next.config.ts rewrites.
+const ROUTE_KEY_TO_SLUG: Record<string, string> = {
+  'sea-bubble-math': 'toan-bong-bong-bien',
   'bird-count': 'dem-chim',
   'bird-subtraction': 'chim-bay-mat',
   'rabbit-hole': 'tho-vao-hang',
   'rabbit-steal-quantity': 'tho-cap-ca-rot',
-  'pool-fish-first-grade': 'ca-trong-ho',
-  'apple-picking-complete': 'hai-tao-hoc',
-  'train-complete-lessons': 'tau-hoc-toan',
+  'pool-fish-first-grade': 'ca-trong-ho-boi',
+  'apple-picking-complete': 'hai-tao-hoc-toan',
+  'train-complete-lessons': 'doan-tau-toan-hoc',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
-  'bubble-vocabulary': 'bat-bong-tu-vung',
+  'fishing-letters': 'cau-ca-chu-cai',
+  'missing-letter': 'tim-chu-bi-mat',
+  'letter-tracing': 'tap-viet-chu',
+  'trace-sentence': 'to-theo-net-cau',
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
+  'bubble-vocabulary': 'bat-bong-tu-vung',
+  'puzzle-game': 'ghep-hinh-rung',
 };
 
 type GameStructuredDataProps = {
+  /** Accepts English folder name, routeKey, data page key, or canonical Vietnamese slug. */
   slug: string;
   imageUrl?: string;
 };
 
-function toAbsolute(url: string) {
-  return url.startsWith('http') ? url : `${SITE_URL}${url}`;
+function resolveGame(input: string) {
+  const canonicalSlug = ROUTE_KEY_TO_SLUG[input] ?? input;
+  return gamesData.find(
+    (game) =>
+      game.slug === canonicalSlug ||
+      game.slug === input ||
+      game.page === input ||
+      game.page === canonicalSlug ||
+      game.id === input,
+  );
 }
 
-function suggestedMinAgeFromGroup(ageGroup: string): string {
-  return ageGroup.split('-')[0] ?? '3';
+function ageBounds(ageGroup: string) {
+  const [min, max] = ageGroup.split('-').map((part) => Number.parseInt(part, 10));
+  return {
+    min: Number.isFinite(min) ? min : 3,
+    max: Number.isFinite(max) ? max : undefined,
+  };
 }
 
 export default function GameStructuredData({ slug, imageUrl }: GameStructuredDataProps) {
-  const pageKey = EN_TO_PAGE[slug] ?? slug;
-  const game = gamesData.find((g) => g.page === pageKey);
+  const game = resolveGame(slug);
   if (!game) return null;
 
-  const url = `${SITE_URL}/tro-choi/${game.page}`;
-  const image = toAbsolute(imageUrl ?? DEFAULT_OG_IMAGE);
+  const url = `${SITE_URL}/tro-choi/${game.slug}`;
+  const image = absoluteUrl(imageUrl ?? DEFAULT_OG_IMAGE);
+  const { min, max } = ageBounds(game.ageGroup);
 
   const gameSchema = {
     '@context': 'https://schema.org',
-    '@type': ['Game', 'SoftwareApplication'],
+    '@type': ['Game', 'SoftwareApplication', 'LearningResource'],
     name: game.title,
     description: game.description,
     url,
@@ -61,9 +66,12 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
     inLanguage: 'vi-VN',
     genre: game.category,
     keywords: game.skills.join(', '),
+    educationalUse: ['practice', 'game-based learning'],
+    learningResourceType: 'Interactive educational game',
     audience: {
       '@type': 'PeopleAudience',
-      suggestedMinAge: suggestedMinAgeFromGroup(game.ageGroup),
+      suggestedMinAge: min,
+      ...(max ? { suggestedMaxAge: max } : {}),
       audienceType: 'Trẻ em',
     },
     applicationCategory: 'EducationalApplication',
@@ -73,10 +81,11 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'VND',
+      availability: 'https://schema.org/InStock',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Bé Hay Học',
+      name: SITE_NAME,
       url: SITE_URL,
     },
   };
@@ -86,7 +95,7 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Kho trò chơi', item: `${SITE_URL}/games` },
+      { '@type': 'ListItem', position: 2, name: 'Kho trò chơi', item: `${SITE_URL}/tro-choi` },
       { '@type': 'ListItem', position: 3, name: game.title, item: url },
     ],
   };
@@ -95,14 +104,12 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(gameSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      {/* SSR block — crawlable by Google and AI crawlers */}
+      {/* SSR block — crawlable by search engines even when the game UI is client-rendered. */}
       <div className="sr-only">
-        <h1>{game.title} — Trò chơi giáo dục cho bé | Bé Hay Học</h1>
+        <h1>{game.title} — Trò chơi giáo dục cho bé | {SITE_NAME}</h1>
         <p>{game.description}</p>
         <p>Dành cho bé {game.age} · Thể loại: {game.category} · Chơi miễn phí trên trình duyệt</p>
-        {game.skills && game.skills.length > 0 && (
-          <p>Kỹ năng rèn luyện: {game.skills.join(', ')}</p>
-        )}
+        {game.skills.length > 0 && <p>Kỹ năng rèn luyện: {game.skills.join(', ')}</p>}
         <nav aria-label="Breadcrumb">
           <a href={SITE_URL}>Trang chủ</a> › <a href={`${SITE_URL}/tro-choi`}>Kho trò chơi</a> › {game.title}
         </nav>

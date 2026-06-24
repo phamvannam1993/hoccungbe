@@ -42,11 +42,13 @@ export const metadata: Metadata = {
   },
 };
 
+const readyGames = gamesData.filter((g) => g.status === 'ready');
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   name: 'Kho trò chơi giáo dục cho bé | Bé Hay Học',
-  description: 'Hơn 30 trò chơi giáo dục cho bé 3-10 tuổi: học chữ, toán, tiếng Anh, ghi nhớ, phản xạ và tư duy.',
+  description: `${readyGames.length} trò chơi giáo dục cho bé 3-10 tuổi: học chữ, toán, tiếng Anh, ghi nhớ, phản xạ và tư duy.`,
   url: `${SITE}/tro-choi`,
   inLanguage: 'vi-VN',
   publisher: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
@@ -65,14 +67,14 @@ const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Kho trò chơi giáo dục cho bé | Bé Hay Học',
-  description: 'Hơn 30 trò chơi giáo dục cho bé 3-10 tuổi',
+  description: `${readyGames.length} trò chơi giáo dục cho bé 3-10 tuổi`,
   url: `${SITE}/tro-choi`,
-  numberOfItems: gamesData.length,
-  itemListElement: gamesData.map((g, i) => ({
+  numberOfItems: readyGames.length,
+  itemListElement: readyGames.map((g, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     name: g.title,
-    url: `${SITE}/tro-choi/${g.page}`,
+    url: `${SITE}/tro-choi/${g.slug}`,
   })),
 };
 
@@ -85,11 +87,11 @@ export default function Page() {
       {/* SSR game list — crawlable by Google and AI crawlers */}
       <div className="sr-only">
         <h1>Kho trò chơi giáo dục cho bé 3–10 tuổi</h1>
-        <p>Hơn 30 trò chơi giáo dục miễn phí giúp bé học chữ, toán, tiếng Anh và tư duy logic qua hoạt động ngắn, trực quan.</p>
+        <p>{readyGames.length} trò chơi giáo dục miễn phí giúp bé học chữ, toán, tiếng Anh và tư duy logic qua hoạt động ngắn, trực quan.</p>
         <ul>
-          {gamesData.map((g) => (
-            <li key={g.page}>
-              <a href={`/tro-choi/${g.page}`}>{g.title}</a>
+          {readyGames.map((g) => (
+            <li key={g.slug}>
+              <a href={`/tro-choi/${g.slug}`}>{g.title}</a>
               {g.shortDescription && <span> — {g.shortDescription}</span>}
             </li>
           ))}

@@ -3,14 +3,14 @@ import MissingLetterGame from './MissingLetterGame';
 import GameStructuredData from '@/app/components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+  title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2026',
   description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
   keywords: ['tìm chữ', 'chữ bị mất', 'từ vựng', 'logic', 'game tìm chữ bị mất', 'missing letter puzzle', 'hoàn thành từ'],
   alternates: {
     canonical: 'https://behayhoc.com/tro-choi/tim-chu-bi-mat',
   },
   openGraph: {
-    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
     url: '/tro-choi/tim-chu-bi-mat',
     type: 'website',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2025',
+    title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi tìm chữ bị mất giúp bé chữ cái, từ vựng, logic. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học từ vựng.',
     images: ['https://behayhoc.com/og-missing-letter.jpg'],
   },

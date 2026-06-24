@@ -1,20 +1,21 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
-  description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
-  keywords: ['câu cá', 'chữ cái', 'học chữ', 'ngôn ngữ', 'trò chơi câu cá chữ cái', 'game học chữ cái cho bé', 'fishing letters game'],
+  title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2026',
+  description: 'Game câu cá chữ cái giúp bé 4-6 tuổi nhận diện chữ cái, phân biệt chữ hoa/thường và học từ vựng tiếng Việt qua trò chơi vui nhộn.',
+  keywords: ['câu cá chữ cái', 'học chữ cái cho bé', 'game học chữ cái cho bé', 'trò chơi tiếng Việt', 'phân biệt chữ hoa thường', 'học đọc sớm'],
   alternates: {
-    canonical: 'https://behayhoc.com/tro-choi/cau-ca-chu-cai',
+    canonical: '/tro-choi/cau-ca-chu-cai',
   },
   openGraph: {
-    title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
-    description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
-    url: 'https://behayhoc.com/tro-choi/cau-ca-chu-cai',
+    title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2026',
+    description: 'Trò chơi câu cá chữ cái giúp bé học nhận diện chữ, phân biệt chữ hoa/thường và phát triển vốn từ tiếng Việt.',
+    url: '/tro-choi/cau-ca-chu-cai',
     type: 'website',
     images: [
       {
-        url: 'https://behayhoc.com/og-fishing-letters.jpg',
+        url: '/og-fishing-letters.jpg',
         width: 1200,
         height: 630,
         alt: 'Câu Cá Chữ Cái - Bé Hay Học',
@@ -23,61 +24,16 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2025',
-    description: 'Trò chơi câu cá chữ cái giúp bé chữ cái, phân biệt, ngôn ngữ. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học chữ cái.',
-    images: ['https://behayhoc.com/og-fishing-letters.jpg'],
+    title: 'Câu Cá Chữ Cái | Bé Hay Học',
+    description: 'Game học chữ cái tiếng Việt miễn phí cho bé 4-6 tuổi.',
+    images: ['/og-fishing-letters.jpg'],
   },
 };
 
-export default function FishingLettersLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function FishingLettersLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Game',
-            name: 'Câu Cá Chữ Cái',
-            description:
-              'Game câu cá chữ cái giúp bé học nhận diện chữ cái, phân biệt chữ hoa/thường qua trò chơi vui nhộn.',
-            url: 'https://behayhoc.com/tro-choi/cau-ca-chu-cai',
-            image: 'https://behayhoc.com/og-fishing-letters.jpg',
-            applicationCategory: 'EducationalGame',
-            inLanguage: 'vi-VN',
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.8',
-              ratingCount: '250',
-            },
-            author: {
-              '@type': 'Organization',
-              name: 'Bé Hay Học',
-              url: 'https://behayhoc.com',
-            },
-            offers: {
-              '@type': 'Offer',
-              price: '0',
-              priceCurrency: 'VND',
-              availability: 'https://schema.org/OnlineOnly',
-            },
-            gamePlayMode: [
-              'SinglePlayer',
-              'MultiPlayer',
-            ],
-            genre: ['Educational', 'Puzzle'],
-            numberOfPlayers: {
-              '@type': 'QuantitativeValue',
-              minValue: 1,
-              maxValue: 1,
-            },
-          }),
-        }}
-      />
+      <GameStructuredData slug="fishing-letters" imageUrl="/og-fishing-letters.jpg" />
       {children}
     </>
   );

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Cách bắt đầu cho bé học tại nhà | Bé Hay Học',
     description:
       'Chỉ với vài bước đơn giản, phụ huynh có thể chọn nội dung học phù hợp và đồng hành cùng bé mỗi ngày.',
-    url: '/how-it-works',
+    url: '/huong-dan',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',

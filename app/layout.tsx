@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Nunito, Baloo_2 } from 'next/font/google';
 import SiteShell from './components/SiteShell';
+import { DEFAULT_LOGO, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from './lib/seo';
 
 const nunito = Nunito({
   subsets: ['latin', 'vietnamese'],
@@ -19,7 +20,7 @@ const baloo2 = Baloo_2({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://behayhoc.com'),
+  metadataBase: new URL(SITE_URL),
 
   title: {
     default:
@@ -73,9 +74,16 @@ export const metadata: Metadata = {
     'chương trình học cho bé 7 tuổi',
   ],
 
-  authors: [{ name: 'Bé Hay Học' }],
-  creator: 'Bé Hay Học',
-  publisher: 'Bé Hay Học',
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  referrer: 'origin-when-cross-origin',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 
   robots: {
     index: true,
@@ -96,6 +104,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico' },
+      { url: '/icon.ico', sizes: '100x100', type: 'image/x-icon' },
       { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
@@ -114,13 +123,13 @@ export const metadata: Metadata = {
       'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Giúp bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục ngắn, vui, trực quan; phụ huynh dễ dàng theo dõi tiến độ học tập mỗi ngày.',
-    url: 'https://behayhoc.com',
+    url: SITE_URL,
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
     images: [
       {
-        url: '/og-image.jpg',
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: 'Bé Hay Học - Nền tảng học tập và trò chơi giáo dục cho bé 3-10 tuổi',
@@ -134,7 +143,7 @@ export const metadata: Metadata = {
       'Bé Hay Học - Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     description:
       'Trò chơi giáo dục, bài học ngắn và báo cáo tiến độ rõ ràng giúp bé học vui mỗi ngày.',
-    images: ['/og-image.jpg'],
+    images: [DEFAULT_OG_IMAGE],
   },
 
   category: 'education',
@@ -148,14 +157,14 @@ export default function RootLayout({
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Bé Hay Học',
+    name: SITE_NAME,
     alternateName: 'Bé Hay Học',
-    url: 'https://behayhoc.com',
+    url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: 'https://behayhoc.com/logo.png',
-      width: 512,
-      height: 512,
+      url: absoluteUrl(DEFAULT_LOGO),
+      width: 1000,
+      height: 250,
     },
     description: 'Nền tảng học tập và trò chơi giáo dục cho trẻ em 3-10 tuổi tại Việt Nam',
     inLanguage: 'vi-VN',

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import DocumentDetailClient from './DocumentDetailClient';
+import { DEFAULT_OG_IMAGE, SITE_URL } from '../../lib/seo';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -48,11 +49,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${document.title} | Bé Hay Học`,
     description: document.description || `Tải ${document.title} - Tài liệu PDF học tập chất lượng cao`,
     keywords: [document.title, 'tài liệu', 'PDF', 'học tập'],
+    alternates: { canonical: `${SITE_URL}/tai-lieu/${document.slug}` },
     openGraph: {
       title: document.title,
-      description: document.description,
-      url: `/tai-lieu/${document.slug}`,
+      description: document.description || `Tải ${document.title} - Tài liệu PDF học tập chất lượng cao`,
+      url: `${SITE_URL}/tai-lieu/${document.slug}`,
       type: 'website',
+      images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: document.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: document.title,
+      description: document.description || `Tải ${document.title} - Tài liệu PDF học tập chất lượng cao`,
+      images: [DEFAULT_OG_IMAGE],
     },
   };
 }

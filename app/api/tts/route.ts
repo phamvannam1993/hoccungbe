@@ -59,9 +59,6 @@ export async function GET(request: NextRequest) {
         },
         body: JSON.stringify({
           text: cleanText,
-          voice: 'vi-VN-HoaiMyNeural',
-          rate: '+0%',
-          pitch: '+0Hz',
         }),
       });
     } catch (error) {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PuzzleGame from './PuzzleGame';
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Ghép Hình | 3-6 tuổi | Bé Hay Học 2026',
@@ -36,6 +37,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="ghep-hinh-rung" />
       <PuzzleGame />
+    <GameSeoContent slug="ghep-hinh-rung" />
     </>
   );
 }

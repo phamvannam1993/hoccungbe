@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import QuizPlayPage from '../../../../components/edu/QuizPlayPage';
+
+// Trình chơi bài tập tương tác — không phải trang nội dung, đặt noindex để tránh index nội dung mỏng.
+export const metadata: Metadata = {
+  robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
+};
 
 type Props = { params: Promise<{ id: string; exercise: string }> };
 

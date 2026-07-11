@@ -2,6 +2,22 @@ import CourseLibraryPage from '../components/edu/CourseLibraryPage';
 import type { Metadata } from 'next';
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
+const API = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+
+type CourseItem = { slug?: string; title?: string; description?: string; ageRange?: string };
+
+// Lấy danh sách khóa học để dựng ItemList schema + danh sách crawlable (giống trang /tro-choi).
+async function fetchCourses(): Promise<CourseItem[]> {
+  try {
+    const res = await fetch(`${API}/api/courses?limit=500`, { next: { revalidate: 3600 } });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const list = Array.isArray(json) ? json : (json.data ?? []);
+    return (list as CourseItem[]).filter((c) => !!c.slug);
+  } catch {
+    return [];
+  }
+}
 
 export const metadata: Metadata = {
   title: 'Khóa học cho bé',
@@ -56,12 +72,43 @@ const breadcrumb = {
   ],
 };
 
-export default function Page() {
+export default async function Page() {
+  const courses = await fetchCourses();
+
+  const itemListSchema = courses.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Khóa học cho bé | Bé Hay Học',
+    description: `${courses.length} khóa học giáo dục cho bé 3-10 tuổi`,
+    url: `${SITE}/khoa-hoc`,
+    numberOfItems: courses.length,
+    itemListElement: courses.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.title,
+      url: `${SITE}/khoa-hoc/${c.slug}`,
+    })),
+  } : null;
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}/>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      {itemListSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      )}
       <h1 className="sr-only">Khóa học cho bé 3–10 tuổi | Bé Hay Học</h1>
+      {/* Danh sách khóa học crawlable — hỗ trợ Google & AI crawler kể cả khi UI render phía client */}
+      {courses.length > 0 && (
+        <ul className="sr-only">
+          {courses.map((c) => (
+            <li key={c.slug}>
+              <a href={`/khoa-hoc/${c.slug}`}>{c.title}</a>
+              {c.description && <span> — {c.description}</span>}
+            </li>
+          ))}
+        </ul>
+      )}
       <CourseLibraryPage />
     </>
   );

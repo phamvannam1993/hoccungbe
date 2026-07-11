@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import DocVanGhepChuGame from './DocVanGhepChuGame';
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2026',
@@ -36,6 +37,7 @@ export default function DocVanGhepChuPage() {
     <>
       <GameStructuredData slug="doc-van-ghep-chu" />
       <DocVanGhepChuGame />
+    <GameSeoContent slug="doc-van-ghep-chu" />
     </>
   );
 }

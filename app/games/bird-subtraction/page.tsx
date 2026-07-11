@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import BirdSubtractionGame from "./BirdSubtractionGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Chim Bay Mất | 4-6 tuổi | Bé Hay Học 2026',
@@ -12,13 +13,11 @@ export const metadata: Metadata = {
     description: 'Trò chơi chim bay mất giúp bé phép trừ, đếm, logic. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học phép trừ.',
     url: '/tro-choi/chim-bay-mat',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Chim Bay Mất - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Chim Bay Mất | 4-6 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi chim bay mất giúp bé phép trừ, đếm, logic. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học phép trừ.',
-    images: ['/og-image.jpg'],
   },
 };
 
@@ -27,6 +26,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="bird-subtraction" />
       <BirdSubtractionGame />
+    <GameSeoContent slug="bird-subtraction" />
     </>
   );
 }

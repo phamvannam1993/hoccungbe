@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ApplePickingCompleteGame from "./ApplePickingCompleteGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Hái Táo Học Toán | 5-7 tuổi | Bé Hay Học 2026',
@@ -12,13 +13,11 @@ export const metadata: Metadata = {
     description: 'Trò chơi hái táo giúp bé luyện phép cộng, dãy số. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học phép cộng.',
     url: '/tro-choi/hai-tao-hoc-toan',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Hái Táo Học Toán - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Hái Táo Học Toán | 5-7 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi hái táo giúp bé luyện phép cộng, dãy số. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học phép cộng.',
-    images: ['/og-image.jpg'],
   },
 };
 
@@ -27,6 +26,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="apple-picking-complete" />
       <ApplePickingCompleteGame />
+    <GameSeoContent slug="apple-picking-complete" />
     </>
   );
 }

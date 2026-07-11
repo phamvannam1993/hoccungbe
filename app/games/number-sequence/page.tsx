@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import NumberSequenceGame from "./NumberSequenceGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Dãy Số | 5-8 tuổi | Bé Hay Học 2026',
@@ -12,13 +13,11 @@ export const metadata: Metadata = {
     description: 'Trò chơi dãy số giúp bé logic, quy luật, dãy số. Phù hợp với trẻ 5-8 tuổi. Tải ngay để bé học logic.',
     url: '/tro-choi/day-so',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Dãy Số - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Dãy Số | 5-8 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi dãy số giúp bé logic, quy luật, dãy số. Phù hợp với trẻ 5-8 tuổi. Tải ngay để bé học logic.',
-    images: ['/og-image.jpg'],
   },
 };
 
@@ -27,6 +26,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="number-sequence" />
       <NumberSequenceGame />
+    <GameSeoContent slug="number-sequence" />
     </>
   );
 }

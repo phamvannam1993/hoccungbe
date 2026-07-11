@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import MissingLetterGame from './MissingLetterGame';
 import GameStructuredData from '@/app/components/edu/GameStructuredData';
+import GameSeoContent from '@/app/components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Tìm Chữ Bị Mất | 4-7 tuổi | Bé Hay Học 2026',
@@ -36,6 +37,7 @@ export default function MissingLetterGamePage() {
     <>
       <GameStructuredData slug="tim-chu-bi-mat" />
       <MissingLetterGame />
+    <GameSeoContent slug="tim-chu-bi-mat" />
     </>
   );
 }

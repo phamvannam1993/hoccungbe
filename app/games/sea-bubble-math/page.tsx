@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import SeaBubbleMathGame from "./SeaBubbleMathGame";
 import GameStructuredData from '@/app/components/edu/GameStructuredData';
+import GameSeoContent from '@/app/components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Toán Bong Bóng Biển | 4-8 tuổi | Bé Hay Học 2026',
@@ -27,6 +28,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="toan-bong-bong-bien" />
       <SeaBubbleMathGame />
+    <GameSeoContent slug="toan-bong-bong-bien" />
     </>
   );
 }

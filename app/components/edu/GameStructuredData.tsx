@@ -28,7 +28,7 @@ type GameStructuredDataProps = {
   imageUrl?: string;
 };
 
-function resolveGame(input: string) {
+export function resolveGame(input: string) {
   const canonicalSlug = ROUTE_KEY_TO_SLUG[input] ?? input;
   return gamesData.find(
     (game) =>
@@ -104,6 +104,23 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(gameSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {/* Breadcrumb hiển thị — khớp với BreadcrumbList schema, hỗ trợ điều hướng & SEO. */}
+      <nav
+        aria-label="Đường dẫn"
+        className="mx-auto max-w-6xl px-4 pt-4 text-sm text-slate-500 sm:px-6"
+      >
+        <ol className="flex flex-wrap items-center gap-1.5">
+          <li>
+            <a href="/" className="hover:text-sky-600">Trang chủ</a>
+          </li>
+          <li aria-hidden="true" className="text-slate-300">›</li>
+          <li>
+            <a href="/tro-choi" className="hover:text-sky-600">Kho trò chơi</a>
+          </li>
+          <li aria-hidden="true" className="text-slate-300">›</li>
+          <li aria-current="page" className="font-semibold text-slate-700">{game.title}</li>
+        </ol>
+      </nav>
       {/* SSR block — crawlable by search engines even when the game UI is client-rendered. */}
       <div className="sr-only">
         <h1>{game.title} — Trò chơi giáo dục cho bé | {SITE_NAME}</h1>

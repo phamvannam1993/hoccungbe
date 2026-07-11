@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import BubbleVocabularyClient from './BubbleVocabularyClient';
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi | Bé Hay Học 2026',
@@ -36,6 +37,7 @@ export default function BubbleVocabularyPage() {
     <>
       <GameStructuredData slug="bubble-vocabulary" />
       <BubbleVocabularyClient />
+    <GameSeoContent slug="bubble-vocabulary" />
     </>
   );
 }

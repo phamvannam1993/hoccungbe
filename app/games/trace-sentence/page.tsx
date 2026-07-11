@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import TraceSentenceGame from "./TraceSentenceGame";
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Tô Theo Nét Câu | 4-6 tuổi | Bé Hay Học 2026',
@@ -12,13 +13,11 @@ export const metadata: Metadata = {
     description: 'Trò chơi tô theo nét câu giúp bé viết câu, reading, motor. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học viết câu.',
     url: '/tro-choi/to-theo-net-cau',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tô Theo Nét Câu - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Tô Theo Nét Câu | 4-6 tuổi | Bé Hay Học 2026',
     description: 'Trò chơi tô theo nét câu giúp bé viết câu, reading, motor. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học viết câu.',
-    images: ['/og-image.jpg'],
   },
 };
 
@@ -27,6 +26,7 @@ export default function Page() {
     <>
       <GameStructuredData slug="to-theo-net-cau" />
       <TraceSentenceGame />
+    <GameSeoContent slug="to-theo-net-cau" />
     </>
   );
 }

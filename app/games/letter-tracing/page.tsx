@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import LetterTracingGame from './LetterTracingGame';
 import GameStructuredData from '../../components/edu/GameStructuredData';
+import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
   title: 'Tập Viết Chữ | 3-6 tuổi | Bé Hay Học 2026',
@@ -27,6 +28,7 @@ export default function LetterTracingPage() {
     <>
       <GameStructuredData slug="letter-tracing" imageUrl="/og-letter-tracing.jpg" />
       <LetterTracingGame />
+    <GameSeoContent slug="letter-tracing" />
     </>
   );
 }

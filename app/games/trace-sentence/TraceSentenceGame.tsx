@@ -35,9 +35,9 @@ export default function TraceSentenceGame() {
     if (!audioRef.current) {
       audioRef.current = new Audio();
     }
-    // Using Google Translate TTS API for Vietnamese
+    // Dùng giọng đọc riêng của app (/api/tts), không dùng Google TTS.
     const encodedText = encodeURIComponent(text);
-    audioRef.current.src = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=vi&client=tw-ob`;
+    audioRef.current.src = `/api/tts?q=${encodedText}`;
     audioRef.current.play().catch(() => {});
   };
 

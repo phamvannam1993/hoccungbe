@@ -1,6 +1,5 @@
 // utils/speech.ts
-// Primary: Google TTS via /api/tts (natural voice, cached)
-// Fallback: Web Speech API (browser-native)
+// Đọc bằng giọng riêng của app qua /api/tts (natural voice, cached). Không dùng Google TTS.
 
 export type SpeakTextOptions = {
   lang?: string;

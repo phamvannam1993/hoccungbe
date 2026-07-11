@@ -1,230 +1,156 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+
+// Nguồn giọng: ưu tiên Google TTS free, lỗi thì fallback sang API riêng của app.
 const TTS_API_URL = process.env.NEXT_PUBLIC_TTS_API_URL || 'https://api-v2.behayhoc.com/tts';
 
-// Remove emoji and special icons from text
+// Cache in-process (tồn tại giữa các request trong cùng worker).
+const cache = new Map<string, Buffer>();
+const MAX_CACHE = 300;
+
+// Loại emoji/icon khỏi text trước khi đọc (option quiz có ✅⭐… sẽ đọc sai/hỏng).
 function removeEmojis(text: string): string {
-  // Comprehensive emoji removal regex
   return text
-    // Remove emoji ranges
-    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Emoticons, symbols, pictures
-    .replace(/[\u{2600}-\u{27BF}]/gu, '') // Miscellaneous symbols
-    .replace(/[\u{2B50}]/gu, '') // Star ⭐
-    .replace(/[\u{1F000}-\u{1F02F}]/gu, '') // Mahjong/Domino tiles
-    .replace(/[\u{FE00}-\u{FE0F}]/gu, '') // Variation selectors
-    .replace(/\s+/g, ' ') // Normalize spaces
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{27BF}]/gu, '')
+    .replace(/[\u{2B50}]/gu, '')
+    .replace(/[\u{1F000}-\u{1F02F}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
-export async function GET(request: NextRequest) {
-  try {
-    const searchParams = request.nextUrl.searchParams;
-    const text = searchParams.get('q');
-
-    if (!text) {
-      return NextResponse.json(
-        { error: 'Missing query parameter "q" (text to synthesize)' },
-        { status: 400 }
-      );
+// Google TTS giới hạn ~200 ký tự/request → tách theo từ thành các đoạn ≤ maxLen.
+function splitText(text: string, maxLen = 190): string[] {
+  const words = text.split(/\s+/);
+  const chunks: string[] = [];
+  let cur = '';
+  for (const w of words) {
+    if ((cur + ' ' + w).trim().length > maxLen) {
+      if (cur) chunks.push(cur.trim());
+      cur = w;
+    } else {
+      cur = (cur + ' ' + w).trim();
     }
+  }
+  if (cur) chunks.push(cur.trim());
+  return chunks.length ? chunks : [text];
+}
 
-    if (text.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Text cannot be empty' },
-        { status: 400 }
-      );
-    }
-
-    if (text.length > 500) {
-      return NextResponse.json(
-        { error: 'Text must not exceed 500 characters' },
-        { status: 400 }
-      );
-    }
-
-    // Remove emoji/icons before sending
-    const cleanText = removeEmojis(text.trim());
-
-    console.log('🔍 TTS Input:', {
-      original: text.trim(),
-      cleaned: cleanText,
+// Lấy audio từ Google Translate TTS cho 1 text (đã gộp các đoạn), trả Buffer hoặc null.
+async function fetchGoogleTts(text: string): Promise<Buffer | null> {
+  const parts: Buffer[] = [];
+  for (const chunk of splitText(text)) {
+    const params = new URLSearchParams({
+      ie: 'UTF-8',
+      q: chunk,
+      tl: 'vi',
+      client: 'tw-ob',
+      ttsspeed: '0.8',
     });
+    const upstream = await fetch(`https://translate.google.com/translate_tts?${params.toString()}`, {
+      headers: {
+        // Google translate_tts cần User-Agent giống trình duyệt, nếu không sẽ trả 403.
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        Referer: 'https://translate.google.com/',
+      },
+    });
+    if (!upstream.ok) return null;
+    parts.push(Buffer.from(await upstream.arrayBuffer()));
+  }
+  return parts.length ? Buffer.concat(parts) : null;
+}
 
-    if (!cleanText) {
-      return NextResponse.json(
-        { error: 'Text contains only emoji/icons' },
-        { status: 400 }
-      );
+// API riêng của app (natural voice) — dùng khi Google TTS lỗi. Trả Buffer hoặc null.
+async function fetchBackendTts(text: string): Promise<Buffer | null> {
+  try {
+    const res = await fetch(TTS_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, audio/mpeg, audio/wav, audio/*, */*',
+      },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) return null;
+    const contentType = res.headers.get('content-type') || '';
+    // Backend trả JSON kèm audio_url → tải file audio thật.
+    if (contentType.includes('application/json')) {
+      const data = await res.json();
+      const audioUrl = data.audio_url || data.url;
+      if (!audioUrl) return null;
+      const absUrl = audioUrl.startsWith('http') ? audioUrl : new URL(audioUrl, TTS_API_URL).toString();
+      const audioRes = await fetch(absUrl);
+      if (!audioRes.ok) return null;
+      return Buffer.from(await audioRes.arrayBuffer());
     }
-
-    let response: Response | null = null;
-    let backendError: string | null = null;
-
-    // Step 1: Try backend API first
-    try {
-      response = await fetch(TTS_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json, audio/mpeg, audio/wav, audio/*, */*',
-        },
-        body: JSON.stringify({
-          text: cleanText,
-        }),
-      });
-    } catch (error) {
-      backendError = error instanceof Error ? error.message : 'Network error';
-      console.warn(`Backend API request failed: ${backendError}`);
-    }
-
-    // Process backend response if successful
-    if (response?.ok) {
-      const contentType = response.headers.get('content-type') || 'application/json';
-
-      // Process backend response
-      // If response is JSON with audio_url, fetch and return the actual audio file
-      if (contentType.includes('application/json')) {
-        const data = await response.json();
-        const audioUrl = data.audio_url || data.url;
-
-        if (audioUrl) {
-          // Make absolute URL if relative
-          const absoluteAudioUrl = audioUrl.startsWith('http')
-            ? audioUrl
-            : new URL(audioUrl, TTS_API_URL).toString();
-
-          // Fetch the actual audio file
-          const audioResponse = await fetch(absoluteAudioUrl);
-          if (audioResponse.ok) {
-            const audioBuffer = await audioResponse.arrayBuffer();
-            const audioContentType = audioResponse.headers.get('content-type') || 'audio/mpeg';
-
-            return new NextResponse(audioBuffer, {
-              status: 200,
-              headers: {
-                'Content-Type': audioContentType,
-                'Cache-Control': 'public, max-age=86400',
-                'Access-Control-Allow-Origin': '*',
-              },
-            });
-          }
-        }
-
-        // If audio fetch failed, return JSON response from backend
-        return NextResponse.json(data, { status: 200 });
-      }
-
-      // If response is already audio, return it directly
-      const audioBuffer = await response.arrayBuffer();
-      return new NextResponse(audioBuffer, {
-        status: 200,
-        headers: {
-          'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=86400',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
-    }
-
-    // Step 2: Backend failed
-    console.error(`Backend TTS failed: ${response?.status || backendError}`);
-    return NextResponse.json(
-      { error: 'TTS service unavailable' },
-      { status: response?.status || 503 }
-    );
-  } catch (error) {
-    console.error('TTS GET error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate speech' },
-      { status: 500 }
-    );
+    // Backend trả audio trực tiếp.
+    return Buffer.from(await res.arrayBuffer());
+  } catch {
+    return null;
   }
 }
 
-export async function POST(request: NextRequest) {
+function audioResponse(buf: Buffer, source: string): NextResponse {
+  return new NextResponse(new Uint8Array(buf), {
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Origin': '*',
+      'X-TTS-Source': source,
+    },
+  });
+}
+
+// Xử lý chung cho GET & POST: làm sạch text → cache → Google TTS.
+async function handle(rawText: string | null): Promise<NextResponse> {
+  if (!rawText || !rawText.trim()) {
+    return NextResponse.json({ error: 'q (text) is required' }, { status: 400 });
+  }
+  if (rawText.length > 500) {
+    return NextResponse.json({ error: 'Text must not exceed 500 characters' }, { status: 400 });
+  }
+
+  const text = removeEmojis(rawText.trim());
+  if (!text) {
+    return NextResponse.json({ error: 'Text contains only emoji/icons' }, { status: 400 });
+  }
+
+  const cached = cache.get(text);
+  if (cached) return audioResponse(cached, 'cache');
+
+  // 1) Ưu tiên Google TTS free.
+  let buf = await fetchGoogleTts(text);
+  let source = 'google-free';
+
+  // 2) Google lỗi → fallback sang API riêng của app.
+  if (!buf) {
+    console.warn('Google TTS lỗi → fallback API riêng');
+    buf = await fetchBackendTts(text);
+    source = 'backend';
+  }
+
+  if (!buf) {
+    return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
+  }
+
+  if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
+  cache.set(text, buf);
+
+  return audioResponse(buf, source);
+}
+
+export async function GET(req: NextRequest) {
+  return handle(req.nextUrl.searchParams.get('q'));
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
-    let { text, voice, rate, pitch } = body;
-
-    if (!text || text.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Text is required and cannot be empty' },
-        { status: 400 }
-      );
-    }
-
-    if (text.length > 500) {
-      return NextResponse.json(
-        { error: 'Text must not exceed 500 characters' },
-        { status: 400 }
-      );
-    }
-
-    // Remove emoji/icons before sending
-    const cleanText = removeEmojis(text.trim());
-
-    if (!cleanText) {
-      return NextResponse.json(
-        { error: 'Text contains only emoji/icons' },
-        { status: 400 }
-      );
-    }
-
-    let response: Response | null = null;
-    let backendError: string | null = null;
-
-    // Step 1: Try backend API first
-    try {
-      response = await fetch(TTS_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json, audio/mpeg, audio/wav, audio/*, */*',
-        },
-        body: JSON.stringify({
-          text: cleanText,
-          voice: voice || 'vi-VN-HoaiMyNeural',
-          rate: rate || '+0%',
-          pitch: pitch || '+0Hz',
-        }),
-      });
-    } catch (error) {
-      backendError = error instanceof Error ? error.message : 'Network error';
-      console.warn(`Backend API request failed: ${backendError}`);
-    }
-
-    if (response?.ok) {
-      const contentType = response.headers.get('content-type') || 'application/json';
-
-      // If response is audio, return as audio stream
-      if (contentType.includes('audio')) {
-        const audioBuffer = await response.arrayBuffer();
-        return new NextResponse(audioBuffer, {
-          status: 200,
-          headers: {
-            'Content-Type': contentType,
-            'Cache-Control': 'public, max-age=86400',
-            'Access-Control-Allow-Origin': '*',
-          },
-        });
-      }
-
-      // If response is JSON, forward it as is
-      const data = await response.json();
-      return NextResponse.json(data, { status: 200 });
-    }
-
-    // Step 2: Backend failed
-    console.error(`Backend TTS failed: ${response?.status || backendError}`);
-    return NextResponse.json(
-      { error: 'TTS service unavailable' },
-      { status: response?.status || 503 }
-    );
-  } catch (error) {
-    console.error('TTS POST error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate speech' },
-      { status: 500 }
-    );
+    const body = await req.json();
+    return handle(body?.text ?? body?.q ?? null);
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 }

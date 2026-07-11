@@ -1745,7 +1745,8 @@ function speak(text: string) {
   const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
   const audio = new Audio(url);
   _ttsAudio = audio;
-  audio.play().catch(() => speakWebSpeech(cleaned));
+  // Chỉ dùng giọng đọc riêng của app (/api/tts). Không fallback sang Google TTS.
+  audio.play().catch(() => {});
 }
 
 function stopSpeak() {
@@ -1755,23 +1756,7 @@ function stopSpeak() {
   }
 }
 
-function speakWebSpeech(text: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'vi-VN'; u.rate = 0.85; u.pitch = 1.0;
-  const VI_PRIORITY = ['Google tiếng Việt', 'Google Vietnamese', 'vi-VN-Neural2', 'vi-VN-Wavenet', 'Microsoft An Online'];
-  const go = () => {
-    const vi = window.speechSynthesis.getVoices().filter((v) => v.lang.startsWith('vi'));
-    if (vi.length) {
-      const match = VI_PRIORITY.map((n) => vi.find((v) => v.name.includes(n))).find(Boolean);
-      u.voice = match ?? vi.find((v) => !v.localService) ?? vi[0];
-    }
-    window.speechSynthesis.speak(u);
-  };
-  if (window.speechSynthesis.getVoices().length > 0) go();
-  else { window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; go(); }; }
-}
+// (Đã bỏ speakWebSpeech dùng giọng Google — app chỉ đọc bằng /api/tts.)
 
 const ENCOURAGE_CORRECT = ['Xuất sắc!', 'Tuyệt vời!', 'Giỏi lắm!', 'Chính xác!', 'Bạn thật thông minh!'];
 const ENCOURAGE_WRONG = ['Ồ, cố gắng lên!', 'Thử lại nhé!', 'Gần đúng rồi!', 'Đừng nản lòng nhé!'];

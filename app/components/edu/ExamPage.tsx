@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { apiFetch } from '../../lib/api';
 
-// ─── TTS (Google Translate, same as QuizPlayPage) ────────────────────────────
+// ─── TTS (giọng riêng /api/tts, same as QuizPlayPage) ────────────────────────────
 
 function preprocessTTS(text: string): string {
   return text
@@ -35,14 +35,8 @@ function speakExam(text: string) {
   const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
   const audio = new Audio(url);
   _examTtsAudio = audio;
-  audio.play().catch(() => {
-    // fallback Web Speech
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(cleaned);
-    u.lang = 'vi-VN'; u.rate = 0.85;
-    window.speechSynthesis.speak(u);
-  });
+  // Chỉ dùng giọng đọc riêng của app (/api/tts). Không fallback sang Google TTS.
+  audio.play().catch(() => {});
 }
 
 function SpeakButton({ text }: { text: string }) {

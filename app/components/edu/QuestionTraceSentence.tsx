@@ -54,7 +54,8 @@ const QuestionTraceSentence = forwardRef<QuestionTraceSentenceRef, QuestionTrace
         audioRef.current = new Audio();
       }
       const encodedText = encodeURIComponent(text);
-      audioRef.current.src = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=vi&client=tw-ob`;
+      // Dùng giọng đọc riêng của app (/api/tts), không dùng Google TTS.
+      audioRef.current.src = `/api/tts?q=${encodedText}`;
       audioRef.current.play().catch(() => {});
     };
 

@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Nunito, Baloo_2 } from 'next/font/google';
+import { Nunito, Baloo_2, Quicksand } from 'next/font/google';
 import SiteShell from './components/SiteShell';
 import { DEFAULT_LOGO, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from './lib/seo';
 
@@ -16,6 +16,14 @@ const baloo2 = Baloo_2({
   subsets: ['latin', 'vietnamese'],
   weight: ['500', '600', '700', '800'],
   variable: '--font-baloo2',
+  display: 'swap',
+});
+
+// Font chữ cho bé: 'a' một tầng (ɑ), 'g' một tầng — đúng kiểu chữ mẫu tập đọc.
+const quicksand = Quicksand({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-quicksand',
   display: 'swap',
 });
 
@@ -182,7 +190,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="vi" className={`${nunito.variable} ${baloo2.variable}`}>
+    <html lang="vi" className={`${nunito.variable} ${baloo2.variable} ${quicksand.variable}`}>
       <head>
         <script
           type="application/ld+json"

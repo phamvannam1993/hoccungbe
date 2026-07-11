@@ -21,6 +21,26 @@ function removeEmojis(text: string): string {
     .trim();
 }
 
+// Cách đọc "âm" tiếng Việt cho chữ cái/phụ âm đơn lẻ (Google TTS đọc sai gh, ch, tr, ng…).
+const PHONICS: Record<string, string> = {
+  b: 'bờ', c: 'cờ', d: 'dờ', đ: 'đờ', g: 'gờ', h: 'hờ', k: 'ca', l: 'lờ', m: 'mờ',
+  n: 'nờ', p: 'pờ', q: 'quy', r: 'rờ', s: 'sờ', t: 'tờ', v: 'vờ', x: 'xờ',
+  ch: 'chờ', gh: 'gờ', gi: 'giờ', kh: 'khờ', ng: 'ngờ', ngh: 'ngờ', nh: 'nhờ',
+  ph: 'phờ', qu: 'quờ', th: 'thờ', tr: 'trờ',
+};
+
+/**
+ * Nếu cả đoạn text chỉ là MỘT chữ cái/âm (kể cả dạng "Gh gh" hoa+thường) → đọc theo âm tiếng Việt.
+ * Không đụng tới chữ nằm trong từ/câu (vd "trong", "ghế", "chú" giữ nguyên).
+ */
+function toVietnamesePhonics(text: string): string {
+  const tokens = text.trim().toLowerCase().split(/[\s.,;:!?]+/).filter(Boolean);
+  if (!tokens.length) return text;
+  const uniq = Array.from(new Set(tokens));
+  if (uniq.length === 1 && PHONICS[uniq[0]]) return PHONICS[uniq[0]];
+  return text;
+}
+
 // Google TTS giới hạn ~200 ký tự/request → tách theo từ thành các đoạn ≤ maxLen.
 function splitText(text: string, maxLen = 190): string[] {
   const words = text.split(/\s+/);
@@ -113,33 +133,33 @@ async function handle(rawText: string | null): Promise<NextResponse> {
     return NextResponse.json({ error: 'Text must not exceed 500 characters' }, { status: 400 });
   }
 
-  const text = removeEmojis(rawText.trim());
+  let text = removeEmojis(rawText.trim());
   if (!text) {
     return NextResponse.json({ error: 'Text contains only emoji/icons' }, { status: 400 });
   }
+  // Đọc chuẩn chữ cái/âm đơn lẻ (gh→"gờ", ch→"chờ", tr→"trờ"…).
+  text = toVietnamesePhonics(text);
 
+  // Cache chỉ chứa giọng Google → mỗi lần luôn ưu tiên Google, không bị "kẹt" giọng backend.
   const cached = cache.get(text);
-  if (cached) return audioResponse(cached, 'cache');
+  if (cached) return audioResponse(cached, 'google-cache');
 
-  // 1) Ưu tiên Google TTS free.
-  let buf = await fetchGoogleTts(text);
-  let source = 'google-free';
-
-  // 2) Google lỗi → fallback sang API riêng của app.
-  if (!buf) {
-    console.warn('Google TTS lỗi → fallback API riêng');
-    buf = await fetchBackendTts(text);
-    source = 'backend';
+  // 1) Ưu tiên giọng Google TTS free.
+  const googleBuf = await fetchGoogleTts(text);
+  if (googleBuf) {
+    if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
+    cache.set(text, googleBuf); // chỉ cache giọng Google
+    return audioResponse(googleBuf, 'google-free');
   }
 
-  if (!buf) {
-    return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
+  // 2) Google lỗi → fallback API riêng của app (không cache để lần sau vẫn thử Google trước).
+  console.warn('Google TTS lỗi → fallback API riêng');
+  const backendBuf = await fetchBackendTts(text);
+  if (backendBuf) {
+    return audioResponse(backendBuf, 'backend');
   }
 
-  if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
-  cache.set(text, buf);
-
-  return audioResponse(buf, source);
+  return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
 }
 
 export async function GET(req: NextRequest) {

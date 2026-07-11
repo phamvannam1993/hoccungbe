@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-nunito), 'Nunito', sans-serif;
+  --font-sans: var(--font-quicksand), var(--font-nunito), 'Quicksand', 'Nunito', sans-serif;
   --font-display: var(--font-baloo2), 'Baloo 2', sans-serif;
   --font-mono: ui-monospace, monospace;
 }

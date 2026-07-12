@@ -9,7 +9,7 @@ import {
   urlsetXml,
   sitemapIndexXml,
   xmlResponse,
-} from '../../lib/sitemap';
+} from '../../lib/sitemapData';
 
 // /sitemaps/<name>.xml
 //   index               → SITEMAP INDEX (rewrite từ /sitemap.xml).

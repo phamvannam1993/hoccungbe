@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import { isGuest, listChildren } from '../../lib/childData';
 
 type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades' };
 
@@ -41,6 +42,8 @@ export default function SiteHeader() {
   const [accountOpen, setAccountOpen] = useState(false);
   const [activeGrade, setActiveGrade] = useState<number>(1);
   const [user, setUser] = useState<{ fullName: string } | null>(null);
+  // Khách (chưa đăng nhập) nhưng đã tạo bé → tên bé để mở menu phụ huynh.
+  const [guestChild, setGuestChild] = useState<string | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   // Map: "subject-grade" → actual course slug (vd "toan-1" → "toan-hoc-lop-1")
   const [courseSlugs, setCourseSlugs] = useState<Record<string, string>>({});
@@ -68,7 +71,23 @@ export default function SiteHeader() {
 
   useEffect(() => {
     const raw = localStorage.getItem('bhh_user');
-    if (raw) { try { setUser(JSON.parse(raw)); } catch { /* ignore */ } }
+    if (raw) {
+      try { setUser(JSON.parse(raw)); } catch { /* ignore */ }
+      setGuestChild(null);
+      return;
+    }
+    setUser(null);
+    // Khách: nếu đã tạo bé (local) → hiện menu phụ huynh theo tên bé đang chọn.
+    if (isGuest()) {
+      listChildren()
+        .then((arr) => {
+          if (!arr.length) { setGuestChild(null); return; }
+          const stored = Number(localStorage.getItem('bhh_child_id') || '0');
+          const cur = arr.find((c) => c.id === stored) ?? arr[0];
+          setGuestChild(cur.fullName);
+        })
+        .catch(() => setGuestChild(null));
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -117,12 +136,12 @@ export default function SiteHeader() {
             <Link href="/ho-tro" className="hover:underline whitespace-nowrap">Câu hỏi thường gặp</Link>
           </div>
           <div className="flex items-center gap-2">
-            {user ? (
+            {(user || guestChild) ? (
               <div className="relative" ref={accountRef}>
                 <button
                   onClick={() => setAccountOpen((v) => !v)}
                   className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-[#c0392b] text-sm font-bold shadow hover:bg-gray-50 transition">
-                  <span className="max-w-[120px] truncate">👋 {user.fullName}</span>
+                  <span className="max-w-[140px] truncate">{user ? '👋' : '👶'} {user?.fullName ?? guestChild}</span>
                   <ChevronDown size={14} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {accountOpen && (
@@ -137,11 +156,19 @@ export default function SiteHeader() {
                       </Link>
                     ))}
                     <div className="border-t border-gray-100 mt-1 pt-1">
-                      <button onClick={handleLogout}
-                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
-                        <span className="text-base">🚪</span>
-                        Đăng xuất
-                      </button>
+                      {user ? (
+                        <button onClick={handleLogout}
+                          className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
+                          <span className="text-base">🚪</span>
+                          Đăng xuất
+                        </button>
+                      ) : (
+                        <Link href="/dang-nhap" onClick={() => setAccountOpen(false)}
+                          className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
+                          <span className="text-base">🔑</span>
+                          Đăng nhập để đồng bộ
+                        </Link>
+                      )}
                     </div>
                   </div>
                 )}
@@ -335,9 +362,11 @@ export default function SiteHeader() {
                 )}
               </div>
             ))}
-            {user && (
+            {(user || guestChild) && (
               <div className="mt-2 pt-2 border-t border-gray-100">
-                <div className="px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
+                <div className="px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">
+                  Khu vực phụ huynh{!user && guestChild ? ` · 👶 ${guestChild}` : ''}
+                </div>
                 {ACCOUNT_LINKS.map((l) => (
                   <Link key={l.href} href={l.href}
                     onClick={() => setMobileOpen(false)}

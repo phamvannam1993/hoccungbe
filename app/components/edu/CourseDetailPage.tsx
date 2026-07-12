@@ -85,9 +85,9 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
   return (
     <div className="kid-bg min-h-screen relative overflow-hidden">
       {/* Decorative emojis */}
-      <span aria-hidden className="pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-24 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-96 left-6 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
+      <span aria-hidden className="hidden sm:inline pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
+      <span aria-hidden className="hidden sm:inline pointer-events-none select-none absolute top-24 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
+      <span aria-hidden className="hidden sm:inline pointer-events-none select-none absolute top-96 left-6 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
@@ -100,25 +100,25 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
         </nav>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
         {/* Hero card */}
         <div
-          className="bg-white rounded-[32px] border-4 border-pink-200 p-6 sm:p-8 mb-6 kid-pop-in"
+          className="bg-white rounded-[24px] sm:rounded-[32px] border-4 border-pink-200 p-4 sm:p-8 mb-4 sm:mb-6 kid-pop-in"
           style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}
         >
-          <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#FF6B9D' }}>
+          <p className="text-[11px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 kid-display" style={{ color: '#FF6B9D' }}>
             🎓 Khóa học
           </p>
           <h1
-            className="text-2xl sm:text-4xl font-black kid-display leading-tight"
+            className="text-xl sm:text-4xl font-black kid-display leading-tight"
             style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           >
             {course.title} 🌟
           </h1>
 
-          {/* Description */}
+          {/* Description — thu gọn 3 dòng trên mobile */}
           {(course.description || course.shortDescription) && (
-            <p className="text-slate-600 leading-relaxed mt-4">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed mt-2 sm:mt-4 line-clamp-3 sm:line-clamp-none">
               {course.description || course.shortDescription}
             </p>
           )}
@@ -126,7 +126,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
           {/* Video banner */}
           {(course.thumbnailUrl || course.videoUrl) && (
             <div
-              className={`relative rounded-3xl overflow-hidden mt-5 kid-card-hover ${embedUrl ? 'cursor-pointer' : ''}`}
+              className={`relative rounded-3xl overflow-hidden mt-3 sm:mt-5 kid-card-hover ${embedUrl ? 'cursor-pointer' : ''}`}
               style={{
                 background: 'linear-gradient(135deg, #A06CD5, #4ECDC4)',
                 border: '3px solid #A06CD5',
@@ -134,7 +134,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
               }}
               onClick={() => embedUrl && setShowVideo(true)}
             >
-              <div className="flex items-center h-36 sm:h-44">
+              <div className="flex items-center h-24 sm:h-44">
                 {course.thumbnailUrl ? (
                   <div className="relative h-full w-48 sm:w-64 shrink-0">
                     <Image src={course.thumbnailUrl} alt={course.title} fill className="object-cover" />
@@ -154,12 +154,12 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
             </div>
           )}
 
-          {/* Action buttons */}
-          <div className="mt-6 flex flex-wrap gap-3">
+          {/* Action buttons — 1 hàng chia đôi trên mobile */}
+          <div className="mt-4 sm:mt-6 flex gap-2.5 sm:gap-3">
             {lessons.length > 0 && (
               <Link
                 href={lessons[0].slug ? `/${lessons[0].slug}` : `/lessons/${lessons[0].id}`}
-                className="kid-btn-3d text-sm text-white"
+                className="kid-btn-3d text-sm text-white flex-1 sm:flex-none text-center whitespace-nowrap !px-3 !py-2.5 sm:!px-8 sm:!py-3"
                 style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 6px 0 #c0392b' }}
               >
                 🚀 Vào học ngay
@@ -174,7 +174,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
               return (
                 <Link
                   href={href}
-                  className="kid-btn-3d text-sm text-white"
+                  className="kid-btn-3d text-sm text-white flex-1 sm:flex-none text-center whitespace-nowrap !px-3 !py-2.5 sm:!px-8 sm:!py-3"
                   style={{ background: 'linear-gradient(135deg, #6BCB77, #4ECDC4)', boxShadow: '0 6px 0 #0e7490' }}
                 >
                   📝 Đề kiểm tra
@@ -186,14 +186,14 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
 
         {/* Lesson list */}
         <div
-          className="bg-white rounded-3xl border-4 border-pink-200 p-6 sm:p-8 mb-6"
+          className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-8 mb-4 sm:mb-6"
           style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}
         >
-          <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#A06CD5' }}>
+          <p className="text-[11px] sm:text-xs font-black uppercase tracking-widest mb-0.5 sm:mb-1 kid-display" style={{ color: '#A06CD5' }}>
             📚 Danh sách bài học
           </p>
           <h2
-            className="text-2xl sm:text-3xl font-black kid-display mb-5"
+            className="text-xl sm:text-3xl font-black kid-display mb-4 sm:mb-5"
             style={{ background: 'linear-gradient(135deg, #A06CD5, #4ECDC4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
           >
             Hành trình học tập của bé 🎈
@@ -212,7 +212,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
                 />
               ))}
               {lessonsNoVolume.length > 0 && (
-                <div className="md:col-span-2">
+                <div className="min-w-0 md:col-span-2">
                   <TopicGroup lessons={lessonsNoVolume} topics={topicsByVolume.noVol} courseSlug={slug} colorIdx={sortedVolumes.length} />
                 </div>
               )}
@@ -264,7 +264,7 @@ function VolumeColumn({ volumeTitle, lessons, topics, courseSlug, colorIdx }: {
 
   return (
     <div
-      className="rounded-3xl p-5"
+      className="min-w-0 rounded-3xl p-3 sm:p-5"
       style={{
         background: color.bg,
         border: `3px solid ${color.c}`,
@@ -272,7 +272,7 @@ function VolumeColumn({ volumeTitle, lessons, topics, courseSlug, colorIdx }: {
       }}
     >
       <h2
-        className="text-lg font-black kid-display uppercase tracking-wide pb-3 mb-4 border-b-4"
+        className="text-base sm:text-lg font-black kid-display uppercase tracking-wide pb-2 sm:pb-3 mb-3 sm:mb-4 border-b-4"
         style={{ color: color.c, borderColor: color.c + '55' }}
       >
         📖 {volumeTitle}
@@ -313,7 +313,7 @@ function TopicSection({ topicName, lessons, courseSlug, colorIdx }: { topicName:
     <div className="mb-5">
       {topicName && (
         <h3
-          className="text-base font-black kid-display mb-3 inline-block px-3 py-1 rounded-full text-white"
+          className="text-sm sm:text-base font-black kid-display leading-tight mb-2 sm:mb-3 block sm:inline-block max-w-full whitespace-nowrap overflow-hidden text-ellipsis sm:whitespace-normal sm:overflow-visible px-3 py-1 rounded-full text-white"
           style={{ background: color.c }}
         >
           ✨ {topicName}
@@ -337,30 +337,30 @@ function LessonRow({ lesson, idx }: { lesson: ApiLesson; courseSlug: string; idx
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 p-3 rounded-2xl kid-card-hover bg-white group"
+      className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-2xl kid-card-hover bg-white group"
       style={{
         border: `3px solid ${color.c}`,
         boxShadow: `0 3px 0 ${color.c}55`,
       }}
     >
       <div
-        className="w-10 h-10 rounded-full flex items-center justify-center text-xl shrink-0"
+        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-lg sm:text-xl shrink-0"
         style={{ background: color.bg, border: `2px solid ${color.c}` }}
       >
         {emoji}
       </div>
-      <span className="flex-1 text-sm font-bold kid-display leading-snug" style={{ color: color.c }}>
+      <span className="flex-1 min-w-0 break-words text-sm font-bold kid-display leading-snug" style={{ color: color.c }}>
         {lesson.title}
       </span>
       {hasQuizzes && (
         <span
-          className="w-8 h-8 rounded-full text-white text-sm font-black flex items-center justify-center shrink-0 kid-display"
+          className="hidden sm:flex w-8 h-8 rounded-full text-white text-sm font-black items-center justify-center shrink-0 kid-display"
           style={{ background: 'linear-gradient(135deg, #FF9F45, #FFD93D)', boxShadow: '0 2px 0 #c0392b' }}
         >
           ?
         </span>
       )}
-      <span className="text-lg shrink-0 opacity-70 group-hover:translate-x-1 transition-transform" style={{ color: color.c }}>→</span>
+      <span className="hidden sm:inline text-lg shrink-0 opacity-70 group-hover:translate-x-1 transition-transform" style={{ color: color.c }}>→</span>
     </Link>
   );
 }

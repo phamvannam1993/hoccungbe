@@ -45,6 +45,7 @@ export default function SiteHeader() {
   // Khách (chưa đăng nhập) nhưng đã tạo bé → tên bé để mở menu phụ huynh.
   const [guestChild, setGuestChild] = useState<string | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
+  const mobileAccountRef = useRef<HTMLDivElement>(null);
   // Map: "subject-grade" → actual course slug (vd "toan-1" → "toan-hoc-lop-1")
   const [courseSlugs, setCourseSlugs] = useState<Record<string, string>>({});
   const navRef = useRef<HTMLDivElement>(null);
@@ -99,7 +100,10 @@ export default function SiteHeader() {
   useEffect(() => {
     if (!accountOpen) return;
     function handler(e: MouseEvent) {
-      if (accountRef.current && !accountRef.current.contains(e.target as Node)) setAccountOpen(false);
+      const t = e.target as Node;
+      const inDesktop = accountRef.current?.contains(t);
+      const inMobile = mobileAccountRef.current?.contains(t);
+      if (!inDesktop && !inMobile) setAccountOpen(false);
     }
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -190,14 +194,43 @@ export default function SiteHeader() {
 
         {/* Mobile: auth + hamburger */}
         <div className="flex md:hidden items-center gap-2">
-          {!user && (
-            <>
-              <Link href="/dang-nhap" className="px-3 py-1 rounded-full bg-[#c0392b] text-white text-xs font-bold whitespace-nowrap">Đăng nhập</Link>
-              <Link href="/dang-ky" className="px-3 py-1 rounded-full bg-[#e67e22] text-white text-xs font-bold whitespace-nowrap">Đăng ký</Link>
-            </>
-          )}
-          {user && (
-            <button onClick={handleLogout} className="px-3 py-1 rounded-full bg-[#c0392b] text-white text-xs font-bold whitespace-nowrap">Đăng xuất</button>
+          {(user || guestChild) ? (
+            <div className="relative" ref={mobileAccountRef}>
+              <button onClick={() => setAccountOpen((v) => !v)}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
+                <span className="max-w-[84px] truncate">{user ? '👋' : '👶'} {user?.fullName ?? guestChild}</span>
+                <ChevronDown size={12} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {accountOpen && (
+                <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                  <div className="px-4 pb-1.5 pt-0.5 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
+                  {ACCOUNT_LINKS.map((l) => (
+                    <Link key={l.href} href={l.href} onClick={() => setAccountOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#fdecea] hover:text-[#c0392b] transition-colors">
+                      <span className="text-base">{l.emoji}</span>
+                      {l.label}
+                    </Link>
+                  ))}
+                  <div className="border-t border-gray-100 mt-1 pt-1">
+                    {user ? (
+                      <button onClick={handleLogout}
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
+                        <span className="text-base">🚪</span>
+                        Đăng xuất
+                      </button>
+                    ) : (
+                      <Link href="/dang-nhap" onClick={() => setAccountOpen(false)}
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
+                        <span className="text-base">🔑</span>
+                        Đăng nhập để đồng bộ
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/dang-nhap" className="px-3 py-1 rounded-full bg-[#c0392b] text-white text-xs font-bold whitespace-nowrap">Đăng nhập</Link>
           )}
           <button
             className="p-2 rounded-lg text-gray-700 hover:bg-white/20"

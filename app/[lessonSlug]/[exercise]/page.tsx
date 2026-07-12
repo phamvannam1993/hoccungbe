@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { parseExerciseParam } from '../../lib/quiz-slug';
 import QuizPlayPage from '../../components/edu/QuizPlayPage';
+import CurrentChildBar from '../../components/edu/CurrentChildBar';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 const DIFF_LABEL: Record<string, string> = {
@@ -16,7 +17,7 @@ type Props = { params: Promise<{ lessonSlug: string; exercise: string }> };
 
 async function fetchLesson(slug: string) {
   try {
-    const res = await fetch(`${API}/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
       title: string; description?: string;
@@ -58,9 +59,12 @@ export default async function Page({ params }: Props) {
   if (!parsed) return notFound();
 
   return (
-    <QuizPlayPage
-      lessonSlug={lessonSlug}
-      difficulty={parsed.difficulty as 'easy' | 'medium' | 'hard'}
-    />
+    <>
+      <CurrentChildBar />
+      <QuizPlayPage
+        lessonSlug={lessonSlug}
+        difficulty={parsed.difficulty as 'easy' | 'medium' | 'hard'}
+      />
+    </>
   );
 }

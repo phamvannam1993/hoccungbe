@@ -1,0 +1,208 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.instruction {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.tracingArea {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #fffdf7;
+  border: 3px solid #ffe0a3;
+  border-radius: 24px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.guideLineTop,
+.guideLineMiddle,
+.guideLineBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 207, 112, 0.45);
+  z-index: 0;
+}
+
+.guideLineTop {
+  top: 30%;
+}
+
+.guideLineMiddle {
+  top: 50%;
+}
+
+.guideLineBottom {
+  top: 70%;
+}
+
+.traceText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  font-size: clamp(50px, 10vw, 100px);
+  font-weight: 900;
+  color: rgba(200, 200, 200, 0.3);
+  -webkit-text-stroke: 2px #d0d0d0;
+  letter-spacing: 2px;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  line-height: 1.2;
+  paint-order: stroke fill;
+}
+
+.traceTextSmall {
+  font-size: clamp(40px, 8vw, 80px);
+}
+
+.cursorPreview {
+  position: absolute;
+  border: 2px solid #ff6b9a;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.6;
+  box-shadow: 0 0 8px rgba(255, 107, 154, 0.3);
+  transition: opacity 0.1s ease;
+}
+
+.tracingArea:hover .cursorPreview {
+  opacity: 0.8;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  z-index: 2;
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  background: #eee;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8bb0, #ffd36a);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.progressText {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  margin: 0;
+}
+
+.resetButton {
+  padding: 10px 20px;
+  background: #f1f1f1;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #444;
+}
+
+.resetButton:hover {
+  background: #e0e0e0;
+  transform: scale(1.02);
+}
+
+.resetButton:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 12px;
+  }
+
+  .instruction {
+    font-size: 14px;
+  }
+
+  .tracingArea {
+    height: 240px;
+    border-radius: 18px;
+  }
+
+  .traceText {
+    font-size: clamp(75px, 15vw, 140px);
+    padding: 0 16px;
+    letter-spacing: 2px;
+  }
+
+  .traceTextSmall {
+    font-size: clamp(60px, 11vw, 115px);
+  }
+
+  .progressBar {
+    height: 10px;
+  }
+
+  .resetButton {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .instruction {
+    font-size: 13px;
+  }
+
+  .tracingArea {
+    height: 220px;
+    border: 2px solid #ffe0a3;
+  }
+
+  .traceText {
+    font-size: clamp(70px, 14vw, 140px);
+    padding: 0 12px;
+    letter-spacing: 1px;
+  }
+
+  .traceTextSmall {
+    font-size: clamp(55px, 10vw, 115px);
+  }
+
+  .progressBar {
+    height: 8px;
+  }
+
+  .progressText {
+    font-size: 12px;
+  }
+
+  .resetButton {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

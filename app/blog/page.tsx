@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'dạy con học tại nhà',
   ],
   alternates: {
-    canonical: '/blog',
+    canonical: '/goc-phu-huynh',
   },
   openGraph: {
     title: 'Blog phụ huynh | Bé Hay Học',
     description:
       'Những bài viết ngắn, dễ áp dụng giúp phụ huynh đồng hành cùng con học tập tốt hơn mỗi ngày.',
-    url: '/blog',
+    url: '/goc-phu-huynh',
     type: 'website',
     images: [
       {
@@ -44,7 +44,7 @@ const categories = [
 const featuredPost = {
   title: '5 cách giúp bé tập trung hơn khi học tại nhà',
   desc: 'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-  href: '/blog/giup-be-tap-trung-khi-hoc',
+  href: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
   category: 'Tập trung học tập',
   readTime: '5 phút đọc',
 };
@@ -53,7 +53,7 @@ const blogPosts = [
   {
     title: '5 cách giúp bé tập trung hơn khi học tại nhà',
     desc: 'Gợi ý đơn giản giúp trẻ giảm xao nhãng và duy trì sự chú ý tốt hơn khi học ở nhà.',
-    href: '/blog/giup-be-tap-trung-khi-hoc',
+    href: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
     category: 'Tập trung học tập',
     readTime: '5 phút đọc',
     badgeColor: 'bg-sky-100 text-sky-700',
@@ -61,7 +61,7 @@ const blogPosts = [
   {
     title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
     desc: 'Xác định thời lượng học phù hợp để bé không bị quá tải và vẫn giữ được hứng thú.',
-    href: '/blog/thoi-luong-hoc-phu-hop-cho-tre',
+    href: '/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre',
     category: 'Thói quen học',
     readTime: '4 phút đọc',
     badgeColor: 'bg-violet-100 text-violet-700',
@@ -69,7 +69,7 @@ const blogPosts = [
   {
     title: 'Gợi ý góc học tập đơn giản cho bé tại nhà',
     desc: 'Một vài điều chỉnh nhỏ giúp bé ít xao nhãng hơn và dễ vào nhịp học hơn.',
-    href: '/blog/goc-hoc-tap-cho-be',
+    href: '/goc-phu-huynh/goc-hoc-tap-cho-be',
     category: 'Góc học tập',
     readTime: '4 phút đọc',
     badgeColor: 'bg-emerald-100 text-emerald-700',
@@ -77,7 +77,7 @@ const blogPosts = [
   {
     title: '3 sai lầm phụ huynh hay mắc khi dạy con học ở nhà',
     desc: 'Những lỗi phổ biến khiến trẻ chán học và cách điều chỉnh để việc học nhẹ nhàng hơn.',
-    href: '/blog/sai-lam-day-con-hoc-tai-nha',
+    href: '/goc-phu-huynh/sai-lam-day-con-hoc-tai-nha',
     category: 'Dành cho phụ huynh',
     readTime: '4 phút đọc',
     badgeColor: 'bg-pink-100 text-pink-700',

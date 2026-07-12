@@ -1,0 +1,215 @@
+/* Audio Library Custom Styles */
+
+/* Modal animations */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalContent {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+/* Drag and drop area */
+@keyframes dragPulse {
+  0%, 100% {
+    border-color: currentColor;
+  }
+  50% {
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+}
+
+.dragActive {
+  animation: dragPulse 1.5s ease-in-out infinite;
+}
+
+/* Loading skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Table row hover effects */
+.audioTableRow {
+  transition: background-color 0.2s ease;
+}
+
+.audioTableRow:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* File upload area styles */
+.uploadArea {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.uploadArea:hover {
+  border-color: #9ca3af;
+  background-color: rgba(243, 244, 246, 0.5);
+}
+
+.uploadArea.dragActive {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.05);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.uploadArea.error {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Button states */
+.primaryButton {
+  @apply px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.secondaryButton {
+  @apply px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.dangerButton {
+  @apply px-6 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Badge styles */
+.badgeActive {
+  @apply bg-green-100 text-green-700;
+}
+
+.badgeDeleted {
+  @apply bg-gray-100 text-gray-600;
+}
+
+/* Form field styles */
+.formInput {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.formInput.error {
+  @apply border-red-500;
+}
+
+.formInput:disabled {
+  @apply bg-gray-50 cursor-not-allowed;
+}
+
+/* Modal overlay */
+.modalOverlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50;
+}
+
+.modalContent {
+  @apply bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto;
+}
+
+/* Table styles */
+.table {
+  @apply w-full text-sm border-collapse;
+}
+
+.tableHeader {
+  @apply bg-gray-50 border-b border-gray-100;
+}
+
+.tableHeaderCell {
+  @apply text-left px-4 py-3 font-semibold text-gray-700 whitespace-nowrap;
+}
+
+.tableBody {
+}
+
+.tableRow {
+  @apply border-b border-gray-50 hover:bg-blue-50 transition-colors;
+}
+
+.tableRow:nth-child(even) {
+  @apply bg-gray-50/50;
+}
+
+.tableCell {
+  @apply px-4 py-3 text-gray-900;
+}
+
+/* Action buttons in table */
+.actionButton {
+  @apply p-1.5 rounded-lg transition-colors;
+}
+
+.actionButtonPreview {
+  @apply text-green-600 hover:bg-green-50;
+}
+
+.actionButtonEdit {
+  @apply text-blue-600 hover:bg-blue-50;
+}
+
+.actionButtonDelete {
+  @apply text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Pagination */
+.pagination {
+  @apply flex items-center justify-between pt-4;
+}
+
+.paginationButton {
+  @apply p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1;
+}
+
+/* Spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Tab styles */
+.tabButton {
+  @apply px-4 py-3 font-medium border-b-2 transition-colors whitespace-nowrap;
+}
+
+.tabButtonActive {
+  @apply border-blue-600 text-blue-600;
+}
+
+.tabButtonInactive {
+  @apply border-transparent text-gray-600 hover:text-gray-900;
+}

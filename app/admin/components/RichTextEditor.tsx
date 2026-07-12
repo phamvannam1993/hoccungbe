@@ -31,7 +31,7 @@ interface RichTextEditorProps {
 async function uploadImageToS3(file: File): Promise<string> {
   const fd = new FormData();
   fd.append('file', file);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   const res = await fetch(`${apiUrl}/api/upload/image`, { method: 'POST', body: fd });
   const data = await res.json();
   if (!data.url) throw new Error(data.message || 'Upload failed');

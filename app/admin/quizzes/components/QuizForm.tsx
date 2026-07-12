@@ -4,8 +4,10 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Plus, Trash2, ArrowLeft, Upload, X, Volume2, ImageIcon } from 'lucide-react';
+import MediaPicker from '../../components/MediaPicker';
+import AudioLibrarySelector from '../../components/AudioLibrarySelector';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export type QuizFormData = {
   lessonId: string;
@@ -20,7 +22,7 @@ export type QuizFormData = {
   points: string;
   sortOrder: string;
   isActive: boolean;
-  options: { key: string; text: string; audioUrl?: string; pair?: string }[];
+  options: { key: string; text: string; audioUrl?: string; pair?: string; imageUrl?: string; pairImageUrl?: string }[];
   correctKeys: string[];
   trueFalseAnswer: boolean;
 };
@@ -32,8 +34,15 @@ const QUESTION_TYPES = [
   { value: 'multiple_choice', label: 'Trắc nghiệm nhiều đáp án' },
   { value: 'true_false', label: 'Đúng / Sai' },
   { value: 'drag_drop', label: 'Kéo thả sắp xếp' },
+  { value: 'sorting', label: 'Sắp xếp thứ tự' },
   { value: 'image_choice', label: 'Chọn theo hình ảnh' },
-  { value: 'matching', label: 'Câu nối' },
+  { value: 'matching', label: 'Câu nối (chữ/ảnh)' },
+  { value: 'fill_blank', label: 'Điền vào chỗ trống' },
+  { value: 'counting', label: 'Đếm và điền số' },
+  { value: 'coloring', label: 'Tô màu' },
+  { value: 'trace_number', label: 'Tô số (viết tay)' },
+  { value: 'letter_tracing', label: 'Tô chữ (viết tay)' },
+  { value: 'trace_sentence', label: 'Tô theo nét câu' },
 ];
 
 const KEY_LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -217,9 +226,31 @@ interface Props {
 
 export default function QuizForm({ title, lessons, initial, saving, error, onSubmit }: Props) {
   const [form, setForm] = useState<QuizFormData>(initial);
+  const [audioSelectorOpen, setAudioSelectorOpen] = useState(false);
+  const [audioSelectorType, setAudioSelectorType] = useState<'question' | 'explanation' | { type: 'option'; index: number } | null>(null);
 
   const set = <K extends keyof QuizFormData>(key: K, val: QuizFormData[K]) =>
     setForm((f) => ({ ...f, [key]: val }));
+
+  const openAudioSelector = (type: 'question' | 'explanation' | { type: 'option'; index: number }) => {
+    setAudioSelectorType(type);
+    setAudioSelectorOpen(true);
+  };
+
+  const handleAudioSelect = (audioUrl: string) => {
+    if (!audioSelectorType) return;
+
+    if (audioSelectorType === 'question') {
+      set('questionAudioUrl', audioUrl);
+    } else if (audioSelectorType === 'explanation') {
+      set('explanationAudioUrl', audioUrl);
+    } else if (typeof audioSelectorType === 'object' && audioSelectorType.type === 'option') {
+      updateOption(audioSelectorType.index, { audioUrl });
+    }
+
+    setAudioSelectorOpen(false);
+    setAudioSelectorType(null);
+  };
 
   const addOption = () => {
     const key = KEY_LABELS[form.options.length] ?? String(form.options.length + 1);
@@ -232,7 +263,7 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
     set('correctKeys', form.correctKeys.filter((k) => k !== removed.key));
   };
 
-  const updateOption = (idx: number, patch: Partial<{ text: string; audioUrl: string; pair: string }>) => {
+  const updateOption = (idx: number, patch: Partial<{ text: string; audioUrl: string; pair: string; imageUrl: string; pairImageUrl: string }>) => {
     const opts = [...form.options];
     opts[idx] = { ...opts[idx], ...patch };
     set('options', opts);
@@ -259,11 +290,15 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
     onSubmit(form);
   };
 
-  const isChoiceType = ['single_choice', 'multiple_choice', 'image_choice', 'drag_drop'].includes(
+  const isChoiceType = ['single_choice', 'multiple_choice', 'image_choice', 'drag_drop', 'sorting'].includes(
     form.questionType,
   );
   const isTrueFalse = form.questionType === 'true_false';
   const isMatching = form.questionType === 'matching';
+  const isFillBlank = form.questionType === 'fill_blank';
+  const isTraceNumber = form.questionType === 'trace_number';
+  const isLetterTracing = form.questionType === 'letter_tracing';
+  const isTraceSentence = form.questionType === 'trace_sentence';
 
   return (
     <div>
@@ -317,12 +352,34 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             placeholder="Nhập nội dung câu hỏi..."
             className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <AudioUploader
-            label="Audio đọc câu hỏi"
-            value={form.questionAudioUrl}
-            folder="quizzes/questions"
-            onChange={(url) => set('questionAudioUrl', url)}
-          />
+          <div className="mt-1.5">
+            <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+              <Volume2 size={12} /> Audio đọc câu hỏi
+            </span>
+            <div className="flex items-center gap-2">
+              {form.questionAudioUrl ? (
+                <>
+                  <audio src={form.questionAudioUrl} controls className="h-8 flex-1 min-w-0" />
+                  <button
+                    type="button"
+                    onClick={() => set('questionAudioUrl', '')}
+                    className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                    title="Xóa audio"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => openAudioSelector('question')}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50"
+              >
+                <Volume2 size={13} />
+                {form.questionAudioUrl ? 'Đổi audio' : 'Chọn audio'}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Loại câu hỏi + ảnh */}
@@ -385,9 +442,8 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
 
         {/* Ảnh minh họa */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Ảnh minh họa</label>
-          <ImageUploader
-            label="Ảnh câu hỏi (jpg, png, gif, webp)"
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">Ảnh minh họa câu hỏi</label>
+          <MediaPicker
             value={form.questionImageUrl}
             folder="quizzes/images"
             onChange={(url) => set('questionImageUrl', url)}
@@ -488,18 +544,44 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                         <Trash2 size={14} />
                       </button>
                     </div>
-                    {/* Audio cho từng đáp án */}
-                    <div className="pl-11">
-                      <AudioUploader
-                        label={
-                          <span className="flex items-center gap-1">
-                            <Volume2 size={11} /> Audio đáp án {opt.key}
-                          </span> as unknown as string
-                        }
-                        value={opt.audioUrl ?? ''}
-                        folder="quizzes/answers"
-                        onChange={(url) => updateOption(idx, { audioUrl: url })}
-                      />
+                    {/* Ảnh + Audio đáp án */}
+                    <div className="pl-11 mt-1 flex flex-wrap items-start gap-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs text-gray-500">Ảnh đáp án {opt.key}</span>
+                        <MediaPicker
+                          value={opt.imageUrl ?? ''}
+                          folder="quizzes/answers"
+                          onChange={(url) => updateOption(idx, { imageUrl: url })}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+                          <Volume2 size={11} /> Audio đáp án {opt.key}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          {opt.audioUrl ? (
+                            <>
+                              <audio src={opt.audioUrl} controls className="h-6 flex-1 min-w-0" />
+                              <button
+                                type="button"
+                                onClick={() => updateOption(idx, { audioUrl: '' })}
+                                className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                                title="Xóa audio"
+                              >
+                                <X size={12} />
+                              </button>
+                            </>
+                          ) : null}
+                          <button
+                            type="button"
+                            onClick={() => openAudioSelector({ type: 'option', index: idx })}
+                            className="flex items-center gap-1.5 px-2 py-1 border border-blue-300 rounded text-xs text-blue-600 hover:bg-blue-50 shrink-0"
+                          >
+                            <Volume2 size={11} />
+                            {opt.audioUrl ? 'Đổi' : 'Thêm'}
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -534,37 +616,123 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                 Nhấn &quot;Thêm cặp&quot; để bắt đầu
               </div>
             )}
-            <div className="space-y-2">
+            <div className="space-y-3">
               {form.options.map((opt, idx) => (
-                <div key={idx} className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 bg-gray-50">
-                  <span className="w-7 h-7 rounded-full bg-blue-100 text-blue-700 text-xs font-bold flex items-center justify-center shrink-0">
-                    {opt.key}
-                  </span>
-                  <input
-                    type="text"
-                    value={opt.text}
-                    placeholder="Cột trái..."
-                    onChange={(e) => updateOption(idx, { text: e.target.value })}
-                    className="flex-1 px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                  />
-                  <span className="text-gray-400 text-lg shrink-0">↔</span>
-                  <input
-                    type="text"
-                    value={opt.pair ?? ''}
-                    placeholder="Cột phải..."
-                    onChange={(e) => updateOption(idx, { pair: e.target.value })}
-                    className="flex-1 px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeOption(idx)}
-                    className="shrink-0 p-1 text-gray-400 hover:text-red-500"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                <div key={idx} className="p-3 rounded-lg border border-gray-200 bg-gray-50">
+                  <div className="flex items-start gap-2">
+                    <span className="w-7 h-7 mt-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold flex items-center justify-center shrink-0">
+                      {opt.key}
+                    </span>
+                    {/* Cột trái */}
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <input
+                        type="text"
+                        value={opt.text}
+                        placeholder="Cột trái..."
+                        onChange={(e) => updateOption(idx, { text: e.target.value })}
+                        className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      />
+                      <MediaPicker
+                        value={opt.imageUrl ?? ''}
+                        folder="quizzes/matching"
+                        onChange={(url) => updateOption(idx, { imageUrl: url })}
+                      />
+                    </div>
+                    <span className="text-gray-400 text-lg shrink-0 mt-1.5">↔</span>
+                    {/* Cột phải */}
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <input
+                        type="text"
+                        value={opt.pair ?? ''}
+                        placeholder="Cột phải..."
+                        onChange={(e) => updateOption(idx, { pair: e.target.value })}
+                        className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      />
+                      <MediaPicker
+                        value={opt.pairImageUrl ?? ''}
+                        folder="quizzes/matching"
+                        onChange={(url) => updateOption(idx, { pairImageUrl: url })}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeOption(idx)}
+                      className="shrink-0 p-1 text-gray-400 hover:text-red-500 mt-1.5"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Điền vào chỗ trống */}
+        {isFillBlank && (
+          <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700 space-y-1.5">
+            <p className="font-medium">Cú pháp điền chỗ trống:</p>
+            <p>• Dùng <code className="bg-blue-100 px-1 rounded">[b1]</code>, <code className="bg-blue-100 px-1 rounded">[b2]</code>... trong câu hỏi để đánh dấu ô trống</p>
+            <p>• Ví dụ: <code className="bg-blue-100 px-1 rounded">3 [b1] 5 = 8</code></p>
+            <p>• Đáp án đúng nhập vào ô <strong>Đáp án đúng (JSON)</strong> bên dưới dạng: <code className="bg-blue-100 px-1 rounded">{'{\"b1\":\"+\"}'}</code></p>
+            <div className="mt-2">
+              <label className="block text-xs font-medium text-blue-800 mb-1">Đáp án đúng (JSON)</label>
+              <input
+                type="text"
+                value={typeof form.correctKeys[0] === 'string' ? form.correctKeys[0] : ''}
+                placeholder='{"b1": "+", "b2": "="}'
+                onChange={(e) => set('correctKeys', [e.target.value])}
+                className="w-full px-3 py-2 border border-blue-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Tô số */}
+        {isTraceNumber && (
+          <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700 space-y-2">
+            <p className="font-medium">Dạng tô số (viết tay)</p>
+            <p>Trẻ sẽ dùng ngón tay tô theo số. Số cần tô lấy từ câu hỏi hoặc đáp án đúng.</p>
+            <div>
+              <label className="block text-xs font-medium text-green-800 mb-1">Số cần tô</label>
+              <input
+                type="number"
+                min={0}
+                max={99}
+                value={typeof form.correctKeys[0] === 'string' ? form.correctKeys[0] : ''}
+                placeholder="Ví dụ: 5"
+                onChange={(e) => set('correctKeys', [e.target.value])}
+                className="w-32 px-3 py-2 border border-green-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Tô chữ */}
+        {isLetterTracing && (
+          <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg text-sm text-purple-700 space-y-2">
+            <p className="font-medium">Dạng tô chữ (viết tay)</p>
+            <p>Trẻ sẽ dùng ngón tay tô theo chữ/ký tự. Ký tự cần tô lấy từ câu hỏi hoặc đáp án đúng.</p>
+            <div>
+              <label className="block text-xs font-medium text-purple-800 mb-1">Chữ/ký tự cần tô</label>
+              <input
+                type="text"
+                maxLength={10}
+                value={typeof form.correctKeys[0] === 'string' ? form.correctKeys[0] : ''}
+                placeholder="Ví dụ: A hoặc Áo"
+                onChange={(e) => set('correctKeys', [e.target.value])}
+                className="w-full px-3 py-2 border border-purple-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Tô theo nét câu */}
+        {isTraceSentence && (
+          <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg text-sm text-indigo-700 space-y-2">
+            <p className="font-medium">Dạng tô theo nét câu</p>
+            <p>Trẻ sẽ dùng ngón tay tô theo nét của câu. Câu cần tô từ "Nội dung câu hỏi" ở trên.</p>
+            <p className="text-xs text-indigo-600">Điểm được tính dựa trên % tô (tối thiểu 50% để đạt điểm).</p>
           </div>
         )}
 
@@ -578,12 +746,34 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             placeholder="Giải thích tại sao đây là đáp án đúng..."
             className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <AudioUploader
-            label="Audio giải thích đáp án"
-            value={form.explanationAudioUrl}
-            folder="quizzes/explanations"
-            onChange={(url) => set('explanationAudioUrl', url)}
-          />
+          <div className="mt-1.5">
+            <span className="text-xs text-gray-500 flex items-center gap-1 mb-1">
+              <Volume2 size={12} /> Audio giải thích đáp án
+            </span>
+            <div className="flex items-center gap-2">
+              {form.explanationAudioUrl ? (
+                <>
+                  <audio src={form.explanationAudioUrl} controls className="h-8 flex-1 min-w-0" />
+                  <button
+                    type="button"
+                    onClick={() => set('explanationAudioUrl', '')}
+                    className="shrink-0 p-1 text-gray-400 hover:text-red-500"
+                    title="Xóa audio"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => openAudioSelector('explanation')}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-blue-300 rounded-lg text-xs text-blue-600 hover:bg-blue-50"
+              >
+                <Volume2 size={13} />
+                {form.explanationAudioUrl ? 'Đổi audio' : 'Chọn audio'}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Điểm & Thứ tự */}
@@ -637,6 +827,26 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
           </Link>
         </div>
       </form>
+
+      {/* Audio Library Selector Modal */}
+      <AudioLibrarySelector
+        isOpen={audioSelectorOpen}
+        onClose={() => {
+          setAudioSelectorOpen(false);
+          setAudioSelectorType(null);
+        }}
+        onSelect={(audioUrl) => handleAudioSelect(audioUrl)}
+        currentAudioUrl={
+          audioSelectorType === 'question'
+            ? form.questionAudioUrl
+            : audioSelectorType === 'explanation'
+            ? form.explanationAudioUrl
+            : audioSelectorType && typeof audioSelectorType === 'object' && audioSelectorType.type === 'option'
+            ? form.options[audioSelectorType.index]?.audioUrl
+            : undefined
+        }
+        allowUpload={true}
+      />
     </div>
   );
 }
@@ -644,18 +854,32 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 export function formToPayload(form: QuizFormData) {
-  let optionsJson: { key: string; text: string; audioUrl?: string; pair?: string }[] | undefined;
+  let optionsJson: { key: string; text: string; audioUrl?: string; pair?: string; imageUrl?: string; pairImageUrl?: string }[] | undefined;
   let correctAnswerJson: unknown;
 
   if (form.questionType === 'true_false') {
     correctAnswerJson = form.trueFalseAnswer;
+  } else if (form.questionType === 'fill_blank') {
+    // correctKeys[0] is raw JSON string like {"b1":"+"}
+    try { correctAnswerJson = JSON.parse(form.correctKeys[0] ?? '{}'); } catch { correctAnswerJson = {}; }
+  } else if (form.questionType === 'trace_number') {
+    correctAnswerJson = { number: form.correctKeys[0] ?? '' };
+  } else if (form.questionType === 'letter_tracing') {
+    correctAnswerJson = { letter: form.correctKeys[0] ?? '' };
   } else if (form.questionType === 'matching') {
     optionsJson = form.options.length > 0
-      ? form.options.map((o) => ({ key: o.key, text: o.text, pair: o.pair ?? '' }))
+      ? form.options.map((o) => ({
+          key: o.key,
+          text: o.text,
+          pair: o.pair ?? '',
+          ...(o.imageUrl ? { imageUrl: o.imageUrl } : {}),
+          ...(o.pairImageUrl ? { pairImageUrl: o.pairImageUrl } : {}),
+        }))
       : undefined;
-    // correctAnswerJson: { A: 'pair of A', B: 'pair of B', ... }
+    // correctAnswerJson: { A: 'pair of A', B: 'pair of B', ... } or { A: imageUrl, ... }
     correctAnswerJson = form.options.reduce<Record<string, string>>((acc, o) => {
-      acc[o.key] = o.pair ?? '';
+      // Use pair text if available, otherwise use pairImageUrl
+      acc[o.key] = o.pair || o.pairImageUrl || '';
       return acc;
     }, {});
   } else {
@@ -665,6 +889,7 @@ export function formToPayload(form: QuizFormData) {
             key: o.key,
             text: o.text,
             ...(o.audioUrl ? { audioUrl: o.audioUrl } : {}),
+            ...(o.imageUrl ? { imageUrl: o.imageUrl } : {}),
           }))
         : undefined;
     correctAnswerJson =
@@ -708,15 +933,26 @@ export function payloadToForm(quiz: {
   isActive?: boolean;
 }): QuizFormData {
   const opts = Array.isArray(quiz.optionsJson)
-    ? (quiz.optionsJson as { key: string; text: string; audioUrl?: string; pair?: string }[])
+    ? (quiz.optionsJson as { key: string; text: string; audioUrl?: string; pair?: string; imageUrl?: string; pairImageUrl?: string }[])
     : [];
   const correct = quiz.correctAnswerJson;
   const isMatching = quiz.questionType === 'matching';
-  const correctKeys: string[] = Array.isArray(correct)
-    ? (correct as string[])
-    : typeof correct === 'string'
-    ? [correct]
-    : [];
+  let correctKeys: string[] = [];
+  if (quiz.questionType === 'fill_blank') {
+    correctKeys = [JSON.stringify(correct ?? {})];
+  } else if (quiz.questionType === 'trace_number') {
+    const n = (correct as { number?: string })?.number ?? String(correct ?? '');
+    correctKeys = [n];
+  } else if (quiz.questionType === 'letter_tracing') {
+    const l = (correct as { letter?: string })?.letter ?? String(correct ?? '');
+    correctKeys = [l];
+  } else {
+    correctKeys = Array.isArray(correct)
+      ? (correct as string[])
+      : typeof correct === 'string'
+      ? [correct]
+      : [];
+  }
 
   return {
     lessonId: String(quiz.lessonId ?? ''),
@@ -735,7 +971,7 @@ export function payloadToForm(quiz: {
       key: o.key,
       text: o.text,
       audioUrl: o.audioUrl ?? '',
-      ...(isMatching ? { pair: o.pair ?? '' } : {}),
+      ...(isMatching ? { pair: o.pair ?? '', imageUrl: o.imageUrl ?? '', pairImageUrl: o.pairImageUrl ?? '' } : {}),
     })),
     correctKeys,
     trueFalseAnswer: correct === true || correct === 'true',

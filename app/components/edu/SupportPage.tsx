@@ -13,7 +13,7 @@ const faqs = [
 
 const channels = [
   { icon: '💬', label: 'Zalo', desc: 'Phản hồi trong 30 phút', color: '#0068ff', bg: '#eff6ff', href: 'https://zalo.me' },
-  { icon: '📧', label: 'Email', desc: 'support@behayhoc.com', color: '#6366f1', bg: '#f5f3ff', href: 'mailto:support@behayhoc.com' },
+  { icon: '📧', label: 'Email', desc: 'behayhoc@gmail.com', color: '#6366f1', bg: '#f5f3ff', href: 'mailto:behayhoc@gmail.com' },
   { icon: '📱', label: 'Hotline', desc: '1800 xxxx (miễn phí)', color: '#10b981', bg: '#f0fdf4', href: 'tel:1800xxxx' },
 ];
 

@@ -1,4 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
 export async function playFetch<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}/api/play${path}`, { cache: 'no-store' });

@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 interface Article {
   id: number;
@@ -44,9 +44,9 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
             ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
             : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-5xl">📝</div>
           }
-          {article.category && (
+          {article.category && CATEGORY_LABEL[article.category] && (
             <span className="absolute top-3 left-3 bg-[#c0392b] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow">
-              {CATEGORY_LABEL[article.category] || article.category}
+              {CATEGORY_LABEL[article.category]}
             </span>
           )}
         </div>
@@ -75,9 +75,9 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
           ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
           : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-3xl">📝</div>
         }
-        {article.category && (
+        {article.category && CATEGORY_LABEL[article.category] && (
           <span className="absolute top-2 left-2 bg-[#c0392b] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-            {CATEGORY_LABEL[article.category] || article.category}
+            {CATEGORY_LABEL[article.category]}
           </span>
         )}
       </div>
@@ -113,7 +113,7 @@ function ArticlesContent() {
   const fetchArticles = useCallback(async (cat: string, pg: number, append: boolean) => {
     if (!append) setLoading(true); else setLoadingMore(true);
     try {
-      const p = new URLSearchParams({ page: String(pg), limit: String(limit) });
+      const p = new URLSearchParams({ page: String(pg), limit: String(limit), sortBy: 'createdAt', sortOrder: 'desc' });
       if (cat) p.set('category', cat);
       const res = await fetch(`${BASE_URL}/api/articles?${p}`);
       const json: ArticlesResponse = await res.json();

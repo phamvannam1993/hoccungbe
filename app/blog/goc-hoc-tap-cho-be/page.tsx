@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     'học tại nhà cho bé',
   ],
   alternates: {
-    canonical: '/blog/goc-hoc-tap-cho-be',
+    canonical: '/goc-phu-huynh/goc-hoc-tap-cho-be',
   },
   openGraph: {
     title: 'Gợi ý góc học tập đơn giản cho bé tại nhà',
     description:
       'Một góc học tập phù hợp giúp bé tập trung tốt hơn và học hiệu quả hơn mỗi ngày.',
-    url: '/blog/goc-hoc-tap-cho-be',
+    url: '/goc-phu-huynh/goc-hoc-tap-cho-be',
     type: 'article',
     images: [
       {

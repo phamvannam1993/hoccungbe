@@ -134,6 +134,8 @@ type LessonData = {
   thumbnailUrl?: string;
   course?: { id: number; title: string; slug: string };
   detail: Detail | null;
+  seoDescription?: string;  // Custom SEO description từ database
+  learningObjectives?: string[];  // Learning objectives từ database
 };
 
 const LESSON_TYPE_LABEL: Record<string, string> = {
@@ -512,7 +514,163 @@ function QuizSection({ quiz }: { quiz: QuizSection }) {
   );
 }
 
-// ─── 7. Reward ───────────────────────────────────────────────────────────────
+// ─── 7. SEO Description Section ──────────────────────────────────────────────
+
+// Unique SEO description generator - mỗi bài khác nhau
+function generateAutoSeoDescription(lesson: LessonData): string {
+  const goals = lesson.detail?.goals || [];
+  const courseTitle = lesson.course?.title.toLowerCase() || '';
+  const lessonTitle = lesson.title.toLowerCase();
+
+  // Extract keywords từ lesson title - chi tiết hơn
+  const titleKeywords = lessonTitle
+    .split(/[\s\-:,]/)
+    .filter(w => w.length > 2 && !['của', 'và', 'các', 'là', 'để', 'với', 'từ', 'bài', 'các', 'những'].includes(w));
+
+  // Detect lesson type
+  const isLanguage = courseTitle.includes('việt') || courseTitle.includes('anh') ||
+                     lessonTitle.includes('chữ') || lessonTitle.includes('từ') ||
+                     lessonTitle.includes('âm') || lessonTitle.includes('tiếng');
+  const isMath = courseTitle.includes('toán') || courseTitle.includes('số') ||
+                 lessonTitle.includes('đếm') || lessonTitle.includes('phép tính') ||
+                 lessonTitle.includes('tính') || lessonTitle.includes('nhiều') || lessonTitle.includes('ít');
+  const isScience = courseTitle.includes('khoa học') || courseTitle.includes('tự nhiên') ||
+                    lessonTitle.includes('động vật') || lessonTitle.includes('thực vật') ||
+                    lessonTitle.includes('con') || lessonTitle.includes('vật');
+
+  const skillsList = goals.length > 0 ? goals.slice(0, 3) : [];
+  const mainKeyword = titleKeywords.length > 0 ? titleKeywords[0] : 'nội dung học tập';
+
+  // Variation arrays để tạo nội dung khác nhau
+  const openings = [
+    `Bài học "${lesson.title}" giúp bé `,
+    `Trong bài "${lesson.title}", bé sẽ `,
+    `Bài học về ${mainKeyword} này giúp bé `,
+    `Với bài "${lesson.title}", bé có cơ hội `,
+  ];
+
+  const closes = [
+    `được thiết kế vui vẻ và khắc sâu kiến thức.`,
+    `phù hợp với độ tuổi và khuyến khích tò mò học tập.`,
+    `được luyện tập toàn diện qua hình thức đa cảm.`,
+    `có cơ hội ôn tập và làm quen từ từ.`,
+  ];
+
+  // Hash lesson ID để select variation consistent
+  const lessonIdHash = (lesson.id || 0) % 4;
+
+  let description = '';
+
+  if (isLanguage) {
+    const skills = skillsList.length > 0
+      ? skillsList.slice(0, 2).join(', ').toLowerCase()
+      : 'nhận biết chữ, phát âm, viết chữ';
+    const subtitle = courseTitle.includes('anh') ? 'Tiếng Anh' : 'Tiếng Việt';
+    const variations = [
+      `nắm vững ${mainKeyword} trong chương trình ${subtitle}. Bé sẽ thực hành: ${skills}. Video bài giảng chi tiết, bài tập tương tác thú vị, bài kiểm tra giúp bé kiểm chứng. Nội dung ${closes[lessonIdHash]}`,
+      `tiến bộ trong ${subtitle} thông qua bài học ${mainKeyword}. Luyện tập: ${skills}. Hình thức giảng dạy kết hợp video, bài tập, kiểm tra giúp bé vừa học vừa chơi. Được thiết kế để khuyến khích giao tiếp tự tin.`,
+      `phát triển kỹ năng ${mainKeyword} một cách tự nhiên. Bé sẽ: ${skills}. Qua video hấp dẫn, bài tập đa dạng, bài kiểm tra ngắn, bé sẽ thấy tiến bộ từng ngày. ${closes[lessonIdHash]}`,
+    ];
+    description = openings[lessonIdHash] + variations[lessonIdHash % variations.length];
+  } else if (isMath) {
+    const skills = skillsList.length > 0
+      ? skillsList.slice(0, 2).join(', ').toLowerCase()
+      : 'tính toán, so sánh, nhận biết';
+    const variations = [
+      `rèn kỹ năng tư duy ${mainKeyword} một cách vui vẻ. Nội dung bài học: ${skills}. Video minh họa sinh động, bài tập tương tác cho phép bé thử sai an toàn, bài kiểm tra kiểm chứng kiến thức. ${closes[lessonIdHash]}`,
+      `làm quen với ${mainKeyword} thông qua hoạt động luyện tập. Bé sẽ: ${skills}. Kết hợp video bài giảng, bài tập thực hành, bài kiểm tra để bé tự tin giải quyết vấn đề. Được thiết kế để trẻ yêu thích toán.`,
+      `phát triển tư duy ${mainKeyword} từ từ qua bài học bài bản. Luyện tập: ${skills}. Video sinh động, bài tập đa dạng, kiểm tra kiến thức tổng hợp giúp bé nắm vững. ${closes[lessonIdHash]}`,
+    ];
+    description = openings[lessonIdHash] + variations[lessonIdHash % variations.length];
+  } else if (isScience) {
+    const skills = skillsList.length > 0
+      ? skillsList.slice(0, 2).join(', ').toLowerCase()
+      : 'quan sát, khám phá, suy luận';
+    const variations = [
+      `khám phá bí mật của ${mainKeyword}. Bé sẽ học: ${skills}. Video hình ảnh sinh động, bài tập tương tác kích thích tò mò, bài kiểm tra làm bé hiểu sâu hơn. ${closes[lessonIdHash]}`,
+      `tìm hiểu về ${mainKeyword} qua hoạt động thực hành. Nội dung gồm: ${skills}. Hình thức giảng dạy kết hợp video, bài tập, kiểm tra giúp bé không quên kiến thức. Được thiết kế để phát triển tình yêu khoa học.`,
+      `hiểu rõ hơn về ${mainKeyword} qua bài học khoa học vui vẻ. Luyện tập: ${skills}. Video sinh động, bài tập tương tác, kiểm tra toàn diện giúp bé tự tin khám phá. ${closes[lessonIdHash]}`,
+    ];
+    description = openings[lessonIdHash] + variations[lessonIdHash % variations.length];
+  } else {
+    // Generic - cũng tạo variation
+    const skills = skillsList.length > 0
+      ? skillsList.join(', ').toLowerCase()
+      : 'tư duy, kỹ năng, sáng tạo';
+    const variations = [
+      `phát triển ${mainKeyword} một cách toàn diện. Bé sẽ: ${skills}. Video bài giảng chi tiết, bài tập tương tác, kiểm tra giúp bé nắm vững nội dung. ${closes[lessonIdHash]}`,
+      `tiến bộ thông qua bài học ${mainKeyword} bài bản. Luyện tập: ${skills}. Kết hợp video hấp dẫn, bài tập đa dạng, kiểm tra toàn diện. Được thiết kế phù hợp chương trình giáo dục chuẩn.`,
+      `làm quen với ${mainKeyword} qua các hoạt động luyện tập. Bé sẽ: ${skills}. Video sinh động, bài tập thực hành, kiểm tra ngắn giúp bé học hiệu quả. ${closes[lessonIdHash]}`,
+    ];
+    description = openings[lessonIdHash] + variations[lessonIdHash % variations.length];
+  }
+
+  return description;
+}
+
+function SeoDescriptionSection({ lesson }: { lesson: LessonData }) {
+  // Priority: DB seoDescription > knowledge.summary > auto-generated
+  const mainDescription = lesson.seoDescription
+    ? lesson.seoDescription
+    : lesson.detail?.knowledge?.summary
+    ? lesson.detail.knowledge.summary
+    : generateAutoSeoDescription(lesson);
+
+  // Use DB learningObjectives or fall back to detail.goals
+  const objectives = lesson.learningObjectives || lesson.detail?.goals || [];
+
+  return (
+    <div className="mt-8 rounded-3xl overflow-hidden shadow-lg ring-1 ring-blue-200/50">
+      {/* Header with gradient */}
+      <div className="bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-6 py-4">
+        <h2 className="text-lg font-black text-white flex items-center gap-2">
+          <span>📖</span> Nội dung bài học
+        </h2>
+      </div>
+
+      <div className="bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 px-6 py-6 space-y-5">
+        {/* Main description - từ DB hoặc auto-gen */}
+        <div className="bg-white/80 rounded-2xl px-5 py-4 ring-1 ring-blue-100/50 backdrop-blur-sm">
+          <p className="text-sm leading-7 text-slate-700">
+            {mainDescription}
+          </p>
+        </div>
+
+        {/* Skills/Goals list */}
+        {objectives && objectives.length > 0 && (
+          <div className="bg-white/80 rounded-2xl px-5 py-4 ring-1 ring-green-100/50 backdrop-blur-sm">
+            <p className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+              <span className="text-xl">🎯</span> Mục tiêu bài học
+            </p>
+            <ul className="space-y-2">
+              {objectives.slice(0, 4).map((goal, i) => (
+                <li key={i} className="flex gap-3 text-sm text-slate-700">
+                  <span className="shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                    {i + 1}
+                  </span>
+                  <span className="pt-0.5">{goal}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Parent guidance */}
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl px-5 py-4 ring-1 ring-amber-200/50">
+          <p className="text-sm leading-7 text-slate-700">
+            <span className="inline-block text-xl mr-2">👨‍👩‍👧</span>
+            <strong className="text-slate-900">Hướng dẫn phụ huynh:</strong>{' '}
+            Khuyến khích bé thực hiện đầy đủ các phần bài học. Bé sẽ nhận được phản hồi ngay lập tức
+            để biết điểm mạnh và cần cải thiện ở đâu. Hãy tạo môi trường yên tĩnh và động viên bé
+            khi hoàn thành mỗi phần bài học.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── 8. Reward ───────────────────────────────────────────────────────────────
 
 function RewardSection({ reward }: { reward: RewardSection }) {
   const [claimed, setClaimed] = useState(false);
@@ -771,8 +929,13 @@ export default function LessonDetailPage({
         );
       })()}
 
+      {/* ── SEO Description ── */}
+      <SeoDescriptionSection lesson={lesson} />
+
       {/* ── Danh sách bài tập ── */}
-      <LessonQuizList lessonId={resolvedId ?? ''} lessonSlug={lesson.slug} />
+      <div className="mt-10">
+        <LessonQuizList lessonId={resolvedId ?? ''} lessonSlug={lesson.slug} />
+      </div>
 
     </div>
   );

@@ -144,12 +144,20 @@ export default function EditLessonPage() {
       await apiFetch(`/lessons/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          ...form,
+          title: form.title,
+          slug: form.slug,
           courseId: Number(form.courseId),
           volumeId: form.volumeId ? Number(form.volumeId) : null,
           topicId: form.topicId ? Number(form.topicId) : null,
+          lessonType: form.lessonType,
+          content: form.content,
+          videoUrl: form.videoUrl,
+          audioUrl: form.audioUrl,
+          thumbnailUrl: form.thumbnailUrl,
           sortOrder: form.sortOrder ? Number(form.sortOrder) : undefined,
           durationMinutes: form.durationMinutes ? Number(form.durationMinutes) : undefined,
+          isPreview: form.isPreview,
+          isPublished: form.isPublished,
         }),
       });
       toast.success('Cập nhật thành công!');

@@ -1,0 +1,644 @@
+.app {
+  width: 100%;
+  max-width: 1152px;
+  margin: 16px auto;
+  padding: 14px;
+  background: #0f5a67;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+.game {
+  width: 100%;
+  border: 8px solid #0b4d58;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #d8eef5;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,0.08);
+  position: relative;
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* ── pool (scene) ───────────────────────────────────── */
+.pool {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  aspect-ratio: 1000 / 500;
+  background:
+    radial-gradient(circle at 30% 10%, rgba(255,255,255,.38), transparent 18%),
+    linear-gradient(180deg, #5bd4f0 0%, #18a8d6 48%, #0670a8 100%);
+}
+
+/* ── overlays ───────────────────────────────────────── */
+.startOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,90,103,0.55);
+  backdrop-filter: blur(4px);
+}
+
+.startButton {
+  padding: 18px 38px;
+  font-size: 22px;
+  font-weight: 900;
+  color: #18425f;
+  background: #ffe066;
+  border: none;
+  border-radius: 999px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease;
+}
+
+.startButton:hover {
+  transform: scale(1.05);
+}
+
+.gameOverBox {
+  background: #fff;
+  padding: 26px 32px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100% - 40px);
+}
+
+.gameOverTitle {
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+  color: #c0392b;
+}
+
+.gameOverScore {
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: #18425f;
+  font-weight: 700;
+}
+
+.gameOverScore strong {
+  color: #2bb24c;
+  font-size: 1.4em;
+}
+
+.instructions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: #18425f;
+  font-weight: 600;
+}
+
+/* ── pool decorations ───────────────────────────────── */
+.poolRim {
+  position: absolute;
+  inset: 12px;
+  border: 12px solid rgba(255,255,255,.38);
+  border-radius: 38px;
+  box-shadow: inset 0 0 0 10px rgba(0,91,130,.22);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.waterGlow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.36), transparent 45%),
+    radial-gradient(circle at 82% 48%, rgba(133,245,255,.22), transparent 32%);
+}
+
+.lightOne, .lightTwo {
+  position: absolute;
+  top: -90px;
+  width: 190px;
+  height: 760px;
+  background: linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,0));
+  filter: blur(5px);
+  opacity: .55;
+}
+
+.lightOne { left: 280px; transform: rotate(18deg); }
+.lightTwo { right: 280px; transform: rotate(-15deg); }
+
+.bubbles {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.bubbles span {
+  position: absolute;
+  bottom: -40px;
+  border: 2px solid rgba(255,255,255,.74);
+  border-radius: 50%;
+  background: rgba(255,255,255,.16);
+  animation: bubbleUp linear infinite;
+}
+
+.tiles {
+  position: absolute;
+  left: 38px;
+  right: 38px;
+  bottom: 26px;
+  height: 110px;
+  z-index: 7;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 6px;
+  opacity: .32;
+}
+
+.tiles span {
+  border-radius: 12px;
+  background: rgba(255,255,255,.35);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.18);
+}
+
+.plantsLeft, .plantsRight {
+  position: absolute;
+  bottom: 26px;
+  z-index: 11;
+  width: 170px;
+  height: 170px;
+}
+
+.plantsLeft { left: 70px; }
+.plantsRight { right: 90px; }
+
+.plantsLeft span, .plantsRight span {
+  position: absolute;
+  bottom: 0;
+  width: 30px;
+  height: 150px;
+  border-radius: 100% 0 100% 0;
+  background: linear-gradient(#65d976, #16864c);
+  transform-origin: bottom center;
+  animation: sway 2.8s ease-in-out infinite alternate;
+}
+
+.plantsLeft span:nth-child(1), .plantsRight span:nth-child(1) { left: 0; height: 120px; transform: rotate(-18deg); }
+.plantsLeft span:nth-child(2), .plantsRight span:nth-child(2) { left: 54px; height: 165px; animation-delay: -.8s; }
+.plantsLeft span:nth-child(3), .plantsRight span:nth-child(3) { left: 110px; height: 135px; transform: rotate(18deg); animation-delay: -.4s; }
+
+.stones {
+  position: absolute;
+  left: 260px;
+  right: 260px;
+  bottom: 8px;
+  height: 65px;
+  z-index: 10;
+}
+
+.stones span {
+  position: absolute;
+  bottom: 0;
+  width: 90px;
+  height: 45px;
+  border-radius: 50%;
+  background: #7f9099;
+  box-shadow: inset -10px -8px 0 rgba(0,0,0,.16);
+}
+
+.stones span:nth-child(1) { left: 0; }
+.stones span:nth-child(2) { left: 150px; width: 120px; height: 55px; }
+.stones span:nth-child(3) { right: 160px; }
+.stones span:nth-child(4) { right: 0; width: 110px; height: 52px; }
+
+/* ── fish ───────────────────────────────────────────── */
+.fishLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+}
+
+.fish {
+  position: absolute;
+  width: 134px;
+  height: 78px;
+  animation: fishSwim linear infinite;
+  filter: drop-shadow(0 8px 6px rgba(0,40,80,.18));
+  transition: opacity .2s ease;
+}
+
+.body {
+  position: absolute;
+  left: 36px;
+  top: 16px;
+  width: 74px;
+  height: 48px;
+  border-radius: 58% 42% 52% 48%;
+  background: var(--fish-main);
+  border: 4px solid rgba(0,0,0,.22);
+  box-shadow: inset 10px 8px 0 rgba(255,255,255,.18);
+}
+
+.tail {
+  position: absolute;
+  left: 3px;
+  top: 20px;
+  width: 48px;
+  height: 44px;
+  background: var(--fish-dark);
+  clip-path: polygon(0 0, 100% 50%, 0 100%, 34% 50%);
+  border-radius: 8px;
+  animation: tailWiggle .42s ease-in-out infinite alternate;
+}
+
+.finTop {
+  position: absolute;
+  left: 68px;
+  top: 0;
+  width: 30px;
+  height: 28px;
+  background: var(--fish-dark);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.finBottom {
+  position: absolute;
+  left: 68px;
+  bottom: 0;
+  width: 30px;
+  height: 26px;
+  background: var(--fish-dark);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.eye {
+  position: absolute;
+  right: 22px;
+  top: 28px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #173d63;
+}
+
+.eye::after {
+  content: '';
+  position: absolute;
+  right: 1px;
+  top: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #111;
+}
+
+/* fish color themes */
+.orange  { --fish-main: #ff9e42; --fish-dark: #e86e2c; }
+.pink    { --fish-main: #ff7ab8; --fish-dark: #d94d91; }
+.blue    { --fish-main: #52c8ff; --fish-dark: #197cbc; }
+.yellow  { --fish-main: #ffd84d; --fish-dark: #f4a91f; }
+.green   { --fish-main: #69df8d; --fish-dark: #23a95b; }
+.purple  { --fish-main: #b17dff; --fish-dark: #7948d9; }
+.red     { --fish-main: #ff6565; --fish-dark: #cc3434; }
+.mint    { --fish-main: #7fffd4; --fish-dark: #20bfa0; }
+.coral   { --fish-main: #ff8b7b; --fish-dark: #d95a4a; }
+.gold    { --fish-main: #ffd166; --fish-dark: #e69c16; }
+
+.newFish { animation-name: newFishSwim; }
+
+.leavingFish {
+  animation-name: fishLeave;
+  animation-duration: 3.3s !important;
+  animation-fill-mode: forwards;
+}
+
+.newTag, .leaveTag {
+  position: absolute;
+  left: 55px;
+  top: -26px;
+  z-index: 7;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-weight: 900;
+  font-size: 15px;
+  background: #fff141;
+  color: #174258;
+  border: 3px solid #ffb21c;
+}
+
+.leaveTag {
+  background: #ffe2e2;
+  border-color: #ff7575;
+  color: #8d1d1d;
+}
+
+/* ── HUD ────────────────────────────────────────────── */
+.topHud {
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  z-index: 70;
+  display: flex;
+  gap: 12px;
+}
+
+.badge, .score {
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: #174258;
+  font-size: 18px;
+  font-weight: 900;
+  padding: 12px 18px;
+  box-shadow: 0 8px 20px rgba(19,61,77,.12);
+}
+
+.message {
+  position: absolute;
+  right: 28px;
+  top: 20px;
+  z-index: 70;
+  max-width: 570px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: #174258;
+  font-size: 21px;
+  font-weight: 900;
+  box-shadow: 0 8px 20px rgba(19,61,77,.12);
+}
+
+.message.correct { background: #d9ffd7; color: #145c22; }
+.message.wrong   { background: #ffe0e0; color: #9b1c1c; }
+
+.equationBox {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  z-index: 65;
+  transform: translateX(-50%);
+  min-width: 210px;
+  text-align: center;
+  padding: 16px 28px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 12px 24px rgba(0,0,0,.12);
+  font-size: 38px;
+  font-weight: 900;
+  color: #174258;
+}
+
+.sceneActions {
+  position: absolute;
+  right: 28px;
+  bottom: 30px;
+  z-index: 70;
+  display: flex;
+  gap: 12px;
+}
+
+.sceneActions button {
+  height: 62px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 999px;
+  background: #dfe524;
+  color: #164461;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+}
+
+/* ── question panel ─────────────────────────────────── */
+.questionPanel {
+  min-height: 168px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 24px;
+  background: #fffaf2;
+  border-top: 1px solid rgba(0,0,0,.06);
+}
+
+.questionLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.audioButton {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 4px solid #4ccbe2;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: #fff;
+  color: #1184a2;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.questionLeft h1 {
+  margin: 0 0 8px;
+  color: #173d63;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.questionLeft p {
+  margin: 0;
+  color: #2b4c69;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.options {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.optionButton {
+  width: 72px;
+  height: 72px;
+  border: none;
+  border-radius: 50%;
+  background: #004f63;
+  color: white;
+  font-size: 28px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: inset 0 -5px 0 rgba(255,255,255,.08), 0 7px 14px rgba(0,0,0,.12);
+  transition: transform .15s ease, background .15s ease;
+}
+
+.optionButton:hover { transform: translateY(-3px); }
+
+.selectedOption  { outline: 5px solid rgba(79,203,226,.45); }
+.correctOption   { background: #2bb24c; }
+.wrongOption     { background: #d44d4d; }
+
+/* ── animations ─────────────────────────────────────── */
+@keyframes fishSwim {
+  0%   { transform: translateX(-60px) translateY(0); }
+  50%  { transform: translateX(100px) translateY(-18px); }
+  100% { transform: translateX(-60px) translateY(0); }
+}
+
+@keyframes newFishSwim {
+  0%   { transform: translateX(900px) translateY(20px); opacity: 0; }
+  18%  { opacity: 1; }
+  65%  { transform: translateX(120px) translateY(-12px); opacity: 1; }
+  100% { transform: translateX(-40px) translateY(0); opacity: 1; }
+}
+
+@keyframes fishLeave {
+  0%   { transform: translateX(0) translateY(0); opacity: 1; }
+  40%  { transform: translateX(160px) translateY(-40px); opacity: 1; }
+  100% { transform: translateX(820px) translateY(-260px); opacity: 0; }
+}
+
+@keyframes tailWiggle {
+  from { transform: rotate(-8deg); }
+  to   { transform: rotate(10deg); }
+}
+
+@keyframes bubbleUp {
+  0%   { transform: translateY(0) scale(.7); opacity: 0; }
+  20%  { opacity: .8; }
+  100% { transform: translateY(-720px) scale(1.1); opacity: 0; }
+}
+
+@keyframes sway {
+  from { transform: rotate(-10deg); }
+  to   { transform: rotate(12deg); }
+}
+
+/* ── responsive ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .questionPanel { min-height: 156px; }
+  .questionLeft h1 { font-size: 26px; }
+  .questionLeft p  { font-size: 19px; }
+  .optionButton    { width: 62px; height: 62px; font-size: 25px; }
+  .message         { font-size: 17px; max-width: 390px; }
+  .sceneActions button { height: 54px; font-size: 16px; padding: 0 16px; }
+  .equationBox     { bottom: 22px; font-size: 30px; }
+}
+
+@media (max-width: 720px) {
+  .app {
+    margin: 8px auto;
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .game {
+    border-width: 4px;
+    border-radius: 18px;
+  }
+
+  .pool {
+    aspect-ratio: 1000 / 500;
+    flex: 0 0 auto;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .questionPanel {
+    border-radius: 0 0 14px 14px;
+    min-height: 0;
+    padding: 12px 14px 16px;
+    gap: 12px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topHud {
+    left: 10px;
+    top: 10px;
+  }
+
+  .badge, .score {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .message {
+    right: 10px;
+    top: 10px;
+    font-size: 13px;
+    max-width: calc(100% - 140px);
+    padding: 6px 12px;
+  }
+
+  .sceneActions button {
+    right: 10px;
+    bottom: 10px;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+    border-radius: 20px;
+  }
+
+  .equationBox {
+    bottom: 14px;
+    font-size: 24px;
+    padding: 10px 18px;
+  }
+
+  .questionLeft {
+    justify-content: center;
+  }
+
+  .questionLeft h1 { font-size: 20px; }
+  .questionLeft p  { font-size: 16px; }
+
+  .audioButton {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+    font-size: 18px;
+  }
+
+  .options {
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .optionButton {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .optionButton { width: 36px; height: 36px; font-size: 14px; }
+  .questionLeft p { font-size: 14px; }
+}

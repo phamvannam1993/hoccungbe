@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import LessonDetailPage from '../components/edu/LessonDetailPage';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 type Props = { params: Promise<{ lessonSlug: string }> };
 
 async function fetchLesson(slug: string) {
   try {
-    const res = await fetch(`${API}/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/lessons/slug/${slug}`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return res.json() as Promise<{
       id: number; title: string; slug: string;
@@ -51,6 +52,8 @@ export default async function Page({ params }: Props) {
   const { lessonSlug } = await params;
   const lesson = await fetchLesson(lessonSlug);
 
+  if (!lesson) notFound();
+
   const jsonLd = lesson ? {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
@@ -62,7 +65,7 @@ export default async function Page({ params }: Props) {
     isPartOf: lesson.course ? {
       '@type': 'Course',
       name: lesson.course.title,
-      url: `${SITE}/courses/${lesson.course.slug}`,
+      url: `${SITE}/khoa-hoc/${lesson.course.slug}`,
     } : undefined,
     provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
   } : null;

@@ -6,13 +6,17 @@ export const metadata: Metadata = {
   description:
     'Trang đăng ký tài khoản tại Bé Hay Học giúp phụ huynh tạo tài khoản nhanh chóng để đồng hành cùng bé trong hành trình học tập và vui chơi bổ ích.',
   alternates: {
-    canonical: '/register',
+    canonical: '/dang-ky',
+  },
+  robots: {
+    index: false,
+    follow: true,
   },
   openGraph: {
     title: 'Đăng ký tài khoản | Bé Hay Học',
     description:
       'Phụ huynh đăng ký tài khoản để cùng bé trải nghiệm các trò chơi giáo dục, bài học trực quan và hoạt động phát triển tư duy.',
-    url: '/register',
+    url: '/dang-ky',
     type: 'website',
     images: [
       {

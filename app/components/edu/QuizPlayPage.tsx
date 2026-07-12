@@ -1739,11 +1739,18 @@ function preprocessTTS(text: string): string {
 
 let _ttsAudio: HTMLAudioElement | null = null;
 
+// Cờ: bài hiện tại có thuộc khóa TIẾNG ANH không (chỉ khi đó mới tách giọng Anh).
+let _ttsEnglish = false;
+
 function speak(text: string) {
   const cleaned = preprocessTTS(text);
   if (!cleaned) return;
   stopSpeak();
-  const url = `/api/tts?q=${encodeURIComponent(cleaned)}`;
+  // Bài tiếng Anh → thêm en=1 (đọc giọng bản ngữ) + v=2 (bỏ cache giọng Việt cũ).
+  // Bài khác → giữ NGUYÊN URL cũ (cả câu giọng Việt như trước).
+  const url = _ttsEnglish
+    ? `/api/tts?q=${encodeURIComponent(cleaned)}&en=1&v=2`
+    : `/api/tts?q=${encodeURIComponent(cleaned)}`;
   const audio = new Audio(url);
   _ttsAudio = audio;
   // Chỉ dùng giọng đọc riêng của app (/api/tts). Không fallback sang Google TTS.
@@ -1899,6 +1906,10 @@ export default function QuizPlayPage({
         const lid = String(lessonData.id);
         setResolvedLessonId(lid);
         setLesson(lessonData);
+        // Bật đọc giọng Anh CHỈ cho bài thuộc khóa tiếng Anh (vd Tiếng Anh lớp 1).
+        _ttsEnglish = /tieng-anh|tiếng anh|english/i.test(
+          `${lessonData.course?.slug ?? ''} ${lessonData.course?.title ?? ''}`,
+        );
         return apiFetch<AllExercisesData>(`/quizzes/exercises/${lid}`).catch(() => null);
       })
       .then((allData) => {

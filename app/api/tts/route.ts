@@ -41,6 +41,91 @@ function toVietnamesePhonics(text: string): string {
   return text;
 }
 
+// ── Tách text thành các đoạn theo NGÔN NGỮ (Việt / Anh) ─────────────────────
+// Câu hỏi thường là tiếng Việt có lẫn từ tiếng Anh (vd: 'Hi' có nghĩa là gì?).
+// Từ có dấu tiếng Việt → đọc giọng Việt; từ thuần ASCII (không phải từ Việt phổ
+// biến) → đọc giọng Anh bản ngữ.
+const VI_DIACRITIC = /[àáảãạăắằẳẵặâấầẩẫậđèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵ]/i;
+// Từ điển từ tiếng Anh xuất hiện trong khóa Tiếng Anh lớp 1 (+ từ chức năng phổ biến).
+// Cách phân biệt: MẶC ĐỊNH là tiếng Việt; chỉ coi là tiếng Anh nếu từ nằm trong từ điển
+// này HOẶC có chữ/cụm chỉ tiếng Anh mới có (w, j, z, f, chữ đôi ll/ss/ee/oo, sh, ck…).
+const EN_WORDS = new Set([
+  // chào hỏi & chức năng
+  'hello', 'hi', 'bye', 'goodbye', 'good', 'morning', 'afternoon', 'evening', 'night', 'welcome',
+  'what', 'whats', 'your', 'my', 'name', 'is', 'are', 'am', 'i', 'im', 'you', 'youre', 'he', 'hes',
+  'she', 'shes', 'it', 'its', 'they', 'we', 'this', 'that', 'thats', 'these', 'those', 'his', 'her',
+  'their', 'do', 'does', 'dont', 'doesnt', 'can', 'cant', 'have', 'has', 'like', 'love', 'meet',
+  'nice', 'too', 'and', 'but', 'or', 'in', 'on', 'at', 'with', 'to', 'the', 'a', 'an', 'some',
+  'please', 'thank', 'thanks', 'yes', 'no', 'not', 'how', 'hows', 'who', 'whose', 'where', 'wheres',
+  'when', 'why', 'here', 'there', 'lets', 'get', 'up', 'me',
+  // cảm xúc & tính từ
+  'fine', 'happy', 'sad', 'tired', 'hungry', 'thirsty', 'big', 'small', 'tall', 'old', 'young',
+  'kind', 'soft', 'hard', 'long', 'short', 'hot', 'cold', 'fat', 'fast', 'slow', 'fresh', 'sweet',
+  'best', 'favourite', 'favorite', 'pretty', 'heavy', 'mine', 'much', 'very',
+  // trường học
+  'school', 'teacher', 'student', 'students', 'friend', 'friends', 'class', 'classroom',
+  'playground', 'library', 'office', 'book', 'books', 'pen', 'pens', 'pencil', 'pencils', 'notebook',
+  'bag', 'ruler', 'eraser', 'crayon', 'crayons', 'glue', 'scissors', 'sharpener', 'desk', 'chair',
+  'board', 'door', 'window', 'clock', 'wall', 'sit', 'stand', 'down', 'open', 'close', 'quiet',
+  'point', 'turn', 'times', 'raise', 'wash', 'clap', 'touch', 'shake', 'move', 'run', 'jump',
+  'walk', 'dance', 'swim', 'fly', 'read', 'write', 'sing', 'borrow', 'use', 'cut', 'colour', 'color',
+  // màu & số
+  'red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink', 'brown', 'black', 'white',
+  'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'seventy',
+  'count', 'number', 'numbers',
+  // gia đình & cơ thể
+  'family', 'father', 'mother', 'dad', 'mum', 'mom', 'parents', 'brother', 'brothers', 'sister',
+  'sisters', 'baby', 'grandpa', 'grandma', 'grandfather', 'grandmother', 'grandparents', 'people',
+  'face', 'eye', 'eyes', 'nose', 'mouth', 'ear', 'ears', 'head', 'hand', 'hands', 'leg', 'legs',
+  'arm', 'arms', 'foot', 'feet', 'body', 'finger', 'fingers', 'toe', 'toes', 'teeth', 'tooth',
+  // đồ chơi & con vật
+  'toy', 'toys', 'ball', 'balls', 'doll', 'dolls', 'car', 'cars', 'kite', 'robot', 'teddy', 'bear',
+  'pet', 'pets', 'dog', 'dogs', 'cat', 'cats', 'fish', 'bird', 'birds', 'rabbit', 'rabbits', 'duck',
+  'ducks', 'cow', 'cows', 'pig', 'pigs', 'horse', 'horses', 'animal', 'animals', 'bee', 'butterfly',
+  'lion', 'tiger', 'whale', 'meow', 'moo', 'quack',
+  // đồ ăn & thức uống
+  'fruit', 'apple', 'apples', 'banana', 'bananas', 'grapes', 'food', 'rice', 'bread', 'egg', 'eggs',
+  'chicken', 'breakfast', 'dinner', 'lunch', 'drink', 'drinks', 'water', 'milk', 'juice', 'tea',
+  'glass', 'box', 'eat',
+  // nhà, quần áo, thời tiết, hoạt động ngày
+  'house', 'houses', 'room', 'rooms', 'kitchen', 'bedroom', 'bathroom', 'living', 'garden', 'next',
+  'clothes', 'shirt', 'tshirt', 'hat', 'hats', 'shoes', 'shoe', 'dress', 'socks', 'sock', 'coat',
+  'wear', 'put', 'off', 'take', 'weather', 'sunny', 'rainy', 'windy', 'cloudy', 'sun', 'umbrella',
+  'summer', 'winter', 'day', 'wake', 'sleep', 'play', 'bed', 'brush', 'time', 'then', 'every',
+  'really', 'world',
+]);
+function classifyWord(w: string): 'vi' | 'en' {
+  if (VI_DIACRITIC.test(w)) return 'vi'; // có dấu tiếng Việt → chắc chắn tiếng Việt
+  const lw = w.toLowerCase().replace(/[^a-z]/g, '');
+  if (!lw) return 'vi';
+  if (EN_WORDS.has(lw)) return 'en'; // từ tiếng Anh đã biết
+  // Chữ/cụm chỉ có trong tiếng Anh (âm tiết tiếng Việt không dùng): w j z f, chữ đôi, sh/ck/wh…
+  if (/[wjzf]/.test(lw)) return 'en';
+  if (/(.)\1/.test(lw)) return 'en';
+  if (/(sh|ck|wh|ght|oo|ee)/.test(lw)) return 'en';
+  return 'vi'; // mặc định: tiếng Việt (an toàn cho từ Việt không dấu như "xin chao")
+}
+function segmentByLang(text: string): { t: string; lang: 'vi' | 'en' }[] {
+  const tokens = text.match(/[A-Za-zÀ-ỹ][A-Za-zÀ-ỹ'’-]*|[^A-Za-zÀ-ỹ]+/g) || [text];
+  const segs: { t: string; lang: 'vi' | 'en' }[] = [];
+  let curLang: 'vi' | 'en' = 'vi';
+  for (const tok of tokens) {
+    const isWord = /[A-Za-zÀ-ỹ]/.test(tok);
+    const lang: 'vi' | 'en' = isWord ? classifyWord(tok) : curLang;
+    if (isWord) curLang = lang;
+    const last = segs[segs.length - 1];
+    // Ghép các ký tự không phải chữ (dấu câu, khoảng trắng) vào đoạn trước.
+    if (last && (!isWord || last.lang === lang)) last.t += tok;
+    else segs.push({ t: tok, lang });
+  }
+  // Gộp đoạn đầu chỉ có dấu câu (vd dấu nháy mở) vào đoạn kế cho gọn.
+  if (segs.length > 1 && !/[A-Za-zÀ-ỹ]/.test(segs[0].t)) {
+    segs[1].t = segs[0].t + segs[1].t;
+    segs.shift();
+  }
+  return segs.filter((s) => s.t.trim());
+}
+
 // Google TTS giới hạn ~200 ký tự/request → tách theo từ thành các đoạn ≤ maxLen.
 function splitText(text: string, maxLen = 190): string[] {
   const words = text.split(/\s+/);
@@ -59,15 +144,16 @@ function splitText(text: string, maxLen = 190): string[] {
 }
 
 // Lấy audio từ Google Translate TTS cho 1 text (đã gộp các đoạn), trả Buffer hoặc null.
-async function fetchGoogleTts(text: string): Promise<Buffer | null> {
+// lang: 'vi' (giọng Việt) hoặc 'en' (giọng bản ngữ tiếng Anh).
+async function fetchGoogleTts(text: string, lang: 'vi' | 'en' = 'vi'): Promise<Buffer | null> {
   const parts: Buffer[] = [];
   for (const chunk of splitText(text)) {
     const params = new URLSearchParams({
       ie: 'UTF-8',
       q: chunk,
-      tl: 'vi',
+      tl: lang,
       client: 'tw-ob',
-      ttsspeed: '0.8',
+      ttsspeed: lang === 'en' ? '0.9' : '0.8',
     });
     const upstream = await fetch(`https://translate.google.com/translate_tts?${params.toString()}`, {
       headers: {
@@ -125,7 +211,10 @@ function audioResponse(buf: Buffer, source: string): NextResponse {
 }
 
 // Xử lý chung cho GET & POST: làm sạch text → cache → Google TTS.
-async function handle(rawText: string | null): Promise<NextResponse> {
+// enMode = true CHỈ cho các bài thuộc khóa tiếng Anh (vd Tiếng Anh lớp 1):
+// tách câu theo ngôn ngữ, đọc phần tiếng Anh bằng giọng bản ngữ.
+// Mặc định (enMode = false) giữ NGUYÊN hành vi cũ: cả câu đọc giọng Việt + phiên âm.
+async function handle(rawText: string | null, enMode = false): Promise<NextResponse> {
   if (!rawText || !rawText.trim()) {
     return NextResponse.json({ error: 'q (text) is required' }, { status: 400 });
   }
@@ -133,43 +222,71 @@ async function handle(rawText: string | null): Promise<NextResponse> {
     return NextResponse.json({ error: 'Text must not exceed 500 characters' }, { status: 400 });
   }
 
-  let text = removeEmojis(rawText.trim());
-  if (!text) {
+  const cleaned = removeEmojis(rawText.trim());
+  if (!cleaned) {
     return NextResponse.json({ error: 'Text contains only emoji/icons' }, { status: 400 });
   }
-  // Đọc chuẩn chữ cái/âm đơn lẻ (gh→"gờ", ch→"chờ", tr→"trờ"…).
-  text = toVietnamesePhonics(text);
 
-  // Cache chỉ chứa giọng Google → mỗi lần luôn ưu tiên Google, không bị "kẹt" giọng backend.
-  const cached = cache.get(text);
-  if (cached) return audioResponse(cached, 'google-cache');
-
-  // 1) Ưu tiên giọng Google TTS free.
-  const googleBuf = await fetchGoogleTts(text);
-  if (googleBuf) {
-    if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
-    cache.set(text, googleBuf); // chỉ cache giọng Google
-    return audioResponse(googleBuf, 'google-free');
+  // ── Bài KHÔNG phải tiếng Anh → hành vi cũ: cả câu giọng Việt + phiên âm, fallback backend. ──
+  if (!enMode) {
+    const text = toVietnamesePhonics(cleaned);
+    const key = 'vi:' + text;
+    const hit = cache.get(key);
+    if (hit) return audioResponse(hit, 'google-cache');
+    const g = await fetchGoogleTts(text, 'vi');
+    if (g) {
+      if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
+      cache.set(key, g);
+      return audioResponse(g, 'google-free');
+    }
+    const b = await fetchBackendTts(text);
+    if (b) return audioResponse(b, 'backend');
+    return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
   }
 
-  // 2) Google lỗi → fallback API riêng của app (không cache để lần sau vẫn thử Google trước).
-  console.warn('Google TTS lỗi → fallback API riêng');
-  const backendBuf = await fetchBackendTts(text);
-  if (backendBuf) {
-    return audioResponse(backendBuf, 'backend');
+  // ── Bài tiếng Anh → tách câu theo ngôn ngữ, phần tiếng Anh đọc giọng bản ngữ. ──
+  const key = 'en:' + cleaned;
+  const cached = cache.get(key);
+  if (cached) return audioResponse(cached, 'google-cache');
+
+  const segments = segmentByLang(cleaned);
+  const buffers: Buffer[] = [];
+  let usedBackend = false;
+  let allOk = true;
+  for (const seg of segments) {
+    // Chỉ áp phiên âm tiếng Việt (gh→"gờ"…) cho đoạn Việt; đoạn Anh giữ nguyên.
+    const t = seg.lang === 'vi' ? toVietnamesePhonics(seg.t) : seg.t;
+    let buf = await fetchGoogleTts(t, seg.lang);
+    if (!buf && seg.lang === 'vi') {
+      buf = await fetchBackendTts(t);
+      if (buf) usedBackend = true;
+    }
+    if (buf) buffers.push(buf);
+    else allOk = false;
+  }
+
+  if (buffers.length) {
+    const out = Buffer.concat(buffers);
+    if (allOk && !usedBackend) {
+      if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
+      cache.set(key, out);
+    }
+    return audioResponse(out, usedBackend ? 'mixed-backend' : 'google-free');
   }
 
   return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
 }
 
 export async function GET(req: NextRequest) {
-  return handle(req.nextUrl.searchParams.get('q'));
+  const en = req.nextUrl.searchParams.get('en') === '1';
+  return handle(req.nextUrl.searchParams.get('q'), en);
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    return handle(body?.text ?? body?.q ?? null);
+    const en = body?.en === true || body?.en === '1' || body?.en === 1;
+    return handle(body?.text ?? body?.q ?? null, en);
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }

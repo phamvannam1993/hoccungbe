@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { apiFetch } from '../../lib/api';
+import { recordAttempt } from '../../lib/childData';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
 import NumberTrace from './NumberTrace';
 import LetterTracingGame, { type LetterTracingGameRef } from '../../games/letter-tracing/LetterTracingGame';
@@ -1796,6 +1797,21 @@ export default function QuizPlayPage({
   const [current, setCurrent] = useState(0);
   const [checked, setChecked] = useState<Record<number, boolean>>({});
   const [score, setScore] = useState(0);
+  // Ghi kết quả đúng/sai từng câu để lưu về server (POST /attempts) khi xong bài.
+  const attemptResultsRef = useRef<Record<number, boolean>>({});
+  const attemptSubmittedRef = useRef(false);
+  // Màn tổng kết sau khi bấm "Nộp bài".
+  const [summary, setSummary] = useState<{
+    correct: number;
+    total: number;
+    scorePct: number;
+    stars: number;
+    points: number;
+    newBadges: { name: string; icon?: string }[];
+    completedQuests: { name: string }[];
+    saved: boolean;
+  } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
 
   // ─── Answer state for all types ───────────────────────────────────────────
@@ -1896,6 +1912,63 @@ export default function QuizPlayPage({
     return () => { cancelled = true; };
   }, [lessonIdProp, lessonSlugProp]);
 
+  // Nộp bài: chấm điểm (% câu đúng), lưu về server nếu đã chọn bé, rồi hiện màn tổng kết.
+  const submitAttempt = useCallback(async () => {
+    if (!exercise || attemptSubmittedRef.current) return;
+    const quizzes = exercise.quizzes;
+    const total = quizzes.length;
+    if (total === 0) return;
+    attemptSubmittedRef.current = true;
+    setSubmitting(true);
+
+    const correct = quizzes.filter((qq) => attemptResultsRef.current[qq.id]).length;
+    const scorePct = Math.round((correct / total) * 100);
+    const stars = scorePct >= 90 ? 3 : scorePct >= 70 ? 2 : scorePct >= 50 ? 1 : 0;
+
+    const childId =
+      typeof window !== 'undefined' ? Number(localStorage.getItem('bhh_child_id') || '0') : 0;
+
+    let newBadges: { name: string; icon?: string }[] = [];
+    let completedQuests: { name: string }[] = [];
+    let saved = false;
+
+    // Chỉ lưu lịch sử khi đã chọn hồ sơ bé.
+    if (childId) {
+      const answers = quizzes.map((qq) => ({
+        quizId: qq.id,
+        isCorrect: !!attemptResultsRef.current[qq.id],
+      }));
+      try {
+        // Đăng nhập → lưu server; Khách → lưu localStorage (recordAttempt tự chọn).
+        const res = await recordAttempt({
+          childId,
+          lessonId: Number(resolvedLessonId) || 0,
+          exerciseNumber,
+          difficultyLevel: exercise.difficultyLevel,
+          answers,
+          courseSlug: lesson?.course?.slug,
+          courseTitle: lesson?.course?.title,
+          lessonSlug: lesson?.slug,
+          lessonTitle: lesson?.title,
+        });
+        newBadges = res?.rewards?.newBadges ?? [];
+        completedQuests = res?.rewards?.completedQuests ?? [];
+        saved = true;
+      } catch {
+        saved = false; // lỗi bất ngờ → vẫn hiện điểm cục bộ
+      }
+    }
+
+    setSubmitting(false);
+    setSummary({ correct, total, scorePct, stars, points: score, newBadges, completedQuests, saved });
+
+    if (scorePct >= 50) {
+      try { confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } }); } catch {}
+    }
+    newBadges.forEach((b) => toast.success(`${b.icon ?? '🏅'} Nhận huy hiệu: ${b.name}!`));
+    completedQuests.forEach((qq) => toast.success(`🎯 Hoàn thành nhiệm vụ: ${qq.name}!`));
+  }, [exercise, resolvedLessonId, exerciseNumber, score]);
+
   // Fetch the current exercise (uses cache when available)
   useEffect(() => {
     if (!resolvedLessonId) return;
@@ -1903,6 +1976,10 @@ export default function QuizPlayPage({
     setChecked({});
     setScore(0);
     setShuffledOpts({});
+    attemptResultsRef.current = {};
+    attemptSubmittedRef.current = false;
+    setSummary(null);
+    setSubmitting(false);
 
     const cacheKey = `${resolvedLessonId}:${exerciseNumber}`;
     const applyExercise = (exData: ExerciseData) => {
@@ -2168,6 +2245,7 @@ export default function QuizPlayPage({
   const handleCheck = () => {
     if (isChecked || !hasAnswer()) return;
     const correct = isAnswerCorrect();
+    attemptResultsRef.current[q.id] = correct;
     setChecked((prev) => ({ ...prev, [q.id]: true }));
     if (correct) {
       setScore((s) => s + (q.points || 10));
@@ -2313,12 +2391,71 @@ export default function QuizPlayPage({
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #C9F0FF 50%, #FFF4D6 100%)' }}>
 
+      {/* Màn tổng kết điểm sau khi nộp bài */}
+      {summary && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
+          <div className="w-full max-w-md rounded-3xl bg-white p-6 text-center shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="text-6xl">{summary.scorePct >= 50 ? '🎉' : '💪'}</div>
+            <h2 className="mt-2 text-2xl font-black text-slate-900">
+              {summary.scorePct >= 90 ? 'Xuất sắc!' : summary.scorePct >= 50 ? 'Làm tốt lắm!' : 'Cố lên nào!'}
+            </h2>
+            <div className="mt-2 text-3xl tracking-widest">
+              {'⭐'.repeat(summary.stars)}<span className="opacity-30">{'☆'.repeat(3 - summary.stars)}</span>
+            </div>
+            <div className="mt-4 text-5xl font-black text-emerald-600">
+              {summary.scorePct}<span className="text-2xl text-slate-400">/100</span>
+            </div>
+            <p className="mt-1 text-sm text-slate-500">
+              Đúng {summary.correct}/{summary.total} câu · {summary.points} điểm thưởng
+            </p>
+
+            {!summary.saved && (
+              <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-xs text-amber-700">
+                Kết quả chưa lưu vào lịch sử — hãy chọn hồ sơ bé (và đăng nhập) để theo dõi tiến độ.
+              </p>
+            )}
+
+            {(summary.newBadges.length > 0 || summary.completedQuests.length > 0) && (
+              <div className="mt-4 space-y-1 text-sm">
+                {summary.newBadges.map((b, i) => (
+                  <div key={`b${i}`} className="font-semibold text-amber-700">{b.icon ?? '🏅'} Huy hiệu mới: {b.name}</div>
+                ))}
+                {summary.completedQuests.map((qq, i) => (
+                  <div key={`q${i}`} className="font-semibold text-sky-700">🎯 Hoàn thành nhiệm vụ: {qq.name}</div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-col gap-2">
+              {(() => {
+                const nextEx = allExercises.find((e) => e.exerciseNumber === exerciseNumber + 1);
+                return nextEx ? (
+                  <button onClick={() => navigateToExercise(nextEx.exerciseNumber)}
+                    className="kid-btn-3d text-base"
+                    style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
+                    🚀 Bài tiếp theo
+                  </button>
+                ) : null;
+              })()}
+              <button onClick={() => window.location.reload()}
+                className="rounded-full bg-slate-100 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-200">
+                🔁 Làm lại
+              </button>
+              <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
+                className="rounded-full bg-slate-100 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-200">
+                ← Quay lại bài học
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       <audio ref={correctAudio} src="/sounds/correct.mp3" preload="auto" />
       <audio ref={wrongAudio} src="/sounds/wrong.mp3" preload="auto" />
 
       {/* Top bar */}
-      <div className="w-full px-4 sm:px-6 py-3" style={{ background: 'linear-gradient(90deg, #FF6B9D, #A06CD5)', boxShadow: '0 4px 12px rgba(160,108,213,0.25)' }}>
-        <div className="max-w-6xl mx-auto flex items-center gap-3 flex-wrap">
+      <div className="w-full px-4 sm:px-6 py-3.5" style={{ background: 'linear-gradient(90deg, #FF6B9D, #A06CD5)', boxShadow: '0 4px 12px rgba(160,108,213,0.25)' }}>
+        <div className="max-w-6xl mx-auto flex items-center gap-x-3 gap-y-2.5 flex-wrap">
           <nav className="flex items-center gap-1.5 text-sm text-white/85 flex-wrap flex-1 min-w-0">
             <Link href="/" className="hover:text-white transition-colors shrink-0 font-medium">Trang chủ</Link>
             {lesson?.course && (
@@ -2337,9 +2474,9 @@ export default function QuizPlayPage({
             <span className="font-bold text-white shrink-0">{DIFF_LABEL[exercise.difficultyLevel]}</span>
           </nav>
           {allExercises.length > 0 && (
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-white/70 text-xs font-semibold">Bài:</span>
-              <div className="flex gap-1">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-white/70 text-xs font-semibold shrink-0">Bài:</span>
+              <div className="flex flex-wrap gap-1.5">
                 {allExercises.map((ex) => {
                   const colors: Record<string, string> = { easy: '#0e7490', medium: '#c0392b', hard: '#b45309' };
                   const isActive = ex.exerciseNumber === exerciseNumber;
@@ -2355,6 +2492,53 @@ export default function QuizPlayPage({
             </div>
           )}
         </div>
+      </div>
+
+      {/* Thanh điểm gọn cho MOBILE (panel phải bị ẩn ở màn nhỏ) */}
+      <div className="md:hidden mx-4 mt-3 flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-2.5 shadow-md border-2 border-yellow-300">
+        <div className="flex items-baseline gap-1">
+          <span className="text-xs font-semibold text-gray-500">Câu</span>
+          <span className="text-lg font-black text-gray-800 kid-display">{current + 1}</span>
+          <span className="text-sm text-gray-400">/{exercise.quizzes.length}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] font-black text-white px-2 py-0.5 rounded-full kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF6B6B)' }}>Điểm</span>
+          <span key={score} className="text-xl font-black kid-display kid-bounce" style={{ color: '#FF6B9D' }}>{score}</span>
+          <span className="text-xs text-gray-400">/ {totalPoints}</span>
+        </div>
+        <button onClick={() => setSoundOn((s) => !s)}
+          aria-label="Bật/tắt âm thanh"
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${soundOn ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-400'}`}>
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+            <path d={soundOn
+              ? 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z'
+              : 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'}
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Điều hướng câu + kết quả từng câu cho MOBILE (rail trái bị ẩn ở màn nhỏ) */}
+      <div className="md:hidden mx-4 mt-2 flex items-center gap-1.5 overflow-x-auto rounded-2xl bg-white/70 px-3 py-2 shadow-sm ring-1 ring-purple-100">
+        <span className="shrink-0 mr-1 rounded-full px-2 py-0.5 text-[11px] font-black text-white kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)' }}>KQ</span>
+        {exercise.quizzes.map((qz, idx) => {
+          const done = !!checked[qz.id];
+          const ok = done && checkCorrectForNav(qz);
+          const canNavigate = idx <= current || done;
+          const isActive = idx === current;
+          let bg = '#f3f4f6';
+          let txtColor = '#9ca3af';
+          if (isActive) { bg = 'linear-gradient(135deg, #FF6B9D, #FF9F45)'; txtColor = '#fff'; }
+          else if (done && ok) { bg = 'linear-gradient(135deg, #6BCB77, #16a34a)'; txtColor = '#fff'; }
+          else if (done && !ok) { bg = 'linear-gradient(135deg, #FF6B6B, #ef4444)'; txtColor = '#fff'; }
+          return (
+            <button key={qz.id} onClick={() => canNavigate && setCurrent(idx)} disabled={!canNavigate}
+              className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black kid-display ${canNavigate ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+              style={{ background: bg, color: txtColor, boxShadow: isActive ? '0 2px 8px rgba(255,107,157,0.5)' : '0 1px 3px rgba(0,0,0,0.08)' }}>
+              {done && ok ? '⭐' : done && !ok ? '💔' : idx + 1}
+            </button>
+          );
+        })}
       </div>
 
       {/* Layout */}
@@ -2800,26 +2984,14 @@ export default function QuizPlayPage({
                   style={{ background: 'linear-gradient(135deg, #60a5fa, #A06CD5)', boxShadow: '0 6px 0 #6d28d9, 0 8px 16px rgba(160,108,213,0.4)' }}>
                   🚀 Câu tiếp theo
                 </button>
-              ) : (() => {
-                // Tìm bài tiếp theo trong allExercises
-                const nextEx = allExercises.find((e) => e.exerciseNumber === exerciseNumber + 1);
-                if (nextEx) {
-                  return (
-                    <button onClick={() => navigateToExercise(nextEx.exerciseNumber)}
-                      className="kid-btn-3d text-base"
-                      style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
-                      🚀 Bài tiếp theo
-                    </button>
-                  );
-                }
-                return (
-                  <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
-                    className="kid-btn-3d text-base inline-block text-center"
-                    style={{ background: 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
-                    🏆 Hoàn thành! Quay lại
-                  </Link>
-                );
-              })())}
+              ) : (
+                // Câu cuối đã kiểm tra → nộp bài để xem tổng kết điểm.
+                <button onClick={submitAttempt} disabled={submitting}
+                  className="kid-btn-3d text-base"
+                  style={{ background: submitting ? '#9ca3af' : 'linear-gradient(135deg, #6BCB77, #16a34a)', boxShadow: submitting ? 'none' : '0 6px 0 #047857, 0 8px 16px rgba(107,203,119,0.4)' }}>
+                  {submitting ? '⏳ Đang nộp…' : '📤 Nộp bài'}
+                </button>
+              ))}
             </div>
 
             {/* Virtual keyboard */}

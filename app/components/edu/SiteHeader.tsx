@@ -25,12 +25,23 @@ const NAV_MENU: NavItem[] = [
   { href: '/ho-tro', label: 'HỖ TRỢ' },
 ];
 
+// Khu vực phụ huynh — chỉ hiện khi đã đăng nhập.
+const ACCOUNT_LINKS = [
+  { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
+  { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
+  { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
+  { href: '/on-tap-cau-sai', label: 'Ôn câu sai', emoji: '🔁' },
+  { href: '/chung-nhan', label: 'Chứng nhận', emoji: '🏆' },
+];
+
 export default function SiteHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [activeGrade, setActiveGrade] = useState<number>(1);
   const [user, setUser] = useState<{ fullName: string } | null>(null);
+  const accountRef = useRef<HTMLDivElement>(null);
   // Map: "subject-grade" → actual course slug (vd "toan-1" → "toan-hoc-lop-1")
   const [courseSlugs, setCourseSlugs] = useState<Record<string, string>>({});
   const navRef = useRef<HTMLDivElement>(null);
@@ -63,7 +74,17 @@ export default function SiteHeader() {
   useEffect(() => {
     setMobileOpen(false);
     setOpenMenu(null);
+    setAccountOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!accountOpen) return;
+    function handler(e: MouseEvent) {
+      if (accountRef.current && !accountRef.current.contains(e.target as Node)) setAccountOpen(false);
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [accountOpen]);
 
   useEffect(() => {
     if (!openMenu) return;
@@ -97,13 +118,34 @@ export default function SiteHeader() {
           </div>
           <div className="flex items-center gap-2">
             {user ? (
-              <>
-                <span className="text-sm font-semibold text-gray-700 max-w-[140px] truncate">👋 {user.fullName}</span>
-                <button onClick={handleLogout}
-                  className="px-4 py-1.5 rounded-full bg-[#c0392b] text-white text-sm font-bold hover:bg-[#a93226] transition">
-                  Đăng xuất
+              <div className="relative" ref={accountRef}>
+                <button
+                  onClick={() => setAccountOpen((v) => !v)}
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-[#c0392b] text-sm font-bold shadow hover:bg-gray-50 transition">
+                  <span className="max-w-[120px] truncate">👋 {user.fullName}</span>
+                  <ChevronDown size={14} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
                 </button>
-              </>
+                {accountOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-4 pb-1.5 pt-0.5 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
+                    {ACCOUNT_LINKS.map((l) => (
+                      <Link key={l.href} href={l.href}
+                        onClick={() => setAccountOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#fdecea] hover:text-[#c0392b] transition-colors">
+                        <span className="text-base">{l.emoji}</span>
+                        {l.label}
+                      </Link>
+                    ))}
+                    <div className="border-t border-gray-100 mt-1 pt-1">
+                      <button onClick={handleLogout}
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
+                        <span className="text-base">🚪</span>
+                        Đăng xuất
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 <Link href="/dang-nhap"
@@ -293,6 +335,19 @@ export default function SiteHeader() {
                 )}
               </div>
             ))}
+            {user && (
+              <div className="mt-2 pt-2 border-t border-gray-100">
+                <div className="px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
+                {ACCOUNT_LINKS.map((l) => (
+                  <Link key={l.href} href={l.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 text-gray-700 hover:bg-gray-100">
+                    <span className="text-base">{l.emoji}</span>
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
+            )}
             <div className="pt-2 border-t border-gray-100 flex gap-2 text-xs text-gray-500">
               <Link href="/ho-tro" className="hover:underline">Câu hỏi thường gặp</Link>
             </div>

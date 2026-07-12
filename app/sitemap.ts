@@ -19,12 +19,11 @@ function unwrapData<T>(value: T[] | { data?: T[] } | null): T[] {
   return Array.isArray(value?.data) ? value.data : [];
 }
 
-function page(path: string, lastModified: string | Date, changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'], priority: number): MetadataRoute.Sitemap[number] {
+// Google chỉ dùng <loc> và <lastmod>; <changefreq>/<priority> bị bỏ qua → không thêm cho gọn.
+function page(path: string, lastModified: string | Date): MetadataRoute.Sitemap[number] {
   return {
     url: `${SITE_URL}${path}`,
     lastModified: safeDate(lastModified),
-    changeFrequency,
-    priority,
   };
 }
 
@@ -32,30 +31,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticPages: MetadataRoute.Sitemap = [
-    page('/', '2026-06-24', 'weekly', 1.0),
-    page('/khoa-hoc', '2026-06-24', 'weekly', 0.9),
-    page('/tro-choi', '2026-06-24', 'weekly', 0.9),
-    page('/hoc-chu-cai', '2026-06-28', 'weekly', 0.9),
-    page('/toan-lop-1', '2026-06-28', 'weekly', 0.9),
-    page('/bai-tap-lop-1', '2026-06-28', 'weekly', 0.85),
-    page('/tro-choi-giao-duc', '2026-06-28', 'weekly', 0.85),
-    page('/tieng-anh-cho-be', '2026-06-28', 'weekly', 0.85),
-    page('/cong-cu/chuyen-van-ban-thanh-giong-noi', '2026-06-24', 'weekly', 0.85),
-    page('/cong-cu/chuyen-giong-noi-thanh-van-ban', '2026-06-24', 'weekly', 0.8),
-    page('/de-thi', '2026-06-24', 'weekly', 0.75),
-    page('/tai-lieu', '2026-06-24', 'weekly', 0.7),
-    page('/bai-viet', '2026-06-24', 'weekly', 0.7),
-    page('/goc-phu-huynh', '2026-06-24', 'monthly', 0.6),
-    page('/goc-phu-huynh/giup-be-tap-trung-khi-hoc', '2026-06-24', 'monthly', 0.55),
-    page('/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre', '2026-06-24', 'monthly', 0.55),
-    page('/goc-phu-huynh/goc-hoc-tap-cho-be', '2026-06-24', 'monthly', 0.55),
-    page('/goc-phu-huynh/sai-lam-day-con-hoc-tai-nha', '2026-06-24', 'monthly', 0.55),
-    page('/cau-hoi-thuong-gap', '2026-06-01', 'monthly', 0.55),
-    page('/huong-dan', '2026-06-01', 'monthly', 0.55),
-    page('/lien-he', '2026-06-01', 'monthly', 0.45),
-    page('/ho-tro', '2026-06-01', 'monthly', 0.45),
-    page('/chinh-sach-bao-mat', '2026-04-01', 'yearly', 0.25),
-    page('/dieu-khoan', '2026-04-01', 'yearly', 0.25),
+    page('/', '2026-06-24'),
+    page('/khoa-hoc', '2026-06-24'),
+    page('/tro-choi', '2026-06-24'),
+    page('/hoc-chu-cai', '2026-06-28'),
+    page('/toan-lop-1', '2026-06-28'),
+    page('/bai-tap-lop-1', '2026-06-28'),
+    page('/tro-choi-giao-duc', '2026-06-28'),
+    page('/tieng-anh-cho-be', '2026-06-28'),
+    page('/cong-cu/chuyen-van-ban-thanh-giong-noi', '2026-06-24'),
+    page('/cong-cu/chuyen-giong-noi-thanh-van-ban', '2026-06-24'),
+    page('/de-thi', '2026-06-24'),
+    page('/tai-lieu', '2026-06-24'),
+    page('/bai-viet', '2026-06-24'),
+    page('/goc-phu-huynh', '2026-06-24'),
+    page('/goc-phu-huynh/giup-be-tap-trung-khi-hoc', '2026-06-24'),
+    page('/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre', '2026-06-24'),
+    page('/goc-phu-huynh/goc-hoc-tap-cho-be', '2026-06-24'),
+    page('/goc-phu-huynh/sai-lam-day-con-hoc-tai-nha', '2026-06-24'),
+    page('/cau-hoi-thuong-gap', '2026-06-01'),
+    page('/huong-dan', '2026-06-01'),
+    page('/lien-he', '2026-06-01'),
+    page('/ho-tro', '2026-06-01'),
+    page('/chinh-sach-bao-mat', '2026-04-01'),
+    page('/dieu-khoan', '2026-04-01'),
   ];
 
   type ArticleItem = { slug?: string; updatedAt?: string; publishedAt?: string; createdAt?: string };
@@ -66,8 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((a) => ({
       url: `${SITE_URL}/bai-viet/${a.slug}`,
       lastModified: safeDate(a.updatedAt || a.publishedAt || a.createdAt || now),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
     }));
 
   type CourseItem = { slug?: string; updatedAt?: string; createdAt?: string };
@@ -78,8 +75,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((c) => ({
       url: `${SITE_URL}/khoa-hoc/${c.slug}`,
       lastModified: safeDate(c.updatedAt || c.createdAt || now),
-      changeFrequency: 'weekly' as const,
-      priority: 0.85,
     }));
 
   type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string };
@@ -90,8 +85,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((l) => ({
       url: `${SITE_URL}/${l.slug}`,
       lastModified: safeDate(l.updatedAt || l.createdAt || now),
-      changeFrequency: 'weekly' as const,
-      priority: 0.75,
     }));
 
   const gamePages: MetadataRoute.Sitemap = gamesData
@@ -99,8 +92,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((g) => ({
       url: `${SITE_URL}/tro-choi/${g.slug}`,
       lastModified: safeDate('2026-06-24'),
-      changeFrequency: 'monthly' as const,
-      priority: g.isFeatured ? 0.75 : 0.65,
     }));
 
   return [...staticPages, ...coursePages, ...lessonPages, ...gamePages, ...articlePages];

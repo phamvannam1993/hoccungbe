@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
       destination: `/games/${en}`,
     }));
     return [
+      // /sitemap.xml = sitemap index (Next reserve tên sitemap.xml nên phải rewrite).
+      { source: '/sitemap.xml', destination: '/sitemaps/index.xml' },
       { source: '/:lessonSlug/:exerciseFile.html', destination: '/:lessonSlug/:exerciseFile' },
       { source: '/tro-choi', destination: '/games' },
       { source: '/khoa-hoc', destination: '/courses' },

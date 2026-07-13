@@ -2001,7 +2001,9 @@ export default function QuizPlayPage({
         if ((q.questionType === 'drag_drop' || q.questionType === 'sorting') && Array.isArray(q.optionsJson)) {
           initDrag[q.id] = q.optionsJson.map((o) => o.key);
         }
-        if (['single_choice', 'multiple_choice', 'image_choice', 'cross_out'].includes(q.questionType) && Array.isArray(q.optionsJson)) {
+        // KHÔNG xáo trộn đáp án cho câu "chọn đáp án đúng" (single/multiple/image choice)
+        // → giữ nguyên thứ tự A, B, C, D như soạn. Chỉ xáo cross_out (gạch chéo).
+        if (q.questionType === 'cross_out' && Array.isArray(q.optionsJson)) {
           const arr = [...q.optionsJson];
           for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));

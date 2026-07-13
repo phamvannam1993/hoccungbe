@@ -34,6 +34,7 @@ export default function QuizzesPage() {
   const [courseId, setCourseId] = useState('');
   const [lessonId, setLessonId] = useState('');
   const [questionType, setQuestionType] = useState('');
+  const [exerciseNumber, setExerciseNumber] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -51,10 +52,10 @@ export default function QuizzesPage() {
     apiFetch<Lesson[] | { data: Lesson[] }>('/lessons').then((res) => {
       setLessons(Array.isArray(res) ? res : (res as { data: Lesson[] }).data || []);
     }).catch(() => {});
-    fetchQuizzes('', '', '', '', 1);
+    fetchQuizzes('', '', '', '', '', 1);
   }, []);
 
-  const fetchQuizzes = useCallback(async (lid: string, cid: string, qt: string, q: string, p: number) => {
+  const fetchQuizzes = useCallback(async (lid: string, cid: string, qt: string, q: string, ex: string, p: number) => {
     setLoading(true);
     setError('');
     try {
@@ -62,6 +63,7 @@ export default function QuizzesPage() {
       if (lid) params.set('lessonId', lid);
       if (cid) params.set('courseId', cid);
       if (qt) params.set('questionType', qt);
+      if (ex) params.set('exerciseNumber', ex);
       if (q) params.set('search', q);
       const res = await apiFetch<QuizPage>(`/quizzes?${params.toString()}`);
       setQuizzes(res.data || []);
@@ -79,19 +81,25 @@ export default function QuizzesPage() {
     setCourseId(cid);
     setLessonId('');
     setPage(1);
-    fetchQuizzes('', cid, questionType, search, 1);
+    fetchQuizzes('', cid, questionType, search, exerciseNumber, 1);
   };
 
   const handleLessonChange = (lid: string) => {
     setLessonId(lid);
     setPage(1);
-    fetchQuizzes(lid, courseId, questionType, search, 1);
+    fetchQuizzes(lid, courseId, questionType, search, exerciseNumber, 1);
   };
 
   const handleTypeChange = (qt: string) => {
     setQuestionType(qt);
     setPage(1);
-    fetchQuizzes(lessonId, courseId, qt, search, 1);
+    fetchQuizzes(lessonId, courseId, qt, search, exerciseNumber, 1);
+  };
+
+  const handleExerciseChange = (ex: string) => {
+    setExerciseNumber(ex);
+    setPage(1);
+    fetchQuizzes(lessonId, courseId, questionType, search, ex, 1);
   };
 
   const handleSearchChange = (val: string) => {
@@ -99,13 +107,13 @@ export default function QuizzesPage() {
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
       setPage(1);
-      fetchQuizzes(lessonId, courseId, questionType, val, 1);
+      fetchQuizzes(lessonId, courseId, questionType, val, exerciseNumber, 1);
     }, 350);
   };
 
   const handlePageChange = (p: number) => {
     setPage(p);
-    fetchQuizzes(lessonId, courseId, questionType, search, p);
+    fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, p);
   };
 
   const toggleActive = async (quiz: Quiz) => {
@@ -115,7 +123,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ isActive: !quiz.isActive }),
       });
       toast.success(quiz.isActive ? '✓ Tắt câu hỏi' : '✓ Kích hoạt câu hỏi');
-      fetchQuizzes(lessonId, courseId, questionType, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -128,7 +136,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ difficultyLevel: newLevel }),
       });
       toast.success('✓ Cập nhật trình độ');
-      fetchQuizzes(lessonId, courseId, questionType, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -145,7 +153,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ exerciseNumber: newNumber }),
       });
       toast.success('✓ Cập nhật bài tập');
-      fetchQuizzes(lessonId, courseId, questionType, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -155,7 +163,7 @@ export default function QuizzesPage() {
     if (!window.confirm('Xóa câu hỏi này?')) return;
     try {
       await apiFetch(`/quizzes/${quiz.id}`, { method: 'DELETE' });
-      fetchQuizzes(lessonId, courseId, questionType, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi xóa');
     }
@@ -188,7 +196,7 @@ export default function QuizzesPage() {
       ));
       toast.success(`✓ Đã xóa ${selectedIds.size} câu hỏi`);
       setSelectedIds(new Set());
-      fetchQuizzes(lessonId, courseId, questionType, search, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi xóa');
     }
@@ -315,6 +323,18 @@ export default function QuizzesPage() {
           <option value="puzzle">Ghép hình</option>
           <option value="find_errors">Tìm lỗi</option>
           <option value="game">Trò chơi</option>
+        </select>
+
+        <select
+          value={exerciseNumber}
+          onChange={(e) => handleExerciseChange(e.target.value)}
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          title="Lọc theo bài tập"
+        >
+          <option value="">-- Tất cả bài tập --</option>
+          {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
+            <option key={n} value={n}>Bài tập {n}</option>
+          ))}
         </select>
 
         {!loading && (

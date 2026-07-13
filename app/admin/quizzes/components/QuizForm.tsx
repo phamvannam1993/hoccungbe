@@ -299,6 +299,7 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
   const isTraceNumber = form.questionType === 'trace_number';
   const isLetterTracing = form.questionType === 'letter_tracing';
   const isTraceSentence = form.questionType === 'trace_sentence';
+  const isCounting = form.questionType === 'counting';
 
   return (
     <div>
@@ -708,6 +709,26 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
           </div>
         )}
 
+        {/* Đếm và điền số */}
+        {isCounting && (
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 space-y-2">
+            <p className="font-medium">Dạng đếm và điền số</p>
+            <p>Trẻ nhìn ảnh minh họa (ở trên) rồi đếm và điền TỔNG số lượng. Nhập đáp án đúng bên dưới.</p>
+            <div>
+              <label className="block text-xs font-medium text-amber-900 mb-1">Đáp án đúng (số lượng)</label>
+              <input
+                type="number"
+                min={0}
+                max={999}
+                value={typeof form.correctKeys[0] === 'string' ? form.correctKeys[0] : ''}
+                placeholder="Ví dụ: 3"
+                onChange={(e) => set('correctKeys', [e.target.value])}
+                className="w-32 px-3 py-2 border border-amber-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Tô chữ */}
         {isLetterTracing && (
           <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg text-sm text-purple-700 space-y-2">
@@ -854,7 +875,7 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 export function formToPayload(form: QuizFormData) {
-  let optionsJson: { key: string; text: string; audioUrl?: string; pair?: string; imageUrl?: string; pairImageUrl?: string }[] | undefined;
+  let optionsJson: { key: string; text: string; audioUrl?: string; pair?: string; imageUrl?: string; pairImageUrl?: string }[] | null | undefined;
   let correctAnswerJson: unknown;
 
   if (form.questionType === 'true_false') {
@@ -866,6 +887,10 @@ export function formToPayload(form: QuizFormData) {
     correctAnswerJson = { number: form.correctKeys[0] ?? '' };
   } else if (form.questionType === 'letter_tracing') {
     correctAnswerJson = { letter: form.correctKeys[0] ?? '' };
+  } else if (form.questionType === 'counting') {
+    // Đếm và điền số: đáp án là TỔNG số (chuỗi số); xóa options thừa (gửi null).
+    correctAnswerJson = (form.correctKeys[0] ?? '').trim();
+    optionsJson = null;
   } else if (form.questionType === 'matching') {
     optionsJson = form.options.length > 0
       ? form.options.map((o) => ({
@@ -946,6 +971,9 @@ export function payloadToForm(quiz: {
   } else if (quiz.questionType === 'letter_tracing') {
     const l = (correct as { letter?: string })?.letter ?? String(correct ?? '');
     correctKeys = [l];
+  } else if (quiz.questionType === 'counting') {
+    // correctAnswerJson là số (14) hoặc chuỗi ("14") → nạp thành chuỗi cho ô nhập.
+    correctKeys = correct != null && typeof correct !== 'object' ? [String(correct)] : [];
   } else {
     correctKeys = Array.isArray(correct)
       ? (correct as string[])
@@ -971,7 +999,9 @@ export function payloadToForm(quiz: {
       key: o.key,
       text: o.text,
       audioUrl: o.audioUrl ?? '',
-      ...(isMatching ? { pair: o.pair ?? '', imageUrl: o.imageUrl ?? '', pairImageUrl: o.pairImageUrl ?? '' } : {}),
+      // Luôn nạp imageUrl (đáp án image_choice/single_choice có ảnh) — không chỉ riêng matching.
+      imageUrl: o.imageUrl ?? '',
+      ...(isMatching ? { pair: o.pair ?? '', pairImageUrl: o.pairImageUrl ?? '' } : {}),
     })),
     correctKeys,
     trueFalseAnswer: correct === true || correct === 'true',

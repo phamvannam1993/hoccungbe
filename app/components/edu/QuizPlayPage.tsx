@@ -18,6 +18,13 @@ const useKids = () => useContext(KidsCtx);
 
 // Returns true if text looks like a number or math expression (not plain words)
 const MATH_CHARS_RE = /^[\d\s+*/:=<>≤≥≠.,()%^√π×÷-]+$/;
+// Định dạng giây → MM:SS.
+function fmtClock(s: number): string {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
 function isMathText(text: string | undefined | null): boolean {
   if (!text) return false;
   return MATH_CHARS_RE.test(text.trim());
@@ -1820,6 +1827,8 @@ export default function QuizPlayPage({
   } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  // Đồng hồ đếm ngược: mỗi câu 1 phút; hết giờ tự động nộp bài.
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   // ─── Answer state for all types ───────────────────────────────────────────
   const [singleSel, setSingleSel] = useState<Record<number, string>>({});
@@ -1980,6 +1989,22 @@ export default function QuizPlayPage({
     completedQuests.forEach((qq) => toast.success(`🎯 Hoàn thành nhiệm vụ: ${qq.name}!`));
   }, [exercise, resolvedLessonId, exerciseNumber, score]);
 
+  // Đếm ngược mỗi giây khi đang làm bài (chưa nộp).
+  useEffect(() => {
+    if (timeLeft == null || summary) return;
+    const id = setInterval(() => {
+      setTimeLeft((v) => (v == null ? v : Math.max(0, v - 1)));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [timeLeft == null, summary]);
+
+  // Hết giờ → tự động nộp bài.
+  useEffect(() => {
+    if (timeLeft === 0 && !summary && !attemptSubmittedRef.current) {
+      submitAttempt();
+    }
+  }, [timeLeft, summary, submitAttempt]);
+
   // Fetch the current exercise (uses cache when available)
   useEffect(() => {
     if (!resolvedLessonId) return;
@@ -1995,6 +2020,8 @@ export default function QuizPlayPage({
     const cacheKey = `${resolvedLessonId}:${exerciseNumber}`;
     const applyExercise = (exData: ExerciseData) => {
       setExercise(exData);
+      // Thời gian làm bài = số câu × 60 giây.
+      setTimeLeft(exData.quizzes.length > 0 ? exData.quizzes.length * 60 : null);
       const initDrag: Record<number, string[]> = {};
       const initShuffle: Record<number, OptionItem[]> = {};
       exData.quizzes.forEach((q) => {
@@ -2509,6 +2536,12 @@ export default function QuizPlayPage({
 
       {/* Thanh điểm gọn cho MOBILE (panel phải bị ẩn ở màn nhỏ) */}
       <div className="md:hidden mx-4 mt-3 flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-2.5 shadow-md border-2 border-yellow-300">
+        {timeLeft != null && (
+          <div className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-black tabular-nums ${timeLeft <= 60 ? 'bg-red-50 text-red-500 animate-pulse' : 'bg-sky-50 text-sky-600'}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- icon tĩnh trong /public */}
+            <img src="/icons/icon_dong_ho_dem_nguoc.webp" alt="" className="h-6 w-6 object-contain" draggable={false} />{fmtClock(timeLeft)}
+          </div>
+        )}
         <div className="flex items-baseline gap-1">
           <span className="text-xs font-semibold text-gray-500">Câu</span>
           <span className="text-lg font-black text-gray-800 kid-display">{current + 1}</span>
@@ -3035,6 +3068,17 @@ export default function QuizPlayPage({
 
         {/* Right sidebar */}
         <div className="hidden md:flex flex-col w-36 gap-0 shrink-0 bg-white overflow-hidden shadow-md border-4 border-yellow-300" style={{ borderRadius: 24, boxShadow: '0 8px 24px rgba(255,217,61,0.3)' }}>
+          {/* Countdown timer */}
+          {timeLeft != null && (
+            <>
+              <div className="text-white text-center text-xs font-black py-2 kid-display" style={{ background: 'linear-gradient(135deg, #4ECDC4, #45b7aa)' }}>Thời gian còn lại</div>
+              <div className="flex items-center justify-center gap-1.5 py-3 border-b-2 border-yellow-100">
+                {/* eslint-disable-next-line @next/next/no-img-element -- icon tĩnh trong /public */}
+                <img src="/icons/icon_dong_ho_dem_nguoc.webp" alt="" className={`h-11 w-11 shrink-0 object-contain ${timeLeft <= 60 ? 'animate-pulse' : ''}`} draggable={false} />
+                <span className={`text-2xl font-black kid-display tabular-nums ${timeLeft <= 60 ? 'text-red-500 animate-pulse' : 'text-sky-500'}`}>{fmtClock(timeLeft)}</span>
+              </div>
+            </>
+          )}
           {/* Question number */}
           <div className="text-white text-center text-xs font-black py-2 kid-display" style={{ background: 'linear-gradient(135deg, #4ECDC4, #87CEEB)' }}>Câu hỏi số</div>
           <div className="text-center py-3 border-b-2 border-yellow-100">

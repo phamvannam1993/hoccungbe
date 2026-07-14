@@ -2026,7 +2026,24 @@ export default function QuizPlayPage({
       const initShuffle: Record<number, OptionItem[]> = {};
       exData.quizzes.forEach((q) => {
         if ((q.questionType === 'drag_drop' || q.questionType === 'sorting') && Array.isArray(q.optionsJson)) {
-          initDrag[q.id] = q.optionsJson.map((o) => o.key);
+          // Xáo trộn thứ tự ban đầu để bé phải tự sắp xếp (không để sẵn đáp án đúng).
+          const keys = q.optionsJson.map((o) => o.key);
+          const correct = Array.isArray(q.correctAnswerJson) ? (q.correctAnswerJson as unknown[]).map(String) : keys;
+          const shuffle = (a: string[]) => {
+            const arr = [...a];
+            for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+          };
+          let order = shuffle(keys);
+          let guard = 0;
+          while (keys.length > 1 && JSON.stringify(order) === JSON.stringify(correct) && guard < 12) {
+            order = shuffle(keys);
+            guard++;
+          }
+          initDrag[q.id] = order;
         }
         // KHÔNG xáo trộn đáp án cho câu "chọn đáp án đúng" (single/multiple/image choice)
         // → giữ nguyên thứ tự A, B, C, D như soạn. Chỉ xáo cross_out (gạch chéo).

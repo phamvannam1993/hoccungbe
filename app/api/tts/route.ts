@@ -37,8 +37,11 @@ function toVietnamesePhonics(text: string): string {
   const tokens = text.trim().toLowerCase().split(/[\s.,;:!?]+/).filter(Boolean);
   if (!tokens.length) return text;
   const uniq = Array.from(new Set(tokens));
+  // Cả đoạn chỉ là MỘT âm (kể cả dạng "Ch ch" hoa+thường) → đọc đúng âm đó.
   if (uniq.length === 1 && PHONICS[uniq[0]]) return PHONICS[uniq[0]];
-  return text;
+  // Trong câu: thay từng chữ cái/âm đứng RIÊNG (vd "chữ ghép ch", "Ghép b + a")
+  // bằng cách đọc âm tiếng Việt. Từ có nhiều chữ (chú, ghép, nghe…) giữ nguyên.
+  return text.replace(/\p{L}+/gu, (w) => PHONICS[w.toLowerCase()] ?? w);
 }
 
 // ── Tách text thành các đoạn theo NGÔN NGỮ (Việt / Anh) ─────────────────────

@@ -5,7 +5,9 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
-import { isGuest, listChildren } from '../../lib/childData';
+import { isGuest, listChildren, type Child } from '../../lib/childData';
+import { ChildAvatar } from './KidIcon';
+import NotificationBell from './NotificationBell';
 
 type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades' };
 
@@ -42,8 +44,8 @@ export default function SiteHeader() {
   const [accountOpen, setAccountOpen] = useState(false);
   const [activeGrade, setActiveGrade] = useState<number>(1);
   const [user, setUser] = useState<{ fullName: string } | null>(null);
-  // Khách (chưa đăng nhập) nhưng đã tạo bé → tên bé để mở menu phụ huynh.
-  const [guestChild, setGuestChild] = useState<string | null>(null);
+  // Khách (chưa đăng nhập) nhưng đã tạo bé → hồ sơ bé để mở menu phụ huynh.
+  const [guestChild, setGuestChild] = useState<Child | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   const mobileAccountRef = useRef<HTMLDivElement>(null);
   // Map: "subject-grade" → actual course slug (vd "toan-1" → "toan-hoc-lop-1")
@@ -85,7 +87,7 @@ export default function SiteHeader() {
           if (!arr.length) { setGuestChild(null); return; }
           const stored = Number(localStorage.getItem('bhh_child_id') || '0');
           const cur = arr.find((c) => c.id === stored) ?? arr[0];
-          setGuestChild(cur.fullName);
+          setGuestChild(cur);
         })
         .catch(() => setGuestChild(null));
     }
@@ -140,12 +142,14 @@ export default function SiteHeader() {
             <Link href="/ho-tro" className="hover:underline whitespace-nowrap">Câu hỏi thường gặp</Link>
           </div>
           <div className="flex items-center gap-2">
+            <NotificationBell />
             {(user || guestChild) ? (
               <div className="relative" ref={accountRef}>
                 <button
                   onClick={() => setAccountOpen((v) => !v)}
-                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-[#c0392b] text-sm font-bold shadow hover:bg-gray-50 transition">
-                  <span className="max-w-[140px] truncate">{user ? '👋' : '👶'} {user?.fullName ?? guestChild}</span>
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-[#c0392b] text-sm font-bold shadow hover:bg-gray-50 transition">
+                  {user ? <span className="text-base">👋</span> : <ChildAvatar child={guestChild} className="h-6 w-6" />}
+                  <span className="max-w-[140px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
                   <ChevronDown size={14} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {accountOpen && (
@@ -194,11 +198,13 @@ export default function SiteHeader() {
 
         {/* Mobile: auth + hamburger */}
         <div className="flex md:hidden items-center gap-2">
+          <NotificationBell compact />
           {(user || guestChild) ? (
             <div className="relative" ref={mobileAccountRef}>
               <button onClick={() => setAccountOpen((v) => !v)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
-                <span className="max-w-[84px] truncate">{user ? '👋' : '👶'} {user?.fullName ?? guestChild}</span>
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
+                {user ? <span className="text-sm">👋</span> : <ChildAvatar child={guestChild} className="h-5 w-5" />}
+                <span className="max-w-[84px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
                 <ChevronDown size={12} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
               </button>
               {accountOpen && (
@@ -397,8 +403,9 @@ export default function SiteHeader() {
             ))}
             {(user || guestChild) && (
               <div className="mt-2 pt-2 border-t border-gray-100">
-                <div className="px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">
-                  Khu vực phụ huynh{!user && guestChild ? ` · 👶 ${guestChild}` : ''}
+                <div className="flex items-center gap-1.5 px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">
+                  Khu vực phụ huynh
+                  {!user && guestChild && <><span>·</span><ChildAvatar child={guestChild} className="h-4 w-4" /><span className="normal-case">{guestChild.fullName}</span></>}
                 </div>
                 {ACCOUNT_LINKS.map((l) => (
                   <Link key={l.href} href={l.href}

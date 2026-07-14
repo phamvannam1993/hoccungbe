@@ -2,8 +2,19 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
+import { childHistory, getCurrentChildId } from '../../lib/childData';
+
+// Trạng thái đã-học của từng bài (theo bé đang chọn) — truyền xuống LessonRow.
+type DoneInfo = { stars: number; bestScore: number };
+const DoneLessonsContext = createContext<Map<number, DoneInfo>>(new Map());
+function starsForScore(s: number) {
+  if (s >= 90) return 3;
+  if (s >= 70) return 2;
+  if (s >= 50) return 1;
+  return 0;
+}
 
 const COLORS = [
   { c: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
@@ -47,6 +58,27 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
   const { course, lessons, volumes, topics } = initial;
   const [showVideo, setShowVideo] = useState(false);
 
+  // Nạp lịch sử của bé đang chọn → đánh dấu bài đã học (đăng nhập & khách đều được).
+  const [doneMap, setDoneMap] = useState<Map<number, DoneInfo>>(new Map());
+  useEffect(() => {
+    (async () => {
+      const cid = getCurrentChildId();
+      if (!cid) return;
+      try {
+        const hist = await childHistory(cid, 500);
+        const map = new Map<number, DoneInfo>();
+        for (const h of hist) {
+          const score = Number(h.score) || 0;
+          const prev = map.get(h.lessonId);
+          if (!prev || score > prev.bestScore) map.set(h.lessonId, { bestScore: score, stars: starsForScore(score) });
+        }
+        setDoneMap(map);
+      } catch {
+        /* bỏ qua */
+      }
+    })();
+  }, []);
+
   const embedUrl = useMemo(
     () => (course.videoUrl ? getYouTubeEmbedUrl(course.videoUrl) : null),
     [course.videoUrl],
@@ -83,6 +115,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
   }, [topics]);
 
   return (
+    <DoneLessonsContext.Provider value={doneMap}>
     <div className="kid-bg min-h-screen relative overflow-hidden">
       {/* Decorative emojis */}
       <span aria-hidden className="hidden sm:inline pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
@@ -235,6 +268,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
         </div>
       )}
     </div>
+    </DoneLessonsContext.Provider>
   );
 }
 
@@ -333,6 +367,9 @@ function LessonRow({ lesson, idx }: { lesson: ApiLesson; courseSlug: string; idx
   const href = lesson.slug ? `/${lesson.slug}` : `/lessons/${lesson.id}`;
   const color = COLORS[idx % COLORS.length];
   const emoji = LESSON_EMOJIS[idx % LESSON_EMOJIS.length];
+  const done = useContext(DoneLessonsContext).get(lesson.id);
+  // Đã đạt (≥50 điểm) → xanh lá; đã làm nhưng chưa đạt → cam "ôn lại".
+  const passed = done && done.bestScore >= 50;
 
   return (
     <Link
@@ -352,14 +389,37 @@ function LessonRow({ lesson, idx }: { lesson: ApiLesson; courseSlug: string; idx
       <span className="flex-1 min-w-0 break-words text-sm font-bold kid-display leading-snug" style={{ color: color.c }}>
         {lesson.title}
       </span>
-      {hasQuizzes && (
+      {done ? (
+        // Đã học rồi → hiện trạng thái (kể cả trên mobile).
+        <span
+          className="flex items-center gap-1 shrink-0 rounded-full px-2 py-1 text-xs font-black text-white kid-display"
+          style={
+            passed
+              ? { background: 'linear-gradient(135deg, #6BCB77, #4ECDC4)', boxShadow: '0 2px 0 #0e7490' }
+              : { background: 'linear-gradient(135deg, #FF9F45, #FFB84D)', boxShadow: '0 2px 0 #c0392b' }
+          }
+          title={`Đã học · ${Math.round(done.bestScore)} điểm`}
+        >
+          {passed ? (
+            <>
+              <span>✓</span>
+              <span className="hidden sm:inline">{'★'.repeat(done.stars)}{'☆'.repeat(3 - done.stars)}</span>
+            </>
+          ) : (
+            <>
+              <span>↻</span>
+              <span className="hidden sm:inline">Ôn lại</span>
+            </>
+          )}
+        </span>
+      ) : hasQuizzes ? (
         <span
           className="hidden sm:flex w-8 h-8 rounded-full text-white text-sm font-black items-center justify-center shrink-0 kid-display"
           style={{ background: 'linear-gradient(135deg, #FF9F45, #FFD93D)', boxShadow: '0 2px 0 #c0392b' }}
         >
           ?
         </span>
-      )}
+      ) : null}
       <span className="hidden sm:inline text-lg shrink-0 opacity-70 group-hover:translate-x-1 transition-transform" style={{ color: color.c }}>→</span>
     </Link>
   );

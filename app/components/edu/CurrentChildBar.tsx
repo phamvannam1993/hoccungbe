@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { listChildren, isGuest, setCurrentChildId, type Child } from '../../lib/childData';
+import { ChildAvatar } from './KidIcon';
 
 /** Thanh chọn "bé đang học" — đảm bảo có childId để lưu kết quả (bhh_child_id). */
 export default function CurrentChildBar() {
@@ -48,10 +49,13 @@ export default function CurrentChildBar() {
     setCurrentChildId(id);
   }
 
+  const currentChild = children.find((c) => c.id === childId);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-3">
       <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm shadow-sm ring-1 ring-slate-100 backdrop-blur w-fit">
-        <span className="font-semibold text-slate-500">👶 Bé đang học:</span>
+        <ChildAvatar child={currentChild} className="h-6 w-6" />
+        <span className="font-semibold text-slate-500">Bé đang học:</span>
         {children.length === 1 ? (
           <span className="font-bold text-slate-800">{children[0].fullName}</span>
         ) : (

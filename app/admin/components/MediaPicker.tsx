@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { X, CloudUpload } from 'lucide-react';
 import { apiFetch, getToken } from '../lib/api';
 
@@ -101,11 +100,10 @@ export default function MediaPicker({ value, folder = 'quizzes', onChange }: Pro
       {value ? (
         <div className="relative inline-block">
           <button type="button" onClick={() => setOpen(true)} className="block">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element -- URL ảnh tùy ý (kể cả host chưa cấu hình) → dùng img thường để không crash */}
+            <img
               src={value}
               alt="preview"
-              width={80}
-              height={80}
               className="rounded-lg border border-gray-200 object-cover w-20 h-20 hover:opacity-80 transition-opacity"
             />
           </button>
@@ -222,11 +220,11 @@ export default function MediaPicker({ value, folder = 'quizzes', onChange }: Pro
                             onClick={() => { onChange(item.url); setOpen(false); }}
                             className="group relative aspect-square rounded-xl border-2 border-transparent hover:border-blue-500 overflow-hidden bg-gray-100 transition-all"
                           >
-                            <Image
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
                               src={item.url}
                               alt={item.originalName ?? ''}
-                              fill
-                              className="object-cover"
+                              className="absolute inset-0 w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors" />
                           </button>

@@ -24,7 +24,7 @@ export type RecordInput = {
 export type ExerciseStatus = { exerciseNumber: number; score: number; correctCount: number; totalQuestions: number; stars: number; completed: boolean };
 export type Stats = { childId: number; totalAttempts: number; avgScore: number; accuracy: number; totalTimeSec: number; totalQuestions: number; totalCorrect: number; lessonsCompleted: number };
 export type Mastery = { skillId: number; subject: string; masteryPercent: number; level: number; totalCount: number; correctCount: number; skill: { name: string; subject: string; icon?: string } };
-export type HistoryItem = { id: number; lessonId: number; lessonTitle?: string; score: number; correctCount: number; totalQuestions: number; createdAt: string };
+export type HistoryItem = { id: number; lessonId: number; lessonTitle?: string; lessonSlug?: string; courseType?: string | null; score: number; correctCount: number; totalQuestions: number; createdAt: string };
 export type Streak = { currentStreak: number; longestStreak: number; totalActiveDays: number };
 
 type LocalAttempt = {
@@ -89,8 +89,15 @@ const SUBJECT_META: Record<string, { id: number; name: string; icon: string }> =
   math: { id: 1, name: 'Toán', icon: '🔢' },
   language: { id: 2, name: 'Tiếng Việt', icon: '📖' },
   english: { id: 3, name: 'Tiếng Anh', icon: '🅰️' },
+  logic: { id: 4, name: 'Tư duy', icon: '🧩' },
+  emotion: { id: 5, name: 'Cảm xúc', icon: '💚' },
+  creative: { id: 6, name: 'Sáng tạo', icon: '🎨' },
   other: { id: 7, name: 'Khác', icon: '✨' },
 };
+// Thông tin môn học từ courseType (dùng chung cho bảng theo dõi tuần).
+export function subjectInfo(courseType?: string | null): { id: number; name: string; icon: string } {
+  return SUBJECT_META[courseType ?? 'other'] ?? SUBJECT_META.other;
+}
 function levelFor(pct: number): number {
   if (pct < 20) return 0;
   if (pct < 40) return 1;
@@ -121,7 +128,7 @@ export async function listChildren(): Promise<Child[]> {
   return Array.isArray(r) ? r : [];
 }
 
-export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string }): Promise<Child> {
+export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string }): Promise<Child> {
   if (isGuest()) {
     const list = readJSON<Child[]>(CHILDREN_KEY, []);
     const child: Child = { id: Date.now(), ...data };
@@ -132,6 +139,16 @@ export async function createChild(data: { fullName: string; nickname?: string; g
     method: 'POST',
     body: JSON.stringify({ userId: getUserId(), ...data }),
   });
+}
+
+export async function updateChild(id: number, data: { fullName?: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string }): Promise<Child> {
+  if (isGuest()) {
+    const list = readJSON<Child[]>(CHILDREN_KEY, []);
+    const next = list.map((c) => (c.id === id ? { ...c, ...data } : c));
+    writeJSON(CHILDREN_KEY, next);
+    return next.find((c) => c.id === id)!;
+  }
+  return apiFetch<Child>(`/children/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
 }
 
 export async function deleteChild(id: number): Promise<void> {
@@ -266,7 +283,7 @@ export async function childHistory(childId: number, limit = 20): Promise<History
   return localAttemptsOf(childId)
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
     .slice(0, limit)
-    .map((a) => ({ id: a.id, lessonId: a.lessonId, lessonTitle: a.lessonTitle, score: a.score, correctCount: a.correctCount, totalQuestions: a.totalQuestions, createdAt: a.createdAt }));
+    .map((a) => ({ id: a.id, lessonId: a.lessonId, lessonTitle: a.lessonTitle, lessonSlug: a.lessonSlug, courseType: a.courseType, score: a.score, correctCount: a.correctCount, totalQuestions: a.totalQuestions, createdAt: a.createdAt }));
 }
 
 // ── Chuỗi ngày học ──

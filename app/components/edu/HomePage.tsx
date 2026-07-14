@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { ApiCourse, ApiMiniGame } from '../../lib/api';
+import HomeCourseSection from './HomeCourseSection';
 
 interface Article {
   id: number; title: string; slug: string;
@@ -157,34 +158,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {courses.length === 0 ? (
-            <p className="text-slate-400 text-center py-8">Chưa có khóa học nào.</p>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {courses.map((course) => (
-                <Link key={course.id} href={`/khoa-hoc/${course.slug}`}
-                  className="group flex gap-4 items-start rounded-3xl border-4 border-pink-100 p-4 kid-card-hover bg-white">
-                  {course.thumbnailUrl ? (
-                    <div className="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden">
-                      <Image src={course.thumbnailUrl} alt={course.title} fill className="object-cover" />
-                    </div>
-                  ) : (
-                    <div className="h-14 w-14 shrink-0 rounded-xl bg-[#6ec6c6]/20 flex items-center justify-center text-2xl">📚</div>
-                  )}
-                  <div className="min-w-0">
-                    <h3 className="font-bold text-slate-900 group-hover:text-[#0e7490] leading-snug text-sm">{course.title}</h3>
-                    {course.shortDescription && (
-                      <p className="mt-1 text-xs text-slate-500 line-clamp-2 leading-relaxed">{course.shortDescription}</p>
-                    )}
-                    <div className="mt-2 flex gap-2 flex-wrap">
-                      {course.isFree && <span className="text-xs font-semibold text-emerald-600">Miễn phí</span>}
-                      {course.totalLessons > 0 && <span className="text-xs text-slate-400">{course.totalLessons} bài học</span>}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+          <HomeCourseSection courses={courses} />
         </div>
       </section>
 

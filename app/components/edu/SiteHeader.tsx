@@ -30,6 +30,7 @@ const NAV_MENU: NavItem[] = [
 
 // Khu vực phụ huynh — chỉ hiện khi đã đăng nhập.
 const ACCOUNT_LINKS = [
+  { href: '/hoc-hom-nay', label: 'Học hôm nay', emoji: '📅' },
   { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
   { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
   { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
@@ -204,7 +205,7 @@ export default function SiteHeader() {
               <button onClick={() => setAccountOpen((v) => !v)}
                 className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
                 {user ? <span className="text-sm">👋</span> : <ChildAvatar child={guestChild} className="h-5 w-5" />}
-                <span className="max-w-[84px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
+                <span className="max-w-[64px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
                 <ChevronDown size={12} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
               </button>
               {accountOpen && (

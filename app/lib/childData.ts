@@ -7,7 +7,8 @@
 
 import { apiFetch } from './api';
 
-export type Child = { id: number; fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; age?: number };
+// currentLevel = LỚP của bé ('1' | '2' | '3' …) — quản lý nội dung theo lớp.
+export type Child = { id: number; fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; age?: number; currentLevel?: string };
 export type AnswerInput = { quizId: number; isCorrect: boolean };
 export type RecordInput = {
   childId: number;
@@ -45,6 +46,17 @@ type LocalAttempt = {
 
 const CHILDREN_KEY = 'bhh_local_children';
 const HISTORY_KEY = 'bhh_local_history';
+
+// ── Lớp học (quản lý nội dung theo lớp) ──
+export const GRADES = ['1', '2', '3']; // các lớp đang có nội dung xuất bản
+export function gradeLabel(g?: string | null): string {
+  return g ? `Lớp ${g}` : 'Chưa chọn lớp';
+}
+// Suy ra lớp từ slug khóa học ("toan-hoc-lop-1" → "1").
+export function gradeFromSlug(slug?: string | null): string | null {
+  const m = (slug ?? '').toLowerCase().match(/lop-?(\d)/);
+  return m ? m[1] : null;
+}
 
 // ── Nhận biết chế độ ──
 export function isGuest(): boolean {
@@ -128,7 +140,7 @@ export async function listChildren(): Promise<Child[]> {
   return Array.isArray(r) ? r : [];
 }
 
-export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string }): Promise<Child> {
+export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string }): Promise<Child> {
   if (isGuest()) {
     const list = readJSON<Child[]>(CHILDREN_KEY, []);
     const child: Child = { id: Date.now(), ...data };
@@ -141,7 +153,7 @@ export async function createChild(data: { fullName: string; nickname?: string; g
   });
 }
 
-export async function updateChild(id: number, data: { fullName?: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string }): Promise<Child> {
+export async function updateChild(id: number, data: { fullName?: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string }): Promise<Child> {
   if (isGuest()) {
     const list = readJSON<Child[]>(CHILDREN_KEY, []);
     const next = list.map((c) => (c.id === id ? { ...c, ...data } : c));

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { apiFetch, ApiCourse } from '../../lib/api';
+import { getCurrentChildId, listChildren, GRADES, gradeLabel, gradeFromSlug } from '../../lib/childData';
 
 const GROUP_LABELS: Record<string, string> = {
   math: 'Toán học',
@@ -53,12 +54,26 @@ function groupCourses(courses: ApiCourse[]): { key: string; label: string; cours
 export default function CourseLibraryPage() {
   const [courses, setCourses] = useState<ApiCourse[]>([]);
   const [loading, setLoading] = useState(true);
+  // Quản lý theo lớp: mặc định lọc theo lớp của bé đang chọn.
+  const [gradeFilter, setGradeFilter] = useState<string>('all');
+  const [childName, setChildName] = useState<string>('');
 
   useEffect(() => {
     apiFetch<ApiCourse[]>('/courses')
       .then((data) => setCourses(Array.isArray(data) ? data.filter((c) => c.isPublished) : []))
       .catch(() => {})
       .finally(() => setLoading(false));
+    // Lấy lớp của bé đang chọn để lọc mặc định.
+    const id = getCurrentChildId();
+    if (id) {
+      listChildren()
+        .then((arr) => {
+          const cur = arr.find((c) => c.id === id);
+          if (cur?.currentLevel) setGradeFilter(cur.currentLevel);
+          if (cur) setChildName(cur.nickname || cur.fullName);
+        })
+        .catch(() => {});
+    }
   }, []);
 
   if (loading) {
@@ -69,7 +84,11 @@ export default function CourseLibraryPage() {
     );
   }
 
-  const groups = groupCourses(courses);
+  // Lọc theo lớp (dựa vào slug). "all" = tất cả các lớp.
+  const visibleCourses = gradeFilter === 'all' ? courses : courses.filter((c) => gradeFromSlug(c.slug) === gradeFilter);
+  const groups = groupCourses(visibleCourses);
+  // Các lớp thực sự có khóa học (để hiện tab).
+  const availableGrades = GRADES.filter((g) => courses.some((c) => gradeFromSlug(c.slug) === g));
 
   return (
     <div className="kid-bg min-h-screen relative overflow-hidden">
@@ -105,18 +124,52 @@ export default function CourseLibraryPage() {
           <p className="mt-3 text-slate-600 leading-relaxed">
             Khám phá những khóa học siêu thú vị, đầy màu sắc và trò chơi giáo dục dành cho bé yêu của bạn!
           </p>
+
+          {/* Lọc theo lớp */}
+          {availableGrades.length > 0 && (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-sm font-bold text-slate-500">🎒 Chọn lớp:</span>
+              {availableGrades.map((g) => (
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => setGradeFilter(g)}
+                  className={`rounded-full px-4 py-1.5 text-sm font-black kid-display transition ${gradeFilter === g ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                  style={gradeFilter === g ? { background: 'linear-gradient(135deg,#FF6B9D,#FF9F45)', boxShadow: '0 3px 0 #c0392b' } : undefined}
+                >
+                  {gradeLabel(g)}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setGradeFilter('all')}
+                className={`rounded-full px-4 py-1.5 text-sm font-black kid-display transition ${gradeFilter === 'all' ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                style={gradeFilter === 'all' ? { background: 'linear-gradient(135deg,#A06CD5,#4ECDC4)', boxShadow: '0 3px 0 #6d28d9' } : undefined}
+              >
+                Tất cả
+              </button>
+              {gradeFilter !== 'all' && childName && (
+                <span className="text-xs text-slate-400">— đang xem nội dung {gradeLabel(gradeFilter)} của {childName}</span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 relative">
-        {courses.length === 0 ? (
+        {visibleCourses.length === 0 ? (
           <div
             className="bg-white rounded-3xl border-4 border-pink-200 p-12 text-center"
             style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}
           >
             <div className="text-6xl mb-3">📚</div>
-            <p className="text-slate-500 font-bold kid-display">Chưa có khóa học nào.</p>
+            <p className="text-slate-500 font-bold kid-display">
+              {gradeFilter === 'all' ? 'Chưa có khóa học nào.' : `Chưa có khóa học cho ${gradeLabel(gradeFilter)}.`}
+            </p>
+            {gradeFilter !== 'all' && (
+              <button onClick={() => setGradeFilter('all')} className="mt-3 rounded-full bg-slate-100 px-5 py-2 text-sm font-bold text-slate-600 hover:bg-slate-200">Xem tất cả lớp</button>
+            )}
           </div>
         ) : (
           <div className="space-y-8">

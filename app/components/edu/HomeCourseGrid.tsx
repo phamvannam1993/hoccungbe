@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import type { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
+import { getCurrentChildId, listChildren, GRADES, gradeLabel, gradeFromSlug } from '../../lib/childData';
 
 type CourseDetail = {
   lessons: ApiLesson[];
@@ -108,14 +109,64 @@ function CourseExpanded({ courseId, courseSlug }: { courseId: number; courseSlug
 
 export default function HomeCourseGrid({ courses }: { courses: ApiCourse[] }) {
   const [openId, setOpenId] = useState<number | null>(null);
+  // Quản lý theo lớp: mặc định lọc theo lớp của bé đang chọn (nếu có).
+  const [gradeFilter, setGradeFilter] = useState<string>('all');
+  const [childName, setChildName] = useState<string>('');
+
+  useEffect(() => {
+    const id = getCurrentChildId();
+    if (!id) return;
+    listChildren()
+      .then((arr) => {
+        const cur = arr.find((c) => c.id === id);
+        if (cur?.currentLevel) setGradeFilter(cur.currentLevel);
+        if (cur) setChildName(cur.nickname || cur.fullName);
+      })
+      .catch(() => {});
+  }, []);
 
   if (courses.length === 0) {
     return <p className="mt-10 text-center text-slate-500">Chưa có khóa học nào.</p>;
   }
 
+  const availableGrades = GRADES.filter((g) => courses.some((c) => gradeFromSlug(c.slug) === g));
+  const visible = gradeFilter === 'all' ? courses : courses.filter((c) => gradeFromSlug(c.slug) === gradeFilter);
+
   return (
-    <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {courses.map((course) => {
+    <>
+      {availableGrades.length > 0 && (
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <span className="text-sm font-bold text-slate-500">🎒 Chọn lớp:</span>
+          {availableGrades.map((g) => (
+            <button
+              key={g}
+              type="button"
+              onClick={() => setGradeFilter(g)}
+              className={`rounded-full px-4 py-1.5 text-sm font-bold transition ${gradeFilter === g ? 'bg-sky-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+            >
+              {gradeLabel(g)}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setGradeFilter('all')}
+            className={`rounded-full px-4 py-1.5 text-sm font-bold transition ${gradeFilter === 'all' ? 'bg-violet-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+          >
+            Tất cả
+          </button>
+          {gradeFilter !== 'all' && childName && (
+            <span className="w-full text-center text-xs text-slate-400 sm:w-auto">— nội dung {gradeLabel(gradeFilter)} của {childName}</span>
+          )}
+        </div>
+      )}
+      {visible.length === 0 ? (
+        <p className="mt-10 text-center text-slate-500">
+          Chưa có khóa học cho {gradeLabel(gradeFilter)}.{' '}
+          <button onClick={() => setGradeFilter('all')} className="font-bold text-sky-600 underline">Xem tất cả</button>
+        </p>
+      ) : (
+    <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {visible.map((course) => {
         const isOpen = openId === course.id;
         return (
           <div
@@ -169,5 +220,7 @@ export default function HomeCourseGrid({ courses }: { courses: ApiCourse[] }) {
         );
       })}
     </div>
+      )}
+    </>
   );
 }

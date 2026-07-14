@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { listChildren, createChild, updateChild, deleteChild, childStats, childStreak, isGuest, setCurrentChildId, type Child, type Stats, type Streak } from '../lib/childData';
+import { listChildren, createChild, updateChild, deleteChild, childStats, childStreak, isGuest, setCurrentChildId, GRADES, gradeLabel, type Child, type Stats, type Streak } from '../lib/childData';
 import KidIcon, { type IconName, ChildAvatar, ALL_AVATARS } from '../components/edu/KidIcon';
 import { Pencil, Trash2 } from 'lucide-react';
 
@@ -13,7 +13,7 @@ function fmtDate(d?: string) {
   return y && m && day ? `${day}/${m}/${y}` : s;
 }
 
-const EMPTY = { fullName: '', nickname: '', gender: 'male', birthDate: '', avatarUrl: '' };
+const EMPTY = { fullName: '', nickname: '', gender: 'male', birthDate: '', avatarUrl: '', currentLevel: '1' };
 
 export default function HoSoBeClient() {
   const [children, setChildren] = useState<Child[]>([]);
@@ -58,6 +58,7 @@ export default function HoSoBeClient() {
         gender: form.gender,
         birthDate: form.birthDate || undefined,
         avatarUrl: form.avatarUrl || undefined,
+        currentLevel: form.currentLevel || undefined,
       };
       if (editId != null) {
         await updateChild(editId, payload);
@@ -77,7 +78,7 @@ export default function HoSoBeClient() {
 
   function startEdit(c: Child) {
     setEditId(c.id);
-    setForm({ fullName: c.fullName ?? '', nickname: c.nickname ?? '', gender: c.gender ?? 'male', birthDate: c.birthDate ? c.birthDate.slice(0, 10) : '', avatarUrl: c.avatarUrl ?? '' });
+    setForm({ fullName: c.fullName ?? '', nickname: c.nickname ?? '', gender: c.gender ?? 'male', birthDate: c.birthDate ? c.birthDate.slice(0, 10) : '', avatarUrl: c.avatarUrl ?? '', currentLevel: c.currentLevel ?? '1' });
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function cancelEdit() {
@@ -210,6 +211,21 @@ export default function HoSoBeClient() {
                 </div>
               </label>
               <label className="block text-sm font-semibold text-slate-600">
+                Lớp <span className="text-rose-500">*</span>
+                <div className="mt-1.5 flex items-center gap-2 rounded-xl bg-slate-50 px-3 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-sky-400">
+                  <span className="text-slate-400">🎒</span>
+                  <select
+                    value={form.currentLevel}
+                    onChange={(e) => setForm((f) => ({ ...f, currentLevel: e.target.value }))}
+                    className="w-full min-w-0 bg-transparent py-2.5 text-sm font-normal text-slate-800 focus:outline-none"
+                  >
+                    {GRADES.map((g) => (
+                      <option key={g} value={g}>{gradeLabel(g)}</option>
+                    ))}
+                  </select>
+                </div>
+              </label>
+              <label className="block text-sm font-semibold text-slate-600">
                 Ngày sinh
                 <div className="mt-1.5 flex items-center gap-2 rounded-xl bg-slate-50 px-3 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-sky-400">
                   <span className="text-slate-400">📅</span>
@@ -283,6 +299,7 @@ export default function HoSoBeClient() {
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-black text-slate-800">{c.fullName}</p>
                       <p className="truncate text-xs text-slate-400">
+                        {c.currentLevel ? <span className="mr-1 rounded-full bg-sky-50 px-1.5 py-0.5 font-bold text-sky-600">{gradeLabel(c.currentLevel)}</span> : null}
                         {female ? 'Bé gái' : 'Bé trai'}
                         {c.nickname ? ` · ${c.nickname}` : ''}
                         {c.birthDate ? ` · ${fmtDate(c.birthDate)}` : ''}

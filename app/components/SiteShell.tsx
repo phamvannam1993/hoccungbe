@@ -2,6 +2,7 @@
 import { usePathname } from 'next/navigation';
 import SiteHeader from './edu/SiteHeader';
 import Footer from './edu/Footer';
+import GuestWelcomeModal from './edu/GuestWelcomeModal';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <SiteHeader />
       <main className="min-h-screen">{children}</main>
       <Footer />
+      <GuestWelcomeModal />
     </>
   );
 }

@@ -197,7 +197,7 @@ export default function SiteHeader() {
         </div>
 
         {/* Mobile: auth + hamburger */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden items-center gap-1.5">
           <NotificationBell compact />
           {(user || guestChild) ? (
             <div className="relative" ref={mobileAccountRef}>

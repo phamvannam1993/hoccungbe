@@ -236,6 +236,33 @@ export async function lessonStatus(childId: number, lessonId: number): Promise<E
     }));
 }
 
+// ── Các câu bé làm SAI ở lần gần nhất của 1 chặng (để "Ôn câu sai" riêng chặng đó) ──
+export async function wrongQuizIdsFor(
+  childId: number,
+  lessonId: number,
+  exerciseNumber: number,
+): Promise<number[]> {
+  if (!isGuest()) {
+    // Server trả về các quiz mà lần trả lời gần nhất là sai (mọi bài) → lọc theo bài + chặng.
+    try {
+      const quizzes = await apiFetch<{ id: number; lessonId: number; exerciseNumber: number }[]>(
+        `/attempts/wrong/${childId}`,
+      );
+      return (Array.isArray(quizzes) ? quizzes : [])
+        .filter((q) => Number(q.lessonId) === lessonId && Number(q.exerciseNumber) === exerciseNumber)
+        .map((q) => q.id);
+    } catch {
+      return [];
+    }
+  }
+  // Khách: đọc bản ghi gần nhất của chặng trong localStorage.
+  const rec = localAttemptsOf(childId).find(
+    (a) => a.lessonId === lessonId && a.exerciseNumber === exerciseNumber,
+  );
+  if (!rec || !Array.isArray(rec.answers)) return [];
+  return rec.answers.filter((a) => !a.isCorrect).map((a) => a.quizId);
+}
+
 // ── Thống kê tổng ──
 export async function childStats(childId: number): Promise<Stats | null> {
   if (!isGuest()) {

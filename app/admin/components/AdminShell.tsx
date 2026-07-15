@@ -24,6 +24,7 @@ import {
   ClipboardList,
   File,
   Music,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 const navItems = [
@@ -35,6 +36,7 @@ const navItems = [
   { href: '/admin/lessons', label: 'Bài học', icon: FileText },
   { href: '/admin/documents', label: '📄 Kho Tài Liệu', icon: File },
   { href: '/admin/audio-library', label: '🎵 Kho Âm Thanh', icon: Music },
+  { href: '/admin/media', label: '🖼️ Thư viện Media', icon: ImageIcon },
   { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
   { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },

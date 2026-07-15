@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { Trash2, Upload, Search, ImageIcon } from 'lucide-react';
+import { Trash2, Upload, Search, ImageIcon, Link2, Plus } from 'lucide-react';
 import { apiFetch, getToken } from '../lib/api';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -36,6 +35,12 @@ export default function MediaLibraryPage() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Thêm media từ link ảnh
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkName, setLinkName] = useState('');
+  const [linkFolder, setLinkFolder] = useState('');
+  const [addingLink, setAddingLink] = useState(false);
 
   const fetchMedia = async (q: string, f: string, p: number) => {
     setLoading(true);
@@ -86,6 +91,36 @@ export default function MediaLibraryPage() {
       setError(String(e));
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleAddFromUrl = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const url = linkUrl.trim();
+    if (!url) return;
+    if (!/^https?:\/\//i.test(url)) {
+      setError('Link ảnh phải bắt đầu bằng http:// hoặc https://');
+      return;
+    }
+    setAddingLink(true);
+    setError('');
+    try {
+      await apiFetch('/media', {
+        method: 'POST',
+        body: JSON.stringify({
+          url,
+          originalName: linkName.trim() || undefined,
+          folder: linkFolder.trim() || undefined,
+        }),
+      });
+      setLinkUrl('');
+      setLinkName('');
+      setPage(1);
+      fetchMedia(search, folder, 1);
+    } catch (e) {
+      setError(String(e));
+    } finally {
+      setAddingLink(false);
     }
   };
 
@@ -144,6 +179,60 @@ export default function MediaLibraryPage() {
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">{error}</div>
       )}
 
+      {/* Thêm media từ link ảnh */}
+      <form
+        onSubmit={handleAddFromUrl}
+        className="mb-5 p-4 bg-blue-50/60 border border-blue-100 rounded-xl"
+      >
+        <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-700">
+          <Link2 size={16} className="text-blue-600" />
+          Thêm ảnh từ link
+        </div>
+        <div className="flex flex-wrap gap-2 items-start">
+          <input
+            type="url"
+            required
+            placeholder="Dán link ảnh (https://...)"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="flex-1 min-w-[220px] px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Tên (tùy chọn)"
+            value={linkName}
+            onChange={(e) => setLinkName(e.target.value)}
+            className="w-40 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="Folder (tùy chọn)"
+            value={linkFolder}
+            onChange={(e) => setLinkFolder(e.target.value)}
+            className="w-40 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            disabled={addingLink || !linkUrl.trim()}
+            className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-60 shrink-0"
+          >
+            <Plus size={16} />
+            {addingLink ? 'Đang thêm...' : 'Thêm'}
+          </button>
+        </div>
+        {linkUrl.trim() && /^https?:\/\//i.test(linkUrl.trim()) && (
+          <div className="mt-3 flex items-center gap-3">
+            <span className="text-xs text-gray-500">Xem trước:</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={linkUrl.trim()}
+              alt="preview"
+              className="h-16 w-16 object-cover rounded-lg border border-gray-200"
+            />
+          </div>
+        )}
+      </form>
+
       {/* Filters */}
       <form onSubmit={handleSearch} className="flex gap-3 mb-5">
         <div className="relative flex-1 max-w-sm">
@@ -183,12 +272,12 @@ export default function MediaLibraryPage() {
         <div className="grid grid-cols-5 gap-4">
           {items.map((item) => (
             <div key={item.id} className="group relative rounded-xl border border-gray-200 overflow-hidden bg-white hover:shadow-md transition-shadow">
-              <div className="aspect-square relative">
-                <Image
+              <div className="aspect-square relative bg-gray-50">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={item.url}
                   alt={item.originalName}
-                  fill
-                  className="object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
               <div className="p-2">

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { apiFetch } from '../../lib/api';
-import { recordAttempt } from '../../lib/childData';
+import { recordAttempt, getCurrentChildId, wrongQuizIdsFor } from '../../lib/childData';
 import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
 import NumberTrace from './NumberTrace';
 import LetterTracingGame, { type LetterTracingGameRef } from '../../games/letter-tracing/LetterTracingGame';
@@ -1798,6 +1798,8 @@ export default function QuizPlayPage({
   const searchParams = useSearchParams();
 
   const exFromQuery = searchParams ? Number(searchParams.get('ex') || '0') : 0;
+  // Chế độ ôn câu sai: chỉ nạp những câu bé làm sai ở lần gần nhất của chặng này.
+  const reviewMode = searchParams ? searchParams.get('review') === 'wrong' : false;
   const [exerciseNumber, setExerciseNumber] = useState<number>(
     exerciseNumberProp ?? (exFromQuery > 0 ? exFromQuery : 1),
   );
@@ -2018,13 +2020,18 @@ export default function QuizPlayPage({
     setSubmitting(false);
 
     const cacheKey = `${resolvedLessonId}:${exerciseNumber}`;
-    const applyExercise = (exData: ExerciseData) => {
-      setExercise(exData);
+    const applyExercise = (exData: ExerciseData, onlyIds?: number[]) => {
+      // Ôn câu sai: chỉ giữ các câu có id nằm trong danh sách sai. Nếu rỗng thì giữ nguyên cả chặng.
+      const quizzes = onlyIds && onlyIds.length
+        ? exData.quizzes.filter((q) => onlyIds.includes(q.id))
+        : exData.quizzes;
+      const applied = quizzes.length ? { ...exData, quizzes } : exData;
+      setExercise(applied);
       // Thời gian làm bài = số câu × 60 giây.
-      setTimeLeft(exData.quizzes.length > 0 ? exData.quizzes.length * 60 : null);
+      setTimeLeft(applied.quizzes.length > 0 ? applied.quizzes.length * 60 : null);
       const initDrag: Record<number, string[]> = {};
       const initShuffle: Record<number, OptionItem[]> = {};
-      exData.quizzes.forEach((q) => {
+      applied.quizzes.forEach((q) => {
         if ((q.questionType === 'drag_drop' || q.questionType === 'sorting') && Array.isArray(q.optionsJson)) {
           // Xáo trộn thứ tự ban đầu để bé phải tự sắp xếp (không để sẵn đáp án đúng).
           const keys = q.optionsJson.map((o) => o.key);
@@ -2058,13 +2065,24 @@ export default function QuizPlayPage({
       });
       setShuffledOpts(initShuffle);
       setDragOrder(initDrag);
+      setLoading(false);
+    };
+
+    // Ở chế độ ôn câu sai: lấy id các câu sai rồi mới áp dụng (nếu không có thì hiện cả chặng).
+    let stopped = false;
+    const applyReview = (exData: ExerciseData) => {
+      if (!reviewMode) { applyExercise(exData); return; }
+      const childId = getCurrentChildId();
+      if (!childId) { applyExercise(exData); return; }
+      wrongQuizIdsFor(childId, Number(resolvedLessonId) || 0, exerciseNumber)
+        .then((ids) => { if (!stopped) applyExercise(exData, ids); })
+        .catch(() => { if (!stopped) applyExercise(exData); });
     };
 
     const cached = exerciseCacheRef.current[cacheKey];
     if (cached) {
-      applyExercise(cached);
-      setLoading(false);
-      return;
+      applyReview(cached);
+      return () => { stopped = true; };
     }
 
     setLoading(true);
@@ -2073,12 +2091,11 @@ export default function QuizPlayPage({
       .then((exData) => {
         if (cancelled) return;
         exerciseCacheRef.current[cacheKey] = exData;
-        applyExercise(exData);
+        applyReview(exData);
       })
-      .catch(() => {})
-      .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
-  }, [resolvedLessonId, exerciseNumber]);
+      .catch(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; stopped = true; };
+  }, [resolvedLessonId, exerciseNumber, reviewMode]);
 
   const navigateToExercise = (num: number) => {
     const target = allExercises.find((e) => e.exerciseNumber === num);

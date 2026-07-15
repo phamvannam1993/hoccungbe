@@ -270,13 +270,11 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
   };
 
   const toggleCorrect = (key: string) => {
-    if (
-      form.questionType === 'single_choice' ||
-      form.questionType === 'image_choice' ||
-      form.questionType === 'drag_drop'
-    ) {
+    if (form.questionType === 'single_choice' || form.questionType === 'image_choice') {
       set('correctKeys', [key]);
     } else {
+      // multiple_choice + drag_drop/sorting: bấm để thêm/bỏ.
+      // Với drag_drop/sorting, THỨ TỰ bấm chính là thứ tự đúng của câu.
       if (form.correctKeys.includes(key)) {
         set('correctKeys', form.correctKeys.filter((k) => k !== key));
       } else {
@@ -485,8 +483,8 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                 {form.questionType === 'multiple_choice' && (
                   <span className="ml-1 text-xs text-gray-400">(chọn nhiều đáp án đúng)</span>
                 )}
-                {form.questionType === 'drag_drop' && (
-                  <span className="ml-1 text-xs text-gray-400">(chọn thứ tự đúng)</span>
+                {(form.questionType === 'drag_drop' || form.questionType === 'sorting') && (
+                  <span className="ml-1 text-xs text-blue-500">(bấm A/B/C… lần lượt theo THỨ TỰ đúng)</span>
                 )}
               </label>
               <button
@@ -506,7 +504,9 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
 
             <div className="space-y-2">
               {form.options.map((opt, idx) => {
-                const isCorrect = form.correctKeys.includes(opt.key);
+                const isOrdered = form.questionType === 'drag_drop' || form.questionType === 'sorting';
+                const orderPos = form.correctKeys.indexOf(opt.key); // -1 nếu chưa chọn
+                const isCorrect = isOrdered ? orderPos >= 0 : form.correctKeys.includes(opt.key);
                 return (
                   <div
                     key={idx}
@@ -523,9 +523,17 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                             ? 'border-green-500 bg-green-500 text-white'
                             : 'border-gray-300 text-gray-400 hover:border-blue-400'
                         }`}
-                        title={isCorrect ? 'Bỏ chọn đáp án đúng' : 'Đánh dấu đáp án đúng'}
+                        title={
+                          isOrdered
+                            ? isCorrect
+                              ? `Vị trí ${orderPos + 1} — bấm để bỏ`
+                              : 'Bấm để thêm vào cuối thứ tự'
+                            : isCorrect
+                            ? 'Bỏ chọn đáp án đúng'
+                            : 'Đánh dấu đáp án đúng'
+                        }
                       >
-                        {opt.key}
+                        {isOrdered && isCorrect ? orderPos + 1 : opt.key}
                       </button>
                       <input
                         type="text"
@@ -535,7 +543,9 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
                         className="flex-1 px-2 py-1.5 text-sm border-none bg-transparent focus:outline-none"
                       />
                       {isCorrect && (
-                        <span className="text-xs text-green-600 font-medium shrink-0">✓ Đúng</span>
+                        <span className="text-xs text-green-600 font-medium shrink-0">
+                          {isOrdered ? `Thứ tự ${orderPos + 1}` : '✓ Đúng'}
+                        </span>
                       )}
                       <button
                         type="button"
@@ -590,9 +600,27 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
             </div>
             {isChoiceType && form.correctKeys.length === 0 && form.options.length > 0 && (
               <p className="text-xs text-amber-600 mt-1">
-                ⚠ Nhấn vào ký hiệu A/B/C... để chọn đáp án đúng
+                {form.questionType === 'drag_drop' || form.questionType === 'sorting'
+                  ? '⚠ Bấm A/B/C… lần lượt theo đúng thứ tự để tạo đáp án'
+                  : '⚠ Nhấn vào ký hiệu A/B/C... để chọn đáp án đúng'}
               </p>
             )}
+            {(form.questionType === 'drag_drop' || form.questionType === 'sorting') &&
+              form.correctKeys.length > 0 && (
+                <div className="mt-2 p-2 rounded-lg bg-green-50 border border-green-200 text-sm">
+                  <span className="text-xs text-green-700 font-medium">Thứ tự đúng: </span>
+                  <span className="text-green-800">
+                    {form.correctKeys
+                      .map((k) => form.options.find((o) => o.key === k)?.text || k)
+                      .join('  →  ')}
+                  </span>
+                  {form.correctKeys.length < form.options.length && (
+                    <span className="ml-2 text-xs text-amber-600">
+                      (còn {form.options.length - form.correctKeys.length} đáp án chưa xếp)
+                    </span>
+                  )}
+                </div>
+              )}
           </div>
         )}
 
@@ -918,8 +946,10 @@ export function formToPayload(form: QuizFormData) {
           }))
         : undefined;
     correctAnswerJson =
-      form.questionType === 'multiple_choice'
-        ? form.correctKeys
+      form.questionType === 'multiple_choice' ||
+      form.questionType === 'drag_drop' ||
+      form.questionType === 'sorting'
+        ? form.correctKeys // mảng key theo đúng thứ tự cần sắp xếp
         : form.correctKeys[0] ?? null;
   }
 

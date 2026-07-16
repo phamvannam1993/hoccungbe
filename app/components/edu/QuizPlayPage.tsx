@@ -39,6 +39,106 @@ function formatMath(text: string | undefined | null): string {
     .trim();
 }
 
+// ─── Hình học: tự VẼ hình khi đáp án là TÊN hình (bài nhận dạng hình không có ảnh) ──
+type ShapeKind = 'circle' | 'square' | 'triangle' | 'rectangle' | 'oval' | 'star' | 'heart' | 'diamond';
+function shapeOf(text: string | undefined | null): ShapeKind | null {
+  const t = String(text || '').toLowerCase().trim().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  const MAP: Record<string, ShapeKind> = {
+    'hình tròn': 'circle', 'tròn': 'circle',
+    'hình vuông': 'square', 'vuông': 'square',
+    'tam giác': 'triangle', 'hình tam giác': 'triangle',
+    'hình chữ nhật': 'rectangle', 'chữ nhật': 'rectangle',
+    'hình bầu dục': 'oval', 'bầu dục': 'oval', 'e-líp': 'oval', 'elip': 'oval',
+    'hình thoi': 'diamond', 'thoi': 'diamond',
+    'ngôi sao': 'star', 'hình ngôi sao': 'star', 'sao': 'star',
+    'trái tim': 'heart', 'hình trái tim': 'heart', 'tim': 'heart',
+  };
+  return MAP[t] ?? null;
+}
+
+// Token đếm có thể là ký hiệu hình unicode (△, ○, □…) nhạt/khó nhìn → nhận diện để vẽ SVG rõ.
+function tokenShape(text: string | undefined | null): ShapeKind | null {
+  const t = String(text || '').trim();
+  const UNI: Record<string, ShapeKind> = {
+    '△': 'triangle', '▲': 'triangle', '▽': 'triangle', '▼': 'triangle', '◺': 'triangle', '🔺': 'triangle', '🔻': 'triangle',
+    '○': 'circle', '◯': 'circle', '●': 'circle', '⚪': 'circle', '⭕': 'circle', '🔴': 'circle', '🔵': 'circle', '🟢': 'circle',
+    '□': 'square', '■': 'square', '◻': 'square', '◼': 'square', '🟦': 'square', '🟥': 'square', '🟩': 'square', '⬜': 'square', '⬛': 'square',
+    '▭': 'rectangle', '▬': 'rectangle',
+    '◇': 'diamond', '◆': 'diamond', '🔶': 'diamond', '🔷': 'diamond',
+    '★': 'star', '☆': 'star', '⭐': 'star', '🌟': 'star',
+    '♥': 'heart', '❤': 'heart', '❤️': 'heart', '♡': 'heart', '💛': 'heart', '💙': 'heart',
+  };
+  return UNI[t] ?? shapeOf(t);
+}
+
+// Lấy giá trị số trong ngoặc cuối của đáp án: "Tam giác (3)" → 3, "Hình chữ nhật 4×3 (12cm²)" → 12.
+function parenValue(text: string | undefined): number | null {
+  const m = String(text || '').match(/\(([^)]*)\)\s*$/);
+  if (!m) return null;
+  const num = m[1].match(/-?[\d]+(?:[.,]\d+)?/);
+  return num ? parseFloat(num[0].replace(',', '.')) : null;
+}
+
+/**
+ * Chấm câu sắp xếp/kéo thả. Nếu MỌI đáp án đều có giá trị số (vd "(3)", "(4)"),
+ * chấm theo DÃY GIÁ TRỊ → chấp nhận hoán vị các đáp án bằng nhau (vuông 4 ↔ chữ nhật 4).
+ * Ngược lại (sắp xếp câu, từ…) so khớp thứ tự chính xác như cũ.
+ */
+function sortingMatches(userOrder: string[], correctOrder: string[], options?: OptionItem[]): boolean {
+  const u = userOrder ?? [];
+  const c = correctOrder ?? [];
+  if (u.length !== c.length || c.length === 0) return JSON.stringify(u) === JSON.stringify(c);
+  if (Array.isArray(options) && options.length) {
+    const valOf = (k: string) => parenValue(options.find((o) => o.key === k)?.text);
+    const uv = u.map(valOf);
+    const cv = c.map(valOf);
+    if (uv.every((v) => v !== null) && cv.every((v) => v !== null)) {
+      return JSON.stringify(uv) === JSON.stringify(cv);
+    }
+  }
+  return JSON.stringify(u) === JSON.stringify(c);
+}
+
+// Quét tên hình xuất hiện trong ĐỀ BÀI để vẽ minh họa (câu Đúng/Sai, câu hỏi về 1 hình…).
+function shapesInText(text: string | undefined | null): ShapeKind[] {
+  const t = String(text || '').toLowerCase();
+  const PHRASES: [RegExp, ShapeKind][] = [
+    [/hình\s*chữ\s*nhật|chữ\s*nhật/, 'rectangle'],
+    [/tam\s*giác/, 'triangle'],
+    [/hình\s*vuông/, 'square'],
+    [/hình\s*tròn/, 'circle'],
+    [/hình\s*thoi/, 'diamond'],
+    [/hình\s*bầu\s*dục|e-?líp|elip/, 'oval'],
+    [/ngôi\s*sao/, 'star'],
+    [/trái\s*tim/, 'heart'],
+  ];
+  const found: ShapeKind[] = [];
+  for (const [re, sh] of PHRASES) if (re.test(t) && !found.includes(sh)) found.push(sh);
+  return found;
+}
+
+const SHAPE_COLOR: Record<ShapeKind, string> = {
+  circle: '#3b82f6', square: '#a855f7', triangle: '#ef4444', rectangle: '#f97316',
+  oval: '#06b6d4', diamond: '#e11d48', star: '#f59e0b', heart: '#ec4899',
+};
+
+function ShapeSVG({ shape, color, size = 44 }: { shape: ShapeKind; color: string; size?: number }) {
+  const fill = `${color}33`;
+  const common = { fill, stroke: color, strokeWidth: 3, strokeLinejoin: 'round' as const };
+  return (
+    <svg width={size} height={size} viewBox="0 0 50 50" aria-hidden="true" className="shrink-0">
+      {shape === 'circle' && <circle cx="25" cy="25" r="19" {...common} />}
+      {shape === 'oval' && <ellipse cx="25" cy="25" rx="21" ry="14" {...common} />}
+      {shape === 'square' && <rect x="7" y="7" width="36" height="36" rx="3" {...common} />}
+      {shape === 'rectangle' && <rect x="4" y="13" width="42" height="24" rx="3" {...common} />}
+      {shape === 'triangle' && <polygon points="25,6 45,44 5,44" {...common} />}
+      {shape === 'diamond' && <polygon points="25,5 45,25 25,45 5,25" {...common} />}
+      {shape === 'star' && <polygon points="25,4 31,18 46,19 34,29 38,44 25,36 12,44 16,29 4,19 19,18" {...common} />}
+      {shape === 'heart' && <path d="M25 43C10 32 6 22 12 15c4-5 11-4 13 2 2-6 9-7 13-2 6 7 2 17-13 28z" {...common} />}
+    </svg>
+  );
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type OptionItem = { key: string; text: string; audioUrl?: string; imageUrl?: string; pair?: string; pairImageUrl?: string };
@@ -123,13 +223,15 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
     const t = typeof o === 'string' || typeof o === 'number' ? String(o) : String(o?.text ?? o?.key ?? '');
     return formatMath(t).length;
   }), 1);
+  // Có đáp án là TÊN HÌNH → vẽ hình, hiển thị dạng lưới (hình trên, chữ dưới).
+  const hasShape = options.some((o) => !o.imageUrl && shapeOf(o.text));
   // Đáp án chữ dài hoặc có ảnh → xếp thành HÀNG đầy đủ (dễ đọc trên mobile).
   // Đáp án ngắn/số (8, 9, 10…) → giữ lưới để chữ số hiển thị to.
   const allShortOrMath = options.every((o) => {
     const t = String(o?.text ?? o?.key ?? '');
     return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
   });
-  const useRows = !allShortOrMath;
+  const useRows = !allShortOrMath && !hasShape;
   const basis = useRows
     ? '100%'
     : options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
@@ -191,6 +293,7 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               const fontSizeCss = isBig
                 ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, ${fitVw.toFixed(1)}vw, ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
+              const shape = !opt.imageUrl ? shapeOf(txt) : null;
               return (
                 <div className={`flex w-full min-w-0 gap-2 ${useRows ? 'flex-row items-center' : 'flex-col items-center justify-center gap-1'}`}>
                   {opt.imageUrl && (
@@ -202,6 +305,7 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
                         : `w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`}
                     />
                   )}
+                  {shape && <ShapeSVG shape={shape} color={optColor} size={compact ? 40 : 56} />}
                   <div className={`flex min-w-0 max-w-full items-center gap-2 ${useRows ? 'flex-1' : 'w-full justify-center'}`}>
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
@@ -240,12 +344,14 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
   const sharedBaseSize = compact
     ? (maxLen > 10 ? 16 : maxLen > 7 ? 22 : maxLen > 4 ? 28 : 34)
     : (maxLen > 14 ? 18 : maxLen > 10 ? 24 : maxLen > 7 ? 30 : maxLen > 4 ? 36 : 44);
+  // Đáp án là tên hình → vẽ hình (lưới, hình trên chữ dưới).
+  const hasShape = options.some((o) => !o.imageUrl && shapeOf(o.text));
   // Có ảnh hoặc chữ dài → xếp HÀNG (thẻ hẹp làm chữ tràn ra ngoài).
   const allShortOrMath = options.every((o) => {
     const t = String(o?.text ?? o?.key ?? '');
     return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
   });
-  const useRows = !allShortOrMath;
+  const useRows = !allShortOrMath && !hasShape;
   return (
     <div className={
       useRows
@@ -283,6 +389,9 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
             <span className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
               {isSel && '✓'}
             </span>
+            {!opt.imageUrl && shapeOf(opt.text) && (
+              <ShapeSVG shape={shapeOf(opt.text)!} color={optColor} size={compact ? 40 : 56} />
+            )}
             {opt.imageUrl && (
               <img
                 src={opt.imageUrl}
@@ -1633,9 +1742,12 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
                   alignContent: 'center',
                   justifyContent: 'center',
                 }}>
-                  {Array.from({ length: count }).map((_, i) => (
-                    <span key={i} className={`${iconSize} select-none leading-none`}>{group.text}</span>
-                  ))}
+                  {Array.from({ length: count }).map((_, i) => {
+                    const sh = tokenShape(group.text);
+                    return sh
+                      ? <ShapeSVG key={i} shape={sh} color="#1e3a8a" size={count > 8 ? 22 : count > 5 ? 28 : 34} />
+                      : <span key={i} className={`${iconSize} select-none leading-none`}>{group.text}</span>;
+                  })}
                 </div>
                 {/* Circle input below */}
                 <div className="relative flex items-center justify-center">
@@ -1679,19 +1791,25 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
     });
   };
 
+  // Đơn vị đếm: nếu là hình học → "hình"; nếu không thì dùng chính biểu tượng (tránh mặc định "con" sai).
+  const anyShape = options.some((o) => tokenShape(o.text));
+  const firstTok = (options[0]?.text ?? '').trim();
+  const unitLabel = anyShape ? 'hình' : (tokenShape(firstTok) ? 'hình' : firstTok);
+
   return (
     <div className="space-y-4">
       {options.length > 0 && (
         <>
-          <p className="text-xs text-gray-400">Bấm vào từng con để đếm, rồi điền tổng số vào ô</p>
+          <p className="text-xs text-gray-400">Bấm vào từng {anyShape ? 'hình' : 'biểu tượng'} để đếm, rồi điền tổng số vào ô</p>
           <div className="flex flex-wrap gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 min-h-[80px]">
             {options.map((opt, idx) => {
               const isTapped = tapped.has(idx);
+              const sh = tokenShape(opt.text);
               return (
                 <button key={idx} onClick={() => toggleTap(idx)}
-                  className={`text-4xl select-none transition-all hover:scale-110 ${isTapped ? 'opacity-30 scale-90' : 'opacity-100'}`}
+                  className={`select-none transition-all hover:scale-110 ${sh ? '' : 'text-4xl'} ${isTapped ? 'opacity-30 scale-90' : 'opacity-100'}`}
                 >
-                  {opt.text}
+                  {sh ? <ShapeSVG shape={sh} color="#3b82f6" size={40} /> : opt.text}
                 </button>
               );
             })}
@@ -1709,7 +1827,7 @@ function Counting({ options, answers, checked, correctMap, correctKey, onChange 
             : 'border-dashed border-amber-400 bg-white focus:border-blue-500 focus:border-solid'
           }`}
         />
-        <span className="text-base font-semibold text-gray-700">{options.length > 0 ? 'con' : ''}</span>
+        <span className="text-base font-semibold text-gray-700">{options.length > 0 ? unitLabel : ''}</span>
         {!checked && tapped.size > 0 && (
           <span className="text-xs text-amber-600 italic">Đã đếm: {tapped.size}</span>
         )}
@@ -2239,7 +2357,7 @@ export default function QuizPlayPage({
         return (tfSel[q.id] === 'true') === correctBool;
       case 'drag_drop':
       case 'sorting':
-        return JSON.stringify(dragOrder[q.id] ?? []) === JSON.stringify(correctDragOrder);
+        return sortingMatches(dragOrder[q.id] ?? [], correctDragOrder, q.optionsJson);
       case 'matching':
         return options.every((o) => (matchMap[q.id] ?? {})[o.key] === correctMatchMap[o.key]);
       case 'fill_blank': {
@@ -2430,8 +2548,7 @@ export default function QuizPlayPage({
         return sel.length === cks.length && cks.every((k) => sel.includes(k));
       }
       case 'drag_drop': case 'sorting': {
-        const co = cks;
-        return JSON.stringify(dragOrder[qz.id] ?? []) === JSON.stringify(co);
+        return sortingMatches(dragOrder[qz.id] ?? [], cks, qz.optionsJson);
       }
       case 'matching': return opts2.every((o) => (matchMap[qz.id] ?? {})[o.key] === cm[o.key]);
       case 'fill_blank': case 'table_fill': case 'coloring': {
@@ -2754,6 +2871,24 @@ export default function QuizPlayPage({
                 <p className="text-xl font-bold leading-snug pt-1" style={{ color: '#1e293b' }}>{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
               )}
             </div>
+
+            {/* Hình minh họa tự vẽ khi đề nhắc tên hình mà chưa có ảnh và đáp án không phải hình
+                (vd "Tam giác có 3 góc. Đúng hay sai?") */}
+            {(() => {
+              if (q.questionImageUrl) return null;
+              if ((q.optionsJson ?? []).some((o) => tokenShape(o?.text))) return null; // tránh trùng với đáp án hình
+              const shapes = shapesInText(q.questionText);
+              if (!shapes.length) return null;
+              return (
+                <div className="mb-4 flex flex-wrap items-center justify-center gap-6">
+                  {shapes.map((sh, i) => (
+                    <div key={i} className="flex flex-col items-center gap-1">
+                      <ShapeSVG shape={sh} color={SHAPE_COLOR[sh]} size={92} />
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
 
             {q.questionImageUrl && (
               <div className="flex justify-center mb-3">

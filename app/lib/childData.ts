@@ -263,6 +263,25 @@ export async function wrongQuizIdsFor(
   return rec.answers.filter((a) => !a.isCorrect).map((a) => a.quizId);
 }
 
+// ── Toàn bộ câu sai của 1 bài học (gộp mọi chặng) → dùng cho phiếu ôn câu sai ──
+export async function wrongQuizIdsForLesson(childId: number, lessonId: number): Promise<number[]> {
+  if (!isGuest()) {
+    try {
+      const quizzes = await apiFetch<{ id: number; lessonId: number }[]>(`/attempts/wrong/${childId}`);
+      return (Array.isArray(quizzes) ? quizzes : [])
+        .filter((q) => Number(q.lessonId) === lessonId)
+        .map((q) => q.id);
+    } catch {
+      return [];
+    }
+  }
+  const ids: number[] = [];
+  for (const rec of localAttemptsOf(childId).filter((a) => a.lessonId === lessonId)) {
+    for (const a of rec.answers ?? []) if (!a.isCorrect) ids.push(a.quizId);
+  }
+  return [...new Set(ids)];
+}
+
 // ── Thống kê tổng ──
 export async function childStats(childId: number): Promise<Stats | null> {
   if (!isGuest()) {

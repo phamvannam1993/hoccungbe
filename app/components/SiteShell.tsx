@@ -10,7 +10,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // Quiz play pages: /[lessonSlug]/[exercise] — two segments, second is bai-tap-*
   const segments = pathname.split('/').filter(Boolean);
   const isQuizPlay = segments.length === 2 && segments[1].startsWith('bai-tap');
-  if (isAdmin || isQuizPlay) return <>{children}</>;
+  // Phiếu bài tập in ra giấy → không kèm header/footer.
+  const isWorksheet = pathname.startsWith('/phieu-bai-tap');
+  if (isAdmin || isQuizPlay || isWorksheet) return <>{children}</>;
   return (
     <>
       <SiteHeader />

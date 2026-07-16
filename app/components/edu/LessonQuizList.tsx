@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiFetch } from '../../lib/api';
 import { lessonStatus, getCurrentChildId } from '../../lib/childData';
-import { buildExerciseUrl } from '../../lib/quiz-slug';
+import { buildExerciseUrl, DIFF_TO_SLUG } from '../../lib/quiz-slug';
 
 type Exercise = {
   exerciseNumber: number;
@@ -75,12 +75,20 @@ export default function LessonQuizList({
 
   if (!data || data.exercises.length === 0) return null;
 
-  // Sắp xếp các chặng theo thứ tự Làm quen → Luyện tập → Thử thách
+  // Sắp xếp: Làm quen → Luyện tập → Thử thách; trong cùng mức thì theo số bài tập.
+  // Một bài có thể có nhiều chặng cùng mức (vd 8 chặng) nên số chặng phải đánh theo thứ tự thật.
   const stages = [...data.exercises].sort(
-    (a, b) => STAGE[a.difficultyLevel].order - STAGE[b.difficultyLevel].order,
+    (a, b) =>
+      (STAGE[a.difficultyLevel]?.order ?? 99) - (STAGE[b.difficultyLevel]?.order ?? 99) ||
+      a.exerciseNumber - b.exerciseNumber,
   );
 
   const doneCount = stages.filter((ex) => statusMap[ex.exerciseNumber]?.completed).length;
+  // Tổng số câu bé làm sai trong cả bài → để mời in phiếu ôn riêng
+  const wrongTotal = stages.reduce((s, ex) => {
+    const st = statusMap[ex.exerciseNumber];
+    return s + (st ? st.totalQuestions - st.correctCount : 0);
+  }, 0);
 
   return (
     <div className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-5" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.18)' }}>
@@ -92,8 +100,9 @@ export default function LessonQuizList({
       </div>
 
       <div className="space-y-3">
-        {stages.map((ex) => {
+        {stages.map((ex, idx) => {
           const stage = STAGE[ex.difficultyLevel];
+          const chang = idx + 1; // số chặng theo thứ tự thật, không theo mức độ
           const color = stage.color;
           const st = statusMap[ex.exerciseNumber];
           const href = lessonSlug
@@ -122,7 +131,7 @@ export default function LessonQuizList({
                     minWidth: '96px',
                   }}
                 >
-                  Chặng {stage.order}
+                  Chặng {chang}
                 </div>
 
                 {/* Nội dung giữa */}
@@ -177,11 +186,31 @@ export default function LessonQuizList({
                     Bắt đầu
                   </Link>
                 )}
+
+                {/* Phiếu in ra giấy tương ứng chặng này */}
+                {lessonSlug && (
+                  <Link
+                    href={`/phieu-bai-tap/${lessonSlug}/${DIFF_TO_SLUG[ex.difficultyLevel]}?ex=${ex.exerciseNumber}`}
+                    className="mt-2 flex items-center justify-center gap-1.5 text-xs font-bold text-gray-600 hover:text-gray-800"
+                  >
+                    🖨 Tải phiếu chặng {chang} — {stage.title.toLowerCase()} (PDF)
+                  </Link>
+                )}
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Phiếu ôn riêng: gom mọi câu bé làm sai trong bài */}
+      {lessonSlug && wrongTotal > 0 && (
+        <Link
+          href={`/phieu-bai-tap/on-cau-sai/${lessonSlug}`}
+          className="mt-4 flex items-center justify-center gap-2 rounded-2xl border-2 border-rose-300 bg-rose-50 px-3 py-2.5 text-sm font-black text-rose-600 active:scale-95 transition"
+        >
+          🖨 Tạo phiếu ôn riêng cho bé ({wrongTotal} câu sai)
+        </Link>
+      )}
     </div>
   );
 }

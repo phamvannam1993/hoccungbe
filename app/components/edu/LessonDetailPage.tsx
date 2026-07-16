@@ -620,7 +620,9 @@ function SeoDescriptionSection({ lesson }: { lesson: LessonData }) {
   const objectives = lesson.learningObjectives || lesson.detail?.goals || [];
 
   return (
-    <div className="mt-8 rounded-3xl overflow-hidden shadow-lg ring-1 ring-blue-200/50">
+    // Ẩn trên mobile: đoạn mô tả dài khiến bé/phụ huynh phải cuộn lâu mới tới các chặng học.
+    // Vẫn giữ trong DOM để desktop và công cụ tìm kiếm đọc được.
+    <div className="mt-8 hidden lg:block rounded-3xl overflow-hidden shadow-lg ring-1 ring-blue-200/50">
       {/* Header with gradient */}
       <div className="bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-6 py-4">
         <h2 className="text-lg font-black text-white flex items-center gap-2">
@@ -850,9 +852,9 @@ export default function LessonDetailPage({
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
 
-      {/* ── Breadcrumb ── */}
-      <nav className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-gray-500">
-        <Link href="/" className="hover:text-blue-600 transition-colors">Trang chủ</Link>
+      {/* ── Breadcrumb (trong thẻ trắng cho dễ đọc trên nền màu) ── */}
+      <nav className="mb-3 flex flex-wrap items-center gap-1.5 rounded-2xl bg-white/90 px-4 py-2.5 text-xs text-gray-500 shadow-sm sm:text-sm">
+        <Link href="/" className="hover:text-blue-600 transition-colors">🏠 Trang chủ</Link>
         {lesson.course && (
           <>
             <span className="text-gray-300">›</span>
@@ -862,16 +864,23 @@ export default function LessonDetailPage({
           </>
         )}
         <span className="text-gray-300">›</span>
-        <span className="text-gray-700 font-medium">{lesson.title}</span>
+        <span className="font-medium text-gray-700">{lesson.title}</span>
       </nav>
 
-      {/* ── Title ── */}
-      <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-1">
-        {lesson.title}{lesson.course ? ` - ${lesson.course.title}` : ''}
-      </h1>
-      {lesson.detail?.knowledge?.summary && (
-        <p className="text-sm text-gray-500 mb-5">{lesson.detail.knowledge.summary}</p>
-      )}
+      {/* ── Title: tên bài đen, tên khóa học màu hồng ở dòng riêng ── */}
+      <div className="mb-4 rounded-3xl bg-white/90 px-4 py-4 shadow-sm sm:px-6">
+        <h1 className="text-xl font-black leading-snug text-gray-900 sm:text-2xl kid-display">
+          {lesson.title}
+        </h1>
+        {lesson.course && (
+          <p className="mt-1 text-sm font-black kid-display" style={{ color: '#FF6B9D' }}>
+            {lesson.course.title}
+          </p>
+        )}
+        {lesson.detail?.knowledge?.summary && (
+          <p className="mt-2 text-sm text-gray-500">{lesson.detail.knowledge.summary}</p>
+        )}
+      </div>
 
       {/* ── Video Banner ── */}
       {(() => {

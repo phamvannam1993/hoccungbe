@@ -118,17 +118,26 @@ function AudioBtn({ url, small }: { url?: string; small?: boolean }) {
 const SingleChoice = memo(function SingleChoice({ options, selected, checked, correctKey, onSelect, compact }: {
   options: OptionItem[]; selected: string; checked: boolean; correctKey: string | null; onSelect: (key: string) => void; compact?: boolean;
 }) {
-  const basis = options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
   // Tính font size CHUNG cho mọi đáp án dựa trên đáp án dài nhất → tất cả thẻ cùng size
   const maxLen = Math.max(...options.map((o) => {
     const t = typeof o === 'string' || typeof o === 'number' ? String(o) : String(o?.text ?? o?.key ?? '');
     return formatMath(t).length;
   }), 1);
+  // Đáp án chữ dài hoặc có ảnh → xếp thành HÀNG đầy đủ (dễ đọc trên mobile).
+  // Đáp án ngắn/số (8, 9, 10…) → giữ lưới để chữ số hiển thị to.
+  const allShortOrMath = options.every((o) => {
+    const t = String(o?.text ?? o?.key ?? '');
+    return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
+  });
+  const useRows = !allShortOrMath;
+  const basis = useRows
+    ? '100%'
+    : options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
   const sharedBaseSize = compact
-    ? (maxLen > 10 ? 18 : maxLen > 7 ? 26 : maxLen > 4 ? 34 : 42)
-    : (maxLen > 14 ? 20 : maxLen > 10 ? 28 : maxLen > 7 ? 38 : maxLen > 4 ? 50 : 64);
+    ? (maxLen > 10 ? 16 : maxLen > 7 ? 22 : maxLen > 4 ? 28 : 34)
+    : (maxLen > 14 ? 18 : maxLen > 10 ? 24 : maxLen > 7 ? 30 : maxLen > 4 ? 36 : 44);
   return (
-    <div className={`flex flex-wrap justify-center ${compact ? 'gap-2' : 'gap-3'}`}>
+    <div className={`flex ${useRows ? 'flex-col' : 'flex-wrap justify-center'} ${compact ? 'gap-2' : 'gap-3'}`}>
       {options.map((opt, idx) => {
         const isSel = selected === opt.key;
         const isRight = checked && opt.key === correctKey;
@@ -152,12 +161,16 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               cursor: checked ? 'default' : 'pointer',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+              alignItems: useRows ? 'flex-start' : 'center',
               justifyContent: 'center',
-              textAlign: 'center',
+              textAlign: useRows ? 'left' : 'center',
               overflow: 'hidden',  // chống số dài tràn ra ngoài card
             }}
-            className={`relative hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] px-2 py-2' : 'min-h-[130px] px-2 py-2'}`}
+            className={`relative hover:-translate-y-1 ${animClass} ${
+              useRows
+                ? 'min-h-[56px] px-4 py-3'          // hàng gọn cho đáp án chữ
+                : compact ? 'min-h-[60px] px-2 py-2' : 'min-h-[84px] px-2 py-2'
+            }`}
           >
             {(() => {
               const idx2 = options.indexOf(opt);
@@ -179,20 +192,28 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
                 ? `clamp(${Math.round(sharedBaseSize * 0.5)}px, ${fitVw.toFixed(1)}vw, ${sharedBaseSize}px)`
                 : (compact ? '14px' : '18px');
               return (
-                <div className="flex flex-col items-center justify-center gap-1 w-full min-w-0">
-                  {opt.imageUrl && <img src={opt.imageUrl} alt={txt} className={`w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`} />}
-                  <div className="flex items-center justify-center gap-2 min-w-0 max-w-full w-full">
+                <div className={`flex w-full min-w-0 gap-2 ${useRows ? 'flex-row items-center' : 'flex-col items-center justify-center gap-1'}`}>
+                  {opt.imageUrl && (
+                    <img
+                      src={opt.imageUrl}
+                      alt={txt}
+                      className={useRows
+                        ? 'h-11 w-11 shrink-0 rounded-lg object-contain'
+                        : `w-full object-contain rounded-lg mb-1 ${compact ? 'max-h-14' : 'max-h-24 mb-2'}`}
+                    />
+                  )}
+                  <div className={`flex min-w-0 max-w-full items-center gap-2 ${useRows ? 'flex-1' : 'w-full justify-center'}`}>
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
-                      fontSize: fontSizeCss,
-                      fontWeight: isBig ? 900 : 700,
-                      color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                      textShadow: isBig && !checked && !isSel ? `1px 2px 0 ${optColor}55` : undefined,
-                      letterSpacing: '-0.5px',
-                      textAlign: 'center',
-                      whiteSpace: isBig ? 'nowrap' : 'pre-wrap',
-                      wordBreak: isBig ? 'keep-all' : 'break-word',
-                      lineHeight: 1,                // 1 thay vì 1.1 để bỏ khoảng dư trên/dưới
+                      fontSize: useRows ? '17px' : fontSizeCss,
+                      fontWeight: useRows ? 800 : (isBig ? 900 : 700),
+                      color: isBig && !useRows ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                      textShadow: isBig && !useRows && !checked && !isSel ? `1px 2px 0 ${optColor}55` : undefined,
+                      letterSpacing: '-0.3px',
+                      textAlign: useRows ? 'left' : 'center',
+                      whiteSpace: isBig && !useRows ? 'nowrap' : 'pre-wrap',
+                      wordBreak: isBig && !useRows ? 'keep-all' : 'break-word',
+                      lineHeight: useRows ? 1.25 : 1,
                       maxWidth: '100%',
                       display: 'inline-block',
                     }}>{formatMath(txt)}</span>
@@ -217,10 +238,20 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
   // Font size chung cho tất cả đáp án dựa trên option dài nhất
   const maxLen = Math.max(...options.map((o) => formatMath(String(o?.text ?? o?.key ?? '')).length), 1);
   const sharedBaseSize = compact
-    ? (maxLen > 10 ? 18 : maxLen > 7 ? 26 : maxLen > 4 ? 34 : 42)
-    : (maxLen > 14 ? 20 : maxLen > 10 ? 28 : maxLen > 7 ? 38 : maxLen > 4 ? 50 : 64);
+    ? (maxLen > 10 ? 16 : maxLen > 7 ? 22 : maxLen > 4 ? 28 : 34)
+    : (maxLen > 14 ? 18 : maxLen > 10 ? 24 : maxLen > 7 ? 30 : maxLen > 4 ? 36 : 44);
+  // Có ảnh hoặc chữ dài → xếp HÀNG (thẻ hẹp làm chữ tràn ra ngoài).
+  const allShortOrMath = options.every((o) => {
+    const t = String(o?.text ?? o?.key ?? '');
+    return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
+  });
+  const useRows = !allShortOrMath;
   return (
-    <div className={`grid ${compact ? 'gap-2' : 'gap-4'} ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+    <div className={
+      useRows
+        ? `flex flex-col ${compact ? 'gap-2' : 'gap-2.5'}`
+        : `grid ${compact ? 'gap-2' : 'gap-4'} ${options.length === 2 ? 'grid-cols-2' : options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`
+    }>
       {options.map((opt, idx) => {
         const isSel = selected.includes(opt.key);
         const isRight = checked && correctKeys.includes(opt.key);
@@ -242,13 +273,25 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
               transition: 'all 0.15s',
               cursor: checked ? 'default' : 'pointer',
             }}
-            className={`relative flex flex-col items-center justify-center overflow-visible hover:-translate-y-1 ${animClass} ${compact ? 'min-h-[70px] pl-2 pr-8 py-3' : 'min-h-[130px] pl-3 pr-10 py-6'}`}
+            className={`relative flex hover:-translate-y-1 ${animClass} ${
+              useRows
+                ? 'flex-row items-center gap-3 overflow-hidden min-h-[56px] pl-4 pr-10 py-3 text-left'
+                : `flex-col items-center justify-center overflow-hidden ${compact ? 'min-h-[60px] pl-2 pr-8 py-3' : 'min-h-[84px] pl-3 pr-10 py-6'}`
+            }`}
           >
             {/* Checkbox indicator */}
             <span className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-black transition-all ${isSel ? 'border-amber-500 bg-amber-500 text-white' : 'border-gray-300 bg-white'}`}>
               {isSel && '✓'}
             </span>
-            {opt.imageUrl && <img src={opt.imageUrl} alt={opt.text} className={`w-full object-contain rounded-lg ${compact ? 'max-h-14 mb-1' : 'max-h-24 mb-2'}`} />}
+            {opt.imageUrl && (
+              <img
+                src={opt.imageUrl}
+                alt={opt.text}
+                className={useRows
+                  ? 'h-11 w-11 shrink-0 rounded-lg object-contain'
+                  : `w-full object-contain rounded-lg ${compact ? 'max-h-14 mb-1' : 'max-h-24 mb-2'}`}
+              />
+            )}
             {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
             {(() => {
               const txt = String(opt.text ?? opt.key ?? '');
@@ -264,16 +307,19 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
                 : (compact ? '14px' : '18px');
               return (
                 <span style={{
-                  fontSize: fontSizeCss,
-                  fontWeight: isBig ? 900 : 700,
-                  color: isBig ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
-                  textShadow: isBig && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
-                  letterSpacing: '-0.5px',
-                  textAlign: 'center',
-                  whiteSpace: 'nowrap',
-                  lineHeight: 1.1,
+                  fontSize: useRows ? '17px' : fontSizeCss,
+                  fontWeight: useRows ? 800 : (isBig ? 900 : 700),
+                  color: isBig && !useRows ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
+                  textShadow: isBig && !useRows && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
+                  letterSpacing: '-0.3px',
+                  textAlign: useRows ? 'left' : 'center',
+                  // nowrap ở thẻ hẹp làm chữ dài tràn ra ngoài → cho xuống dòng khi xếp hàng
+                  whiteSpace: useRows ? 'normal' : 'nowrap',
+                  wordBreak: useRows ? 'break-word' : undefined,
+                  lineHeight: useRows ? 1.25 : 1.1,
                   display: 'block',
                   width: '100%',
+                  minWidth: 0,
                 }}>{formatMath(txt)}</span>
               );
             })()}
@@ -465,7 +511,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
   return (
     <div className="space-y-2">
       <p className="text-xs text-gray-400 mb-1">Chọn vế trái rồi chọn vế phải để nối</p>
-      <div ref={containerRef} className="relative flex gap-8 items-stretch">
+      <div ref={containerRef} className="relative flex gap-5 sm:gap-8 items-stretch">
         <svg className="absolute inset-0 pointer-events-none" width={svgSize.w} height={svgSize.h} style={{ overflow: 'visible' }}>
           {lines.map((ln, i) => {
             const mx = (ln.x1 + ln.x2) / 2;
@@ -478,7 +524,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </svg>
-        <div className="flex-1 space-y-3 min-w-0 flex flex-col">
+        <div className="flex-1 space-y-2 min-w-0 flex flex-col">
           {options.map((opt, idx) => {
             const isSelected = selectedLeft === opt.key;
             const matched = userMap[opt.key];
@@ -496,10 +542,10 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                   boxShadow: isSelected ? '0 2px 8px rgba(245,158,11,0.3)' : '0 1px 3px rgba(0,0,0,0.06)',
                   cursor: checked ? 'default' : 'pointer',
                 }}
-                className="w-full flex items-center justify-center px-5 py-4 transition-all flex-1 min-h-[120px]"
+                className={`w-full flex items-center justify-center px-3 py-2.5 transition-all flex-1 ${opt.imageUrl ? 'min-h-[96px]' : 'min-h-[52px]'}`}
               >
                 {opt.imageUrl
-                  ? <div className="flex flex-col items-center justify-center gap-1 flex-1"><img src={opt.imageUrl} alt={opt.text} style={{ width: 80, height: 80, objectFit: 'contain' }} /><span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', textAlign: 'center' }}>{opt.text}</span></div>
+                  ? <div className="flex flex-col items-center justify-center gap-1 flex-1"><img src={opt.imageUrl} alt={opt.text} style={{ width: 56, height: 56, objectFit: 'contain' }} /><span style={{ fontSize: 13, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b', textAlign: 'center' }}>{opt.text}</span></div>
                   : <span style={{ fontSize: isMathText(opt.text) ? 32 : 17, fontWeight: isMathText(opt.text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isMathText(opt.text) ? col : '#1e293b', textShadow: (isMathText(opt.text) && !checked && !isSelected && !matched) ? `1px 2px 0 ${col}44` : undefined }} className="text-center">{formatMath(opt.text)}</span>
                 }
                 {isCorrect && <span className="text-green-600 font-black text-lg shrink-0">✓</span>}
@@ -508,7 +554,7 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
             );
           })}
         </div>
-        <div className="flex-1 space-y-3 min-w-0 flex flex-col">
+        <div className="flex-1 space-y-2 min-w-0 flex flex-col">
           {rightItems.map((item, pos) => {
             const text = item.text;
             const isConnected = connectedPositions.has(pos);
@@ -550,10 +596,10 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
                   background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isConnected ? '#eff6ff' : '#fff',
                   cursor: checked ? 'default' : 'pointer',
                 }}
-                className="w-full px-5 py-4 text-center transition-all flex-1 min-h-[120px] flex flex-col items-center justify-center"
+                className={`w-full px-3 py-2.5 text-center transition-all flex-1 flex flex-col items-center justify-center ${item.imageUrl ? 'min-h-[96px]' : 'min-h-[52px]'}`}
               >
                 {item.imageUrl
-                  ? <div className="flex flex-col items-center justify-center gap-1"><img src={item.imageUrl} alt={text} style={{ width: 80, height: 80, objectFit: 'contain' }} />{text && !text.includes('http') && <span style={{ fontSize: 14, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151', textAlign: 'center' }}>{text}</span>}</div>
+                  ? <div className="flex flex-col items-center justify-center gap-1"><img src={item.imageUrl} alt={text} style={{ width: 56, height: 56, objectFit: 'contain' }} />{text && !text.includes('http') && <span style={{ fontSize: 13, fontWeight: 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151', textAlign: 'center' }}>{text}</span>}</div>
                   : <span style={{ fontSize: isMathText(text) ? 32 : 17, fontWeight: isMathText(text) ? 900 : 600, color: isCorrect ? '#15803d' : isWrong ? '#b91c1c' : isConnected ? col : '#374151' }}>{formatMath(text)}</span>
                 }
                 {isCorrect && <span className="ml-2 text-green-600 font-black">✓</span>}
@@ -2463,7 +2509,7 @@ export default function QuizPlayPage({
   const showVirtualKeyboard = !isChecked && !isTextFillBlank && (q.questionType === 'fill_blank' || q.questionType === 'table_fill' || q.questionType === 'counting');
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #C9F0FF 50%, #FFF4D6 100%)' }}>
+    <div className="min-h-screen flex flex-col pb-24 md:pb-0" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #C9F0FF 50%, #FFF4D6 100%)' }}>
 
       {/* Màn tổng kết điểm sau khi nộp bài */}
       {summary && (
@@ -2527,98 +2573,51 @@ export default function QuizPlayPage({
       <audio ref={correctAudio} src="/sounds/correct.mp3" preload="auto" />
       <audio ref={wrongAudio} src="/sounds/wrong.mp3" preload="auto" />
 
-      {/* Top bar */}
-      <div className="w-full px-4 sm:px-6 py-3.5" style={{ background: 'linear-gradient(90deg, #FF6B9D, #A06CD5)', boxShadow: '0 4px 12px rgba(160,108,213,0.25)' }}>
-        <div className="max-w-6xl mx-auto flex items-center gap-x-3 gap-y-2.5 flex-wrap">
-          <nav className="flex items-center gap-1.5 text-sm text-white/85 flex-wrap flex-1 min-w-0">
-            <Link href="/" className="hover:text-white transition-colors shrink-0 font-medium">Trang chủ</Link>
+      {/* Top bar: breadcrumb thẻ trắng 1 hàng (cuộn ngang nếu dài) + dãy chọn bài ở hàng riêng */}
+      <div className="w-full px-3 sm:px-6 py-3">
+        <div className="max-w-6xl mx-auto space-y-2.5">
+          <nav className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap rounded-2xl bg-white/95 px-4 py-2.5 text-xs sm:text-sm text-slate-500 shadow-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Link href="/" className="shrink-0 font-medium hover:text-pink-500">🏠 Trang chủ</Link>
             {lesson?.course && (
               <>
-                <span className="text-white/40 text-xs">›</span>
-                <Link href={`/khoa-hoc/${lesson.course.slug}`} className="hover:text-white transition-colors truncate max-w-[120px] font-medium">{lesson.course.title}</Link>
+                <span className="shrink-0 text-slate-300">›</span>
+                <Link href={`/khoa-hoc/${lesson.course.slug}`} className="shrink-0 font-medium hover:text-pink-500">{lesson.course.title}</Link>
               </>
             )}
             {lesson && (
               <>
-                <span className="text-white/40 text-xs">›</span>
-                <Link href={lesson.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`} className="hover:text-white transition-colors truncate max-w-[180px] font-medium">{lesson.title}</Link>
+                <span className="shrink-0 text-slate-300">›</span>
+                {/* Rút gọn "Bài 3: Nhiều hơn…" → "Bài 3" cho vừa một hàng */}
+                <Link href={lesson.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`} className="shrink-0 font-medium hover:text-pink-500">
+                  {lesson.title.split(':')[0]}
+                </Link>
               </>
             )}
-            <span className="text-white/40 text-xs">›</span>
-            <span className="font-bold text-white shrink-0">{DIFF_LABEL[exercise.difficultyLevel]}</span>
+            <span className="shrink-0 text-slate-300">›</span>
+            <span className="shrink-0 font-black" style={{ color: '#FF6B9D' }}>{DIFF_LABEL[exercise.difficultyLevel]}</span>
           </nav>
+
           {allExercises.length > 0 && (
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-white/70 text-xs font-semibold shrink-0">Bài:</span>
-              <div className="flex flex-wrap gap-1.5">
-                {allExercises.map((ex) => {
-                  const colors: Record<string, string> = { easy: '#0e7490', medium: '#c0392b', hard: '#b45309' };
-                  const isActive = ex.exerciseNumber === exerciseNumber;
-                  return (
-                    <button key={ex.exerciseNumber} onClick={() => navigateToExercise(ex.exerciseNumber)}
-                      className="w-8 h-8 rounded-xl text-xs font-bold transition-all shadow-sm hover:scale-110"
-                      style={{ background: isActive ? colors[ex.difficultyLevel] : 'rgba(255,255,255,0.2)', color: 'white', outline: isActive ? '2px solid white' : '2px solid transparent', outlineOffset: '2px' }}>
-                      {ex.exerciseNumber}
-                    </button>
-                  );
-                })}
-              </div>
+            <div className="flex items-center gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <span className="shrink-0 text-xs font-bold text-slate-500">Bài:</span>
+              {allExercises.map((ex) => {
+                const colors: Record<string, string> = { easy: '#0e7490', medium: '#c0392b', hard: '#b45309' };
+                const isActive = ex.exerciseNumber === exerciseNumber;
+                return (
+                  <button key={ex.exerciseNumber} onClick={() => navigateToExercise(ex.exerciseNumber)}
+                    className="h-9 w-9 shrink-0 rounded-xl text-xs font-bold shadow-sm transition-all hover:scale-110"
+                    style={{
+                      background: isActive ? colors[ex.difficultyLevel] : '#fff',
+                      color: isActive ? 'white' : '#64748b',
+                      border: isActive ? 'none' : '1px solid #e2e8f0',
+                    }}>
+                    {ex.exerciseNumber}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
-      </div>
-
-      {/* Thanh điểm gọn cho MOBILE (panel phải bị ẩn ở màn nhỏ) */}
-      <div className="md:hidden mx-4 mt-3 flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-2.5 shadow-md border-2 border-yellow-300">
-        {timeLeft != null && (
-          <div className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-black tabular-nums ${timeLeft <= 60 ? 'bg-red-50 text-red-500 animate-pulse' : 'bg-sky-50 text-sky-600'}`}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- icon tĩnh trong /public */}
-            <img src="/icons/icon_dong_ho_dem_nguoc.webp" alt="" className="h-6 w-6 object-contain" draggable={false} />{fmtClock(timeLeft)}
-          </div>
-        )}
-        <div className="flex items-baseline gap-1">
-          <span className="text-xs font-semibold text-gray-500">Câu</span>
-          <span className="text-lg font-black text-gray-800 kid-display">{current + 1}</span>
-          <span className="text-sm text-gray-400">/{exercise.quizzes.length}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-black text-white px-2 py-0.5 rounded-full kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF6B6B)' }}>Điểm</span>
-          <span key={score} className="text-xl font-black kid-display kid-bounce" style={{ color: '#FF6B9D' }}>{score}</span>
-          <span className="text-xs text-gray-400">/ {totalPoints}</span>
-        </div>
-        <button onClick={() => setSoundOn((s) => !s)}
-          aria-label="Bật/tắt âm thanh"
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${soundOn ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-400'}`}>
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-            <path d={soundOn
-              ? 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z'
-              : 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'}
-            />
-          </svg>
-        </button>
-      </div>
-
-      {/* Điều hướng câu + kết quả từng câu cho MOBILE (rail trái bị ẩn ở màn nhỏ) */}
-      <div className="md:hidden mx-4 mt-2 flex items-center gap-1.5 overflow-x-auto rounded-2xl bg-white/70 px-3 py-2 shadow-sm ring-1 ring-purple-100">
-        <span className="shrink-0 mr-1 rounded-full px-2 py-0.5 text-[11px] font-black text-white kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)' }}>KQ</span>
-        {exercise.quizzes.map((qz, idx) => {
-          const done = !!checked[qz.id];
-          const ok = done && checkCorrectForNav(qz);
-          const canNavigate = idx <= current || done;
-          const isActive = idx === current;
-          let bg = '#f3f4f6';
-          let txtColor = '#9ca3af';
-          if (isActive) { bg = 'linear-gradient(135deg, #FF6B9D, #FF9F45)'; txtColor = '#fff'; }
-          else if (done && ok) { bg = 'linear-gradient(135deg, #6BCB77, #16a34a)'; txtColor = '#fff'; }
-          else if (done && !ok) { bg = 'linear-gradient(135deg, #FF6B6B, #ef4444)'; txtColor = '#fff'; }
-          return (
-            <button key={qz.id} onClick={() => canNavigate && setCurrent(idx)} disabled={!canNavigate}
-              className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black kid-display ${canNavigate ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-              style={{ background: bg, color: txtColor, boxShadow: isActive ? '0 2px 8px rgba(255,107,157,0.5)' : '0 1px 3px rgba(0,0,0,0.08)' }}>
-              {done && ok ? '⭐' : done && !ok ? '💔' : idx + 1}
-            </button>
-          );
-        })}
       </div>
 
       {/* Layout */}
@@ -3150,6 +3149,66 @@ export default function QuizPlayPage({
           </div>
         </div>
 
+      </div>
+
+
+      {/* ── Thanh thời gian / câu hỏi / điểm / âm thanh — nằm DƯỚI thẻ câu hỏi (mobile) ── */}
+      <div className="md:hidden mx-3 grid grid-cols-4 overflow-hidden rounded-2xl border border-slate-200 bg-white text-center shadow-sm">
+        <div className="border-r border-slate-100 bg-teal-50/40 px-1 py-2">
+          <div className="text-[10px] font-black text-teal-600">Thời gian còn lại</div>
+          <div className={`mt-0.5 flex items-center justify-center gap-0.5 text-base font-black tabular-nums ${timeLeft != null && timeLeft <= 60 ? 'text-red-500 animate-pulse' : 'text-sky-600'}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- icon tĩnh trong /public */}
+            <img src="/icons/icon_dong_ho_dem_nguoc.webp" alt="" className="h-5 w-5 object-contain" draggable={false} />
+            {timeLeft != null ? fmtClock(timeLeft) : '--:--'}
+          </div>
+        </div>
+        <div className="border-r border-slate-100 bg-sky-50/40 px-1 py-2">
+          <div className="text-[10px] font-black text-sky-600">Câu hỏi số</div>
+          <div className="mt-0.5 text-base font-black text-slate-800 kid-display">
+            {current + 1}<span className="text-xs font-bold text-slate-400">/{exercise.quizzes.length}</span>
+          </div>
+        </div>
+        <div className="border-r border-slate-100 bg-pink-50/40 px-1 py-2">
+          <div className="text-[10px] font-black text-pink-500">Điểm</div>
+          <div key={score} className="mt-0.5 text-base font-black kid-bounce kid-display" style={{ color: '#FF6B9D' }}>
+            {score}<span className="text-xs font-bold text-slate-400">/{totalPoints}</span>
+          </div>
+        </div>
+        <button onClick={() => setSoundOn((s) => !s)} aria-label="Bật/tắt âm thanh"
+          className="flex items-center justify-center gap-1 bg-amber-50/40 px-1 py-2">
+          <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${soundOn ? 'bg-teal-400 text-white' : 'bg-gray-200 text-gray-400'}`}>
+            <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
+              <path d={soundOn
+                ? 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z'
+                : 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'}
+              />
+            </svg>
+          </span>
+          <span className="text-left text-[9px] font-bold leading-tight text-slate-600">Bật/Tắt âm thanh</span>
+        </button>
+      </div>
+
+      {/* ── Điều hướng câu hỏi (mobile) ── */}
+      <div className="md:hidden mx-3 mt-2 mb-3 flex items-center gap-1.5 overflow-x-auto rounded-2xl border border-purple-100 bg-white/80 px-3 py-2 shadow-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <span className="shrink-0 mr-1 text-[11px] font-black text-slate-600 kid-display">🚩 Câu hỏi</span>
+        {exercise.quizzes.map((qz, idx) => {
+          const done = !!checked[qz.id];
+          const ok = done && checkCorrectForNav(qz);
+          const canNavigate = idx <= current || done;
+          const isActive = idx === current;
+          let bg = '#f3f4f6';
+          let txtColor = '#9ca3af';
+          if (isActive) { bg = 'linear-gradient(135deg, #FF6B9D, #FF9F45)'; txtColor = '#fff'; }
+          else if (done && ok) { bg = 'linear-gradient(135deg, #6BCB77, #16a34a)'; txtColor = '#fff'; }
+          else if (done && !ok) { bg = 'linear-gradient(135deg, #FF6B6B, #ef4444)'; txtColor = '#fff'; }
+          return (
+            <button key={qz.id} onClick={() => canNavigate && setCurrent(idx)} disabled={!canNavigate}
+              className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black kid-display ${canNavigate ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+              style={{ background: bg, color: txtColor, boxShadow: isActive ? '0 2px 8px rgba(255,107,157,0.5)' : '0 1px 3px rgba(0,0,0,0.08)' }}>
+              {done && ok ? '⭐' : done && !ok ? '💔' : idx + 1}
+            </button>
+          );
+        })}
       </div>
 
       {/* Celebration overlay — keep original, skip rest of old sidebar */}

@@ -93,8 +93,8 @@ export default function LessonQuizList({
   return (
     <div className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-5" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.18)' }}>
       <div className="flex items-center justify-between gap-2 mb-4">
-        <h2 className="text-xl font-black text-gray-800 kid-display">🎯 Các chặng học</h2>
-        <span className="text-sm font-black text-gray-700 shrink-0">
+        <h2 className="whitespace-nowrap text-lg sm:text-xl font-black text-gray-800 kid-display">🎯 Các chặng học</h2>
+        <span className="shrink-0 text-xs sm:text-sm font-black text-gray-700">
           Đã hoàn thành {doneCount}/{stages.length} chặng
         </span>
       </div>
@@ -118,17 +118,16 @@ export default function LessonQuizList({
               className="rounded-3xl overflow-hidden"
               style={{ background: stage.bg, border: `3px solid ${color}`, boxShadow: `0 4px 0 ${color}aa` }}
             >
-              <div className="flex items-center gap-3 px-4 pt-4">
-                <div className="shrink-0 text-4xl">{stage.emoji}</div>
+              <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 pt-3 sm:pt-4">
+                <div className="shrink-0 text-2xl sm:text-4xl">{stage.emoji}</div>
 
                 {/* Badge Chặng N */}
                 <div
-                  className="shrink-0 flex items-center justify-center text-white text-sm font-black whitespace-nowrap kid-display"
+                  className="shrink-0 flex items-center justify-center text-white text-[11px] sm:text-sm font-black whitespace-nowrap kid-display px-3 py-1 sm:px-5 sm:py-1.5"
                   style={{
                     background: color,
                     clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)',
-                    padding: '6px 20px 6px 12px',
-                    minWidth: '96px',
+                    paddingRight: '16px',
                   }}
                 >
                   Chặng {chang}
@@ -136,10 +135,10 @@ export default function LessonQuizList({
 
                 {/* Nội dung giữa */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-base font-black truncate kid-display" style={{ color }}>
+                  <div className="text-sm sm:text-base font-black truncate kid-display" style={{ color }}>
                     {stage.title}
                   </div>
-                  <div className="mt-1 text-xs text-gray-600">
+                  <div className="mt-0.5 text-[10px] sm:text-xs leading-tight text-gray-600">
                     {done ? (
                       <>Đúng <b>{st!.correctCount}/{st!.totalQuestions}</b> câu • Đạt {st!.stars} sao</>
                     ) : (

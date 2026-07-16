@@ -93,25 +93,45 @@ export default async function HomePage() {
         <div className="bg-white rounded-[32px] border-4 border-pink-200 overflow-hidden" style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}>
           <div className="grid lg:grid-cols-2">
             {/* Left */}
-            <div className="p-8 sm:p-10 flex flex-col justify-center">
+            <div className="p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
               <span className="inline-block rounded-full text-white text-xs font-black px-4 py-1.5 mb-4 w-fit kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)' }}>
                 Nền tảng học tập cho bé 3–10 tuổi
               </span>
-              <h1 className="text-4xl sm:text-5xl font-black text-slate-900 leading-tight kid-display">
+              {/* Cỡ chữ nhỏ hơn trên mobile để tiêu đề không vỡ dòng lẻ */}
+              <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight kid-display">
                 Học vui mỗi ngày —<br />
                 <span style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>bé tiến bộ thấy rõ</span> 🎉
               </h1>
               <p className="mt-4 text-slate-600 leading-relaxed">
                 Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà. Phụ huynh theo dõi tiến độ dễ dàng mỗi ngày.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
+
+              {/* Mobile: 4 thẻ tính năng gọn 1 hàng (desktop hiển thị ở cột phải) */}
+              <div className="mt-5 grid grid-cols-4 gap-2 lg:hidden">
+                {FEATURES.map((f, i) => {
+                  const c = ['#FF6B9D', '#FFD93D', '#4ECDC4', '#A06CD5'][i % 4];
+                  return (
+                    <div
+                      key={f.title}
+                      className="rounded-2xl bg-white p-2 text-center"
+                      style={{ border: `2px solid ${c}`, boxShadow: `0 3px 0 ${c}aa` }}
+                    >
+                      <div className="text-2xl leading-none">{f.emoji}</div>
+                      <p className="mt-1 text-[10px] font-black leading-tight text-slate-800 kid-display">{f.title}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Mobile: 2 nút cùng hàng; desktop giữ nguyên */}
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
                 <Link href="/khoa-hoc"
-                  className="kid-btn-3d text-sm"
+                  className="kid-btn-3d text-xs sm:text-sm text-center whitespace-nowrap !px-3 sm:!px-8"
                   style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 6px 0 #c0392b' }}>
                   📚 Xem khóa học
                 </Link>
                 <Link href="/tro-choi"
-                  className="kid-btn-3d text-sm"
+                  className="kid-btn-3d text-xs sm:text-sm text-center whitespace-nowrap !px-3 sm:!px-8"
                   style={{ background: 'linear-gradient(135deg, #4ECDC4, #87CEEB)', boxShadow: '0 6px 0 #0e7490' }}>
                   🎮 Kho trò chơi
                 </Link>
@@ -126,8 +146,8 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-            {/* Right */}
-            <div className="p-8 flex items-center justify-center min-h-[280px]" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #FFF4D6 50%, #C9F0FF 100%)' }}>
+            {/* Right — chỉ hiện từ desktop (mobile đã có dải 4 thẻ gọn ở trên) */}
+            <div className="hidden lg:flex p-8 items-center justify-center min-h-[280px]" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #FFF4D6 50%, #C9F0FF 100%)' }}>
               <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
                 {FEATURES.map((f, i) => {
                   const colors = ['#FF6B9D', '#FFD93D', '#4ECDC4', '#A06CD5'];
@@ -147,13 +167,14 @@ export default async function HomePage() {
 
       {/* ── COURSES ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-white rounded-3xl border-4 border-pink-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
-          <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#FF6B9D' }}>🎓 Khóa học</p>
-              <h2 className="text-2xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Các khóa học dành cho bé</h2>
+        <div className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <div className="min-w-0">
+              <p className="text-[11px] font-black uppercase tracking-widest mb-0.5 kid-display" style={{ color: '#FF6B9D' }}>🎓 Khóa học</p>
+              <h2 className="text-xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Các khóa học dành cho bé</h2>
             </div>
-            <Link href="/khoa-hoc" className="text-sm font-black kid-display px-4 py-2 rounded-full text-white shrink-0" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 3px 0 #c2185b' }}>
+            {/* Link chữ cho gọn, không dùng nút to */}
+            <Link href="/khoa-hoc" className="shrink-0 text-xs sm:text-sm font-black kid-display text-[#FF6B9D] hover:underline">
               Xem tất cả →
             </Link>
           </div>

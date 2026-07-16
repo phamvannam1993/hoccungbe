@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { parseExerciseParam } from '../../lib/quiz-slug';
 import QuizPlayPage from '../../components/edu/QuizPlayPage';
-import CurrentChildBar from '../../components/edu/CurrentChildBar';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
@@ -60,7 +59,6 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <CurrentChildBar />
       <QuizPlayPage
         lessonSlug={lessonSlug}
         difficulty={parsed.difficulty as 'easy' | 'medium' | 'hard'}

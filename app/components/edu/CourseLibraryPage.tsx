@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { apiFetch, ApiCourse } from '../../lib/api';
 import { getCurrentChildId, listChildren, GRADES, gradeLabel, gradeFromSlug } from '../../lib/childData';
@@ -93,9 +94,9 @@ export default function CourseLibraryPage() {
   return (
     <div className="kid-bg min-h-screen relative overflow-hidden">
       {/* Decorative floating emojis */}
-      <span aria-hidden className="pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-24 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
+      <span aria-hidden className="pointer-events-none select-none hidden lg:block absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
+      <span aria-hidden className="pointer-events-none select-none hidden lg:block absolute top-24 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
+      <span aria-hidden className="pointer-events-none select-none hidden lg:block absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
 
       {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
@@ -125,36 +126,36 @@ export default function CourseLibraryPage() {
             Khám phá những khóa học siêu thú vị, đầy màu sắc và trò chơi giáo dục dành cho bé yêu của bạn!
           </p>
 
-          {/* Lọc theo lớp */}
-          {availableGrades.length > 0 && (
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-sm font-bold text-slate-500">🎒 Chọn lớp:</span>
-              {availableGrades.map((g) => (
-                <button
-                  key={g}
-                  type="button"
-                  onClick={() => setGradeFilter(g)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-black kid-display transition ${gradeFilter === g ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                  style={gradeFilter === g ? { background: 'linear-gradient(135deg,#FF6B9D,#FF9F45)', boxShadow: '0 3px 0 #c0392b' } : undefined}
-                >
-                  {gradeLabel(g)}
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={() => setGradeFilter('all')}
-                className={`rounded-full px-4 py-1.5 text-sm font-black kid-display transition ${gradeFilter === 'all' ? 'text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                style={gradeFilter === 'all' ? { background: 'linear-gradient(135deg,#A06CD5,#4ECDC4)', boxShadow: '0 3px 0 #6d28d9' } : undefined}
-              >
-                Tất cả
-              </button>
-              {gradeFilter !== 'all' && childName && (
-                <span className="text-xs text-slate-400">— đang xem nội dung {gradeLabel(gradeFilter)} của {childName}</span>
-              )}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Lọc theo lớp — nằm ngoài thẻ hero, gọn 1 hàng (Tất cả ở cuối) */}
+      {availableGrades.length > 0 && (
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {availableGrades.map((g) => (
+              <button
+                key={g}
+                type="button"
+                title={childName ? `Khóa học dành cho ${childName}` : undefined}
+                onClick={() => setGradeFilter(g)}
+                className={`shrink-0 rounded-full px-5 py-2 text-sm font-black kid-display transition ${gradeFilter === g ? 'text-white shadow-md' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                style={gradeFilter === g ? { background: 'linear-gradient(135deg,#FF6B9D,#FF9F45)' } : undefined}
+              >
+                {gradeLabel(g)}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setGradeFilter('all')}
+              className={`shrink-0 rounded-full px-5 py-2 text-sm font-black kid-display transition ${gradeFilter === 'all' ? 'text-white shadow-md' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+              style={gradeFilter === 'all' ? { background: 'linear-gradient(135deg,#A06CD5,#7c3aed)' } : undefined}
+            >
+              Tất cả
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 relative">
@@ -178,28 +179,24 @@ export default function CourseLibraryPage() {
               return (
                 <section
                   key={group.key}
-                  className="bg-white rounded-3xl border-4 p-6 sm:p-8"
+                  className="bg-white rounded-3xl border-4 p-4 sm:p-8"
                   style={{
                     borderColor: headColor.c + '55',
                     boxShadow: `0 8px 30px ${headColor.c}33`,
                   }}
                 >
-                  <p
-                    className="text-xs font-black uppercase tracking-widest mb-1 kid-display"
-                    style={{ color: headColor.c }}
-                  >
-                    {GROUP_EMOJIS[group.key] || '✨'} Nhóm khóa học
-                  </p>
-                  <h2
-                    className="text-2xl sm:text-3xl font-black kid-display mb-5"
-                    style={{
-                      background: `linear-gradient(135deg, ${headColor.c}, #FFD93D)`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}
-                  >
-                    {group.label}
-                  </h2>
+                  {/* Tiêu đề nhóm gọn 1 dòng: icon + tên môn */}
+                  <div className="mb-4 flex items-center gap-2">
+                    <span
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-lg"
+                      style={{ background: headColor.c + '22' }}
+                    >
+                      {GROUP_EMOJIS[group.key] || '✨'}
+                    </span>
+                    <h2 className="text-xl sm:text-2xl font-black kid-display" style={{ color: headColor.c }}>
+                      {group.label}
+                    </h2>
+                  </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {group.courses.map((course, idx) => {
                       const color = COLORS[idx % COLORS.length];
@@ -208,56 +205,67 @@ export default function CourseLibraryPage() {
                         <Link
                           key={course.id}
                           href={`/khoa-hoc/${course.slug}`}
-                          className="group block rounded-3xl p-5 kid-card-hover"
+                          className="group block rounded-3xl p-3 sm:p-5 kid-card-hover"
                           style={{
                             background: color.bg,
                             border: `3px solid ${color.c}`,
                             boxShadow: `0 4px 0 ${color.c}66`,
                           }}
                         >
-                          <div className="flex items-start gap-3">
+                          <div className="flex items-center gap-3">
                             <div
-                              className="text-3xl shrink-0 rounded-2xl w-14 h-14 flex items-center justify-center bg-white"
+                              className="text-2xl sm:text-3xl shrink-0 rounded-2xl w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-white"
                               style={{ boxShadow: `0 3px 0 ${color.c}55` }}
                             >
                               {emoji}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-black text-slate-900 leading-snug kid-display text-lg">
+                              <h3 className="font-black text-slate-900 leading-snug kid-display text-base sm:text-lg">
                                 {course.title}
                               </h3>
                               {(course.shortDescription || course.description) && (
-                                <p className="mt-1.5 text-sm text-slate-600 leading-relaxed line-clamp-3">
+                                <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2">
                                   {course.shortDescription || course.description}
                                 </p>
                               )}
-                              <div className="mt-3 flex flex-wrap items-center gap-2">
-                                {course.totalLessons > 0 && (
-                                  <span
-                                    className="text-xs font-black kid-display px-3 py-1 rounded-full text-white"
-                                    style={{ background: color.c }}
-                                  >
-                                    📖 {course.totalLessons} bài
-                                  </span>
-                                )}
-                                {course.targetAgeMin > 0 && (
-                                  <span
-                                    className="text-xs font-black kid-display px-3 py-1 rounded-full bg-white"
-                                    style={{ color: color.c, border: `2px solid ${color.c}` }}
-                                  >
-                                    👶 {course.targetAgeMin}–{course.targetAgeMax} tuổi
-                                  </span>
-                                )}
-                                {course.isFree && (
-                                  <span
-                                    className="text-xs font-black kid-display px-3 py-1 rounded-full text-white"
-                                    style={{ background: 'linear-gradient(135deg, #6BCB77, #4ECDC4)' }}
-                                  >
-                                    🎁 Miễn phí
-                                  </span>
-                                )}
-                              </div>
                             </div>
+
+                            {/* Nút mũi tên, màu theo nhóm môn */}
+                            <span
+                              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-white shadow-sm transition group-hover:scale-110"
+                              style={{ background: color.c }}
+                              aria-hidden="true"
+                            >
+                              <ArrowRight size={18} />
+                            </span>
+                          </div>
+
+                          {/* Badge chiếm trọn bề ngang thẻ → đủ chỗ nằm 1 hàng */}
+                          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                            {course.totalLessons > 0 && (
+                              <span
+                                className="text-[10px] sm:text-xs font-black kid-display px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-white whitespace-nowrap"
+                                style={{ background: color.c }}
+                              >
+                                📖 {course.totalLessons} bài
+                              </span>
+                            )}
+                            {course.targetAgeMin > 0 && (
+                              <span
+                                className="text-[10px] sm:text-xs font-black kid-display px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-white whitespace-nowrap"
+                                style={{ color: color.c, border: `2px solid ${color.c}` }}
+                              >
+                                👶 {course.targetAgeMin}–{course.targetAgeMax} tuổi
+                              </span>
+                            )}
+                            {course.isFree && (
+                              <span
+                                className="text-[10px] sm:text-xs font-black kid-display px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-white whitespace-nowrap"
+                                style={{ background: 'linear-gradient(135deg, #6BCB77, #4ECDC4)' }}
+                              >
+                                🎁 Miễn phí
+                              </span>
+                            )}
                           </div>
                         </Link>
                       );

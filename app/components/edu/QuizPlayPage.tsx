@@ -122,6 +122,40 @@ const SHAPE_COLOR: Record<ShapeKind, string> = {
   oval: '#06b6d4', diamond: '#e11d48', star: '#f59e0b', heart: '#ec4899',
 };
 
+// ─── Emoji thay ảnh: câu nhắc con vật/đồ vật/quả mà chưa có ảnh → hiện emoji minh họa ──
+// Cụm nhiều từ để TRƯỚC (khớp dài nhất) để "cá heo" không bị "cá" nuốt mất.
+const NOUN_EMOJI: [string, string][] = [
+  // con vật
+  ['cá heo','🐬'],['cá mập','🦈'],['bạch tuộc','🐙'],['gà con','🐤'],['gà gô','🐔'],['gà giò','🐔'],['sơn ca','🐦'],['chào mào','🐦'],['chim sâu','🐦'],['chim sẻ','🐦'],['bồ câu','🕊️'],['cào cào','🦗'],['châu chấu','🦗'],['dế mèn','🦗'],
+  ['con gà','🐔'],['con vịt','🦆'],['con chó','🐕'],['con mèo','🐈'],['con voi','🐘'],['con hươu','🦒'],['con ngựa','🐴'],['con trâu','🐃'],['con bò','🐄'],['con lợn','🐷'],['con heo','🐷'],['con thỏ','🐰'],['con gấu','🐻'],['con khỉ','🐒'],['con hổ','🐯'],['con cọp','🐯'],['sư tử','🦁'],['con cá','🐟'],['con cua','🦀'],['con tôm','🦐'],['con rùa','🐢'],['con ếch','🐸'],['con rắn','🐍'],['con chim','🐦'],['con ong','🐝'],['con bướm','🦋'],['con kiến','🐜'],['con nhện','🕷️'],['con chuột','🐭'],['con sóc','🐿️'],['con sói','🐺'],['con dê','🐐'],['con cừu','🐑'],['con nhím','🦔'],['con chồn','🦡'],['con quạ','🐦‍⬛'],['con vẹt','🦜'],['con công','🦚'],['con én','🐦'],['nòng nọc','🐸'],
+  ['gà','🐔'],['vịt','🦆'],['chó','🐕'],['mèo','🐈'],['voi','🐘'],['hươu','🦒'],['ngựa','🐴'],['trâu','🐃'],['thỏ','🐰'],['gấu','🐻'],['khỉ','🐒'],['hổ','🐯'],['cọp','🐯'],['rùa','🐢'],['ếch','🐸'],['rắn','🐍'],['ong','🐝'],['bướm','🦋'],['kiến','🐜'],['nhện','🕷️'],['chuột','🐭'],['sóc','🐿️'],['nhím','🦔'],['chồn','🦡'],['quạ','🐦‍⬛'],['vẹt','🦜'],['nhái','🐸'],
+  // quả / cây / hoa
+  ['quả cam','🍊'],['quả táo','🍎'],['quả chuối','🍌'],['quả nho','🍇'],['dưa hấu','🍉'],['quả dâu','🍓'],['quả xoài','🥭'],['quả dứa','🍍'],['quả đào','🍑'],['quả lê','🍐'],['quả chanh','🍋'],['quả dừa','🥥'],['cà chua','🍅'],['cà rốt','🥕'],['quả ớt','🌶️'],['quả bí','🎃'],['quả cà','🍆'],['củ khoai','🍠'],['cây nấm','🍄'],['bắp ngô','🌽'],
+  ['hoa hồng','🌹'],['hoa mai','🌼'],['hoa đào','🌸'],['hoa sen','🪷'],['hoa cúc','🌼'],['dã quỳ','🌻'],['bông hoa','🌸'],
+  ['cam','🍊'],['táo','🍎'],['chuối','🍌'],['nho','🍇'],['dâu','🍓'],['xoài','🥭'],['dứa','🍍'],['đào','🍑'],['lê','🍐'],['chanh','🍋'],['dừa','🥥'],['ngô','🌽'],['khoai','🍠'],['nấm','🍄'],['ớt','🌶️'],['sen','🪷'],['hoa','🌸'],['lá','🍃'],['cây','🌳'],
+  // đồ vật / thiên nhiên
+  ['bút chì','✏️'],['sách vở','📚'],['đèn pin','🔦'],['kính râm','🕶️'],['mặt trời','☀️'],['mặt trăng','🌙'],['ngôi sao','⭐'],['cầu vồng','🌈'],['quả bóng','⚽'],['bánh mì','🍞'],['mâm cơm','🍽️'],['đồng hồ','⏰'],['ô tô','🚗'],['xe đạp','🚲'],['xe máy','🏍️'],['xe buýt','🚌'],['máy bay','✈️'],['máy cày','🚜'],['tem thư','✉️'],['đầu bếp','👨‍🍳'],['bác sĩ','🧑‍⚕️'],['y tá','🧑‍⚕️'],['cô giáo','🧑‍🏫'],
+  ['bút','✏️'],['sách','📚'],['vở','📓'],['cặp','🎒'],['thước','📏'],['đèn','💡'],['kính','👓'],['mũ','🧢'],['nón','👒'],['ô','☂️'],['dù','☂️'],['dép','🩴'],['giày','👟'],['áo','👕'],['quần','👖'],['khăn','🧣'],['tivi','📺'],['tàu','🚢'],['thuyền','⛵'],['nhà','🏠'],['trường','🏫'],['cầu','🌉'],['núi','⛰️'],['sông','🏞️'],['biển','🌊'],['mây','☁️'],['mưa','🌧️'],['sao','⭐'],['trăng','🌙'],['nắng','☀️'],['bóng','⚽'],['trống','🥁'],['đàn','🎸'],['chuông','🔔'],['kẹo','🍬'],['bánh','🍰'],['cơm','🍚'],['kem','🍦'],['trứng','🥚'],['sữa','🥛'],['cốc','🥤'],['nồi','🍲'],['tre','🎋'],['nến','🕯️'],
+];
+
+// Trả về emoji phù hợp nhất tìm thấy trong đoạn text (ưu tiên cụm dài).
+function emojiForText(text: string | undefined | null): string | null {
+  const t = String(text || '').toLowerCase();
+  for (const [k, e] of NOUN_EMOJI) {
+    // khớp theo biên từ để "lá" không dính trong "là", "cả"…
+    if (new RegExp(`(^|[^a-zà-ỹ])${k}([^a-zà-ỹ]|$)`, 'i').test(t)) return e;
+  }
+  return null;
+}
+
+// Emoji minh họa cho ĐỀ BÀI: chỉ khi câu có ý "xem hình/tranh".
+// Lấy danh từ trong đề; nếu đề không có (vd "Đây là con gì?") thì lấy theo ĐÁP ÁN ĐÚNG.
+function questionEmoji(text: string | undefined | null, correctText?: string | null): string | null {
+  const t = String(text || '');
+  if (!/hình|tranh|quan sát|nhìn|con gì|quả gì|cái gì|con vật|đây là|chọn tên|chọn từ đúng|tô màu chữ/i.test(t)) return null;
+  return emojiForText(t) || (correctText ? emojiForText(correctText) : null);
+}
+
 function ShapeSVG({ shape, color, size = 44 }: { shape: ShapeKind; color: string; size?: number }) {
   const fill = `${color}33`;
   const common = { fill, stroke: color, strokeWidth: 3, strokeLinejoin: 'round' as const };
@@ -2872,22 +2906,37 @@ export default function QuizPlayPage({
               )}
             </div>
 
-            {/* Hình minh họa tự vẽ khi đề nhắc tên hình mà chưa có ảnh và đáp án không phải hình
-                (vd "Tam giác có 3 góc. Đúng hay sai?") */}
+            {/* Minh họa khi chưa có ảnh: (1) hình học tự vẽ SVG, (2) emoji cho con vật/đồ vật/quả.
+                Vd "Tam giác có 3 góc. Đúng hay sai?" → vẽ tam giác; "Quan sát hình con gà" → 🐔 */}
             {(() => {
               if (q.questionImageUrl) return null;
-              if ((q.optionsJson ?? []).some((o) => tokenShape(o?.text))) return null; // tránh trùng với đáp án hình
-              const shapes = shapesInText(q.questionText);
-              if (!shapes.length) return null;
-              return (
-                <div className="mb-4 flex flex-wrap items-center justify-center gap-6">
-                  {shapes.map((sh, i) => (
-                    <div key={i} className="flex flex-col items-center gap-1">
-                      <ShapeSVG shape={sh} color={SHAPE_COLOR[sh]} size={92} />
-                    </div>
-                  ))}
-                </div>
-              );
+              const optShapes = (q.optionsJson ?? []).some((o) => tokenShape(o?.text));
+              const shapes = optShapes ? [] : shapesInText(q.questionText);
+              if (shapes.length) {
+                return (
+                  <div className="mb-4 flex flex-wrap items-center justify-center gap-6">
+                    {shapes.map((sh, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1">
+                        <ShapeSVG shape={sh} color={SHAPE_COLOR[sh]} size={92} />
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+              // Câu 1 đáp án đúng → cho phép lấy emoji theo đáp án (câu "chọn hình")
+              const singleAns = q.questionType === 'single_choice' || q.questionType === 'image_choice';
+              const correctText = singleAns
+                ? (q.optionsJson ?? []).find((o) => o.key === correctKey)?.text
+                : undefined;
+              const emo = questionEmoji(q.questionText, correctText);
+              if (emo) {
+                return (
+                  <div className="mb-4 flex justify-center">
+                    <span className="leading-none" style={{ fontSize: 76 }} aria-hidden="true">{emo}</span>
+                  </div>
+                );
+              }
+              return null;
             })()}
 
             {q.questionImageUrl && (

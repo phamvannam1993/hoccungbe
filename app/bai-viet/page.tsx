@@ -134,6 +134,8 @@ function ArticlesContent() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      {/* H1 của riêng trang danh sách (bài viết chi tiết có H1 riêng) */}
+      <h1 className="sr-only">Góc phụ huynh – Kiến thức nuôi dạy con</h1>
       {/* Breadcrumb */}
       <nav className="text-sm text-white/70 mb-6 flex items-center gap-1.5">
         <Link href="/" className="hover:text-white">Trang chủ</Link>

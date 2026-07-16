@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const url = `${SITE}/bai-viet/${slug}`;
   const desc = article.excerpt || article.title;
   return {
-    title: `${article.title} - Bé Hay Học`,
+    title: article.title,
     description: desc,
     alternates: { canonical: url },
     openGraph: { title: article.title, description: desc, url, type: 'article', siteName: 'Bé Hay Học', locale: 'vi_VN', images: article.thumbnailUrl ? [{ url: article.thumbnailUrl, width: 1200, height: 630, alt: article.title }] : [] },

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title: {
     default:
       'Bé Hay Học – Game học toán, trò chơi giáo dục cho bé 3-10 tuổi miễn phí',
-    template: '%s | Bé Hay Học – Game giáo dục cho bé',
+    template: '%s | Bé Hay Học',
   },
 
   description:

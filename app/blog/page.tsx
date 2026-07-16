@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Blog phụ huynh | Bé Hay Học',
+  title: 'Blog phụ huynh',
   description:
     'Góc phụ huynh của Bé Hay Học chia sẻ mẹo học tại nhà, cách giúp bé tập trung, xây góc học tập và đồng hành cùng trẻ 3 đến 10 tuổi.',
   keywords: [

@@ -4,7 +4,11 @@ const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {
-  title: 'Góc phụ huynh - Kiến thức nuôi dạy con',
+  // default cho chính trang /bai-viet, template để bài viết con vẫn có thương hiệu
+  title: {
+    default: 'Góc phụ huynh - Kiến thức nuôi dạy con',
+    template: '%s | Bé Hay Học',
+  },
   description: 'Bài viết kiến thức, kinh nghiệm nuôi dạy con, tin tức giáo dục trẻ em và các hoạt động học tập cho bé từ đội ngũ Bé Hay Học.',
   keywords: [
     'nuôi dạy con',
@@ -70,8 +74,9 @@ export default async function BaiVietLayout({ children }: { children: React.Reac
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      {/* SSR article list — crawlable by Google, hidden visually */}
-      <h1 className="sr-only">Góc phụ huynh – Kiến thức nuôi dạy con | Bé Hay Học</h1>
+      {/* SSR article list — crawlable by Google, hidden visually.
+          H1 nằm ở từng trang (danh sách / bài viết) để không bị trùng 2 thẻ H1. */}
+      <h2 className="sr-only">Góc phụ huynh – Kiến thức nuôi dạy con</h2>
       {articles.length > 0 && (
         <div className="sr-only" aria-hidden="true">
           <h2>Bài viết mới nhất</h2>

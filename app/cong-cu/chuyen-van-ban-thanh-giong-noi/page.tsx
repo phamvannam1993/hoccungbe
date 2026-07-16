@@ -5,7 +5,7 @@ const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi';
 const ogImage = 'https://behayhoc.com/og-tts.jpg';
 
 export const metadata: Metadata = {
-  title: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt | Bé Hay Học',
+  title: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt',
 
   description:
     'Công cụ chuyển văn bản thành giọng nói tiếng Việt online miễn phí. Tạo giọng đọc tự nhiên, điều chỉnh tốc độ và tải file MP3 cho bài học, video, luyện nghe.',

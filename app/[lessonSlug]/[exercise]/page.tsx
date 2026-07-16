@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const diffLabel = parsed ? DIFF_LABEL[parsed.difficulty] ?? 'Bài tập' : 'Bài tập';
   const lessonTitle = lesson?.title ?? lessonSlug;
-  const title = `${diffLabel} - ${lessonTitle} | Bé Hay Học`;
+  const title = `${diffLabel} - ${lessonTitle}`;
   const description = `Luyện tập ${diffLabel.toLowerCase()} cho bài "${lessonTitle}" với các câu hỏi tương tác vui nhộn dành cho bé tại Bé Hay Học.`;
   const url = `${SITE}/${lessonSlug}/${exercise}`;
 

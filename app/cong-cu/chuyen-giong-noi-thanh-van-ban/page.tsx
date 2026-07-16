@@ -5,7 +5,7 @@ const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-giong-noi-thanh-van-ban';
 const ogImage = 'https://behayhoc.com/og-stt.jpg';
 
 export const metadata: Metadata = {
-  title: 'Chuyển Giọng Nói Thành Văn Bản Online Miễn Phí | Bé Hay Học',
+  title: 'Chuyển Giọng Nói Thành Văn Bản Online Miễn Phí',
 
   description:
     'Công cụ chuyển giọng nói thành văn bản online miễn phí. Hỗ trợ tiếng Việt, nhiều ngôn ngữ và các định dạng âm thanh phổ biến như MP3, WAV, FLAC, M4A.',

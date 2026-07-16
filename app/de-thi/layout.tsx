@@ -3,7 +3,10 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {
-  title: 'Đề thi & Kiểm tra | Bé Hay Học',
+  title: {
+    default: 'Đề thi & Kiểm tra',
+    template: '%s | Bé Hay Học',
+  },
   description: 'Bộ đề thi, bài kiểm tra Toán, Tiếng Việt, Tiếng Anh lớp 1–5 theo chuẩn Bộ Giáo dục – Đào tạo. Tự chấm điểm tức thì, luyện tập hiệu quả cho bé.',
   alternates: { canonical: `${SITE}/de-thi` },
   openGraph: {

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Điều khoản sử dụng | Bé Hay Học',
+  title: 'Điều khoản sử dụng',
   description:
     'Điều khoản sử dụng của Bé Hay Học, quy định quyền và trách nhiệm của người dùng khi truy cập và sử dụng nền tảng học tập cho trẻ em.',
   alternates: {

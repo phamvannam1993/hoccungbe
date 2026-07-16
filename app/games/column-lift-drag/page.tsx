@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Kéo Cột Số | 5-7 tuổi | Bé Hay Học 2026',
+  title: 'Kéo Cột Số | 5-7 tuổi',
   description: 'Trò chơi kéo cột số giúp bé sắp xếp, logic, motor skills. Phù hợp với trẻ 5-7 tuổi. Tải ngay để bé học logic.',
   keywords: ['kéo', 'cột', 'số', 'logic', 'game kéo cột số', 'drag and drop math', 'sắp xếp số'],
   alternates: { canonical: '/tro-choi/keo-cot-so' },

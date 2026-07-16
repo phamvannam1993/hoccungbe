@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Cá Trong Hồ Bơi | 4-6 tuổi | Bé Hay Học 2026',
+  title: 'Cá Trong Hồ Bơi | 4-6 tuổi',
   description: 'Trò chơi cá trong hồ giúp bé đếm số, phép cộng. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học phép cộng.',
   keywords: ['cá', 'hồ', 'đếm', 'số', 'game cá trong hồ', 'đếm cá học toán', 'trò chơi nước cho bé'],
   alternates: { canonical: '/tro-choi/ca-trong-ho-boi' },

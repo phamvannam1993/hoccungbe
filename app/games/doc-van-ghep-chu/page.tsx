@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Ghép Chữ Thành Vần | 4-6 tuổi | Bé Hay Học 2026',
+  title: 'Ghép Chữ Thành Vần | 4-6 tuổi',
   description: 'Trò chơi ghép chữ thành vần giúp bé vần tiếng Việt, phát âm, đọc. Phù hợp với trẻ 4-6 tuổi. Tải ngay để bé học vần.',
   keywords: ['ghép chữ', 'vần', 'tiếng Việt', 'âm thanh', 'trò chơi ghép chữ thành vần', 'game học vần tiếng Việt', 'syllable building'],
   alternates: {

@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Dãy Số | 5-8 tuổi | Bé Hay Học 2026',
+  title: 'Dãy Số | 5-8 tuổi',
   description: 'Trò chơi dãy số giúp bé logic, quy luật, dãy số. Phù hợp với trẻ 5-8 tuổi. Tải ngay để bé học logic.',
   keywords: ['dãy số', 'quy luật', 'pattern', 'logic', 'trò chơi dãy số', 'game quy luật toán', 'pattern recognition'],
   alternates: { canonical: '/tro-choi/day-so' },

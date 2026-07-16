@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${document.title} | Bé Hay Học`,
+    title: document.title,
     description: document.description || `Tải ${document.title} - Tài liệu PDF học tập chất lượng cao`,
     keywords: [document.title, 'tài liệu', 'PDF', 'học tập'],
     alternates: { canonical: `${SITE_URL}/tai-lieu/${document.slug}` },

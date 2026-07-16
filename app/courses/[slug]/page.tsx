@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const course = await fetchJson<ApiCourse>(`/courses/slug/${slug}`);
 
-  const title = course ? `${course.title} | Bé Hay Học` : 'Khóa học | Bé Hay Học';
+  const title = course ? course.title : 'Khóa học';
   const description = course?.description
     || (course ? `Khám phá khóa học "${course.title}" với các bài học và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.` : 'Khóa học trực tuyến dành cho bé tại Bé Hay Học.');
   const url = `${SITE}/khoa-hoc/${slug}`;

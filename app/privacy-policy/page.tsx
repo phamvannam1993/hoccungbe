@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Chính sách bảo mật | Bé Hay Học',
+  title: 'Chính sách bảo mật',
   description:
     'Chính sách bảo mật của Bé Hay Học, mô tả cách thu thập, sử dụng và bảo vệ thông tin người dùng trên nền tảng học tập cho trẻ em.',
   alternates: {

@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Thỏ Cắp Cà Rốt | 4-7 tuổi | Bé Hay Học 2026',
+  title: 'Thỏ Cắp Cà Rốt | 4-7 tuổi',
   description: 'Trò chơi thỏ cắp cà rốt giúp bé phép trừ, đếm ngược. Phù hợp với trẻ 4-7 tuổi. Tải ngay để bé học phép trừ.',
   keywords: ['thỏ', 'cà rốt', 'số lượng', 'trừ', 'game thỏ cắp cà rốt', 'học phép trừ qua trò chơi', 'mất bao nhiêu'],
   alternates: { canonical: '/tro-choi/tho-cap-ca-rot' },

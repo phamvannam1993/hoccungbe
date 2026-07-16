@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Ghép Hình | 3-6 tuổi | Bé Hay Học 2026',
+  title: 'Ghép Hình | 3-6 tuổi',
   description: 'Trò chơi ghép hình giúp bé logic, tư duy không gian, quan sát. Phù hợp với trẻ 3-6 tuổi. Tải ngay để bé học logic.',
   keywords: ['ghép hình', 'puzzle', 'logic', 'tư duy', 'trò chơi ghép hình', 'picture puzzle game', 'logic puzzle for kids'],
   alternates: {

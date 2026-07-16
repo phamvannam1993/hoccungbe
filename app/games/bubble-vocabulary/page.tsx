@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi | Bé Hay Học 2026',
+  title: 'Bắt Bong Bóng Từ Vựng | 3-5 tuổi',
   description: 'Trò chơi bắt bóng từ vựng giúp bé từ vựng, nghe hiểu, phân biệt. Phù hợp với trẻ 3-5 tuổi. Tải ngay để bé học từ vựng.',
   keywords: ['bóng', 'từ vựng', 'nghe hiểu', 'tiếng Việt', 'game bắt bóng từ vựng', 'bubble vocabulary game', 'learn Vietnamese vocabulary'],
   alternates: {

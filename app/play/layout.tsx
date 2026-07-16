@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 // Không phải trang nội dung SEO — nội dung để index nằm ở /khoa-hoc, /tro-choi, /lessons.
 // Đặt noindex để tránh Google index nội dung mỏng và phí crawl budget; vẫn follow để truyền link.
 export const metadata: Metadata = {
-  title: 'Khu vực chơi & học tương tác | Bé Hay Học',
+  title: 'Khu vực chơi & học tương tác',
   robots: {
     index: false,
     follow: true,

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import TtsPageClient from './TtsPageClient';
 
 export const metadata: Metadata = {
-  title: 'Công Cụ Chuyển Text ↔ Âm Thanh | TTS & STT | Bé Hay Học',
+  title: 'Công Cụ Chuyển Text ↔ Âm Thanh | TTS & STT',
 
   description:
     'Công cụ TTS & STT miễn phí: Chuyển văn bản thành giọng nói (50+ giọng Việt) và âm thanh thành text (10+ ngôn ngữ). Hỗ trợ trẻ em luyện phát âm và nghe hiểu.',

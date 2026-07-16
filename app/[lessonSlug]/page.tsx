@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lesson = await fetchLesson(lessonSlug);
 
   const title = lesson
-    ? `${lesson.title}${lesson.course ? ` | ${lesson.course.title}` : ''} | Bé Hay Học`
-    : 'Bài học | Bé Hay Học';
+    ? `${lesson.title}${lesson.course ? ` | ${lesson.course.title}` : ''}`
+    : 'Bài học';
   const description = lesson?.shortDescription || lesson?.description
     || (lesson ? `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.');
   const url = `${SITE}/${lessonSlug}`;

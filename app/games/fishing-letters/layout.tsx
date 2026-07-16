@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import GameStructuredData from '../../components/edu/GameStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Câu Cá Chữ Cái | 4-6 tuổi | Bé Hay Học 2026',
+  title: 'Câu Cá Chữ Cái | 4-6 tuổi',
   description: 'Game câu cá chữ cái giúp bé 4-6 tuổi nhận diện chữ cái, phân biệt chữ hoa/thường và học từ vựng tiếng Việt qua trò chơi vui nhộn.',
   keywords: ['câu cá chữ cái', 'học chữ cái cho bé', 'game học chữ cái cho bé', 'trò chơi tiếng Việt', 'phân biệt chữ hoa thường', 'học đọc sớm'],
   alternates: {

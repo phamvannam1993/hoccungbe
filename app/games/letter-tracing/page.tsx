@@ -4,7 +4,7 @@ import GameStructuredData from '../../components/edu/GameStructuredData';
 import GameSeoContent from '../../components/edu/GameSeoContent';
 
 export const metadata: Metadata = {
-  title: 'Tập Viết Chữ | 3-6 tuổi | Bé Hay Học 2026',
+  title: 'Tập Viết Chữ | 3-6 tuổi',
   description: 'Game tập viết chữ giúp bé 3-6 tuổi luyện tô nét chữ cái tiếng Việt, nhận diện chữ và rèn kỹ năng vận động tinh qua hoạt động tương tác.',
   keywords: ['tập viết chữ cho bé', 'game tập viết chữ', 'luyện viết chữ cái', 'tô nét chữ cái', 'học chữ cái tiếng Việt', 'letter tracing for kids'],
   alternates: { canonical: '/tro-choi/tap-viet-chu' },

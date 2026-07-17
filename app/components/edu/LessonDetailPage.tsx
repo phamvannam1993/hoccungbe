@@ -619,16 +619,31 @@ function SeoDescriptionSection({ lesson }: { lesson: LessonData }) {
   // Use DB learningObjectives or fall back to detail.goals
   const objectives = lesson.learningObjectives || lesson.detail?.goals || [];
 
+  // Accordion: mở sẵn (SSR + desktop) để công cụ tìm kiếm đọc trọn nội dung; thu gọn trên
+  // mobile sau khi hydrate cho gọn. Dùng <details> nên nội dung LUÔN nằm trong HTML
+  // (Google mobile-first vẫn index) — tốt hơn display:none.
+  const [open, setOpen] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const apply = () => setOpen(!mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
   return (
-    // Ẩn trên mobile: đoạn mô tả dài khiến bé/phụ huynh phải cuộn lâu mới tới các chặng học.
-    // Vẫn giữ trong DOM để desktop và công cụ tìm kiếm đọc được.
-    <div className="mt-8 hidden lg:block rounded-3xl overflow-hidden shadow-lg ring-1 ring-blue-200/50">
-      {/* Header with gradient */}
-      <div className="bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-6 py-4">
+    <details
+      open={open}
+      onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}
+      className="mt-8 rounded-3xl overflow-hidden shadow-lg ring-1 ring-blue-200/50"
+    >
+      {/* Header with gradient (bấm để mở/thu gọn trên mobile) */}
+      <summary className="bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-6 py-4 cursor-pointer list-none flex items-center justify-between [&::-webkit-details-marker]:hidden">
         <h2 className="text-lg font-black text-white flex items-center gap-2">
           <span>📖</span> Nội dung bài học
         </h2>
-      </div>
+        <span className="text-white/90 text-sm lg:hidden">{open ? '▲' : '▼'}</span>
+      </summary>
 
       <div className="bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 px-6 py-6 space-y-5">
         {/* Main description - từ DB hoặc auto-gen */}
@@ -668,7 +683,7 @@ function SeoDescriptionSection({ lesson }: { lesson: LessonData }) {
           </p>
         </div>
       </div>
-    </div>
+    </details>
   );
 }
 
@@ -869,9 +884,10 @@ export default function LessonDetailPage({
 
       {/* ── Title: tên bài đen, tên khóa học màu hồng ở dòng riêng ── */}
       <div className="mb-4 rounded-3xl bg-white/90 px-4 py-4 shadow-sm sm:px-6">
-        <h1 className="text-xl font-black leading-snug text-gray-900 sm:text-2xl kid-display">
+        {/* h2 (không phải h1): h1 duy nhất của trang nằm ở khối nội dung SSR để tránh trùng h1. */}
+        <h2 className="text-xl font-black leading-snug text-gray-900 sm:text-2xl kid-display">
           {lesson.title}
-        </h1>
+        </h2>
         {lesson.course && (
           <p className="mt-1 text-sm font-black kid-display" style={{ color: '#FF6B9D' }}>
             {lesson.course.title}

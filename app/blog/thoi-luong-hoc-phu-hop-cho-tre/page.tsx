@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: 'article',
     images: [
       {
-        url: '/og-blog-time.jpg',
+        url: '/og-blog-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Thời lượng học cho trẻ 3–6 tuổi',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
     description:
       'Giúp phụ huynh xác định thời gian học phù hợp để bé tập trung tốt hơn.',
-    images: ['/og-blog-time.jpg'],
+    images: ['/og-blog-home.jpg'],
   },
 };
 

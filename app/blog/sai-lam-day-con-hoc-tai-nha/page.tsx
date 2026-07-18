@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: 'article',
     images: [
       {
-        url: '/og-blog-mistakes.jpg',
+        url: '/og-blog-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Sai lầm khi dạy con học tại nhà',

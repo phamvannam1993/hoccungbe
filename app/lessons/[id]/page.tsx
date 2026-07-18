@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = lesson.description
     || `Bài học "${lesson.title}" với các bài tập và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.`;
   const url = lesson.slug ? `${SITE}/${lesson.slug}` : `${SITE}/lessons/${id}`;
-  const image = lesson.thumbnailUrl || `${SITE}/og-image.jpg`;
+  const image = lesson.thumbnailUrl || `${SITE}/og-home.jpg`;
 
   return {
     title,

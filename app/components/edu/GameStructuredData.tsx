@@ -107,7 +107,7 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
       {/* Breadcrumb hiển thị — khớp với BreadcrumbList schema, hỗ trợ điều hướng & SEO. */}
       <nav
         aria-label="Đường dẫn"
-        className="mx-auto max-w-6xl px-4 pt-4 text-sm text-slate-500 sm:px-6"
+        className="mx-auto max-w-6xl px-4 pt-4 pb-4 text-sm text-slate-500 sm:px-6"
       >
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>

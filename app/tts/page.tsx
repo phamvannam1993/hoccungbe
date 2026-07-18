@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-tts.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Công Cụ Chuyển Text ↔ Âm Thanh - Bé Hay Học',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: 'TTS & STT miễn phí | Bé Hay Học',
     description:
       'Chuyển text thành giọng nói (50+ giọng) & âm thanh thành text (10+ ngôn ngữ).',
-    images: ['/og-tts.jpg'],
+    images: ['/og-home.jpg'],
   },
 
   robots: {

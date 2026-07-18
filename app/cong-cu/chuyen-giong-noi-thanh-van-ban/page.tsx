@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import SttPageClient from './SttPageClient';
 
 const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-giong-noi-thanh-van-ban';
-const ogImage = 'https://behayhoc.com/og-stt.jpg';
+const ogImage = 'https://behayhoc.com/og-home.jpg';
 
 export const metadata: Metadata = {
   title: 'Chuyển Giọng Nói Thành Văn Bản Online Miễn Phí',

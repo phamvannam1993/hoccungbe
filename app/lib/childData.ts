@@ -8,7 +8,16 @@
 import { apiFetch } from './api';
 
 // currentLevel = LỚP của bé ('1' | '2' | '3' …) — quản lý nội dung theo lớp.
-export type Child = { id: number; fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; age?: number; currentLevel?: string };
+export type ChildPrefs = {
+  book?: string;            // Bộ sách đang dùng
+  priority?: string;        // Môn ưu tiên: 'math' | 'language' | 'english'
+  mathLesson?: string;      // Bài Toán đang học trên lớp
+  vietLesson?: string;      // Bài Tiếng Việt đang học trên lớp
+  dailyGoalMin?: number;    // Mục tiêu phút/ngày (10/15/20)
+  desiredLevel?: string;    // Mức độ mong muốn: 'easy' | 'medium' | 'hard'
+  weakSkills?: string[];    // Kỹ năng phụ huynh thấy bé còn yếu
+};
+export type Child = { id: number; fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; age?: number; currentLevel?: string; prefsJson?: ChildPrefs; placementJson?: PlacementResult };
 export type AnswerInput = { quizId: number; isCorrect: boolean };
 export type RecordInput = {
   childId: number;
@@ -140,7 +149,7 @@ export async function listChildren(): Promise<Child[]> {
   return Array.isArray(r) ? r : [];
 }
 
-export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string }): Promise<Child> {
+export async function createChild(data: { fullName: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string; prefsJson?: ChildPrefs }): Promise<Child> {
   if (isGuest()) {
     const list = readJSON<Child[]>(CHILDREN_KEY, []);
     const child: Child = { id: Date.now(), ...data };
@@ -153,7 +162,7 @@ export async function createChild(data: { fullName: string; nickname?: string; g
   });
 }
 
-export async function updateChild(id: number, data: { fullName?: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string }): Promise<Child> {
+export async function updateChild(id: number, data: { fullName?: string; nickname?: string; gender?: string; birthDate?: string; avatarUrl?: string; currentLevel?: string; prefsJson?: ChildPrefs }): Promise<Child> {
   if (isGuest()) {
     const list = readJSON<Child[]>(CHILDREN_KEY, []);
     const next = list.map((c) => (c.id === id ? { ...c, ...data } : c));
@@ -342,6 +351,135 @@ export async function childHistory(childId: number, limit = 20): Promise<History
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
     .slice(0, limit)
     .map((a) => ({ id: a.id, lessonId: a.lessonId, lessonTitle: a.lessonTitle, lessonSlug: a.lessonSlug, courseType: a.courseType, score: a.score, correctCount: a.correctCount, totalQuestions: a.totalQuestions, createdAt: a.createdAt }));
+}
+
+// ── Kế hoạch hôm nay (lộ trình cá nhân hóa — công thức 40/30/20/10) ──
+export type PlanKind = 'review_wrong' | 'current' | 'review_old' | 'challenge';
+export type PlanTask = {
+  id?: number;
+  kind: PlanKind;
+  lessonId: number;
+  lessonTitle?: string | null;
+  lessonSlug?: string | null;
+  courseType?: string | null;
+  reason?: string;
+  wrongCount?: number;
+  status?: 'pending' | 'done' | 'skipped';
+};
+
+/**
+ * Kế hoạch học hôm nay của bé.
+ * - Đã đăng nhập → engine server /recommendations (40% ôn câu sai, 30% bài đang học,
+ *   20% ôn cũ, 10% thử thách).
+ * - Khách (guest) → dựng từ lịch sử local: bài còn câu sai, bài đang dở, bài đã đạt để ôn lại.
+ */
+export async function dailyPlan(childId: number): Promise<PlanTask[]> {
+  if (!isGuest()) {
+    try {
+      const recs = await apiFetch<Array<PlanTask & { lessonTitle?: string; lessonSlug?: string }>>(`/recommendations/${childId}`);
+      return Array.isArray(recs)
+        ? recs.map((r) => ({
+            id: r.id, kind: r.kind, lessonId: r.lessonId,
+            lessonTitle: r.lessonTitle ?? null, lessonSlug: r.lessonSlug ?? null,
+            reason: r.reason, wrongCount: r.wrongCount, status: r.status,
+          }))
+        : [];
+    } catch {
+      return [];
+    }
+  }
+  // GUEST — dựng từ lịch sử local (gộp theo bài: điểm cao nhất + lần gần nhất)
+  const attempts = localAttemptsOf(childId);
+  if (!attempts.length) return [];
+  type Agg = { lessonId: number; title?: string; slug?: string; ct?: string; best: number; last: string; wrong: number };
+  const byLesson = new Map<number, Agg>();
+  for (const a of attempts) {
+    const wrong = Math.max(0, (a.totalQuestions || 0) - (a.correctCount || 0));
+    const cur = byLesson.get(a.lessonId);
+    if (!cur) {
+      byLesson.set(a.lessonId, { lessonId: a.lessonId, title: a.lessonTitle, slug: a.lessonSlug, ct: a.courseType, best: a.score, last: a.createdAt, wrong });
+    } else {
+      cur.best = Math.max(cur.best, a.score);
+      if (a.createdAt > cur.last) { cur.last = a.createdAt; cur.wrong = wrong; }
+    }
+  }
+  const list = [...byLesson.values()];
+  const used = new Set<number>();
+  const plan: PlanTask[] = [];
+  const newest = (a: Agg, b: Agg) => (a.last < b.last ? 1 : -1);
+
+  const wrongLesson = list.filter((l) => l.best < 100 && l.wrong > 0).sort(newest)[0];
+  if (wrongLesson) {
+    plan.push({ kind: 'review_wrong', lessonId: wrongLesson.lessonId, lessonTitle: wrongLesson.title, lessonSlug: wrongLesson.slug, courseType: wrongLesson.ct, wrongCount: wrongLesson.wrong, reason: `Ôn ${wrongLesson.wrong} câu con từng làm sai` });
+    used.add(wrongLesson.lessonId);
+  }
+  const cur = list.filter((l) => !used.has(l.lessonId) && l.best < 70).sort(newest)[0];
+  if (cur) {
+    plan.push({ kind: 'current', lessonId: cur.lessonId, lessonTitle: cur.title, lessonSlug: cur.slug, courseType: cur.ct, reason: 'Học tiếp bài đang còn dang dở' });
+    used.add(cur.lessonId);
+  }
+  const old = list.filter((l) => !used.has(l.lessonId) && l.best >= 70).sort((a, b) => (a.last > b.last ? 1 : -1))[0];
+  if (old) {
+    plan.push({ kind: 'review_old', lessonId: old.lessonId, lessonTitle: old.title, lessonSlug: old.slug, courseType: old.ct, reason: 'Ôn lại kiến thức đã học cho nhớ lâu' });
+    used.add(old.lessonId);
+  }
+  // 10% Thử thách — với khách, gắn một trò chơi vui (slug 'tro-choi').
+  if (plan.length) {
+    plan.push({ kind: 'challenge', lessonId: 0, lessonTitle: 'Trò chơi ôn tập vui', lessonSlug: 'tro-choi', reason: 'Một thử thách vui để nâng cao phản xạ' });
+  }
+  return plan;
+}
+
+// ── Khảo sát đầu vào (placement) ──
+export type PlacementSkill = { skillId: number; name: string; subject: string; pct: number; correct: number; total: number };
+export type PlacementResult = {
+  overallPct: number; correct: number; total: number;
+  tier: 'easy' | 'medium' | 'hard'; level: string; desc: string;
+  skills: PlacementSkill[]; strengths: string[]; weaknesses: string[]; date: string;
+};
+
+const placementKey = (childId: number) => `bhh_placement_${childId}`;
+
+export function savePlacementLocal(childId: number, result: PlacementResult) {
+  try { localStorage.setItem(placementKey(childId), JSON.stringify(result)); } catch { /* ignore */ }
+}
+export function getPlacementLocal(childId: number): PlacementResult | null {
+  try { const s = localStorage.getItem(placementKey(childId)); return s ? (JSON.parse(s) as PlacementResult) : null; } catch { return null; }
+}
+
+/** Danh sách bài Toán & Tiếng Việt của một lớp — cho dropdown "bài đang học trên lớp". */
+export async function lessonOptions(grade: string): Promise<{ math: { id: number; title: string }[]; viet: { id: number; title: string }[] }> {
+  try {
+    const cr = await apiFetch<unknown>('/courses?limit=500');
+    const courses = (Array.isArray(cr) ? cr : ((cr as { data?: unknown[] })?.data ?? [])) as Array<{ id: number; title?: string; courseType?: string; isPublished?: boolean }>;
+    const inGrade = courses.filter((c) => c?.isPublished && String(c?.title ?? '').toLowerCase().includes(`lớp ${grade}`));
+    const mathC = inGrade.find((c) => c.courseType === 'math');
+    const vietC = inGrade.find((c) => c.courseType === 'language');
+    const fetchL = async (id?: number) => {
+      if (!id) return [];
+      const r = await apiFetch<Array<{ id: number; title?: string; isPublished?: boolean }>>(`/lessons?courseId=${id}&slim=1`);
+      return (Array.isArray(r) ? r : []).filter((l) => l.isPublished !== false).map((l) => ({ id: l.id, title: l.title ?? `Bài #${l.id}` }));
+    };
+    const [math, viet] = await Promise.all([fetchL(mathC?.id), fetchL(vietC?.id)]);
+    return { math, viet };
+  } catch {
+    return { math: [], viet: [] };
+  }
+}
+
+/** Lấy bộ câu hỏi khảo sát theo lớp. */
+export async function placementQuestions(grade: string, count = 12) {
+  return apiFetch<Array<{ quizId: number; lessonId: number; questionText: string; options: { key: string; text: string }[]; difficulty: string; courseType: string }>>(
+    `/placement/questions?grade=${encodeURIComponent(grade)}&count=${count}`,
+  );
+}
+
+/** Nộp bài khảo sát → kết quả; đăng nhập thì lưu server, khách thì lưu localStorage. */
+export async function placementSubmit(childId: number, grade: string, answers: { quizId: number; selected: string }[]): Promise<PlacementResult> {
+  const body = { grade, answers, ...(isGuest() ? {} : { childId }) };
+  const result = await apiFetch<PlacementResult>(`/placement/submit`, { method: 'POST', body: JSON.stringify(body) });
+  if (isGuest()) savePlacementLocal(childId, result);
+  return result;
 }
 
 // ── Chuỗi ngày học ──

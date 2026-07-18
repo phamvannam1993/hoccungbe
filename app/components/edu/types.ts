@@ -3,7 +3,6 @@ export type PageKey =
   | 'home'
   | 'lesson'
   | 'tien-do'
-  | 'pricing'
   | 'dang-nhap'
   | 'dang-ky'
   | 'dashboard'

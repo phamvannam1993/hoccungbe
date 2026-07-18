@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-faq.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Câu hỏi thường gặp về Bé Hay Học',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: 'Câu hỏi thường gặp | Bé Hay Học',
     description:
       'Thông tin hỗ trợ phụ huynh khi cho bé học tập tại nhà cùng Bé Hay Học.',
-    images: ['/og-faq.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

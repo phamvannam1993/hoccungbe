@@ -1,9 +1,0 @@
-import { renderGameOgImage, OG_SIZE } from '../../lib/game-og';
-
-export const size = OG_SIZE;
-export const contentType = 'image/png';
-export const alt = 'Tô Theo Nét Câu - trò chơi giáo dục cho bé | Bé Hay Học';
-
-export default function Image() {
-  return renderGameOgImage('trace-sentence');
-}

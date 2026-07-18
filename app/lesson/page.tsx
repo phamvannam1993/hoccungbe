@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-lesson.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Chi tiết bài học cho bé - Bé Hay Học',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Chi tiết bài học cho bé | Bé Hay Học',
     description:
       'Khám phá bài học trực quan giúp bé nhận biết mặt chữ và tăng tập trung.',
-    images: ['/og-lesson.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 export default function Page() {

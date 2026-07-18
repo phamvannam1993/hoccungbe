@@ -46,7 +46,7 @@ export default function GameSeoContent({ slug }: Props) {
   };
 
   return (
-    <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <section className="py-10">
       <div className="rounded-3xl bg-white p-6 shadow-sm sm:p-8">
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
           {game.emoji} {game.title} – trò chơi giáo dục cho bé {game.age}

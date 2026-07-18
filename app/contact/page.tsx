@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-contact.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Liên hệ Bé Hay Học',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: 'Liên hệ | Bé Hay Học',
     description:
       'Bé Hay Học luôn sẵn sàng hỗ trợ phụ huynh trong quá trình đồng hành cùng con học tập tại nhà.',
-    images: ['/og-contact.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

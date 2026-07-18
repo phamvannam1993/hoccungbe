@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-progress.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Tiến độ học tập của bé - Bé Hay Học',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: 'Tiến độ học tập của bé | Bé Hay Học',
     description:
       'Theo dõi bài học đã hoàn thành, thời gian học và kỹ năng nổi bật của bé.',
-    images: ['/og-progress.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

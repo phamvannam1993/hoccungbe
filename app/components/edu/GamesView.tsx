@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { ApiMiniGame } from '../../lib/api';
 import { gamesData } from './data/gamesData';
 import GamesFilter from './GamesFilter';
@@ -71,17 +70,8 @@ export default async function GamesView() {
   const games: ApiMiniGame[] = apiGames.length > 0 ? apiGames.map(enrichGame) : gamesData.map(toApiMiniGame);
 
   return (
-    <div className="min-h-screen">
-      {/* Breadcrumb */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-4">
-        <nav className="flex flex-wrap items-center gap-1.5 text-sm text-white/80 mb-4">
-          <Link href="/" className="hover:text-white transition-colors">Trang chủ</Link>
-          <span className="text-white/50">›</span>
-          <span className="text-white font-medium">Kho trò chơi</span>
-        </nav>
-      </div>
-
-      {/* Client component: header banner + group tabs + game grid */}
+    <div className="py-4 sm:py-6">
+      {/* Client component: breadcrumb + header + filter + game grid (light theme) */}
       <GamesFilter games={games} />
     </div>
   );

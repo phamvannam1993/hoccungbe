@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-support.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Hỗ trợ phụ huynh - Bé Hay Học',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Hỗ trợ phụ huynh | Bé Hay Học',
     description:
       'Liên hệ để được hỗ trợ nhanh về tài khoản, gói học và lộ trình phù hợp cho bé.',
-    images: ['/og-support.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

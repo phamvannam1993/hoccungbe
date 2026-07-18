@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-dashboard.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Bảng theo dõi phụ huynh - Bé Hay Học',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: 'Bảng theo dõi phụ huynh | Bé Hay Học',
     description:
       'Theo dõi toàn bộ hành trình học tập của bé một cách trực quan và dễ hiểu.',
-    images: ['/og-dashboard.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

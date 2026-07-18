@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: 'article',
     images: [
       {
-        url: '/og-blog-focus.jpg',
+        url: '/og-blog-home.jpg',
         width: 1200,
         height: 630,
         alt: '5 cách giúp bé tập trung hơn khi học tại nhà',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: '5 cách giúp bé tập trung hơn khi học tại nhà',
     description:
       'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-    images: ['/og-blog-focus.jpg'],
+    images: ['/og-blog-home.jpg'],
   },
 };
 

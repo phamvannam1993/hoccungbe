@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-register.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Đăng ký tài khoản - Bé Hay Học',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Đăng ký tài khoản | Bé Hay Học',
     description:
       'Tạo tài khoản nhanh chóng để bắt đầu hành trình học tập và khám phá cùng bé.',
-    images: ['/og-register.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

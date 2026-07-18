@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-login.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Đăng nhập - Bé Hay Học',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: 'Đăng nhập | Bé Hay Học',
     description:
       'Đăng nhập để tiếp tục học và theo dõi tiến độ học tập của bé.',
-    images: ['/og-login.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

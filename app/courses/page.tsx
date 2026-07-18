@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
-    images: [{ url: '/og-courses.jpg', width: 1200, height: 630, alt: 'Khóa học cho bé - Bé Hay Học' }],
+    images: [{ url: '/og-home.jpg', width: 1200, height: 630, alt: 'Khóa học cho bé - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Khóa học cho bé | Bé Hay Học',
     description: 'Khám phá các nhóm bài học phù hợp với nhu cầu phát triển của bé.',
-    images: ['/og-courses.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

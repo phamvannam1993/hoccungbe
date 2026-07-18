@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import TtsPageClient from './TtsPageClient';
 
 const pageUrl = 'https://behayhoc.com/cong-cu/chuyen-van-ban-thanh-giong-noi';
-const ogImage = 'https://behayhoc.com/og-tts.jpg';
+const ogImage = 'https://behayhoc.com/og-home.jpg';
 
 export const metadata: Metadata = {
   title: 'Chuyển Văn Bản Thành Giọng Nói Tiếng Việt',

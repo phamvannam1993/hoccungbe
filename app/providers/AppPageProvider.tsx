@@ -15,7 +15,6 @@ export type AppPageName =
   | 'progress'
   | 'lesson'
   | 'dashboard'
-  | 'pricing'
   | 'support'
   | 'login'
   | 'register';

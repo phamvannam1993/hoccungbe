@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url,
       siteName: 'Bé Hay Học',
       locale: 'vi_VN',
-      images: [{ url: `${SITE}/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630 }],
     },
   };
 }

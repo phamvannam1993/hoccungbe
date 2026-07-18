@@ -62,9 +62,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       siteName: 'Bé Hay Học',
       locale: 'vi_VN',
-      images: [{ url: `${SITE}/og-image.jpg`, width: 1200, height: 630, alt: title }],
+      images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: title }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [`${SITE}/og-image.jpg`] },
+    twitter: { card: 'summary_large_image', title, description, images: [`${SITE}/og-home.jpg`] },
   };
 }
 
@@ -166,7 +166,7 @@ export default async function Page({ params }: Props) {
     contentUrl: lesson.videoUrl,
     embedUrl: lesson.videoUrl,
     uploadDate: '2026-01-01',
-    thumbnailUrl: [`${SITE}/og-image.jpg`],
+    thumbnailUrl: [`${SITE}/og-home.jpg`],
   } : null;
 
   return (

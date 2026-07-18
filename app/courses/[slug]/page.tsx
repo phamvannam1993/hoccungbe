@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = course?.description
     || (course ? `Khám phá khóa học "${course.title}" với các bài học và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.` : 'Khóa học trực tuyến dành cho bé tại Bé Hay Học.');
   const url = `${SITE}/khoa-hoc/${slug}`;
-  const image = course?.thumbnailUrl || `${SITE}/og-image.jpg`;
+  const image = course?.thumbnailUrl || `${SITE}/og-home.jpg`;
 
   return {
     title,
@@ -90,7 +90,7 @@ export default async function Page({ params }: Props) {
     numberOfCredits: course.totalLessons,
     audience: { '@type': 'EducationalAudience', educationalRole: 'student' },
     provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
-    image: course.thumbnailUrl || `${SITE}/og-image.jpg`,
+    image: course.thumbnailUrl || `${SITE}/og-home.jpg`,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'VND', availability: 'https://schema.org/InStock' },
   } : null;
 

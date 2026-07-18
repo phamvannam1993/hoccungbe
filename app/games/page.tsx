@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
-    images: [{ url: '/og-games.jpg', width: 1200, height: 630, alt: 'Kho trò chơi giáo dục cho bé 3-10 tuổi - Bé Hay Học' }],
+    images: [{ url: '/og-home.jpg', width: 1200, height: 630, alt: 'Kho trò chơi giáo dục cho bé 3-10 tuổi - Bé Hay Học' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Kho trò chơi giáo dục cho bé 3-10 tuổi | Bé Hay Học',
     description: 'Kho game học tập trực quan giúp bé học chữ, toán, tiếng Anh và rèn tư duy mỗi ngày.',
-    images: ['/og-games.jpg'],
+    images: ['/og-home.jpg'],
   },
 };
 

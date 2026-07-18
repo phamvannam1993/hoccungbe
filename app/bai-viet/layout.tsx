@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
-    images: [{ url: `${SITE}/og-image.jpg`, width: 1200, height: 630, alt: 'Góc phụ huynh - Bé Hay Học' }],
+    images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: 'Góc phụ huynh - Bé Hay Học' }],
   },
 };
 

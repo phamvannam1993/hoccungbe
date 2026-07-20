@@ -2364,7 +2364,7 @@ export default function QuizPlayPage({
       <div className="flex h-screen flex-col items-center justify-center gap-4"
         style={{ background: 'linear-gradient(135deg, #2d5a1b 0%, #4a8c2a 50%, #3d7a22 100%)' }}>
         <p className="text-white text-xl font-bold">Không có câu hỏi</p>
-        <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
+        <Link href={lesson?.course?.slug ? `/${lesson.course.slug}/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
           className="rounded-full bg-amber-400 px-6 py-2 font-bold text-white">
           ← Quay lại
         </Link>
@@ -2712,7 +2712,7 @@ export default function QuizPlayPage({
                 className="rounded-full bg-slate-100 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-200">
                 🔁 Làm lại
               </button>
-              <Link href={lesson?.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
+              <Link href={lesson?.course?.slug ? `/${lesson.course.slug}/${lesson.slug}` : `/lessons/${resolvedLessonId}`}
                 className="rounded-full bg-slate-100 px-5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-200">
                 ← Quay lại bài học
               </Link>
@@ -2739,7 +2739,7 @@ export default function QuizPlayPage({
               <>
                 <span className="shrink-0 text-slate-300">›</span>
                 {/* Rút gọn "Bài 3: Nhiều hơn…" → "Bài 3" cho vừa một hàng */}
-                <Link href={lesson.slug ? `/${lesson.slug}` : `/lessons/${resolvedLessonId}`} className="shrink-0 font-medium hover:text-pink-500">
+                <Link href={lesson.course?.slug ? `/${lesson.course.slug}/${lesson.slug}` : `/lessons/${resolvedLessonId}`} className="shrink-0 font-medium hover:text-pink-500">
                   {lesson.title.split(':')[0]}
                 </Link>
               </>

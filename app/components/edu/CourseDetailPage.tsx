@@ -362,9 +362,9 @@ function TopicSection({ topicName, lessons, courseSlug, colorIdx }: { topicName:
   );
 }
 
-function LessonRow({ lesson, idx }: { lesson: ApiLesson; courseSlug: string; idx: number }) {
+function LessonRow({ lesson, courseSlug, idx }: { lesson: ApiLesson; courseSlug: string; idx: number }) {
   const hasQuizzes = lesson.quizzes && lesson.quizzes.length > 0;
-  const href = lesson.slug ? `/${lesson.slug}` : `/lessons/${lesson.id}`;
+  const href = lesson.slug ? `/${courseSlug}/${lesson.slug}` : `/lessons/${lesson.id}`;
   const color = COLORS[idx % COLORS.length];
   const emoji = LESSON_EMOJIS[idx % LESSON_EMOJIS.length];
   const done = useContext(DoneLessonsContext).get(lesson.id);

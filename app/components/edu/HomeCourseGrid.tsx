@@ -46,9 +46,9 @@ function groupByVolume(lessons: ApiLesson[], volumes: ApiVolume[], topics: ApiTo
   }));
 }
 
-function LessonRow({ lesson }: { lesson: ApiLesson }) {
+function LessonRow({ lesson, courseSlug }: { lesson: ApiLesson; courseSlug: string }) {
   const hasQuizzes = lesson.quizzes && lesson.quizzes.length > 0;
-  const href = lesson.slug ? `/${lesson.slug}` : `/lessons/${lesson.id}`;
+  const href = lesson.slug ? `/${courseSlug}/${lesson.slug}` : `/lessons/${lesson.id}`;
   return (
     <Link href={href} className="flex items-center gap-2 py-1.5 px-2 hover:bg-sky-50 rounded-lg group">
       <svg className="w-4 h-4 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -93,7 +93,7 @@ function CourseExpanded({ courseId, courseSlug }: { courseId: number; courseSlug
             {g.lessons.length === 0 ? (
               <p className="text-xs text-slate-400 px-2">Chưa có bài học.</p>
             ) : (
-              g.lessons.map((l) => <LessonRow key={l.id} lesson={l} />)
+              g.lessons.map((l) => <LessonRow key={l.id} lesson={l} courseSlug={courseSlug} />)
             )}
           </div>
         ))}

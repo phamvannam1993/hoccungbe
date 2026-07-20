@@ -14,7 +14,7 @@ import {
 // /sitemaps/<name>.xml
 //   index               → SITEMAP INDEX (rewrite từ /sitemap.xml).
 //   static/courses/...  → 1 sitemap con (urlset).
-//   lessons-<courseSlug>→ bài học của riêng khóa đó.
+//   lessons-<courseSlug>→ bài học của riêng khóa đó (URL /{courseSlug}/{lessonSlug}).
 export async function GET(_req: Request, ctx: { params: Promise<{ file: string }> }) {
   const { file } = await ctx.params;
   const name = file.replace(/\.xml$/i, '');
@@ -43,7 +43,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
     const slug = name.slice('lessons-'.length);
     const course = (await courseList()).find((c) => c.slug === slug);
     if (!course) return new Response('Not found', { status: 404 });
-    return xmlResponse(urlsetXml(await lessonEntriesByCourse(course.id)));
+    return xmlResponse(urlsetXml(await lessonEntriesByCourse(course.id, course.slug)));
   }
 
   return new Response('Not found', { status: 404 });

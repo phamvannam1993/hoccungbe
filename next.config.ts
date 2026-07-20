@@ -69,6 +69,9 @@ const nextConfig: NextConfig = {
     }));
     return [
       { source: '/games', destination: '/tro-choi', permanent: true },
+      // Chuẩn hóa slug khóa Toán: toan-hoc-lop-N → toan-lop-N (301, giữ SEO)
+      { source: '/khoa-hoc/toan-hoc-lop-1', destination: '/khoa-hoc/toan-lop-1', permanent: true },
+      { source: '/khoa-hoc/toan-hoc-lop-2', destination: '/khoa-hoc/toan-lop-2', permanent: true },
       { source: '/courses', destination: '/khoa-hoc', permanent: true },
       { source: '/courses/:slug', destination: '/khoa-hoc/:slug', permanent: true },
       { source: '/register', destination: '/dang-ky', permanent: true },

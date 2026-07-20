@@ -107,13 +107,14 @@ export async function courseList(): Promise<{ id: number; slug: string }[]> {
 }
 
 // Bài học của MỘT khóa (slim=1 → chỉ slug + ngày, tránh tải ~13MB kèm quizzes/content).
-export async function lessonEntriesByCourse(courseId: number): Promise<SitemapEntry[]> {
+// URL bài học theo cấu trúc mới: /{courseSlug}/{lessonSlug}.
+export async function lessonEntriesByCourse(courseId: number, courseSlug: string): Promise<SitemapEntry[]> {
   type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string };
   const res = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/api/lessons?courseId=${courseId}&slim=1`);
   const now = new Date();
   return unwrapData<LessonItem>(res)
     .filter((l) => !!l.slug)
-    .map((l) => ({ loc: `${SITE_URL}/${l.slug}`, lastmod: safeDate(l.updatedAt || l.createdAt || now) }));
+    .map((l) => ({ loc: `${SITE_URL}/${courseSlug}/${l.slug}`, lastmod: safeDate(l.updatedAt || l.createdAt || now) }));
 }
 
 export async function articleEntries(): Promise<SitemapEntry[]> {

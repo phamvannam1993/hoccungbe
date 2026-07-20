@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 const quickLinks = [
@@ -10,17 +13,10 @@ const quickLinks = [
 ];
 
 const parentLinks = [
-  { label: 'Góc phụ huynh', href: '/goc-phu-huynh' },
+  { label: 'Góc phụ huynh', href: '/bai-viet' },
   { label: 'Cách bắt đầu', href: '/huong-dan' },
   { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
-  { label: 'Liên hệ', href: '/lien-he' },
-];
-
-const seoLinks = [
-  { label: 'Học chữ cái cho bé', href: '/khoa-hoc' },
-  { label: 'Học toán vui cho bé', href: '/khoa-hoc' },
-  { label: 'Học tiếng Anh cho bé', href: '/khoa-hoc' },
-  { label: 'Trò chơi tư duy cho trẻ em', href: '/tro-choi' },
+  { label: 'Hỗ trợ', href: '/ho-tro' },
 ];
 
 const legalLinks = [
@@ -29,6 +25,24 @@ const legalLinks = [
 ];
 
 export default function Footer() {
+  // "Chủ đề học tập" lấy ĐỘNG theo khóa học đã xuất bản (không fix cứng landing page).
+  const [seoLinks, setSeoLinks] = useState<{ label: string; href: string }[]>([
+    { label: 'Toán lớp 1', href: '/khoa-hoc/toan-lop-1' },
+    { label: 'Tiếng Việt lớp 1', href: '/khoa-hoc/tieng-viet-lop-1' },
+    { label: 'Tiếng Anh lớp 1', href: '/khoa-hoc/tieng-anh-lop-1' },
+    { label: 'Trò chơi cho bé', href: '/tro-choi' },
+  ]);
+  useEffect(() => {
+    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    fetch(`${base}/api/courses?limit=100`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        const list = (Array.isArray(data) ? data : (data?.data ?? [])) as { slug?: string; title?: string; isPublished?: boolean }[];
+        const courses = list.filter((c) => c.slug && c.isPublished).map((c) => ({ label: c.title ?? c.slug!, href: `/khoa-hoc/${c.slug}` }));
+        if (courses.length) setSeoLinks([...courses, { label: 'Trò chơi cho bé', href: '/tro-choi' }]);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <footer className="bg-[#e8735a] border-t border-white/20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
@@ -132,7 +146,7 @@ export default function Footer() {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/lien-he" className="transition hover:text-white">Liên hệ</Link>
+              <Link href="/ho-tro" className="transition hover:text-white">Hỗ trợ</Link>
             </div>
           </div>
         </div>

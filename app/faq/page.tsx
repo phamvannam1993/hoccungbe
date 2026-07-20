@@ -164,7 +164,7 @@ export default function FAQPage() {
             </Link>
 
             <Link
-              href="/lien-he"
+              href="/ho-tro"
               className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:text-sky-700"
             >
               Gửi câu hỏi hỗ trợ
@@ -215,7 +215,7 @@ export default function FAQPage() {
 
           <div className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/lien-he"
+              href="/ho-tro"
               className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-sky-700 shadow-sm transition hover:bg-sky-50"
             >
               Liên hệ hỗ trợ

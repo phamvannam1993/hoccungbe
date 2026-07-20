@@ -149,10 +149,8 @@ export default async function Page({ params }: Props) {
     isPartOf: lesson.course ? { '@type': 'Course', name: lesson.course.title, url: `${SITE}/khoa-hoc/${lesson.course.slug}` } : undefined,
     provider: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
   };
-  const faqLd = {
-    '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: seo.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-  };
+  // Không khai báo FAQPage schema: 3 câu FAQ dùng chung cấu trúc trên hàng trăm bài
+  // → tránh rủi ro "generic FAQ schema at scale". FAQ vẫn hiển thị cho người đọc (text on-page).
   const videoLd = lesson.videoUrl ? {
     '@context': 'https://schema.org', '@type': 'VideoObject',
     name: lesson.title, description: seo.intro, contentUrl: lesson.videoUrl, embedUrl: lesson.videoUrl,

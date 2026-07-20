@@ -70,7 +70,7 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: '40+', label: 'Bài học' },
+  { value: '400+', label: 'Bài học' },
   { value: '30+', label: 'Trò chơi' },
   { value: '3–10', label: 'Độ tuổi' },
   { value: '100%', label: 'Miễn phí dùng thử' },
@@ -99,11 +99,11 @@ export default async function HomePage() {
               </span>
               {/* Cỡ chữ nhỏ hơn trên mobile để tiêu đề không vỡ dòng lẻ */}
               <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight kid-display">
-                Học vui mỗi ngày —<br />
-                <span style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>bé tiến bộ thấy rõ</span> 🎉
+                Học Toán, Tiếng Việt &amp; Tiếng Anh<br />
+                <span style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>cho bé 3–10 tuổi</span> 🎉
               </h1>
               <p className="mt-4 text-slate-600 leading-relaxed">
-                Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà. Phụ huynh theo dõi tiến độ dễ dàng mỗi ngày.
+                Học vui mỗi ngày, bé tiến bộ thấy rõ. Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà; phụ huynh theo dõi tiến độ dễ dàng.
               </p>
 
               {/* Mobile: 4 thẻ tính năng gọn 1 hàng (desktop hiển thị ở cột phải) */}

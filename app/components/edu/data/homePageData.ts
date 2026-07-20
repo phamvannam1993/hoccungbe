@@ -78,19 +78,19 @@ export const howItWorksSteps: HowItWorksStep[] = [
 
 export const parentResources: ParentResource[] = [
   {
-    title: '5 cách giúp bé tập trung hơn khi học tại nhà',
-    desc: 'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-    href: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
+    title: 'Phương pháp dạy trẻ đếm số từ 1 đến 100 hiệu quả',
+    desc: 'Các bước giúp bé đếm số thành thạo, không nhầm lẫn khi học toán lớp 1.',
+    href: '/bai-viet/phuong-phap-day-tre-dem-so-tu-1-den-100-hieu-qua',
   },
   {
-    title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
-    desc: 'Thời lượng học phù hợp giúp bé hứng thú và không bị quá tải.',
-    href: '/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre',
+    title: 'Mẹo dạy trẻ học bảng cộng trừ trong phạm vi 10 nhanh nhất',
+    desc: 'Bí quyết giúp bé ghi nhớ bảng cộng, bảng trừ và tính nhẩm nhanh mỗi ngày.',
+    href: '/bai-viet/meo-day-tre-hoc-bang-cong-tru-trong-pham-vi-10-nhanh-nhat',
   },
   {
-    title: 'Gợi ý góc học tập đơn giản cho bé',
-    desc: 'Một không gian học đúng sẽ giúp bé tập trung và chủ động hơn.',
-    href: '/goc-phu-huynh/goc-hoc-tap-cho-be',
+    title: 'Cách giải toán có lời văn lớp 1 đơn giản cho bé',
+    desc: 'Hướng dẫn từng bước giúp bé đọc hiểu đề và trình bày lời giải đúng.',
+    href: '/bai-viet/cach-giai-toan-co-loi-van-lop-1-don-gian-cho-be',
   },
 ];
 

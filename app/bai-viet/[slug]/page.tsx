@@ -306,6 +306,19 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
               </div>
             </article>
 
+            {/* CTA: kết nối bài viết → sản phẩm học tập (#17) */}
+            <section className="mt-6 rounded-2xl bg-gradient-to-r from-blue-50 via-cyan-50 to-violet-50 p-5 ring-1 ring-blue-100 sm:p-6">
+              <h2 className="text-base font-black text-slate-900 sm:text-lg">🎓 Cho bé học ngay cùng Bé Hay Học</h2>
+              <p className="mt-1 text-sm text-slate-600">Áp dụng kiến thức trong bài qua bài học tương tác, trò chơi và bài tập — có chấm điểm ngay và hoàn toàn miễn phí.</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <Link href="/khoa-hoc/toan-lop-1" className="rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-800 ring-1 ring-slate-100 transition hover:ring-blue-200">🔢 Khóa Toán lớp 1</Link>
+                <Link href="/khoa-hoc/tieng-viet-lop-1" className="rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-800 ring-1 ring-slate-100 transition hover:ring-blue-200">📖 Khóa Tiếng Việt lớp 1</Link>
+                <Link href="/tro-choi" className="rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-800 ring-1 ring-slate-100 transition hover:ring-blue-200">🎮 Kho trò chơi giáo dục</Link>
+                <Link href="/de-thi" className="rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-800 ring-1 ring-slate-100 transition hover:ring-blue-200">📝 Đề thi &amp; bài kiểm tra</Link>
+              </div>
+              <Link href="/khoa-hoc" className="mt-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-3 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5">Cho bé học miễn phí ngay →</Link>
+            </section>
+
             {/* Related articles below on mobile/tablet */}
             {related.length > 0 && (
               <section className="mt-6">

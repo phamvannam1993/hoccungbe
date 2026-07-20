@@ -50,9 +50,6 @@ const nextConfig: NextConfig = {
       { source: '/dang-nhap', destination: '/login' },
       { source: '/tien-do', destination: '/progress' },
       { source: '/ho-tro', destination: '/support' },
-      { source: '/goc-phu-huynh', destination: '/blog' },
-      { source: '/goc-phu-huynh/:path*', destination: '/blog/:path*' },
-      { source: '/lien-he', destination: '/contact' },
       { source: '/chinh-sach-bao-mat', destination: '/privacy-policy' },
       { source: '/dieu-khoan', destination: '/terms' },
       { source: '/huong-dan', destination: '/how-it-works' },
@@ -69,6 +66,9 @@ const nextConfig: NextConfig = {
     }));
     return [
       { source: '/games', destination: '/tro-choi', permanent: true },
+      // Sửa slug tiếng Việt bị mất chữ (đọc → oc) → 301 sang slug đúng
+      { source: '/bai-viet/cach-luyen-oc-hieu-cho-hoc-sinh-lop-1', destination: '/bai-viet/cach-luyen-doc-hieu-cho-hoc-sinh-lop-1', permanent: true },
+      { source: '/bai-viet/vi-sao-con-oc-uoc-nhung-khong-hieu-bai', destination: '/bai-viet/vi-sao-con-doc-duoc-nhung-khong-hieu-bai', permanent: true },
       // Chuẩn hóa slug khóa Toán: toan-hoc-lop-N → toan-lop-N (301, giữ SEO)
       { source: '/khoa-hoc/toan-hoc-lop-1', destination: '/khoa-hoc/toan-lop-1', permanent: true },
       { source: '/khoa-hoc/toan-hoc-lop-2', destination: '/khoa-hoc/toan-lop-2', permanent: true },
@@ -78,13 +78,18 @@ const nextConfig: NextConfig = {
       { source: '/login', destination: '/dang-nhap', permanent: true },
       { source: '/progress', destination: '/tien-do', permanent: true },
       { source: '/support', destination: '/ho-tro', permanent: true },
-      { source: '/blog', destination: '/goc-phu-huynh', permanent: true },
-      { source: '/blog/:path*', destination: '/goc-phu-huynh/:path*', permanent: true },
+      // Gộp về /bai-viet: bỏ hẳn khu góc phụ huynh tĩnh (app/blog) — 301 mọi URL cũ về hệ bài viết.
+      { source: '/goc-phu-huynh', destination: '/bai-viet', permanent: true },
+      { source: '/goc-phu-huynh/:path*', destination: '/bai-viet', permanent: true },
+      { source: '/blog', destination: '/bai-viet', permanent: true },
+      { source: '/blog/:path*', destination: '/bai-viet', permanent: true },
       { source: '/tro-choi/ghep-manh-hinh', destination: '/tro-choi/ghep-hinh-rung', permanent: true },
       { source: '/tro-choi/ca-trong-ho', destination: '/tro-choi/ca-trong-ho-boi', permanent: true },
       { source: '/tro-choi/hai-tao-hoc', destination: '/tro-choi/hai-tao-hoc-toan', permanent: true },
       { source: '/tro-choi/tau-hoc-toan', destination: '/tro-choi/doan-tau-toan-hoc', permanent: true },
-      { source: '/contact', destination: '/lien-he', permanent: true },
+      // Bỏ trang liên hệ riêng — gộp về trang hỗ trợ (301).
+      { source: '/lien-he', destination: '/ho-tro', permanent: true },
+      { source: '/contact', destination: '/ho-tro', permanent: true },
       { source: '/privacy-policy', destination: '/chinh-sach-bao-mat', permanent: true },
       { source: '/terms', destination: '/dieu-khoan', permanent: true },
       { source: '/how-it-works', destination: '/huong-dan', permanent: true },

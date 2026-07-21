@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export const metadata: Metadata = {
@@ -30,68 +29,8 @@ export const metadata: Metadata = {
   },
 };
 
-interface ArticleItem { id: number; title: string; slug: string; excerpt?: string; publishedAt?: string; createdAt: string; }
-
-async function fetchArticles(): Promise<ArticleItem[]> {
-  try {
-    const res = await fetch(`${API}/api/articles?limit=30`, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
-    const json = await res.json();
-    return (Array.isArray(json) ? json : json.data) ?? [];
-  } catch { return []; }
-}
-
-export default async function BaiVietLayout({ children }: { children: React.ReactNode }) {
-  const articles = await fetchArticles();
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'Góc phụ huynh | Bé Hay Học',
-    description: 'Kiến thức, kinh nghiệm nuôi dạy con và tin tức giáo dục trẻ em.',
-    url: `${SITE}/bai-viet`,
-    inLanguage: 'vi-VN',
-    publisher: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
-    blogPost: articles.map((a) => ({
-      '@type': 'BlogPosting',
-      headline: a.title,
-      url: `${SITE}/bai-viet/${a.slug}`,
-      datePublished: a.publishedAt || a.createdAt,
-    })),
-  };
-
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
-      { '@type': 'ListItem', position: 2, name: 'Bài viết', item: `${SITE}/bai-viet` },
-    ],
-  };
-
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-
-      {/* SSR article list — crawlable by Google, hidden visually.
-          H1 nằm ở từng trang (danh sách / bài viết) để không bị trùng 2 thẻ H1. */}
-      <h2 className="sr-only">Góc phụ huynh – Kiến thức nuôi dạy con</h2>
-      {articles.length > 0 && (
-        <div className="sr-only" aria-hidden="true">
-          <h2>Bài viết mới nhất</h2>
-          <ul>
-            {articles.map((a) => (
-              <li key={a.id}>
-                <a href={`/bai-viet/${a.slug}`}>{a.title}</a>
-                {a.excerpt && <p>{a.excerpt}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {children}
-    </>
-  );
+// Layout chỉ giữ metadata dùng chung. JSON-LD Blog + danh sách bài crawlable
+// đã chuyển sang page.tsx (chỉ trang danh sách), tránh lọt sang bài viết chi tiết.
+export default function BaiVietLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
 }

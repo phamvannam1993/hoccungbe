@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     canonical: '/tien-do',
   },
   // Trang tiến độ riêng của từng bé → không index (giống /dashboard)
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'Tiến độ học tập của bé | Bé Hay Học',
     description:

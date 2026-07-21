@@ -12,9 +12,8 @@ const faqs = [
 ];
 
 const channels = [
-  { icon: '💬', label: 'Zalo', desc: 'Phản hồi trong 30 phút', color: '#0068ff', bg: '#eff6ff', href: 'https://zalo.me' },
-  { icon: '📧', label: 'Email', desc: 'behayhoc@gmail.com', color: '#6366f1', bg: '#f5f3ff', href: 'mailto:behayhoc@gmail.com' },
-  { icon: '📱', label: 'Hotline', desc: '1800 xxxx (miễn phí)', color: '#10b981', bg: '#f0fdf4', href: 'tel:1800xxxx' },
+  { icon: '📧', label: 'Email hỗ trợ', desc: 'behayhoc@gmail.com', color: '#6366f1', bg: '#f5f3ff', href: 'mailto:behayhoc@gmail.com' },
+  { icon: '💬', label: 'Zalo', desc: 'Nhắn tin cho đội hỗ trợ', color: '#0068ff', bg: '#eff6ff', href: 'https://zalo.me' },
 ];
 
 export default function SupportPage() {
@@ -36,12 +35,12 @@ export default function SupportPage() {
             🎧 Hỗ trợ phụ huynh
           </div>
           <h1 className="text-4xl font-black tracking-tight sm:text-5xl">
-            Chúng tôi luôn<br />
-            <span className="text-yellow-300">sẵn sàng đồng hành</span>
+            Hỗ trợ phụ huynh<br />
+            <span className="text-yellow-300">sử dụng Bé Hay Học</span>
           </h1>
           <p className="mt-4 text-lg text-white/85">
-            Có câu hỏi về lộ trình học, tài khoản hay gói dịch vụ?<br />
-            Đội ngũ hỗ trợ sẽ phản hồi bạn nhanh nhất có thể.
+            Có câu hỏi về lộ trình học, tài khoản hay cách cho bé bắt đầu?<br />
+            Gửi yêu cầu qua biểu mẫu, chúng tôi phản hồi trong vòng 24 giờ.
           </p>
         </div>
       </div>
@@ -49,7 +48,7 @@ export default function SupportPage() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 space-y-10">
 
         {/* Contact channels */}
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           {channels.map((c) => (
             <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-4 rounded-2xl p-5 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:shadow-md"

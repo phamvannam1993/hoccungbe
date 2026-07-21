@@ -84,20 +84,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}/>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
-      {/* SSR game list — crawlable by Google and AI crawlers */}
-      <div className="sr-only">
-        {/* H1 thật là tiêu đề hiển thị (GamesFilter) → khối SSR này dùng h2 để tránh trùng H1 */}
-        <h2>Kho trò chơi giáo dục cho bé 3–10 tuổi</h2>
-        <p>{readyGames.length} trò chơi giáo dục miễn phí giúp bé học chữ, toán, tiếng Anh và tư duy logic qua hoạt động ngắn, trực quan.</p>
-        <ul>
-          {readyGames.map((g) => (
-            <li key={g.slug}>
-              <a href={`/tro-choi/${g.slug}`}>{g.title}</a>
-              {g.shortDescription && <span> — {g.shortDescription}</span>}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* GamesView (server component) đã SSR H1 + danh sách game crawlable → không cần khối sr-only lặp lại. */}
       <GamesView />
     </>
   );

@@ -19,6 +19,7 @@ interface Article {
   isPublished: boolean;
   publishedAt?: string;
   createdAt: string;
+  updatedAt?: string;
   viewCount: number;
   authorName?: string;
 }
@@ -98,20 +99,32 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
     ],
   };
 
+  const pageUrl = `${SITE}/bai-viet/${slug}`;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.excerpt || article.title,
-    image: article.thumbnailUrl,
+    image: [article.thumbnailUrl || `${SITE}/og-home.jpg`],
     datePublished: article.publishedAt || article.createdAt,
-    dateModified: article.publishedAt || article.createdAt,
-    author: { '@type': article.authorName ? 'Person' : 'Organization', name: article.authorName || 'Bé Hay Học' },
-    publisher: { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
-    url: `${SITE}/bai-viet/${slug}`,
+    dateModified: article.updatedAt || article.publishedAt || article.createdAt,
+    // authorName trong DB hiện là thương hiệu "Bé Hay Học" → khai báo Organization (không dùng Person cho tên tổ chức).
+    // Chỉ dùng Person khi có tên người biên soạn thật, khác thương hiệu.
+    author:
+      article.authorName && article.authorName.trim() !== 'Bé Hay Học'
+        ? { '@type': 'Person', name: article.authorName }
+        : { '@type': 'Organization', name: 'Bé Hay Học', url: SITE },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Bé Hay Học',
+      url: SITE,
+      logo: { '@type': 'ImageObject', url: `${SITE}/assets/images/logo.png` },
+    },
+    url: pageUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    inLanguage: 'vi-VN',
   };
-
-  const pageUrl = `${SITE}/bai-viet/${slug}`;
 
   return (
     <>

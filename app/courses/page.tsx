@@ -97,7 +97,7 @@ export default async function Page() {
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
-      <h1 className="sr-only">Khóa học cho bé 3–10 tuổi | Bé Hay Học</h1>
+      <h1 className="sr-only">Khóa học cho bé 3–10 tuổi</h1>
       {/* Danh sách khóa học crawlable — hỗ trợ Google & AI crawler kể cả khi UI render phía client */}
       {courses.length > 0 && (
         <ul className="sr-only">

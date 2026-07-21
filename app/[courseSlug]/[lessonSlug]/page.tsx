@@ -54,6 +54,66 @@ async function fetchSiblings(courseId?: number): Promise<Sibling[]> {
   } catch { return []; }
 }
 
+// ── Nội dung RIÊNG từng bài: lấy câu hỏi luyện tập thật của chính bài (chống trùng template) ──
+const QTYPE_LABEL: Record<string, string> = {
+  fill_blank: 'điền vào chỗ trống',
+  multiple_choice: 'trắc nghiệm nhiều lựa chọn',
+  multiple_select: 'chọn nhiều đáp án',
+  single_choice: 'trắc nghiệm',
+  matching: 'nối',
+  ordering: 'sắp xếp thứ tự',
+  sorting: 'sắp xếp',
+  counting: 'đếm hình',
+  true_false: 'đúng / sai',
+  drag_drop: 'kéo thả',
+};
+
+type QuizSample = { q: string; explanation?: string };
+
+function cleanQuestionText(t?: string): string {
+  return (t || '')
+    .replace(/\[b\d+\]|\[blank\]|\[_+\]/gi, '___') // marker chỗ trống → ___
+    .replace(/\s*\n\s*/g, ' ')
+    .trim();
+}
+
+async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSample[]; typeLabels: string[] }> {
+  if (!lessonId) return { samples: [], typeLabels: [] };
+  try {
+    const res = await fetch(`${API}/api/quizzes?lessonId=${lessonId}`, { next: { revalidate: 3600 } });
+    if (!res.ok) return { samples: [], typeLabels: [] };
+    const json = await res.json();
+    const list = (Array.isArray(json) ? json : (json.data ?? [])) as {
+      questionText?: string; explanation?: string; questionType?: string;
+    }[];
+
+    const typeLabels = [...new Set(list.map((q) => q.questionType).filter(Boolean) as string[])]
+      .map((t) => QTYPE_LABEL[t]).filter(Boolean);
+
+    // Ưu tiên mỗi dạng bài 1 câu (đa dạng), câu có chữ rõ ràng, tránh trùng.
+    const seen = new Set<string>();
+    const byType = new Map<string, QuizSample>();
+    for (const q of list) {
+      const text = cleanQuestionText(q.questionText);
+      if (text.length < 6 || seen.has(text)) continue;
+      seen.add(text);
+      const key = q.questionType || 'x';
+      if (!byType.has(key)) byType.set(key, { q: text, explanation: q.explanation?.trim() || undefined });
+    }
+    const samples = [...byType.values()];
+    // Bổ sung cho đủ ~4 câu nếu ít dạng.
+    for (const q of list) {
+      if (samples.length >= 4) break;
+      const text = cleanQuestionText(q.questionText);
+      if (text.length < 6 || samples.some((s) => s.q === text)) continue;
+      samples.push({ q: text, explanation: q.explanation?.trim() || undefined });
+    }
+    return { samples: samples.slice(0, 4), typeLabels };
+  } catch {
+    return { samples: [], typeLabels: [] };
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { courseSlug, lessonSlug } = await params;
 
@@ -85,21 +145,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function buildSeo(lesson: Lesson) {
+function buildSeo(lesson: Lesson, typeLabels: string[] = []) {
   const t = lesson.title;
   const course = lesson.course;
   const ageMin = course?.targetAgeMin;
   const ageMax = course?.targetAgeMax;
   const dur = lesson.durationMinutes || 15;
   const ageText = ageMin && ageMax ? `bé ${ageMin}–${ageMax} tuổi` : 'bé tiểu học';
-  const gradeText = course?.title ? course.title.replace(/^.*?(lớp\s*\d+).*$/i, 'lớp $1') : '';
+  const gradeMatch = course?.title?.match(/lớp\s*(\d+)/i);
+  const gradeText = gradeMatch ? `lớp ${gradeMatch[1]}` : '';
   const intro = lesson.seoDescription || lesson.shortDescription || lesson.description
     || (lesson.content
       ? `${lesson.content} ${t} là một bài học tương tác trong khóa ${course?.title || 'của Bé Hay Học'}, giúp bé vừa học vừa chơi.`
       : `${t} là bài học tương tác dành cho ${ageText}${course ? `, thuộc khóa ${course.title}` : ''} tại Bé Hay Học.`);
+  const typesPhrase = typeLabels.length
+    ? typeLabels.slice(0, 5).join(', ')
+    : 'trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu';
   const willLearn = [
     lesson.content || `Nắm vững kiến thức trọng tâm của "${t}" qua ví dụ trực quan, dễ hiểu.`,
-    `Luyện tập ngay với bài tập tương tác: trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu — có phản hồi đúng/sai tức thì.`,
+    `Luyện tập với các dạng bài có trong bài này: ${typesPhrase} — có phản hồi đúng/sai tức thì.`,
     `Ôn lại những câu làm sai để ghi nhớ lâu hơn, kèm phần thưởng huy hiệu khích lệ bé.`,
   ];
   const faqs = [
@@ -129,11 +193,14 @@ export default async function Page({ params }: Props) {
   if (courseSeg && courseSeg !== courseSlug) permanentRedirect(`/${courseSeg}/${lessonSlug}`);
 
   const cSlug = courseSeg || courseSlug;
-  const seo = buildSeo(lesson);
   const url = `${SITE}/${cSlug}/${lessonSlug}`;
   const lessonHref = (s: string) => `/${cSlug}/${s}`;
 
-  const siblings = await fetchSiblings(lesson.courseId);
+  const [quiz, siblings] = await Promise.all([
+    fetchQuizSamples(lesson.id),
+    fetchSiblings(lesson.courseId),
+  ]);
+  const seo = buildSeo(lesson, quiz.typeLabels);
   const idx = siblings.findIndex((s) => s.slug === lessonSlug);
   const prevLesson = idx > 0 ? siblings[idx - 1] : null;
   const nextLesson = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
@@ -183,6 +250,20 @@ export default async function Page({ params }: Props) {
                 ))}
               </ul>
             </div>
+            {quiz.samples.length > 0 && (
+              <div>
+                <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2"><span>✏️</span> Ví dụ câu hỏi trong bài</h3>
+                <ul className="space-y-3">
+                  {quiz.samples.map((s, i) => (
+                    <li key={i} className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
+                      <p className="text-[15px] leading-7 font-semibold text-slate-800">{s.q}</p>
+                      {s.explanation && <p className="mt-1 text-sm leading-7 text-slate-500">💡 {s.explanation}</p>}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-sm text-slate-500">Và nhiều câu khác trong 3 mức độ — bé luyện trực tiếp ngay trong bài, hoàn toàn miễn phí.</p>
+              </div>
+            )}
             <div>
               <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2"><span>🪜</span> Ba mức độ luyện tập</h3>
               <ul className="space-y-2 text-[15px] leading-7">

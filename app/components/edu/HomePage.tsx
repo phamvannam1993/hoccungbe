@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ApiCourse, ApiMiniGame } from '../../lib/api';
 import HomeCourseSection from './HomeCourseSection';
+import { gamesData } from './data/gamesData';
 
 interface Article {
   id: number; title: string; slug: string;
@@ -69,9 +70,12 @@ const FEATURES = [
   { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh xem được kết quả học tập và kỹ năng của bé rõ ràng.' },
 ];
 
+// Số trò chơi lấy động từ dữ liệu (tránh lệch "30+" trong khi thực tế ít hơn).
+const READY_GAMES_COUNT = gamesData.filter((g) => g.status === 'ready').length;
+
 const STATS = [
   { value: '400+', label: 'Bài học' },
-  { value: '30+', label: 'Trò chơi' },
+  { value: `${READY_GAMES_COUNT}`, label: 'Trò chơi' },
   { value: '3–10', label: 'Độ tuổi' },
   { value: '100%', label: 'Miễn phí dùng thử' },
 ];
@@ -267,7 +271,9 @@ export default async function HomePage() {
                     <div className="p-4 flex flex-col flex-1">
                       <h3 className="font-black text-slate-900 text-sm leading-snug line-clamp-2 flex-1 kid-display">{article.title}</h3>
                       {article.excerpt && (
-                        <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">{article.excerpt}</p>
+                        <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
+                          {article.excerpt.length > 160 ? `${article.excerpt.slice(0, 157)}…` : article.excerpt}
+                        </p>
                       )}
                       <span className="mt-3 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: c, boxShadow: `0 2px 0 ${c}99` }}>Đọc thêm »</span>
                     </div>

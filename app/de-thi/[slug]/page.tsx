@@ -28,9 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const exam = await fetchExam(slug);
 
-  const title = exam
-    ? `${exam.title} | Bé Hay Học`
-    : 'Đề thi | Bé Hay Học';
+  // Không tự nối "| Bé Hay Học" — layout de-thi đã có title.template thêm thương hiệu (tránh lặp brand).
+  const title = exam ? exam.title : 'Đề thi';
 
   const description = exam?.description || (exam
     ? `Làm đề kiểm tra "${exam.title}" môn ${SUBJECT_LABEL[exam.subject] ?? exam.subject} lớp ${exam.grade} – tự chấm điểm tức thì tại Bé Hay Học.`

@@ -34,6 +34,12 @@ function formatDate(d: string) {
   return new Date(d).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+// Chỉ hiển thị đoạn tóm tắt gọn (~160 ký tự) — tránh nhồi cả nội dung dài vào DOM danh sách.
+function excerptShort(s?: string): string {
+  const t = (s || '').replace(/\s+/g, ' ').trim();
+  return t.length > 160 ? `${t.slice(0, 157)}…` : t;
+}
+
 function ArticleCard({ article, featured }: { article: Article; featured?: boolean }) {
   if (featured) {
     return (
@@ -55,7 +61,7 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
             {article.title}
           </h2>
           {article.excerpt && (
-            <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed mb-4">{article.excerpt}</p>
+            <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed mb-4">{excerptShort(article.excerpt)}</p>
           )}
           <div className="flex items-center gap-3 text-xs text-gray-400">
             <span>{formatDate(article.publishedAt || article.createdAt)}</span>
@@ -86,7 +92,7 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
           {article.title}
         </h2>
         {article.excerpt && (
-          <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed mb-2">{article.excerpt}</p>
+          <p className="text-gray-400 text-xs line-clamp-2 leading-relaxed mb-2">{excerptShort(article.excerpt)}</p>
         )}
         <div className="flex items-center gap-2 text-[11px] text-gray-400 mt-auto pt-2 border-t border-gray-50">
           <span>{formatDate(article.publishedAt || article.createdAt)}</span>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import ExamListClient, { type ExamItem, SUBJECT_LABEL } from './ExamListClient';
+import ExamListClient from './ExamListClient';
+import { type ExamItem, SUBJECT_LABEL } from './examConstants';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
@@ -78,11 +79,11 @@ export default async function ExamListPage() {
         {/* Hướng dẫn sử dụng (SSR) */}
         <div className="mb-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-slate-100 sm:p-6">
           <h2 className="mb-3 text-lg font-black text-slate-900">Hướng dẫn sử dụng đề thi</h2>
-          <ol className="space-y-2 text-sm leading-7 text-slate-600">
-            <li>1. Chọn <strong>lớp</strong> và <strong>môn</strong> phù hợp với bé ở bộ lọc bên dưới.</li>
-            <li>2. Bấm vào một đề để xem mô tả, số câu, thời gian và bắt đầu làm bài.</li>
-            <li>3. Làm bài trực tuyến; hệ thống <strong>chấm điểm ngay</strong> và hiển thị đáp án để bé tự sửa.</li>
-            <li>4. Ba mẹ có thể cho bé làm lại nhiều lần miễn phí để ôn tập trước kỳ kiểm tra.</li>
+          <ol className="list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-600">
+            <li>Chọn <strong>lớp</strong> và <strong>môn</strong> phù hợp với bé ở bộ lọc bên dưới.</li>
+            <li>Bấm vào một đề để xem mô tả, số câu, thời gian và bắt đầu làm bài.</li>
+            <li>Làm bài trực tuyến; hệ thống <strong>chấm điểm ngay</strong> và hiển thị đáp án để bé tự sửa.</li>
+            <li>Ba mẹ có thể cho bé làm lại nhiều lần miễn phí để ôn tập trước kỳ kiểm tra.</li>
           </ol>
         </div>
 

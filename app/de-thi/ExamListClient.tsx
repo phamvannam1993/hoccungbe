@@ -3,25 +3,7 @@
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
-export interface ExamItem {
-  id: number;
-  title: string;
-  slug: string;
-  subject: string;
-  grade: number;
-  semester: number;
-  description?: string;
-  timeLimitMinutes?: number;
-  totalPoints: number;
-}
-
-export const SUBJECT_LABEL: Record<string, string> = {
-  toan: 'Toán', 'tieng-viet': 'Tiếng Việt', 'tieng-anh': 'Tiếng Anh',
-};
-const SUBJECT_ICON: Record<string, string> = {
-  toan: '🔢', 'tieng-viet': '📖', 'tieng-anh': '🌍',
-};
+import { SUBJECT_LABEL, SUBJECT_ICON, type ExamItem } from './examConstants';
 const CARD_COLORS = [
   { c: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
   { c: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },

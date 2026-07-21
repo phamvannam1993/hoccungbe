@@ -68,9 +68,11 @@ const nextConfig: NextConfig = {
       { source: '/games', destination: '/tro-choi', permanent: true },
       // Bài "9 cách dạy bé học Toán lớp 1..." đã xóa khỏi DB → 301 sang bài Toán lớp 1 còn sống (tránh 404 cho URL đã index).
       { source: '/bai-viet/9-cach-day-be-hoc-toan-lop-1-tai-nha-de-dang-va-hieu-qua', destination: '/bai-viet/toan-lop-1-hoc-nhung-gi-kinh-nghiem-giup-be-hoc-hieu-qua', permanent: true },
-      // Sửa slug tiếng Việt bị mất chữ (đọc → oc) → 301 sang slug đúng
+      // Sửa slug tiếng Việt bị mất chữ (đọc → oc, đừng → ung, đẹp → ep) → 301 sang slug đúng
       { source: '/bai-viet/cach-luyen-oc-hieu-cho-hoc-sinh-lop-1', destination: '/bai-viet/cach-luyen-doc-hieu-cho-hoc-sinh-lop-1', permanent: true },
       { source: '/bai-viet/vi-sao-con-oc-uoc-nhung-khong-hieu-bai', destination: '/bai-viet/vi-sao-con-doc-duoc-nhung-khong-hieu-bai', permanent: true },
+      { source: '/bai-viet/muon-con-viet-tot-tieng-viet-lop-1-ung-chi-luyen-chu-ep', destination: '/bai-viet/muon-con-viet-tot-tieng-viet-lop-1-dung-chi-luyen-chu-dep', permanent: true },
+      { source: '/bai-viet/cach-luyen-chu-ep-ma-khong-ep-con', destination: '/bai-viet/cach-luyen-chu-dep-ma-khong-ep-con', permanent: true },
       // Chuẩn hóa slug khóa Toán: toan-hoc-lop-N → toan-lop-N (301, giữ SEO)
       { source: '/khoa-hoc/toan-hoc-lop-1', destination: '/khoa-hoc/toan-lop-1', permanent: true },
       { source: '/khoa-hoc/toan-hoc-lop-2', destination: '/khoa-hoc/toan-lop-2', permanent: true },

@@ -172,7 +172,7 @@ function buildSeo(lesson: Lesson, typeLabels: string[] = []) {
   const faqs = [
     { q: `Bài "${t}" dành cho bé lớp mấy?`, a: `Bài học phù hợp với ${ageText}${gradeText ? `, tương ứng ${gradeText}` : ''}${course ? `, nằm trong khóa "${course.title}"${course.shortDescription ? ` — ${course.shortDescription}` : ''}` : ''}.` },
     { q: `Học bài "${t}" mất bao lâu?`, a: `Bài học kéo dài khoảng ${dur} phút, chia thành 3 mức độ từ dễ đến nâng cao. Bé có thể học lại nhiều lần hoàn toàn miễn phí để nắm chắc kiến thức.` },
-    { q: `Bài "${t}" có những dạng bài tập nào?`, a: `Bài gồm nhiều dạng bài tập tương tác như trắc nghiệm, điền vào chỗ trống, nối từ, sắp xếp câu và đếm hình. Sau khi làm, bé được xem đáp án đúng, giải thích và ôn lại những câu còn sai.` },
+    { q: `Bài "${t}" có những dạng bài tập nào?`, a: `${typeLabels.length ? `Bài gồm các dạng bài tập tương tác: ${typeLabels.slice(0, 6).join(', ')}.` : 'Bài gồm nhiều dạng bài tập tương tác như trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu.'} Sau khi làm, bé được xem đáp án đúng, giải thích và ôn lại những câu còn sai.` },
   ];
   return { intro, willLearn, faqs, dur, ageText };
 }

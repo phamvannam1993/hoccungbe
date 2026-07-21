@@ -135,8 +135,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // ── LESSON DETAIL ──
   const lesson = await fetchLesson(lessonSlug);
   const title = lesson ? `${lesson.title}${lesson.course ? ` | ${lesson.course.title}` : ''}` : 'Bài học';
-  const description = lesson?.seoDescription || lesson?.shortDescription || lesson?.description
-    || (lesson ? `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.');
+  const rawDesc = (lesson?.seoDescription || lesson?.shortDescription || lesson?.description
+    || (lesson ? `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.'))
+    .replace(/\s+/g, ' ').trim();
+  // Meta description gọn ~160 ký tự (seoDescription trong DB thường dài 300–450 ký tự).
+  const description = rawDesc.length > 160 ? `${rawDesc.slice(0, 157)}…` : rawDesc;
   const url = `${SITE}/${lesson?.course?.slug || courseSlug}/${lessonSlug}`;
   return {
     title, description, alternates: { canonical: url },

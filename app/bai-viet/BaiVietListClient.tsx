@@ -134,10 +134,8 @@ function ArticlesContent() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      {/* H1 của riêng trang danh sách (bài viết chi tiết có H1 riêng) */}
-      <h1 className="sr-only">Góc phụ huynh – Kinh nghiệm nuôi dạy và học cùng con</h1>
       {/* Breadcrumb */}
-      <nav className="text-sm text-white/70 mb-6 flex items-center gap-1.5">
+      <nav className="text-sm text-white/70 mb-4 flex items-center gap-1.5">
         <Link href="/" className="hover:text-white">Trang chủ</Link>
         <span className="text-white/40">›</span>
         <span className="text-white font-medium">Bài viết</span>
@@ -146,6 +144,16 @@ function ArticlesContent() {
           <span className="text-white">{CATEGORY_LABEL[categoryParam] || categoryParam}</span></>
         )}
       </nav>
+
+      {/* H1 hiển thị của trang danh sách (bài viết chi tiết có H1 riêng) */}
+      <header className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+          Góc phụ huynh
+        </h1>
+        <p className="mt-1 text-sm sm:text-base text-white/80">
+          Kinh nghiệm nuôi dạy và học cùng con
+        </p>
+      </header>
 
       <div className="flex gap-7 items-start">
         {/* ── Sidebar ───────────────────────────────────── */}

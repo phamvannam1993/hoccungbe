@@ -44,7 +44,7 @@ export default function Footer() {
       .catch(() => {});
   }, []);
   return (
-    <footer className="bg-[#e8735a] border-t border-white/20">
+    <footer data-nosnippet className="bg-[#e8735a] border-t border-white/20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">

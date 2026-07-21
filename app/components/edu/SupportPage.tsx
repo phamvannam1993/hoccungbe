@@ -11,9 +11,10 @@ const faqs = [
   { q: 'Tôi quên mật khẩu thì làm thế nào?', a: 'Nhấn "Quên mật khẩu" ở trang đăng nhập, hệ thống sẽ gửi link đặt lại qua email của bạn.' },
 ];
 
+// Chỉ hiển thị kênh liên hệ CÓ THẬT. (Zalo/hotline sẽ thêm lại khi có tài khoản/số thật.)
 const channels = [
   { icon: '📧', label: 'Email hỗ trợ', desc: 'behayhoc@gmail.com', color: '#6366f1', bg: '#f5f3ff', href: 'mailto:behayhoc@gmail.com' },
-  { icon: '💬', label: 'Zalo', desc: 'Nhắn tin cho đội hỗ trợ', color: '#0068ff', bg: '#eff6ff', href: 'https://zalo.me' },
+  { icon: '❓', label: 'Câu hỏi thường gặp', desc: 'Xem giải đáp nhanh', color: '#0ea5e9', bg: '#eff6ff', href: '/cau-hoi-thuong-gap' },
 ];
 
 export default function SupportPage() {

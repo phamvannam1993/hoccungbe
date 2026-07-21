@@ -63,7 +63,7 @@ export default function GuestWelcomeModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/50 p-3 sm:p-4" onClick={close}>
+    <div data-nosnippet className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/50 p-3 sm:p-4" onClick={close}>
       <div
         className="relative w-full max-w-3xl overflow-hidden rounded-[28px] bg-white shadow-2xl"
         style={{ maxHeight: '94vh' }}

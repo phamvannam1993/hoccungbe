@@ -58,9 +58,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await getArticle(slug);
   if (!article) return { title: 'Bài viết không tồn tại - Bé Hay Học' };
   const url = `${SITE}/bai-viet/${slug}`;
-  const desc = article.excerpt || article.title;
+  // Meta description gọn (~160 ký tự, 1 dòng) — tránh nhồi cả nội dung dài vào description.
+  const rawDesc = (article.excerpt || article.title || '').replace(/\s+/g, ' ').trim();
+  const desc = rawDesc.length > 160 ? `${rawDesc.slice(0, 157)}…` : rawDesc;
+  // Nếu tiêu đề đã chứa "Bé Hay Học" thì dùng absolute để layout không nối thêm "| Bé Hay Học" (tránh lặp brand).
+  const brandInTitle = /bé hay học/i.test(article.title);
   return {
-    title: article.title,
+    title: brandInTitle ? { absolute: article.title } : article.title,
     description: desc,
     alternates: { canonical: url },
     openGraph: { title: article.title, description: desc, url, type: 'article', siteName: 'Bé Hay Học', locale: 'vi_VN', images: article.thumbnailUrl ? [{ url: article.thumbnailUrl, width: 1200, height: 630, alt: article.title }] : [] },

@@ -41,15 +41,45 @@ async function getArticle(slug: string): Promise<Article | null> {
   } catch { return null; }
 }
 
-async function getRelated(category: string | undefined, slug: string): Promise<Article[]> {
+// Suy ra môn học và lớp từ tiêu đề/slug (bài viết không có field môn/lớp riêng).
+function subjectOf(a: { title?: string; slug?: string }): string | null {
+  const t = `${a.title ?? ''} ${a.slug ?? ''}`.toLowerCase();
+  if (/tiếng việt|tieng-viet|chữ cái|đánh vần|âm.*vần|luyện đọc|luyện chữ/.test(t)) return 'tieng-viet';
+  if (/tiếng anh|tieng-anh/.test(t)) return 'tieng-anh';
+  if (/toán|toan|phép (cộng|trừ|nhân|chia)|con số|đếm|hình học/.test(t)) return 'toan';
+  return null;
+}
+function gradeOf(a: { title?: string; slug?: string }): string | null {
+  const m = `${a.title ?? ''} ${a.slug ?? ''}`.toLowerCase().match(/lớp\s*(\d)|lop-(\d)/);
+  return m ? (m[1] || m[2]) : null;
+}
+
+// Chọn bài liên quan theo ưu tiên: cùng môn → cùng lớp → cùng chủ đề (category) → cùng tag.
+async function getRelated(article: Article, slug: string): Promise<Article[]> {
   try {
-    const url = category
-      ? `${BASE_URL}/api/articles?category=${category}&limit=5`
-      : `${BASE_URL}/api/articles?limit=5`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const res = await fetch(`${BASE_URL}/api/articles?limit=100`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
-    return ((json.data || []) as Article[]).filter((a) => a.slug !== slug).slice(0, 4);
+    const pool = ((json.data || []) as Article[]).filter((a) => a.slug !== slug);
+
+    const subj = subjectOf(article);
+    const grade = gradeOf(article);
+    const tags = new Set((article.tags ?? []).map((x) => x.toLowerCase()));
+
+    const scored = pool.map((a) => {
+      let s = 0;
+      if (subj && subjectOf(a) === subj) s += 4;
+      if (grade && gradeOf(a) === grade) s += 3;
+      if (article.category && a.category === article.category) s += 1;
+      const shared = (a.tags ?? []).filter((x) => tags.has(x.toLowerCase())).length;
+      s += Math.min(shared, 2);
+      return { a, s };
+    });
+
+    // Ưu tiên điểm cao; nếu hòa, bài mới hơn trước. Luôn đủ 4 (fallback bài mới nhất).
+    scored.sort((x, y) => y.s - x.s
+      || new Date(y.a.publishedAt || y.a.createdAt).getTime() - new Date(x.a.publishedAt || x.a.createdAt).getTime());
+    return scored.slice(0, 4).map((x) => x.a);
   } catch { return []; }
 }
 
@@ -80,7 +110,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   const { slug } = await params;
   const [article, related] = await Promise.all([
     getArticle(slug),
-    getArticle(slug).then((a) => a ? getRelated(a.category, slug) : [] as Article[]),
+    getArticle(slug).then((a) => a ? getRelated(a, slug) : [] as Article[]),
   ]);
 
   if (!article) {

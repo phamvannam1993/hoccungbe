@@ -52,7 +52,7 @@ export default async function ExamListPage() {
           <div className="mb-2 flex items-center gap-3">
             <span className="text-4xl">📝</span>
             <h1 className="text-2xl font-black kid-display sm:text-3xl" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Đề thi &amp; bài kiểm tra Toán, Tiếng Việt, Tiếng Anh tiểu học
+              Đề thi và bài kiểm tra Toán tiểu học
             </h1>
           </div>
           <p className="text-sm font-medium leading-7 text-purple-700/90 sm:text-base">

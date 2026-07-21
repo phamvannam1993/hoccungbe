@@ -73,6 +73,8 @@ const nextConfig: NextConfig = {
       { source: '/bai-viet/vi-sao-con-oc-uoc-nhung-khong-hieu-bai', destination: '/bai-viet/vi-sao-con-doc-duoc-nhung-khong-hieu-bai', permanent: true },
       { source: '/bai-viet/muon-con-viet-tot-tieng-viet-lop-1-ung-chi-luyen-chu-ep', destination: '/bai-viet/muon-con-viet-tot-tieng-viet-lop-1-dung-chi-luyen-chu-dep', permanent: true },
       { source: '/bai-viet/cach-luyen-chu-ep-ma-khong-ep-con', destination: '/bai-viet/cach-luyen-chu-dep-ma-khong-ep-con', permanent: true },
+      // Đề thi trùng "cuối học kỳ I" (bản mẫu) → 301 về bản chính "cuối học kỳ 1".
+      { source: '/de-thi/kiem-tra-cuoi-hk1-toan-lop1-mau', destination: '/de-thi/kiem-tra-cuoi-hk1-toan-lop1', permanent: true },
       // Chuẩn hóa slug khóa Toán: toan-hoc-lop-N → toan-lop-N (301, giữ SEO)
       { source: '/khoa-hoc/toan-hoc-lop-1', destination: '/khoa-hoc/toan-lop-1', permanent: true },
       { source: '/khoa-hoc/toan-hoc-lop-2', destination: '/khoa-hoc/toan-lop-2', permanent: true },

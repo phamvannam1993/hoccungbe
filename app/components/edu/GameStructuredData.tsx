@@ -123,7 +123,8 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
       </nav>
       {/* SSR block — crawlable by search engines even when the game UI is client-rendered. */}
       <div className="sr-only">
-        <h1>{game.title} — Trò chơi giáo dục cho bé | {SITE_NAME}</h1>
+        {/* H1 thật là tiêu đề hiển thị trong component game → dùng h2 ở đây để mỗi trang chỉ có 1 H1. */}
+        <h2>{game.title} — Trò chơi giáo dục cho bé | {SITE_NAME}</h2>
         <p>{game.description}</p>
         <p>Dành cho bé {game.age} · Thể loại: {game.category} · Chơi miễn phí trên trình duyệt</p>
         {game.skills.length > 0 && <p>Kỹ năng rèn luyện: {game.skills.join(', ')}</p>}

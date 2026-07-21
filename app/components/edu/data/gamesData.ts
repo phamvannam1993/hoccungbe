@@ -451,11 +451,11 @@ export const gamesData: GameItem[] = [
   },
   {
     id: 'game-045',
-    title: 'Bóng Biển - Toán',
+    title: 'Toán bong bóng biển',
     slug: 'toan-bong-bong-bien',
-    shortDescription: 'Phá vỡ bóng biển bằng cách trả lời các câu hỏi toán học nhanh chóng.',
+    shortDescription: 'Phá vỡ bong bóng biển bằng cách trả lời các câu hỏi toán học nhanh chóng.',
     description:
-      'Trò chơi Bóng Biển - Toán giúp bé phát triển kỹ năng tính toán, tư duy logic và phản xạ nhanh. Bé sẽ trả lời các phép tính cộng và trừ để phá vỡ bóng biển, với giao diện biển xanh tươi mát và âm thanh vui nhộn kích thích hứng thú học tập.',
+      'Trò chơi Toán bong bóng biển giúp bé phát triển kỹ năng tính toán, tư duy logic và phản xạ nhanh. Bé sẽ trả lời các phép tính cộng và trừ để phá vỡ bong bóng biển, với giao diện biển xanh tươi mát và âm thanh vui nhộn kích thích hứng thú học tập.',
     age: '4-6 tuổi',
     ageGroup: '4-6',
     time: '5 phút',

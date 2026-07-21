@@ -22,13 +22,14 @@ interface Category {
   slug: string;
 }
 
+// Danh mục fallback đúng với nền tảng tiểu học (thay Vật Lý/Hóa/Sinh không phù hợp bé 3–10).
 const DEFAULT_CATEGORIES: Category[] = [
-  { id: 1, name: 'Toán học', slug: 'toan-hoc' },
-  { id: 2, name: 'Vật Lý', slug: 'vat-ly' },
-  { id: 3, name: 'Hóa Học', slug: 'hoa-hoc' },
-  { id: 4, name: 'Tiếng Anh', slug: 'tieng-anh' },
-  { id: 5, name: 'Văn học', slug: 'van-hoc' },
-  { id: 6, name: 'Sinh Học', slug: 'sinh-hoc' },
+  { id: 1, name: 'Toán lớp 1', slug: 'toan-lop-1' },
+  { id: 2, name: 'Tiếng Việt lớp 1', slug: 'tieng-viet-lop-1' },
+  { id: 3, name: 'Tiếng Anh lớp 1', slug: 'tieng-anh-lop-1' },
+  { id: 4, name: 'Toán lớp 2', slug: 'toan-lop-2' },
+  { id: 5, name: 'Tiếng Việt lớp 2', slug: 'tieng-viet-lop-2' },
+  { id: 6, name: 'Phiếu bài tập', slug: 'phieu-bai-tap' },
 ];
 
 const SORT_OPTIONS = [
@@ -108,8 +109,8 @@ export default function DocumentsListClient() {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>Kho Tài Liệu</h1>
-          <p>Thư viện PDF miễn phí cho trẻ em</p>
+          <h2>Danh mục tài liệu</h2>
+          <p>Thư viện tài liệu học tập miễn phí cho học sinh tiểu học</p>
         </div>
       </div>
 

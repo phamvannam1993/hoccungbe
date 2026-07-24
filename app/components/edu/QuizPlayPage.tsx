@@ -2940,6 +2940,11 @@ export default function QuizPlayPage({
                   </div>
                 );
               }
+              // Câu "chọn hình / đếm số lượng" (đáp án là ẢNH, hoặc hỏi "Hình ảnh nào…/Tranh nào…")
+              // → KHÔNG hiện emoji minh họa, vì nó gây hiểu nhầm (vd hỏi "có 4 con cá" mà hiện 1 con cá).
+              const optHasImage = (q.optionsJson ?? []).some((o) => !!o?.imageUrl);
+              const isPickImage = /h[ìi]nh\s*ả?nh\s+nào|tranh\s+nào|h[ìi]nh\s+nào/i.test(q.questionText || '');
+              if (optHasImage || isPickImage) return null;
               // Câu 1 đáp án đúng → cho phép lấy emoji theo đáp án (câu "chọn hình")
               const singleAns = q.questionType === 'single_choice' || q.questionType === 'image_choice';
               const correctText = singleAns

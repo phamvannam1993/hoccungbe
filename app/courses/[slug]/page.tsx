@@ -39,9 +39,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const course = await fetchJson<ApiCourse>(`/courses/slug/${slug}`);
 
-  const title = course ? course.title : 'Khóa học';
-  const description = course?.description
-    || (course ? `Khám phá khóa học "${course.title}" với các bài học và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.` : 'Khóa học trực tuyến dành cho bé tại Bé Hay Học.');
+  // Format chuẩn, không nhồi từ khóa:
+  //  Title: "Toán lớp 1 – Bài học, bài tập và trò chơi miễn phí | Bé Hay Học"
+  //  Desc : "Học Toán lớp 1 qua bài giảng ngắn, bài tập tương tác và trò chơi vui nhộn. Có đáp án…"
+  const title = course
+    ? `${course.title} – Bài học, bài tập và trò chơi miễn phí | Bé Hay Học`
+    : 'Khóa học | Bé Hay Học';
+  const description = course
+    ? `Học ${course.title} qua bài giảng ngắn, bài tập tương tác và trò chơi vui nhộn. Có đáp án, ôn lại câu sai và theo dõi tiến độ học miễn phí.`
+    : 'Khóa học trực tuyến tương tác dành cho bé tại Bé Hay Học.';
   const url = `${SITE}/khoa-hoc/${slug}`;
   const image = course?.thumbnailUrl || `${SITE}/og-home.jpg`;
 

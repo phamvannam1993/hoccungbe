@@ -5,6 +5,19 @@ import Link from 'next/link';
 import { apiFetch } from '../../lib/api';
 import LessonQuizList from './LessonQuizList';
 
+// Chèn <meta name="robots" content="noindex,follow"> vào <head> khi mount, gỡ khi unmount.
+// Dùng cho trạng thái "không tìm thấy" ở client (HTTP 200) để Google không lập chỉ mục soft-404.
+function NoIndex() {
+  useEffect(() => {
+    const m = document.createElement('meta');
+    m.name = 'robots';
+    m.content = 'noindex,follow';
+    document.head.appendChild(m);
+    return () => { document.head.removeChild(m); };
+  }, []);
+  return null;
+}
+
 function getYouTubeEmbedUrl(url: string): string | null {
   try {
     const u = new URL(url);
@@ -856,6 +869,8 @@ export default function LessonDetailPage({
 
   if (!lesson) return (
     <div className="mx-auto max-w-2xl px-6 py-12 text-center">
+      {/* Không tìm thấy bài học ở client → chặn Google index (tránh soft-404 HTTP 200). */}
+      <NoIndex />
       <p className="text-6xl">📚</p>
       <h1 className="mt-4 text-2xl font-black text-slate-900">Không tìm thấy bài học</h1>
       <Link href="/khoa-hoc" className="mt-6 inline-flex rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white hover:bg-sky-700">

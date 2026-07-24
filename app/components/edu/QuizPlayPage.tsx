@@ -1903,11 +1903,11 @@ function preprocessTTS(text: string): string {
     .replace(/(\d+)\s*\[b\d+\]\s*(\d+)\s*\(điền dấu so sánh\)/gi, (_m, a, b) =>
       `${numToVi(parseInt(a))} lớn hơn, bé hơn hay bằng ${numToVi(parseInt(b))}?`
     )
-    // fill_blank compare chain: "2 [b1] 5 [b2] 8" → "hai, năm, tám — điền dấu thích hợp"
-    .replace(/((?:\d+\s*\[b\d+\]\s*){1,}\d+)/g, (m) => {
-      const nums = m.split(/\[b\d+\]/g).map(s => s.trim()).filter(s => /^\d+$/.test(s));
-      return nums.map((n) => numToVi(parseInt(n))).join(', ') + ' — điền dấu thích hợp';
-    })
+    // Dãy số có ô trống [bN] (điền SỐ còn thiếu): "5 [b1] 3 [b2] 1" → "năm, mấy, ba, mấy, một".
+    // Đọc lần lượt từng phần tử theo đúng vị trí (số → chữ, ô trống → "mấy").
+    .replace(/(?:\d+|\[b\d+\])(?:\s+(?:\d+|\[b\d+\]))+/g, (m) =>
+      m.trim().split(/\s+/).map((t) => (/^\[b\d+\]$/.test(t) ? 'mấy' : numToVi(parseInt(t)))).join(', ')
+    )
     .replace(/\[b\d+\]/g, 'mấy')
     // "Điền dấu: 2+5 [?] 10-2" → "Điền dấu so sánh thích hợp vào chỗ trống: hai cộng năm như thế nào so với mười trừ hai?"
     .replace(/[Dd]iền dấu[^:]*:\s*(.*?)\s*\[\?\]\s*([\w\d\s+\-×÷=<>]+)/g, (_m, left, right) => {

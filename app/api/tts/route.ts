@@ -230,6 +230,22 @@ async function handle(rawText: string | null, enMode = false): Promise<NextRespo
     return NextResponse.json({ error: 'Text contains only emoji/icons' }, { status: 400 });
   }
 
+  // ── Tra bảng tts_cache trước: nếu đã có audio (S3) cho text này → DÙNG LẠI, khỏi gọi TTS. ──
+  try {
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+    const voice = enMode ? 'en' : 'vi';
+    const look = await fetch(
+      `${apiBase}/api/tts/cached?text=${encodeURIComponent(cleaned)}&voice=${voice}`,
+      { cache: 'no-store' },
+    );
+    if (look.ok) {
+      const { audioUrl } = (await look.json()) as { audioUrl?: string };
+      if (audioUrl) return NextResponse.redirect(audioUrl, 302); // phát thẳng file S3 đã cache
+    }
+  } catch {
+    // Không tra được cache → tiếp tục luồng cũ bên dưới (Google TTS / backend).
+  }
+
   // ── Bài KHÔNG phải tiếng Anh → hành vi cũ: cả câu giọng Việt + phiên âm, fallback backend. ──
   if (!enMode) {
     const text = toVietnamesePhonics(cleaned);

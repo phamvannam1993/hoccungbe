@@ -502,9 +502,16 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
   options: OptionItem[]; order: string[]; checked: boolean; correctOrder: string[]; onReorder: (newOrder: string[]) => void;
 }) {
   const dragIdx = useRef<number | null>(null);
+  const move = (idx: number, dir: -1 | 1) => {
+    const newOrder = [...order];
+    const target = idx + dir;
+    if (target < 0 || target >= newOrder.length) return;
+    [newOrder[idx], newOrder[target]] = [newOrder[target], newOrder[idx]];
+    onReorder(newOrder);
+  };
   return (
     <div className="space-y-2">
-      <p className="text-xs text-gray-400 mb-3">Kéo thả để sắp xếp thứ tự đúng</p>
+      <p className="text-xs text-gray-400 mb-3">Kéo thả hoặc nhấn ▲▼ để sắp xếp thứ tự đúng</p>
       {order.map((key, idx) => {
         const opt = options.find((o) => o.key === key);
         const isRight = checked && correctOrder[idx] === key;
@@ -545,6 +552,16 @@ function DragDrop({ options, order, checked, correctOrder, onReorder }: {
               fontSize: isMathText(opt?.text ?? key) ? 28 : 18,
               fontWeight: 700, color: isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b',
             }}>{formatMath(opt?.text ?? key)}</span>
+            {!checked && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flexShrink: 0 }}>
+                <button type="button" aria-label="Lên" onClick={() => move(idx, -1)} disabled={idx === 0}
+                  onPointerDown={(e) => e.stopPropagation()} onDragStart={(e) => e.preventDefault()}
+                  style={{ width: 40, height: 30, borderRadius: 8, touchAction: 'manipulation', background: idx === 0 ? '#f3f4f6' : '#e5e7eb', border: 'none', cursor: idx === 0 ? 'not-allowed' : 'pointer', opacity: idx === 0 ? 0.3 : 1, fontWeight: 700, fontSize: 13, color: '#374151' }}>▲</button>
+                <button type="button" aria-label="Xuống" onClick={() => move(idx, 1)} disabled={idx === order.length - 1}
+                  onPointerDown={(e) => e.stopPropagation()} onDragStart={(e) => e.preventDefault()}
+                  style={{ width: 40, height: 30, borderRadius: 8, touchAction: 'manipulation', background: idx === order.length - 1 ? '#f3f4f6' : '#e5e7eb', border: 'none', cursor: idx === order.length - 1 ? 'not-allowed' : 'pointer', opacity: idx === order.length - 1 ? 0.3 : 1, fontWeight: 700, fontSize: 13, color: '#374151' }}>▼</button>
+              </div>
+            )}
             {isRight && <span style={{ color: '#22c55e', fontWeight: 900, fontSize: 18, flexShrink: 0 }}>✓</span>}
             {isWrong && <span style={{ fontSize: 12, color: '#ef4444', flexShrink: 0 }}>→ {options.find((o) => o.key === correctOrder[idx])?.text}</span>}
           </div>

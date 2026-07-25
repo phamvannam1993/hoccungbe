@@ -196,13 +196,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lesson = await fetchLesson(normalizeSlug(lessonSlug));
   if (!lesson) {
     return {
-      title: 'Không tìm thấy bài học | Bé Hay Học',
+      title: 'Không tìm thấy bài học',
       description: 'Bài học không tồn tại hoặc đã được chuyển sang địa chỉ khác.',
       robots: { index: false, follow: false },
     };
   }
-  // Format: "Bài 1: Các số 0 đến 5 – Toán lớp 1 | Bé Hay Học" (không nhồi từ khóa).
-  const title = `${lesson.title}${lesson.course ? ` – ${lesson.course.title}` : ''} | Bé Hay Học`;
+  // Layout gốc đã có template "%s | Bé Hay Học" → KHÔNG thêm brand vào title (tránh lặp).
+  // Kết quả <title>: "Bài 1: Các số 0 đến 5 – Toán lớp 1 | Bé Hay Học".
+  const title = `${lesson.title}${lesson.course ? ` – ${lesson.course.title}` : ''}`;
+  const ogTitle = `${title} | Bé Hay Học`; // OG/Twitter là tag riêng, template không áp → thêm brand ở đây.
   const rawDesc = lesson.seoDescription || lesson.shortDescription || lesson.description
     || `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.`;
   const cleanDesc = stripHtml(rawDesc);
@@ -213,8 +215,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const url = `${SITE}/${canonicalCourseSlug}/${canonicalLessonSlug}`;
   return {
     title, description, alternates: { canonical: url },
-    openGraph: { title, description, url, type: 'article', siteName: 'Bé Hay Học', locale: 'vi_VN', images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: title }] },
-    twitter: { card: 'summary_large_image', title, description, images: [`${SITE}/og-home.jpg`] },
+    openGraph: { title: ogTitle, description, url, type: 'article', siteName: 'Bé Hay Học', locale: 'vi_VN', images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: ogTitle }] },
+    twitter: { card: 'summary_large_image', title: ogTitle, description, images: [`${SITE}/og-home.jpg`] },
   };
 }
 
@@ -274,6 +276,19 @@ function buildGuide(lesson: Lesson): { mistakes: string[]; tips: string[] } {
   };
 
   // ----- Toán -----
+  // Bảng nhân/chia đặt TRƯỚC để không bị nhánh cộng/trừ/số bắt nhầm.
+  if (has('bảng nhân', 'bảng chia', 'phép nhân', 'phép chia')) return {
+    mistakes: [
+      'Nhầm kết quả giữa các bảng nhân gần nhau.',
+      'Thuộc phép nhân nhưng chưa liên hệ được với phép chia tương ứng.',
+      'Đổi vị trí số bị chia và số chia khi làm phép tính.',
+    ],
+    tips: [
+      'Cho bé đọc từng cặp phép tính liên quan: 6 × 4 = 24, 24 : 6 = 4.',
+      'Luyện theo nhóm nhỏ 3–4 phép tính thay vì học cả bảng một lần.',
+      'Dùng que tính hoặc nhóm đồ vật để bé hiểu bản chất nhân và chia.',
+    ],
+  };
   if (has('cộng', 'phép cộng')) return {
     mistakes: ['Đếm nhầm hoặc đếm lặp khi cộng.', 'Quên "nhớ" hoặc cộng thiếu một số hạng.', 'Nhầm phép cộng với phép trừ khi nhìn dấu vội.'],
     tips: ['Dùng đồ vật thật (kẹo, que tính) để bé cộng bằng tay trước.', 'Cho bé đọc to phép tính và chỉ vào dấu "+" trước khi làm.', 'Luyện các phép quen thuộc đến khi bé nhẩm nhanh, rồi mới tăng độ khó.'],

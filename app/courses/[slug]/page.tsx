@@ -39,12 +39,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const course = await fetchJson<ApiCourse>(`/courses/slug/${slug}`);
 
-  // Format chuẩn, không nhồi từ khóa:
-  //  Title: "Toán lớp 1 – Bài học, bài tập và trò chơi miễn phí | Bé Hay Học"
-  //  Desc : "Học Toán lớp 1 qua bài giảng ngắn, bài tập tương tác và trò chơi vui nhộn. Có đáp án…"
+  // Layout gốc đã có template "%s | Bé Hay Học" → KHÔNG thêm brand vào title (tránh lặp).
+  //  <title> ra: "Toán lớp 1 – Bài học, bài tập và trò chơi miễn phí | Bé Hay Học"
   const title = course
-    ? `${course.title} – Bài học, bài tập và trò chơi miễn phí | Bé Hay Học`
-    : 'Khóa học | Bé Hay Học';
+    ? `${course.title} – Bài học, bài tập và trò chơi miễn phí`
+    : 'Khóa học';
+  const ogTitle = `${title} | Bé Hay Học`; // OG tag riêng, template không áp → thêm brand ở đây.
   const description = course
     ? `Học ${course.title} qua bài giảng ngắn, bài tập tương tác và trò chơi vui nhộn. Có đáp án, ôn lại câu sai và theo dõi tiến độ học miễn phí.`
     : 'Khóa học trực tuyến tương tác dành cho bé tại Bé Hay Học.';
@@ -56,15 +56,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical: url },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url,
       type: 'article',
       siteName: 'Bé Hay Học',
       locale: 'vi_VN',
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      images: [{ url: image, width: 1200, height: 630, alt: ogTitle }],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [image] },
+    twitter: { card: 'summary_large_image', title: ogTitle, description, images: [image] },
   };
 }
 

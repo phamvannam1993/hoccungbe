@@ -124,7 +124,8 @@ function serializeJsonLd(value: unknown): string {
 async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSample[]; typeLabels: string[]; difficulties: string[] }> {
   if (!lessonId) return { samples: [], typeLabels: [], difficulties: [] };
   try {
-    const res = await fetch(`${API}/api/quizzes?lessonId=${lessonId}`, { next: { revalidate: 3600 } });
+    // limit=200: lấy hết câu của bài (mặc định API chỉ trả 20/trang → dễ dính câu cũ).
+    const res = await fetch(`${API}/api/quizzes?lessonId=${lessonId}&limit=200`, { next: { revalidate: 3600 } });
     if (!res.ok) return { samples: [], typeLabels: [], difficulties: [] };
     const json: unknown = await res.json();
     const list = (
@@ -140,19 +141,22 @@ async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSampl
             )
           : []
     ) as {
-      questionText?: string; explanation?: string; questionType?: string; difficultyLevel?: string;
+      questionText?: string; explanation?: string; questionType?: string; difficultyLevel?: string; isActive?: boolean | number;
     }[];
 
-    const typeLabels = [...new Set(list.map((q) => q.questionType).filter(Boolean) as string[])]
+    // CHỈ dùng câu đã xuất bản (isActive). Câu cũ (isActive=0) hay lệch chủ đề → không được làm mẫu.
+    const active = list.filter((q) => q.isActive === true || q.isActive === 1);
+
+    const typeLabels = [...new Set(active.map((q) => q.questionType).filter(Boolean) as string[])]
       .map((t) => QTYPE_LABEL[t]).filter(Boolean);
     // Mức độ có câu hỏi thật (để chỉ hiện phiếu tương ứng, không tạo link 404).
-    const present = new Set(list.map((q) => q.difficultyLevel).filter(Boolean) as string[]);
+    const present = new Set(active.map((q) => q.difficultyLevel).filter(Boolean) as string[]);
     const difficulties = ['easy', 'medium', 'hard'].filter((d) => present.has(d));
 
     // Ưu tiên mỗi dạng bài 1 câu (đa dạng), câu có chữ rõ ràng, tránh trùng.
     const seen = new Set<string>();
     const byType = new Map<string, QuizSample>();
-    for (const q of list) {
+    for (const q of active) {
       const text = cleanQuestionText(q.questionText);
       if (text.length < 6 || seen.has(text)) continue;
       seen.add(text);
@@ -161,7 +165,7 @@ async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSampl
     }
     const samples = [...byType.values()];
     // Bổ sung cho đủ ~4 câu nếu ít dạng.
-    for (const q of list) {
+    for (const q of active) {
       if (samples.length >= 4) break;
       const text = cleanQuestionText(q.questionText);
       if (text.length < 6 || samples.some((s) => s.q === text)) continue;
@@ -229,19 +233,23 @@ function buildSeo(lesson: Lesson, typeLabels: string[] = []) {
   const ageText = ageMin && ageMax ? `bé ${ageMin}–${ageMax} tuổi` : 'bé tiểu học';
   const gradeMatch = course?.title?.match(/lớp\s*(\d+)/i);
   const gradeText = gradeMatch ? `lớp ${gradeMatch[1]}` : '';
+  // KHÔNG đổ nguyên lesson.content (có thể là cả bài văn dài → lặp nội dung ở intro).
+  // Chỉ dùng content làm fallback dạng đoạn dẫn ngắn (~200 ký tự) khi thiếu mọi mô tả.
+  const contentLead = lesson.content ? stripHtml(lesson.content).slice(0, 200).trim() : '';
   const intro = stripHtml(
     lesson.seoDescription || lesson.shortDescription || lesson.description
-      || (lesson.content
-        ? `${stripHtml(lesson.content)} ${t} là một bài học tương tác trong khóa ${course?.title || 'của Bé Hay Học'}, giúp bé vừa học vừa chơi.`
+      || (contentLead
+        ? `${contentLead}${contentLead.length >= 200 ? '…' : ''}`
         : `${t} là bài học tương tác dành cho ${ageText}${course ? `, thuộc khóa ${course.title}` : ''} tại Bé Hay Học.`)
   );
   const typesPhrase = typeLabels.length
     ? typeLabels.slice(0, 5).join(', ')
     : 'trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu';
+  // KHÔNG dùng lesson.content trực tiếp (tránh nhét cả bài văn vào mục tiêu học tập).
   const willLearn = [
-    stripHtml(lesson.content) || `Nắm vững kiến thức trọng tâm của "${t}" qua ví dụ trực quan, dễ hiểu.`,
+    `Hiểu và nắm vững kiến thức trọng tâm của bài "${t}".`,
     `Luyện tập với các dạng bài có trong bài này: ${typesPhrase} — có phản hồi đúng/sai tức thì.`,
-    `Ôn lại những câu làm sai để ghi nhớ lâu hơn, kèm phần thưởng huy hiệu khích lệ bé.`,
+    `Biết vận dụng kiến thức của bài để trả lời câu hỏi và ôn lại những câu làm sai để nhớ lâu hơn.`,
   ];
   const faqs = [
     { q: `Bài "${t}" dành cho bé lớp mấy?`, a: `Bài học phù hợp với ${ageText}${gradeText ? `, tương ứng ${gradeText}` : ''}${course ? `, nằm trong khóa "${course.title}"${course.shortDescription ? ` — ${course.shortDescription}` : ''}` : ''}.` },

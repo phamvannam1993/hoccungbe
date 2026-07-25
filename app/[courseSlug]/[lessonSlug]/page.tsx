@@ -5,8 +5,8 @@ import LessonDetailPage from '../../components/edu/LessonDetailPage';
 import QuizPlayPage from '../../components/edu/QuizPlayPage';
 import { parseExerciseParam } from '../../lib/quiz-slug';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
+const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/$/, '');
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com').replace(/\/$/, '');
 
 // Route 2 cấp gộp:
 //   /{courseSlug}/{lessonSlug}             → trang bài học (SEO).
@@ -16,10 +16,23 @@ type Props = { params: Promise<{ courseSlug: string; lessonSlug: string }> };
 
 // Quiz sau khi rewrite bỏ ".html": /{lessonSlug}/{lessonSlug}-{diff}.
 // Nhận diện: segment 2 tách được đuôi -de/-trung-binh/-nang-cao VÀ phần gốc == segment 1.
-function isQuiz(seg1: string, seg2: string): boolean {
-  const p = parseExerciseParam(seg2);
-  return !!p && p.lessonSlug === seg1;
+function normalizeSlug(value: string): string {
+  try {
+    return decodeURIComponent(value).replace(/\.html$/i, '').replace(/^\/+|\/+$/g, '');
+  } catch {
+    return value.replace(/\.html$/i, '').replace(/^\/+|\/+$/g, '');
+  }
 }
+
+function parseQuizRoute(seg1: string, seg2: string) {
+  const lessonSegment = normalizeSlug(seg1);
+  const exerciseSegment = normalizeSlug(seg2);
+  const parsed = parseExerciseParam(exerciseSegment);
+  return parsed && normalizeSlug(parsed.lessonSlug) === lessonSegment
+    ? { ...parsed, lessonSlug: lessonSegment }
+    : null;
+}
+
 
 const DIFF_LABEL: Record<string, string> = {
   easy: 'Bài tập cơ bản', medium: 'Bài tập trung bình', hard: 'Bài tập nâng cao',
@@ -36,7 +49,7 @@ type Lesson = {
   shortDescription?: string; description?: string; content?: string; seoDescription?: string;
   topicName?: string; volume?: string; durationMinutes?: number; videoUrl?: string;
   course?: {
-    title: string; slug: string; courseType?: string;
+    id?: number; title: string; slug: string; courseType?: string;
     shortDescription?: string; description?: string;
     targetAgeMin?: number; targetAgeMax?: number;
   };
@@ -55,8 +68,15 @@ async function fetchSiblings(courseId?: number): Promise<Sibling[]> {
   try {
     const res = await fetch(`${API}/api/lessons?courseId=${courseId}&slim=1`, { next: { revalidate: 3600 } });
     if (!res.ok) return [];
-    const list = (await res.json()) as Sibling[];
-    return (Array.isArray(list) ? list : []).filter((l) => l.isPublished !== false);
+    const json: unknown = await res.json();
+    const list = Array.isArray(json)
+      ? json
+      : (json && typeof json === 'object' && Array.isArray((json as { data?: unknown[] }).data)
+        ? (json as { data: Sibling[] }).data
+        : []);
+    return (list as Sibling[])
+      .filter((l) => l.isPublished !== false)
+      .sort((a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER) || a.id - b.id);
   } catch { return []; }
 }
 
@@ -76,11 +96,29 @@ const QTYPE_LABEL: Record<string, string> = {
 
 type QuizSample = { q: string; explanation?: string };
 
+function stripHtml(value?: string): string {
+  return (value || '')
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function cleanQuestionText(t?: string): string {
-  return (t || '')
+  return stripHtml(t)
     .replace(/\[b\d+\]|\[blank\]|\[_+\]/gi, '___') // marker chỗ trống → ___
     .replace(/\s*\n\s*/g, ' ')
     .trim();
+}
+
+function serializeJsonLd(value: unknown): string {
+  // Prevent user/API text containing "</script>" from breaking out of the JSON-LD script tag.
+  return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
 async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSample[]; typeLabels: string[]; difficulties: string[] }> {
@@ -88,8 +126,20 @@ async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSampl
   try {
     const res = await fetch(`${API}/api/quizzes?lessonId=${lessonId}`, { next: { revalidate: 3600 } });
     if (!res.ok) return { samples: [], typeLabels: [], difficulties: [] };
-    const json = await res.json();
-    const list = (Array.isArray(json) ? json : (json.data ?? [])) as {
+    const json: unknown = await res.json();
+    const list = (
+      Array.isArray(json)
+        ? json
+        : json && typeof json === 'object'
+          ? (
+              Array.isArray((json as { data?: unknown }).data)
+                ? (json as { data: unknown[] }).data
+                : Array.isArray((json as { items?: unknown }).items)
+                  ? (json as { items: unknown[] }).items
+                  : []
+            )
+          : []
+    ) as {
       questionText?: string; explanation?: string; questionType?: string; difficultyLevel?: string;
     }[];
 
@@ -107,7 +157,7 @@ async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSampl
       if (text.length < 6 || seen.has(text)) continue;
       seen.add(text);
       const key = q.questionType || 'x';
-      if (!byType.has(key)) byType.set(key, { q: text, explanation: q.explanation?.trim() || undefined });
+      if (!byType.has(key)) byType.set(key, { q: text, explanation: stripHtml(q.explanation) || undefined });
     }
     const samples = [...byType.values()];
     // Bổ sung cho đủ ~4 câu nếu ít dạng.
@@ -115,7 +165,7 @@ async function fetchQuizSamples(lessonId?: number): Promise<{ samples: QuizSampl
       if (samples.length >= 4) break;
       const text = cleanQuestionText(q.questionText);
       if (text.length < 6 || samples.some((s) => s.q === text)) continue;
-      samples.push({ q: text, explanation: q.explanation?.trim() || undefined });
+      samples.push({ q: text, explanation: stripHtml(q.explanation) || undefined });
     }
     return { samples: samples.slice(0, 4), typeLabels, difficulties };
   } catch {
@@ -127,8 +177,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { courseSlug, lessonSlug } = await params;
 
   // ── QUIZ (segment 2 kết thúc .html) ──
-  if (isQuiz(courseSlug, lessonSlug)) {
-    const parsed = parseExerciseParam(lessonSlug);
+  const quizRoute = parseQuizRoute(courseSlug, lessonSlug);
+  if (quizRoute) {
+    const parsed = quizRoute;
     const lesson = await fetchLesson(courseSlug); // ở URL quiz, segment 1 chính là lessonSlug
     const diffLabel = parsed ? DIFF_LABEL[parsed.difficulty] ?? 'Bài tập' : 'Bài tập';
     const lessonTitle = lesson?.title ?? courseSlug;
@@ -142,17 +193,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   // ── LESSON DETAIL ──
-  const lesson = await fetchLesson(lessonSlug);
+  const lesson = await fetchLesson(normalizeSlug(lessonSlug));
+  if (!lesson) {
+    return {
+      title: 'Không tìm thấy bài học | Bé Hay Học',
+      description: 'Bài học không tồn tại hoặc đã được chuyển sang địa chỉ khác.',
+      robots: { index: false, follow: false },
+    };
+  }
   // Format: "Bài 1: Các số 0 đến 5 – Toán lớp 1 | Bé Hay Học" (không nhồi từ khóa).
-  const title = lesson
-    ? `${lesson.title}${lesson.course ? ` – ${lesson.course.title}` : ''} | Bé Hay Học`
-    : 'Bài học | Bé Hay Học';
-  const rawDesc = (lesson?.seoDescription || lesson?.shortDescription || lesson?.description
-    || (lesson ? `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.` : 'Bài học trực tuyến tương tác dành cho bé tại Bé Hay Học.'))
-    .replace(/\s+/g, ' ').trim();
+  const title = `${lesson.title}${lesson.course ? ` – ${lesson.course.title}` : ''} | Bé Hay Học`;
+  const rawDesc = lesson.seoDescription || lesson.shortDescription || lesson.description
+    || `Luyện tập bài "${lesson.title}" với bài tập tương tác và trò chơi giáo dục dành cho bé tại Bé Hay Học.`;
+  const cleanDesc = stripHtml(rawDesc);
   // Meta description gọn ~160 ký tự (seoDescription trong DB thường dài 300–450 ký tự).
-  const description = rawDesc.length > 160 ? `${rawDesc.slice(0, 157)}…` : rawDesc;
-  const url = `${SITE}/${lesson?.course?.slug || courseSlug}/${lessonSlug}`;
+  const description = cleanDesc.length > 160 ? `${cleanDesc.slice(0, 157)}…` : cleanDesc;
+  const canonicalCourseSlug = lesson.course?.slug || normalizeSlug(courseSlug);
+  const canonicalLessonSlug = lesson.slug || normalizeSlug(lessonSlug);
+  const url = `${SITE}/${canonicalCourseSlug}/${canonicalLessonSlug}`;
   return {
     title, description, alternates: { canonical: url },
     openGraph: { title, description, url, type: 'article', siteName: 'Bé Hay Học', locale: 'vi_VN', images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: title }] },
@@ -169,15 +227,17 @@ function buildSeo(lesson: Lesson, typeLabels: string[] = []) {
   const ageText = ageMin && ageMax ? `bé ${ageMin}–${ageMax} tuổi` : 'bé tiểu học';
   const gradeMatch = course?.title?.match(/lớp\s*(\d+)/i);
   const gradeText = gradeMatch ? `lớp ${gradeMatch[1]}` : '';
-  const intro = lesson.seoDescription || lesson.shortDescription || lesson.description
-    || (lesson.content
-      ? `${lesson.content} ${t} là một bài học tương tác trong khóa ${course?.title || 'của Bé Hay Học'}, giúp bé vừa học vừa chơi.`
-      : `${t} là bài học tương tác dành cho ${ageText}${course ? `, thuộc khóa ${course.title}` : ''} tại Bé Hay Học.`);
+  const intro = stripHtml(
+    lesson.seoDescription || lesson.shortDescription || lesson.description
+      || (lesson.content
+        ? `${stripHtml(lesson.content)} ${t} là một bài học tương tác trong khóa ${course?.title || 'của Bé Hay Học'}, giúp bé vừa học vừa chơi.`
+        : `${t} là bài học tương tác dành cho ${ageText}${course ? `, thuộc khóa ${course.title}` : ''} tại Bé Hay Học.`)
+  );
   const typesPhrase = typeLabels.length
     ? typeLabels.slice(0, 5).join(', ')
     : 'trắc nghiệm, điền vào chỗ trống, nối từ và sắp xếp câu';
   const willLearn = [
-    lesson.content || `Nắm vững kiến thức trọng tâm của "${t}" qua ví dụ trực quan, dễ hiểu.`,
+    stripHtml(lesson.content) || `Nắm vững kiến thức trọng tâm của "${t}" qua ví dụ trực quan, dễ hiểu.`,
     `Luyện tập với các dạng bài có trong bài này: ${typesPhrase} — có phản hồi đúng/sai tức thì.`,
     `Ôn lại những câu làm sai để ghi nhớ lâu hơn, kèm phần thưởng huy hiệu khích lệ bé.`,
   ];
@@ -252,34 +312,40 @@ export default async function Page({ params }: Props) {
   const { courseSlug, lessonSlug } = await params;
 
   // ── QUIZ ──
-  if (isQuiz(courseSlug, lessonSlug)) {
-    const parsed = parseExerciseParam(lessonSlug);
-    if (!parsed) return notFound();
-    return <QuizPlayPage lessonSlug={courseSlug} difficulty={parsed.difficulty as 'easy' | 'medium' | 'hard'} />;
+  const quizRoute = parseQuizRoute(courseSlug, lessonSlug);
+  if (quizRoute) {
+    return (
+      <QuizPlayPage
+        lessonSlug={quizRoute.lessonSlug}
+        difficulty={quizRoute.difficulty as 'easy' | 'medium' | 'hard'}
+      />
+    );
   }
 
   // ── LESSON DETAIL ──
-  const lesson = await fetchLesson(lessonSlug);
+  const normalizedLessonSlug = normalizeSlug(lessonSlug);
+  const lesson = await fetchLesson(normalizedLessonSlug);
   if (!lesson) notFound();
 
   // Sai khóa trong URL → 301 về đúng /{course}/{lesson}
   const courseSeg = lesson.course?.slug;
-  if (courseSeg && courseSeg !== courseSlug) permanentRedirect(`/${courseSeg}/${lessonSlug}`);
+  if (courseSeg && courseSeg !== courseSlug) permanentRedirect(`/${courseSeg}/${lesson.slug}`);
 
   const cSlug = courseSeg || courseSlug;
-  const url = `${SITE}/${cSlug}/${lessonSlug}`;
+  const url = `${SITE}/${cSlug}/${lesson.slug}`;
   const lessonHref = (s: string) => `/${cSlug}/${s}`;
 
+  const resolvedCourseId = lesson.courseId ?? lesson.course?.id;
   const [quiz, siblings] = await Promise.all([
     fetchQuizSamples(lesson.id),
-    fetchSiblings(lesson.courseId),
+    fetchSiblings(resolvedCourseId),
   ]);
   const seo = buildSeo(lesson, quiz.typeLabels);
   const guide = buildGuide(lesson);
-  const idx = siblings.findIndex((s) => s.slug === lessonSlug);
+  const idx = siblings.findIndex((s) => s.slug === lesson.slug);
   const prevLesson = idx > 0 ? siblings[idx - 1] : null;
   const nextLesson = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
-  const navSlugs = new Set([lessonSlug, prevLesson?.slug, nextLesson?.slug].filter(Boolean));
+  const navSlugs = new Set([lesson.slug, prevLesson?.slug, nextLesson?.slug].filter(Boolean));
   const related = siblings
     .filter((s) => !navSlugs.has(s.slug) && lesson.topicId != null && s.topicId === lesson.topicId)
     .slice(0, 4);
@@ -296,15 +362,15 @@ export default async function Page({ params }: Props) {
   const videoLd = lesson.videoUrl ? {
     '@context': 'https://schema.org', '@type': 'VideoObject',
     name: lesson.title, description: seo.intro, contentUrl: lesson.videoUrl, embedUrl: lesson.videoUrl,
-    uploadDate: '2026-01-01', thumbnailUrl: [`${SITE}/og-home.jpg`],
+    thumbnailUrl: [`${SITE}/og-home.jpg`],
   } : null;
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(learningLd) }} />
-      {videoLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoLd) }} />}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(learningLd) }} />
+      {videoLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(videoLd) }} />}
 
-      <LessonDetailPage lessonSlug={lessonSlug} />
+      <LessonDetailPage lessonSlug={lesson.slug} />
 
       <section className="mx-auto w-full max-w-3xl px-4 pb-16 pt-2">
         <div className="rounded-3xl bg-white shadow-sm ring-1 ring-slate-100 overflow-hidden">

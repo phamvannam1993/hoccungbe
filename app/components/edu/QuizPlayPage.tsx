@@ -793,18 +793,24 @@ const NUMBER_COLORS = ['#3b82f6', '#ef4444', '#6366f1', '#ec4899', '#f97316', '#
 
 // Dạng bảng điền số lượng: "Đếm và điền số lượng: Một quả táo 🍎 = [b1]; Hai con cá 🐟 = [b2]; …"
 // → tách thành các hàng { nhãn đồ vật, ô [bN] } để render bảng "Nhóm đồ vật | Số lượng".
-export function parseQuantityTable(text: string): { rows: { label: string; key: string }[] } | null {
-  const m = (text || '').match(/^\s*Đếm và điền số lượng\s*:\s*([\s\S]+)$/);
+// Bắt cả "Đếm và điền số lượng:" và "Quan sát tranh và điền số lượng:".
+// Mỗi dòng "nhãn = <giá trị>": giá trị là số cho sẵn (given) hoặc ô [bN] (key).
+export function parseQuantityTable(text: string): { rows: { label: string; key?: string; given?: string }[] } | null {
+  const m = (text || '').match(/^\s*[^:]*điền số lượng\s*:\s*([\s\S]+)$/i);
   if (!m) return null;
   const body = m[1].replace(/\s*\.\s*$/, '');
   const segs = body.split(';').map((s) => s.trim()).filter(Boolean);
-  const rows: { label: string; key: string }[] = [];
+  const rows: { label: string; key?: string; given?: string }[] = [];
   for (const seg of segs) {
-    const mm = seg.match(/^([\s\S]*?)\s*=\s*\[(b\d+)\]$/);
+    const mm = seg.match(/^([\s\S]*?)\s*=\s*(\[b\d+\]|\d+)$/);
     if (!mm) return null;
-    rows.push({ label: mm[1].trim(), key: mm[2] });
+    const label = mm[1].trim();
+    const bm = mm[2].match(/^\[(b\d+)\]$/);
+    if (bm) rows.push({ label, key: bm[1] });
+    else rows.push({ label, given: mm[2] });
   }
-  return rows.length >= 2 ? { rows } : null;
+  // Cần ≥2 dòng và có ít nhất 1 ô trống thì mới là câu điền bảng.
+  return rows.length >= 2 && rows.some((r) => r.key) ? { rows } : null;
 }
 
 // Đáp án chỉ gồm emoji (vd "🐕🐕🐕", "⭐⭐⭐⭐", "⚽🏀🎾") → render to hơn cho dễ nhìn.
@@ -2899,6 +2905,17 @@ export default function QuizPlayPage({
                         <tbody>
                           {qtab.rows.map((row) => {
                             const bk = row.key;
+                            // Dòng cho sẵn số → hiển thị số (không nhập).
+                            if (!bk) {
+                              return (
+                                <tr key={`g-${row.label}`}>
+                                  <td style={{ padding: '10px 14px', border: '1px solid #d5ddef', fontSize: 20, fontWeight: 600, color: '#1e293b' }}>{row.label}</td>
+                                  <td style={{ padding: '10px 14px', border: '1px solid #d5ddef', textAlign: 'center' }}>
+                                    <span style={{ fontSize: 26, fontWeight: 900, color: '#15803d' }}>{row.given}</span>
+                                  </td>
+                                </tr>
+                              );
+                            }
                             const bval = (fillBlankAns[q.id] ?? {})[bk] ?? '';
                             const correct2 = correctMatchMap[bk];
                             const isOk2 = isChecked ? bval.trim() === String(correct2) : null;

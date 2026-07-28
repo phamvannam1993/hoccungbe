@@ -53,6 +53,12 @@ export function answerText(q: Quiz): string {
     if (q.questionType === 'puzzle') {
       return entries.map(([, v]) => label(String(v))).join(' ; ');
     }
+    // Bảng điền số lượng: gắn nhãn đồ vật với số → "Một quả táo: 1 ; Hai con cá: 2"
+    const qtab = parseQuantityTable(q.questionText);
+    if (qtab) {
+      const map = a as Record<string, unknown>;
+      return qtab.rows.map((r) => `${r.label}: ${String(map[r.key] ?? '')}`).join(' ; ');
+    }
     // Điền chỗ trống / bảng: chỉ cần giá trị
     return entries.map(([, v]) => String(v)).join(' ; ');
   }
@@ -75,8 +81,55 @@ export function skillOf(q: Quiz, fallback: string): string {
   return fallback;
 }
 
+// Dạng bảng điền số lượng: "Đếm và điền số lượng: Một quả táo 🍎 = [b1]; …"
+function parseQuantityTable(text: string): { rows: { label: string; key: string }[] } | null {
+  const m = (text || '').match(/^\s*Đếm và điền số lượng\s*:\s*([\s\S]+)$/);
+  if (!m) return null;
+  const body = m[1].replace(/\s*\.\s*$/, '');
+  const segs = body.split(';').map((s) => s.trim()).filter(Boolean);
+  const rows: { label: string; key: string }[] = [];
+  for (const seg of segs) {
+    const mm = seg.match(/^([\s\S]*?)\s*=\s*\[(b\d+)\]$/);
+    if (!mm) return null;
+    rows.push({ label: mm[1].trim(), key: mm[2] });
+  }
+  return rows.length >= 2 ? { rows } : null;
+}
+
+function QuantityTable({ rows }: { rows: { label: string; key: string }[] }) {
+  return (
+    <div className="mt-2 overflow-hidden rounded-md border border-slate-300" style={{ maxWidth: 460 }}>
+      <table className="w-full border-collapse text-[15px]">
+        <thead>
+          <tr className="bg-slate-100">
+            <th className="border border-slate-300 px-3 py-1.5 text-left font-bold">Nhóm đồ vật</th>
+            <th className="w-[120px] border border-slate-300 px-3 py-1.5 text-center font-bold">Số lượng</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.key}>
+              <td className="border border-slate-300 px-3 py-2 text-slate-700">{r.label}</td>
+              <td className="border border-slate-300 px-3 py-2 text-center"><span className={`${BLANK} min-w-[70px]`} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 // ── Đề bài: thay [b1], [r1c1]… bằng ô trống để bé viết ──────────────────────
 function QuestionText({ text }: { text: string }) {
+  const qtab = parseQuantityTable(text);
+  if (qtab) {
+    return (
+      <>
+        <span>Điền số thích hợp:</span>
+        <QuantityTable rows={qtab.rows} />
+      </>
+    );
+  }
   const parts = text.split(/(\[[^\]]+\])/g);
   return (
     <>

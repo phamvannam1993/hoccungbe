@@ -265,7 +265,11 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
     const t = String(o?.text ?? o?.key ?? '');
     return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
   });
-  const useRows = !allShortOrMath && !hasShape;
+  // Mọi đáp án đều là ẢNH → xếp LƯỚI để ảnh hiển thị TO (thay vì hàng, ảnh chỉ 44px).
+  const allImages = options.length > 0 && options.every((o) => !!o.imageUrl);
+  // Mọi đáp án chỉ là EMOJI → cũng cho vào lưới để phóng to.
+  const allEmoji = options.length > 0 && options.every((o) => !o.imageUrl && isEmojiOnly(String(o?.text ?? '')));
+  const useRows = !allShortOrMath && !hasShape && !allImages && !allEmoji;
   const basis = useRows
     ? '100%'
     : options.length <= 2 ? 'calc(50% - 6px)' : options.length === 3 ? 'calc(33.333% - 8px)' : 'calc(50% - 6px)';
@@ -318,6 +322,8 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
               const isMath = isMathText(txt);
               // Short text (≤4 chars, no image) → render BIG like math
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
+              // Đáp án chỉ gồm emoji (nhóm con vật, ngôi sao…) → phóng to riêng.
+              const emojiOnly = !opt.imageUrl && isEmojiOnly(txt);
               const isBig = isMath || isShort;
               // Dùng sharedBaseSize → tất cả đáp án cùng font size
               // Font scale theo độ rộng card (vw) ÷ số ký tự để không tràn
@@ -343,15 +349,15 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
                   <div className={`flex min-w-0 max-w-full items-center gap-2 ${useRows ? 'flex-1' : 'w-full justify-center'}`}>
                     {opt.audioUrl && <AudioBtn url={opt.audioUrl} small />}
                     <span style={{
-                      fontSize: useRows ? '17px' : fontSizeCss,
-                      fontWeight: useRows ? 800 : (isBig ? 900 : 700),
+                      fontSize: emojiOnly ? (useRows ? '34px' : 'clamp(32px, 9vw, 52px)') : (useRows ? '17px' : fontSizeCss),
+                      fontWeight: emojiOnly ? 400 : (useRows ? 800 : (isBig ? 900 : 700)),
                       color: isBig && !useRows ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                       textShadow: isBig && !useRows && !checked && !isSel ? `1px 2px 0 ${optColor}55` : undefined,
-                      letterSpacing: '-0.3px',
+                      letterSpacing: emojiOnly ? '2px' : '-0.3px',
                       textAlign: useRows ? 'left' : 'center',
-                      whiteSpace: isBig && !useRows ? 'nowrap' : 'pre-wrap',
+                      whiteSpace: (isBig || emojiOnly) && !useRows ? 'nowrap' : 'pre-wrap',
                       wordBreak: isBig && !useRows ? 'keep-all' : 'break-word',
-                      lineHeight: useRows ? 1.25 : 1,
+                      lineHeight: emojiOnly ? 1.15 : (useRows ? 1.25 : 1),
                       maxWidth: '100%',
                       display: 'inline-block',
                     }}>{formatMath(txt)}</span>
@@ -385,7 +391,11 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
     const t = String(o?.text ?? o?.key ?? '');
     return !o.imageUrl && (isMathText(t) || t.trim().length <= 4);
   });
-  const useRows = !allShortOrMath && !hasShape;
+  // Mọi đáp án đều là ẢNH → xếp LƯỚI để ảnh hiển thị TO (thay vì hàng, ảnh chỉ 44px).
+  const allImages = options.length > 0 && options.every((o) => !!o.imageUrl);
+  // Mọi đáp án chỉ là EMOJI → cũng cho vào lưới để phóng to.
+  const allEmoji = options.length > 0 && options.every((o) => !o.imageUrl && isEmojiOnly(String(o?.text ?? '')));
+  const useRows = !allShortOrMath && !hasShape && !allImages && !allEmoji;
   return (
     <div className={
       useRows
@@ -440,6 +450,7 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
               const txt = String(opt.text ?? opt.key ?? '');
               const isMath = isMathText(txt);
               const isShort = !opt.imageUrl && txt.trim().length <= 4;
+              const emojiOnly = !opt.imageUrl && isEmojiOnly(txt);
               const isBig = isMath || isShort;
               // Font scale theo độ rộng card (vw) ÷ số ký tự để không tràn
               // 3 cột: card ≈ 28vw, 2 cột: card ≈ 42vw (sau gap)
@@ -450,16 +461,16 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
                 : (compact ? '14px' : '18px');
               return (
                 <span style={{
-                  fontSize: useRows ? '17px' : fontSizeCss,
-                  fontWeight: useRows ? 800 : (isBig ? 900 : 700),
+                  fontSize: emojiOnly ? (useRows ? '34px' : 'clamp(32px, 9vw, 52px)') : (useRows ? '17px' : fontSizeCss),
+                  fontWeight: emojiOnly ? 400 : (useRows ? 800 : (isBig ? 900 : 700)),
                   color: isBig && !useRows ? optColor : (isRight ? '#15803d' : isWrong ? '#b91c1c' : '#1e293b'),
                   textShadow: isBig && !useRows && !checked && !isSel ? `2px 3px 0 ${optColor}55` : undefined,
-                  letterSpacing: '-0.3px',
+                  letterSpacing: emojiOnly ? '2px' : '-0.3px',
                   textAlign: useRows ? 'left' : 'center',
                   // nowrap ở thẻ hẹp làm chữ dài tràn ra ngoài → cho xuống dòng khi xếp hàng
-                  whiteSpace: useRows ? 'normal' : 'nowrap',
+                  whiteSpace: emojiOnly ? 'nowrap' : (useRows ? 'normal' : 'nowrap'),
                   wordBreak: useRows ? 'break-word' : undefined,
-                  lineHeight: useRows ? 1.25 : 1.1,
+                  lineHeight: emojiOnly ? 1.15 : (useRows ? 1.25 : 1.1),
                   display: 'block',
                   width: '100%',
                   minWidth: 0,
@@ -779,6 +790,31 @@ function Matching({ options, userMap, checked, correctMap, onChange }: {
 // correctAnswerJson: { b1: '3', b2: '5' }
 
 const NUMBER_COLORS = ['#3b82f6', '#ef4444', '#6366f1', '#ec4899', '#f97316', '#8b5cf6', '#14b8a6', '#b91c1c'];
+
+// Dạng bảng điền số lượng: "Đếm và điền số lượng: Một quả táo 🍎 = [b1]; Hai con cá 🐟 = [b2]; …"
+// → tách thành các hàng { nhãn đồ vật, ô [bN] } để render bảng "Nhóm đồ vật | Số lượng".
+export function parseQuantityTable(text: string): { rows: { label: string; key: string }[] } | null {
+  const m = (text || '').match(/^\s*Đếm và điền số lượng\s*:\s*([\s\S]+)$/);
+  if (!m) return null;
+  const body = m[1].replace(/\s*\.\s*$/, '');
+  const segs = body.split(';').map((s) => s.trim()).filter(Boolean);
+  const rows: { label: string; key: string }[] = [];
+  for (const seg of segs) {
+    const mm = seg.match(/^([\s\S]*?)\s*=\s*\[(b\d+)\]$/);
+    if (!mm) return null;
+    rows.push({ label: mm[1].trim(), key: mm[2] });
+  }
+  return rows.length >= 2 ? { rows } : null;
+}
+
+// Đáp án chỉ gồm emoji (vd "🐕🐕🐕", "⭐⭐⭐⭐", "⚽🏀🎾") → render to hơn cho dễ nhìn.
+// Strip: emoji + cờ vùng + biến thể (FE0F) + nối ZWJ (200D) + số/kí hiệu keycap + khoảng trắng.
+const EMOJI_ONLY_STRIP = /[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}️‍⃣\s]/gu;
+export function isEmojiOnly(s: string): boolean {
+  const t = (s ?? '').trim();
+  if (!t || !/\p{Extended_Pictographic}/u.test(t)) return false;
+  return t.replace(EMOJI_ONLY_STRIP, '') === '';
+}
 
 const FillBlank = memo(function FillBlank({ questionText, blanks, answers, checked, correctMap, activeKey, onFocusBlank, onChange }: {
   questionText: string;
@@ -1925,6 +1961,9 @@ function preprocessTTS(text: string): string {
     .replace(/(?:\d+|\[b\d+\])(?:\s+(?:\d+|\[b\d+\]))+/g, (m) =>
       m.trim().split(/\s+/).map((t) => (/^\[b\d+\]$/.test(t) ? 'mấy' : numToVi(parseInt(t)))).join(', ')
     )
+    // Câu đã kết thúc bằng "?" mà còn ô [bN] ở cuối → ô đó chỉ là chỗ nhập, KHÔNG đọc.
+    // VD "Có bao nhiêu con gà mang số 2? [b1]" → chỉ đọc "…số 2?".
+    .replace(/\?\s*\[b\d+\]\s*[.．]?\s*$/u, '?')
     .replace(/\[b\d+\]/g, 'mấy')
     // "Điền dấu: 2+5 [?] 10-2" → "Điền dấu so sánh thích hợp vào chỗ trống: hai cộng năm như thế nào so với mười trừ hai?"
     .replace(/[Dd]iền dấu[^:]*:\s*(.*?)\s*\[\?\]\s*([\w\d\s+\-×÷=<>]+)/g, (_m, left, right) => {
@@ -2844,6 +2883,59 @@ export default function QuizPlayPage({
                 <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-0.5"><path d="M8 5v14l11-7z"/></svg>
               </button>
               {q.questionType === 'fill_blank' && (() => {
+                // Dạng bảng điền số lượng → render bảng "Nhóm đồ vật | Số lượng".
+                const qtab = parseQuantityTable(q.questionText);
+                if (qtab) {
+                  return (
+                    <div className="pt-1">
+                      <p style={{ fontSize: 20, fontWeight: 700, color: '#1e293b', marginBottom: 10 }}>Điền số thích hợp:</p>
+                      <table className="border-collapse" style={{ width: '100%', maxWidth: 560 }}>
+                        <thead>
+                          <tr>
+                            <th style={{ textAlign: 'left', padding: '10px 14px', background: '#eff2fb', border: '1px solid #d5ddef', fontWeight: 800, color: '#334155' }}>Nhóm đồ vật</th>
+                            <th style={{ textAlign: 'center', padding: '10px 14px', background: '#eff2fb', border: '1px solid #d5ddef', fontWeight: 800, color: '#334155', width: 160 }}>Số lượng</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {qtab.rows.map((row) => {
+                            const bk = row.key;
+                            const bval = (fillBlankAns[q.id] ?? {})[bk] ?? '';
+                            const correct2 = correctMatchMap[bk];
+                            const isOk2 = isChecked ? bval.trim() === String(correct2) : null;
+                            const isActive2 = !isChecked && activeBlankKey?.qid === q.id && activeBlankKey.bkey === bk;
+                            return (
+                              <tr key={bk}>
+                                <td style={{ padding: '10px 14px', border: '1px solid #d5ddef', fontSize: 20, fontWeight: 600, color: '#1e293b' }}>{row.label}</td>
+                                <td style={{ padding: '10px 14px', border: '1px solid #d5ddef', textAlign: 'center' }}>
+                                  <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={bval}
+                                    disabled={isChecked}
+                                    onClick={() => !isChecked && setActiveBlankKey({ qid: q.id, bkey: bk })}
+                                    onFocus={() => !isChecked && setActiveBlankKey({ qid: q.id, bkey: bk })}
+                                    onChange={(e) => !isChecked && setFillBlankAns((p) => ({ ...p, [q.id]: { ...(p[q.id] ?? {}), [bk]: e.target.value } }))}
+                                    style={{
+                                      width: 80, height: 52, textAlign: 'center', fontSize: 28, fontWeight: 900,
+                                      borderWidth: 3, borderStyle: 'solid', borderRadius: 14,
+                                      borderColor: isChecked ? (isOk2 ? '#22c55e' : '#ef4444') : isActive2 ? '#1d4ed8' : '#3b82f6',
+                                      background: isChecked ? (isOk2 ? '#f0fdf4' : '#fef2f2') : '#f8faff',
+                                      color: isChecked ? (isOk2 ? '#15803d' : '#b91c1c') : '#1e40af',
+                                      outline: 'none', cursor: 'pointer',
+                                      boxShadow: isActive2 ? '0 0 0 4px rgba(29,78,216,0.2)' : '0 2px 8px rgba(59,130,246,0.15)',
+                                      transition: 'all 0.15s',
+                                    }}
+                                  />
+                                  {isChecked && !isOk2 && <span style={{ marginLeft: 8, fontSize: 13, color: '#16a34a', fontWeight: 700 }}>→{correct2}</span>}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  );
+                }
                 // Support "label\nsequence" format: first line = label, second line = number sequence
                 const newlineIdx = q.questionText.indexOf('\n');
                 const displayText = newlineIdx >= 0 ? q.questionText.slice(0, newlineIdx) : q.questionText;
@@ -2927,6 +3019,8 @@ export default function QuizPlayPage({
                 Vd "Tam giác có 3 góc. Đúng hay sai?" → vẽ tam giác; "Quan sát hình con gà" → 🐔 */}
             {(() => {
               if (q.questionImageUrl) return null;
+              // Dạng bảng điền số lượng đã tự hiển thị nhãn kèm emoji trong bảng → không hiện emoji to.
+              if (q.questionType === 'fill_blank' && parseQuantityTable(q.questionText)) return null;
               const optShapes = (q.optionsJson ?? []).some((o) => tokenShape(o?.text));
               const shapes = optShapes ? [] : shapesInText(q.questionText);
               if (shapes.length) {

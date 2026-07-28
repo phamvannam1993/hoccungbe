@@ -413,7 +413,7 @@ export default function QuizForm({ title, lessons, initial, saving, error, onSub
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bài tập số</label>
             <div className="flex flex-wrap gap-1.5 pt-0.5">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => {
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => {
                 const isActive = form.exerciseNumber === String(n);
                 const diffColors: Record<string, string> = {
                   easy: '#1FA8B4', medium: '#D85C4A', hard: '#C4892A',

@@ -3038,7 +3038,9 @@ export default function QuizPlayPage({
               if (q.questionImageUrl) return null;
               // Dạng bảng điền số lượng đã tự hiển thị nhãn kèm emoji trong bảng → không hiện emoji to.
               if (q.questionType === 'fill_blank' && parseQuantityTable(q.questionText)) return null;
-              const optShapes = (q.optionsJson ?? []).some((o) => tokenShape(o?.text));
+              // optionsJson có thể là OBJECT (counting/table_fill) → chỉ dùng khi là mảng.
+              const optArr = Array.isArray(q.optionsJson) ? q.optionsJson : [];
+              const optShapes = optArr.some((o) => tokenShape(o?.text));
               const shapes = optShapes ? [] : shapesInText(q.questionText);
               if (shapes.length) {
                 return (
@@ -3053,22 +3055,13 @@ export default function QuizPlayPage({
               }
               // Câu "chọn hình / đếm số lượng" (đáp án là ẢNH, hoặc hỏi "Hình ảnh nào…/Tranh nào…")
               // → KHÔNG hiện emoji minh họa, vì nó gây hiểu nhầm (vd hỏi "có 4 con cá" mà hiện 1 con cá).
-              const optHasImage = (q.optionsJson ?? []).some((o) => !!o?.imageUrl);
+              const optHasImage = optArr.some((o) => !!o?.imageUrl);
               const isPickImage = /h[ìi]nh\s*ả?nh\s+nào|tranh\s+nào|h[ìi]nh\s+nào/i.test(q.questionText || '');
-              if (optHasImage || isPickImage) return null;
-              // Câu 1 đáp án đúng → cho phép lấy emoji theo đáp án (câu "chọn hình")
-              const singleAns = q.questionType === 'single_choice' || q.questionType === 'image_choice';
-              const correctText = singleAns
-                ? (q.optionsJson ?? []).find((o) => o.key === correctKey)?.text
-                : undefined;
-              const emo = questionEmoji(q.questionText, correctText);
-              if (emo) {
-                return (
-                  <div className="mb-4 flex justify-center">
-                    <span className="leading-none" style={{ fontSize: 76 }} aria-hidden="true">{emo}</span>
-                  </div>
-                );
-              }
+              // Câu hỏi về HÌNH DẠNG/KHỐI ("… có dạng hình gì?", "hình gì?", "khối gì?")
+              // → không hiện emoji đồ vật, vì đáp án là tên hình chứ không phải đồ vật đó.
+              const isShapeQuestion = /d[ạa]ng\s*(h[ìi]nh|kh[oố]i)|h[ìi]nh\s*g[ìi]|h[ìi]nh\s*d[ạa]ng|kh[oố]i\s*g[ìi]/i.test(q.questionText || '');
+              if (optHasImage || isPickImage || isShapeQuestion) return null;
+              // Bỏ emoji minh hoạ tự động trên câu hỏi (chỉ giữ hình khối SVG toán học + ảnh thật).
               return null;
             })()}
 

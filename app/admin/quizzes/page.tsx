@@ -332,7 +332,7 @@ export default function QuizzesPage() {
           title="Lọc theo bài tập"
         >
           <option value="">-- Tất cả bài tập --</option>
-          {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
+          {Array.from({ length: 9 }, (_, i) => i + 1).map((n) => (
             <option key={n} value={n}>Bài tập {n}</option>
           ))}
         </select>

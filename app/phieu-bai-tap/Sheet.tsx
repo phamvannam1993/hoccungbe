@@ -18,7 +18,8 @@ const BLANK = 'inline-block min-w-[56px] border-b-2 border-slate-400 align-botto
 
 // ── Đáp án dạng đọc được cho ba mẹ ──────────────────────────────────────────
 export function answerText(q: Quiz): string {
-  const opts = q.optionsJson ?? [];
+  // Một số dạng (counting, table_fill…) lưu optionsJson là OBJECT → chỉ dùng khi là array.
+  const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
   const a = q.correctAnswerJson;
   const label = (k: string) => opts.find((x) => x.key === k)?.text ?? k;
   const labelWithKey = (k: string) => {
@@ -96,7 +97,7 @@ function Circle({ children }: { children: React.ReactNode }) {
 
 // ── Thân câu hỏi: mỗi dạng in một kiểu riêng ────────────────────────────────
 function QuestionBody({ q }: { q: Quiz }) {
-  const opts = q.optionsJson ?? [];
+  const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
   const type = q.questionType;
 
   // Đúng / Sai
@@ -112,12 +113,15 @@ function QuestionBody({ q }: { q: Quiz }) {
   // Điền vào chỗ trống → ô trống đã nằm trong đề bài
   if (type === 'fill_blank') return null;
 
-  // Đếm số lượng → in các hình để bé đếm
+  // Đếm số lượng → in các hình để bé đếm (optionsJson dạng {d1:"🐶",...} là OBJECT)
   if (type === 'counting') {
+    const items = opts.length
+      ? opts.map((o) => o.text)
+      : Object.values((q.optionsJson ?? {}) as Record<string, string>);
     return (
       <div className="ml-8 mt-2">
         <div className="flex flex-wrap gap-1.5 text-2xl leading-none">
-          {opts.map((o) => <span key={o.key}>{o.text}</span>)}
+          {items.map((t, i) => <span key={i}>{t}</span>)}
         </div>
         <div className="mt-2 text-[15px] text-slate-700">Trả lời: <span className={`${BLANK} min-w-[80px]`} /></div>
       </div>
@@ -446,6 +450,8 @@ export function Sheet({
         <div>
           <h1 className="text-3xl font-black tracking-tight text-pink-500">
             PHIẾU BÀI TẬP <span className="align-middle text-2xl">📖</span>
+            {/* Nội dung thật cho SEO/screen-reader, không đổi bố cục in */}
+            <span className="sr-only"> {lessonTitle} — {courseTitle}</span>
           </h1>
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="rounded-full border-2 border-pink-200 bg-pink-50 px-3 py-1 text-xs font-bold text-pink-600">
@@ -492,7 +498,7 @@ export function Sheet({
       <div className="grid grid-cols-2 gap-3">
         {quizzes.map((q, i) => {
           // Câu có đáp án bằng hình cần cả bề ngang, nếu không ảnh sẽ chen nhau
-          const wide = WIDE.has(q.questionType) || (q.optionsJson ?? []).some((o) => o.imageUrl);
+          const wide = WIDE.has(q.questionType) || (Array.isArray(q.optionsJson) ? q.optionsJson : []).some((o) => o.imageUrl);
           return (
             <div key={q.id} className={`q-item ${wide ? 'col-span-2' : ''}`}>
               <QuestionItem q={q} index={i} isAnswer={isAnswer} skillFallback={skillFallback} />

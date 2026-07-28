@@ -441,6 +441,13 @@ export default async function Page({ params }: Props) {
                 <h3 className="text-base font-bold text-slate-900 mb-1 flex items-center gap-2"><span>📄</span> Phiếu bài tập &amp; đáp án (in / tải PDF)</h3>
                 <p className="text-sm text-slate-500 mb-3">Bấm để mở phiếu, rồi chọn <strong>🖨 In / Tải PDF</strong>. Mỗi mức có kèm bản đáp án cho cha mẹ.</p>
                 <ul className="space-y-2">
+                  {/* Phiếu gộp cả bài (toàn bộ 3 mức) — in một lần đủ cả bài */}
+                  <li className="flex flex-wrap items-center gap-2 rounded-2xl bg-sky-50 px-4 py-3 ring-1 ring-sky-100">
+                    <span className="text-[15px] font-semibold text-slate-800">📘 Phiếu cả bài <span className="font-normal text-slate-500">(đầy đủ 3 mức)</span></span>
+                    <span className="flex-1" />
+                    <Link href={`/phieu-bai-tap/${lesson.slug}/ca-bai`} className="rounded-full bg-blue-600 px-4 py-1.5 text-sm font-bold text-white hover:bg-blue-700">📄 Tải phiếu</Link>
+                    <Link href={`/phieu-bai-tap/${lesson.slug}/ca-bai?dapan=1`} className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-100">✅ Đáp án</Link>
+                  </li>
                   {WORKSHEET_MUC.filter((m) => quiz.difficulties.includes(m.diff)).map((m) => (
                     <li key={m.muc} className="flex flex-wrap items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
                       <span className="text-[15px] font-semibold text-slate-800">{m.emoji} Phiếu {m.label}</span>

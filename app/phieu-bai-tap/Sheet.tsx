@@ -16,6 +16,36 @@ export type Quiz = {
 
 const BLANK = 'inline-block min-w-[56px] border-b-2 border-slate-400 align-bottom';
 
+// ── Phân số "a/b" → hiển thị xếp chồng (tử trên, gạch ngang, mẫu dưới) khi in ──
+const FRAC_RE_G = /(\d+)\s*\/\s*(\d+)/g;
+
+function Frac({ n, d }: { n: string; d: string }) {
+  return (
+    <span className="inline-flex flex-col items-center align-middle" style={{ lineHeight: 1.05 }}>
+      <span className="block px-1">{n}</span>
+      <span className="block border-t border-current px-1">{d}</span>
+    </span>
+  );
+}
+
+// Trả về mảng node: phần "a/b" thành <Frac/>, còn lại giữ nguyên chữ.
+function fracNodes(text: string, keyPrefix = ''): React.ReactNode {
+  if (!text || !/\d\s*\/\s*\d/.test(text)) return text;
+  const nodes: React.ReactNode[] = [];
+  const re = new RegExp(FRAC_RE_G.source, 'g');
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) nodes.push(<span key={`${keyPrefix}t${i}`}>{text.slice(last, m.index)}</span>);
+    nodes.push(<Frac key={`${keyPrefix}f${i}`} n={m[1]} d={m[2]} />);
+    last = m.index + m[0].length;
+    i++;
+  }
+  if (last < text.length) nodes.push(<span key={`${keyPrefix}t${i}`}>{text.slice(last)}</span>);
+  return nodes;
+}
+
 // ── Đáp án dạng đọc được cho ba mẹ ──────────────────────────────────────────
 export function answerText(q: Quiz): string {
   // Một số dạng (counting, table_fill…) lưu optionsJson là OBJECT → chỉ dùng khi là array.
@@ -140,7 +170,7 @@ function QuestionText({ text }: { text: string }) {
   return (
     <>
       {parts.map((p, i) =>
-        /^\[[^\]]+\]$/.test(p) ? <span key={i} className={`${BLANK} mx-1`} /> : <span key={i}>{p}</span>,
+        /^\[[^\]]+\]$/.test(p) ? <span key={i} className={`${BLANK} mx-1`} /> : <span key={i}>{fracNodes(p, `q${i}-`)}</span>,
       )}
     </>
   );
@@ -380,12 +410,17 @@ function QuestionBody({ q }: { q: Quiz }) {
   if (opts.length > 0) {
     return (
       <div className="ml-8 mt-2 grid grid-cols-2 gap-x-4 gap-y-1.5">
-        {opts.map((o) => (
-          <div key={o.key} className="flex items-center gap-2 text-[15px] text-slate-700">
-            <Circle>{o.key}</Circle>
-            <span className="min-w-0 break-words">{o.text}</span>
-          </div>
-        ))}
+        {opts.map((o) => {
+          // Đáp án chỉ gồm số/ký hiệu toán (vd "10 234", "4 020 305") → không cho xuống dòng
+          // giữa chừng để khỏi vỡ; đáp án có chữ vẫn ngắt dòng bình thường.
+          const numericOnly = /^[\d\s.,/=<>+\-×÷:()²³°%–—]+$/.test(o.text.trim());
+          return (
+            <div key={o.key} className="flex items-center gap-2 text-[15px] text-slate-700">
+              <Circle>{o.key}</Circle>
+              <span className={`min-w-0 ${numericOnly ? 'whitespace-nowrap tabular-nums' : 'break-words'}`}>{fracNodes(o.text, `${o.key}-`)}</span>
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -443,9 +478,9 @@ export function QuestionItem({
 
       {isAnswer && (
         <div className="ml-8 mt-2 rounded-lg bg-emerald-50 px-3 py-2 text-[12px]">
-          <div className="font-black text-emerald-700">Đáp án: {answerText(q)}</div>
+          <div className="font-black text-emerald-700">Đáp án: {fracNodes(answerText(q), 'ans-')}</div>
           <div className="text-emerald-800">Kỹ năng: {skillOf(q, skillFallback)}</div>
-          {q.explanation && <div className="mt-0.5 text-slate-600">{q.explanation}</div>}
+          {q.explanation && <div className="mt-0.5 text-slate-600">{fracNodes(q.explanation, 'exp-')}</div>}
         </div>
       )}
     </div>
@@ -483,7 +518,7 @@ export function Sheet({
   return (
     <div className="sheet mx-auto my-4 max-w-[820px] rounded-2xl border-4 border-pink-200 bg-white p-6 shadow-lg print:my-0">
       {/* ── Đầu phiếu: logo + ô thông tin bé ── */}
-      <div className="keep flex items-start justify-between gap-4">
+      <div className="keep flex flex-col items-start gap-4 sm:flex-row sm:justify-between print:flex-row print:justify-between">
         <div className="flex items-center gap-2">
           <span className="text-3xl">🎓</span>
           <div>
@@ -505,7 +540,7 @@ export function Sheet({
       </div>
 
       {/* ── Tiêu đề + pill môn/bài + badge mức độ, thời gian ── */}
-      <div className="keep mt-4 flex items-end justify-between gap-4">
+      <div className="keep mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between print:flex-row print:items-end print:justify-between">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-pink-500">
             PHIẾU BÀI TẬP <span className="align-middle text-2xl">📖</span>
@@ -553,13 +588,13 @@ export function Sheet({
 
       {intro}
 
-      {/* ── Câu hỏi: lưới 2 cột, dạng rộng chiếm cả hàng ── */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* ── Câu hỏi: mobile 1 cột (khỏi vỡ số), từ sm trở lên & khi in dùng 2 cột ── */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 print:grid-cols-2">
         {quizzes.map((q, i) => {
           // Câu có đáp án bằng hình cần cả bề ngang, nếu không ảnh sẽ chen nhau
           const wide = WIDE.has(q.questionType) || (Array.isArray(q.optionsJson) ? q.optionsJson : []).some((o) => o.imageUrl);
           return (
-            <div key={q.id} className={`q-item ${wide ? 'col-span-2' : ''}`}>
+            <div key={q.id} className={`q-item ${wide ? 'sm:col-span-2 print:col-span-2' : ''}`}>
               <QuestionItem q={q} index={i} isAnswer={isAnswer} skillFallback={skillFallback} />
             </div>
           );
@@ -567,7 +602,7 @@ export function Sheet({
       </div>
 
       {/* ── Cuối phiếu: gợi ý ba mẹ • tự đánh giá • QR ── */}
-      <div className="keep mt-4 grid grid-cols-3 gap-3">
+      <div className="keep mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 print:grid-cols-3">
         <div className="rounded-2xl border-2 border-amber-200 bg-amber-50/60 p-3">
           <div className="flex items-center gap-1.5 text-xs font-black text-amber-700">👨‍👩‍👧 Gợi ý cho phụ huynh</div>
           <p className="mt-1.5 text-[10px] leading-relaxed text-slate-600">

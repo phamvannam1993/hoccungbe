@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -37,6 +38,45 @@ function formatMath(text: string | undefined | null): string {
     .replace(/\s*([+\-×÷*/:=<>≤≥≠])\s*/g, ' $1 ')
     .replace(/\s{2,}/g, ' ')
     .trim();
+}
+
+// ─── Phân số: hiển thị "a/b" thành phân số xếp chồng (tử trên, gạch ngang, mẫu dưới) ──
+// Chỉ nhận dạng số nguyên/số nguyên (vd 5/9, 12/18); không đụng tới ngày tháng vì
+// nội dung Toán dùng dấu ":" cho phép chia và khoảng trắng cho số lớn.
+const FRACTION_RE = /(\d+)\s*\/\s*(\d+)/;
+const FRACTION_RE_G = /(\d+)\s*\/\s*(\d+)/g;
+
+function hasFraction(text: string | undefined | null): boolean {
+  return !!text && FRACTION_RE.test(text);
+}
+
+function Frac({ n, d }: { n: string; d: string }) {
+  return (
+    <span style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', verticalAlign: 'middle', lineHeight: 1.05, margin: '0 2px', textAlign: 'center' }}>
+      <span style={{ display: 'block', padding: '0 5px 1px' }}>{n}</span>
+      <span style={{ display: 'block', padding: '1px 5px 0', borderTop: '0.09em solid currentColor' }}>{d}</span>
+    </span>
+  );
+}
+
+// Render một chuỗi có thể chứa phân số "a/b" thành JSX (phân số xếp chồng),
+// phần chữ còn lại giữ nguyên. Nếu không có phân số, trả về text đã formatMath.
+function MathText({ text }: { text: string | undefined | null }): ReactElement {
+  const s = text == null ? '' : String(text);
+  if (!hasFraction(s)) return <>{formatMath(s)}</>;
+  const nodes: ReactNode[] = [];
+  const re = new RegExp(FRACTION_RE_G.source, 'g');
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(s)) !== null) {
+    if (m.index > last) nodes.push(<span key={`t${i}`}>{s.slice(last, m.index)}</span>);
+    nodes.push(<Frac key={`f${i}`} n={m[1]} d={m[2]} />);
+    last = m.index + m[0].length;
+    i++;
+  }
+  if (last < s.length) nodes.push(<span key={`t${i}`}>{s.slice(last)}</span>);
+  return <>{nodes}</>;
 }
 
 // ─── Hình học: tự VẼ hình khi đáp án là TÊN hình (bài nhận dạng hình không có ảnh) ──
@@ -360,7 +400,7 @@ const SingleChoice = memo(function SingleChoice({ options, selected, checked, co
                       lineHeight: emojiOnly ? 1.15 : (useRows ? 1.25 : 1),
                       maxWidth: '100%',
                       display: 'inline-block',
-                    }}>{formatMath(txt)}</span>
+                    }}><MathText text={txt} /></span>
                   </div>
                 </div>
               );
@@ -474,7 +514,7 @@ const MultipleChoice = memo(function MultipleChoice({ options, selected, checked
                   display: 'block',
                   width: '100%',
                   minWidth: 0,
-                }}>{formatMath(txt)}</span>
+                }}><MathText text={txt} /></span>
               );
             })()}
             {isRight && !isSel && <span className="absolute top-3 right-3 text-green-500 font-black text-base">✓</span>}
@@ -1954,6 +1994,9 @@ function numToVi(n: number): string {
 function preprocessTTS(text: string): string {
   return text
     .replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27BF}|\u{1F300}-\u{1F9FF}|\u{FE00}-\u{FE0F}|\u{200D}]/gu, '')
+    // Phân số "a/b" → đọc chuẩn "a phần b" (vd 3/4 → "ba phần bốn"). Đặt trước khi
+    // số được đổi sang chữ và trước xử lý dấu ":" (phép chia dùng ":", phân số dùng "/").
+    .replace(/(\d+)\s*\/\s*(\d+)/g, ' $1 phần $2 ')
     // Compare pattern: "Dấu nào đúng? X _ Y" → "X lớn hơn, bé hơn hay bằng Y?"
     .replace(/[Dd]ấu\s+nào\s+đúng\?\s*(\d+)\s*_\s*(\d+)/g, (_m, a, b) =>
       `${numToVi(parseInt(a))} lớn hơn, bé hơn hay bằng ${numToVi(parseInt(b))}?`
@@ -3028,7 +3071,7 @@ export default function QuizPlayPage({
                 );
               })()}
               {q.questionType !== 'fill_blank' && (
-                <p className="text-xl font-bold leading-snug pt-1" style={{ color: '#1e293b' }}>{q.questionText.replace(/\[b\d+\]/g, '____')}</p>
+                <p className="text-xl font-bold leading-snug pt-1" style={{ color: '#1e293b' }}><MathText text={q.questionText.replace(/\[b\d+\]/g, '____')} /></p>
               )}
             </div>
 
@@ -3312,7 +3355,7 @@ export default function QuizPlayPage({
                 <span className="text-3xl shrink-0 mt-0.5 kid-pop-in">{isCurrentCorrect ? '🎉' : '😢'}</span>
                 <div>
                   <p className="font-bold text-base mb-0.5">{isCurrentCorrect ? 'Chính xác!' : 'Chưa đúng!'}</p>
-                  {q.explanation && <p className="opacity-80 leading-snug">{q.explanation}</p>}
+                  {q.explanation && <p className="opacity-80 leading-snug"><MathText text={q.explanation} /></p>}
                   {q.explanationAudioUrl && (
                     <button onClick={() => playAudio(q.explanationAudioUrl)} className="mt-1.5 inline-flex items-center gap-1 text-xs underline opacity-70 hover:opacity-100">
                       🔊 Nghe giải thích

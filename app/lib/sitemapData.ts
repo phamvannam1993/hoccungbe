@@ -86,13 +86,33 @@ export async function courseEntries(): Promise<SitemapEntry[]> {
     .map((c) => ({ loc: `${SITE_URL}/khoa-hoc/${c.slug}`, lastmod: safeDate(c.updatedAt || c.createdAt || now) }));
 }
 
-// Danh sách khóa học (id + slug) — để tách sitemap lessons theo từng khóa.
-export async function courseList(): Promise<{ id: number; slug: string }[]> {
-  type C = { id?: number; slug?: string; isPublished?: boolean };
+// Danh sách khóa học (id + slug + loại) — để tách sitemap lessons/phiếu theo từng khóa.
+export async function courseList(): Promise<{ id: number; slug: string; courseType?: string }[]> {
+  type C = { id?: number; slug?: string; isPublished?: boolean; courseType?: string };
   const res = await fetchJson<C[] | { data: C[] }>(`${apiUrl}/api/courses?limit=500`);
   return unwrapData<C>(res)
     .filter((c) => !!c.slug && c.id != null && c.isPublished) // chỉ khóa active
-    .map((c) => ({ id: c.id as number, slug: c.slug as string }));
+    .map((c) => ({ id: c.id as number, slug: c.slug as string, courseType: c.courseType }));
+}
+
+// Các mức phiếu bài tập tương ứng URL /phieu-bai-tap/{lessonSlug}/{muc}.
+// Mọi bài của khóa Toán đều có đủ 3 mức + bản 'ca-bai' → an toàn đưa vào sitemap.
+const WORKSHEET_MUCS = ['de', 'trung-binh', 'nang-cao', 'ca-bai'] as const;
+
+// Phiếu bài tập (in/PDF) của MỘT khóa: mỗi bài học sinh ra 4 URL phiếu.
+export async function worksheetEntriesByCourse(courseId: number, courseSlug: string): Promise<SitemapEntry[]> {
+  type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string };
+  const res = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/api/lessons?courseId=${courseId}&slim=1`);
+  const now = new Date();
+  const entries: SitemapEntry[] = [];
+  for (const l of unwrapData<LessonItem>(res)) {
+    if (!l.slug) continue;
+    const lastmod = safeDate(l.updatedAt || l.createdAt || now);
+    for (const muc of WORKSHEET_MUCS) {
+      entries.push({ loc: `${SITE_URL}/phieu-bai-tap/${l.slug}/${muc}`, lastmod });
+    }
+  }
+  return entries;
 }
 
 // Bài học của MỘT khóa (slim=1 → chỉ slug + ngày, tránh tải ~13MB kèm quizzes/content).

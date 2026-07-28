@@ -4,6 +4,7 @@ import {
   courseEntries,
   courseList,
   lessonEntriesByCourse,
+  worksheetEntriesByCourse,
   articleEntries,
   gameEntries,
   urlsetXml,
@@ -27,6 +28,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
       { loc: `${SITE_URL}/sitemaps/static.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/courses.xml`, lastmod: now },
       ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/lessons-${c.slug}.xml`, lastmod: now })),
+      // Phiếu bài tập chỉ cho khóa Toán (mọi bài đều có đủ 3 mức + bản cả bài).
+      ...courses
+        .filter((c) => c.courseType === 'math')
+        .map((c) => ({ loc: `${SITE_URL}/sitemaps/worksheets-${c.slug}.xml`, lastmod: now })),
       { loc: `${SITE_URL}/sitemaps/games.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/articles.xml`, lastmod: now },
     ];
@@ -44,6 +49,14 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
     const course = (await courseList()).find((c) => c.slug === slug);
     if (!course) return new Response('Not found', { status: 404 });
     return xmlResponse(urlsetXml(await lessonEntriesByCourse(course.id, course.slug)));
+  }
+
+  // worksheets-<courseSlug> → phiếu bài tập (4 mức/bài) của khóa Toán đó
+  if (name.startsWith('worksheets-')) {
+    const slug = name.slice('worksheets-'.length);
+    const course = (await courseList()).find((c) => c.slug === slug && c.courseType === 'math');
+    if (!course) return new Response('Not found', { status: 404 });
+    return xmlResponse(urlsetXml(await worksheetEntriesByCourse(course.id, course.slug)));
   }
 
   return new Response('Not found', { status: 404 });

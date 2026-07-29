@@ -100,13 +100,16 @@ export async function courseList(): Promise<{ id: number; slug: string; courseTy
 const WORKSHEET_MUCS = ['de', 'trung-binh', 'nang-cao', 'ca-bai'] as const;
 
 // Phiếu bài tập (in/PDF) của MỘT khóa: mỗi bài học sinh ra 4 URL phiếu.
+// Chỉ lấy bài ĐÃ có quiz (quizCount > 0) để tránh URL phiếu 404 (trang phiếu notFound
+// khi bài chưa có câu hỏi). API cũ chưa trả quizCount → giữ nguyên (không loại) để không mất URL.
 export async function worksheetEntriesByCourse(courseId: number, courseSlug: string): Promise<SitemapEntry[]> {
-  type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string };
+  type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string; quizCount?: number };
   const res = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/api/lessons?courseId=${courseId}&slim=1`);
   const now = new Date();
   const entries: SitemapEntry[] = [];
   for (const l of unwrapData<LessonItem>(res)) {
     if (!l.slug) continue;
+    if (l.quizCount != null && l.quizCount <= 0) continue; // bài chưa có quiz → bỏ
     const lastmod = safeDate(l.updatedAt || l.createdAt || now);
     for (const muc of WORKSHEET_MUCS) {
       entries.push({ loc: `${SITE_URL}/phieu-bai-tap/${l.slug}/${muc}`, lastmod });

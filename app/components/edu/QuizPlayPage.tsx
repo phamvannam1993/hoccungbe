@@ -3083,19 +3083,7 @@ export default function QuizPlayPage({
               if (q.questionType === 'fill_blank' && parseQuantityTable(q.questionText)) return null;
               // optionsJson có thể là OBJECT (counting/table_fill) → chỉ dùng khi là mảng.
               const optArr = Array.isArray(q.optionsJson) ? q.optionsJson : [];
-              const optShapes = optArr.some((o) => tokenShape(o?.text));
-              const shapes = optShapes ? [] : shapesInText(q.questionText);
-              if (shapes.length) {
-                return (
-                  <div className="mb-4 flex flex-wrap items-center justify-center gap-6">
-                    {shapes.map((sh, i) => (
-                      <div key={i} className="flex flex-col items-center gap-1">
-                        <ShapeSVG shape={sh} color={SHAPE_COLOR[sh]} size={92} />
-                      </div>
-                    ))}
-                  </div>
-                );
-              }
+              // Bỏ hình khối tự vẽ từ tên hình trong đề (gây hiểu nhầm) → không minh hoạ tự động.
               // Câu "chọn hình / đếm số lượng" (đáp án là ẢNH, hoặc hỏi "Hình ảnh nào…/Tranh nào…")
               // → KHÔNG hiện emoji minh họa, vì nó gây hiểu nhầm (vd hỏi "có 4 con cá" mà hiện 1 con cá).
               const optHasImage = optArr.some((o) => !!o?.imageUrl);

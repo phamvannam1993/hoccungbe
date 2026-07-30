@@ -12,6 +12,7 @@ const GAME_MAP: Record<string, string> = {
   'train-complete-lessons': 'doan-tau-toan-hoc',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
+  'knowledge-race': 'dua-xe-kien-thuc',
 
   // Ngôn ngữ
   'fishing-letters': 'cau-ca-chu-cai',

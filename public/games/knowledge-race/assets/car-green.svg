@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="340" viewBox="0 0 420 340">
+<defs>
+  <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#79ec9d"/><stop offset="0.38" stop-color="#30c96a"/><stop offset="1" stop-color="#0b6a34"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#dff8ff"/><stop offset="0.45" stop-color="#5ab6e8"/><stop offset="1" stop-color="#123b6b"/>
+  </linearGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#4e5b67"/><stop offset="1" stop-color="#111820"/>
+  </linearGradient>
+  <radialGradient id="lamp"><stop offset="0" stop-color="#fffbd1"/><stop offset="0.55" stop-color="#ffd75d"/><stop offset="1" stop-color="#ff8b18"/></radialGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="190%"><feDropShadow dx="0" dy="16" stdDeviation="10" flood-color="#000" flood-opacity=".34"/></filter>
+  <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g filter="url(#shadow)">
+  <ellipse cx="210" cy="302" rx="145" ry="24" fill="#09131f" opacity=".34"/>
+  <!-- rear tires -->
+  <rect x="50" y="220" width="62" height="86" rx="24" fill="#0a0f15"/>
+  <rect x="308" y="220" width="62" height="86" rx="24" fill="#0a0f15"/>
+  <rect x="61" y="231" width="40" height="62" rx="16" fill="#394754"/>
+  <rect x="319" y="231" width="40" height="62" rx="16" fill="#394754"/>
+  <!-- driver -->
+  <circle cx="210" cy="82" r="43" fill="#f6b57d" stroke="#713c20" stroke-width="5"/>
+  <path d="M170 80c4-37 29-57 61-51 23 4 34 22 36 44-15-13-34-19-57-18-14 1-27 8-40 25z" fill="#4d2614"/>
+  <path d="M177 54c10-25 35-38 62-27 13 5 23 16 28 31-24-12-54-16-90-4z" fill="#6b3319"/>
+  <circle cx="191" cy="82" r="4" fill="#2a1b18"/><circle cx="229" cy="82" r="4" fill="#2a1b18"/>
+  <path d="M194 102c11 7 22 7 33 0" fill="none" stroke="#8c4b31" stroke-width="4" stroke-linecap="round"/>
+  <path d="M178 118c20 16 44 16 64 0l13 34h-90z" fill="#2c83db"/>
+  <!-- windshield and roof -->
+  <path d="M126 170c7-52 35-83 84-83s77 31 84 83z" fill="#11273a" stroke="#09131f" stroke-width="8"/>
+  <path d="M142 163c10-42 33-62 68-62s58 20 68 62z" fill="url(#glass)"/>
+  <path d="M150 148c30-18 78-20 120-6" fill="none" stroke="#eefaff" stroke-opacity=".45" stroke-width="7" stroke-linecap="round"/>
+  <!-- spoiler -->
+  <rect x="82" y="154" width="256" height="23" rx="10" fill="url(#metal)" stroke="#09131f" stroke-width="6"/>
+  <rect x="103" y="168" width="22" height="36" rx="7" fill="#151d25"/>
+  <rect x="295" y="168" width="22" height="36" rx="7" fill="#151d25"/>
+  <!-- main body -->
+  <path d="M73 199c20-34 52-51 95-57h84c43 6 75 23 95 57l21 76c-20 28-54 44-94 49H146c-40-5-74-21-94-49z" fill="url(#body)" stroke="#0b6a34" stroke-width="9"/>
+  <!-- fenders -->
+  <path d="M66 213c23-26 52-35 82-25l-13 102c-35-5-60-17-76-36z" fill="#0b6a34" opacity=".72"/>
+  <path d="M354 213c-23-26-52-35-82-25l13 102c35-5 60-17 76-36z" fill="#0b6a34" opacity=".72"/>
+  <!-- racing stripe -->
+  <path d="M188 148h44l20 164h-84z" fill="#fff4dc" opacity=".98"/>
+  <path d="M198 148h24l11 164h-46z" fill="#ffffff" opacity=".78"/>
+  <!-- lights -->
+  <path d="M92 213c27-12 56-14 82-6l-12 35c-25-8-47-6-67 5z" fill="url(#lamp)" stroke="#8d2b12" stroke-width="5" filter="url(#glow)"/>
+  <path d="M328 213c-27-12-56-14-82-6l12 35c25-8 47-6 67 5z" fill="url(#lamp)" stroke="#8d2b12" stroke-width="5" filter="url(#glow)"/>
+  <!-- bumper -->
+  <path d="M92 273c27 22 67 31 118 31s91-9 118-31l-8 34c-29 17-66 25-110 25s-81-8-110-25z" fill="#1a232d" stroke="#081019" stroke-width="6"/>
+  <!-- exhaust -->
+  <circle cx="179" cy="288" r="25" fill="#0c1218" stroke="#586675" stroke-width="8"/>
+  <circle cx="241" cy="288" r="25" fill="#0c1218" stroke="#586675" stroke-width="8"/>
+  <circle cx="179" cy="288" r="10" fill="#27333e"/>
+  <circle cx="241" cy="288" r="10" fill="#27333e"/>
+  <!-- highlights -->
+  <path d="M106 196c42-34 165-39 207 0" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="9" stroke-linecap="round"/>
+  <path d="M122 263c48 17 128 17 176 0" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="7" stroke-linecap="round"/>
+</g>
+</svg>

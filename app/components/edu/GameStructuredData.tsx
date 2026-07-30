@@ -13,6 +13,7 @@ const ROUTE_KEY_TO_SLUG: Record<string, string> = {
   'train-complete-lessons': 'doan-tau-toan-hoc',
   'number-sequence': 'day-so',
   'column-lift-drag': 'keo-cot-so',
+  'knowledge-race': 'dua-xe-kien-thuc',
   'fishing-letters': 'cau-ca-chu-cai',
   'missing-letter': 'tim-chu-bi-mat',
   'letter-tracing': 'tap-viet-chu',

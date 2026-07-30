@@ -29,6 +29,7 @@ export type PageKey =
   | 'tau-hoc-toan'
   | 'day-so'
   | 'keo-cot-so'
+  | 'knowledge-race'
 
   // ─── Ngôn ngữ & chữ ───────────────────────────────────────
   | 'ghep-tu'

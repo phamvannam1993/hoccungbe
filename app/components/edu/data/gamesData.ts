@@ -16,7 +16,7 @@ export type GameItem = {
   shortDescription: string;
   description: string;
   age: string;
-  ageGroup: '3-5' | '4-6' | '5-7' | '5-8' | '6-8';
+  ageGroup: '3-5' | '4-6' | '5-7' | '5-8' | '6-8' | '6-10';
   time: string;
   durationMinutes: number;
   badge: string;
@@ -97,6 +97,28 @@ export const gameGroups: {
 ];
 
 export const gamesData: GameItem[] = [
+  {
+    id: 'game-046',
+    title: 'Đua xe kiến thức',
+    slug: 'dua-xe-kien-thuc',
+    shortDescription: 'Bé trả lời nhanh 10 câu hỏi để tăng tốc, vượt chướng ngại và về đích.',
+    description:
+      'Đua xe kiến thức là trò chơi Toán tổng hợp dành cho học sinh lớp 1 đến lớp 5. Bé chọn đúng đáp án để xe tăng tốc, vượt đá chắn, cọc tiêu, vũng dầu và thùng hàng. Ba câu đúng liên tiếp kích hoạt Turbo, kết quả cuối lượt giúp bé biết kỹ năng cần ôn thêm.',
+    age: '6-10 tuổi',
+    ageGroup: '6-10',
+    time: '5 phút',
+    durationMinutes: 5,
+    badge: 'Mới',
+    emoji: '🏎️',
+    category: 'Toán học',
+    groupKey: 'math-logic',
+    difficulty: 'Trung bình',
+    skills: ['Tính toán', 'Phản xạ nhanh', 'Tư duy logic', 'Tập trung'],
+    isFeatured: true,
+    hasReport: true,
+    page: 'knowledge-race',
+    status: 'ready',
+  },
   {
     id: 'game-fishing-letters',
     title: 'Câu Cá Chữ Cái',

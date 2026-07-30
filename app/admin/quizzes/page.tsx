@@ -10,7 +10,7 @@ import Badge from '../components/Badge';
 import Pagination from '../components/Pagination';
 import { apiFetch } from '../lib/api';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE_OPTIONS = [20, 50, 100, 500];
 
 interface Course { id: string; title: string; }
 interface Lesson { id: string; title: string; courseId?: string; }
@@ -35,6 +35,7 @@ export default function QuizzesPage() {
   const [lessonId, setLessonId] = useState('');
   const [questionType, setQuestionType] = useState('');
   const [exerciseNumber, setExerciseNumber] = useState('');
+  const [activeFilter, setActiveFilter] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -43,6 +44,8 @@ export default function QuizzesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [pageSize, setPageSize] = useState(20);
+  const pageSizeRef = useRef(20);
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -52,18 +55,19 @@ export default function QuizzesPage() {
     apiFetch<Lesson[] | { data: Lesson[] }>('/lessons').then((res) => {
       setLessons(Array.isArray(res) ? res : (res as { data: Lesson[] }).data || []);
     }).catch(() => {});
-    fetchQuizzes('', '', '', '', '', 1);
+    fetchQuizzes('', '', '', '', '', '', 1);
   }, []);
 
-  const fetchQuizzes = useCallback(async (lid: string, cid: string, qt: string, q: string, ex: string, p: number) => {
+  const fetchQuizzes = useCallback(async (lid: string, cid: string, qt: string, q: string, ex: string, act: string, p: number) => {
     setLoading(true);
     setError('');
     try {
-      const params = new URLSearchParams({ page: String(p), limit: String(PAGE_SIZE) });
+      const params = new URLSearchParams({ page: String(p), limit: String(pageSizeRef.current) });
       if (lid) params.set('lessonId', lid);
       if (cid) params.set('courseId', cid);
       if (qt) params.set('questionType', qt);
       if (ex) params.set('exerciseNumber', ex);
+      if (act) params.set('isActive', act);
       if (q) params.set('search', q);
       const res = await apiFetch<QuizPage>(`/quizzes?${params.toString()}`);
       setQuizzes(res.data || []);
@@ -81,25 +85,31 @@ export default function QuizzesPage() {
     setCourseId(cid);
     setLessonId('');
     setPage(1);
-    fetchQuizzes('', cid, questionType, search, exerciseNumber, 1);
+    fetchQuizzes('', cid, questionType, search, exerciseNumber, activeFilter, 1);
   };
 
   const handleLessonChange = (lid: string) => {
     setLessonId(lid);
     setPage(1);
-    fetchQuizzes(lid, courseId, questionType, search, exerciseNumber, 1);
+    fetchQuizzes(lid, courseId, questionType, search, exerciseNumber, activeFilter, 1);
   };
 
   const handleTypeChange = (qt: string) => {
     setQuestionType(qt);
     setPage(1);
-    fetchQuizzes(lessonId, courseId, qt, search, exerciseNumber, 1);
+    fetchQuizzes(lessonId, courseId, qt, search, exerciseNumber, activeFilter, 1);
   };
 
   const handleExerciseChange = (ex: string) => {
     setExerciseNumber(ex);
     setPage(1);
-    fetchQuizzes(lessonId, courseId, questionType, search, ex, 1);
+    fetchQuizzes(lessonId, courseId, questionType, search, ex, activeFilter, 1);
+  };
+
+  const handleActiveChange = (act: string) => {
+    setActiveFilter(act);
+    setPage(1);
+    fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, act, 1);
   };
 
   const handleSearchChange = (val: string) => {
@@ -107,13 +117,20 @@ export default function QuizzesPage() {
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
       setPage(1);
-      fetchQuizzes(lessonId, courseId, questionType, val, exerciseNumber, 1);
+      fetchQuizzes(lessonId, courseId, questionType, val, exerciseNumber, activeFilter, 1);
     }, 350);
   };
 
   const handlePageChange = (p: number) => {
     setPage(p);
-    fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, p);
+    fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, p);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    pageSizeRef.current = size;
+    setPage(1);
+    fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, 1);
   };
 
   const toggleActive = async (quiz: Quiz) => {
@@ -123,7 +140,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ isActive: !quiz.isActive }),
       });
       toast.success(quiz.isActive ? '✓ Tắt câu hỏi' : '✓ Kích hoạt câu hỏi');
-      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -136,7 +153,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ difficultyLevel: newLevel }),
       });
       toast.success('✓ Cập nhật trình độ');
-      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -153,7 +170,7 @@ export default function QuizzesPage() {
         body: JSON.stringify({ exerciseNumber: newNumber }),
       });
       toast.success('✓ Cập nhật bài tập');
-      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi cập nhật');
     }
@@ -163,7 +180,7 @@ export default function QuizzesPage() {
     if (!window.confirm('Xóa câu hỏi này?')) return;
     try {
       await apiFetch(`/quizzes/${quiz.id}`, { method: 'DELETE' });
-      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi xóa');
     }
@@ -196,7 +213,7 @@ export default function QuizzesPage() {
       ));
       toast.success(`✓ Đã xóa ${selectedIds.size} câu hỏi`);
       setSelectedIds(new Set());
-      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, page);
+      fetchQuizzes(lessonId, courseId, questionType, search, exerciseNumber, activeFilter, page);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Lỗi xóa');
     }
@@ -221,7 +238,7 @@ export default function QuizzesPage() {
       onChange={() => toggleSelectQuiz(q.id)}
       className="w-4 h-4 rounded cursor-pointer"
     />,
-    <span key="idx" className="text-gray-400 text-xs">{(page - 1) * PAGE_SIZE + i + 1}</span>,
+    <span key="idx" className="text-gray-400 text-xs">{(page - 1) * pageSize + i + 1}</span>,
     <span key="qt" className="max-w-xs truncate block" title={q.questionText}>{q.questionText?.substring(0, 60) || '-'}{(q.questionText?.length || 0) > 60 ? '...' : ''}</span>,
     <span key="lesson" className="text-xs text-gray-500 max-w-[140px] truncate block">{q.lesson?.title || '-'}</span>,
     <input
@@ -337,8 +354,30 @@ export default function QuizzesPage() {
           ))}
         </select>
 
+        <select
+          value={activeFilter}
+          onChange={(e) => handleActiveChange(e.target.value)}
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          title="Lọc theo trạng thái"
+        >
+          <option value="">-- Tất cả trạng thái --</option>
+          <option value="true">✓ Bật</option>
+          <option value="false">✕ Tắt</option>
+        </select>
+
+        <select
+          value={pageSize}
+          onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ml-auto"
+          title="Số câu hiển thị mỗi trang"
+        >
+          {PAGE_SIZE_OPTIONS.map((n) => (
+            <option key={n} value={n}>Hiển thị {n}</option>
+          ))}
+        </select>
+
         {!loading && (
-          <span className="text-sm text-gray-500 ml-auto">{total} câu hỏi</span>
+          <span className="text-sm text-gray-500">{total} câu hỏi</span>
         )}
       </div>
 
@@ -385,7 +424,7 @@ export default function QuizzesPage() {
             </span>
           </div>
           <DataTable headers={['', '#', 'Câu hỏi', 'Bài học', 'Bài tập #', 'Loại', 'Trình độ', 'Điểm', 'Hoạt động', 'Thao tác']} rows={rows} />
-          <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} total={total} pageSize={PAGE_SIZE} />
+          <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} total={total} pageSize={pageSize} />
         </>
       )}
     </div>

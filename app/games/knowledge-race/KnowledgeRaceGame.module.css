@@ -178,7 +178,7 @@
 .guidePanel {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  min-height: 478px;
+  min-height: 392px;
 }
 
 .guideSection {
@@ -1552,7 +1552,7 @@
 }
 
 .gameFrame {
-  width: min(1720px, 100%);
+  width: min(1600px, 100%);
 }
 
 .topDeck {
@@ -1576,7 +1576,7 @@
   display: block;
   width: 100%;
   min-height: 0;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 3 / 2;
   padding: 8px;
 }
 

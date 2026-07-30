@@ -64,7 +64,7 @@ function SpeakButton({ text }: { text: string }) {
 type QType = 'single_choice' | 'multiple_choice' | 'true_false' | 'matching'
   | 'fill_blank' | 'number_compare' | 'table_fill' | 'drag_to_position';
 
-interface OptionItem { key: string; text: string; }
+interface OptionItem { key: string; text: string; imageUrl?: string; }
 
 // fill_blank node
 interface FBNode { key: string; type: 'given' | 'blank' | 'op'; value: string; }
@@ -79,6 +79,7 @@ interface DragOptions { tokens: string[]; positions: DragPosition[] }
 interface ExamQuestion {
   id: number;
   questionText: string;
+  questionImageUrl?: string;
   questionType: QType;
   difficultyLevel: 'easy' | 'medium' | 'hard';
   optionsJson?: unknown;
@@ -833,6 +834,12 @@ export default function ExamPage({ slug }: { slug: string }) {
                   </div>
                 </div>
 
+                {/* Ảnh minh họa của đề bài (nếu có) */}
+                {q.questionImageUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={q.questionImageUrl} alt="Hình minh họa câu hỏi" className="ml-9 mb-3 max-h-56 rounded-xl border border-slate-100 object-contain" />
+                )}
+
                 {/* single_choice / multiple_choice */}
                 {(q.questionType === 'single_choice' || q.questionType === 'multiple_choice') && (() => {
                   const opts = shuffledOpts[q.id] ?? (Array.isArray(q.optionsJson) ? q.optionsJson as OptionItem[] : []);
@@ -866,6 +873,10 @@ export default function ExamPage({ slug }: { slug: string }) {
                             >
                               {opt.key}
                             </span>
+                            {opt.imageUrl && (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={opt.imageUrl} alt={opt.text || `Đáp án ${opt.key}`} className="mr-2 inline-block max-h-16 align-middle object-contain" />
+                            )}
                             {opt.text}
                           </button>
                         );

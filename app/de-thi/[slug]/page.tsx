@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ExamPage from '../../components/edu/ExamPage';
+import { nestedExamPath } from '../../lib/examNav';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
@@ -35,7 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `Làm đề kiểm tra "${exam.title}" môn ${SUBJECT_LABEL[exam.subject] ?? exam.subject} lớp ${exam.grade} – tự chấm điểm tức thì tại Bé Hay Học.`
     : 'Đề kiểm tra tiểu học – tự chấm điểm tức thì tại Bé Hay Học.');
 
-  const url = `${SITE}/de-thi/${slug}`;
+  // Đề thuộc bộ URL lồng → canonical trỏ về URL lồng (tránh trùng nội dung 2 URL).
+  const nested = nestedExamPath(slug);
+  const url = `${SITE}${nested ?? `/de-thi/${slug}`}`;
 
   return {
     title,

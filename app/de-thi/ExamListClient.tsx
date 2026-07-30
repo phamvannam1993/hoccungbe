@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SUBJECT_LABEL, SUBJECT_ICON, type ExamItem } from './examConstants';
+import { nestedExamPath } from '../lib/examNav';
 const CARD_COLORS = [
   { c: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
   { c: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
@@ -86,7 +87,7 @@ function ExamListInner({ exams }: { exams: ExamItem[] }) {
                 const color = CARD_COLORS[(groupIdx + idx) % CARD_COLORS.length];
                 const icon = SUBJECT_ICON[exam.subject] ?? '📋';
                 return (
-                  <Link key={exam.id} href={`/de-thi/${exam.slug}`} className="kid-card-hover block rounded-3xl p-5"
+                  <Link key={exam.id} href={nestedExamPath(exam.slug) ?? `/de-thi/${exam.slug}`} className="kid-card-hover block rounded-3xl p-5"
                     style={{ background: color.bg, border: `3px solid ${color.c}`, boxShadow: `0 4px 0 ${color.c}66` }}>
                     <div className="flex items-start gap-3">
                       <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-3xl" style={{ background: '#fff', border: `3px solid ${color.c}`, boxShadow: `0 3px 0 ${color.c}55` }}>{icon}</div>

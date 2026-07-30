@@ -1,5 +1,6 @@
 import { SITE_URL, safeDate } from './seo';
 import { gamesData } from '../components/edu/data/gamesData';
+import { parseExamDbSlug } from './examNav';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
@@ -136,6 +137,37 @@ export async function articleEntries(): Promise<SitemapEntry[]> {
   return unwrapData<ArticleItem>(res)
     .filter((a) => !!a.slug)
     .map((a) => ({ loc: `${SITE_URL}/bai-viet/${a.slug}`, lastmod: safeDate(a.updatedAt || a.publishedAt || a.createdAt || now) }));
+}
+
+// Đề thi theo URL lồng: trang tổng hợp cụm + từng đề (chỉ đề thuộc bộ URL lồng
+// mới có slug parse được → tự bỏ qua đề cũ). Trang kết quả/làm lại không có URL riêng.
+export async function examEntries(): Promise<SitemapEntry[]> {
+  type ExamItem = { slug?: string; updatedAt?: string; createdAt?: string };
+  let res: ExamItem[] | { data: ExamItem[] } | null = null;
+  try {
+    const r = await fetch(`${apiUrl}/api/exams`, { cache: 'no-store' });
+    if (r.ok) res = await r.json();
+  } catch {
+    res = null;
+  }
+  const now = new Date();
+  const entries: SitemapEntry[] = [];
+  const seenAgg = new Set<string>();
+  for (const e of unwrapData<ExamItem>(res)) {
+    if (!e.slug) continue;
+    const p = parseExamDbSlug(e.slug);
+    if (!p) continue;
+    const lastmod = safeDate(e.updatedAt || e.createdAt || now);
+    // Trang tổng hợp cụm (1 lần / course+group)
+    const aggPath = `/${p.courseSlug}/${p.groupSeg}`;
+    if (!seenAgg.has(aggPath)) {
+      seenAgg.add(aggPath);
+      entries.push({ loc: `${SITE_URL}${aggPath}`, lastmod });
+    }
+    // Trang đề chi tiết
+    entries.push({ loc: `${SITE_URL}${aggPath}/de-${p.n}`, lastmod });
+  }
+  return entries;
 }
 
 export function gameEntries(): SitemapEntry[] {

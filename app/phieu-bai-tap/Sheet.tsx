@@ -75,8 +75,20 @@ export function answerText(q: Quiz): string {
   if (typeof a === 'object') {
     const entries = Object.entries(a as Record<string, unknown>);
     if (!entries.length) return 'Hoàn thành hoạt động';
-    // Nối: "Thêm vào → Cộng"
+    // Nối: "Thêm vào → Cộng". Nếu vế phải là ẢNH (URL) → hiển thị "hình N"
+    // theo đúng thứ tự cột ảnh bên phải (a→z) để đối chiếu, không in URL dài.
     if (q.questionType === 'matching') {
+      const isImgUrl = (s: string) => /^https?:\/\/\S+\.(webp|png|jpe?g|gif|svg)(\?|$)/i.test(s.trim());
+      const values = entries.map(([, v]) => String(v));
+      if (values.some(isImgUrl)) {
+        const sorted = [...new Set(values)].sort((a, b) => a.localeCompare(b, 'vi'));
+        return entries
+          .map(([k, v]) => {
+            const s = String(v);
+            return `${label(k)} → ${isImgUrl(s) ? `hình ${sorted.indexOf(s) + 1}` : s}`;
+          })
+          .join(' ; ');
+      }
       return entries.map(([k, v]) => `${label(k)} → ${String(v)}`).join(' ; ');
     }
     // Ghép hình: giá trị là key của token
@@ -256,6 +268,7 @@ function QuestionBody({ q }: { q: Quiz }) {
 
   // Nối → hai cột để bé kẻ nối
   if (type === 'matching') {
+    const isImgUrl = (s: string) => /^https?:\/\/\S+\.(webp|png|jpe?g|gif|svg)(\?|$)/i.test(s.trim());
     const right = Object.values((q.correctAnswerJson ?? {}) as Record<string, string>)
       .map(String)
       .filter((v, i, arr) => arr.indexOf(v) === i)
@@ -265,14 +278,25 @@ function QuestionBody({ q }: { q: Quiz }) {
         <div className="space-y-2">
           {opts.map((o) => (
             <div key={o.key} className="flex items-center gap-2 text-[15px] text-slate-700">
-              <span>{o.text}</span><span className="text-slate-400">●</span>
+              {o.imageUrl
+                ? <img src={o.imageUrl} alt={o.text} className="h-12 w-12 object-contain" />
+                : <span>{o.text}</span>}
+              <span className="text-slate-400">●</span>
             </div>
           ))}
         </div>
         <div className="space-y-2">
-          {right.map((v) => (
+          {right.map((v, i) => (
             <div key={v} className="flex items-center gap-2 text-[15px] text-slate-700">
-              <span className="text-slate-400">●</span><span>{v}</span>
+              <span className="text-slate-400">●</span>
+              {isImgUrl(v) ? (
+                <span className="flex items-center gap-1">
+                  <span className="text-[12px] font-semibold text-slate-500">{i + 1}.</span>
+                  <img src={v} alt="" className="h-12 w-12 object-contain" />
+                </span>
+              ) : (
+                <span>{v}</span>
+              )}
             </div>
           ))}
         </div>

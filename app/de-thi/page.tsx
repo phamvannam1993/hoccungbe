@@ -7,7 +7,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 async function fetchExams(): Promise<ExamItem[]> {
   try {
-    const res = await fetch(`${API}/api/exams`, { next: { revalidate: 3600 } });
+    const res = await fetch(`${API}/api/exams`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? data : (data?.data ?? []);

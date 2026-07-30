@@ -3,7 +3,9 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import LessonDetailPage from '../../components/edu/LessonDetailPage';
 import QuizPlayPage from '../../components/edu/QuizPlayPage';
+import ExamGroupPage from '../../components/edu/ExamGroupPage';
 import { parseExerciseParam } from '../../lib/quiz-slug';
+import { courseLabel, groupBySeg, parseCourseSlug, SUBJECT_LABEL } from '../../lib/examNav';
 
 const API = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com').replace(/\/$/, '');
@@ -196,6 +198,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  // ── ĐỀ THI: /{courseSlug}/de-thi-... → trang tổng hợp cụm đề ──
+  const mExamGroup = groupBySeg(normalizeSlug(lessonSlug));
+  const mCourse = parseCourseSlug(normalizeSlug(courseSlug));
+  if (mExamGroup && mCourse) {
+    const cLabel = courseLabel(normalizeSlug(courseSlug));
+    const title = `${mExamGroup.label} ${cLabel} – Bộ đề có đáp án`;
+    const description = `Tuyển tập đề ${mExamGroup.short.toLowerCase()} môn ${SUBJECT_LABEL[mCourse.subject]} lớp ${mCourse.grade} có đáp án, lời giải, chấm điểm online. Ôn luyện miễn phí tại Bé Hay Học.`.slice(0, 160);
+    const url = `${SITE}/${normalizeSlug(courseSlug)}/${normalizeSlug(lessonSlug)}`;
+    return {
+      title, description, alternates: { canonical: url },
+      openGraph: { title, description, url, type: 'website', siteName: 'Bé Hay Học', locale: 'vi_VN', images: [{ url: `${SITE}/og-home.jpg`, width: 1200, height: 630, alt: title }] },
+      twitter: { card: 'summary_large_image', title, description, images: [`${SITE}/og-home.jpg`] },
+    };
+  }
+
   // ── LESSON DETAIL ──
   const lesson = await fetchLesson(normalizeSlug(lessonSlug));
   if (!lesson) {
@@ -343,6 +360,12 @@ export default async function Page({ params }: Props) {
         difficulty={quizRoute.difficulty as 'easy' | 'medium' | 'hard'}
       />
     );
+  }
+
+  // ── ĐỀ THI: /{courseSlug}/de-thi-... → trang tổng hợp cụm đề ──
+  const examGroupSeg = normalizeSlug(lessonSlug);
+  if (groupBySeg(examGroupSeg) && parseCourseSlug(normalizeSlug(courseSlug))) {
+    return <ExamGroupPage courseSlug={normalizeSlug(courseSlug)} groupSeg={examGroupSeg} />;
   }
 
   // ── LESSON DETAIL ──

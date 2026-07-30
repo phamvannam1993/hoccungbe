@@ -6,6 +6,7 @@ import {
   lessonEntriesByCourse,
   worksheetEntriesByCourse,
   articleEntries,
+  examEntries,
   gameEntries,
   urlsetXml,
   sitemapIndexXml,
@@ -32,6 +33,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
       ...courses
         .filter((c) => c.courseType === 'math')
         .map((c) => ({ loc: `${SITE_URL}/sitemaps/worksheets-${c.slug}.xml`, lastmod: now })),
+      { loc: `${SITE_URL}/sitemaps/exams.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/games.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/articles.xml`, lastmod: now },
     ];
@@ -41,6 +43,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
   if (name === 'static') return xmlResponse(urlsetXml(staticEntries()));
   if (name === 'courses') return xmlResponse(urlsetXml(await courseEntries()));
   if (name === 'articles') return xmlResponse(urlsetXml(await articleEntries()));
+  if (name === 'exams') return xmlResponse(urlsetXml(await examEntries()));
   if (name === 'games') return xmlResponse(urlsetXml(gameEntries()));
 
   // lessons-<courseSlug> → bài học của khóa đó

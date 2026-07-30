@@ -1,5 +1,9 @@
 // utils/speech.ts
 // Đọc bằng giọng riêng của app qua /api/tts (natural voice, cached). Không dùng Google TTS.
+//
+// iOS Safari chặn phát audio ngoài cử chỉ người dùng. Vì vậy ta DÙNG CHUNG một phần tử
+// <audio> duy nhất và "mở khóa" nó ngay trong lần chạm đầu tiên (unlockAudio) — sau đó
+// mọi lần gọi speakText (kể cả tự động, không do chạm) đều phát được trên iPhone.
 
 export type SpeakTextOptions = {
   lang?: string;
@@ -9,36 +13,65 @@ export type SpeakTextOptions = {
   preferredVoiceNameIncludes?: string[];
 };
 
-let _currentAudio: HTMLAudioElement | null = null;
+// WAV im lặng cực ngắn để "bless" phần tử audio trong cử chỉ chạm.
+const SILENT_WAV =
+  'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
-export function speakText(
-  text: string,
-  _options: SpeakTextOptions = {}
-): void {
-  if (typeof window === 'undefined' || !text || !text.trim()) return;
+let _audioEl: HTMLAudioElement | null = null;
+let _unlocked = false;
 
-  // Stop any current audio
-  if (_currentAudio) {
-    _currentAudio.pause();
-    _currentAudio.src = '';
-    _currentAudio = null;
+function getEl(): HTMLAudioElement | null {
+  if (typeof window === 'undefined') return null;
+  if (!_audioEl) {
+    _audioEl = new Audio();
+    _audioEl.preload = 'auto';
   }
+  return _audioEl;
+}
+
+// Gọi trong một sự kiện chạm/click (vd khi bấm "Bắt đầu đua") để cho phép iOS
+// phát audio tự động về sau. An toàn khi gọi nhiều lần.
+export function unlockAudio(): void {
+  if (typeof window === 'undefined' || _unlocked) return;
+  const el = getEl();
+  if (!el) return;
+  try {
+    el.muted = true;
+    el.src = SILENT_WAV;
+    const p = el.play();
+    if (p && typeof p.then === 'function') {
+      p.then(() => {
+        el.pause();
+        try { el.currentTime = 0; } catch { /* ignore */ }
+        el.muted = false;
+        _unlocked = true;
+      }).catch(() => { el.muted = false; });
+    } else {
+      el.muted = false;
+      _unlocked = true;
+    }
+  } catch {
+    el.muted = false;
+  }
+}
+
+export function speakText(text: string, _options: SpeakTextOptions = {}): void {
+  if (typeof window === 'undefined' || !text || !text.trim()) return;
+  const el = getEl();
+  if (!el) return;
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.cancel();
   }
-
-  const url = `/api/tts?q=${encodeURIComponent(text.trim())}`;
-  const audio = new Audio(url);
-  _currentAudio = audio;
-
-  audio.play().catch(() => {/* chỉ dùng giọng API */});
+  try { el.pause(); } catch { /* ignore */ }
+  el.muted = false;
+  // Tái sử dụng cùng một phần tử (đã được mở khóa) → phát được cả khi tự động.
+  el.src = `/api/tts?q=${encodeURIComponent(text.trim())}`;
+  el.play().catch(() => { /* chỉ dùng giọng API */ });
 }
 
 export function stopSpeaking(): void {
-  if (_currentAudio) {
-    _currentAudio.pause();
-    _currentAudio.src = '';
-    _currentAudio = null;
+  if (_audioEl) {
+    try { _audioEl.pause(); } catch { /* ignore */ }
   }
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -46,14 +79,16 @@ export function stopSpeaking(): void {
 }
 
 export function pauseSpeaking(): void {
-  if (_currentAudio) _currentAudio.pause();
+  if (_audioEl) {
+    try { _audioEl.pause(); } catch { /* ignore */ }
+  }
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.pause();
   }
 }
 
 export function resumeSpeaking(): void {
-  if (_currentAudio) _currentAudio.play().catch(() => {});
+  if (_audioEl) _audioEl.play().catch(() => {});
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.resume();
   }

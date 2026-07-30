@@ -12,7 +12,7 @@ import {
   useState,
 } from 'react';
 import { playGameSound } from '@/app/components/edu/utils/gameSound';
-import { speakText, stopSpeaking } from '@/app/components/edu/utils/speech';
+import { speakText, stopSpeaking, unlockAudio } from '@/app/components/edu/utils/speech';
 import { preprocessTTS } from '@/app/components/edu/utils/ttsText';
 import {
   fetchRaceCourses,
@@ -296,6 +296,9 @@ export default function KnowledgeRaceGame() {
 
   const startRace = useCallback(async () => {
     if (lessonId === '' || loadingQuestions) return;
+    // Mở khóa audio NGAY trong cử chỉ chạm (trước mọi await) để iOS cho phép
+    // tự động đọc câu hỏi sau khi tải xong.
+    unlockAudio();
     clearPendingTimers();
     stopSpeaking();
     setLoadError('');

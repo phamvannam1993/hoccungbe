@@ -13,6 +13,7 @@ import {
 } from 'react';
 import { playGameSound } from '@/app/components/edu/utils/gameSound';
 import { speakText, stopSpeaking } from '@/app/components/edu/utils/speech';
+import { preprocessTTS } from '@/app/components/edu/utils/ttsText';
 import {
   fetchRaceCourses,
   fetchRaceLessons,
@@ -459,23 +460,15 @@ export default function KnowledgeRaceGame() {
     }
   };
 
-  const buildReadablePrompt = (text: string) => text
-    .replaceAll('×', ' nhân ')
-    .replaceAll(':', ' chia ')
-    .replaceAll('+', ' cộng ')
-    .replaceAll('-', ' trừ ')
-    .replaceAll('=', ' bằng ')
-    .replaceAll('?', '');
-
   const readQuestion = () => {
     if (!currentQuestion) return;
-    speakText(buildReadablePrompt(currentQuestion.prompt));
+    speakText(preprocessTTS(currentQuestion.prompt));
   };
 
   // Lớp 1: tự đọc câu hỏi mỗi khi sang câu mới.
   useEffect(() => {
     if (!autoReadQuestion || !soundEnabled || status !== 'playing' || !currentQuestion) return;
-    const prompt = buildReadablePrompt(currentQuestion.prompt);
+    const prompt = preprocessTTS(currentQuestion.prompt);
     const timer = setTimeout(() => speakText(prompt), 400);
     return () => {
       clearTimeout(timer);

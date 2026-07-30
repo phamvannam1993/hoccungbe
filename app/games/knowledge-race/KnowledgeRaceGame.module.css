@@ -1,8 +1,10 @@
 .page {
-  /* Cùng độ rộng với header (games/layout.tsx = max-w-6xl). */
-  width: 100%;
+  /* Full-bleed: tràn hết chiều ngang viewport (bỏ giới hạn max-w-6xl của layout),
+     nền dark navy phủ 2 bên nên không còn dải teal thừa. */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   min-height: 100%;
-  padding: 12px 0;
+  padding: 14px clamp(12px, 3vw, 60px);
   background:
     radial-gradient(circle at 50% -12%, rgba(22, 125, 255, 0.33), transparent 36%),
     radial-gradient(circle at 0 50%, rgba(15, 80, 190, 0.2), transparent 34%),
@@ -1550,7 +1552,7 @@
 }
 
 .gameFrame {
-  width: min(1480px, 100%);
+  width: min(1720px, 100%);
 }
 
 .topDeck {

@@ -17,10 +17,24 @@ const OPS: { key: Op; label: string }[] = [
 const RANGES = [10, 20, 100, 1000];
 const COUNTS = [10, 20, 30, 40];
 
+// CSS in: phải ẩn cả phần khung của site (SiteShell dựng header / footer / thanh
+// điều hướng dưới / modal chào mừng) chứ không chỉ phần trong trang này — nếu không,
+// bản in ra 4 trang trong đó tờ phiếu chỉ chiếm một trang.
 const PRINT_CSS = `
 @media print {
+  header,
+  footer,
+  nav,
+  [data-nosnippet] { display: none !important; }
   .no-print { display: none !important; }
-  .sheet { box-shadow: none !important; border: none !important; margin: 0 !important; }
+  /* main có pb-24 để chừa chỗ cho thanh điều hướng dưới — trên giấy thành trang trắng. */
+  main { padding: 0 !important; }
+  .sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   @page { size: A4; margin: 14mm; }
 }
 `;

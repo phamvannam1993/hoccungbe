@@ -53,13 +53,15 @@ function QuestionCard({ quiz, index, level }: { quiz: PracticeQuiz; index: numbe
               const isAnswer = quiz.answers.includes(opt.key);
               const isPicked = picked === opt.key;
               // Sau khi trả lời: tô xanh đáp án đúng, tô đỏ lựa chọn sai của bé.
+              // Phải đặt màu chữ tường minh: body của site dùng chữ sáng trên nền
+              // teal, thẻ đáp án nền trắng mà không khai màu thì chữ gần như vô hình.
               const tone = !answered
-                ? 'border-slate-200 bg-white hover:border-sky-400 hover:bg-sky-50'
+                ? 'border-slate-200 bg-white text-slate-800 hover:border-sky-400 hover:bg-sky-50'
                 : isAnswer
                   ? 'border-emerald-500 bg-emerald-50 text-emerald-900'
                   : isPicked
                     ? 'border-rose-400 bg-rose-50 text-rose-900'
-                    : 'border-slate-200 bg-white opacity-60';
+                    : 'border-slate-200 bg-white text-slate-800 opacity-60';
               return (
                 <li key={opt.key}>
                   <button

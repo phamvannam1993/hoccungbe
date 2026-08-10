@@ -13,12 +13,13 @@
   --font-mono: ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* KHÔNG đảo màu theo prefers-color-scheme.
+   Khối dark-mode mặc định của Next starter từng nằm ở đây và gây lỗi thật: nó đổi
+   --foreground thành #ededed (chữ sáng) trong khi toàn bộ giao diện là nền sáng cố
+   định (header teal, thẻ trắng, bảng màu slate hardcode). Máy bật dark mode sẽ thấy
+   chữ trắng trên thẻ trắng — gần như không đọc được.
+   Muốn có dark mode thật thì phải làm cả bộ token cho từng bề mặt, không chỉ hai
+   biến này. */
 
 
 body {

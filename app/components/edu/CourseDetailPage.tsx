@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
 import { childHistory, getCurrentChildId } from '../../lib/childData';
+import { topicSlug } from '../../lib/topicSlug';
 
 // Trạng thái đã-học của từng bài (theo bé đang chọn) — truyền xuống LessonRow.
 type DoneInfo = { stars: number; bestScore: number };
@@ -352,6 +353,16 @@ function TopicSection({ topicName, lessons, courseSlug, colorIdx }: { topicName:
         >
           ✨ {topicName}
         </h3>
+      )}
+      {/* Link sang trang bài tập của chính chủ đề này — vừa tiện cho bé luyện thêm,
+          vừa là internal link để Google crawl được cụm /bai-tap. */}
+      {topicName && (
+        <Link
+          href={`/bai-tap/${courseSlug}/${topicSlug(topicName)}`}
+          className="ml-0 sm:ml-2 mb-2 sm:mb-3 inline-block text-xs font-bold text-sky-700 hover:underline"
+        >
+          📝 Bài tập chủ đề này
+        </Link>
       )}
       <div className="space-y-2">
         {lessons.map((lesson, lIdx) => (

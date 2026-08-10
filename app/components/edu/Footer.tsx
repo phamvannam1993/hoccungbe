@@ -9,11 +9,13 @@ const quickLinks = [
   { label: 'Trang chủ', href: '/' },
   { label: 'Khóa học cho bé', href: '/khoa-hoc' },
   { label: 'Kho trò chơi giáo dục', href: '/tro-choi' },
+  { label: 'Bài tập theo chủ đề', href: '/bai-tap' },
   { label: 'Tiến độ học tập', href: '/tien-do' },
 ];
 
 const parentLinks = [
   { label: 'Góc phụ huynh', href: '/bai-viet' },
+  { label: 'Công cụ miễn phí', href: '/cong-cu' },
   { label: 'Cách bắt đầu', href: '/huong-dan' },
   { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
   { label: 'Hỗ trợ', href: '/ho-tro' },

@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import GamesView from '../components/edu/GamesView';
 import { gamesData } from '../components/edu/data/gamesData';
+import { publishableCategories } from '../lib/gameCategories';
 import type { Metadata } from 'next';
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
@@ -86,6 +88,25 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       {/* GamesView (server component) đã SSR H1 + danh sách game crawlable → không cần khối sr-only lặp lại. */}
       <GamesView />
+
+      {/* Link sang các hub danh mục. Trang này liệt kê phẳng cả kho nên tự nó không
+          nhắm được truy vấn hẹp ("game toán", "trò chơi cho bé 3 tuổi"); các hub bên
+          dưới làm việc đó, và cần link từ đây để Google tìm ra chúng. */}
+      <nav aria-label="Nhóm trò chơi" className="mx-auto max-w-4xl px-4 pb-12">
+        <h2 className="text-lg font-bold text-slate-900">Chọn theo nhóm</h2>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {publishableCategories().map((c) => (
+            <li key={c.slug}>
+              <Link
+                href={`/tro-choi/${c.slug}`}
+                className="inline-block rounded-full border-2 border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-400 hover:text-sky-700"
+              >
+                {c.heading}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 }

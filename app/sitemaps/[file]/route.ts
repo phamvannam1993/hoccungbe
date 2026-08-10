@@ -5,6 +5,7 @@ import {
   courseList,
   lessonEntriesByCourse,
   worksheetEntriesByCourse,
+  practiceEntriesByCourse,
   articleEntries,
   examEntries,
   gameEntries,
@@ -33,6 +34,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
       ...courses
         .filter((c) => c.courseType === 'math')
         .map((c) => ({ loc: `${SITE_URL}/sitemaps/worksheets-${c.slug}.xml`, lastmod: now })),
+      // Bài tập theo chủ đề — mọi khóa đều có (chủ đề lấy từ topicId của bài học).
+      ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/practice-${c.slug}.xml`, lastmod: now })),
       { loc: `${SITE_URL}/sitemaps/exams.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/games.xml`, lastmod: now },
       { loc: `${SITE_URL}/sitemaps/articles.xml`, lastmod: now },
@@ -60,6 +63,14 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
     const course = (await courseList()).find((c) => c.slug === slug && c.courseType === 'math');
     if (!course) return new Response('Not found', { status: 404 });
     return xmlResponse(urlsetXml(await worksheetEntriesByCourse(course.id, course.slug)));
+  }
+
+  // practice-<courseSlug> → hub bài tập + từng chủ đề của khóa đó
+  if (name.startsWith('practice-')) {
+    const slug = name.slice('practice-'.length);
+    const course = (await courseList()).find((c) => c.slug === slug);
+    if (!course) return new Response('Not found', { status: 404 });
+    return xmlResponse(urlsetXml(await practiceEntriesByCourse(course.slug)));
   }
 
   return new Response('Not found', { status: 404 });

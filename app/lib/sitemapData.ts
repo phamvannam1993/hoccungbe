@@ -1,6 +1,8 @@
 import { SITE_URL, safeDate } from './seo';
 import { gamesData } from '../components/edu/data/gamesData';
 import { parseExamDbSlug } from './examNav';
+import { getCourseTopics, topicLastmod } from './topicSeo';
+import { publishableCategories } from './gameCategories';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
@@ -62,8 +64,11 @@ const STATIC_PATHS: [string, string][] = [
   ['/', '2026-06-24'],
   ['/khoa-hoc', '2026-06-24'],
   ['/tro-choi', '2026-06-24'],
+  ['/cong-cu', '2026-08-10'],
+  ['/cong-cu/tao-bai-tap-cong-tru', '2026-08-10'],
   ['/cong-cu/chuyen-van-ban-thanh-giong-noi', '2026-06-24'],
   ['/cong-cu/chuyen-giong-noi-thanh-van-ban', '2026-06-24'],
+  ['/bai-tap', '2026-08-10'],
   ['/de-thi', '2026-06-24'],
   // /tai-lieu tạm bỏ khỏi sitemap (đang noindex tới khi có đủ tài liệu thực tế).
   ['/bai-viet', '2026-06-24'],
@@ -170,9 +175,31 @@ export async function examEntries(): Promise<SitemapEntry[]> {
   return entries;
 }
 
+// Cụm bài tập theo chủ đề: /bai-tap/{courseSlug} + /bai-tap/{courseSlug}/{topicSlug}.
+// Trang chủ đề rỗng câu hỏi sẽ notFound() → chỉ đưa vào sitemap chủ đề CÓ bài học,
+// đúng bộ lọc mà getCourseTopics() đã áp dụng.
+export async function practiceEntriesByCourse(courseSlug: string): Promise<SitemapEntry[]> {
+  const data = await getCourseTopics(courseSlug);
+  if (!data || data.topics.length === 0) return [];
+  const entries: SitemapEntry[] = [
+    { loc: `${SITE_URL}/bai-tap/${courseSlug}`, lastmod: new Date() },
+  ];
+  for (const topic of data.topics) {
+    entries.push({ loc: `${SITE_URL}/bai-tap/${courseSlug}/${topic.slug}`, lastmod: topicLastmod(topic) });
+  }
+  return entries;
+}
+
 export function gameEntries(): SitemapEntry[] {
-  return gamesData
-    .filter((g) => g.status === 'ready')
-    .map((g) => ({ loc: `${SITE_URL}/tro-choi/${g.slug}`, lastmod: safeDate('2026-06-24') }));
+  return [
+    // Hub danh mục trước, rồi tới từng trò chơi.
+    ...publishableCategories().map((c) => ({
+      loc: `${SITE_URL}/tro-choi/${c.slug}`,
+      lastmod: safeDate('2026-08-10'),
+    })),
+    ...gamesData
+      .filter((g) => g.status === 'ready')
+      .map((g) => ({ loc: `${SITE_URL}/tro-choi/${g.slug}`, lastmod: safeDate('2026-06-24') })),
+  ];
 }
 

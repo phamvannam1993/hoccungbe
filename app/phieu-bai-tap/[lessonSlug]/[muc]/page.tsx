@@ -144,8 +144,33 @@ export default async function Page({
     qrDataUrl = await QRCode.toDataURL(playUrl, { margin: 1, width: 160 });
   } catch { /* không có QR thì phiếu vẫn in được */ }
 
+  // Chỉ JSON-LD, không thêm breadcrumb hiển thị: trang này là phiếu để IN, mọi thứ
+  // ngoài tờ phiếu đều thừa trên giấy (SiteShell cũng đã bỏ header/footer ở đây).
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE },
+      ...(lesson.course?.slug
+        ? [{
+            '@type': 'ListItem',
+            position: 2,
+            name: lesson.course.title,
+            item: `${SITE}/khoa-hoc/${lesson.course.slug}`,
+          }]
+        : []),
+      {
+        '@type': 'ListItem',
+        position: lesson.course?.slug ? 3 : 2,
+        name: `Phiếu bài tập ${lesson.title}`,
+        item: `${SITE}${base}`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-slate-100">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <PrintBar lessonSlug={lessonSlug} answerHref={answerHref} isAnswer={isAnswer} />
       <style>{PRINT_CSS}</style>
       <Sheet

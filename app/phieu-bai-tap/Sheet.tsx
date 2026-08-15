@@ -4,15 +4,44 @@
  */
 
 export type OptionItem = { key: string; text: string; imageUrl?: string; pair?: string };
+// optionsJson có thể là mảng OBJECT ({key,text}) HOẶC mảng CHUỖI ("345","335"…)
+// tuỳ dạng câu (single_choice/multiple_choice thường lưu mảng chuỗi).
+export type RawOption = OptionItem | string;
+// Một số dạng (matching, drag_drop, table_fill, number_line, counting) lưu
+// optionsJson là OBJECT thay vì mảng.
+export type OptionsObject = {
+  items?: string[]; targets?: string[];      // matching
+  blanks?: string[]; options?: string[]; steps?: string[]; // drag_drop
+  headers?: string[]; rows?: (string | number | null)[][]; // table_fill
+  start?: number; jump?: number; end?: number; // number_line
+  marks?: string;                            // number_line (dạng cũ "0|1|2")
+  [k: string]: unknown;
+};
 export type Quiz = {
   id: number;
   questionText: string;
   questionType: string;
   questionImageUrl?: string | null;
-  optionsJson?: OptionItem[] | null;
+  optionsJson?: RawOption[] | OptionsObject | null;
   correctAnswerJson?: unknown;
   explanation?: string | null;
 };
+
+// Lấy optionsJson dạng OBJECT (khi không phải mảng).
+function optObj(raw: Quiz['optionsJson']): OptionsObject {
+  return raw && !Array.isArray(raw) ? (raw as OptionsObject) : {};
+}
+
+// Chuẩn hoá option về OptionItem: chuỗi "345" → {key:'A', text:'345'} để hiển thị
+// vòng khoanh kèm nhãn A/B/C và giữ React key duy nhất.
+export function normOpts(raw: Quiz['optionsJson']): OptionItem[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.map((o, i) =>
+    typeof o === 'string'
+      ? { key: String.fromCharCode(65 + (i % 26)), text: o }
+      : o,
+  );
+}
 
 const BLANK = 'inline-block min-w-[56px] border-b-2 border-slate-400 align-bottom';
 
@@ -49,7 +78,7 @@ function fracNodes(text: string, keyPrefix = ''): React.ReactNode {
 // ── Đáp án dạng đọc được cho ba mẹ ──────────────────────────────────────────
 export function answerText(q: Quiz): string {
   // Một số dạng (counting, table_fill…) lưu optionsJson là OBJECT → chỉ dùng khi là array.
-  const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
+  const opts = normOpts(q.optionsJson);
   const a = q.correctAnswerJson;
   const label = (k: string) => opts.find((x) => x.key === k)?.text ?? k;
   const labelWithKey = (k: string) => {
@@ -169,7 +198,8 @@ function QuantityTable({ rows }: { rows: { label: string; key?: string; given?: 
 
 // ── Đề bài: thay [b1], [r1c1]… bằng ô trống để bé viết ──────────────────────
 function QuestionText({ text }: { text: string }) {
-  const qtab = parseQuantityTable(text);
+  const safe = text ?? '';
+  const qtab = parseQuantityTable(safe);
   if (qtab) {
     return (
       <>
@@ -178,7 +208,7 @@ function QuestionText({ text }: { text: string }) {
       </>
     );
   }
-  const parts = text.split(/(\[[^\]]+\])/g);
+  const parts = safe.split(/(\[[^\]]+\])/g);
   return (
     <>
       {parts.map((p, i) =>
@@ -198,7 +228,7 @@ function Circle({ children }: { children: React.ReactNode }) {
 
 // ── Thân câu hỏi: mỗi dạng in một kiểu riêng ────────────────────────────────
 function QuestionBody({ q }: { q: Quiz }) {
-  const opts = Array.isArray(q.optionsJson) ? q.optionsJson : [];
+  const opts = normOpts(q.optionsJson);
   const type = q.questionType;
 
   // Đúng / Sai
@@ -229,22 +259,22 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
-  // Sắp xếp thứ tự → thẻ từ + ô điền thứ tự
-  if (type === 'drag_drop' || type === 'sorting') {
+  // Sắp xếp thứ tự (optionsJson là MẢNG) → thẻ từ + ô điền thứ tự
+  if (type === 'sorting') {
     return (
       <div className="ml-8 mt-2">
         <div className="flex flex-wrap gap-2">
-          {opts.map((o) => (
-            <span key={o.key} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] font-bold text-slate-700">
-              {o.key}. {o.text.trim()}
+          {opts.map((o, i) => (
+            <span key={o.key ?? i} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] font-bold text-slate-700">
+              {o.key}. {(o.text ?? '').trim()}
             </span>
           ))}
         </div>
-        <div className="mt-2 flex items-center gap-2 text-[15px] text-slate-500">
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-[15px] text-slate-500">
           Thứ tự đúng:
           {opts.map((o, i) => (
-            <span key={o.key} className="flex items-center gap-2">
-              <span className={`${BLANK} min-w-[44px]`} />
+            <span key={o.key ?? i} className="flex items-center gap-2">
+              <span className={`${BLANK} min-w-[54px]`} />
               {i < opts.length - 1 && <span>→</span>}
             </span>
           ))}
@@ -253,12 +283,42 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
+  // Kéo thả (optionsJson là OBJECT): {blanks, options} hoặc {steps, blanks}
+  if (type === 'drag_drop') {
+    const oj = optObj(q.optionsJson);
+    const blanks = oj.blanks ?? [];
+    const pieces = oj.options ?? oj.steps ?? [];
+    return (
+      <div className="ml-8 mt-2">
+        {blanks.length > 0 && (
+          <div className="space-y-1.5">
+            {blanks.map((b, i) => (
+              <div key={i} className="flex items-center gap-2 text-[15px] text-slate-700">
+                <span>{b}</span>
+                {/* Nếu nhãn chưa có sẵn "___" thì thêm ô trống để bé điền */}
+                {/_{2,}|…|\.\.\./.test(b) ? null : <span className={`${BLANK} min-w-[120px]`} />}
+              </div>
+            ))}
+          </div>
+        )}
+        {pieces.length > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="self-center text-[13px] font-bold text-slate-500">Thẻ chọn:</span>
+            {pieces.map((p, i) => (
+              <span key={i} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] font-bold text-slate-700">{p}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // Gạch bỏ → in các từ để bé gạch, không có vòng khoanh
   if (type === 'cross_out') {
     return (
       <div className="ml-8 mt-2 flex flex-wrap gap-3">
-        {opts.map((o) => (
-          <span key={o.key} className="rounded-md border border-dashed border-slate-300 px-2.5 py-1 text-[15px] text-slate-700">
+        {opts.map((o, i) => (
+          <span key={o.key ?? i} className="rounded-md border border-dashed border-slate-300 px-2.5 py-1 text-[15px] text-slate-700">
             {o.text}
           </span>
         ))}
@@ -266,37 +326,28 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
-  // Nối → hai cột để bé kẻ nối
+  // Nối → hai cột để bé kẻ nối. optionsJson là OBJECT {items, targets}.
   if (type === 'matching') {
-    const isImgUrl = (s: string) => /^https?:\/\/\S+\.(webp|png|jpe?g|gif|svg)(\?|$)/i.test(s.trim());
-    const right = Object.values((q.correctAnswerJson ?? {}) as Record<string, string>)
-      .map(String)
-      .filter((v, i, arr) => arr.indexOf(v) === i)
-      .sort((a, b) => a.localeCompare(b, 'vi')); // xếp a→z để không lộ đáp án
+    const isImgUrl = (s: string) => /^https?:\/\/\S+\.(webp|png|jpe?g|gif|svg)(\?|$)/i.test((s ?? '').trim());
+    const oj = optObj(q.optionsJson);
+    const items = oj.items ?? [];
+    // Cột phải xáo theo a→z để không lộ thứ tự đáp án.
+    const targets = (oj.targets ?? []).slice().sort((a, b) => a.localeCompare(b, 'vi'));
     return (
       <div className="ml-8 mt-2 flex gap-10">
         <div className="space-y-2">
-          {opts.map((o) => (
-            <div key={o.key} className="flex items-center gap-2 text-[15px] text-slate-700">
-              {o.imageUrl
-                ? <img src={o.imageUrl} alt={o.text} className="h-12 w-12 object-contain" />
-                : <span>{o.text}</span>}
+          {items.map((v, i) => (
+            <div key={i} className="flex items-center gap-2 text-[15px] text-slate-700">
+              {isImgUrl(v) ? <img src={v} alt="" className="h-12 w-12 object-contain" /> : <span>{v}</span>}
               <span className="text-slate-400">●</span>
             </div>
           ))}
         </div>
         <div className="space-y-2">
-          {right.map((v, i) => (
-            <div key={v} className="flex items-center gap-2 text-[15px] text-slate-700">
+          {targets.map((v, i) => (
+            <div key={i} className="flex items-center gap-2 text-[15px] text-slate-700">
               <span className="text-slate-400">●</span>
-              {isImgUrl(v) ? (
-                <span className="flex items-center gap-1">
-                  <span className="text-[12px] font-semibold text-slate-500">{i + 1}.</span>
-                  <img src={v} alt="" className="h-12 w-12 object-contain" />
-                </span>
-              ) : (
-                <span>{v}</span>
-              )}
+              {isImgUrl(v) ? <img src={v} alt="" className="h-12 w-12 object-contain" /> : <span>{v}</span>}
             </div>
           ))}
         </div>
@@ -304,15 +355,18 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
-  // Điền bảng
+  // Điền bảng: optionsJson là OBJECT {headers, rows}. Ô null/rỗng → chỗ trống.
   if (type === 'table_fill') {
-    const headers = (opts.find((o) => o.key === 'headers')?.text ?? '').split('|');
-    const rows = opts.filter((o) => o.key !== 'headers').map((o) => o.text.split('|'));
+    const oj = optObj(q.optionsJson);
+    const headers = oj.headers ?? [];
+    const rows = oj.rows ?? [];
     if (!rows.length) return null;
+    const isBlank = (c: string | number | null) =>
+      c === null || c === '' || (typeof c === 'string' && c.startsWith('_'));
     return (
       <div className="ml-8 mt-2 overflow-hidden rounded-md border border-slate-300">
         <table className="w-full border-collapse text-[14px]">
-          {headers.length > 1 && (
+          {headers.length > 0 && (
             <thead>
               <tr className="bg-slate-100">
                 {headers.map((h, i) => <th key={i} className="border border-slate-300 px-2 py-1 text-left font-bold">{h}</th>)}
@@ -323,8 +377,8 @@ function QuestionBody({ q }: { q: Quiz }) {
             {rows.map((cells, ri) => (
               <tr key={ri}>
                 {cells.map((c, ci) => (
-                  <td key={ci} className="border border-slate-300 px-2 py-2 text-slate-700">
-                    {c.startsWith('_') ? <span className={`${BLANK} w-full`} /> : c}
+                  <td key={ci} className="border border-slate-300 px-2 py-2 text-center text-slate-700">
+                    {isBlank(c) ? <span className={`${BLANK} w-full`} /> : String(c)}
                   </td>
                 ))}
               </tr>
@@ -335,9 +389,23 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
-  // Tia số
+  // Tia số: optionsJson {start, jump} → điểm bắt đầu + bước nhảy + ô kết quả.
   if (type === 'number_line') {
-    const marks = (opts.find((o) => o.key === 'marks')?.text ?? '').split('|').filter(Boolean);
+    const oj = optObj(q.optionsJson);
+    if (oj.start != null && oj.jump != null) {
+      const j = Number(oj.jump);
+      return (
+        <div className="ml-8 mt-3 text-[15px] text-slate-700">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="rounded-md border-2 border-slate-300 px-3 py-1 font-bold">{oj.start}</span>
+            <span className="text-slate-500">{j < 0 ? `lùi ${Math.abs(j)}` : `tiến ${j}`} →</span>
+            <span className={`${BLANK} min-w-[70px]`} />
+          </div>
+          <div className="mt-1 text-[12px] text-slate-400">Dùng tia số: đặt bút ở {oj.start} rồi {j < 0 ? 'lùi' : 'tiến'} {Math.abs(j)} đơn vị.</div>
+        </div>
+      );
+    }
+    const marks = String(oj.marks ?? '').split('|').filter(Boolean);
     return (
       <div className="ml-8 mt-3">
         <div className="flex items-end gap-0">
@@ -354,41 +422,45 @@ function QuestionBody({ q }: { q: Quiz }) {
     );
   }
 
-  // Ghép: chỗ trống là câu mẫu, các thẻ bên dưới để bé chọn
+  // Ghép: chỗ trống là câu mẫu, các thẻ bên dưới để bé chọn.
+  // Chỉ áp dụng khi có "slot"; nếu optionsJson là mảng đáp án → rơi xuống trắc nghiệm.
   if (type === 'puzzle') {
-    const slots = opts.filter((o) => o.key.startsWith('slot'));
-    const tokens = opts.filter((o) => !o.key.startsWith('slot'));
-    return (
-      <div className="ml-8 mt-2">
-        {slots.map((s) => (
-          <div key={s.key} className="text-[15px] font-bold text-slate-800">
-            <QuestionText text={s.text} />
-          </div>
-        ))}
-        <div className="mt-2 flex flex-wrap gap-2">
-          {tokens.map((o) => (
-            <span key={o.key} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] text-slate-700">
-              {o.text}
-            </span>
+    const slots = opts.filter((o) => (o.key ?? '').startsWith('slot'));
+    const tokens = opts.filter((o) => !(o.key ?? '').startsWith('slot'));
+    if (slots.length > 0) {
+      return (
+        <div className="ml-8 mt-2">
+          {slots.map((s, i) => (
+            <div key={s.key ?? i} className="text-[15px] font-bold text-slate-800">
+              <QuestionText text={s.text ?? ''} />
+            </div>
           ))}
+          <div className="mt-2 flex flex-wrap gap-2">
+            {tokens.map((o, i) => (
+              <span key={o.key ?? i} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] text-slate-700">
+                {o.text}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
-  // Trò chơi phân loại: in các thẻ + hai nhóm để bé ghi vào
+  // Trò chơi phân loại: in các thẻ + hai nhóm để bé ghi vào.
+  // Chỉ khi có nhóm (pair); nếu là mảng đáp án → rơi xuống trắc nghiệm.
   if (type === 'game') {
     const groups = [...new Set(opts.map((o) => o.pair).filter(Boolean))] as string[];
-    return (
-      <div className="ml-8 mt-2">
-        <div className="flex flex-wrap gap-2">
-          {opts.map((o) => (
-            <span key={o.key} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] text-slate-700">
-              {o.text}
-            </span>
-          ))}
-        </div>
-        {groups.length > 0 && (
+    if (groups.length > 0) {
+      return (
+        <div className="ml-8 mt-2">
+          <div className="flex flex-wrap gap-2">
+            {opts.map((o, i) => (
+              <span key={o.key ?? i} className="rounded-md border-2 border-slate-300 bg-slate-50 px-2.5 py-1 text-[15px] text-slate-700">
+                {o.text}
+              </span>
+            ))}
+          </div>
           <div className="mt-2 grid grid-cols-2 gap-3">
             {groups.map((g) => (
               <div key={g} className="rounded-md border border-slate-300 p-2">
@@ -397,9 +469,9 @@ function QuestionBody({ q }: { q: Quiz }) {
               </div>
             ))}
           </div>
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
   }
 
   // Tô chữ / tô số / tô câu
@@ -417,8 +489,8 @@ function QuestionBody({ q }: { q: Quiz }) {
   if (opts.some((o) => o.imageUrl)) {
     return (
       <div className="ml-8 mt-2 grid grid-cols-4 gap-2">
-        {opts.map((o) => (
-          <div key={o.key} className="flex flex-col items-center gap-1 rounded-lg border-2 border-dashed border-slate-300 p-1.5">
+        {opts.map((o, i) => (
+          <div key={o.key ?? i} className="flex flex-col items-center gap-1 rounded-lg border-2 border-dashed border-slate-300 p-1.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={o.imageUrl} alt={o.text} className="h-16 w-full rounded object-contain" />
             {o.text && <span className="text-center text-[10px] leading-tight text-slate-600">{o.text}</span>}
@@ -434,14 +506,15 @@ function QuestionBody({ q }: { q: Quiz }) {
   if (opts.length > 0) {
     return (
       <div className="ml-8 mt-2 grid grid-cols-2 gap-x-4 gap-y-1.5">
-        {opts.map((o) => {
+        {opts.map((o, i) => {
+          const text = o.text ?? '';
           // Đáp án chỉ gồm số/ký hiệu toán (vd "10 234", "4 020 305") → không cho xuống dòng
           // giữa chừng để khỏi vỡ; đáp án có chữ vẫn ngắt dòng bình thường.
-          const numericOnly = /^[\d\s.,/=<>+\-×÷:()²³°%–—]+$/.test(o.text.trim());
+          const numericOnly = /^[\d\s.,/=<>+\-×÷:()²³°%–—]+$/.test(text.trim());
           return (
-            <div key={o.key} className="flex items-center gap-2 text-[15px] text-slate-700">
+            <div key={o.key ?? i} className="flex items-center gap-2 text-[15px] text-slate-700">
               <Circle>{o.key}</Circle>
-              <span className={`min-w-0 ${numericOnly ? 'whitespace-nowrap tabular-nums' : 'break-words'}`}>{fracNodes(o.text, `${o.key}-`)}</span>
+              <span className={`min-w-0 ${numericOnly ? 'whitespace-nowrap tabular-nums' : 'break-words'}`}>{fracNodes(text, `${o.key}-`)}</span>
             </div>
           );
         })}
@@ -616,7 +689,7 @@ export function Sheet({
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 print:grid-cols-2">
         {quizzes.map((q, i) => {
           // Câu có đáp án bằng hình cần cả bề ngang, nếu không ảnh sẽ chen nhau
-          const wide = WIDE.has(q.questionType) || (Array.isArray(q.optionsJson) ? q.optionsJson : []).some((o) => o.imageUrl);
+          const wide = WIDE.has(q.questionType) || normOpts(q.optionsJson).some((o) => o.imageUrl);
           return (
             <div key={q.id} className={`q-item ${wide ? 'sm:col-span-2 print:col-span-2' : ''}`}>
               <QuestionItem q={q} index={i} isAnswer={isAnswer} skillFallback={skillFallback} />

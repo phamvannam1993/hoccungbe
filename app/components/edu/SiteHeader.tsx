@@ -21,6 +21,7 @@ const NAV_MENU: NavItem[] = [
   { href: '/', label: 'TRANG CHỦ' },
   { href: '/khoa-hoc', label: 'LỚP HỌC', mega: 'grades' },
   { href: '/tro-choi', label: 'KHO TRÒ CHƠI' },
+  { href: '/tu-vung-tieng-anh', label: 'TỪ VỰNG ANH' },
   // { href: '/tien-do', label: 'THI ĐẤU' },  // tạm ẩn
   { href: '/de-thi', label: 'ÔN THI' },
   { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },
@@ -252,14 +253,14 @@ export default function SiteHeader() {
       {/* Desktop Nav bar */}
       <div className="hidden md:block" ref={navRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4">
-          <nav className="relative bg-gradient-to-r from-[#d04a3a] via-[#c0392b] to-[#a93226] rounded-full px-2 py-1.5 flex items-center justify-center gap-1 shadow-[0_6px_20px_-6px_rgba(192,57,43,0.6)] ring-1 ring-white/10">
+          <nav className="relative bg-gradient-to-r from-[#d04a3a] via-[#c0392b] to-[#a93226] rounded-full px-2 py-1.5 flex items-center justify-center gap-0.5 shadow-[0_6px_20px_-6px_rgba(192,57,43,0.6)] ring-1 ring-white/10">
             {NAV_MENU.map((item) => {
               const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
               const hasChildren = (item.children && item.children.length > 0) || item.mega === 'grades';
               const isOpen = openMenu === item.href;
 
               return (
-                <div key={item.href} className="relative">
+                <div key={item.href} className="relative shrink-0">
                   <button
                     onClick={() => {
                       if (hasChildren) {
@@ -268,7 +269,7 @@ export default function SiteHeader() {
                         window.location.href = item.href;
                       }
                     }}
-                    className={`group relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all duration-200
+                    className={`group relative flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2 rounded-full text-[13px] font-bold transition-all duration-200
                       ${isActive
                         ? 'bg-white text-[#c0392b] shadow-md scale-[1.03]'
                         : 'text-white hover:bg-white/20 hover:scale-[1.05]'}`}
@@ -432,6 +433,7 @@ function NavIcon({ label }: { label: string }) {
   if (label.includes('TRANG')) return <span className="text-base">🏠</span>;
   if (label.includes('LỚP')) return <span className="text-base">📚</span>;
   if (label.includes('TRÒ CHƠI')) return <span className="text-base">🎮</span>;
+  if (label.includes('VỰNG')) return <span className="text-base">🔤</span>;
   if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
   if (label.includes('ÔN')) return <span className="text-base">📝</span>;
   if (label.includes('TÀI LIỆU')) return <span className="text-base">📄</span>;

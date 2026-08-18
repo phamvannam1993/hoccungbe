@@ -217,7 +217,7 @@ function audioResponse(buf: Buffer, source: string): NextResponse {
 // enMode = true CHỈ cho các bài thuộc khóa tiếng Anh (vd Tiếng Anh lớp 1):
 // tách câu theo ngôn ngữ, đọc phần tiếng Anh bằng giọng bản ngữ.
 // Mặc định (enMode = false) giữ NGUYÊN hành vi cũ: cả câu đọc giọng Việt + phiên âm.
-async function handle(rawText: string | null, enMode = false): Promise<NextResponse> {
+async function handle(rawText: string | null, enMode = false, forceLang: 'en' | 'vi' | null = null): Promise<NextResponse> {
   if (!rawText || !rawText.trim()) {
     return NextResponse.json({ error: 'q (text) is required' }, { status: 400 });
   }
@@ -228,6 +228,39 @@ async function handle(rawText: string | null, enMode = false): Promise<NextRespo
   const cleaned = removeEmojis(rawText.trim());
   if (!cleaned) {
     return NextResponse.json({ error: 'Text contains only emoji/icons' }, { status: 400 });
+  }
+
+  // ── ÉP NGÔN NGỮ (lang=en|vi): đọc TOÀN BỘ text bằng đúng một giọng, KHÔNG phân loại
+  // từng từ. Dùng cho từ vựng: từ tiếng Anh luôn giọng Anh bản ngữ, nghĩa luôn giọng Việt. ──
+  if (forceLang) {
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
+      const look = await fetch(
+        `${apiBase}/api/tts/cached?text=${encodeURIComponent(cleaned)}&voice=${forceLang}`,
+        { cache: 'no-store' },
+      );
+      if (look.ok) {
+        const { audioUrl } = (await look.json()) as { audioUrl?: string };
+        if (audioUrl) return NextResponse.redirect(audioUrl, 302);
+      }
+    } catch {
+      /* tra cache lỗi → tiếp tục gọi Google TTS bên dưới */
+    }
+    const text = forceLang === 'vi' ? toVietnamesePhonics(cleaned) : cleaned;
+    const key = forceLang + ':' + text;
+    const hit = cache.get(key);
+    if (hit) return audioResponse(hit, 'google-cache');
+    const g = await fetchGoogleTts(text, forceLang);
+    if (g) {
+      if (cache.size >= MAX_CACHE) cache.delete(cache.keys().next().value!);
+      cache.set(key, g);
+      return audioResponse(g, 'google-free');
+    }
+    if (forceLang === 'vi') {
+      const b = await fetchBackendTts(text);
+      if (b) return audioResponse(b, 'backend');
+    }
+    return NextResponse.json({ error: 'TTS service unavailable' }, { status: 503 });
   }
 
   // ── Tra bảng tts_cache trước: nếu đã có audio (S3) cho text này → DÙNG LẠI, khỏi gọi TTS. ──
@@ -298,14 +331,18 @@ async function handle(rawText: string | null, enMode = false): Promise<NextRespo
 
 export async function GET(req: NextRequest) {
   const en = req.nextUrl.searchParams.get('en') === '1';
-  return handle(req.nextUrl.searchParams.get('q'), en);
+  const lp = req.nextUrl.searchParams.get('lang');
+  const forceLang = lp === 'en' || lp === 'vi' ? lp : null;
+  return handle(req.nextUrl.searchParams.get('q'), en, forceLang);
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const en = body?.en === true || body?.en === '1' || body?.en === 1;
-    return handle(body?.text ?? body?.q ?? null, en);
+    const lp = body?.lang;
+    const forceLang = lp === 'en' || lp === 'vi' ? lp : null;
+    return handle(body?.text ?? body?.q ?? null, en, forceLang);
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }

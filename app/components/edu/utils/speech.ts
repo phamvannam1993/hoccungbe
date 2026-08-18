@@ -69,6 +69,52 @@ export function speakText(text: string, _options: SpeakTextOptions = {}): void {
   el.play().catch(() => { /* chỉ dùng giọng API */ });
 }
 
+// URL đọc ÉP NGÔN NGỮ: 'en' → giọng Mỹ bản ngữ, 'vi' → giọng Việt. (Không phân loại
+// từng từ như &en=1 nên từ tiếng Anh lạ vẫn được đọc đúng giọng Anh.)
+const ttsUrl = (text: string, lang: 'en' | 'vi') =>
+  `/api/tts?q=${encodeURIComponent(text.trim())}&lang=${lang}`;
+
+// Đọc TIẾNG ANH bằng giọng Mỹ bản ngữ.
+export function speakEnglish(text: string): void {
+  if (typeof window === 'undefined' || !text || !text.trim()) return;
+  const el = getEl();
+  if (!el) return;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  try { el.pause(); } catch { /* ignore */ }
+  el.muted = false;
+  el.src = ttsUrl(text, 'en');
+  el.play().catch(() => { /* chỉ dùng giọng API */ });
+}
+
+// Đọc TIẾNG ANH (giọng Mỹ) rồi TỰ ĐỘNG đọc luôn NGHĨA TIẾNG VIỆT (giọng Việt), nối tiếp,
+// dùng chung 1 audio. Bộ đếm _gen để lần gọi mới huỷ phần tiếng Việt còn chờ của lần cũ.
+let _gen = 0;
+export function speakEnThenVi(en: string, vi: string): void {
+  if (typeof window === 'undefined') return;
+  const el = getEl();
+  if (!el) return;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  const myGen = ++_gen;
+  try { el.pause(); } catch { /* ignore */ }
+  el.muted = false;
+  el.onended = () => {
+    el.onended = null;
+    if (myGen !== _gen) return; // đã bị lần gọi mới thay thế
+    if (vi && vi.trim()) {
+      el.src = ttsUrl(vi, 'vi'); // người Việt đọc nghĩa tiếng Việt
+      el.play().catch(() => {});
+    }
+  };
+  if (en && en.trim()) {
+    el.src = ttsUrl(en, 'en'); // người Mỹ đọc từ tiếng Anh
+    el.play().catch(() => {});
+  } else if (vi && vi.trim()) {
+    el.onended = null;
+    el.src = ttsUrl(vi, 'vi');
+    el.play().catch(() => {});
+  }
+}
+
 export function stopSpeaking(): void {
   if (_audioEl) {
     try { _audioEl.pause(); } catch { /* ignore */ }

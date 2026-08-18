@@ -3,6 +3,7 @@ import { gamesData } from '../components/edu/data/gamesData';
 import { parseExamDbSlug } from './examNav';
 import { getCourseTopics, topicLastmod } from './topicSeo';
 import { publishableCategories } from './gameCategories';
+import { publishableVocabTopics } from './vocab';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
@@ -64,6 +65,7 @@ const STATIC_PATHS: [string, string][] = [
   ['/', '2026-06-24'],
   ['/khoa-hoc', '2026-06-24'],
   ['/tro-choi', '2026-06-24'],
+  ['/tu-vung-tieng-anh', '2026-08-18'],
   ['/cong-cu', '2026-08-10'],
   ['/cong-cu/tao-bai-tap-cong-tru', '2026-08-10'],
   ['/cong-cu/chuyen-van-ban-thanh-giong-noi', '2026-06-24'],
@@ -80,7 +82,13 @@ const STATIC_PATHS: [string, string][] = [
 ];
 
 export function staticEntries(): SitemapEntry[] {
-  return STATIC_PATHS.map(([path, date]) => ({ loc: `${SITE_URL}${path}`, lastmod: safeDate(date) }));
+  const base = STATIC_PATHS.map(([path, date]) => ({ loc: `${SITE_URL}${path}`, lastmod: safeDate(date) }));
+  // Trang chủ đề từ vựng tiếng Anh (dữ liệu tĩnh trong app/lib/vocab.ts).
+  const vocab = publishableVocabTopics().map((t) => ({
+    loc: `${SITE_URL}/tu-vung-tieng-anh/${t.slug}`,
+    lastmod: safeDate('2026-08-18'),
+  }));
+  return [...base, ...vocab];
 }
 
 export async function courseEntries(): Promise<SitemapEntry[]> {

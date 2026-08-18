@@ -57,7 +57,7 @@ const CHILDREN_KEY = 'bhh_local_children';
 const HISTORY_KEY = 'bhh_local_history';
 
 // ── Lớp học (quản lý nội dung theo lớp) ──
-export const GRADES = ['1', '2', '3']; // các lớp đang có nội dung xuất bản
+export const GRADES = ['1', '2', '3', '4', '5']; // các lớp có thể có nội dung; tab tự ẩn lớp chưa có khóa
 export function gradeLabel(g?: string | null): string {
   return g ? `Lớp ${g}` : 'Chưa chọn lớp';
 }

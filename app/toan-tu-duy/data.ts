@@ -14,6 +14,7 @@ export type TuDuyQuestion = {
   countdown?: string[];
   explanation?: string;
   explanation_speech?: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
 };
 
 export type TuDuyGrade = {

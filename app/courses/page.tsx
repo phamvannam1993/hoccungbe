@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import CourseLibraryPage from '../components/edu/CourseLibraryPage';
 import type { Metadata } from 'next';
 
@@ -109,6 +110,7 @@ export default async function Page() {
           ))}
         </ul>
       )}
+
       <CourseLibraryPage />
     </>
   );

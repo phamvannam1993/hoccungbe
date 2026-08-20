@@ -12,6 +12,8 @@ export const metadata: Metadata = {
     'bài học trực quan cho bé',
     'bé hay học',
   ],
+  // Trang placeholder (render LessonDetailPage rỗng) — noindex để không lọt index trang hỏng.
+  robots: { index: false, follow: false },
   alternates: {
     canonical: '/lesson',
   },

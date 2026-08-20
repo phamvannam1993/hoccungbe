@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
       { source: '/sitemap.xml', destination: '/sitemaps/index.xml' },
       { source: '/:lessonSlug/:exerciseFile.html', destination: '/:lessonSlug/:exerciseFile' },
       { source: '/tro-choi', destination: '/games' },
+      // Hub theo lớp: URL đẹp /lop-1 … /lop-5 → route động /lop/[grade].
+      { source: '/lop-:grade(\\d)', destination: '/lop/:grade' },
+      // Hub đề thi theo lớp: /de-thi-lop-1 … /de-thi-lop-5 → /de-thi/lop/[grade].
+      { source: '/de-thi-lop-:grade(\\d)', destination: '/de-thi/lop/:grade' },
+      // Toán tư duy theo lớp: /toan-tu-duy-lop-1 … /toan-tu-duy-lop-5 → /toan-tu-duy/lop/[grade].
+      { source: '/toan-tu-duy-lop-:grade(\\d)', destination: '/toan-tu-duy/lop/:grade' },
       { source: '/khoa-hoc', destination: '/courses' },
       { source: '/khoa-hoc/:slug', destination: '/courses/:slug' },
       { source: '/dang-ky', destination: '/register' },

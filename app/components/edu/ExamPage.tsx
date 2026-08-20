@@ -706,12 +706,12 @@ export default function ExamPage({ slug }: { slug: string }) {
             style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}
           >
             <div className="text-6xl mb-4 kid-bounce">📋</div>
-            <h1
+            <h2
               className="text-2xl font-black kid-display mb-4"
               style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
             >
               Không tìm thấy đề thi
-            </h1>
+            </h2>
             <Link
               href="/de-thi"
               className="kid-btn-3d inline-flex items-center"
@@ -749,12 +749,12 @@ export default function ExamPage({ slug }: { slug: string }) {
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
-              <h1
+              <h2
                 className="text-xl sm:text-2xl font-black kid-display leading-snug"
                 style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
               >
                 📝 {exam.title}
-              </h1>
+              </h2>
               {exam.description && <p className="text-xs sm:text-sm text-purple-700/80 mt-1 font-medium">{exam.description}</p>}
             </div>
             {timeLeft !== null && (

@@ -10,6 +10,10 @@ const quickLinks = [
   { label: 'Khóa học cho bé', href: '/khoa-hoc' },
   { label: 'Kho trò chơi giáo dục', href: '/tro-choi' },
   { label: 'Bài tập theo chủ đề', href: '/bai-tap' },
+  { label: 'Phiếu bài tập PDF', href: '/phieu-bai-tap' },
+  { label: 'Đề thi có chấm điểm', href: '/de-thi' },
+  { label: 'Toán tư duy', href: '/toan-tu-duy' },
+  { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Tiến độ học tập', href: '/tien-do' },
 ];
 
@@ -22,6 +26,7 @@ const parentLinks = [
 ];
 
 const legalLinks = [
+  { label: 'Sơ đồ trang', href: '/so-do-trang' },
   { label: 'Chính sách bảo mật', href: '/chinh-sach-bao-mat' },
   { label: 'Điều khoản sử dụng', href: '/dieu-khoan' },
 ];
@@ -141,7 +146,7 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-white/20 pt-6">
           <div className="flex flex-col gap-3 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2026 Bé Hay Học. Nền tảng học tập và trò chơi giáo dục cho bé.</p>
+            <p>© {new Date().getFullYear()} Bé Hay Học. Nền tảng học tập và trò chơi giáo dục cho bé.</p>
             <div className="flex flex-wrap gap-4">
               {legalLinks.map((item) => (
                 <Link key={item.href} href={item.href} className="transition hover:text-white">

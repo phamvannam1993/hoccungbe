@@ -29,7 +29,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = lesson.title;
   const description = lesson.description
     || `Bài học "${lesson.title}" với các bài tập và trò chơi giáo dục tương tác dành cho bé tại Bé Hay Học.`;
-  const url = lesson.slug ? `${SITE}/${lesson.slug}` : `${SITE}/lessons/${id}`;
+  // Canonical trỏ URL bài học THẬT /{courseSlug}/{lessonSlug}; URL 1 cấp /{slug} bị 301
+  // (app/[courseSlug] redirect) nên KHÔNG dùng làm canonical.
+  const url =
+    lesson.slug && lesson.course?.slug
+      ? `${SITE}/${lesson.course.slug}/${lesson.slug}`
+      : `${SITE}/lessons/${id}`;
   const image = lesson.thumbnailUrl || `${SITE}/og-home.jpg`;
 
   return {

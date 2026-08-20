@@ -24,21 +24,23 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
 
   // ── SITEMAP INDEX: tách lessons theo TỪNG KHÓA ──
   if (name === 'index') {
-    const now = new Date();
+    // KHÔNG gắn lastmod cho sitemap index: trước đây dùng new Date() mỗi request →
+    // "lastmod churn" khiến Google mất tin tưởng. lastmod ở sitemap index là tùy chọn,
+    // bỏ đi để Google tự crawl theo lastmod THẬT trong từng sitemap con.
     const courses = await courseList();
     const items = [
-      { loc: `${SITE_URL}/sitemaps/static.xml`, lastmod: now },
-      { loc: `${SITE_URL}/sitemaps/courses.xml`, lastmod: now },
-      ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/lessons-${c.slug}.xml`, lastmod: now })),
+      { loc: `${SITE_URL}/sitemaps/static.xml` },
+      { loc: `${SITE_URL}/sitemaps/courses.xml` },
+      ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/lessons-${c.slug}.xml` })),
       // Phiếu bài tập chỉ cho khóa Toán (mọi bài đều có đủ 3 mức + bản cả bài).
       ...courses
         .filter((c) => c.courseType === 'math')
-        .map((c) => ({ loc: `${SITE_URL}/sitemaps/worksheets-${c.slug}.xml`, lastmod: now })),
+        .map((c) => ({ loc: `${SITE_URL}/sitemaps/worksheets-${c.slug}.xml` })),
       // Bài tập theo chủ đề — mọi khóa đều có (chủ đề lấy từ topicId của bài học).
-      ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/practice-${c.slug}.xml`, lastmod: now })),
-      { loc: `${SITE_URL}/sitemaps/exams.xml`, lastmod: now },
-      { loc: `${SITE_URL}/sitemaps/games.xml`, lastmod: now },
-      { loc: `${SITE_URL}/sitemaps/articles.xml`, lastmod: now },
+      ...courses.map((c) => ({ loc: `${SITE_URL}/sitemaps/practice-${c.slug}.xml` })),
+      { loc: `${SITE_URL}/sitemaps/exams.xml` },
+      { loc: `${SITE_URL}/sitemaps/games.xml` },
+      { loc: `${SITE_URL}/sitemaps/articles.xml` },
     ];
     return xmlResponse(sitemapIndexXml(items));
   }

@@ -71,6 +71,22 @@ const STATIC_PATHS: [string, string][] = [
   ['/cong-cu/chuyen-van-ban-thanh-giong-noi', '2026-06-24'],
   ['/cong-cu/chuyen-giong-noi-thanh-van-ban', '2026-06-24'],
   ['/bai-tap', '2026-08-10'],
+  ['/phieu-bai-tap', '2026-08-19'],
+  ['/lop-1', '2026-08-19'],
+  ['/lop-2', '2026-08-19'],
+  ['/lop-3', '2026-08-19'],
+  ['/lop-4', '2026-08-19'],
+  ['/lop-5', '2026-08-19'],
+  ['/bang-cuu-chuong', '2026-08-19'],
+  ['/bang-chu-cai', '2026-08-19'],
+  ['/luyen-viet-chu', '2026-08-19'],
+  ['/toan-tu-duy', '2026-08-20'],
+  ['/toan-tu-duy-lop-1', '2026-08-20'],
+  ['/toan-tu-duy-lop-2', '2026-08-20'],
+  ['/toan-tu-duy-lop-3', '2026-08-20'],
+  ['/toan-tu-duy-lop-4', '2026-08-20'],
+  ['/toan-tu-duy-lop-5', '2026-08-20'],
+  ['/so-do-trang', '2026-08-20'],
   ['/de-thi', '2026-06-24'],
   // /tai-lieu tạm bỏ khỏi sitemap (đang noindex tới khi có đủ tài liệu thực tế).
   ['/bai-viet', '2026-06-24'],
@@ -109,27 +125,25 @@ export async function courseList(): Promise<{ id: number; slug: string; courseTy
     .map((c) => ({ id: c.id as number, slug: c.slug as string, courseType: c.courseType }));
 }
 
-// Các mức phiếu bài tập tương ứng URL /phieu-bai-tap/{lessonSlug}/{muc}.
-// Mọi bài của khóa Toán đều có đủ 3 mức + bản 'ca-bai' → an toàn đưa vào sitemap.
-const WORKSHEET_MUCS = ['de', 'trung-binh', 'nang-cao', 'ca-bai'] as const;
-
-// Phiếu bài tập (in/PDF) của MỘT khóa: mỗi bài học sinh ra 4 URL phiếu.
+// Phiếu bài tập (in/PDF) của MỘT khóa. Chỉ submit bản 'ca-bai' (phiếu đầy đủ): 3 mức
+// con (de/trung-binh/nang-cao) đã canonical về 'ca-bai' nên KHÔNG đưa vào sitemap để
+// tránh loãng index (~1000 URL gần trùng). Thêm hub phiếu theo khoá /phieu-bai-tap/lop/{slug}.
 // Chỉ lấy bài ĐÃ có quiz (quizCount > 0) để tránh URL phiếu 404 (trang phiếu notFound
 // khi bài chưa có câu hỏi). API cũ chưa trả quizCount → giữ nguyên (không loại) để không mất URL.
 export async function worksheetEntriesByCourse(courseId: number, courseSlug: string): Promise<SitemapEntry[]> {
   type LessonItem = { slug?: string; updatedAt?: string; createdAt?: string; quizCount?: number };
   const res = await fetchJson<LessonItem[] | { data: LessonItem[] }>(`${apiUrl}/api/lessons?courseId=${courseId}&slim=1`);
   const now = new Date();
-  const entries: SitemapEntry[] = [];
+  const lessonEntries: SitemapEntry[] = [];
   for (const l of unwrapData<LessonItem>(res)) {
     if (!l.slug) continue;
     if (l.quizCount != null && l.quizCount <= 0) continue; // bài chưa có quiz → bỏ
     const lastmod = safeDate(l.updatedAt || l.createdAt || now);
-    for (const muc of WORKSHEET_MUCS) {
-      entries.push({ loc: `${SITE_URL}/phieu-bai-tap/${l.slug}/${muc}`, lastmod });
-    }
+    lessonEntries.push({ loc: `${SITE_URL}/phieu-bai-tap/${l.slug}/ca-bai`, lastmod });
   }
-  return entries;
+  // Hub lastmod = phiếu mới nhất (ổn định, tự cập nhật) — KHÔNG dùng new Date() mỗi request (churn).
+  const hubMod = lessonEntries.reduce((m, e) => (e.lastmod > m ? e.lastmod : m), safeDate('2026-08-19'));
+  return [{ loc: `${SITE_URL}/phieu-bai-tap/lop/${courseSlug}`, lastmod: hubMod }, ...lessonEntries];
 }
 
 // Bài học của MỘT khóa (slim=1 → chỉ slug + ngày, tránh tải ~13MB kèm quizzes/content).
@@ -144,18 +158,19 @@ export async function lessonEntriesByCourse(courseId: number, courseSlug: string
 }
 
 export async function articleEntries(): Promise<SitemapEntry[]> {
-  type ArticleItem = { slug?: string; updatedAt?: string; publishedAt?: string; createdAt?: string };
+  type ArticleItem = { slug?: string; updatedAt?: string; publishedAt?: string; createdAt?: string; isPublished?: boolean; status?: string };
   const res = await fetchJson<ArticleItem[] | { data: ArticleItem[] }>(`${apiUrl}/api/articles?limit=500`);
   const now = new Date();
   return unwrapData<ArticleItem>(res)
-    .filter((a) => !!a.slug)
+    // Chỉ bài ĐÃ xuất bản (loại nháp) — tránh submit URL 404/mỏng. Nhất quán courseEntries.
+    .filter((a) => !!a.slug && a.isPublished !== false && a.status !== 'draft')
     .map((a) => ({ loc: `${SITE_URL}/bai-viet/${a.slug}`, lastmod: safeDate(a.updatedAt || a.publishedAt || a.createdAt || now) }));
 }
 
 // Đề thi theo URL lồng: trang tổng hợp cụm + từng đề (chỉ đề thuộc bộ URL lồng
 // mới có slug parse được → tự bỏ qua đề cũ). Trang kết quả/làm lại không có URL riêng.
 export async function examEntries(): Promise<SitemapEntry[]> {
-  type ExamItem = { slug?: string; updatedAt?: string; createdAt?: string };
+  type ExamItem = { slug?: string; grade?: number; updatedAt?: string; createdAt?: string };
   let res: ExamItem[] | { data: ExamItem[] } | null = null;
   try {
     const r = await fetch(`${apiUrl}/api/exams`, { cache: 'no-store' });
@@ -166,7 +181,9 @@ export async function examEntries(): Promise<SitemapEntry[]> {
   const now = new Date();
   const entries: SitemapEntry[] = [];
   const seenAgg = new Set<string>();
+  const grades = new Set<number>();
   for (const e of unwrapData<ExamItem>(res)) {
+    if (typeof e.grade === 'number' && e.grade >= 1 && e.grade <= 5) grades.add(e.grade);
     if (!e.slug) continue;
     const p = parseExamDbSlug(e.slug);
     if (!p) continue;
@@ -180,6 +197,10 @@ export async function examEntries(): Promise<SitemapEntry[]> {
     // Trang đề chi tiết
     entries.push({ loc: `${SITE_URL}${aggPath}/de-${p.n}`, lastmod });
   }
+  // Hub đề thi theo lớp /de-thi-lop-{g} — chỉ lớp THỰC SỰ có đề (trang notFound nếu rỗng).
+  for (const g of [...grades].sort()) {
+    entries.push({ loc: `${SITE_URL}/de-thi-lop-${g}`, lastmod: safeDate('2026-08-19') });
+  }
   return entries;
 }
 
@@ -189,13 +210,13 @@ export async function examEntries(): Promise<SitemapEntry[]> {
 export async function practiceEntriesByCourse(courseSlug: string): Promise<SitemapEntry[]> {
   const data = await getCourseTopics(courseSlug);
   if (!data || data.topics.length === 0) return [];
-  const entries: SitemapEntry[] = [
-    { loc: `${SITE_URL}/bai-tap/${courseSlug}`, lastmod: new Date() },
-  ];
-  for (const topic of data.topics) {
-    entries.push({ loc: `${SITE_URL}/bai-tap/${courseSlug}/${topic.slug}`, lastmod: topicLastmod(topic) });
-  }
-  return entries;
+  const topicEntries: SitemapEntry[] = data.topics.map((topic) => ({
+    loc: `${SITE_URL}/bai-tap/${courseSlug}/${topic.slug}`,
+    lastmod: topicLastmod(topic),
+  }));
+  // Hub lastmod = chủ đề mới nhất (ổn định) — KHÔNG dùng new Date() mỗi request (churn).
+  const hubMod = topicEntries.reduce((m, e) => (e.lastmod > m ? e.lastmod : m), safeDate('2026-08-19'));
+  return [{ loc: `${SITE_URL}/bai-tap/${courseSlug}`, lastmod: hubMod }, ...topicEntries];
 }
 
 export function gameEntries(): SitemapEntry[] {

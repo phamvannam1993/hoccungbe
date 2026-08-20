@@ -105,6 +105,7 @@ export default async function Page() {
       <section className="mt-12 rounded-2xl border-2 border-slate-200 bg-white p-5">
         <h2 className="text-lg font-bold text-slate-900">⭐ Có thể bé thích</h2>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+          <li><Link href="/phieu-bai-tap" className="text-sky-700 hover:underline">Phiếu bài tập in / tải PDF</Link></li>
           <li><Link href="/khoa-hoc" className="text-sky-700 hover:underline">Toàn bộ khoá học</Link></li>
           <li><Link href="/de-thi" className="text-sky-700 hover:underline">Đề thi &amp; kiểm tra có chấm điểm</Link></li>
           <li><Link href="/tro-choi" className="text-sky-700 hover:underline">Trò chơi học tập</Link></li>

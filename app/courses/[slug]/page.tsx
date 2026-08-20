@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CourseDetailPage from '../../components/edu/CourseDetailPage';
+import CourseSeoContent from './CourseSeoContent';
 import type { ApiCourse, ApiLesson, ApiVolume, ApiTopic } from '../../lib/api';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -119,6 +120,7 @@ export default async function Page({ params }: Props) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       )}
       <CourseDetailPage slug={slug} initial={{ course, lessons, volumes, topics }} />
+      <CourseSeoContent course={course} topics={topics} lessons={lessons} />
     </>
   );
 }

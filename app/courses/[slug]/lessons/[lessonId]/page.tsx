@@ -26,6 +26,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${lesson.title} | ${course.title}`,
     description: lesson.description,
+    // Hệ bài học cũ (courseLessonsData tĩnh), trùng với /{courseSlug}/{lessonSlug} → noindex
+    // để không cạnh tranh index với trang bài học thật.
+    robots: { index: false, follow: true },
   };
 }
 

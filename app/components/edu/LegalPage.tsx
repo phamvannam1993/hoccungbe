@@ -38,7 +38,7 @@ export default function LegalPage({
   related,
 }: LegalPageProps) {
   return (
-    <main className="bg-slate-50 text-slate-900">
+    <main className="kid-bg text-slate-900">
       {/* Hero — cùng phong cách các trang khác (canh giữa, accent sky) */}
       <section className="mx-auto max-w-5xl px-6 pt-10 lg:px-8 lg:pt-14">
         <nav className="text-sm text-slate-500">

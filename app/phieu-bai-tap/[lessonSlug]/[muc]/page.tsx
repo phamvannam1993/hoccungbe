@@ -86,7 +86,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lessonSlu
   }
   const courseTitle = lesson.course?.title ?? 'Bé Hay Học';
   const level = LEVEL_LABEL[muc] ?? cfg.desc;
-  const canonical = `/phieu-bai-tap/${lessonSlug}/${muc}`;
+  // 'ca-bai' gộp toàn bộ 3 mức → là bản đại diện (superset). 3 mức con (de/trung-binh/
+  // nang-cao) trỏ canonical về 'ca-bai' để dồn tín hiệu về một phiếu đầy đủ, tránh
+  // ~1000 URL phiếu gần trùng làm loãng index. Sitemap cũng chỉ submit bản 'ca-bai'.
+  const canonical = `/phieu-bai-tap/${lessonSlug}/ca-bai`;
   // VD: "Phiếu bài tập Bài 3: Nhiều hơn, ít hơn, bằng nhau – Cơ bản (có đáp án) | Toán lớp 1"
   // Kèm mức độ để 3 phiếu (de/trung-binh/nang-cao) không trùng title — chuẩn SEO.
   const title = `Phiếu bài tập ${lesson.title} – ${level} (có đáp án) | ${courseTitle}`;

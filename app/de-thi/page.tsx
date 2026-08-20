@@ -52,7 +52,7 @@ export default async function ExamListPage() {
           <div className="mb-2 flex items-center gap-3">
             <span className="text-4xl">📝</span>
             <h1 className="text-2xl font-black kid-display sm:text-3xl" style={{ background: 'linear-gradient(135deg, #FF6B9D, #FFD93D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Đề thi và bài kiểm tra Toán tiểu học
+              Đề thi và bài kiểm tra {subjects.length === 1 ? `${subjects[0]} ` : ''}tiểu học
             </h1>
           </div>
           <p className="text-sm font-medium leading-7 text-purple-700/90 sm:text-base">
@@ -75,6 +75,20 @@ export default async function ExamListPage() {
             </div>
           </div>
         </div>
+
+        {/* Đề thi theo lớp: link tới hub con /de-thi-lop-{grade} (SEO + điều hướng) */}
+        {grades.length > 0 && (
+          <div className="mb-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-slate-100 sm:p-6">
+            <h2 className="mb-3 text-lg font-black text-slate-900">Đề thi theo lớp</h2>
+            <div className="flex flex-wrap gap-2">
+              {grades.map((g) => (
+                <Link key={g} href={`/de-thi-lop-${g}`} className="rounded-full bg-pink-50 px-4 py-2 text-sm font-bold text-pink-700 hover:bg-pink-100">
+                  Đề thi lớp {g}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Hướng dẫn sử dụng (SSR) */}
         <div className="mb-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-slate-100 sm:p-6">

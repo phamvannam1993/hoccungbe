@@ -80,6 +80,19 @@ const STATS = [
   { value: '100%', label: 'Miễn phí dùng thử' },
 ];
 
+// Dải "Khám phá": link tới MỌI hub chính từ trang chủ (trang mạnh nhất) → dồn internal
+// link về các trang money-keyword. Trước đây trang chủ chỉ link /khoa-hoc + /tro-choi.
+const HUBS = [
+  { href: '/khoa-hoc', emoji: '📚', label: 'Khóa học', c: '#FF6B9D' },
+  { href: '/bai-tap', emoji: '✏️', label: 'Bài tập theo chủ đề', c: '#FF9F45' },
+  { href: '/phieu-bai-tap', emoji: '📄', label: 'Phiếu bài tập PDF', c: '#4ECDC4' },
+  { href: '/de-thi', emoji: '📝', label: 'Đề thi có chấm điểm', c: '#A06CD5' },
+  { href: '/tro-choi', emoji: '🎮', label: 'Trò chơi học tập', c: '#38BDF8' },
+  { href: '/tu-vung-tieng-anh', emoji: '🔤', label: 'Từ vựng tiếng Anh', c: '#6BCB77' },
+  { href: '/cong-cu', emoji: '🛠️', label: 'Công cụ miễn phí', c: '#8B5CF6' },
+  { href: '/bai-viet', emoji: '📖', label: 'Góc phụ huynh', c: '#F59E0B' },
+];
+
 export default async function HomePage() {
   const [courses, articles, apiGames] = await Promise.all([fetchCourses(), fetchArticles(), fetchHomepageGames()]);
   const homepageGames = apiGames.length > 0 ? apiGames : FALLBACK_GAMES;
@@ -165,6 +178,49 @@ export default async function HomePage() {
                 })}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── KHÁM PHÁ: link tới mọi hub chính (internal linking từ trang chủ) ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-2 pb-4" aria-label="Khám phá Bé Hay Học">
+        <div className="bg-white rounded-3xl border-4 border-sky-200 p-4 sm:p-6" style={{ boxShadow: '0 8px 30px rgba(56,189,248,0.18)' }}>
+          <h2 className="text-lg sm:text-2xl font-black kid-display mb-4 text-slate-900">Khám phá Bé Hay Học</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {HUBS.map((h) => (
+              <Link
+                key={h.href}
+                href={h.href}
+                className="flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-3 kid-card-hover"
+                style={{ borderColor: h.c, boxShadow: `0 3px 0 ${h.c}aa` }}
+              >
+                <span className="text-2xl leading-none" aria-hidden>{h.emoji}</span>
+                <span className="font-black text-xs sm:text-sm text-slate-800 kid-display leading-tight">{h.label}</span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Học theo lớp: link tới hub /lop-1…5 (gom cả 3 môn của từng lớp) */}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-black text-slate-700 kid-display">Học theo lớp:</span>
+            {['1', '2', '3', '4', '5'].map((gr) => (
+              <Link
+                key={gr}
+                href={`/lop-${gr}`}
+                className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-sky-100 hover:text-sky-700 kid-display"
+              >
+                Lớp {gr}
+              </Link>
+            ))}
+          </div>
+
+          {/* Chuyên đề evergreen (keyword traffic cao) */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-black text-slate-700 kid-display">Chuyên đề:</span>
+            <Link href="/toan-tu-duy" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-violet-100 hover:text-violet-700 kid-display">Toán tư duy</Link>
+            <Link href="/bang-cuu-chuong" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-amber-100 hover:text-amber-700 kid-display">Bảng cửu chương</Link>
+            <Link href="/bang-chu-cai" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-pink-100 hover:text-pink-700 kid-display">Bảng chữ cái</Link>
+            <Link href="/luyen-viet-chu" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-teal-100 hover:text-teal-700 kid-display">Luyện viết chữ</Link>
           </div>
         </div>
       </section>

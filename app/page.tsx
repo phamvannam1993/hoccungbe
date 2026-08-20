@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export default function Page() {
-  // Single WebSite schema with correct SearchAction URL (C5, C6)
+  // WebSite schema + SearchAction trỏ /tim-kiem?q= (trang tìm kiếm nội bộ THẬT, có xử lý q).
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -66,7 +66,7 @@ export default function Page() {
     description: 'Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     potentialAction: {
       '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/khoa-hoc?q={search_term_string}` },
+      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/tim-kiem?q={search_term_string}` },
       'query-input': 'required name=search_term_string',
     },
   };

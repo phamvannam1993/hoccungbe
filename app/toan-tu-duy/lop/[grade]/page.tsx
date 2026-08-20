@@ -149,6 +149,7 @@ export default async function Page({ params }: { params: Promise<{ grade: string
         <KidCard emoji="📝" title="Câu hỏi luyện tập" tone="blue" badge={hasQuestions ? questions.length : undefined}>
           {hasQuestions ? (
             <TuDuyQuiz
+              grade={g}
               questions={questions.map((qz) => ({ id: qz.id, question: qz.question, question_speech: qz.question_speech, options: qz.options, correct_index: qz.correct_index, explanation: qz.explanation, explanation_speech: qz.explanation_speech, difficulty: qz.difficulty }))}
             />
           ) : (

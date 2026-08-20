@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { childHistory, subjectInfo, getCurrentChildId, isGuest, type HistoryItem } from '../lib/childData';
+import { childHistory, subjectInfo, getCurrentChildId, isGuest, lessonHref, type HistoryItem } from '../lib/childData';
 import KidIcon, { subjectIcon } from '../components/edu/KidIcon';
 import { ArrowLeft, RefreshCw, RotateCcw, Eye, X } from 'lucide-react';
 
@@ -150,7 +150,7 @@ export default function OnTapCauSaiClient() {
             ) : (
               <div className="mt-4 space-y-3">
                 {list.map((w) => {
-                  const href = w.lessonSlug ? `/${w.lessonSlug}` : `/lessons/${w.lessonId}`;
+                  const href = lessonHref(w);
                   const info = subjectInfo(w.courseType);
                   return (
                     <div key={w.lessonId} className="flex flex-col gap-3 rounded-[20px] bg-white p-3.5 shadow-sm ring-1 ring-slate-100 sm:flex-row sm:items-center sm:p-4">

@@ -34,14 +34,23 @@ export type RecordInput = {
 export type ExerciseStatus = { exerciseNumber: number; score: number; correctCount: number; totalQuestions: number; stars: number; completed: boolean };
 export type Stats = { childId: number; totalAttempts: number; avgScore: number; accuracy: number; totalTimeSec: number; totalQuestions: number; totalCorrect: number; lessonsCompleted: number };
 export type Mastery = { skillId: number; subject: string; masteryPercent: number; level: number; totalCount: number; correctCount: number; skill: { name: string; subject: string; icon?: string } };
-export type HistoryItem = { id: number; lessonId: number; lessonTitle?: string; lessonSlug?: string; courseType?: string | null; score: number; correctCount: number; totalQuestions: number; createdAt: string };
+export type HistoryItem = { id: number; lessonId: number; lessonTitle?: string; lessonSlug?: string; courseSlug?: string | null; courseType?: string | null; score: number; correctCount: number; totalQuestions: number; createdAt: string };
 export type Streak = { currentStreak: number; longestStreak: number; totalActiveDays: number };
+
+// URL bài học CHUẨN: /{courseSlug}/{lessonSlug} (đi thẳng, không qua redirect).
+// Thiếu courseSlug (dữ liệu cũ) → /{lessonSlug} (nhờ redirect 308). Không có slug → /lessons/{id}.
+export function lessonHref(x: { courseSlug?: string | null; lessonSlug?: string | null; lessonId?: number }): string {
+  if (x.courseSlug && x.lessonSlug) return `/${x.courseSlug}/${x.lessonSlug}`;
+  if (x.lessonSlug) return `/${x.lessonSlug}`;
+  return `/lessons/${x.lessonId ?? ''}`;
+}
 
 type LocalAttempt = {
   id: number;
   childId: number;
   lessonId: number;
   lessonSlug?: string;
+  courseSlug?: string;
   lessonTitle?: string;
   courseType: string;
   exerciseNumber: number;
@@ -207,6 +216,7 @@ export async function recordAttempt(dto: RecordInput) {
     childId: dto.childId,
     lessonId: dto.lessonId,
     lessonSlug: dto.lessonSlug,
+    courseSlug: dto.courseSlug,
     lessonTitle: dto.lessonTitle,
     courseType: inferSubject(dto.courseSlug, dto.courseTitle),
     exerciseNumber: dto.exerciseNumber,
@@ -350,7 +360,7 @@ export async function childHistory(childId: number, limit = 20): Promise<History
   return localAttemptsOf(childId)
     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
     .slice(0, limit)
-    .map((a) => ({ id: a.id, lessonId: a.lessonId, lessonTitle: a.lessonTitle, lessonSlug: a.lessonSlug, courseType: a.courseType, score: a.score, correctCount: a.correctCount, totalQuestions: a.totalQuestions, createdAt: a.createdAt }));
+    .map((a) => ({ id: a.id, lessonId: a.lessonId, lessonTitle: a.lessonTitle, lessonSlug: a.lessonSlug, courseSlug: a.courseSlug, courseType: a.courseType, score: a.score, correctCount: a.correctCount, totalQuestions: a.totalQuestions, createdAt: a.createdAt }));
 }
 
 // ── Kế hoạch hôm nay (lộ trình cá nhân hóa — công thức 40/30/20/10) ──
@@ -361,6 +371,7 @@ export type PlanTask = {
   lessonId: number;
   lessonTitle?: string | null;
   lessonSlug?: string | null;
+  courseSlug?: string | null;
   courseType?: string | null;
   reason?: string;
   wrongCount?: number;
@@ -391,13 +402,13 @@ export async function dailyPlan(childId: number): Promise<PlanTask[]> {
   // GUEST — dựng từ lịch sử local (gộp theo bài: điểm cao nhất + lần gần nhất)
   const attempts = localAttemptsOf(childId);
   if (!attempts.length) return [];
-  type Agg = { lessonId: number; title?: string; slug?: string; ct?: string; best: number; last: string; wrong: number };
+  type Agg = { lessonId: number; title?: string; slug?: string; cSlug?: string; ct?: string; best: number; last: string; wrong: number };
   const byLesson = new Map<number, Agg>();
   for (const a of attempts) {
     const wrong = Math.max(0, (a.totalQuestions || 0) - (a.correctCount || 0));
     const cur = byLesson.get(a.lessonId);
     if (!cur) {
-      byLesson.set(a.lessonId, { lessonId: a.lessonId, title: a.lessonTitle, slug: a.lessonSlug, ct: a.courseType, best: a.score, last: a.createdAt, wrong });
+      byLesson.set(a.lessonId, { lessonId: a.lessonId, title: a.lessonTitle, slug: a.lessonSlug, cSlug: a.courseSlug, ct: a.courseType, best: a.score, last: a.createdAt, wrong });
     } else {
       cur.best = Math.max(cur.best, a.score);
       if (a.createdAt > cur.last) { cur.last = a.createdAt; cur.wrong = wrong; }
@@ -410,17 +421,17 @@ export async function dailyPlan(childId: number): Promise<PlanTask[]> {
 
   const wrongLesson = list.filter((l) => l.best < 100 && l.wrong > 0).sort(newest)[0];
   if (wrongLesson) {
-    plan.push({ kind: 'review_wrong', lessonId: wrongLesson.lessonId, lessonTitle: wrongLesson.title, lessonSlug: wrongLesson.slug, courseType: wrongLesson.ct, wrongCount: wrongLesson.wrong, reason: `Ôn ${wrongLesson.wrong} câu con từng làm sai` });
+    plan.push({ kind: 'review_wrong', lessonId: wrongLesson.lessonId, lessonTitle: wrongLesson.title, lessonSlug: wrongLesson.slug, courseSlug: wrongLesson.cSlug, courseType: wrongLesson.ct, wrongCount: wrongLesson.wrong, reason: `Ôn ${wrongLesson.wrong} câu con từng làm sai` });
     used.add(wrongLesson.lessonId);
   }
   const cur = list.filter((l) => !used.has(l.lessonId) && l.best < 70).sort(newest)[0];
   if (cur) {
-    plan.push({ kind: 'current', lessonId: cur.lessonId, lessonTitle: cur.title, lessonSlug: cur.slug, courseType: cur.ct, reason: 'Học tiếp bài đang còn dang dở' });
+    plan.push({ kind: 'current', lessonId: cur.lessonId, lessonTitle: cur.title, lessonSlug: cur.slug, courseSlug: cur.cSlug, courseType: cur.ct, reason: 'Học tiếp bài đang còn dang dở' });
     used.add(cur.lessonId);
   }
   const old = list.filter((l) => !used.has(l.lessonId) && l.best >= 70).sort((a, b) => (a.last > b.last ? 1 : -1))[0];
   if (old) {
-    plan.push({ kind: 'review_old', lessonId: old.lessonId, lessonTitle: old.title, lessonSlug: old.slug, courseType: old.ct, reason: 'Ôn lại kiến thức đã học cho nhớ lâu' });
+    plan.push({ kind: 'review_old', lessonId: old.lessonId, lessonTitle: old.title, lessonSlug: old.slug, courseSlug: old.cSlug, courseType: old.ct, reason: 'Ôn lại kiến thức đã học cho nhớ lâu' });
     used.add(old.lessonId);
   }
   // 10% Thử thách — với khách, gắn một trò chơi vui (slug 'tro-choi').

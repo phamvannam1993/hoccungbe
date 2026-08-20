@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { listChildren, childStats, childStreak, childHistory, childMastery, dailyPlan, getPlacementLocal, getCurrentChildId, gradeLabel, type Child, type Stats, type Streak, type HistoryItem, type Mastery, type PlanTask, type PlanKind, type PlacementResult } from '../lib/childData';
+import { listChildren, childStats, childStreak, childHistory, childMastery, dailyPlan, getPlacementLocal, getCurrentChildId, gradeLabel, lessonHref, type Child, type Stats, type Streak, type HistoryItem, type Mastery, type PlanTask, type PlanKind, type PlacementResult } from '../lib/childData';
 import KidIcon, { ChildAvatar } from '../components/edu/KidIcon';
 
 const WEEKDAYS = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
@@ -31,7 +31,7 @@ const FORMULA = [
 ];
 
 function taskHref(t: PlanTask): string {
-  const base = t.lessonSlug ? `/${t.lessonSlug}` : `/lessons/${t.lessonId}`;
+  const base = lessonHref(t);
   return t.kind === 'review_wrong' ? `${base}?review=wrong` : base;
 }
 function taskTitle(t: PlanTask): string {

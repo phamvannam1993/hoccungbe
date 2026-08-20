@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch } from '../../lib/api';
-import { listChildren, childStats, childStreak, childMastery, childHistory, isGuest, setCurrentChildId, getCurrentChildId, type Child, type Stats, type Streak, type Mastery, type HistoryItem } from '../../lib/childData';
+import { listChildren, childStats, childStreak, childMastery, childHistory, isGuest, setCurrentChildId, getCurrentChildId, lessonHref, type Child, type Stats, type Streak, type Mastery, type HistoryItem } from '../../lib/childData';
 import KidIcon, { subjectIcon, type IconName } from './KidIcon';
 
 type Rec = { id: number; lessonId: number; reason?: string; status: string; lessonSlug?: string | null; lessonTitle?: string | null };
@@ -334,7 +334,7 @@ export default function ProgressPage() {
                         <h3 className="flex items-center gap-2 text-base font-black text-amber-950">✨ Gợi ý học tiếp</h3>
                         <div className="mt-3 space-y-2">
                           {pendingRecs.slice(0, 3).map((r) => (
-                            <Link key={r.id} href={r.lessonSlug ? `/${r.lessonSlug}` : `/lessons/${r.lessonId}`} className="block rounded-2xl bg-white px-3 py-2.5 text-sm text-amber-900 ring-1 ring-amber-100 transition hover:ring-amber-300">
+                            <Link key={r.id} href={lessonHref(r)} className="block rounded-2xl bg-white px-3 py-2.5 text-sm text-amber-900 ring-1 ring-amber-100 transition hover:ring-amber-300">
                               <span className="block truncate font-semibold">{r.lessonTitle ?? r.reason ?? 'Bài luyện đề xuất'}</span>
                               <span className="mt-0.5 block text-xs font-bold text-amber-600">→ Học ngay</span>
                             </Link>

@@ -12,6 +12,7 @@ const quickLinks = [
   { label: 'Bài tập theo chủ đề', href: '/bai-tap' },
   { label: 'Phiếu bài tập PDF', href: '/phieu-bai-tap' },
   { label: 'Đề thi có chấm điểm', href: '/de-thi' },
+  { label: 'Học đọc tiếng Việt', href: '/hoc-doc-tieng-viet' },
   { label: 'Toán tư duy', href: '/toan-tu-duy' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },

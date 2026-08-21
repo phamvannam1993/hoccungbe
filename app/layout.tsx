@@ -1,8 +1,9 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Nunito, Baloo_2, Quicksand } from 'next/font/google';
 import SiteShell from './components/SiteShell';
+import PWARegister from './components/PWARegister';
 import { DEFAULT_LOGO, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from './lib/seo';
 
 const nunito = Nunito({
@@ -157,6 +158,10 @@ export const metadata: Metadata = {
   category: 'education',
 };
 
+export const viewport: Viewport = {
+  themeColor: '#6ec6c6',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -199,6 +204,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen text-slate-900 antialiased bg-[#6ec6c6] font-sans">
         <SiteShell>{children}</SiteShell>
+        <PWARegister />
 
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0SJ6BCCVGN"

@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getCourseTopics } from '../../lib/topicSeo';
 import { SITE_NAME, SITE_URL, canonical, truncateDescription } from '../../lib/seo';
+import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, TONES, type Tone } from '../../components/seo/kid';
+
+const TOPIC_CYCLE: Tone[] = ['blue', 'pink', 'orange', 'purple', 'green', 'sky', 'yellow'];
 
 // Pillar page bài tập của một khoá: "bài tập toán lớp 1" → liệt kê mọi chủ đề.
 // Đây là trang gom link cho toàn bộ cụm chủ đề bên dưới.
@@ -75,58 +78,62 @@ export default async function Page({ params }: Props) {
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 sm:py-10">
+    <KidShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
-        <ol className="flex flex-wrap items-center gap-1">
-          <li><Link href="/" className="hover:text-sky-700">Trang chủ</Link></li>
-          <li aria-hidden>›</li>
-          <li><Link href="/bai-tap" className="hover:text-sky-700">Bài tập</Link></li>
-          <li aria-hidden>›</li>
-          <li className="font-medium text-slate-700">{course.title}</li>
-        </ol>
-      </nav>
+      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bài tập', href: '/bai-tap' }, { label: course.title }]} />
 
-      <header className="mt-4">
-        <h1 className="text-2xl font-extrabold text-slate-900 sm:text-3xl">
-          Bài tập {course.title} theo chủ đề
-        </h1>
-        <p className="mt-3 text-slate-600">
-          {topics.length} chủ đề bám sát chương trình {course.title}, tổng hợp từ {totalLessons} bài học. Mỗi chủ đề có
-          bộ bài tập 3 mức độ (dễ – trung bình – nâng cao) kèm đáp án và lời giải, bé làm ngay trên web không cần in.
-        </p>
-      </header>
+      <KidHero
+        emoji="🧮"
+        eyebrow={`${topics.length} chủ đề · ${totalLessons} bài học`}
+        title={`Bài tập ${course.title} theo chủ đề`}
+        tone="blue"
+        description={
+          <>
+            {topics.length} chủ đề bám sát chương trình {course.title}, tổng hợp từ {totalLessons} bài học. Mỗi chủ đề có
+            bộ bài tập 3 mức độ (dễ – trung bình – nâng cao) kèm đáp án và lời giải, bé làm ngay trên web không cần in.
+          </>
+        }
+      />
 
-      <ol className="mt-8 grid gap-3 sm:grid-cols-2">
-        {topics.map((t, i) => (
-          <li key={t.id}>
-            <Link
-              href={`${path}/${t.slug}`}
-              className="flex h-full flex-col rounded-2xl border-2 border-slate-200 bg-white p-4 shadow-sm transition hover:border-sky-400 hover:shadow"
-            >
-              <span className="text-xs font-bold uppercase tracking-wide text-sky-600">Chủ đề {i + 1}</span>
-              <span className="mt-1 font-bold text-slate-900">Bài tập {t.label}</span>
-              <span className="mt-2 text-sm text-slate-500">{t.lessons.length} bài học · 3 mức độ · có đáp án</span>
-            </Link>
-          </li>
-        ))}
+      <ol className="mt-8 grid items-stretch gap-4 sm:grid-cols-2">
+        {topics.map((t, i) => {
+          const tone = TONES[TOPIC_CYCLE[i % TOPIC_CYCLE.length]];
+          return (
+            <li key={t.id} className="h-full">
+              <Link
+                href={`${path}/${t.slug}`}
+                className="group flex h-full min-h-[136px] flex-col rounded-3xl border-2 bg-white p-4 transition hover:-translate-y-0.5"
+                style={{ borderColor: tone.border, boxShadow: `0 5px 0 ${tone.border}` }}
+              >
+                <span className="inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-xs font-black kid-display" style={{ background: tone.tint, color: tone.c }}>
+                  Chủ đề {i + 1}
+                </span>
+                <span className="mt-2 font-black text-slate-900 kid-display">Bài tập {t.label}</span>
+                <span className="mt-auto flex items-center gap-1 pt-3 text-sm font-semibold" style={{ color: tone.c }}>
+                  {t.lessons.length} bài học · 3 mức độ · có đáp án
+                  <span className="ml-auto text-lg transition group-hover:translate-x-0.5" aria-hidden>→</span>
+                </span>
+              </Link>
+            </li>
+          );
+        })}
       </ol>
 
-      <section className="mt-12 rounded-2xl border-2 border-slate-200 bg-white p-5">
-        <h2 className="text-lg font-bold text-slate-900">⭐ Có thể bé thích</h2>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-          <li>
-            <Link href={`/khoa-hoc/${courseSlug}`} className="text-sky-700 hover:underline">
-              Bài học {course.title}
-            </Link>
-          </li>
-          <li><Link href="/bai-tap" className="text-sky-700 hover:underline">Bài tập các lớp khác</Link></li>
-          <li><Link href="/de-thi" className="text-sky-700 hover:underline">Đề thi &amp; kiểm tra có chấm điểm</Link></li>
-          <li><Link href="/tro-choi" className="text-sky-700 hover:underline">Trò chơi học tập</Link></li>
-        </ul>
-      </section>
-    </div>
+      <div className="mt-8">
+        <KidCard emoji="⭐" title="Có thể bé thích" tone="yellow">
+          <KidLinkList
+            tone="yellow"
+            items={[
+              { href: `/khoa-hoc/${courseSlug}`, label: `Bài học ${course.title}`, emoji: '🎒' },
+              { href: '/bai-tap', label: 'Bài tập các lớp khác', emoji: '✏️' },
+              { href: '/de-thi', label: 'Đề thi & kiểm tra có chấm điểm', emoji: '📝' },
+              { href: '/tro-choi', label: 'Trò chơi học tập', emoji: '🎮' },
+            ]}
+          />
+        </KidCard>
+      </div>
+    </KidShell>
   );
 }

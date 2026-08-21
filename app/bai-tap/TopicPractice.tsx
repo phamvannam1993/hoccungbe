@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Difficulty, PracticeQuiz } from '../lib/topicSeo';
 import { DIFFICULTIES } from '../lib/topicSeo';
+import { playCorrect, playWrong, confetti } from '../lib/celebrate';
 
 // Bộ luyện tập của một chủ đề: 3 mức độ, mỗi mức 10 câu.
 //
@@ -66,7 +67,12 @@ function QuestionCard({ quiz, index, level }: { quiz: PracticeQuiz; index: numbe
                 <li key={opt.key}>
                   <button
                     type="button"
-                    onClick={() => setPicked(opt.key)}
+                    onClick={() => {
+                      if (answered) return;
+                      setPicked(opt.key);
+                      if (quiz.answers.includes(opt.key)) { playCorrect(); confetti('small'); }
+                      else playWrong();
+                    }}
                     aria-pressed={isPicked}
                     className={`flex w-full items-center gap-2 rounded-xl border-2 px-3 py-2 text-left text-sm font-medium transition ${tone}`}
                   >
@@ -112,8 +118,8 @@ export default function TopicPractice({ quizzes }: { quizzes: Record<Difficulty,
         if (!list?.length) return null;
         return (
           <section key={key} id={`muc-${key}`} className="scroll-mt-24">
-            <h2 className="flex flex-wrap items-center gap-3 text-xl font-extrabold text-slate-900">
-              <span className={`rounded-full px-3 py-1 text-sm font-bold ${STYLE[key].chip}`}>Mức {label}</span>
+            <h2 className="flex flex-wrap items-center gap-3 text-xl font-black text-slate-900 kid-display">
+              <span className={`rounded-full px-3 py-1 text-sm font-black ${STYLE[key].chip}`}>Mức {label}</span>
               <span>
                 {list.length} câu {blurb.toLowerCase()}
               </span>

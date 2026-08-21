@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { playCorrect, playWrong, playWin, confetti, isSoundEnabled, setSoundEnabled } from '../../../lib/celebrate';
 
 export type QuizQuestion = {
   id: string;
@@ -128,6 +129,9 @@ const chip = (on: boolean) =>
 
 export default function TuDuyQuiz({ questions, grade }: { questions: QuizQuestion[]; grade: number }) {
   const byId = useMemo(() => new Map(questions.map((q) => [q.id, q])), [questions]);
+  const [soundOn, setSoundOn] = useState(true);
+  useEffect(() => { setSoundOn(isSoundEnabled()); }, []);
+  const toggleSound = () => { const v = !soundOn; setSoundOn(v); setSoundEnabled(v); if (v) playCorrect(); };
   const [mode, setMode] = useState<'practice' | 'test'>('practice');
   const [diff, setDiff] = useState<Diff>('all');
   const [wrongOnly, setWrongOnly] = useState(false);
@@ -171,6 +175,7 @@ export default function TuDuyQuiz({ questions, grade }: { questions: QuizQuestio
     const score = list.reduce((n, q) => n + (test.answers[q.id] === q.correct_index ? 1 : 0), 0);
     const rec: TestResult = { at: test.startedAt, size: list.length, score, pct: list.length ? Math.round((score / list.length) * 100) : 0, diff };
     setHistory((prev) => [rec, ...prev].slice(0, 30));
+    if (rec.pct >= 50) { playWin(); confetti('big'); } else { playWrong(); }
   }, [test, byId, diff]);
 
   const KEY = `iq-progress-l${grade}`;
@@ -199,7 +204,16 @@ export default function TuDuyQuiz({ questions, grade }: { questions: QuizQuestio
 
   const setDiffReset = (d: Diff) => { setDiff(d); setPage(1); setWrongOnly(false); };
   const go = (p: number) => { setPage(p); topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
-  const choosePractice = (id: string, i: number) => setAnswers((prev) => (prev[id] !== undefined ? prev : { ...prev, [id]: i }));
+  const choosePractice = (id: string, i: number) =>
+    setAnswers((prev) => {
+      if (prev[id] !== undefined) return prev;
+      const q = byId.get(id);
+      if (q) {
+        if (i === q.correct_index) { playCorrect(); confetti('small'); }
+        else playWrong();
+      }
+      return { ...prev, [id]: i };
+    });
 
   const startTest = (size: number) => {
     const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(size, pool.length));
@@ -224,6 +238,7 @@ export default function TuDuyQuiz({ questions, grade }: { questions: QuizQuestio
         <span className="text-sm font-black text-slate-700 kid-display">Chế độ:</span>
         <button type="button" onClick={() => setMode('practice')} className="rounded-full border-2 px-4 py-1.5 text-sm font-black kid-display" style={chip(mode === 'practice')}>📖 Luyện tập</button>
         <button type="button" onClick={() => { setMode('test'); setTest(null); }} className="rounded-full border-2 px-4 py-1.5 text-sm font-black kid-display" style={chip(mode === 'test')}>📝 Kiểm tra</button>
+        <button type="button" onClick={toggleSound} aria-pressed={soundOn} title={soundOn ? 'Tắt âm thanh' : 'Bật âm thanh'} className="ml-auto rounded-full border-2 px-3 py-1.5 text-sm font-black kid-display" style={chip(soundOn)}>{soundOn ? '🔊 Âm thanh' : '🔇 Tắt tiếng'}</button>
       </div>
 
       {/* Lọc mức khó */}

@@ -12,6 +12,7 @@ import {
   type TopicCourse,
 } from '../../../lib/topicSeo';
 import { SITE_NAME, SITE_URL, canonical, truncateDescription } from '../../../lib/seo';
+import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, TONES } from '../../../components/seo/kid';
 
 // Landing page bài tập theo CHỦ ĐỀ — bắt các truy vấn dạng
 // "bài tập phép cộng trong phạm vi 10", "bài tập xem đồng hồ lớp 3".
@@ -122,112 +123,101 @@ export default async function Page({ params }: Props) {
     provider: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
   };
 
+  const DIFF_TONE: Record<string, keyof typeof TONES> = { easy: 'green', medium: 'yellow', hard: 'pink' };
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 sm:py-10">
+    <KidShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(quizLd) }} />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
-        <ol className="flex flex-wrap items-center gap-1">
-          <li><Link href="/" className="hover:text-sky-700">Trang chủ</Link></li>
-          <li aria-hidden>›</li>
-          <li><Link href="/bai-tap" className="hover:text-sky-700">Bài tập</Link></li>
-          <li aria-hidden>›</li>
-          <li><Link href={`/bai-tap/${courseSlug}`} className="hover:text-sky-700">{course.title}</Link></li>
-          <li aria-hidden>›</li>
-          <li className="font-medium text-slate-700">{topic.label}</li>
-        </ol>
-      </nav>
+      <KidCrumb
+        items={[
+          { label: 'Trang chủ', href: '/' },
+          { label: 'Bài tập', href: '/bai-tap' },
+          { label: course.title, href: `/bai-tap/${courseSlug}` },
+          { label: topic.label },
+        ]}
+      />
 
-      <header className="mt-4">
-        <h1 className="text-2xl font-extrabold text-slate-900 sm:text-3xl">
-          Bài tập {topic.label} – {course.title}
-        </h1>
-        <p className="mt-3 text-slate-600">
-          Tổng hợp <strong>{total} câu bài tập {topic.label.toLowerCase()}</strong> của {course.title}, chia theo{' '}
-          {DIFFICULTIES.length} mức độ từ dễ đến nâng cao. Mỗi câu đều có đáp án và lời giải ngắn gọn, bé bấm chọn là
-          biết đúng sai ngay. Bộ câu hỏi được lấy từ {topic.lessons.length} bài học trong chủ đề nên phủ đều kiến thức,
-          phù hợp để ôn tập tại nhà hoặc làm phiếu luyện cuối tuần.
-        </p>
-        <ul className="mt-4 flex flex-wrap gap-2 text-sm">
-          {DIFFICULTIES.filter((d) => quizzes[d.key].length > 0).map((d) => (
-            <li key={d.key}>
-              <a href={`#muc-${d.key}`} className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-800">
-                {quizzes[d.key].length} câu mức {d.label.toLowerCase()}
-              </a>
-            </li>
-          ))}
+      <KidHero
+        emoji="🧩"
+        eyebrow={`${total} câu · ${DIFFICULTIES.length} mức độ`}
+        title={`Bài tập ${topic.label} – ${course.title}`}
+        tone="purple"
+        description={
+          <>
+            Tổng hợp <strong>{total} câu bài tập {topic.label.toLowerCase()}</strong> của {course.title}, chia theo{' '}
+            {DIFFICULTIES.length} mức độ từ dễ đến nâng cao. Mỗi câu đều có đáp án và lời giải ngắn gọn, bé bấm chọn là
+            biết đúng sai ngay. Bộ câu hỏi được lấy từ {topic.lessons.length} bài học trong chủ đề nên phủ đều kiến thức,
+            phù hợp để ôn tập tại nhà hoặc làm phiếu luyện cuối tuần.
+          </>
+        }
+      >
+        <ul className="mt-5 flex flex-wrap gap-2.5">
+          {DIFFICULTIES.filter((d) => quizzes[d.key].length > 0).map((d) => {
+            const tone = TONES[DIFF_TONE[d.key] ?? 'blue'];
+            return (
+              <li key={d.key}>
+                <a
+                  href={`#muc-${d.key}`}
+                  className="inline-flex items-center rounded-2xl border-2 bg-white px-3.5 py-1.5 text-sm font-black kid-display transition hover:-translate-y-0.5"
+                  style={{ borderColor: tone.border, color: tone.c, boxShadow: `0 3px 0 ${tone.border}` }}
+                >
+                  {quizzes[d.key].length} câu mức {d.label.toLowerCase()}
+                </a>
+              </li>
+            );
+          })}
         </ul>
-      </header>
+      </KidHero>
 
-      <section className="mt-8 rounded-2xl border-2 border-sky-100 bg-sky-50/60 p-4">
-        <h2 className="text-lg font-bold text-slate-900">Các bài học trong chủ đề {topic.label}</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Nếu bé làm sai nhiều, hãy quay lại học kỹ từng bài rồi luyện tập tiếp.
-        </p>
-        <ol className="mt-3 grid gap-2 sm:grid-cols-2">
-          {topic.lessons.map((l) => (
-            <li key={l.id}>
-              <Link
-                href={`/${course.slug}/${l.slug}`}
-                className="block rounded-xl bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:text-sky-700"
-              >
-                {l.title}
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <div className="mt-8">
+        <KidCard emoji="📗" title={`Các bài học trong chủ đề ${topic.label}`} tone="green">
+          <p className="-mt-1 mb-3 text-sm text-slate-600">
+            Nếu bé làm sai nhiều, hãy quay lại học kỹ từng bài rồi luyện tập tiếp.
+          </p>
+          <ol className="grid gap-2.5 sm:grid-cols-2">
+            {topic.lessons.map((l) => {
+              const tone = TONES.green;
+              return (
+                <li key={l.id}>
+                  <Link
+                    href={`/${course.slug}/${l.slug}`}
+                    className="group flex items-center gap-2 rounded-2xl border-2 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:-translate-y-0.5"
+                    style={{ borderColor: tone.border, boxShadow: `0 3px 0 ${tone.border}` }}
+                  >
+                    <span aria-hidden>📖</span>
+                    <span className="min-w-0">{l.title}</span>
+                    <span className="ml-auto text-lg transition group-hover:translate-x-0.5" style={{ color: tone.c }} aria-hidden>→</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
+        </KidCard>
+      </div>
 
-      <div className="mt-10">
+      <div className="mt-8">
         <TopicPractice quizzes={quizzes} />
       </div>
 
       {/* Khối điều hướng cuối trang: giữ bé ở lại site và giúp Google crawl sâu hơn. */}
-      <section className="mt-12 rounded-2xl border-2 border-slate-200 bg-white p-5">
-        <h2 className="text-lg font-bold text-slate-900">📚 Học tiếp</h2>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-          {prev && (
-            <li>
-              <Link href={`/bai-tap/${courseSlug}/${prev.slug}`} className="text-sky-700 hover:underline">
-                ← Bài tập {prev.label}
-              </Link>
-            </li>
-          )}
-          {next && (
-            <li>
-              <Link href={`/bai-tap/${courseSlug}/${next.slug}`} className="text-sky-700 hover:underline">
-                Bài tập {next.label} →
-              </Link>
-            </li>
-          )}
-          <li>
-            <Link href={`/khoa-hoc/${courseSlug}`} className="text-sky-700 hover:underline">
-              Toàn bộ bài học {course.title}
-            </Link>
-          </li>
-          <li>
-            <Link href={`/bai-tap/${courseSlug}`} className="text-sky-700 hover:underline">
-              Tất cả chủ đề bài tập {course.title}
-            </Link>
-          </li>
-          <li>
-            <Link href={`/phieu-bai-tap/${topic.lessons[0].slug}/ca-bai`} className="text-sky-700 hover:underline">
-              Phiếu bài tập in được (PDF)
-            </Link>
-          </li>
-          <li>
-            <Link href="/de-thi" className="text-sky-700 hover:underline">
-              Đề thi &amp; kiểm tra có chấm điểm
-            </Link>
-          </li>
-          <li>
-            <Link href="/tro-choi" className="text-sky-700 hover:underline">
-              Trò chơi học tập liên quan
-            </Link>
-          </li>
-        </ul>
-      </section>
-    </div>
+      <div className="mt-8">
+        <KidCard emoji="📚" title="Học tiếp" tone="sky">
+          <KidLinkList
+            tone="sky"
+            items={[
+              ...(prev ? [{ href: `/bai-tap/${courseSlug}/${prev.slug}`, label: `Bài tập ${prev.label}`, emoji: '⬅️' }] : []),
+              ...(next ? [{ href: `/bai-tap/${courseSlug}/${next.slug}`, label: `Bài tập ${next.label}`, emoji: '➡️' }] : []),
+              { href: `/khoa-hoc/${courseSlug}`, label: `Toàn bộ bài học ${course.title}`, emoji: '🎒' },
+              { href: `/bai-tap/${courseSlug}`, label: `Tất cả chủ đề bài tập ${course.title}`, emoji: '🗂️' },
+              { href: `/phieu-bai-tap/${topic.lessons[0].slug}/ca-bai`, label: 'Phiếu bài tập in được (PDF)', emoji: '🖨️' },
+              { href: '/de-thi', label: 'Đề thi & kiểm tra có chấm điểm', emoji: '📝' },
+              { href: '/tro-choi', label: 'Trò chơi học tập liên quan', emoji: '🎮' },
+            ]}
+          />
+        </KidCard>
+      </div>
+    </KidShell>
   );
 }

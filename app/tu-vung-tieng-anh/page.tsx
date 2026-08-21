@@ -100,7 +100,29 @@ export default function Page() {
         })}
       </ul>
 
-      <section className="mt-12 rounded-2xl border-2 border-slate-200 bg-white p-5">
+      <section className="mt-12">
+        <h2 className="text-xl font-black text-slate-900">🚀 Lộ trình học đọc tiếng Anh</h2>
+        <p className="mt-1 text-sm font-semibold text-slate-500">Không chỉ học từ — bé học đọc và ghép câu theo thứ tự: chữ cái → ghép vần → mẫu câu.</p>
+        <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+          {[
+            { href: '/bang-chu-cai-tieng-anh', emoji: '🔤', title: 'Bảng chữ cái A–Z', desc: 'Tên chữ, âm & từ mẫu', c: 'from-pink-400 to-rose-400' },
+            { href: '/phonics-tieng-anh', emoji: '🔉', title: 'Phonics ghép vần', desc: 'Đọc từ CVC: cat, dog, sun', c: 'from-violet-400 to-fuchsia-400' },
+            { href: '/mau-cau-tieng-anh', emoji: '💬', title: 'Mẫu câu giao tiếp', desc: 'This is a…, I like…, I can…', c: 'from-amber-400 to-orange-400' },
+          ].map((x) => (
+            <li key={x.href}>
+              <Link href={x.href} className="group flex h-full items-center gap-3 rounded-3xl border-2 border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-transparent hover:shadow-xl">
+                <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-3xl shadow-inner transition group-hover:scale-110 ${x.c}`} aria-hidden>{x.emoji}</span>
+                <span className="min-w-0">
+                  <span className="block font-black text-slate-900">{x.title}</span>
+                  <span className="block text-sm font-semibold text-slate-400">{x.desc} →</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10 rounded-2xl border-2 border-slate-200 bg-white p-5">
         <h2 className="text-lg font-bold text-slate-900">⭐ Có thể bé thích</h2>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2">
           <li><Link href="/tro-choi" className="text-sky-700 hover:underline">Trò chơi học tập</Link></li>

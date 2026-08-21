@@ -9,12 +9,27 @@ export default function PWARegister() {
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    // 1) Đăng ký service worker (offline + cài như app)
+    // 1) Đăng ký service worker (offline + cài như app) — CHỈ ở production.
+    // Ở localhost/dev, SW cache JS kiểu cache-first sẽ phục vụ bundle CŨ (stale) gây lỗi
+    // hydration → nên gỡ SW + xoá mọi cache khi chạy dev.
     if ('serviceWorker' in navigator) {
-      const onLoad = () =>
-        navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' }).catch(() => {});
-      if (document.readyState === 'complete') onLoad();
-      else window.addEventListener('load', onLoad, { once: true });
+      const host = window.location.hostname;
+      const isDev =
+        host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host.endsWith('.local');
+      if (isDev) {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then((rs) => rs.forEach((r) => r.unregister()))
+          .catch(() => {});
+        if ('caches' in window) {
+          caches.keys().then((ks) => ks.forEach((k) => caches.delete(k))).catch(() => {});
+        }
+      } else {
+        const onLoad = () =>
+          navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' }).catch(() => {});
+        if (document.readyState === 'complete') onLoad();
+        else window.addEventListener('load', onLoad, { once: true });
+      }
     }
 
     // 2) Bắt sự kiện cài đặt để hiện nút "Cài ứng dụng"

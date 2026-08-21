@@ -34,14 +34,14 @@ export function KidCrumb({ items }: { items: { label: string; href?: string }[] 
     <nav aria-label="Breadcrumb" className="mb-4">
       <ol className="flex flex-wrap items-center gap-1.5 text-sm font-bold">
         {items.map((it, i) => (
-          <span key={i} className="flex items-center gap-1.5">
+          <li key={i} className="flex items-center gap-1.5">
             {it.href ? (
               <Link href={it.href} className="text-[#c81e5b] hover:underline">{i === 0 ? '🏠 ' : ''}{it.label}</Link>
             ) : (
               <span className="text-purple-700">{it.label}</span>
             )}
             {i < items.length - 1 && <span className="text-purple-300">›</span>}
-          </span>
+          </li>
         ))}
       </ol>
     </nav>

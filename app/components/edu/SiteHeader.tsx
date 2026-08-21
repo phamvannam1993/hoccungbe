@@ -21,7 +21,20 @@ const NAV_MENU: NavItem[] = [
   { href: '/', label: 'TRANG CHỦ' },
   { href: '/khoa-hoc', label: 'LỚP HỌC', mega: 'grades' },
   { href: '/tro-choi', label: 'KHO TRÒ CHƠI' },
-  { href: '/tu-vung-tieng-anh', label: 'TỪ VỰNG ANH' },
+  {
+    href: '/tu-vung-tieng-anh',
+    label: 'TIẾNG ANH',
+    children: [
+      { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề' },
+      { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái A–Z' },
+      { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc' },
+      { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng' },
+      { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp' },
+      { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống' },
+      { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh' },
+      { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
+    ],
+  },
   // { href: '/tien-do', label: 'THI ĐẤU' },  // tạm ẩn
   { href: '/de-thi', label: 'ÔN THI' },
   { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },
@@ -401,6 +414,20 @@ export default function SiteHeader() {
                     }))}
                   </div>
                 )}
+                {item.children && item.children.length > 0 && (
+                  <div className="ml-6 mt-1 mb-2 flex flex-col gap-1">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 text-xs text-gray-600 hover:text-[#c0392b] hover:bg-[#fdecea] rounded"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
             {(user || guestChild) && (
@@ -433,7 +460,7 @@ function NavIcon({ label }: { label: string }) {
   if (label.includes('TRANG')) return <span className="text-base">🏠</span>;
   if (label.includes('LỚP')) return <span className="text-base">📚</span>;
   if (label.includes('TRÒ CHƠI')) return <span className="text-base">🎮</span>;
-  if (label.includes('VỰNG')) return <span className="text-base">🔤</span>;
+  if (label.includes('ANH') || label.includes('VỰNG')) return <span className="text-base">🔤</span>;
   if (label.includes('THI ĐẤU')) return <span className="text-base">🏆</span>;
   if (label.includes('ÔN')) return <span className="text-base">📝</span>;
   if (label.includes('TÀI LIỆU')) return <span className="text-base">📄</span>;

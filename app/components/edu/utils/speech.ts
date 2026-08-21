@@ -72,89 +72,66 @@ export function speakText(text: string, options: SpeakTextOptions = {}): void {
   el.play().catch(() => { /* chỉ dùng giọng API */ });
 }
 
-// URL đọc TIẾNG VIỆT qua proxy /api/tts (giọng Việt tự nhiên, có cache).
-const viUrl = (text: string) => `/api/tts?q=${encodeURIComponent(text.trim())}&tl=vi`;
+// URL đọc qua proxy /api/tts: tl='en' → giọng Mỹ, 'vi' → giọng Việt. speed<1 → đọc chậm.
+// Dùng MP3 server-side (Google Translate TTS) nên KHÔNG phụ thuộc giọng cài trên máy —
+// tiếng Anh luôn ra giọng Anh chuẩn, kể cả khi trình duyệt không có voice tiếng Anh.
+const ttsUrl = (text: string, tl: 'en' | 'vi', speed?: number) =>
+  `/api/tts?q=${encodeURIComponent(text.trim())}&tl=${tl}${speed && speed < 1 ? `&speed=${speed}` : ''}`;
 
-// ĐỌC TIẾNG ANH = GIỌNG GOOGLE CỦA TRÌNH DUYỆT (Web Speech API), KHÔNG gọi /api/tts.
-// Ưu tiên voice "Google US English"; nếu chưa nạp voice thì đặt lang='en-US' để trình
-// duyệt tự chọn giọng Anh. Trả về true nếu phát được (để nối tiếp phần tiếng Việt).
-function pickEnglishVoice(): SpeechSynthesisVoice | null {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
-  const vs = window.speechSynthesis.getVoices() || [];
-  if (!vs.length) return null;
-  return (
-    vs.find((v) => /google/i.test(v.name) && /en[-_]?us/i.test(v.lang)) ||
-    vs.find((v) => /google/i.test(v.name) && /^en/i.test(v.lang)) ||
-    vs.find((v) => /en[-_]?us/i.test(v.lang)) ||
-    vs.find((v) => /^en/i.test(v.lang)) ||
-    null
-  );
-}
-
-function speakEnglishWeb(text: string, onEnd?: () => void): boolean {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return false;
-  try {
-    const synth = window.speechSynthesis;
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(text.trim());
-    u.lang = 'en-US';
-    const v = pickEnglishVoice();
-    if (v) u.voice = v;
-    u.rate = 0.9;
-    u.pitch = 1;
-    let done = false;
-    const finish = () => { if (!done) { done = true; onEnd?.(); } };
-    u.onend = finish;
-    u.onerror = finish; // vẫn đọc tiếp nghĩa tiếng Việt nếu phần Anh lỗi
-    synth.speak(u);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-// Phát tiếng Việt qua proxy audio.
-function playViAudio(vi: string): void {
-  if (!vi || !vi.trim()) return;
+// Phát 1 nguồn audio qua phần tử dùng chung; onEnd (nếu có) chạy khi phát xong.
+function playSrc(src: string, onEnd?: () => void): void {
   const el = getEl();
   if (!el) return;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   try { el.pause(); } catch { /* ignore */ }
   el.muted = false;
-  el.onended = null;
-  el.src = viUrl(vi);
-  el.play().catch(() => {});
+  el.onended = onEnd
+    ? () => { el.onended = null; onEnd(); }
+    : null;
+  el.src = src;
+  el.play().catch(() => { /* chỉ dùng giọng API */ });
 }
 
-// Đọc TIẾNG ANH bằng giọng Google của trình duyệt.
+// Đọc TIẾNG ANH (giọng Mỹ, proxy).
 export function speakEnglish(text: string): void {
   if (typeof window === 'undefined' || !text || !text.trim()) return;
-  speakEnglishWeb(text);
+  playSrc(ttsUrl(text, 'en'));
 }
 
-// Đọc TIẾNG ANH (giọng Google trình duyệt) rồi TỰ ĐỘNG đọc NGHĨA TIẾNG VIỆT (proxy /api/tts).
+// ĐÁNH VẦN: đọc CHẬM rồi đọc THƯỜNG (proxy tl=en). Dùng cho phonics.
+export function soundOutWord(word: string): void {
+  if (typeof window === 'undefined' || !word || !word.trim()) return;
+  const w = word.trim();
+  playSrc(ttsUrl(w, 'en', 0.3), () => playSrc(ttsUrl(w, 'en')));
+}
+
+// Đọc TIẾNG ANH (giọng Mỹ) rồi TỰ ĐỘNG đọc NGHĨA TIẾNG VIỆT (giọng Việt), nối tiếp.
 // _gen: lần gọi mới huỷ phần tiếng Việt còn chờ của lần cũ.
 let _gen = 0;
 export function speakEnThenVi(en: string, vi: string): void {
   if (typeof window === 'undefined') return;
   const myGen = ++_gen;
-  // dừng mọi thứ đang phát
-  try { getEl()?.pause(); } catch { /* ignore */ }
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-
   const thenVi = () => {
     if (myGen !== _gen) return; // đã bị lần gọi mới thay thế
-    playViAudio(vi);
+    if (vi && vi.trim()) playSrc(ttsUrl(vi, 'vi'));
   };
+  if (en && en.trim()) playSrc(ttsUrl(en, 'en'), thenVi);
+  else thenVi();
+}
 
-  if (en && en.trim()) {
-    const ok = speakEnglishWeb(en, thenVi);
-    if (!ok) {
-      // Trình duyệt không hỗ trợ Web Speech → vẫn đọc được nghĩa tiếng Việt.
-      thenVi();
-    }
-  } else {
-    playViAudio(vi);
-  }
+// Phát NỐI TIẾP nhiều mẩu (hội thoại, bài hát). Mỗi mẩu {text, lang}.
+// Dùng chung _gen nên gọi mới (hoặc stopSpeaking) sẽ dừng chuỗi đang phát.
+export function speakSequence(items: { text: string; lang: 'en' | 'vi' }[]): void {
+  if (typeof window === 'undefined' || !items || !items.length) return;
+  const myGen = ++_gen;
+  let i = 0;
+  const step = () => {
+    if (myGen !== _gen || i >= items.length) return;
+    const it = items[i++];
+    if (!it || !it.text || !it.text.trim()) { step(); return; }
+    playSrc(ttsUrl(it.text, it.lang), step);
+  };
+  step();
 }
 
 export function stopSpeaking(): void {

@@ -14,6 +14,13 @@ const quickLinks = [
   { label: 'Đề thi có chấm điểm', href: '/de-thi' },
   { label: 'Toán tư duy', href: '/toan-tu-duy' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
+  { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },
+  { label: 'Phonics – Ghép vần đọc', href: '/phonics-tieng-anh' },
+  { label: 'Mẫu câu tiếng Anh', href: '/mau-cau-tieng-anh' },
+  { label: 'Sight words tiếng Anh', href: '/sight-words-tieng-anh' },
+  { label: 'Hội thoại tiếng Anh', href: '/hoi-thoai-tieng-anh' },
+  { label: 'Bài hát tiếng Anh', href: '/bai-hat-tieng-anh' },
+  { label: 'Ngữ pháp tiếng Anh', href: '/ngu-phap-tieng-anh' },
   { label: 'Tiến độ học tập', href: '/tien-do' },
 ];
 

@@ -7,11 +7,18 @@ export const runtime = 'nodejs';
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = (searchParams.get('q') || '').trim().slice(0, 200);
-  const tl = (searchParams.get('tl') || 'vi').slice(0, 5);
+  // Chấp nhận cả `tl` lẫn `lang` (alias) — để bundle client cũ gửi &lang=en vẫn ra giọng Anh.
+  // 'en-US' → 'en' (Google chỉ nhận mã ngắn).
+  const raw = (searchParams.get('tl') || searchParams.get('lang') || 'vi').toLowerCase();
+  const tl = (raw.startsWith('en') ? 'en' : raw.startsWith('vi') ? 'vi' : raw).slice(0, 5);
   if (!q) return new Response('missing q', { status: 400 });
 
+  // speed<1 → đọc chậm (dùng cho phonics "đánh vần"). Kẹp trong [0.1, 1].
+  const speedRaw = parseFloat(searchParams.get('speed') || '1');
+  const ttsspeed = Number.isFinite(speedRaw) ? Math.min(1, Math.max(0.1, speedRaw)) : 1;
+
   const url =
-    `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&ttsspeed=1` +
+    `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&ttsspeed=${ttsspeed}` +
     `&tl=${encodeURIComponent(tl)}&textlen=${q.length}&q=${encodeURIComponent(q)}`;
 
   try {

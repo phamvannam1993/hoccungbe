@@ -17,6 +17,7 @@ const quickLinks = [
   { label: 'Luyện từ và câu', href: '/luyen-tu-va-cau' },
   { label: 'Tập đọc tiếng Việt', href: '/tap-doc-tieng-viet' },
   { label: 'Đồng dao, ca dao', href: '/dong-dao-ca-dao' },
+  { label: 'Mở rộng vốn từ', href: '/mo-rong-von-tu' },
   { label: 'Toán tư duy', href: '/toan-tu-duy' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },

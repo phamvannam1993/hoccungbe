@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Hội thoại tiếng Anh cho bé theo tình huống';
 const DESCRIPTION =
-  `Học ${DIALOGUES.length} đoạn hội thoại tiếng Anh cho trẻ theo tình huống hằng ngày: làm quen, ở lớp, ở nhà, đi mua đồ, nói sở thích. ${totalDialogueLines()} câu đơn giản, nghe cả đoạn giọng bản ngữ kèm nghĩa tiếng Việt. Miễn phí.`;
+  `Học ${DIALOGUES.length} đoạn hội thoại tiếng Anh cho bé theo tình huống: làm quen, ở lớp, ở nhà, đi mua đồ. Nghe cả đoạn giọng bản ngữ kèm nghĩa tiếng Việt. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

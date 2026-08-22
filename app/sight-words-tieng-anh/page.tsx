@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Sight words – Từ thông dụng tiếng Anh cho bé';
 const DESCRIPTION =
-  `Học ${totalSightWords()} sight words (từ thông dụng) tiếng Anh cho trẻ theo ${SIGHT_WORD_GROUPS.length} cấp độ (Dolch): the, and, is, you, like… Nhận mặt nhanh, nghe phát âm chuẩn kèm nghĩa tiếng Việt. Giúp bé đọc trôi chảy. Miễn phí.`;
+  `Học ${totalSightWords()} sight words (từ thông dụng) tiếng Anh cho bé theo cấp độ Dolch: the, and, is, you… Nhận mặt nhanh, nghe phát âm. Giúp bé đọc trôi chảy. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

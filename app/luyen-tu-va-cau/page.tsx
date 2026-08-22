@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Luyện từ và câu tiếng Việt cho bé (lớp 2–3)';
 const DESCRIPTION =
-  `Luyện từ và câu tiếng Việt cho trẻ lớp 2–3 qua trò chơi: từ chỉ sự vật, hoạt động, đặc điểm; dấu câu; từ trái nghĩa. ${totalLtcQuestions()} câu có quy tắc, chọn đáp án và giải thích. Miễn phí.`;
+  'Luyện từ và câu tiếng Việt cho bé lớp 2–3: từ chỉ sự vật, hoạt động, đặc điểm; dấu câu; từ trái nghĩa. Trò chơi có quy tắc và giải thích. Miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,

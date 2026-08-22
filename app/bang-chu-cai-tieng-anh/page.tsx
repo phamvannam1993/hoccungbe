@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Bảng chữ cái tiếng Anh A–Z cho bé (có phát âm)';
 const DESCRIPTION =
-  'Học bảng chữ cái tiếng Anh A–Z cho trẻ: tên chữ, âm phonics và từ mẫu kèm hình, nghe phát âm chuẩn giọng bản ngữ. Nền tảng để bé bắt đầu tập đọc tiếng Anh. Miễn phí.';
+  'Học bảng chữ cái tiếng Anh A–Z cho bé: tên chữ, âm phonics và từ mẫu có hình, nghe phát âm chuẩn. Nền tảng để bé bắt đầu tập đọc. Miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,

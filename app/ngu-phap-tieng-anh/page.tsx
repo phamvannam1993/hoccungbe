@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Ngữ pháp tiếng Anh cơ bản cho bé (học qua trò chơi)';
 const DESCRIPTION =
-  `Học ${GRAMMAR_TOPICS.length} chủ điểm ngữ pháp tiếng Anh cơ bản cho trẻ qua trò chơi chọn đáp án: a/an, số nhiều -s, this/that, to be (am/is/are), can/can't. ${totalGrammarQuestions()} câu có quy tắc, ví dụ nghe được và giải thích. Miễn phí.`;
+  `Học ngữ pháp tiếng Anh cơ bản cho bé qua trò chơi: a/an, số nhiều -s, this/that, to be, can/can't. ${totalGrammarQuestions()} câu có quy tắc và giải thích. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

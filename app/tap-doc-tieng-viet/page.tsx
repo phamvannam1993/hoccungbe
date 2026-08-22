@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Tập đọc tiếng Việt cho bé lớp 1–2 (có đọc mẫu)';
 const DESCRIPTION =
-  `Tập đọc tiếng Việt cho trẻ lớp 1–2 với ${TAP_DOC.length} bài đọc ngắn theo chủ đề quen thuộc: gia đình, con vật, trường lớp. Nghe đọc mẫu từng câu, đọc cả bài và trả lời câu hỏi đọc hiểu. Miễn phí.`;
+  `Tập đọc tiếng Việt cho bé lớp 1–2: ${TAP_DOC.length} bài đọc ngắn có nghe đọc mẫu từng câu và câu hỏi đọc hiểu. Bước từ đọc trơn lên đọc hiểu. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

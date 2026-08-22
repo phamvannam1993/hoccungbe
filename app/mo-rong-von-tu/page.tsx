@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Mở rộng vốn từ tiếng Việt cho bé theo chủ đề';
 const DESCRIPTION =
-  `Giúp bé mở rộng vốn từ tiếng Việt với ${totalVonTu()} từ ngữ theo ${VON_TU_TOPICS.length} chủ đề: con vật, nghề nghiệp, thiên nhiên, cảm xúc, đồ dùng, giao thông. Mỗi từ có nghĩa dễ hiểu, ví dụ và nghe phát âm. Miễn phí.`;
+  `Mở rộng vốn từ tiếng Việt cho bé theo ${VON_TU_TOPICS.length} chủ đề: con vật, nghề nghiệp, thiên nhiên, cảm xúc… Mỗi từ có nghĩa, ví dụ và phát âm. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

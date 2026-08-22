@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Phonics – Ghép vần đọc tiếng Anh cho bé';
 const DESCRIPTION =
-  `Học phonics tiếng Anh cho trẻ: âm của cả 26 chữ cái A–Z và ${totalPhonicsWords()} từ CVC (cat, dog, sun…) theo 5 nhóm nguyên âm ngắn. Nghe âm từng chữ, đánh vần chậm rồi đọc thường, có hình và nghĩa. Giúp bé tự đọc từ mới. Miễn phí.`;
+  `Học phonics tiếng Anh cho bé: âm 26 chữ cái A–Z và ${totalPhonicsWords()} từ CVC (cat, dog, sun) theo 5 nhóm nguyên âm ngắn. Nghe đọc chậm, giúp bé tự đọc. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

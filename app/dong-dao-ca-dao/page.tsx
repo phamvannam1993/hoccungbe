@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Đồng dao, ca dao cho bé (có đọc mẫu)';
 const DESCRIPTION =
-  `Tuyển tập ${DONG_DAO.length} bài đồng dao và ca dao dân gian quen thuộc cho bé: Dung dăng dung dẻ, Nu na nu nống, Công cha như núi Thái Sơn… Nghe đọc mẫu từng câu, đọc cả bài, kèm ý nghĩa. Miễn phí.`;
+  `Tuyển tập ${DONG_DAO.length} bài đồng dao, ca dao dân gian cho bé: Dung dăng dung dẻ, Nu na nu nống, Công cha như núi Thái Sơn… Có đọc mẫu và ý nghĩa. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

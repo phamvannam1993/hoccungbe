@@ -6,9 +6,9 @@ import VietReadingClient from './VietReadingClient';
 
 export const revalidate = 86400;
 
-const TITLE = 'Học đọc tiếng Việt cho bé: bảng chữ cái, đánh vần, bảng vần';
+const TITLE = 'Học đọc tiếng Việt: bảng chữ cái, đánh vần, bảng vần';
 const DESCRIPTION =
-  'Bé lớp 1 học đọc tiếng Việt: bảng chữ cái 29 chữ có phát âm, tập đánh vần & 6 dấu thanh, bảng vần thường gặp. Bấm nghe giọng đọc chuẩn, học đọc trơn từng bước. Miễn phí.';
+  'Bé lớp 1 học đọc tiếng Việt: bảng chữ cái 29 chữ, tập đánh vần, 6 dấu thanh và bảng vần đầy đủ. Bấm nghe giọng đọc chuẩn, tập đọc từng bước. Miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,

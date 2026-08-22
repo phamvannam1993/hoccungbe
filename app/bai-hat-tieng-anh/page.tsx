@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Bài hát tiếng Anh cho bé (có lời & phát âm)';
 const DESCRIPTION =
-  `${SONGS.length} bài hát và bài đồng dao tiếng Anh cho trẻ: ABC Song, Twinkle Twinkle, Days of the Week, Head Shoulders Knees and Toes… Có lời tiếng Anh, nghĩa tiếng Việt và nghe hát cả bài giọng bản ngữ. Miễn phí.`;
+  `${SONGS.length} bài hát tiếng Anh cho bé: ABC Song, Twinkle Twinkle, Days of the Week… Có lời tiếng Anh, nghĩa tiếng Việt và nghe hát cả bài. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -6,9 +6,9 @@ import ChinhTaClient from './ChinhTaClient';
 
 export const revalidate = 86400;
 
-const TITLE = 'Chính tả tiếng Việt cho bé: phân biệt s/x, ch/tr, l/n, hỏi/ngã';
+const TITLE = 'Chính tả tiếng Việt cho bé: s/x, ch/tr, hỏi/ngã';
 const DESCRIPTION =
-  `Luyện chính tả tiếng Việt cho trẻ qua trò chơi: phân biệt s/x, ch/tr, l/n, d/gi/r và dấu hỏi/ngã. ${totalChinhTaQuestions()} câu có nghĩa, chọn đáp án đúng, nghe phát âm và giải thích. Sửa lỗi chính tả phổ biến. Miễn phí.`;
+  `Luyện chính tả tiếng Việt cho bé qua trò chơi: phân biệt s/x, ch/tr, l/n, d/gi/r và dấu hỏi/ngã. ${totalChinhTaQuestions()} câu có nghe phát âm và giải thích. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

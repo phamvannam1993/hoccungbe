@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Mẫu câu giao tiếp tiếng Anh cho bé (có phát âm)';
 const DESCRIPTION =
-  `Học ${totalSentences()} mẫu câu giao tiếp tiếng Anh cho trẻ theo ${SENTENCE_PATTERNS.length} chủ điểm: chào hỏi, sở thích, cảm xúc, "This is a…", "I like…", "I can…". Nghe cả câu giọng bản ngữ kèm nghĩa tiếng Việt. Miễn phí.`;
+  `Học ${totalSentences()} mẫu câu giao tiếp tiếng Anh cho bé: chào hỏi, This is a…, I like…, I can… Nghe cả câu giọng bản ngữ kèm nghĩa tiếng Việt. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

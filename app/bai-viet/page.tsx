@@ -58,6 +58,9 @@ export default async function BaiVietPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
+      {/* H1 crawlable render phía server (client dùng useSearchParams nên nội dung không có sẵn trong SSR). */}
+      <h1 className="sr-only">Góc phụ huynh – Bài viết kinh nghiệm nuôi dạy và học cùng con</h1>
+
       <BaiVietListClient />
 
       {/* SSR danh sách bài — crawlable, ẩn thị giác. Đặt sau H1 (trong client) để đúng thứ tự heading. */}

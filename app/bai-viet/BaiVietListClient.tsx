@@ -153,9 +153,9 @@ function ArticlesContent() {
 
       {/* H1 hiển thị của trang danh sách (bài viết chi tiết có H1 riêng) */}
       <header className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+        <div className="text-2xl sm:text-3xl font-black text-white leading-tight">
           Góc phụ huynh
-        </h1>
+        </div>
         <p className="mt-1 text-sm sm:text-base text-white/80">
           Kinh nghiệm nuôi dạy và học cùng con
         </p>

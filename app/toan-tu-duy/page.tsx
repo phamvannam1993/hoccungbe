@@ -6,7 +6,7 @@ import { KidShell, KidCrumb, KidHero, KidCard, TONES, type Tone } from '../compo
 
 export const revalidate = 86400;
 
-const TITLE = 'Toán tư duy lớp 1–5 – rèn suy luận, tư duy logic cho bé';
+const TITLE = 'Toán tư duy lớp 1–5 – rèn suy luận cho bé';
 const DESCRIPTION =
   'Toán tư duy cho bé lớp 1 đến lớp 5: các dạng bài rèn suy luận, tư duy logic kèm lời giải chi tiết. Luyện tập miễn phí, bám sát từng lớp tại Bé Hay Học.';
 

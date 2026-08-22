@@ -5,7 +5,7 @@ import { VOCAB_TOPICS, publishableVocabTopics, totalVocabWords } from '../lib/vo
 
 const TITLE = 'Từ vựng tiếng Anh cho bé theo chủ đề';
 const DESCRIPTION =
-  `Học ${totalVocabWords()}+ từ vựng tiếng Anh cho trẻ em theo ${VOCAB_TOPICS.length} chủ đề: động vật, màu sắc, con số, gia đình, trái cây… Có phiên âm, nghĩa tiếng Việt, hình minh hoạ và nghe phát âm chuẩn. Miễn phí.`;
+  `Học ${totalVocabWords()}+ từ vựng tiếng Anh cho bé theo ${VOCAB_TOPICS.length} chủ đề: động vật, màu sắc, gia đình… Có phiên âm, hình minh hoạ và nghe phát âm. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

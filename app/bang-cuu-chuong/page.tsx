@@ -6,7 +6,7 @@ import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList, TONES, type 
 
 export const revalidate = 604800;
 
-const TITLE = 'Bảng cửu chương từ 2 đến 9 đầy đủ – Bảng nhân cho bé (in được)';
+const TITLE = 'Bảng cửu chương 2 đến 9 đầy đủ cho bé (in được)';
 const DESCRIPTION =
   'Bảng cửu chương (bảng nhân) từ 2 đến 9 đầy đủ, dễ đọc, in được cho bé học thuộc. Kèm mẹo ghi nhớ nhanh và bài tập, trò chơi nhân chia miễn phí tại Bé Hay Học.';
 

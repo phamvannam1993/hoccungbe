@@ -6,7 +6,7 @@ export const revalidate = 604800;
 
 const TITLE = 'Bảng chữ cái tiếng Việt đầy đủ 29 chữ – cho bé lớp 1';
 const DESCRIPTION =
-  'Bảng chữ cái tiếng Việt đầy đủ 29 chữ cái (chữ thường và chữ hoa), nguyên âm, phụ âm và dấu thanh, giúp bé lớp 1 làm quen mặt chữ. Kèm trò chơi và bài học đánh vần miễn phí.';
+  'Bảng chữ cái tiếng Việt đầy đủ 29 chữ (thường và hoa), nguyên âm, phụ âm và dấu thanh, giúp bé lớp 1 làm quen mặt chữ. Kèm bài học đánh vần miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,

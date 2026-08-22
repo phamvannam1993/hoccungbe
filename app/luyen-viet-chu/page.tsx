@@ -5,7 +5,7 @@ import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList } from '../co
 
 export const revalidate = 604800;
 
-const TITLE = 'Luyện viết chữ cho bé lớp 1 – tập viết chữ đẹp, đúng nét';
+const TITLE = 'Luyện viết chữ cho bé lớp 1 – tập viết chữ đẹp';
 const DESCRIPTION =
   'Luyện viết chữ cho bé lớp 1: hướng dẫn tập viết chữ cái đúng nét, đúng ô li cùng trò chơi tô chữ tương tác và bài học Tiếng Việt lớp 1 miễn phí tại Bé Hay Học.';
 

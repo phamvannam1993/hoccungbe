@@ -9,9 +9,9 @@ import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, TONES, type Tone } f
 
 export const revalidate = 86400;
 
-const TITLE = 'Bài tập Toán, Tiếng Việt, Tiếng Anh tiểu học có đáp án';
+const TITLE = 'Bài tập Toán, Tiếng Việt, Tiếng Anh có đáp án';
 const DESCRIPTION =
-  'Kho bài tập tiểu học theo chủ đề: Toán lớp 1–5, Tiếng Việt lớp 1–3, Tiếng Anh lớp 1. Mỗi chủ đề có 3 mức độ từ dễ đến nâng cao, kèm đáp án và lời giải, làm trực tiếp trên web miễn phí.';
+  'Kho bài tập tiểu học theo chủ đề: Toán lớp 1–5, Tiếng Việt lớp 1–3, Tiếng Anh lớp 1. Mỗi chủ đề 3 mức độ kèm đáp án, làm trực tiếp trên web miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,

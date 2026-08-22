@@ -6,9 +6,9 @@ import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidPills, type Tone 
 // Hub gốc phiếu bài tập in/PDF: /phieu-bai-tap → từng khoá → phiếu từng bài.
 export const revalidate = 86400;
 
-const TITLE = 'Phiếu bài tập Toán, Tiếng Việt, Tiếng Anh tiểu học (PDF, có đáp án)';
+const TITLE = 'Phiếu bài tập Toán, Tiếng Việt, Tiếng Anh (PDF)';
 const DESCRIPTION =
-  'Tải và in phiếu bài tập tiểu học miễn phí: Toán lớp 1–5, Tiếng Việt lớp 1–3, Tiếng Anh lớp 1. Mỗi bài một phiếu đầy đủ kèm đáp án, in trực tiếp hoặc lưu PDF cho bé luyện tập ở nhà.';
+  'Tải và in phiếu bài tập tiểu học miễn phí: Toán lớp 1–5, Tiếng Việt lớp 1–3, Tiếng Anh lớp 1. Mỗi bài một phiếu kèm đáp án, in hoặc lưu PDF cho bé luyện ở nhà.';
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -35,6 +35,7 @@ function div(): Problem {
 function explain(p: Problem): string {
   const { a, b, op, answer } = p;
   if (op === '+') {
+    if (a === 0 || b === 0) return `Cộng với 0: kết quả bằng chính số kia = ${answer}.`;
     const need = 10 - (a % 10);
     if (a % 10 !== 0 && b > need && a >= 10) {
       return `${a} + ${need} = ${a + need} (cho tròn chục), còn ${b - need} nữa → ${a + need} + ${b - need} = ${answer}.`;
@@ -42,6 +43,8 @@ function explain(p: Problem): string {
     return `${a} cộng thêm ${b} bằng ${answer}. Mẹo: đếm thêm từng đơn vị từ ${a}.`;
   }
   if (op === '−') {
+    if (b === 0) return `Trừ đi 0: kết quả bằng chính nó = ${answer}.`;
+    if (a === b) return `${a} − ${b} = 0 vì trừ chính nó luôn bằng 0.`;
     const down = a % 10;
     if (down > 0 && b > down && a >= 10) {
       return `${a} − ${down} = ${a - down} (về tròn chục), rồi bớt ${b - down} nữa → ${answer}.`;

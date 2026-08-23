@@ -40,7 +40,7 @@ export const ENGLISH_ALPHABET: AlphabetLetter[] = [
   { upper: 'U', lower: 'u', name: 'diu', sound: '/ʌ/', word: 'umbrella', vi: 'cái ô', emoji: '☂️' },
   { upper: 'V', lower: 'v', name: 'vi', sound: '/v/', word: 'van', vi: 'xe tải nhỏ', emoji: '🚐' },
   { upper: 'W', lower: 'w', name: 'đắp-liu', sound: '/w/', word: 'whale', vi: 'cá voi', emoji: '🐳' },
-  { upper: 'X', lower: 'x', name: 'ích', sound: '/ks/', word: 'fox', vi: 'con cáo', emoji: '🦊' },
+  { upper: 'X', lower: 'x', name: 'ích', sound: '/ks/', word: 'x-ray', vi: 'tia X-quang', emoji: '🩻' },
   { upper: 'Y', lower: 'y', name: 'oai', sound: '/j/', word: 'yo-yo', vi: 'con quay', emoji: '🪀' },
   { upper: 'Z', lower: 'z', name: 'dét', sound: '/z/', word: 'zebra', vi: 'ngựa vằn', emoji: '🦓' },
 ];

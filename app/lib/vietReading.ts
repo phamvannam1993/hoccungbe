@@ -249,7 +249,7 @@ export const VAN_GROUPS: VanGroup[] = [
       { van: 'âu', word: 'cầu', emoji: '🌉' },
       { van: 'êu', word: 'nêu', emoji: '🎍' },
       { van: 'iu', word: 'rìu', emoji: '🪓' },
-      { van: 'ưu', word: 'lựu', emoji: '🍎' },
+      { van: 'ưu', word: 'cừu', emoji: '🐑' },
       { van: 'iêu', word: 'diều', emoji: '🪁' },
       { van: 'yêu', word: 'yêu', emoji: '❤️' },
       { van: 'ươu', word: 'hươu', emoji: '🦌' },

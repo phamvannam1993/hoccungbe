@@ -97,6 +97,7 @@ const STATIC_PATHS: [string, string][] = [
   ['/bang-chu-cai', '2026-08-19'],
   ['/luyen-viet-chu', '2026-08-19'],
   ['/toan-tu-duy', '2026-08-20'],
+  ['/luyen-tinh-nham', '2026-08-23'],
   ['/toan-tu-duy-lop-1', '2026-08-20'],
   ['/toan-tu-duy-lop-2', '2026-08-20'],
   ['/toan-tu-duy-lop-3', '2026-08-20'],

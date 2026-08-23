@@ -22,6 +22,7 @@ const quickLinks = [
   { label: 'Thành ngữ, tục ngữ', href: '/thanh-ngu-tuc-ngu' },
   { label: 'Tập làm văn', href: '/tap-lam-van' },
   { label: 'Toán tư duy', href: '/toan-tu-duy' },
+  { label: 'Luyện tính nhẩm', href: '/luyen-tinh-nham' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },
   { label: 'Phonics – Ghép vần đọc', href: '/phonics-tieng-anh' },

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList, TONES, type Tone } from '../components/seo/kid';
+import BangCuuChuongGame from './BangCuuChuongGame';
 
 // Trang chuyên đề evergreen: /bang-cuu-chuong — keyword "bảng cửu chương" traffic rất cao.
 
@@ -74,6 +75,8 @@ export default function Page() {
         tone="pink"
         description="Bảng cửu chương (bảng nhân) từ 2 đến 9 đầy đủ, trình bày rõ ràng, dễ đọc và in được để bé học thuộc mỗi ngày. Bên dưới có mẹo ghi nhớ nhanh cùng bài tập và trò chơi nhân chia miễn phí."
       />
+
+      <BangCuuChuongGame />
 
       <div className="mt-6">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Truyện cổ tích Việt Nam cho bé (có đọc mẫu)';
 const DESCRIPTION =
-  `${TRUYEN_CO_TICH.length} truyện cổ tích Việt Nam cho bé: Thánh Gióng, Sơn Tinh Thủy Tinh, Sự tích Hồ Gươm, Cây tre trăm đốt… Nghe đọc mẫu từng câu, kèm bài học và câu hỏi đọc hiểu. Miễn phí.`;
+  `${TRUYEN_CO_TICH.length} truyện cổ tích Việt Nam cho bé: Thánh Gióng, Sơn Tinh–Thủy Tinh, Sự tích Hồ Gươm… Nghe đọc mẫu, kèm bài học và câu hỏi đọc hiểu. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -8,7 +8,7 @@ export const revalidate = 86400;
 
 const TITLE = 'Tập làm văn lớp 2–3 cho bé (dàn ý + bài văn mẫu)';
 const DESCRIPTION =
-  `Tập làm văn cho bé lớp 2–3 với ${TAP_LAM_VAN.length} đề: tả con mèo, cây bàng, tả mẹ, cái cặp, kể ngày đầu đi học… Có dàn ý gợi ý, từ ngữ hay, bài văn mẫu nghe được và ô cho bé tự viết. Miễn phí.`;
+  `Tập làm văn cho bé lớp 2–3: tả con mèo, cây bàng, tả mẹ, kể ngày đầu đi học… Có dàn ý, từ ngữ hay, bài văn mẫu nghe được và ô cho bé tự viết. Miễn phí.`;
 
 export const metadata: Metadata = {
   title: TITLE,

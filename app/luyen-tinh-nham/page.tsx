@@ -85,9 +85,43 @@ export default function Page() {
             <li><strong>Nhân 4:</strong> nhân đôi hai lần. Ví dụ 4 × 6 = (6 + 6) + (6 + 6) = 12 + 12 = <b>24</b>.</li>
             <li><strong>Nhân 5:</strong> bằng một nửa của nhân 10. Ví dụ 5 × 8 = 80 ÷ 2 = <b>40</b>.</li>
             <li><strong>Nhân 9:</strong> 9 × n = 10 × n − n. Ví dụ 9 × 7 = 70 − 7 = <b>63</b>. (Mẹo: tổng hai chữ số kết quả bảng 9 luôn bằng 9.)</li>
+            <li><strong>Nhân 6:</strong> nhân 3 rồi gấp đôi. Ví dụ 6 × 8 = (3 × 8) × 2 = 24 × 2 = <b>48</b>.</li>
+            <li><strong>Nhân 11 (số có 2 chữ số):</strong> cộng hai chữ số rồi đặt vào giữa. Ví dụ 23 × 11 = 2 _ (2+3) _ 3 = <b>253</b>.</li>
+            <li><strong>Nhân 25:</strong> nhân 100 rồi chia 4. Ví dụ 25 × 16 = 1600 ÷ 4 = <b>400</b>.</li>
+            <li><strong>Nhân số gần tròn:</strong> 99 × 45 = 100 × 45 − 45 = 4500 − 45 = <b>4455</b>.</li>
+            <li><strong>Bình phương số tận cùng 5:</strong> lấy chữ số đầu × (số đó + 1) rồi viết thêm 25. Ví dụ 35 × 35 = (3×4) rồi 25 = <b>1225</b>.</li>
+            <li><strong>Tìm phần trăm nhanh:</strong> 10% là chia 10, 25% là chia 4, 50% là chia đôi. Ví dụ 25% của 40 = 40 ÷ 4 = <b>10</b>.</li>
+            <li><strong>Cộng phân số cùng mẫu:</strong> giữ nguyên mẫu, cộng tử. Ví dụ 1/4 + 2/4 = <b>3/4</b>.</li>
             <li><strong>Chia là phép ngược của nhân:</strong> 56 ÷ 8 = 7 vì 8 × 7 = 56. Thuộc bảng nhân là chia được ngay.</li>
             <li><strong>Luyện mỗi ngày 5–10 phút</strong> ở chế độ Tính nhanh để phản xạ với con số tốt hơn.</li>
           </ul>
+        </KidCard>
+      </div>
+
+      <div className="mt-8">
+        <KidCard emoji="📐" title="Công thức hình học & đổi đơn vị cần thuộc" tone="sky">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="mb-1 font-black text-slate-800 kid-display">📏 Chu vi &amp; diện tích</p>
+              <ul className="space-y-2 leading-7 text-slate-700">
+                <li><strong>Chu vi hình vuông</strong> = cạnh × 4. Ví dụ cạnh 5 → 5 × 4 = <b>20</b>.</li>
+                <li><strong>Diện tích hình vuông</strong> = cạnh × cạnh. Ví dụ cạnh 6 → 6 × 6 = <b>36</b>.</li>
+                <li><strong>Chu vi hình chữ nhật</strong> = (dài + rộng) × 2. Ví dụ 8 và 3 → (8+3) × 2 = <b>22</b>.</li>
+                <li><strong>Diện tích hình chữ nhật</strong> = dài × rộng. Ví dụ 12 × 5 = <b>60</b>.</li>
+                <li><strong>Diện tích hình tam giác</strong> = đáy × cao : 2. Ví dụ 10 × 6 : 2 = <b>30</b>.</li>
+              </ul>
+            </div>
+            <div>
+              <p className="mb-1 font-black text-slate-800 kid-display">🔁 Đổi đơn vị đo</p>
+              <ul className="space-y-2 leading-7 text-slate-700">
+                <li><strong>Độ dài:</strong> 1 km = 1000 m · 1 m = 100 cm · 1 m = 10 dm · 1 dm = 10 cm.</li>
+                <li><strong>Khối lượng:</strong> 1 tấn = 1000 kg · 1 tạ = 100 kg · 1 kg = 1000 g.</li>
+                <li><strong>Thời gian:</strong> 1 giờ = 60 phút · 1 phút = 60 giây · 1 ngày = 24 giờ · 1 tuần = 7 ngày.</li>
+                <li><strong>Dung tích:</strong> 1 lít = 1000 ml.</li>
+                <li><strong>Diện tích:</strong> 1 m² = 100 dm² · 1 dm² = 100 cm².</li>
+              </ul>
+            </div>
+          </div>
         </KidCard>
       </div>
 

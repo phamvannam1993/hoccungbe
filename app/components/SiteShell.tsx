@@ -2,7 +2,6 @@
 import { usePathname } from 'next/navigation';
 import SiteHeader from './edu/SiteHeader';
 import Footer from './edu/Footer';
-import GuestWelcomeModal from './edu/GuestWelcomeModal';
 import BottomNav from './edu/BottomNav';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
@@ -29,7 +28,6 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       {/* Trang làm bài: bỏ footer để bé thấy trọn bài, không phải cuộn qua footer dài */}
       {!isQuizPlay && <Footer />}
       <BottomNav />
-      <GuestWelcomeModal />
     </>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { englishVocabularyData } from './data/englishVocabularyData';
 import { speakText, stopSpeaking } from './utils/speech';
+import { useVocabImages, isImageUrl } from './utils/vocabImages';
 
 type Props = {
   showFlashcardMode: boolean;
@@ -46,6 +47,7 @@ export default function EnglishFlashcardPanel({
 
   const audioContextRef = useRef<AudioContext | null>(null);
 
+  const vocabImages = useVocabImages();
   const currentCard = englishVocabularyData[flashcardIndex];
 
   useEffect(() => {
@@ -283,7 +285,18 @@ export default function EnglishFlashcardPanel({
           onClick={handleFlipCard}
           className="min-h-[260px] w-full max-w-md rounded-[32px] bg-emerald-50 p-8 text-center ring-1 ring-emerald-100 transition hover:bg-emerald-100"
         >
-          <div className="text-6xl">{currentCard?.image}</div>
+          <div className="flex h-20 items-center justify-center text-6xl">
+            {currentCard && isImageUrl(vocabImages[currentCard.id]) ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={vocabImages[currentCard.id]}
+                alt={currentCard.word}
+                className="h-20 w-auto max-w-full object-contain"
+              />
+            ) : (
+              currentCard?.image
+            )}
+          </div>
 
           {!flashcardFlipped ? (
             <div className="mt-4">

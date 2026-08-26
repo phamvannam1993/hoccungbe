@@ -3,6 +3,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { VocabWord } from '../../lib/vocab';
 import { speakEnThenVi, unlockAudio, stopSpeaking } from '../../components/edu/utils/speech';
+import { useVocabImages, isImageUrl } from '../../components/edu/utils/vocabImages';
+
+// Ảnh admin upload cho một từ (nếu có) — key "{slug}:{en}". Không có → dùng emoji.
+function wordImageUrl(map: Record<string, string>, slug: string, en: string): string | null {
+  const u = map[`${slug}:${en}`];
+  return isImageUrl(u) ? u : null;
+}
 
 // Bảng màu pastel xoay vòng cho từng thẻ → lưới từ vựng rực rỡ, hợp mắt trẻ.
 // Dùng chuỗi class Tailwind đầy đủ để không bị purge.
@@ -40,8 +47,9 @@ function SpeakButton({ en, vi, big = false }: { en: string; vi: string; big?: bo
   );
 }
 
-export function VocabTopicClient({ words, heading }: { words: VocabWord[]; heading: string }) {
+export function VocabTopicClient({ words, heading, slug }: { words: VocabWord[]; heading: string; slug: string }) {
   const [mode, setMode] = useState<'grid' | 'flashcard'>('grid');
+  const vocabImages = useVocabImages();
 
   useEffect(() => () => stopSpeaking(), []);
 
@@ -80,10 +88,15 @@ export function VocabTopicClient({ words, heading }: { words: VocabWord[]; headi
                   <button
                     type="button"
                     onClick={() => play(w.en, w.vi)}
-                    className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-4xl shadow-inner transition hover:scale-105 active:scale-95 ${c.emoji}`}
+                    className={`grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl text-4xl shadow-inner transition hover:scale-105 active:scale-95 ${c.emoji}`}
                     aria-label={`Nghe ${w.en}`}
                   >
-                    {w.emoji || '🔤'}
+                    {wordImageUrl(vocabImages, slug, w.en) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={wordImageUrl(vocabImages, slug, w.en)!} alt={w.en} className="h-full w-full object-cover" />
+                    ) : (
+                      w.emoji || '🔤'
+                    )}
                   </button>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
@@ -105,13 +118,14 @@ export function VocabTopicClient({ words, heading }: { words: VocabWord[]; headi
           })}
         </ul>
       ) : (
-        <Flashcards words={words} heading={heading} />
+        <Flashcards words={words} heading={heading} slug={slug} />
       )}
     </div>
   );
 }
 
-function Flashcards({ words, heading }: { words: VocabWord[]; heading: string }) {
+function Flashcards({ words, heading, slug }: { words: VocabWord[]; heading: string; slug: string }) {
+  const vocabImages = useVocabImages();
   const [i, setI] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const w = words[i];
@@ -146,7 +160,14 @@ function Flashcards({ words, heading }: { words: VocabWord[]; heading: string })
         className={`mt-4 flex aspect-[4/3] w-full max-w-md flex-col items-center justify-center rounded-[2rem] border-2 p-6 text-center shadow-lg transition hover:-translate-y-1 ${c.card}`}
         aria-label="Lật thẻ"
       >
-        <span className="text-8xl drop-shadow-sm" aria-hidden>{w.emoji || '🔤'}</span>
+        <span className="flex h-28 items-center justify-center text-8xl drop-shadow-sm" aria-hidden>
+          {wordImageUrl(vocabImages, slug, w.en) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={wordImageUrl(vocabImages, slug, w.en)!} alt={w.en} className="h-28 w-auto max-w-full object-contain" />
+          ) : (
+            w.emoji || '🔤'
+          )}
+        </span>
         {!flipped ? (
           <>
             <span className={`mt-3 text-4xl font-black ${c.accent}`}>{w.en}</span>

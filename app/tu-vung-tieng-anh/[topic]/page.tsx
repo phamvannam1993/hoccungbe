@@ -96,7 +96,7 @@ export default async function Page({ params }: Props) {
         </div>
       </header>
 
-      <VocabTopicClient words={t.words} heading={t.heading} />
+      <VocabTopicClient words={t.words} heading={t.heading} slug={t.slug} />
 
       <section className="mt-12 rounded-2xl border-2 border-slate-200 bg-white p-5">
         <h2 className="text-lg font-bold text-slate-900">Cách học từ vựng hiệu quả cho bé</h2>

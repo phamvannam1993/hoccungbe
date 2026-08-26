@@ -18,6 +18,7 @@ import EnglishFlashcardPanel from './EnglishFlashcardPanel';
 import EnglishLeaderboard from './EnglishLeaderboard';
 import Link from 'next/link';
 import { speakText, stopSpeaking } from './utils/speech';
+import { useVocabImages, isImageUrl } from './utils/vocabImages';
 
 type BuiltEnglishQuestion = EnglishWordItem & {
   options: string[];
@@ -431,6 +432,7 @@ export default function EnglishVocabularyPage() {
     useState<EnglishVocabularyLevel | null>(null);
   const [currentTheme, setCurrentTheme] = useState<ThemeInfo | null>(null);
   const [questions, setQuestions] = useState<BuiltEnglishQuestion[]>([]);
+  const vocabImages = useVocabImages();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -1654,8 +1656,17 @@ export default function EnglishVocabularyPage() {
                 </>
               ) : (
                 <>
-                  <div className="mb-3 text-[88px] leading-none sm:mb-4 sm:text-[140px]">
-                    {currentQuestion.image}
+                  <div className="mb-3 flex items-center justify-center text-[88px] leading-none sm:mb-4 sm:text-[140px]">
+                    {isImageUrl(vocabImages[currentQuestion.id]) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={vocabImages[currentQuestion.id]}
+                        alt={currentQuestion.word}
+                        className="h-[88px] w-auto max-w-full object-contain sm:h-[140px]"
+                      />
+                    ) : (
+                      currentQuestion.image
+                    )}
                   </div>
 
                   {selectedLevel.mode === 'look-and-choose' ||

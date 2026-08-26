@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Coffee } from 'lucide-react';
 import { isGuest, listChildren, type Child } from '../../lib/childData';
 import { ChildAvatar } from './KidIcon';
 import NotificationBell from './NotificationBell';
@@ -37,7 +37,7 @@ const NAV_MENU: NavItem[] = [
   },
   // { href: '/tien-do', label: 'THI ĐẤU' },  // tạm ẩn
   { href: '/de-thi', label: 'ÔN THI' },
-  { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },
+  // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },
   { href: '/ho-tro', label: 'HỖ TRỢ' },
 ];
@@ -379,6 +379,15 @@ export default function SiteHeader() {
                 </div>
               );
             })}
+
+            {/* CTA Ủng hộ — nổi bật, tách khỏi các mục menu thường */}
+            <Link
+              href="/ung-ho"
+              className="ml-1 flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3.5 py-2 text-[13px] font-bold text-white shadow-md ring-2 ring-white/40 transition-all duration-200 hover:scale-[1.05] hover:brightness-105"
+            >
+              <Coffee size={15} />
+              Ủng hộ
+            </Link>
           </nav>
         </div>
       </div>
@@ -387,6 +396,14 @@ export default function SiteHeader() {
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-white/20 shadow-lg">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1">
+            {/* CTA Ủng hộ — nổi bật ở đầu menu mobile */}
+            <Link
+              href="/ung-ho"
+              onClick={() => setMobileOpen(false)}
+              className="mb-1 flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-2.5 text-sm font-bold text-white shadow-sm"
+            >
+              <Coffee size={16} /> Ủng hộ dự án
+            </Link>
             {NAV_MENU.map((item) => (
               <div key={item.href}>
                 <Link href={item.href}

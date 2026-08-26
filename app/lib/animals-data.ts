@@ -216,7 +216,7 @@ export const ANIMALS: VocabWord[] = [
   { en: 'hummingbird', ipa: '/ˈhʌmɪŋbɜːrd/', vi: 'chim ruồi', emoji: '🐦' },
   { en: 'kingfisher', ipa: '/ˈkɪŋfɪʃər/', vi: 'chim bói cá', emoji: '🐦' },
   { en: 'woodpecker', ipa: '/ˈwʊdpekər/', vi: 'chim gõ kiến', emoji: '🐦' },
-  { en: 'cuckoo', ipa: '/ˈkuːkuː/', vi: 'chim cu cu', emoji: '🐦' },
+  { en: 'cuckoo', ipa: '/ˈkuːkuː/', vi: 'chim tu hú', emoji: '🐦' },
 
   // ── Chim nước & gia cầm hoang ───────────────────────────────
   { en: 'swan', ipa: '/swɑːn/', vi: 'thiên nga', emoji: '🦢' },

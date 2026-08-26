@@ -1255,7 +1255,7 @@ export const VOCAB_TOPICS: VocabTopic[] = [
       { en: 'pigeon', ipa: '/ˈpɪdʒɪn/', vi: 'chim bồ câu', emoji: '🕊️' },
       { en: 'seagull', ipa: '/ˈsiːɡʌl/', vi: 'mòng biển', emoji: '🐦' },
       { en: 'woodpecker', ipa: '/ˈwʊdpekər/', vi: 'chim gõ kiến', emoji: '🐦' },
-      { en: 'cuckoo', ipa: '/ˈkuːkuː/', vi: 'chim cu cu', emoji: '🐦' },
+      { en: 'cuckoo', ipa: '/ˈkuːkuː/', vi: 'chim tu hú', emoji: '🐦' },
       { en: 'magpie', ipa: '/ˈmæɡpaɪ/', vi: 'chim ác là', emoji: '🐦' },
       { en: 'hummingbird', ipa: '/ˈhʌmɪŋbɜːrd/', vi: 'chim ruồi', emoji: '🐦' },
       { en: 'quail', ipa: '/kweɪl/', vi: 'chim cút', emoji: '🐦' },

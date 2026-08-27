@@ -5,46 +5,51 @@ import { apiFetch } from '../lib/api';
 import { getCurrentChildId, listChildren } from '../lib/childData';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
 import { shareAchievement } from '../lib/share';
+import { KHAM_PHA_TOPICS } from '../lib/khampha';
 
-type Problem = { text: string; answer: number; options: number[] };
+type Problem = { prompt: string; options: string[]; correctIndex: number };
 type LeaderRow = { name: string; score: number; rank: number };
+type Subject = 'toan' | 'kham-pha';
 
 const DURATION = 60;
+const SUBJECTS: { key: Subject; label: string; emoji: string }[] = [
+  { key: 'toan', label: 'Toán tốc độ', emoji: '➗' },
+  { key: 'kham-pha', label: 'Khám phá', emoji: '🔎' },
+];
+const SUBJECT_LABEL: Record<Subject, string> = { toan: 'Toán', 'kham-pha': 'Khám phá' };
+
+// Gộp toàn bộ câu hỏi khám phá để bốc ngẫu nhiên.
+const KHAM_PHA_ALL = KHAM_PHA_TOPICS.flatMap((t) => t.questions);
 
 function randInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // Sinh phép tính theo LỚP để công bằng: lớp 1 dễ, lớp lớn khó dần.
-function makeProblem(grade: number): Problem {
+function makeMath(grade: number): Problem {
   let text = '', answer = 0;
   const g = Math.min(5, Math.max(1, grade));
   if (g === 1) {
-    // Cộng/trừ trong 20
     if (randInt(0, 1) === 0) { const a = randInt(1, 10), b = randInt(1, 10); text = `${a} + ${b}`; answer = a + b; }
     else { const a = randInt(2, 20), b = randInt(1, a); text = `${a} − ${b}`; answer = a - b; }
   } else if (g === 2) {
-    // Cộng/trừ trong 100 + nhân nhỏ
     const r = randInt(0, 2);
     if (r === 0) { const a = randInt(5, 50), b = randInt(5, 50); text = `${a} + ${b}`; answer = a + b; }
     else if (r === 1) { const a = randInt(10, 90), b = randInt(1, a); text = `${a} − ${b}`; answer = a - b; }
     else { const a = randInt(2, 5), b = randInt(2, 5); text = `${a} × ${b}`; answer = a * b; }
   } else if (g === 3) {
-    // Nhân/chia bảng cửu chương + cộng trừ trong 100
     const r = randInt(0, 3);
     if (r === 0) { const a = randInt(2, 9), b = randInt(2, 9); text = `${a} × ${b}`; answer = a * b; }
     else if (r === 1) { const b = randInt(2, 9), q = randInt(2, 9); text = `${b * q} ÷ ${b}`; answer = q; }
     else if (r === 2) { const a = randInt(20, 90), b = randInt(10, 90); text = `${a} + ${b}`; answer = a + b; }
     else { const a = randInt(30, 99), b = randInt(1, a); text = `${a} − ${b}`; answer = a - b; }
   } else if (g === 4) {
-    // Nhân 2 chữ số × 1 chữ số, chia, cộng trừ lớn
     const r = randInt(0, 3);
     if (r === 0) { const a = randInt(11, 30), b = randInt(2, 9); text = `${a} × ${b}`; answer = a * b; }
     else if (r === 1) { const b = randInt(2, 9), q = randInt(10, 20); text = `${b * q} ÷ ${b}`; answer = q; }
     else if (r === 2) { const a = randInt(100, 900), b = randInt(50, 500); text = `${a} + ${b}`; answer = a + b; }
     else { const a = randInt(200, 999), b = randInt(1, a); text = `${a} − ${b}`; answer = a - b; }
   } else {
-    // Lớp 5: nhân/chia lớn hơn
     const r = randInt(0, 3);
     if (r === 0) { const a = randInt(11, 40), b = randInt(3, 12); text = `${a} × ${b}`; answer = a * b; }
     else if (r === 1) { const b = randInt(3, 12), q = randInt(10, 40); text = `${b * q} ÷ ${b}`; answer = q; }
@@ -53,13 +58,23 @@ function makeProblem(grade: number): Problem {
   }
 
   const spread = Math.max(2, Math.round(answer * 0.15)) + 3;
-  const opts = new Set<number>([answer]);
-  while (opts.size < 4) {
+  const nums = new Set<number>([answer]);
+  while (nums.size < 4) {
     const cand = answer + randInt(-spread, spread);
-    if (cand >= 0 && cand !== answer) opts.add(cand);
+    if (cand >= 0 && cand !== answer) nums.add(cand);
   }
-  const options = [...opts].sort(() => randInt(-1, 1));
-  return { text: `${text}`, answer, options };
+  const arr = [...nums].sort(() => randInt(-1, 1));
+  return { prompt: `${text} = ?`, options: arr.map(String), correctIndex: arr.indexOf(answer) };
+}
+
+// Bốc ngẫu nhiên một câu đố khám phá.
+function makeKham(): Problem {
+  const q = KHAM_PHA_ALL[randInt(0, KHAM_PHA_ALL.length - 1)];
+  return { prompt: q.question, options: q.options, correctIndex: q.correct_index };
+}
+
+function makeQ(subject: Subject, grade: number): Problem {
+  return subject === 'kham-pha' ? makeKham() : makeMath(grade);
 }
 
 export default function DauTruongClient() {
@@ -72,6 +87,7 @@ export default function DauTruongClient() {
 
   const [name, setName] = useState('');
   const [grade, setGrade] = useState(1);
+  const [subject, setSubject] = useState<Subject>('toan');
   const [hasChild, setHasChild] = useState(false);
   const [viewGrade, setViewGrade] = useState(1);
   const [board, setBoard] = useState<LeaderRow[]>([]);
@@ -82,14 +98,14 @@ export default function DauTruongClient() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const doShare = async () => {
-    const r = await shareAchievement('dau-truong', name || 'Bé', `Hạng ${myRank} Lớp ${grade} · ${score} câu đúng`);
+    const r = await shareAchievement('dau-truong', name || 'Bé', `Hạng ${myRank} ${SUBJECT_LABEL[subject]} Lớp ${grade} · ${score} câu đúng`);
     if (r === 'copied') { setShareMsg('✅ Đã sao chép link! Dán vào Zalo/Facebook để khoe.'); setTimeout(() => setShareMsg(''), 3000); }
     else if (r === 'fail') { setShareMsg('Chưa chia sẻ được, thử lại nhé.'); setTimeout(() => setShareMsg(''), 2500); }
   };
 
-  const loadBoard = useCallback(async (g: number) => {
+  const loadBoard = useCallback(async (g: number, subj: Subject) => {
     try {
-      const d = await apiFetch<{ week: string; rows: LeaderRow[] }>(`/challenges/leaderboard?grade=${g}&limit=20`);
+      const d = await apiFetch<{ week: string; rows: LeaderRow[] }>(`/challenges/leaderboard?grade=${g}&subject=${subj}&limit=20`);
       setBoard(d.rows || []);
       setWeek(d.week || '');
     } catch {
@@ -116,7 +132,7 @@ export default function DauTruongClient() {
       }
       setGrade(g);
       setViewGrade(g);
-      loadBoard(g);
+      loadBoard(g, 'toan');
     })();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -126,13 +142,18 @@ export default function DauTruongClient() {
   const changeGrade = (g: number) => {
     setGrade(g);
     setViewGrade(g);
-    loadBoard(g);
+    loadBoard(g, subject);
+  };
+
+  const changeSubject = (s: Subject) => {
+    setSubject(s);
+    loadBoard(viewGrade, s);
   };
 
   // Xem BXH lớp khác (không đổi lớp thi đấu của bé).
   const viewBoard = (g: number) => {
     setViewGrade(g);
-    loadBoard(g);
+    loadBoard(g, subject);
   };
 
   const start = () => {
@@ -140,7 +161,7 @@ export default function DauTruongClient() {
     setLeft(DURATION);
     setMyRank(null);
     setLostByWrong(false);
-    setProblem(makeProblem(grade));
+    setProblem(makeQ(subject, grade));
     setPhase('playing');
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
@@ -157,12 +178,12 @@ export default function DauTruongClient() {
     }, 1000);
   };
 
-  const answer = (val: number) => {
+  const answer = (idx: number) => {
     if (phase !== 'playing' || !problem) return;
-    if (val === problem.answer) {
+    if (idx === problem.correctIndex) {
       setScore((s) => s + 1);
       playCorrect();
-      setProblem(makeProblem(grade));
+      setProblem(makeQ(subject, grade));
     } else {
       // Sai một câu là dừng ngay (chế độ sinh tử).
       playWrong();
@@ -179,17 +200,19 @@ export default function DauTruongClient() {
     try {
       const res = await apiFetch<{ rank: number; best: number }>('/challenges/submit', {
         method: 'POST',
-        body: JSON.stringify({ name: name.trim() || 'Bé ẩn danh', score, grade }),
+        body: JSON.stringify({ name: name.trim() || 'Bé ẩn danh', score, grade, subject }),
       });
       setMyRank(res.rank);
       setViewGrade(grade);
-      await loadBoard(grade);
+      await loadBoard(grade, subject);
     } catch {
       /* ignore */
     } finally {
       setSubmitting(false);
     }
   };
+
+  const bigPrompt = (problem?.prompt.length ?? 0) <= 16;
 
   return (
     <div className="mt-6 space-y-6">
@@ -198,8 +221,18 @@ export default function DauTruongClient() {
         {phase === 'idle' && (
           <div className="py-6">
             <p className="text-5xl">⚔️</p>
-            <h2 className="mt-3 text-xl font-black text-slate-800">Thử thách Toán — Trả lời đúng liên tiếp</h2>
-            <p className="mx-auto mt-2 max-w-md text-slate-500">Trả lời đúng càng nhiều câu liên tiếp càng tốt — <b className="text-rose-500">sai một câu là dừng!</b> Mỗi lớp có bảng xếp hạng riêng cho công bằng.</p>
+            <h2 className="mt-3 text-xl font-black text-slate-800">Đấu Trường — Trả lời đúng liên tiếp</h2>
+            <p className="mx-auto mt-2 max-w-md text-slate-500">Trả lời đúng càng nhiều câu liên tiếp càng tốt — <b className="text-rose-500">sai một câu là dừng!</b> Mỗi lớp & mỗi môn có bảng xếp hạng riêng.</p>
+
+            {/* Chọn môn */}
+            <div className="mt-4 inline-flex rounded-full bg-slate-100 p-1">
+              {SUBJECTS.map((s) => (
+                <button key={s.key} type="button" onClick={() => changeSubject(s.key)} className={`rounded-full px-4 py-1.5 text-sm font-black transition ${subject === s.key ? 'bg-white text-orange-600 shadow' : 'text-slate-500'}`}>
+                  {s.emoji} {s.label}
+                </button>
+              ))}
+            </div>
+
             {hasChild ? (
               <p className="mt-4 inline-block rounded-full bg-orange-50 px-4 py-1.5 text-sm font-black text-orange-600">🎓 Thi đấu theo hồ sơ của bé: Lớp {grade}</p>
             ) : (
@@ -216,7 +249,7 @@ export default function DauTruongClient() {
               </div>
             )}
             <div className="mt-5">
-              <button type="button" onClick={start} className="rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-8 py-3 text-base font-black text-white shadow-md">🚀 Bắt đầu (Lớp {grade})</button>
+              <button type="button" onClick={start} className="rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-8 py-3 text-base font-black text-white shadow-md">🚀 Bắt đầu ({SUBJECT_LABEL[subject]} · Lớp {grade})</button>
             </div>
           </div>
         )}
@@ -230,10 +263,10 @@ export default function DauTruongClient() {
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
               <div className="h-full rounded-full bg-orange-400 transition-all duration-1000 ease-linear" style={{ width: `${(left / DURATION) * 100}%` }} />
             </div>
-            <p className="mt-6 text-5xl font-black text-slate-800 sm:text-6xl">{problem.text} = ?</p>
-            <div className="mx-auto mt-6 grid max-w-md grid-cols-2 gap-3">
+            <p className={`mx-auto mt-6 max-w-2xl font-black leading-snug text-slate-800 ${bigPrompt ? 'text-4xl sm:text-6xl' : 'text-xl sm:text-3xl'}`}>{problem.prompt}</p>
+            <div className="mx-auto mt-6 grid max-w-lg grid-cols-1 gap-3 sm:grid-cols-2">
               {problem.options.map((op, i) => (
-                <button key={`${op}-${i}`} type="button" onClick={() => answer(op)} className="rounded-2xl border-2 border-slate-200 bg-white py-4 text-2xl font-black text-slate-800 transition hover:border-orange-400 hover:bg-orange-50 active:scale-95">
+                <button key={`${op}-${i}`} type="button" onClick={() => answer(i)} className="rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-lg font-black text-slate-800 transition hover:border-orange-400 hover:bg-orange-50 active:scale-95">
                   {op}
                 </button>
               ))}
@@ -248,11 +281,11 @@ export default function DauTruongClient() {
               {lostByWrong ? 'Sai một câu rồi!' : 'Hết giờ!'} Bé đúng {score} câu liên tiếp
             </h2>
             {lostByWrong && problem && (
-              <p className="mt-1 text-sm font-semibold text-slate-500">Đáp án đúng của <b>{problem.text}</b> là <b className="text-emerald-600">{problem.answer}</b>.</p>
+              <p className="mx-auto mt-1 max-w-lg text-sm font-semibold text-slate-500">Đáp án đúng là <b className="text-emerald-600">{problem.options[problem.correctIndex]}</b>.</p>
             )}
             {myRank ? (
               <div className="mt-2">
-                <p className="text-lg font-black text-orange-600">🏆 Hạng {myRank} tuần này!</p>
+                <p className="text-lg font-black text-orange-600">🏆 Hạng {myRank} {SUBJECT_LABEL[subject]} Lớp {grade} tuần này!</p>
                 <button type="button" onClick={doShare} className="mt-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 px-5 py-2 text-sm font-black text-white shadow">
                   📤 Khoe thành tích
                 </button>
@@ -276,18 +309,28 @@ export default function DauTruongClient() {
       {/* Bảng xếp hạng */}
       <div className="rounded-3xl border-2 border-slate-100 bg-white p-5">
         <div className="mb-3">
-          <h2 className="text-lg font-black text-slate-800 kid-display">🏆 Bảng xếp hạng Lớp {viewGrade} {week && <span className="text-sm font-bold text-slate-400">· tuần {week}</span>}</h2>
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
-            <span className="text-xs font-bold text-slate-400">Xem lớp:</span>
-            {[1, 2, 3, 4, 5].map((g) => (
-              <button key={g} type="button" onClick={() => viewBoard(g)} className={`h-7 rounded-full px-3 text-xs font-black transition ${viewGrade === g ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
-                {g}
-              </button>
-            ))}
+          <h2 className="text-lg font-black text-slate-800 kid-display">🏆 Bảng xếp hạng {SUBJECT_LABEL[subject]} · Lớp {viewGrade} {week && <span className="text-sm font-bold text-slate-400">· tuần {week}</span>}</h2>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-400">Môn:</span>
+              {SUBJECTS.map((s) => (
+                <button key={s.key} type="button" onClick={() => changeSubject(s.key)} className={`h-7 rounded-full px-3 text-xs font-black transition ${subject === s.key ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+                  {s.emoji} {s.label}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-400">Xem lớp:</span>
+              {[1, 2, 3, 4, 5].map((g) => (
+                <button key={g} type="button" onClick={() => viewBoard(g)} className={`h-7 rounded-full px-3 text-xs font-black transition ${viewGrade === g ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+                  {g}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         {board.length === 0 ? (
-          <p className="py-6 text-center text-slate-400">Chưa có ai thi đấu tuần này. Bé hãy là người đầu tiên!</p>
+          <p className="py-6 text-center text-slate-400">Chưa có ai thi đấu môn này tuần này. Bé hãy là người đầu tiên!</p>
         ) : (
           <ol className="space-y-1.5">
             {board.map((r) => {

@@ -36,8 +36,8 @@ export default function Page() {
         tone="orange"
         description={
           <>
-            Thử thách <strong>60 giây</strong>: trả lời thật nhiều phép tính đúng để ghi điểm. Điểm cao nhất trong tuần lên{' '}
-            <strong>bảng xếp hạng</strong> — thi tài cùng các bạn nào!
+            Thi đấu <strong>Toán tốc độ</strong> hoặc <strong>Đố vui khám phá</strong>: trả lời đúng liên tiếp càng nhiều càng tốt —
+            sai một câu là dừng! Điểm cao nhất tuần lên <strong>bảng xếp hạng riêng từng môn, từng lớp</strong>.
           </>
         }
       />

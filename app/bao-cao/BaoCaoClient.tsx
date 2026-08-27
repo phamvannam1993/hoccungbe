@@ -13,6 +13,7 @@ import {
   type Child,
 } from '../lib/childData';
 import { starsForScore } from '../lib/stars';
+import { shareAchievement } from '../lib/share';
 import FramedAvatar from '../components/edu/FramedAvatar';
 
 type Report = {
@@ -111,28 +112,12 @@ export default function BaoCaoClient() {
   const name = report.child?.nickname || report.child?.fullName || 'Bé';
   const diff = report.lessons - report.prevLessons;
 
-  const shareText =
-    `📚 Báo cáo tuần của ${name} trên Bé Hay Học:\n` +
-    `• ${report.lessons} bài học\n` +
-    `• ${report.questions} câu hỏi, đúng ${report.accuracy}%\n` +
-    (report.topSubject ? `• Chăm nhất: ${report.topSubject}\n` : '') +
-    `• Chuỗi ${report.streak} ngày 🔥, kiếm ${report.stars} sao ⭐`;
-
   const share = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: 'Báo cáo tuần của bé', text: shareText });
-        return;
-      }
-    } catch {
-      /* rơi xuống copy */
-    }
-    try {
-      await navigator.clipboard.writeText(shareText);
+    const summary = `${report.lessons} bài · đúng ${report.accuracy}%${report.topSubject ? ` · chăm nhất ${report.topSubject}` : ''}`;
+    const r = await shareAchievement('bao-cao', name, summary);
+    if (r === 'copied') {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
-    } catch {
-      /* ignore */
     }
   };
 

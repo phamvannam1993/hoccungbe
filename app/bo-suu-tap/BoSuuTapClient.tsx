@@ -8,6 +8,7 @@ import { getCurrentChildId, listChildren, updateChild, childHistory, childStreak
 import { BADGES, isEarned, type BadgeContext } from '../lib/achievements';
 import { AVATAR_FRAMES, getOwnedFrames, buyFrame, equipFrame, getEquippedFrame, type Frame } from '../lib/frames';
 import { confetti, playCorrect, playWrong } from '../lib/celebrate';
+import { shareAchievement } from '../lib/share';
 import WeeklyQuests from '../components/edu/WeeklyQuests';
 
 type LearnCtx = { lessons: number; perfect: number; subjects: number; currentStreak: number; longestStreak: number; totalActiveDays: number };
@@ -22,6 +23,7 @@ export default function BoSuuTapClient() {
   const [learn, setLearn] = useState<LearnCtx | null>(null);
   const [ownedFrames, setOwnedFrames] = useState<string[]>([]);
   const [equippedFrame, setEquippedFrame] = useState('');
+  const [childName, setChildName] = useState('Bé');
 
   const sync = useCallback(() => {
     const id = getCurrentChildId();
@@ -73,7 +75,9 @@ export default function BoSuuTapClient() {
           childHistory(id, 300).catch(() => []),
           childStreak(id).catch(() => null),
         ]);
-        setAvatarUrl(kids.find((k) => k.id === id)?.avatarUrl || '');
+        const me = kids.find((k) => k.id === id);
+        setAvatarUrl(me?.avatarUrl || '');
+        setChildName(me?.nickname || me?.fullName || 'Bé');
         const subjects = new Set(hist.map((h) => subjectInfo(h.courseType).name)).size;
         setLearn({
           lessons: hist.length,
@@ -188,7 +192,10 @@ export default function BoSuuTapClient() {
                     </div>
                   </div>
                   {done ? (
-                    <p className="mt-2 text-center text-[11px] font-black text-amber-600">✓ Đã đạt</p>
+                    <div className="mt-2 flex items-center justify-center gap-1.5">
+                      <span className="text-[11px] font-black text-amber-600">✓ Đã đạt</span>
+                      <button type="button" onClick={() => shareAchievement('huy-hieu', childName, b.title)} title="Khoe huy hiệu" className="rounded px-1 text-[11px] text-sky-600 hover:bg-sky-50">📤</button>
+                    </div>
                   ) : (
                     <div className="mt-2">
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">

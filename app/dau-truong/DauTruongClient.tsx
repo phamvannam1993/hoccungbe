@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { getCurrentChildId, listChildren } from '../lib/childData';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
+import { shareAchievement } from '../lib/share';
 
 type Problem = { text: string; answer: number; options: number[] };
 type LeaderRow = { name: string; score: number; rank: number };
@@ -77,7 +78,14 @@ export default function DauTruongClient() {
   const [week, setWeek] = useState('');
   const [myRank, setMyRank] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [shareMsg, setShareMsg] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const doShare = async () => {
+    const r = await shareAchievement('dau-truong', name || 'Bé', `Hạng ${myRank} Lớp ${grade} · ${score} câu đúng`);
+    if (r === 'copied') { setShareMsg('✅ Đã sao chép link! Dán vào Zalo/Facebook để khoe.'); setTimeout(() => setShareMsg(''), 3000); }
+    else if (r === 'fail') { setShareMsg('Chưa chia sẻ được, thử lại nhé.'); setTimeout(() => setShareMsg(''), 2500); }
+  };
 
   const loadBoard = useCallback(async (g: number) => {
     try {
@@ -243,7 +251,13 @@ export default function DauTruongClient() {
               <p className="mt-1 text-sm font-semibold text-slate-500">Đáp án đúng của <b>{problem.text}</b> là <b className="text-emerald-600">{problem.answer}</b>.</p>
             )}
             {myRank ? (
-              <p className="mt-2 text-lg font-black text-orange-600">🏆 Hạng {myRank} tuần này!</p>
+              <div className="mt-2">
+                <p className="text-lg font-black text-orange-600">🏆 Hạng {myRank} tuần này!</p>
+                <button type="button" onClick={doShare} className="mt-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 px-5 py-2 text-sm font-black text-white shadow">
+                  📤 Khoe thành tích
+                </button>
+                {shareMsg && <p className="mt-1 text-xs font-bold text-emerald-600">{shareMsg}</p>}
+              </div>
             ) : (
               <div className="mx-auto mt-4 flex max-w-sm flex-col items-center gap-2">
                 <p className="text-sm font-semibold text-slate-500">Nhập tên để lên bảng xếp hạng:</p>

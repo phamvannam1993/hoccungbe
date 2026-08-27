@@ -6,6 +6,7 @@
 // Nhờ đó khách vẫn tạo được trẻ, cho trẻ học và xem tiến độ như người đăng nhập.
 
 import { apiFetch } from './api';
+import { awardForExercise } from './stars';
 
 // currentLevel = LỚP của bé ('1' | '2' | '3' …) — quản lý nội dung theo lớp.
 export type ChildPrefs = {
@@ -193,6 +194,12 @@ export async function deleteChild(id: number): Promise<void> {
 
 // ── Ghi kết quả làm bài (upsert theo bé + bài + bài tập) ──
 export async function recordAttempt(dto: RecordInput) {
+  const totalQ = dto.answers.length;
+  const correctQ = dto.answers.filter((a) => a.isCorrect).length;
+  const scorePct = totalQ ? Math.round((correctQ / totalQ) * 100) : 0;
+  // Thưởng sao (ví client) — 1 lần cho mỗi bài, cho cả khách lẫn tài khoản.
+  try { awardForExercise(dto.childId, dto.lessonId, dto.exerciseNumber, scorePct); } catch { /* ignore */ }
+
   if (!isGuest()) {
     return apiFetch<{ attempt: unknown; rewards?: { newBadges?: { name: string; icon?: string }[]; completedQuests?: { name: string }[] } }>('/attempts', {
       method: 'POST',

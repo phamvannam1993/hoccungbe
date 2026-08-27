@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import SiteHeader from './edu/SiteHeader';
 import Footer from './edu/Footer';
 import BottomNav from './edu/BottomNav';
+import Mascot from './edu/Mascot';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       {/* Trang làm bài: bỏ footer để bé thấy trọn bài, không phải cuộn qua footer dài */}
       {!isQuizPlay && <Footer />}
       <BottomNav />
+      {!isQuizPlay && <Mascot />}
     </>
   );
 }

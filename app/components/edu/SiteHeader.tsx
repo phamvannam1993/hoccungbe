@@ -8,6 +8,8 @@ import { ChevronDown, Menu, X, Coffee } from 'lucide-react';
 import { isGuest, listChildren, type Child } from '../../lib/childData';
 import { ChildAvatar } from './KidIcon';
 import NotificationBell from './NotificationBell';
+import HeaderStreak from './HeaderStreak';
+import StarWallet from './StarWallet';
 
 type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades' };
 
@@ -45,6 +47,7 @@ const NAV_MENU: NavItem[] = [
 // Khu vực phụ huynh — chỉ hiện khi đã đăng nhập.
 const ACCOUNT_LINKS = [
   { href: '/hoc-hom-nay', label: 'Học hôm nay', emoji: '📅' },
+  { href: '/bo-suu-tap', label: 'Bộ sưu tập', emoji: '⭐' },
   { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
   { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
   { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
@@ -157,6 +160,8 @@ export default function SiteHeader() {
             <Link href="/ho-tro" className="hover:underline whitespace-nowrap">Câu hỏi thường gặp</Link>
           </div>
           <div className="flex items-center gap-2">
+            <HeaderStreak />
+            <StarWallet />
             <NotificationBell />
             {(user || guestChild) ? (
               <div className="relative" ref={accountRef}>
@@ -213,6 +218,8 @@ export default function SiteHeader() {
 
         {/* Mobile: auth + hamburger */}
         <div className="flex md:hidden items-center gap-1.5">
+          <HeaderStreak />
+          <StarWallet />
           <NotificationBell compact />
           {(user || guestChild) ? (
             <div className="relative" ref={mobileAccountRef}>

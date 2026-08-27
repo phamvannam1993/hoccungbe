@@ -119,3 +119,10 @@ input, select, optgroup, textarea {
 
 .kid-bg { background: var(--kid-bg); }
 .kid-bg-vivid { background: var(--kid-bg-vivid); }
+/* Linh vật Hổ Con nổi nhẹ nhàng — trôi lên xuống chậm, dịu mắt. */
+@keyframes bhhFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.bhh-float { animation: bhhFloat 3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .bhh-float { animation: none; } }

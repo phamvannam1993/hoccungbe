@@ -2,10 +2,14 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getStars, STARS_EVENT } from '../lib/stars';
+import { getStars, getStarState, STARS_EVENT } from '../lib/stars';
 import { COLLECTIBLES, COLLECTION_CATEGORIES, getOwned, unlock, type Collectible } from '../lib/collection';
-import { getCurrentChildId, listChildren, updateChild } from '../lib/childData';
+import { getCurrentChildId, listChildren, updateChild, childHistory, childStreak, subjectInfo } from '../lib/childData';
+import { BADGES, isEarned, type BadgeContext } from '../lib/achievements';
 import { confetti, playCorrect, playWrong } from '../lib/celebrate';
+import WeeklyQuests from '../components/edu/WeeklyQuests';
+
+type LearnCtx = { lessons: number; perfect: number; subjects: number; currentStreak: number; longestStreak: number; totalActiveDays: number };
 
 export default function BoSuuTapClient() {
   const [childId, setChildId] = useState<number | null>(null);
@@ -14,6 +18,7 @@ export default function BoSuuTapClient() {
   const [ready, setReady] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [learn, setLearn] = useState<LearnCtx | null>(null);
 
   const sync = useCallback(() => {
     const id = getCurrentChildId();
@@ -32,8 +37,21 @@ export default function BoSuuTapClient() {
       const id = getCurrentChildId();
       if (!id) return;
       try {
-        const kids = await listChildren();
+        const [kids, hist, streak] = await Promise.all([
+          listChildren(),
+          childHistory(id, 300).catch(() => []),
+          childStreak(id).catch(() => null),
+        ]);
         setAvatarUrl(kids.find((k) => k.id === id)?.avatarUrl || '');
+        const subjects = new Set(hist.map((h) => subjectInfo(h.courseType).name)).size;
+        setLearn({
+          lessons: hist.length,
+          perfect: hist.filter((h) => (h.score || 0) >= 100).length,
+          subjects,
+          currentStreak: streak?.currentStreak || 0,
+          longestStreak: streak?.longestStreak || 0,
+          totalActiveDays: streak?.totalActiveDays || 0,
+        });
       } catch {
         /* ignore */
       }
@@ -90,6 +108,12 @@ export default function BoSuuTapClient() {
   }
 
   const ownedCount = owned.length;
+  const petsOwned = COLLECTIBLES.filter((i) => i.category === 'pet' && owned.includes(i.id)).length;
+  const badgeCtx: BadgeContext | null =
+    learn && childId
+      ? { ...learn, starsEarned: getStarState(childId).earned, petsOwned, itemsOwned: ownedCount, itemsTotal: COLLECTIBLES.length }
+      : null;
+  const earnedBadges = badgeCtx ? BADGES.filter((b) => isEarned(b, badgeCtx)).length : 0;
 
   return (
     <div className="mt-6">
@@ -108,6 +132,46 @@ export default function BoSuuTapClient() {
       <p className="mt-3 text-center text-sm font-semibold text-slate-500">
         Hoàn thành mỗi bài tập được <b className="text-amber-600">+3 đến +7 ⭐</b>. Gom sao để mở khoá nhãn dán và thú cưng đáng yêu!
       </p>
+
+      <div className="mt-6">
+        <WeeklyQuests />
+      </div>
+
+      {/* Huy hiệu thành tích */}
+      {badgeCtx && (
+        <section className="mt-6">
+          <h2 className="mb-1 text-lg font-black text-slate-800 kid-display">🏅 Huy hiệu thành tích</h2>
+          <p className="mb-3 text-sm font-semibold text-slate-500">Đã đạt {earnedBadges}/{BADGES.length} huy hiệu — cố thêm để mở hết nhé!</p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {BADGES.map((b) => {
+              const { cur, goal } = b.progress(badgeCtx);
+              const done = isEarned(b, badgeCtx);
+              const pct = goal > 0 ? Math.min(100, Math.round((cur / goal) * 100)) : 0;
+              return (
+                <div key={b.id} className={`rounded-2xl border-2 p-3 ${done ? 'border-amber-200 bg-amber-50' : 'border-slate-100 bg-white'}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-3xl ${done ? '' : 'opacity-30 grayscale'}`}>{b.emoji}</span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-slate-800">{b.title}</p>
+                      <p className="truncate text-[11px] font-semibold text-slate-400">{b.desc}</p>
+                    </div>
+                  </div>
+                  {done ? (
+                    <p className="mt-2 text-center text-[11px] font-black text-amber-600">✓ Đã đạt</p>
+                  ) : (
+                    <div className="mt-2">
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full rounded-full bg-amber-400" style={{ width: `${pct}%` }} />
+                      </div>
+                      <p className="mt-1 text-center text-[10px] font-bold text-slate-400">{Math.min(cur, goal)}/{goal}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {COLLECTION_CATEGORIES.map((cat) => (
         <section key={cat.key} className="mt-6">

@@ -77,6 +77,19 @@ export function awardForExercise(childId: number, lessonId: number, exerciseNumb
   return gain;
 }
 
+/** Cộng sao thưởng (vd hoàn thành nhiệm vụ tuần) — không dedupe theo bài. */
+export function addStars(childId: number, amount: number): number {
+  if (amount <= 0) return getStars(childId);
+  const store = read();
+  const key = String(childId);
+  const state = store[key] ? { ...blank(), ...store[key] } : blank();
+  state.balance += amount;
+  state.earned += amount;
+  store[key] = state;
+  write(store);
+  return state.balance;
+}
+
 /** Trừ sao khi mua vật phẩm. Trả về true nếu đủ sao và đã trừ. */
 export function spendStars(childId: number, amount: number): boolean {
   const store = read();

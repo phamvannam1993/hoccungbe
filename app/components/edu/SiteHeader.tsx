@@ -48,6 +48,7 @@ const NAV_MENU: NavItem[] = [
 const ACCOUNT_LINKS = [
   { href: '/hoc-hom-nay', label: 'Học hôm nay', emoji: '📅' },
   { href: '/bo-suu-tap', label: 'Bộ sưu tập', emoji: '⭐' },
+  { href: '/bao-cao', label: 'Báo cáo tuần', emoji: '📊' },
   { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
   { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
   { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },

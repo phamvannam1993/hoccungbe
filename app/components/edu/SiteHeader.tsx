@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Menu, X, Coffee } from 'lucide-react';
 import { isGuest, listChildren, type Child } from '../../lib/childData';
 import { ChildAvatar } from './KidIcon';
+import FramedAvatar from './FramedAvatar';
 import NotificationBell from './NotificationBell';
 import HeaderStreak from './HeaderStreak';
 import StarWallet from './StarWallet';
@@ -37,7 +38,7 @@ const NAV_MENU: NavItem[] = [
       { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
     ],
   },
-  // { href: '/tien-do', label: 'THI ĐẤU' },  // tạm ẩn
+  { href: '/dau-truong', label: 'THI ĐẤU' },
   { href: '/de-thi', label: 'ÔN THI' },
   // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },
@@ -169,7 +170,7 @@ export default function SiteHeader() {
                 <button
                   onClick={() => setAccountOpen((v) => !v)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-[#c0392b] text-sm font-bold shadow hover:bg-gray-50 transition">
-                  {user ? <span className="text-base">👋</span> : <ChildAvatar child={guestChild} className="h-6 w-6" />}
+                  {user ? <span className="text-base">👋</span> : <FramedAvatar child={guestChild} className="h-6 w-6" />}
                   <span className="max-w-[140px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
                   <ChevronDown size={14} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -226,7 +227,7 @@ export default function SiteHeader() {
             <div className="relative" ref={mobileAccountRef}>
               <button onClick={() => setAccountOpen((v) => !v)}
                 className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
-                {user ? <span className="text-sm">👋</span> : <ChildAvatar child={guestChild} className="h-5 w-5" />}
+                {user ? <span className="text-sm">👋</span> : <FramedAvatar child={guestChild} className="h-5 w-5" />}
                 <span className="max-w-[64px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
                 <ChevronDown size={12} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
               </button>

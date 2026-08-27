@@ -6,6 +6,7 @@ import { getStars, getStarState, STARS_EVENT } from '../lib/stars';
 import { COLLECTIBLES, COLLECTION_CATEGORIES, getOwned, unlock, type Collectible } from '../lib/collection';
 import { getCurrentChildId, listChildren, updateChild, childHistory, childStreak, subjectInfo } from '../lib/childData';
 import { BADGES, isEarned, type BadgeContext } from '../lib/achievements';
+import { AVATAR_FRAMES, getOwnedFrames, buyFrame, equipFrame, getEquippedFrame, type Frame } from '../lib/frames';
 import { confetti, playCorrect, playWrong } from '../lib/celebrate';
 import WeeklyQuests from '../components/edu/WeeklyQuests';
 
@@ -19,6 +20,8 @@ export default function BoSuuTapClient() {
   const [toast, setToast] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [learn, setLearn] = useState<LearnCtx | null>(null);
+  const [ownedFrames, setOwnedFrames] = useState<string[]>([]);
+  const [equippedFrame, setEquippedFrame] = useState('');
 
   const sync = useCallback(() => {
     const id = getCurrentChildId();
@@ -26,8 +29,36 @@ export default function BoSuuTapClient() {
     if (id) {
       setBalance(getStars(id));
       setOwned(getOwned(id));
+      setOwnedFrames(getOwnedFrames(id));
+      setEquippedFrame(getEquippedFrame(id)?.id || '');
     }
   }, []);
+
+  const buyFrameFor = (frame: Frame) => {
+    if (!childId) return;
+    const res = buyFrame(childId, frame);
+    if (res === 'ok') {
+      setOwnedFrames(getOwnedFrames(childId));
+      setBalance(getStars(childId));
+      equipFrame(childId, frame.id);
+      setEquippedFrame(frame.id);
+      playCorrect();
+      confetti('big');
+      flash(`🎀 Mở khoá & đeo khung ${frame.name}!`);
+    } else if (res === 'poor') {
+      playWrong();
+      flash(`Chưa đủ sao — cần ${frame.cost} ⭐ cho khung này.`);
+    }
+  };
+
+  const toggleFrame = (frame: Frame) => {
+    if (!childId) return;
+    const next = equippedFrame === frame.id ? null : frame.id;
+    equipFrame(childId, next);
+    setEquippedFrame(next || '');
+    playCorrect();
+    flash(next ? `Đã đeo khung ${frame.name}!` : 'Đã gỡ khung.');
+  };
 
   useEffect(() => {
     sync();
@@ -231,6 +262,43 @@ export default function BoSuuTapClient() {
           </div>
         </section>
       ))}
+
+      {/* Khung avatar */}
+      <section className="mt-6">
+        <h2 className="mb-1 text-lg font-black text-slate-800 kid-display">🖼️ Khung avatar</h2>
+        <p className="mb-3 text-sm font-semibold text-slate-500">Mở khoá khung để trang trí ảnh đại diện của bé (hiện trên đầu trang).</p>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+          {AVATAR_FRAMES.map((f) => {
+            const have = ownedFrames.includes(f.id);
+            const on = equippedFrame === f.id;
+            return (
+              <div key={f.id} className={`flex flex-col items-center rounded-2xl border-2 p-3 text-center ${on ? 'border-sky-300 bg-sky-50' : 'border-slate-100 bg-white'}`}>
+                <span className="inline-flex rounded-full" style={{ background: f.ring, padding: 4 }}>
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-white text-2xl">🙂</span>
+                </span>
+                <span className="mt-1.5 text-xs font-bold text-slate-700">{f.name}</span>
+                {have ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleFrame(f)}
+                    className={`mt-2 rounded-full px-2.5 py-1 text-[11px] font-black transition ${on ? 'bg-sky-500 text-white' : 'border-2 border-sky-200 text-sky-600 hover:bg-sky-50'}`}
+                  >
+                    {on ? '✓ Đang đeo' : 'Đeo'}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => buyFrameFor(f)}
+                    className={`mt-2 rounded-full px-2.5 py-1 text-[11px] font-black transition ${balance >= f.cost ? 'bg-amber-500 text-white hover:bg-amber-600' : 'bg-slate-100 text-slate-400'}`}
+                  >
+                    ⭐ {f.cost}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <div className="mt-8 text-center">
         <Link href="/hoc-hom-nay" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-3 text-sm font-black text-white shadow-md">

@@ -13,7 +13,7 @@ import {
   type Child,
 } from '../lib/childData';
 import { starsForScore } from '../lib/stars';
-import { ChildAvatar } from '../components/edu/KidIcon';
+import FramedAvatar from '../components/edu/FramedAvatar';
 
 type Report = {
   child: Child | null;
@@ -152,7 +152,7 @@ export default function BaoCaoClient() {
       {/* Thẻ tóm tắt */}
       <div className="rounded-3xl border-4 border-sky-100 bg-gradient-to-br from-sky-50 to-white p-6">
         <div className="flex items-center gap-3">
-          <ChildAvatar child={report.child} className="h-14 w-14" />
+          <FramedAvatar child={report.child} className="h-14 w-14" />
           <div>
             <p className="text-sm font-bold text-sky-600">Báo cáo 7 ngày qua</p>
             <h2 className="text-xl font-black text-slate-800 sm:text-2xl">{name} học chăm thế nào?</h2>

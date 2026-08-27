@@ -6,6 +6,7 @@ import { getCurrentChildId, listChildren } from '../lib/childData';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
 import { shareAchievement } from '../lib/share';
 import { KHAM_PHA_TOPICS } from '../lib/khampha';
+import { shuffleQuiz } from '../lib/quizShuffle';
 
 type Problem = { prompt: string; options: string[]; correctIndex: number };
 type LeaderRow = { name: string; score: number; rank: number };
@@ -70,7 +71,8 @@ function makeMath(grade: number): Problem {
 // Bốc ngẫu nhiên một câu đố khám phá.
 function makeKham(): Problem {
   const q = KHAM_PHA_ALL[randInt(0, KHAM_PHA_ALL.length - 1)];
-  return { prompt: q.question, options: q.options, correctIndex: q.correct_index };
+  const s = shuffleQuiz(q.options, q.correct_index, `${q.question}|${randInt(0, 999999)}`);
+  return { prompt: q.question, options: s.options, correctIndex: s.correctIndex };
 }
 
 function makeQ(subject: Subject, grade: number): Problem {

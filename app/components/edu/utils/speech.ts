@@ -121,14 +121,21 @@ export function speakEnThenVi(en: string, vi: string): void {
 
 // Phát NỐI TIẾP nhiều mẩu (hội thoại, bài hát). Mỗi mẩu {text, lang}.
 // Dùng chung _gen nên gọi mới (hoặc stopSpeaking) sẽ dừng chuỗi đang phát.
-export function speakSequence(items: { text: string; lang: 'en' | 'vi' }[]): void {
+export function speakSequence(
+  items: { text: string; lang: 'en' | 'vi' }[],
+  onIndex?: (i: number) => void,
+  onDone?: () => void,
+): void {
   if (typeof window === 'undefined' || !items || !items.length) return;
   const myGen = ++_gen;
   let i = 0;
   const step = () => {
-    if (myGen !== _gen || i >= items.length) return;
+    if (myGen !== _gen) return; // đã dừng / chuyển nội dung khác
+    if (i >= items.length) { onDone?.(); return; }
+    const idx = i;
     const it = items[i++];
     if (!it || !it.text || !it.text.trim()) { step(); return; }
+    onIndex?.(idx);
     playSrc(ttsUrl(it.text, it.lang), step);
   };
   step();

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { KHAM_PHA_TOPICS, type KhamPhaQ } from '../lib/khampha';
 import { speakText, unlockAudio, stopSpeaking } from '../components/edu/utils/speech';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
+import { shuffleQuiz } from '../lib/quizShuffle';
 
 export default function KhamPhaClient() {
   const [topicIdx, setTopicIdx] = useState(0);
@@ -15,6 +16,8 @@ export default function KhamPhaClient() {
   const list: KhamPhaQ[] = topic.questions;
   const q = list[qi];
   const done = qi >= list.length;
+  // Xáo vị trí đáp án theo nội dung câu hỏi (ổn định, phân bố đều A/B/C/D).
+  const sq = q ? shuffleQuiz(q.options, q.correct_index, q.question) : { options: [] as string[], correctIndex: -1 };
 
   useEffect(() => () => stopSpeaking(), []);
 
@@ -31,7 +34,7 @@ export default function KhamPhaClient() {
     if (picked !== null || !q) return;
     unlockAudio();
     setPicked(oi);
-    if (oi === q.correct_index) {
+    if (oi === sq.correctIndex) {
       setScore((s) => s + 1);
       playCorrect();
       confetti('small');
@@ -103,8 +106,8 @@ export default function KhamPhaClient() {
             </div>
 
             <div className="mx-auto mt-5 grid max-w-lg gap-3 sm:grid-cols-2">
-              {q.options.map((op, oi) => {
-                const isCorrect = oi === q.correct_index;
+              {sq.options.map((op, oi) => {
+                const isCorrect = oi === sq.correctIndex;
                 const isPicked = oi === picked;
                 let cls = 'border-slate-200 bg-white text-slate-800 hover:border-sky-400 hover:bg-sky-50';
                 if (picked !== null) {

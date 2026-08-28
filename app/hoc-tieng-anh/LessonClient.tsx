@@ -44,6 +44,7 @@ export default function LessonClient() {
   const [selVi, setSelVi] = useState<string | null>(null);
   const [wrongPair, setWrongPair] = useState(false);
   const [order, setOrder] = useState<number[]>([]); // dạng translate: thứ tự thẻ đã xếp
+  const [combo, setCombo] = useState(0); // số câu đúng liên tiếp
   const [readIdx, setReadIdx] = useState(-1); // read-along: từ đang được đọc
 
   const imgMap = useVocabImages();
@@ -142,6 +143,7 @@ export default function LessonClient() {
     setIdx(0);
     setHearts(MAX_HEARTS);
     setCorrectCount(0);
+    setCombo(0);
     setPhase('playing');
   };
 
@@ -175,9 +177,11 @@ export default function LessonClient() {
     setAnswered(true);
     if (ok) {
       setCorrectCount((c) => c + 1);
+      setCombo((c) => c + 1);
       playCorrect();
       confetti('small');
     } else {
+      setCombo(0);
       playWrong();
       setHearts((h) => {
         const nh = h - 1;
@@ -217,6 +221,7 @@ export default function LessonClient() {
         playCorrect();
         if (ex.kind === 'pairs' && m.length >= ex.words.length) {
           setCorrectCount((c) => c + 1);
+          setCombo((c) => c + 1);
           confetti('small');
           setAnswered(true);
         }
@@ -360,8 +365,13 @@ export default function LessonClient() {
       {/* Header */}
       <div className="flex items-center gap-3 px-4 sm:px-6" style={{ paddingTop: 'max(1.25rem, env(safe-area-inset-top))' }}>
         <button type="button" onClick={() => setPhase('map')} className="text-2xl text-slate-400 hover:text-slate-200" aria-label="Thoát">✕</button>
-        <div className="h-4 flex-1 overflow-hidden rounded-full bg-[#37464f]">
-          <div className="h-full rounded-full bg-[#58cc02] transition-all duration-300" style={{ width: `${((idx + (answered ? 1 : 0)) / lesson.length) * 100}%` }} />
+        <div className="relative h-4 flex-1">
+          {combo >= 2 && (
+            <span className="absolute -top-6 left-1/2 -translate-x-1/2 animate-bounce whitespace-nowrap text-sm font-black uppercase tracking-wide text-[#58cc02]">🔥 {combo} lần liên tiếp</span>
+          )}
+          <div className="h-full w-full overflow-hidden rounded-full bg-[#37464f]">
+            <div className="h-full rounded-full bg-[#58cc02] transition-all duration-300" style={{ width: `${((idx + (answered ? 1 : 0)) / lesson.length) * 100}%` }} />
+          </div>
         </div>
         <span className="flex shrink-0 items-center gap-1 text-lg font-black text-[#ff4b4b]">❤️<span>{Math.max(0, hearts)}</span></span>
       </div>
@@ -539,7 +549,12 @@ export default function LessonClient() {
                   <p className="font-bold text-[#ff7b7b]">{ex.kind === 'translate' ? ex.answer.join(' ') : ex.kind === 'listen' || ex.kind === 'pick' ? `${ex.options[ex.correct].emoji || ''} ${ex.options[ex.correct].en}` : ex.kind === 'meaning' ? ex.options[ex.correct].vi : (ex.options as string[])[ex.correct]}</p>
                 </>
               ) : (
-                <p className="text-lg font-black text-[#58cc02]">Chính xác! 🎉</p>
+                <>
+                  <p className="text-lg font-black text-[#58cc02]">Làm tốt lắm! 🎉</p>
+                  {(ex.kind === 'meaning' || ex.kind === 'word' || ex.kind === 'pick' || ex.kind === 'listen') && (
+                    <p className="text-sm font-bold text-[#8ee84a]">{ex.word.en} — {ex.word.vi}</p>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -579,9 +594,9 @@ function cardCls(answered: boolean, oi: number, picked: number | null, correct: 
 function Visual({ url, emoji }: { url?: string; emoji?: string }) {
   if (url) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={url} alt="" className="h-20 w-20 rounded-xl object-contain" loading="lazy" />;
+    return <img src={url} alt="" className="h-28 w-28 rounded-2xl object-contain sm:h-32 sm:w-32" loading="lazy" />;
   }
-  return <span className="text-6xl">{emoji || '🔤'}</span>;
+  return <span className="text-7xl sm:text-8xl">{emoji || '🔤'}</span>;
 }
 
 // Mascot gấu tự vẽ bằng SVG (nét phẳng kiểu Duolingo) + cử động/biểu cảm theo mood.
@@ -666,35 +681,75 @@ function HumanMascot({ className, mood = 'idle', speaking = false }: { className
         @keyframes mascotTalk{0%,100%{transform:scaleY(0.35)}50%{transform:scaleY(1)}}
       `}</style>
       <svg viewBox="0 0 100 132" className="h-full w-full" aria-hidden="true">
-        <ellipse cx="50" cy="126" rx="24" ry="4.5" fill="rgba(0,0,0,0.35)" />
-        <rect x="40" y="100" width="8" height="24" rx="4" fill="#4FA05F" />
-        <rect x="52" y="100" width="8" height="24" rx="4" fill="#4FA05F" />
-        <ellipse cx="42" cy="124" rx="7" ry="4" fill="#4A90E2" />
-        <ellipse cx="58" cy="124" rx="7" ry="4" fill="#4A90E2" />
-        <path d="M30 78 q20 -8 40 0 l2 24 q-22 8 -44 0 z" fill="#6DBE7A" />
-        <rect x="29" y="99" width="42" height="5" fill="#3E8C50" />
-        <path d="M34 70 q16 12 32 0 l-4 12 q-12 8 -24 0 z" fill="#F3A6C0" />
-        <rect x="44" y="60" width="12" height="12" fill="#B5763F" />
-        <circle cx="50" cy="44" r="24" fill="#C6864F" />
-        <circle cx="27" cy="46" r="4.5" fill="#C6864F" />
-        <circle cx="73" cy="46" r="4.5" fill="#C6864F" />
-        <path d="M25 42 q-5 -28 25 -30 q30 2 25 30 q-7 -13 -19 -13 q4 6 -2 8 q-7 -8 -17 -4 q-10 2 -12 9 z" fill="#3A2E2A" />
-        <path d="M34 39 q8 -5 15 -1 l-1 4 q-7 -3 -13 1 z" fill="#3A2E2A" />
-        <path d="M66 39 q-8 -5 -15 -1 l1 4 q7 -3 13 1 z" fill="#3A2E2A" />
+        <defs>
+          <linearGradient id="hmSkin" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#D6A073" /><stop offset="1" stopColor="#AE734A" />
+          </linearGradient>
+          <linearGradient id="hmShirt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#F7B9D2" /><stop offset="1" stopColor="#EA93BA" />
+          </linearGradient>
+          <linearGradient id="hmPants" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#96D889" /><stop offset="1" stopColor="#6BB35B" />
+          </linearGradient>
+          <linearGradient id="hmHair" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#493835" /><stop offset="1" stopColor="#2B211F" />
+          </linearGradient>
+          <radialGradient id="hmShine" cx="0.36" cy="0.3" r="0.72">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.26" /><stop offset="0.6" stopColor="#ffffff" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* bóng đổ + giày */}
+        <ellipse cx="50" cy="127" rx="25" ry="4.5" fill="rgba(0,0,0,0.32)" />
+        <ellipse cx="41" cy="123" rx="8.5" ry="4.3" fill="#3B84D0" transform="rotate(-14 41 123)" />
+        <ellipse cx="59" cy="123" rx="8.5" ry="4.3" fill="#3B84D0" transform="rotate(14 59 123)" />
+        <ellipse cx="41" cy="121.5" rx="7" ry="3" fill="#5AABF4" transform="rotate(-14 41 121)" />
+        <ellipse cx="59" cy="121.5" rx="7" ry="3" fill="#5AABF4" transform="rotate(14 59 121)" />
+        {/* chân + thân */}
+        <rect x="40" y="99" width="8" height="23" rx="4" fill="url(#hmPants)" />
+        <rect x="52" y="99" width="8" height="23" rx="4" fill="url(#hmPants)" />
+        <path d="M28 74 Q50 64 72 74 L74 96 Q50 106 26 96 Z" fill="url(#hmShirt)" />
+        <path d="M40 76 Q50 72 60 76 L61 92 Q50 97 39 92 Z" fill="#ffffff" opacity="0.13" />
+        <path d="M27 93 Q50 101 73 93 L74 99 Q50 107 26 99 Z" fill="url(#hmPants)" />
+        {/* tay + bàn tay */}
+        <path d="M28 76 Q21 86 26 98 Q31 101 34 97 Q30 84 38 78 Z" fill="url(#hmShirt)" />
+        <path d="M72 76 Q79 86 74 98 Q69 101 66 97 Q70 84 62 78 Z" fill="url(#hmShirt)" />
+        <circle cx="30" cy="97" r="4.6" fill="url(#hmSkin)" />
+        <circle cx="70" cy="97" r="4.6" fill="url(#hmSkin)" />
+        {/* cổ + đầu */}
+        <rect x="44" y="58" width="12" height="12" rx="4" fill="#A56E45" />
+        <ellipse cx="50" cy="44" rx="24" ry="23" fill="url(#hmSkin)" />
+        <circle cx="26.5" cy="47" r="5" fill="url(#hmSkin)" />
+        <circle cx="73.5" cy="47" r="5" fill="url(#hmSkin)" />
+        <ellipse cx="50" cy="44" rx="24" ry="23" fill="url(#hmShine)" />
+        {/* tóc */}
+        <path d="M24 45 C20 16 38 7 50 7 C62 7 80 16 76 45 C74 30 62 24 54 27 C58 16 47 14 44 20 C37 14 29 22 32 30 C25 26 25 37 24 45 Z" fill="url(#hmHair)" />
+        {/* lông mày */}
+        <path d="M33 38 Q42 32 50 37 L49 42 Q42 38 34 44 Z" fill="#2C2220" />
+        <path d="M67 38 Q58 32 50 37 L51 42 Q58 38 66 44 Z" fill="#2C2220" />
+        {/* mắt lim dim (có nháy) */}
         <g className="animate-[mascotBlink_4.5s_ease-in-out_infinite]" style={{ transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <ellipse cx="42" cy="46" rx="3.6" ry="4" fill="#ffffff" />
-          <ellipse cx="58" cy="46" rx="3.6" ry="4" fill="#ffffff" />
-          <circle cx="43" cy="47" r="2" fill="#2A2320" />
-          <circle cx="57" cy="47" r="2" fill="#2A2320" />
+          <ellipse cx="42" cy="46" rx="4" ry="3.5" fill="#ffffff" />
+          <ellipse cx="58" cy="46" rx="4" ry="3.5" fill="#ffffff" />
+          <circle cx="42.4" cy="47" r="2.4" fill="#2A2320" />
+          <circle cx="57.6" cy="47" r="2.4" fill="#2A2320" />
+          <circle cx="43.4" cy="45.6" r="0.9" fill="#ffffff" />
+          <circle cx="58.6" cy="45.6" r="0.9" fill="#ffffff" />
         </g>
-        <ellipse cx="50" cy="52" rx="3.6" ry="3" fill="#B5763F" />
-        <path d="M36 56 q6 -3 14 2 q8 -5 14 -2 q-2 9 -14 6 q-12 3 -14 -6 z" fill="#3A2E2A" />
+        {/* mí trên (che nửa mắt cho vẻ lim dim) */}
+        <path d="M37.5 45 Q42 41.4 46.5 45 Z" fill="url(#hmSkin)" />
+        <path d="M53.5 45 Q58 41.4 62.5 45 Z" fill="url(#hmSkin)" />
+        {/* mũi */}
+        <ellipse cx="50" cy="52" rx="4" ry="3.4" fill="#A56E45" />
+        <ellipse cx="48.5" cy="50.8" rx="1.4" ry="1" fill="#CD9060" />
+        {/* ria mép bụ */}
+        <path d="M35 56 Q44 52 50 58 Q56 52 65 56 Q62 68 50 63 Q38 68 35 56 Z" fill="#2C2220" />
+        {/* miệng theo biểu cảm */}
         {mood === 'sad' ? (
-          <path d="M44 65 q6 -4 12 0" stroke="#5A2E2E" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M45 66 Q50 63 55 66" stroke="#5A2E2E" strokeWidth="2" fill="none" strokeLinecap="round" />
         ) : speaking ? (
-          <ellipse cx="50" cy="63" rx="3.5" ry="3" fill="#5A2E2E" className="animate-[mascotTalk_0.26s_ease-in-out_infinite]" style={{ transformBox: 'fill-box', transformOrigin: 'center' }} />
+          <ellipse cx="50" cy="65" rx="3.2" ry="2.7" fill="#5A2E2E" className="animate-[mascotTalk_0.26s_ease-in-out_infinite]" style={{ transformBox: 'fill-box', transformOrigin: 'center' }} />
         ) : (
-          <path d="M44 62 q6 4 12 0" stroke="#5A2E2E" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M46 64 Q50 67 54 64" stroke="#5A2E2E" strokeWidth="2" fill="none" strokeLinecap="round" />
         )}
       </svg>
     </div>

@@ -137,7 +137,7 @@ export default function PWARegister() {
     const inApp = isInAppBrowser();
     return (
       <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học trên iPhone" style={shell}>
-        <img src="/icon-192x192.png" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
+        <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên iPhone</div>
           {inApp ? (
@@ -173,7 +173,7 @@ export default function PWARegister() {
   // Android/Chrome: nút cài trực tiếp
   return (
     <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" style={shell}>
-      <img src="/icon-192x192.png" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
+      <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên máy</div>
         <div style={{ color: '#475569', fontSize: 12.5 }}>Mở nhanh như app, học được cả khi mất mạng.</div>

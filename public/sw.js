@@ -1,5 +1,5 @@
 /* Bé Hay Học – Service Worker (PWA: cài như app + offline) */
-const VERSION = 'bhh-v1';
+const VERSION = 'bhh-v2';
 const STATIC_CACHE = `static-${VERSION}`;
 const PAGE_CACHE = `pages-${VERSION}`;
 const OFFLINE_URL = '/offline';
@@ -49,6 +49,20 @@ self.addEventListener('fetch', (event) => {
         .catch(() =>
           caches.match(req).then((cached) => cached || caches.match(OFFLINE_URL)),
         ),
+    );
+    return;
+  }
+
+  // Favicon / icon / manifest: NETWORK-FIRST để đổi icon là thấy ngay, không kẹt cache cũ.
+  if (/(?:favicon\.ico|icon\.ico|apple-touch-icon\.png|icon-\d+x\d+\.png|manifest\.webmanifest)$/i.test(url.pathname)) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(STATIC_CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match(req)),
     );
     return;
   }

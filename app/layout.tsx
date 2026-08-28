@@ -6,6 +6,9 @@ import SiteShell from './components/SiteShell';
 import PWARegister from './components/PWARegister';
 import { DEFAULT_LOGO, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from './lib/seo';
 
+// Tăng số này mỗi khi đổi favicon/icon để ép trình duyệt tải icon mới (chống cache).
+const ICON_VER = '20260828';
+
 const nunito = Nunito({
   subsets: ['latin', 'vietnamese'],
   weight: ['400', '500', '600', '700', '800'],
@@ -119,19 +122,19 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon.ico', sizes: '100x100', type: 'image/x-icon' },
-      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: `/favicon.ico?v=${ICON_VER}` },
+      { url: `/icon.ico?v=${ICON_VER}`, sizes: '100x100', type: 'image/x-icon' },
+      { url: `/icon-16x16.png?v=${ICON_VER}`, sizes: '16x16', type: 'image/png' },
+      { url: `/icon-32x32.png?v=${ICON_VER}`, sizes: '32x32', type: 'image/png' },
     ],
     apple: [
       {
-        url: '/apple-touch-icon.png',
+        url: `/apple-touch-icon.png?v=${ICON_VER}`,
         sizes: '180x180',
         type: 'image/png',
       },
     ],
-    shortcut: ['/favicon.ico'],
+    shortcut: [`/favicon.ico?v=${ICON_VER}`],
   },
 
   openGraph: {

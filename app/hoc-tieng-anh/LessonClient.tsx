@@ -131,7 +131,7 @@ export default function LessonClient() {
     return { left: s(ex.words), right: s(ex.words) };
   }, [ex]);
 
-  const openTopic = (i: number) => { setTopicIdx(i); setPhase('map'); };
+  const openTopic = (i: number) => { setCrowns(getCrowns(getCurrentChildId() || 0)); setTopicIdx(i); setPhase('map'); };
 
   const startChang = (ci: number) => {
     unlockAudio();
@@ -163,7 +163,11 @@ export default function LessonClient() {
     }
   };
 
-  const next = () => { if (idx + 1 >= lesson.length) finish(true); else setIdx(idx + 1); };
+  const next = () => {
+    if (hearts <= 0) return; // hết tim → chỉ được về màn thua, không đi tiếp/không thưởng
+    if (idx + 1 >= lesson.length) finish(true);
+    else setIdx(idx + 1);
+  };
 
   const select = (oi: number) => { if (!answered) { unlockAudio(); setPicked(oi); } };
 
@@ -464,7 +468,7 @@ export default function LessonClient() {
                 <button type="button" onClick={() => readAlong(ex.en)} className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl rounded-bl-none border-2 border-[#37464f] bg-[#1f2c34] px-4 py-3 text-left">
                   <span className={`shrink-0 text-xl text-[#1cb0f6] ${readIdx >= 0 ? 'animate-pulse' : ''}`}>🔊</span>
                   <span className="break-words text-lg font-bold">
-                    {ex.en.split(/\s+/).map((w, i) => (
+                    {ex.en.split(/\s+/).filter(Boolean).map((w, i) => (
                       <span key={i} className={`underline decoration-dotted underline-offset-4 transition-colors ${readIdx === i ? 'rounded bg-[#1cb0f6]/30 px-0.5 text-[#7dd3fc]' : ''}`}>{w}{' '}</span>
                     ))}
                   </span>
@@ -541,7 +545,7 @@ export default function LessonClient() {
           )}
           <button
             type="button"
-            disabled={!ready}
+            disabled={!ready || hearts <= 0}
             onClick={answered ? next : check}
             className={`w-full rounded-2xl border-b-4 py-4 text-base font-black uppercase tracking-wide transition active:translate-y-0.5 ${
               !ready

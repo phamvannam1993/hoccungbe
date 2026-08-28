@@ -19,6 +19,7 @@ const SILENT_WAV =
 
 let _audioEl: HTMLAudioElement | null = null;
 let _unlocked = false;
+let _gen = 0; // đánh dấu lần phát mới nhất → huỷ chuỗi audio nối tiếp cũ đang chờ
 
 function getEl(): HTMLAudioElement | null {
   if (typeof window === 'undefined') return null;
@@ -63,6 +64,8 @@ export function speakText(text: string, options: SpeakTextOptions = {}): void {
     window.speechSynthesis.cancel();
   }
   try { el.pause(); } catch { /* ignore */ }
+  _gen++; // huỷ mọi chuỗi speakSequence đang chờ
+  el.onended = null; // xoá callback nối chuỗi cũ để không "hồi sinh" ở lần phát này
   el.muted = false;
   // Ép ngôn ngữ theo option.lang: 'en-US'/'en' → giọng Anh, còn lại → giọng Việt.
   // (Route /api/tts đọc tham số `tl`.) Không có lang → mặc định tiếng Việt.
@@ -106,8 +109,7 @@ export function soundOutWord(word: string): void {
 }
 
 // Đọc TIẾNG ANH (giọng Mỹ) rồi TỰ ĐỘNG đọc NGHĨA TIẾNG VIỆT (giọng Việt), nối tiếp.
-// _gen: lần gọi mới huỷ phần tiếng Việt còn chờ của lần cũ.
-let _gen = 0;
+// _gen (khai báo ở đầu file): lần gọi mới huỷ phần tiếng Việt còn chờ của lần cũ.
 export function speakEnThenVi(en: string, vi: string): void {
   if (typeof window === 'undefined') return;
   const myGen = ++_gen;
@@ -142,7 +144,9 @@ export function speakSequence(
 }
 
 export function stopSpeaking(): void {
+  _gen++; // vô hiệu hoá chuỗi speakSequence đang chờ
   if (_audioEl) {
+    _audioEl.onended = null; // xoá callback nối chuỗi để không phát tiếp
     try { _audioEl.pause(); } catch { /* ignore */ }
   }
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {

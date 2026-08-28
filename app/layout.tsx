@@ -110,6 +110,13 @@ export const metadata: Metadata = {
     canonical: '/',
   },
 
+  // iOS: khi "Thêm vào Màn hình chính" sẽ mở toàn màn hình như app.
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: 'default',
+  },
+
   icons: {
     icon: [
       { url: '/favicon.ico' },

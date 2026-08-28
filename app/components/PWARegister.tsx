@@ -23,6 +23,14 @@ function isStandalone(): boolean {
   );
 }
 
+// Trình duyệt TRONG APP (Facebook/Zalo/Messenger/Instagram/TikTok/Line) — iOS ở đây
+// KHÔNG có nút Chia sẻ của Safari → không thể "Thêm vào Màn hình chính".
+function isInAppBrowser(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  const ua = navigator.userAgent || '';
+  return /FBAN|FBAV|FB_IAB|Instagram|Messenger|Zalo|Line\/|MicroMessenger|TikTok|BytedanceWebview|GSA\//i.test(ua);
+}
+
 export default function PWARegister() {
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
   const [mode, setMode] = useState<'android' | 'ios' | null>(null);
@@ -124,24 +132,32 @@ export default function PWARegister() {
     border: '2px solid #6ec6c6',
   };
 
-  // iOS: hướng dẫn "Chia sẻ → Thêm vào Màn hình chính"
+  // iOS: hướng dẫn cài. Trong app (FB/Zalo…) thì phải mở Safari trước.
   if (mode === 'ios') {
+    const inApp = isInAppBrowser();
     return (
       <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học trên iPhone" style={shell}>
         <img src="/icon-192x192.png" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên iPhone</div>
-          <div style={{ color: '#475569', fontSize: 12.5, lineHeight: 1.4 }}>
-            Bấm{' '}
-            <span aria-hidden style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#0a84ff' }}>
-              <svg width="14" height="16" viewBox="0 0 20 22" fill="none" style={{ margin: '0 1px' }}>
-                <path d="M10 2v11" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" />
-                <path d="M6 6l4-4 4 4" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M5 10H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </span>{' '}
-            Chia sẻ, rồi chọn <b style={{ color: '#0f172a' }}>“Thêm vào MH chính”</b>.
-          </div>
+          {inApp ? (
+            <div style={{ color: '#475569', fontSize: 12.5, lineHeight: 1.4 }}>
+              Đang mở trong ứng dụng khác nên chưa cài được. Bấm dấu <b style={{ color: '#0f172a' }}>•••</b> (góc trên) →{' '}
+              <b style={{ color: '#0f172a' }}>“Mở trong Safari”</b>, rồi cài từ đó.
+            </div>
+          ) : (
+            <div style={{ color: '#475569', fontSize: 12.5, lineHeight: 1.4 }}>
+              Bấm nút Chia sẻ{' '}
+              <span aria-hidden style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#0a84ff' }}>
+                <svg width="14" height="16" viewBox="0 0 20 22" fill="none" style={{ margin: '0 1px' }}>
+                  <path d="M10 2v11" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M6 6l4-4 4 4" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M5 10H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1" stroke="#0a84ff" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </span>{' '}
+              <b style={{ color: '#0f172a' }}>ở thanh Safari</b>, kéo xuống chọn <b style={{ color: '#0f172a' }}>“Thêm vào MH chính”</b>.
+            </div>
+          )}
         </div>
         <button
           onClick={dismiss}

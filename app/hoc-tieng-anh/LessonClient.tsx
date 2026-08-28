@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LESSON_TOPICS, buildLesson, type Exercise } from '../lib/englishLesson';
 import type { VocabWord } from '../lib/vocab';
-import { speakEnglish, speakText, speakSequence, unlockAudio, stopSpeaking } from '../components/edu/utils/speech';
+import { speakEnglish, speakEnglishSlow, speakText, speakSequence, unlockAudio, stopSpeaking } from '../components/edu/utils/speech';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
 import { addStars } from '../lib/stars';
 import { getCurrentChildId } from '../lib/childData';
@@ -45,6 +45,9 @@ export default function LessonClient() {
   const [wrongPair, setWrongPair] = useState(false);
   const [order, setOrder] = useState<number[]>([]); // dạng translate: thứ tự thẻ đã xếp
   const [combo, setCombo] = useState(0); // số câu đúng liên tiếp
+  const [maxCombo, setMaxCombo] = useState(0); // chuỗi đúng dài nhất trong bài
+  const [results, setResults] = useState<{ q: string; ok: boolean; correct: string; got: string }[]>([]); // nhật ký từng câu
+  const [showReview, setShowReview] = useState(false); // đang xem lại đáp án ở màn kết quả
   const [readIdx, setReadIdx] = useState(-1); // read-along: từ đang được đọc
 
   const imgMap = useVocabImages();
@@ -98,8 +101,12 @@ export default function LessonClient() {
     setWrongPair(false);
     setOrder([]);
     setReadIdx(-1);
-    if (ex?.kind === 'listen') {
+    if (ex?.kind === 'listen' || ex?.kind === 'fill') {
       const t = setTimeout(() => speakEnglish(ex.word.en), 400);
+      return () => clearTimeout(t);
+    }
+    if (ex?.kind === 'dialogue') {
+      const t = setTimeout(() => speakEnglish(ex.lines[0].en), 400);
       return () => clearTimeout(t);
     }
     if (ex?.kind === 'translate') {
@@ -144,6 +151,9 @@ export default function LessonClient() {
     setHearts(MAX_HEARTS);
     setCorrectCount(0);
     setCombo(0);
+    setMaxCombo(0);
+    setResults([]);
+    setShowReview(false);
     setPhase('playing');
   };
 
@@ -173,11 +183,17 @@ export default function LessonClient() {
 
   const select = (oi: number) => { if (!answered) { unlockAudio(); setPicked(oi); } };
 
-  const markResult = (ok: boolean) => {
+  const markResult = (ok: boolean, got: string) => {
     setAnswered(true);
+    const d = describe(ex);
+    setResults((r) => [...r, { q: d.q, ok, correct: d.correct, got }]);
     if (ok) {
       setCorrectCount((c) => c + 1);
-      setCombo((c) => c + 1);
+      setCombo((c) => {
+        const nc = c + 1;
+        setMaxCombo((m) => Math.max(m, nc));
+        return nc;
+      });
       playCorrect();
       confetti('small');
     } else {
@@ -193,14 +209,16 @@ export default function LessonClient() {
 
   const check = () => {
     if (answered) return;
-    if (ex.kind === 'translate') {
+    if (ex.kind === 'translate' || ex.kind === 'fill') {
       if (order.length !== ex.answer.length) return;
       const built = order.map((i) => ex.bank[i]);
-      markResult(built.join(' ').toLowerCase() === ex.answer.join(' ').toLowerCase());
+      markResult(built.join(' ').toLowerCase() === ex.answer.join(' ').toLowerCase(), built.join(' '));
       return;
     }
     if (ex.kind === 'pairs' || picked === null) return;
-    markResult(picked === ex.correct);
+    const got =
+      ex.kind === 'meaning' ? ex.options[picked].vi : ex.kind === 'pick' || ex.kind === 'listen' ? ex.options[picked].en : (ex.options as string[])[picked];
+    markResult(picked === ex.correct, got);
   };
 
   const tapBank = (i: number) => { if (!answered && !order.includes(i)) setOrder([...order, i]); };
@@ -221,7 +239,12 @@ export default function LessonClient() {
         playCorrect();
         if (ex.kind === 'pairs' && m.length >= ex.words.length) {
           setCorrectCount((c) => c + 1);
-          setCombo((c) => c + 1);
+          setCombo((c) => {
+            const nc = c + 1;
+            setMaxCombo((mx) => Math.max(mx, nc));
+            return nc;
+          });
+          setResults((r) => [...r, { q: 'Ghép cặp từ', ok: true, correct: '—', got: '—' }]);
           confetti('small');
           setAnswered(true);
         }
@@ -335,15 +358,79 @@ export default function LessonClient() {
   // ═══ Kết thúc bài ═══
   if (phase === 'done' || phase === 'failed') {
     const won = phase === 'done';
+    const total = results.length;
+    const correct = results.filter((r) => r.ok).length;
+    const accuracy = total ? Math.round((correct / total) * 100) : 0;
+    const crownLv = topic ? crowns[`${topic.slug}#${changIdx}`] || 0 : 0;
+    const hasNext = changIdx + 1 < slices.length;
     return (
-      <div className="mt-6 rounded-3xl border-4 border-emerald-100 bg-white p-8 text-center">
-        <p className="text-6xl">{won ? '🎉' : '💔'}</p>
-        <h2 className="mt-3 text-2xl font-black text-slate-800">{won ? 'Hoàn thành chặng!' : 'Hết tim rồi!'}</h2>
-        <p className="mt-1 font-semibold text-slate-500">Bé trả lời đúng {correctCount} câu{won ? ` — nhận ${lastReward} ⭐` : ''}.</p>
-        {won && leveledUp && <p className="mt-1 text-sm font-black text-amber-500">👑 Lên vương miện mới cho chặng này!</p>}
-        <div className="mt-5 flex flex-wrap justify-center gap-2">
-          <button type="button" onClick={() => startChang(changIdx)} className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-2.5 text-sm font-black text-white shadow">🔁 Học lại chặng</button>
-          <button type="button" onClick={() => setPhase('map')} className="rounded-full border-2 border-emerald-200 px-6 py-2.5 text-sm font-black text-emerald-600">🗺️ Về bản đồ</button>
+      <div className="fixed inset-0 z-[70] flex flex-col bg-[#131f24] text-white">
+        <div className="flex-1 overflow-y-auto px-5 py-8" style={{ paddingTop: 'max(2rem, env(safe-area-inset-top))' }}>
+          <div className="mx-auto max-w-md text-center">
+            <p className="text-7xl">{won ? '🏆' : '💔'}</p>
+            <h2 className="mt-3 text-3xl font-black">{won ? 'Hoàn thành chặng!' : 'Hết tim rồi!'}</h2>
+            <p className="mt-1 font-bold text-slate-400">{won ? 'Bé làm rất tốt, tiếp tục nhé!' : 'Đừng lo, thử lại là được ngay!'}</p>
+
+            {/* Thẻ thành tích */}
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="rounded-2xl border-2 border-b-4 border-[#b8860b] bg-gradient-to-b from-amber-400 to-amber-500 p-3 text-[#5a3d00]">
+                <p className="text-2xl font-black">{won ? lastReward : 0}</p>
+                <p className="text-[11px] font-black uppercase">⭐ Sao</p>
+              </div>
+              <div className="rounded-2xl border-2 border-b-4 border-[#1899d6] bg-gradient-to-b from-[#1cb0f6] to-[#1899d6] p-3 text-white">
+                <p className="text-2xl font-black">{accuracy}%</p>
+                <p className="text-[11px] font-black uppercase">🎯 Chính xác</p>
+              </div>
+              <div className="rounded-2xl border-2 border-b-4 border-[#c93a3a] bg-gradient-to-b from-[#ff6a5a] to-[#ff4b4b] p-3 text-white">
+                <p className="text-2xl font-black">{maxCombo}</p>
+                <p className="text-[11px] font-black uppercase">🔥 Chuỗi đúng</p>
+              </div>
+            </div>
+
+            {won && (
+              <div className="mt-4 flex items-center justify-center gap-2 rounded-2xl border-2 border-[#37464f] bg-[#1f2c34] px-4 py-3">
+                <span className="text-2xl">👑</span>
+                <span className="font-black">Vương miện {crownLv}/{MAX_CROWN}</span>
+                {leveledUp && <span className="rounded-full bg-amber-400 px-2 py-0.5 text-xs font-black text-[#5a3d00]">+1 mới!</span>}
+              </div>
+            )}
+
+            {/* Xem lại đáp án */}
+            <button type="button" onClick={() => setShowReview((v) => !v)} className="mt-5 text-sm font-black text-[#1cb0f6]">
+              {showReview ? '▲ Ẩn danh sách' : '▼ Xem lại đáp án'} ({correct}/{total})
+            </button>
+            {showReview && (
+              <div className="mt-3 space-y-2 text-left">
+                {results.map((r, i) => (
+                  <div key={i} className={`rounded-xl border-2 px-3 py-2 ${r.ok ? 'border-[#58cc02]/40 bg-[#16241a]' : 'border-[#ff4b4b]/40 bg-[#2d1518]'}`}>
+                    <p className="flex items-start gap-2 text-sm font-bold">
+                      <span>{r.ok ? '✅' : '❌'}</span>
+                      <span className="text-slate-200">{r.q}</span>
+                    </p>
+                    {r.correct !== '—' && (
+                      <p className="pl-6 text-xs font-bold text-[#79e838]">Đáp án: {r.correct}</p>
+                    )}
+                    {!r.ok && r.got && r.got !== '—' && (
+                      <p className="pl-6 text-xs font-bold text-[#ff7b7b]">Bé chọn: {r.got}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Nút hành động */}
+        <div className="border-t-2 border-white/5">
+          <div className="mx-auto flex max-w-md flex-col gap-2 px-5 pt-4 sm:px-6" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+            {won && hasNext && (
+              <button type="button" onClick={() => startChang(changIdx + 1)} className="w-full rounded-2xl border-b-4 border-[#58a700] bg-[#58cc02] py-4 text-base font-black uppercase text-white active:translate-y-0.5">Chặng tiếp theo →</button>
+            )}
+            <div className="flex gap-2">
+              <button type="button" onClick={() => startChang(changIdx)} className="flex-1 rounded-2xl border-2 border-[#37464f] py-3 text-sm font-black text-slate-300">🔁 {won ? 'Học lại' : 'Thử lại'}</button>
+              <button type="button" onClick={() => setPhase('map')} className="flex-1 rounded-2xl border-2 border-[#37464f] py-3 text-sm font-black text-slate-300">🗺️ Về bản đồ</button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -352,12 +439,13 @@ export default function LessonClient() {
   if (!ex) return null;
 
   // ═══ Màn chơi bài — full-screen nền tối kiểu Duolingo ═══
-  const transBuilt = ex.kind === 'translate' ? order.map((i) => ex.bank[i]) : [];
-  const transWrong = ex.kind === 'translate' && answered && transBuilt.join(' ').toLowerCase() !== ex.answer.join(' ').toLowerCase();
+  const orderKind = ex.kind === 'translate' || ex.kind === 'fill';
+  const transBuilt = orderKind ? order.map((i) => ex.bank[i]) : [];
+  const transWrong = orderKind && answered && transBuilt.join(' ').toLowerCase() !== ex.answer.join(' ').toLowerCase();
   const isWrong =
-    answered && ((ex.kind !== 'pairs' && ex.kind !== 'translate' && picked !== ex.correct) || transWrong);
+    answered && ((ex.kind !== 'pairs' && !orderKind && picked !== ex.correct) || transWrong);
   const ready =
-    ex.kind === 'pairs' ? answered : ex.kind === 'translate' ? order.length === ex.answer.length : picked !== null;
+    ex.kind === 'pairs' ? answered : orderKind ? order.length === ex.answer.length : picked !== null;
   const btnLabel = answered ? (idx + 1 >= lesson.length ? 'HOÀN THÀNH' : 'TIẾP TỤC') : 'KIỂM TRA';
 
   return (
@@ -506,6 +594,79 @@ export default function LessonClient() {
             </>
           )}
 
+          {/* FILL: nghe và điền — nghe từ tiếng Anh rồi xếp thẻ chữ */}
+          {ex.kind === 'fill' && (
+            <>
+              <h2 className="mt-4 text-2xl font-black">Nghe và điền</h2>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <button type="button" onClick={() => { unlockAudio(); speakEnglish(ex.word.en); }} className="grid h-20 w-20 place-items-center rounded-2xl border-2 border-b-4 border-[#1899d6] bg-[#1cb0f6] text-4xl text-white transition active:scale-95" aria-label="Nghe"><span className="animate-pulse">🔊</span></button>
+                <button type="button" onClick={() => { unlockAudio(); speakEnglishSlow(ex.word.en); }} className="grid h-14 w-14 place-items-center rounded-2xl border-2 border-b-4 border-[#1899d6] bg-[#1cb0f6]/70 text-2xl text-white transition active:scale-95" aria-label="Nghe chậm">🐢</button>
+              </div>
+              <div className="mt-8 min-h-[54px] border-b-2 border-[#37464f] pb-2">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {order.map((bi, pos) => (
+                    <button key={pos} type="button" onClick={() => tapChosen(pos)} className="rounded-xl border-2 border-b-4 border-[#37464f] bg-[#1f2c34] px-3 py-2 text-sm font-bold text-white">{ex.bank[bi]}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
+                {ex.bank.map((tk, bi) => {
+                  const used = order.includes(bi);
+                  return (
+                    <button key={bi} type="button" disabled={used} onClick={() => tapBank(bi)} className={`rounded-xl border-2 border-b-4 px-3 py-2 text-sm font-bold transition ${used ? 'border-[#2b363c] bg-[#131f24] text-transparent' : 'border-[#37464f] bg-[#1f2c34] text-white hover:bg-[#26343d]'}`}>{tk}</button>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
+          {/* DIALOGUE: hoàn thành hội thoại */}
+          {ex.kind === 'dialogue' && (
+            <>
+              <h2 className="mt-4 text-2xl font-black">Hoàn thành hội thoại</h2>
+              <div className="mt-5 space-y-3">
+                {ex.lines.map((ln, i) => {
+                  const left = ln.who === 'a';
+                  const isBlank = i === ex.blank;
+                  return (
+                    <div key={i} className={`flex items-end gap-2 ${left ? '' : 'flex-row-reverse'}`}>
+                      <div className="h-11 w-11 shrink-0">{left ? <HumanMascot className="h-full w-full" /> : <Mascot className="h-full w-full" />}</div>
+                      <button
+                        type="button"
+                        onClick={() => { if (!isBlank) { unlockAudio(); speakEnglish(ln.en); } }}
+                        className={`max-w-[78%] px-4 py-2.5 text-left text-base font-bold rounded-2xl ${left ? 'rounded-bl-none' : 'rounded-br-none'} ${
+                          isBlank
+                            ? picked === null
+                              ? 'border-2 border-dashed border-[#37464f] text-slate-500'
+                              : answered
+                                ? isWrong
+                                  ? 'border-2 border-[#ff4b4b] bg-[#ff4b4b]/15 text-[#ff7b7b]'
+                                  : 'border-2 border-[#58cc02] bg-[#58cc02]/15 text-[#79e838]'
+                                : 'border-2 border-[#1cb0f6] bg-[#1cb0f6]/15 text-[#1cb0f6]'
+                            : 'border-2 border-[#37464f] bg-[#1f2c34] text-white'
+                        }`}
+                      >
+                        {isBlank ? (
+                          <span>{picked !== null ? ex.options[picked] : '· · ·'}</span>
+                        ) : (
+                          <>
+                            <span>🔊 {ln.en}</span>
+                            <span className="block text-xs font-normal text-slate-400">{ln.vi}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
+                {ex.options.map((op, oi) => (
+                  <button key={oi} type="button" disabled={answered} onClick={() => select(oi)} className={`rounded-2xl border-2 border-b-4 px-4 py-3 text-base font-bold transition ${cardCls(answered, oi, picked, ex.correct)}`}>{op}</button>
+                ))}
+              </div>
+            </>
+          )}
+
           {/* PAIRS: ghép cặp */}
           {ex.kind === 'pairs' && pairCols && (
             <>
@@ -546,12 +707,12 @@ export default function LessonClient() {
               {isWrong ? (
                 <>
                   <p className="text-lg font-black text-[#ff4b4b]">Đáp án đúng:</p>
-                  <p className="font-bold text-[#ff7b7b]">{ex.kind === 'translate' ? ex.answer.join(' ') : ex.kind === 'listen' || ex.kind === 'pick' ? `${ex.options[ex.correct].emoji || ''} ${ex.options[ex.correct].en}` : ex.kind === 'meaning' ? ex.options[ex.correct].vi : (ex.options as string[])[ex.correct]}</p>
+                  <p className="font-bold text-[#ff7b7b]">{ex.kind === 'translate' || ex.kind === 'fill' ? ex.answer.join(' ') : ex.kind === 'listen' || ex.kind === 'pick' ? `${ex.options[ex.correct].emoji || ''} ${ex.options[ex.correct].en}` : ex.kind === 'meaning' ? ex.options[ex.correct].vi : (ex.options as string[])[ex.correct]}</p>
                 </>
               ) : (
                 <>
                   <p className="text-lg font-black text-[#58cc02]">Làm tốt lắm! 🎉</p>
-                  {(ex.kind === 'meaning' || ex.kind === 'word' || ex.kind === 'pick' || ex.kind === 'listen') && (
+                  {(ex.kind === 'meaning' || ex.kind === 'word' || ex.kind === 'pick' || ex.kind === 'listen' || ex.kind === 'fill') && (
                     <p className="text-sm font-bold text-[#8ee84a]">{ex.word.en} — {ex.word.vi}</p>
                   )}
                 </>
@@ -576,6 +737,28 @@ export default function LessonClient() {
       </div>
     </div>
   );
+}
+
+// Mô tả 1 câu hỏi + đáp án đúng (để xem lại ở màn kết quả).
+function describe(ex: Exercise): { q: string; correct: string } {
+  switch (ex.kind) {
+    case 'meaning':
+      return { q: `Nghĩa của “${ex.word.en}”`, correct: ex.options[ex.correct].vi };
+    case 'word':
+      return { q: `Từ tiếng Anh của “${ex.word.vi}”`, correct: ex.word.en };
+    case 'pick':
+      return { q: `Đâu là “${ex.word.vi}”?`, correct: ex.word.en };
+    case 'listen':
+      return { q: 'Nghe và chọn tranh', correct: ex.word.en };
+    case 'fill':
+      return { q: 'Nghe và điền', correct: ex.answer.join(' ') };
+    case 'translate':
+      return { q: `Dịch: “${ex.en}”`, correct: ex.answer.join(' ') };
+    case 'dialogue':
+      return { q: 'Hoàn thành hội thoại', correct: ex.options[ex.correct] };
+    default:
+      return { q: 'Ghép cặp từ', correct: '—' };
+  }
 }
 
 // Thẻ chọn ở màn tối: base / đang chọn (xanh dương) / đúng (xanh lá) / sai (đỏ)

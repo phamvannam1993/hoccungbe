@@ -101,6 +101,12 @@ export function speakEnglish(text: string): void {
   playSrc(ttsUrl(text, 'en'));
 }
 
+// Đọc TIẾNG ANH CHẬM (nút con rùa 🐢) — giúp bé nghe rõ từng âm.
+export function speakEnglishSlow(text: string): void {
+  if (typeof window === 'undefined' || !text || !text.trim()) return;
+  playSrc(ttsUrl(text, 'en', 0.5));
+}
+
 // ĐÁNH VẦN: đọc CHẬM rồi đọc THƯỜNG (proxy tl=en). Dùng cho phonics.
 export function soundOutWord(word: string): void {
   if (typeof window === 'undefined' || !word || !word.trim()) return;

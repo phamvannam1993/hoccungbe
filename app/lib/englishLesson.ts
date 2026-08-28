@@ -1,4 +1,5 @@
 import { VOCAB_TOPICS, type VocabWord } from './vocab';
+import { DIALOGUES, type DialogueLine } from './englishDialogues';
 
 // Engine bài học tiếng Anh kiểu Duolingo: sinh một bài gồm nhiều dạng câu xen kẽ từ
 // dữ liệu từ vựng theo chủ đề. Sinh lúc bấm chơi (client) nên dùng Math.random thoải mái.
@@ -9,6 +10,8 @@ export type Exercise =
   | { kind: 'pick'; word: VocabWord; options: VocabWord[]; correct: number } // "Đâu là ..." → chọn tranh
   | { kind: 'listen'; word: VocabWord; options: VocabWord[]; correct: number } // nghe → chọn tranh
   | { kind: 'translate'; en: string; answer: string[]; bank: string[] } // nghe câu → xếp thẻ chữ Việt
+  | { kind: 'fill'; word: VocabWord; answer: string[]; bank: string[] } // nghe từ → xếp thẻ chữ Anh
+  | { kind: 'dialogue'; lines: DialogueLine[]; blank: number; options: string[]; correct: number } // hoàn thành hội thoại
   | { kind: 'pairs'; words: VocabWord[] }; // ghép cặp Anh ↔ Việt
 
 function shuf<T>(a: T[]): T[] {
@@ -61,51 +64,72 @@ function buildTranslate(w: VocabWord, pool: VocabWord[]): Exercise | null {
 
 export const LESSON_TOPICS = VOCAB_TOPICS.filter((t) => t.words.filter((w) => w.en && w.vi).length >= 6);
 
-/** Sinh một bài học (~10 câu) từ danh sách từ của một chủ đề. */
+/** Dạng "nghe và điền": nghe từ tiếng Anh, xếp các thẻ chữ thành từ đúng. */
+function buildFill(w: VocabWord, pool: VocabWord[]): Exercise {
+  const answer = tokenize(w.en);
+  const distr = pickN(pool, (x) => x.en, w.en, 4)
+    .map((x) => x.en)
+    .filter((t) => t && !answer.includes(t));
+  const bank = shuf([...answer, ...distr.slice(0, answer.length >= 2 ? 2 : 2)]);
+  return { kind: 'fill', word: w, answer, bank };
+}
+
+// ── Các hàm dựng 1 câu hỏi cho một từ ──
+function makeMeaning(w: VocabWord, clean: VocabWord[]): Exercise {
+  const opts = shuf([w, ...pickN(clean, (x) => x.vi, w.vi, 3)]);
+  return { kind: 'meaning', word: w, options: opts, correct: opts.indexOf(w) };
+}
+function makeWord(w: VocabWord, clean: VocabWord[]): Exercise {
+  const opts = shuf([w.en, ...pickN(clean, (x) => x.en, w.en, 3).map((x) => x.en)]);
+  return { kind: 'word', word: w, options: opts, correct: opts.indexOf(w.en) };
+}
+function makePick(w: VocabWord, withEmoji: VocabWord[]): Exercise {
+  const opts = shuf([w, ...pickN(withEmoji, (x) => x.en, w.en, 3)]);
+  return { kind: 'pick', word: w, options: opts, correct: opts.indexOf(w) };
+}
+function makeListen(w: VocabWord, withEmoji: VocabWord[]): Exercise {
+  const opts = shuf([w, ...pickN(withEmoji, (x) => x.en, w.en, 3)]);
+  return { kind: 'listen', word: w, options: opts, correct: opts.indexOf(w) };
+}
+
+/** Dạng "hoàn thành hội thoại": lấy ngẫu nhiên 1 hội thoại, ẩn 1 câu để bé chọn. */
+function buildDialogue(): Exercise | null {
+  if (!DIALOGUES.length) return null;
+  const d = DIALOGUES[Math.floor(Math.random() * DIALOGUES.length)];
+  const correctEn = d.lines[d.blank].en;
+  const opts = shuf([correctEn, ...d.distractors]);
+  return { kind: 'dialogue', lines: d.lines, blank: d.blank, options: opts, correct: opts.indexOf(correctEn) };
+}
+
+/** Sinh một bài học (~20 câu) từ danh sách từ của một chủ đề. */
 export function buildLesson(pool: VocabWord[]): Exercise[] {
   const clean = pool.filter((w) => w.en && w.vi);
-  const words = shuf(clean).slice(0, 8);
-  if (words.length < 4) return [];
+  if (clean.length < 4) return [];
   const withEmoji = clean.filter((w) => w.emoji);
-  const ex: Exercise[] = [];
-
-  // Mở đầu: ghép cặp 4 từ.
-  ex.push({ kind: 'pairs', words: shuf(words).slice(0, 4) });
-
   const canImg = withEmoji.length >= 4;
-  words.forEach((w, i) => {
-    const type = i % 4;
-    if (type === 2 && w.emoji && canImg) {
-      // "Đâu là ...?" → chọn tranh (đọc tiếng Việt, chọn thẻ hình tiếng Anh)
-      const opts = shuf([w, ...pickN(withEmoji, (x) => x.en, w.en, 3)]);
-      ex.push({ kind: 'pick', word: w, options: opts, correct: opts.indexOf(w) });
-    } else if (type === 3 && w.emoji && canImg) {
-      // Nghe → chọn tranh
-      const opts = shuf([w, ...pickN(withEmoji, (x) => x.en, w.en, 3)]);
-      ex.push({ kind: 'listen', word: w, options: opts, correct: opts.indexOf(w) });
-    } else if (type === 1) {
-      // Việt → chọn từ Anh (thẻ chữ)
-      const opts = shuf([w.en, ...pickN(clean, (x) => x.en, w.en, 3).map((x) => x.en)]);
-      ex.push({ kind: 'word', word: w, options: opts, correct: opts.indexOf(w.en) });
-    } else {
-      // Anh → chọn nghĩa Việt (thẻ chữ, kèm ảnh/emoji)
-      const opts = shuf([w, ...pickN(clean, (x) => x.vi, w.vi, 3)]);
-      ex.push({ kind: 'meaning', word: w, options: opts, correct: opts.indexOf(w) });
+  const CORE = 18; // số câu lõi (chưa tính 2 ghép cặp + 1 hội thoại) → tổng ~20–21
+
+  // Kho câu hỏi: mỗi từ sinh nhiều dạng, rồi trộn và lấy đủ số lượng.
+  const q: Exercise[] = [];
+  for (const w of clean) {
+    q.push(makeMeaning(w, clean));
+    q.push(makeWord(w, clean));
+    if (w.emoji && canImg) {
+      q.push(makePick(w, withEmoji));
+      q.push(makeListen(w, withEmoji));
     }
-  });
+    q.push(buildFill(w, clean));
+    const t = buildTranslate(w, clean);
+    if (t) q.push(t);
+  }
+  const core = shuf(q).slice(0, CORE);
 
-  // Xen 1–2 câu dịch (nếu chủ đề có ví dụ câu).
-  const withEx = words.filter((w) => w.example && w.exampleVi);
-  shuf(withEx)
-    .slice(0, 2)
-    .forEach((w) => {
-      const t = buildTranslate(w, clean);
-      if (t) ex.splice(Math.min(ex.length - 1, 3 + Math.floor(Math.random() * 4)), 0, t);
-    });
-
-  // Kết: ghép cặp 4 từ còn lại (nếu đủ).
-  const rest = shuf(words).slice(0, 4);
-  ex.push({ kind: 'pairs', words: rest });
+  const ex: Exercise[] = [];
+  ex.push({ kind: 'pairs', words: shuf(clean).slice(0, 4) });
+  ex.push(...core);
+  const dlg = buildDialogue();
+  if (dlg) ex.splice(Math.min(ex.length, 5 + Math.floor(Math.random() * 5)), 0, dlg);
+  ex.push({ kind: 'pairs', words: shuf(clean).slice(0, 4) });
 
   return ex;
 }

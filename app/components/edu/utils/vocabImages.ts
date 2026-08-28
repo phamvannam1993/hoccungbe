@@ -49,3 +49,25 @@ export function useVocabImages(): Record<string, string> {
   }, []);
   return map;
 }
+
+/** Chuẩn hoá tên tiếng Anh về dạng khóa: "Ice Cream" → "ice-cream". */
+export function normEn(en: string): string {
+  return en.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
+/**
+ * Dựng chỉ mục tra ảnh theo TÊN tiếng Anh, vì game (dữ liệu tĩnh vocab.ts) không có
+ * wordId của DB. Khóa ảnh dạng "animal-cat" → lấy phần sau dấu '-' đầu ("cat") làm tên;
+ * cũng lập chỉ mục theo khóa đầy đủ. Trả về hàm (en) → imageUrl | undefined.
+ */
+export function buildEnImageIndex(map: Record<string, string>): (en: string) => string | undefined {
+  const idx: Record<string, string> = {};
+  for (const [key, url] of Object.entries(map)) {
+    if (!isImageUrl(url)) continue;
+    const cut = key.indexOf('-');
+    const tail = cut >= 0 ? key.slice(cut + 1) : key;
+    if (!(tail in idx)) idx[tail] = url; // ưu tiên khớp đuôi tên
+    idx[key] = url;
+  }
+  return (en: string) => idx[normEn(en)];
+}

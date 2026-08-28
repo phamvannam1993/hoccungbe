@@ -55,7 +55,7 @@ export const ANIMALS: VocabWord[] = [
   { en: 'cougar', ipa: '/ˈkuːɡər/', vi: 'sư tử núi', emoji: '🐆' },
   { en: 'lynx', ipa: '/lɪŋks/', vi: 'mèo rừng Lynx', emoji: '🐈' },
   { en: 'bobcat', ipa: '/ˈbɑːbkæt/', vi: 'mèo rừng đuôi cộc', emoji: '🐈' },
-  { en: 'panther cat', ipa: '/ˈpænθər kæt/', vi: 'báo hoa mai', emoji: '🐆' },
+  { en: 'leopard cat', ipa: '/ˈlepərd kæt/', vi: 'mèo báo', emoji: '🐈' },
 
   // ── Gấu ──────────────────────────────────────────────────────
   { en: 'bear', ipa: '/ber/', vi: 'con gấu', emoji: '🐻' },
@@ -125,7 +125,7 @@ export const ANIMALS: VocabWord[] = [
   { en: 'wallaby', ipa: '/ˈwɑːləbi/', vi: 'chuột túi nhỏ', emoji: '🦘' },
   { en: 'platypus', ipa: '/ˈplætɪpəs/', vi: 'thú mỏ vịt', emoji: '🦫' },
   { en: 'anteater', ipa: '/ˈæntiːtər/', vi: 'thú ăn kiến', emoji: '🐾' },
-  { en: 'armadillo', ipa: '/ˌɑːrməˈdɪloʊ/', vi: 'con tê tê Mỹ', emoji: '🐾' },
+  { en: 'armadillo', ipa: '/ˌɑːrməˈdɪloʊ/', vi: 'con ta-tu', emoji: '🐾' },
   { en: 'pangolin', ipa: '/ˈpæŋɡəlɪn/', vi: 'con tê tê', emoji: '🐾' },
   { en: 'wombat', ipa: '/ˈwɑːmbæt/', vi: 'gấu túi mũi trần', emoji: '🐾' },
 

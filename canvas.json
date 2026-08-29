@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 390, "h": 884, "title": "Trang giới thiệu" },
+    { "file": "Categories.dc.html", "x": 470, "y": 0, "w": 390, "h": 884, "title": "8 chủ đề" },
+    { "file": "Situation.dc.html", "x": 940, "y": 0, "w": 390, "h": 884, "title": "Một tình huống" }
+  ],
+  "annotations": [
+    { "id": "brief", "x": 0, "y": -96, "w": 520, "text": "Ý tưởng: 160 tình huống tiếng Anh cho ba mẹ nói với con — 8 chủ đề × 20 câu, mỗi câu có nghe + nghe chậm + nghĩa tiếng Việt." }
+  ],
+  "launch": { "view": "canvas" }
+}

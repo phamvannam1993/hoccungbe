@@ -90,6 +90,7 @@ const HUBS = [
   { href: '/tro-choi', emoji: '🎮', label: 'Trò chơi học tập', c: '#38BDF8' },
   { href: '/kham-pha', emoji: '🔎', label: 'Đố vui khám phá', c: '#22C55E' },
   { href: '/hoc-tieng-anh', emoji: '🦉', label: 'Game học tiếng Anh', c: '#10B981' },
+  { href: '/tinh-huong-tieng-anh', emoji: '🗣️', label: '360 tình huống nói với con', c: '#FF6B9D' },
   { href: '/tu-vung-tieng-anh', emoji: '🔤', label: 'Từ vựng tiếng Anh', c: '#6BCB77' },
   { href: '/cong-cu', emoji: '🛠️', label: 'Công cụ miễn phí', c: '#8B5CF6' },
   { href: '/bai-viet', emoji: '📖', label: 'Góc phụ huynh', c: '#F59E0B' },

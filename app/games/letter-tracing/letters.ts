@@ -16,7 +16,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "A",
     label: "A",
-    speak: "chữ A",
+    speak: "a",
     paths: [
       "M200 420 L300 100",
       "M300 100 L400 420",
@@ -32,7 +32,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Ă",
     label: "Ă",
-    speak: "chữ Ă",
+    speak: "á",
     paths: [
       "M200 420 L300 100",
       "M300 100 L400 420",
@@ -50,7 +50,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Â",
     label: "Â",
-    speak: "chữ Â",
+    speak: "ớ",
     paths: [
       "M200 420 L300 100",
       "M300 100 L400 420",
@@ -70,7 +70,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "B",
     label: "B",
-    speak: "chữ B",
+    speak: "bờ",
     paths: [
       "M220 100 L220 420",
       "M220 100 L360 100 C404 100 426 132 426 174 C426 216 402 246 360 246 L220 246",
@@ -86,7 +86,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "C",
     label: "C",
-    speak: "chữ C",
+    speak: "cờ",
     paths: [
       "M424 142 C386 100 310 88 248 106 C176 128 138 188 138 260 C138 332 176 392 248 414 C310 432 386 420 424 378",
     ],
@@ -98,7 +98,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "D",
     label: "D",
-    speak: "chữ D",
+    speak: "dờ",
     paths: [
       "M220 100 L220 420",
       "M220 100 L342 100 C410 100 450 158 450 260 C450 362 410 420 342 420 L220 420",
@@ -112,7 +112,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Đ",
     label: "Đ",
-    speak: "chữ Đ",
+    speak: "đờ",
     paths: [
       "M220 100 L220 420",
       "M220 100 L342 100 C410 100 450 158 450 260 C450 362 410 420 342 420 L220 420",
@@ -128,7 +128,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "E",
     label: "E",
-    speak: "chữ E",
+    speak: "e",
     paths: [
       "M420 100 L220 100 L220 420 L420 420",
       "M220 260 L392 260",
@@ -142,7 +142,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Ê",
     label: "Ê",
-    speak: "chữ Ê",
+    speak: "ê",
     paths: [
       "M420 100 L220 100 L220 420 L420 420",
       "M220 260 L392 260",
@@ -160,7 +160,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "G",
     label: "G",
-    speak: "chữ G",
+    speak: "gờ",
     paths: [
       "M424 142 C386 100 310 88 248 106 C176 128 138 188 138 260 C138 332 176 392 248 414 C310 432 386 420 424 378",
       "M424 378 L424 278 L280 278",
@@ -174,7 +174,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "H",
     label: "H",
-    speak: "chữ H",
+    speak: "hờ",
     paths: [
       "M220 100 L220 420",
       "M220 260 L400 260",
@@ -190,7 +190,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "I",
     label: "I",
-    speak: "chữ I",
+    speak: "i",
     paths: [
       "M220 100 L380 100",
       "M300 100 L300 420",
@@ -206,7 +206,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "K",
     label: "K",
-    speak: "chữ K",
+    speak: "cờ",
     paths: [
       "M220 100 L220 420",
       "M420 100 L220 260",
@@ -222,7 +222,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "L",
     label: "L",
-    speak: "chữ L",
+    speak: "lờ",
     paths: [
       "M220 100 L220 420 L420 420",
     ],
@@ -234,7 +234,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "M",
     label: "M",
-    speak: "chữ M",
+    speak: "mờ",
     paths: [
       "M180 420 L180 120",
       "M180 120 L300 224",
@@ -252,7 +252,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "N",
     label: "N",
-    speak: "chữ N",
+    speak: "nờ",
     paths: [
       "M200 420 L200 120",
       "M200 120 L400 420",
@@ -268,7 +268,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "O",
     label: "O",
-    speak: "chữ O",
+    speak: "o",
     paths: [
       "M300 118 C218 118 150 178 150 260 C150 342 218 422 300 422 C382 422 450 342 450 260 C450 178 382 118 300 118 Z",
     ],
@@ -280,7 +280,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Ô",
     label: "Ô",
-    speak: "chữ Ô",
+    speak: "ô",
     paths: [
       "M300 118 C218 118 150 178 150 260 C150 342 218 422 300 422 C382 422 450 342 450 260 C450 178 382 118 300 118 Z",
       "M252 76 L300 42",
@@ -296,7 +296,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Ơ",
     label: "Ơ",
-    speak: "chữ Ơ",
+    speak: "ơ",
     paths: [
       "M300 118 C218 118 150 178 150 260 C150 342 218 422 300 422 C382 422 450 342 450 260 C450 178 382 118 300 118 Z",
       "M420 112 C446 78 488 84 494 120 C500 154 468 188 422 176",
@@ -310,7 +310,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "P",
     label: "P",
-    speak: "chữ P",
+    speak: "pờ",
     paths: [
       "M220 100 L220 420",
       "M220 100 L380 100 C422 100 438 138 438 182 C438 230 412 262 372 262 L220 262",
@@ -324,7 +324,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Q",
     label: "Q",
-    speak: "chữ Q",
+    speak: "quờ",
     paths: [
       "M300 118 C218 118 150 178 150 260 C150 342 218 422 300 422 C382 422 450 342 450 260 C450 178 382 118 300 118 Z",
       "M358 360 L426 452",
@@ -338,7 +338,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "R",
     label: "R",
-    speak: "chữ R",
+    speak: "rờ",
     paths: [
       "M220 100 L220 420",
       "M220 100 L380 100 C422 100 438 138 438 182 C438 230 412 262 372 262 L220 262",
@@ -354,7 +354,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "S",
     label: "S",
-    speak: "chữ S",
+    speak: "sờ",
     paths: [
       "M420 144 C398 104 322 86 262 104 C206 120 178 154 194 196 C210 238 276 254 338 278 C398 302 424 334 404 376 C382 420 306 436 238 414 C172 392 144 350 164 306",
     ],
@@ -366,7 +366,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "T",
     label: "T",
-    speak: "chữ T",
+    speak: "tờ",
     paths: [
       "M180 100 L420 100",
       "M300 100 L300 420",
@@ -380,7 +380,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "U",
     label: "U",
-    speak: "chữ U",
+    speak: "u",
     paths: [
       "M180 100 L180 336 C180 398 226 432 300 432 C374 432 420 398 420 336 L420 100",
     ],
@@ -392,7 +392,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Ư",
     label: "Ư",
-    speak: "chữ Ư",
+    speak: "ư",
     paths: [
       "M180 100 L180 336 C180 398 226 432 300 432 C374 432 420 398 420 336 L420 100",
       "M388 96 C414 66 456 70 462 102 C468 134 440 164 404 156",
@@ -406,7 +406,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "V",
     label: "V",
-    speak: "chữ V",
+    speak: "vờ",
     paths: [
       "M160 100 L300 420",
       "M300 420 L440 100",
@@ -420,7 +420,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "X",
     label: "X",
-    speak: "chữ X",
+    speak: "xờ",
     paths: [
       "M160 100 L440 420",
       "M440 100 L160 420",
@@ -434,7 +434,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "Y",
     label: "Y",
-    speak: "chữ Y",
+    speak: "i",
     paths: [
       "M160 100 L300 260",
       "M440 100 L300 260",
@@ -450,7 +450,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "a",
     label: "a",
-    speak: "chữ a",
+    speak: "a",
     paths: [
       "M318 194 C248 154 168 196 158 278 C150 346 190 400 250 400 C292 400 326 374 340 334 C340 358 342 382 349 400",
       "M340 200 C330 260 330 342 350 400",
@@ -464,7 +464,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "ă",
     label: "ă",
-    speak: "chữ ă",
+    speak: "á",
     paths: [
       "M318 194 C248 154 168 196 158 278 C150 346 190 400 250 400 C292 400 326 374 340 334 C340 358 342 382 349 400",
       "M340 200 C330 260 330 342 350 400",
@@ -480,7 +480,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "â",
     label: "â",
-    speak: "chữ â",
+    speak: "ớ",
     paths: [
       "M318 194 C248 154 168 196 158 278 C150 346 190 400 250 400 C292 400 326 374 340 334 C340 358 342 382 349 400",
       "M340 200 C330 260 330 342 350 400",
@@ -498,7 +498,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "b",
     label: "b",
-    speak: "chữ b",
+    speak: "bờ",
     paths: [
       "M208 104 C210 188 210 306 208 402",
       "M210 250 C252 198 346 202 374 264 C402 326 360 402 286 402 C244 402 216 374 208 336",
@@ -512,7 +512,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "c",
     label: "c",
-    speak: "chữ c",
+    speak: "cờ",
     paths: [
       "M374 224 C332 180 242 184 192 242 C142 300 166 384 238 406 C292 422 344 402 376 362",
     ],
@@ -524,7 +524,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "d",
     label: "d",
-    speak: "chữ d",
+    speak: "dờ",
     paths: [
       "M332 250 C292 198 198 202 170 264 C142 326 184 402 258 402 C300 402 328 374 336 336",
       "M334 104 C336 188 336 306 334 402",
@@ -538,7 +538,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "đ",
     label: "đ",
-    speak: "chữ đ",
+    speak: "đờ",
     paths: [
       "M332 250 C292 198 198 202 170 264 C142 326 184 402 258 402 C300 402 328 374 336 336",
       "M334 104 C336 188 336 306 334 402",
@@ -554,7 +554,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "e",
     label: "e",
-    speak: "chữ e",
+    speak: "e",
     paths: [
       "M370 300 L172 300 C174 242 218 196 284 196 C344 196 390 232 390 282",
       "M172 300 C168 358 210 410 282 410 C340 410 378 382 392 340",
@@ -568,7 +568,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "ê",
     label: "ê",
-    speak: "chữ ê",
+    speak: "ê",
     paths: [
       "M370 300 L172 300 C174 242 218 196 284 196 C344 196 390 232 390 282",
       "M172 300 C168 358 210 410 282 410 C340 410 378 382 392 340",
@@ -586,7 +586,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "g",
     label: "g",
-    speak: "chữ g",
+    speak: "gờ",
     paths: [
       "M338 246 C306 210 248 208 210 242 C170 278 176 346 222 380 C266 412 328 392 350 346 C370 304 366 266 338 246",
       "M350 250 C362 322 356 398 328 438 C294 486 218 478 172 426",
@@ -600,7 +600,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "h",
     label: "h",
-    speak: "chữ h",
+    speak: "hờ",
     paths: [
       "M220 100 C222 200 222 300 220 410",
       "M220 280 C260 220 360 220 380 280 C385 310 382 360 380 410",
@@ -614,7 +614,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "i",
     label: "i",
-    speak: "chữ i",
+    speak: "i",
     paths: [
       "M300 200 L300 410",
       "M300 132 C312 132 322 122 322 110 C322 98 312 88 300 88 C288 88 278 98 278 110 C278 122 288 132 300 132",
@@ -628,7 +628,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "k",
     label: "k",
-    speak: "chữ k",
+    speak: "cờ",
     paths: [
       "M220 100 C222 200 222 300 220 410",
       "M380 220 L220 320",
@@ -644,7 +644,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "l",
     label: "l",
-    speak: "chữ l",
+    speak: "lờ",
     paths: [
       "M300 100 C302 200 302 300 300 410",
     ],
@@ -656,7 +656,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "m",
     label: "m",
-    speak: "chữ m",
+    speak: "mờ",
     paths: [
       "M180 410 C178 330 180 260 180 200",
       "M180 270 C200 210 280 200 320 240 C330 250 332 290 330 410",
@@ -672,7 +672,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "n",
     label: "n",
-    speak: "chữ n",
+    speak: "nờ",
     paths: [
       "M180 410 C178 330 180 260 180 200",
       "M180 270 C200 210 300 200 340 240 C350 250 352 290 350 410",
@@ -686,7 +686,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "o",
     label: "o",
-    speak: "chữ o",
+    speak: "o",
     paths: [
       "M280 198 C216 198 168 242 168 304 C168 366 216 412 280 412 C344 412 392 366 392 304 C392 242 344 198 280 198 Z",
     ],
@@ -698,7 +698,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "ô",
     label: "ô",
-    speak: "chữ ô",
+    speak: "ô",
     paths: [
       "M280 198 C216 198 168 242 168 304 C168 366 216 412 280 412 C344 412 392 366 392 304 C392 242 344 198 280 198 Z",
       "M234 164 L280 132",
@@ -714,7 +714,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "ơ",
     label: "ơ",
-    speak: "chữ ơ",
+    speak: "ơ",
     paths: [
       "M280 198 C216 198 168 242 168 304 C168 366 216 412 280 412 C344 412 392 366 392 304 C392 242 344 198 280 198 Z",
       "M364 178 C388 150 424 156 430 186 C436 216 408 246 370 236",
@@ -728,7 +728,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "p",
     label: "p",
-    speak: "chữ p",
+    speak: "pờ",
     paths: [
       "M200 200 C202 260 202 330 200 450",
       "M200 280 C220 220 300 210 340 250 C370 280 370 340 340 370 C300 410 220 410 200 370",
@@ -742,7 +742,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "q",
     label: "q",
-    speak: "chữ q",
+    speak: "quờ",
     paths: [
       "M400 200 C402 260 402 330 400 450",
       "M400 280 C380 220 300 210 260 250 C230 280 230 340 260 370 C300 410 380 410 400 370",
@@ -756,7 +756,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "r",
     label: "r",
-    speak: "chữ r",
+    speak: "rờ",
     paths: [
       "M190 410 C188 330 190 260 190 210",
       "M190 270 C210 220 300 210 340 240",
@@ -770,7 +770,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "s",
     label: "s",
-    speak: "chữ s",
+    speak: "sờ",
     paths: [
       "M380 220 C360 180 260 180 240 220 C230 240 240 260 280 280 C340 310 360 330 340 370 C320 400 240 420 200 400",
     ],
@@ -782,7 +782,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "t",
     label: "t",
-    speak: "chữ t",
+    speak: "tờ",
     paths: [
       "M250 160 C252 250 252 340 250 410",
       "M150 220 L350 220",
@@ -796,7 +796,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "u",
     label: "u",
-    speak: "chữ u",
+    speak: "u",
     paths: [
       "M170 210 C172 270 172 330 170 400",
       "M170 330 C170 380 220 420 300 420 C380 420 430 380 430 330 L430 210",
@@ -810,7 +810,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "ư",
     label: "ư",
-    speak: "chữ ư",
+    speak: "ư",
     paths: [
       "M170 210 C172 270 172 330 170 400",
       "M170 330 C170 380 220 420 300 420 C380 420 430 380 430 330 L430 210",
@@ -826,7 +826,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "v",
     label: "v",
-    speak: "chữ v",
+    speak: "vờ",
     paths: [
       "M180 220 L300 410",
       "M300 410 L420 220",
@@ -840,7 +840,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "x",
     label: "x",
-    speak: "chữ x",
+    speak: "xờ",
     paths: [
       "M180 220 L420 410",
       "M420 220 L180 410",
@@ -854,7 +854,7 @@ export const TRACE_LETTERS: TraceLetter[] = [
   {
     key: "y",
     label: "y",
-    speak: "chữ y",
+    speak: "i",
     paths: [
       "M180 220 L300 320 L420 220",
       "M300 320 C300 360 280 400 240 420",

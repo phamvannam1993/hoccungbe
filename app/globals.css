@@ -22,6 +22,12 @@
    biến này. */
 
 
+/* Chặn kéo/cuộn NGANG trên mobile khi có phần tử lẻ tràn ra ngoài viewport.
+   Dùng clip (không phải hidden) để không phá position: sticky. */
+html {
+  overflow-x: clip;
+}
+
 body {
   color: var(--foreground);
   font-family: var(--font-sans);

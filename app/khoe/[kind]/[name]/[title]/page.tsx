@@ -60,8 +60,8 @@ export default async function Page({ params }: Props) {
           <Link href="/" className="rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-7 py-3 text-base font-black text-white shadow-md">
             🎒 Cho bé học miễn phí ngay
           </Link>
-          <Link href="/dau-truong" className="rounded-full border-2 border-orange-200 px-6 py-3 text-sm font-black text-orange-600">
-            ⚔️ Thử Đấu Trường
+          <Link href="/thi-tai" className="rounded-full border-2 border-orange-200 px-6 py-3 text-sm font-black text-orange-600">
+            🏆 Thử Thi Tài
           </Link>
         </div>
       </div>

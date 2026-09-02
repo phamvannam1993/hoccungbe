@@ -38,7 +38,7 @@ const NAV_MENU: NavItem[] = [
       { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
     ],
   },
-  { href: '/dau-truong', label: 'THI ĐẤU' },
+  { href: '/thi-tai', label: 'THI TÀI' },
   { href: '/de-thi', label: 'ÔN THI' },
   // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },

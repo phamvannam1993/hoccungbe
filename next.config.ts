@@ -73,6 +73,8 @@ const nextConfig: NextConfig = {
     }));
     return [
       { source: '/games', destination: '/tro-choi', permanent: true },
+      // Gỡ Đấu Trường cũ — thay bằng Thi Tài (301, giữ link/sitemap đã index).
+      { source: '/dau-truong', destination: '/thi-tai', permanent: true },
       // Bài "9 cách dạy bé học Toán lớp 1..." đã xóa khỏi DB → 301 sang bài Toán lớp 1 còn sống (tránh 404 cho URL đã index).
       { source: '/bai-viet/9-cach-day-be-hoc-toan-lop-1-tai-nha-de-dang-va-hieu-qua', destination: '/bai-viet/toan-lop-1-hoc-nhung-gi-kinh-nghiem-giup-be-hoc-hieu-qua', permanent: true },
       // Sửa slug tiếng Việt bị mất chữ (đọc → oc, đừng → ung, đẹp → ep) → 301 sang slug đúng

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import { listChildren, createChild, updateChild, deleteChild, childStats, childStreak, isGuest, setCurrentChildId, getPlacementLocal, lessonOptions, GRADES, gradeLabel, type Child, type Stats, type Streak, type ChildPrefs } from '../lib/childData';
 import KidIcon, { type IconName, ChildAvatar, ALL_AVATARS } from '../components/edu/KidIcon';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -46,6 +46,37 @@ export default function HoSoBeClient() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [streak, setStreak] = useState<Streak | null>(null);
   const [lessonOpts, setLessonOpts] = useState<{ math: { id: number; title: string }[]; viet: { id: number; title: string }[] }>({ math: [], viet: [] });
+  const [uploading, setUploading] = useState(false);
+  const [upErr, setUpErr] = useState('');
+
+  // Upload ảnh thật của bé lên S3 (POST /upload/image) → gán vào avatarUrl.
+  const onPickPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ''; // cho phép chọn lại cùng file
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setUpErr('Vui lòng chọn tệp ảnh (jpg, png…).'); return; }
+    if (file.size > 10 * 1024 * 1024) { setUpErr('Ảnh tối đa 10MB.'); return; }
+    setUpErr(''); setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const token = typeof window !== 'undefined' ? localStorage.getItem('bhh_token') : null;
+      const res = await fetch(`${base}/api/upload/image`, {
+        method: 'POST', body: fd,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) throw new Error('upload');
+      const d = (await res.json()) as { url: string };
+      if (!d.url) throw new Error('no url');
+      setForm((f) => ({ ...f, avatarUrl: d.url }));
+      // Đang sửa bé có sẵn → LƯU NGAY ảnh để không mất khi reload (không cần bấm Cập nhật).
+      if (editId != null) {
+        try { await updateChild(editId, { avatarUrl: d.url }); load(); } catch { /* vẫn giữ trong form để lưu cùng khi bấm Cập nhật */ }
+      }
+    } catch { setUpErr('Tải ảnh thất bại, thử lại nhé.'); }
+    finally { setUploading(false); }
+  };
 
   // Nạp danh sách bài Toán/Tiếng Việt theo lớp cho dropdown "bài đang học".
   useEffect(() => {
@@ -231,8 +262,24 @@ export default function HoSoBeClient() {
                 </label>
               </div>
               <div className="mt-4">
-                <p className="text-sm font-semibold text-slate-600">Ảnh đại diện</p>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <p className="text-sm font-semibold text-slate-600">Ảnh đại diện <span className="font-normal text-slate-400">— chọn ảnh có sẵn hoặc tải ảnh của bé lên</span></p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {/* Nút tải ảnh lên */}
+                  <label className={`grid h-12 w-12 cursor-pointer place-items-center rounded-full border-2 border-dashed text-center transition ${uploading ? 'border-sky-300 bg-sky-50' : 'border-slate-300 text-slate-400 hover:border-sky-400 hover:text-sky-500'}`}
+                    title="Tải ảnh của bé lên">
+                    <input type="file" accept="image/*" className="hidden" onChange={onPickPhoto} disabled={uploading} />
+                    {uploading ? <span className="text-[10px] font-black text-sky-500">Đang tải…</span> : <span className="text-lg">📷</span>}
+                  </label>
+
+                  {/* Ảnh đã tải lên (nếu không nằm trong bộ có sẵn) → hiện đầu tiên, đang chọn */}
+                  {form.avatarUrl && !ALL_AVATARS.includes(form.avatarUrl) && (
+                    <button type="button" onClick={() => setForm((f) => ({ ...f, avatarUrl: '' }))}
+                      className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-sky-500 ring-offset-2" title="Ảnh của bé (bấm để bỏ)">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={form.avatarUrl} alt="Ảnh của bé" className="h-full w-full object-cover" draggable={false} />
+                    </button>
+                  )}
+
                   {ALL_AVATARS.map((src) => {
                     const active = form.avatarUrl === src;
                     return (
@@ -244,6 +291,7 @@ export default function HoSoBeClient() {
                     );
                   })}
                 </div>
+                {upErr && <p className="mt-2 text-xs font-bold text-rose-500">{upErr}</p>}
               </div>
             </div>
 

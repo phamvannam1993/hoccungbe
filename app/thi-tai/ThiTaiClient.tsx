@@ -4,14 +4,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { THI_SUBJECTS, SUBJECT_LABEL, buildMatch, todayTheme, levelOf, nextLevel, type ThiRound, type ThiSubject } from '../lib/thiTai';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
 import { addStars } from '../lib/stars';
-import { getCurrentChildId, listChildren } from '../lib/childData';
+import { getCurrentChildId, listChildren, type Child } from '../lib/childData';
 import { apiFetch } from '../lib/api';
 import { shareAchievement } from '../lib/share';
+import FramedAvatar from '../components/edu/FramedAvatar';
+import { ChildAvatar, childAvatar } from '../components/edu/KidIcon';
 
 type Phase = 'lobby' | 'countdown' | 'round-intro' | 'playing' | 'result';
 type Quest = { id: string; label: string; emoji: string; goal: number; progress: number; reward: number; claimed: boolean };
 type Store = { season: number; correctTotal: number; days: string[]; best: Record<string, number>; questDate?: string; quests?: Quest[] };
-type Row = { name: string; score: number; rank: number };
+type Row = { name: string; score: number; rank: number; avatar?: string | null };
 
 const KEY = 'bhh_thitai_v1';
 function readStore(): Store {
@@ -95,19 +97,8 @@ const FX = `
 `;
 function Fx() { return <style>{FX}</style>; }
 
-// Avatar tròn có màu theo tên + chữ cái đầu.
-const AV_COLORS = ['#F59E0B', '#EC4899', '#8B5CF6', '#3B82F6', '#10B981', '#EF4444', '#14B8A6', '#F97316'];
+// Băm tên → số, để chọn ảnh mặc định ổn định cho mỗi biệt danh trên bảng xếp hạng.
 function hashN(s: string) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
-function Avatar({ name, size = 44, ring }: { name: string; size?: number; ring?: string }) {
-  const c = AV_COLORS[hashN(name) % AV_COLORS.length];
-  const ch = (name.trim()[0] || 'B').toUpperCase();
-  return (
-    <span className="inline-grid shrink-0 place-items-center rounded-full font-black text-white"
-      style={{ width: size, height: size, background: `linear-gradient(135deg, ${c}, ${c}bb)`, fontSize: size * 0.42, boxShadow: ring ? `0 0 0 3px ${ring}` : undefined }}>
-      {ch}
-    </span>
-  );
-}
 
 export default function ThiTaiClient() {
   const [phase, setPhase] = useState<Phase>('lobby');
@@ -131,6 +122,7 @@ export default function ThiTaiClient() {
   const [leveledUp, setLeveledUp] = useState<{ level: number; name: string } | null>(null);
   const [shareMsg, setShareMsg] = useState('');
   const [childName, setChildName] = useState('Bé');
+  const [child, setChild] = useState<Child | null>(null);
   const [rows, setRows] = useState<Row[]>([]);
   const [week, setWeek] = useState('');
   const [myRank, setMyRank] = useState<number | null>(null);
@@ -159,6 +151,7 @@ export default function ThiTaiClient() {
         const id = getCurrentChildId();
         const me = kids.find((k) => k.id === id) || kids[0];
         if (me) {
+          setChild(me);
           setChildName(me.nickname || me.fullName || 'Bé');
           const g = parseInt(String(me.currentLevel || '').replace(/\D/g, ''), 10);
           if (g >= 1 && g <= 5) setGrade(g);
@@ -255,7 +248,7 @@ export default function ThiTaiClient() {
     setReward(rw); setQuestDone(qr.done); if (id) addStars(id, rw);
     // Gửi lên bảng xếp hạng kèm thời gian thi (giây) để phá hoà khi bằng điểm.
     const timeSec = startTimeRef.current ? Math.round((Date.now() - startTimeRef.current) / 1000) : 0;
-    apiFetch<{ rank: number }>('/challenges/submit', { method: 'POST', body: JSON.stringify({ name: childName || 'Bé', score: sc, grade, subject, time: timeSec }) })
+    apiFetch<{ rank: number }>('/challenges/submit', { method: 'POST', body: JSON.stringify({ name: childName || 'Bé', score: sc, grade, subject, time: timeSec, avatar: childAvatar(child) }) })
       .then((res) => setMyRank(res.rank)).catch(() => {});
     playWin(); confetti('big');
     setPhase('result');
@@ -470,11 +463,11 @@ export default function ThiTaiClient() {
             <span className="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-600">{week ? `Tuần ${week}` : 'Tuần này'}</span>
           </div>
 
-          {podium.length >= 3 ? (
-            <div className="mb-4 grid grid-cols-3 items-end gap-2">
-              <PodiumCol row={podium[1]} place={2} h="h-24" bg="from-slate-100 to-slate-50" ring="#CBD5E1" />
-              <PodiumCol row={podium[0]} place={1} h="h-32" bg="from-amber-100 to-amber-50" ring="#F5B301" crown />
-              <PodiumCol row={podium[2]} place={3} h="h-20" bg="from-orange-100 to-orange-50" ring="#CD7F32" />
+          {podium.length > 0 ? (
+            <div className="mb-4 grid grid-cols-3 items-end gap-2 rounded-3xl bg-gradient-to-b from-violet-50/60 to-transparent p-3 pt-4">
+              <PodiumCol row={podium[1]} place={2} h="h-24" bg="from-slate-200 to-slate-100" ring="#94A3B8" medal="🥈" me={child} meName={childName} />
+              <PodiumCol row={podium[0]} place={1} h="h-32" bg="from-amber-200 to-amber-100" ring="#F5B301" medal="🥇" crown me={child} meName={childName} />
+              <PodiumCol row={podium[2]} place={3} h="h-20" bg="from-orange-200 to-orange-100" ring="#CD7F32" medal="🥉" me={child} meName={childName} />
             </div>
           ) : (
             <div className="mb-4 rounded-2xl bg-slate-50 p-6 text-center text-sm font-bold text-slate-400">
@@ -491,14 +484,14 @@ export default function ThiTaiClient() {
               {rest.map((r) => (
                 <div key={r.rank} className="grid grid-cols-[44px_1fr_auto] items-center gap-2 border-t border-slate-50 px-3 py-2.5">
                   <span className="font-black text-slate-500">{r.rank}</span>
-                  <span className="flex items-center gap-2 truncate font-bold text-slate-700"><Avatar name={r.name} size={30} /> <span className="truncate">{r.name}</span></span>
+                  <span className="flex items-center gap-2 truncate font-bold text-slate-700"><ChildAvatar child={{ id: hashN(r.name), avatarUrl: r.avatar || undefined }} className="h-[30px] w-[30px]" /> <span className="truncate">{r.name}</span></span>
                   <span className="font-black text-slate-800">{r.score.toLocaleString('vi-VN')}</span>
                 </div>
               ))}
               {myRank && myRank > 8 && (
                 <div className="grid grid-cols-[44px_1fr_auto] items-center gap-2 border-t-2 border-violet-100 bg-violet-50 px-3 py-2.5">
                   <span className="font-black text-violet-600">{myRank}</span>
-                  <span className="flex items-center gap-2 font-black text-violet-700"><Avatar name={childName} size={30} /> Bạn ({childName})</span>
+                  <span className="flex items-center gap-2 font-black text-violet-700"><FramedAvatar child={child} className="h-[30px] w-[30px]" /> Bạn ({childName})</span>
                   <span className="font-black text-violet-700">{best.toLocaleString('vi-VN')}</span>
                 </div>
               )}
@@ -511,7 +504,9 @@ export default function ThiTaiClient() {
           {/* Hồ sơ */}
           <div className="rounded-3xl bg-gradient-to-br from-violet-600 to-fuchsia-600 p-5 text-white shadow-lg">
             <div className="flex items-center gap-3">
-              <Avatar name={childName} size={52} ring="rgba(255,255,255,.5)" />
+              <span className="rounded-full shadow-md ring-4 ring-white/40">
+                <FramedAvatar child={child} className="h-14 w-14" />
+              </span>
               <div className="min-w-0">
                 <p className="kid-display truncate text-lg font-black">{childName}</p>
                 <p className="text-xs font-bold opacity-90">Lớp {grade} · {tier.emoji} {tier.name}</p>
@@ -625,17 +620,34 @@ export default function ThiTaiClient() {
   );
 }
 
-function PodiumCol({ row, place, h, bg, ring, crown }: { row?: Row; place: number; h: string; bg: string; ring: string; crown?: boolean }) {
+function PodiumCol({ row, place, h, bg, ring, medal, crown, me, meName }: { row?: Row; place: number; h: string; bg: string; ring: string; medal: string; crown?: boolean; me?: Child | null; meName?: string }) {
+  const empty = !row;
+  const sz = place === 1 ? 64 : 52;
+  const isMe = !empty && !!meName && row!.name === meName; // dòng của chính bé → hiện ảnh thật
   return (
-    <div className="flex flex-col items-center">
-      {crown && <span className="mb-0.5 text-2xl">👑</span>}
-      <div className="relative">
-        <Avatar name={row?.name || 'Bé'} size={place === 1 ? 64 : 52} ring={ring} />
-        <span className="absolute -bottom-1 left-1/2 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full text-xs font-black text-white shadow" style={{ background: ring }}>{place}</span>
+    <div className="flex flex-col items-center justify-end">
+      {crown && <span className="mb-1 text-2xl drop-shadow-sm" style={{ animation: 'tt-float 3s ease-in-out infinite' }}>👑</span>}
+      <div className="relative mb-2">
+        {empty ? (
+          <span className="grid place-items-center rounded-full border-2 border-dashed border-slate-200 text-slate-300"
+            style={{ width: sz, height: sz, fontSize: sz * 0.4 }}>?</span>
+        ) : isMe ? (
+          <span className="inline-flex rounded-full" style={{ boxShadow: `0 0 0 3px ${ring}` }}>
+            <FramedAvatar child={me} className={place === 1 ? 'h-16 w-16' : 'h-[52px] w-[52px]'} />
+          </span>
+        ) : (
+          <span className="inline-flex rounded-full" style={{ boxShadow: `0 0 0 3px ${ring}` }}>
+            <ChildAvatar child={{ id: hashN(row.name), avatarUrl: row.avatar || undefined }} className={place === 1 ? 'h-16 w-16' : 'h-[52px] w-[52px]'} />
+          </span>
+        )}
+        <span className="absolute -bottom-1 left-1/2 grid h-6 w-6 -translate-x-1/2 place-items-center rounded-full text-xs font-black text-white shadow-md ring-2 ring-white"
+          style={{ background: empty ? '#CBD5E1' : ring }}>{place}</span>
       </div>
-      <p className="mt-2 max-w-[92px] truncate text-center text-sm font-black text-slate-700">{row?.name || '—'}</p>
-      <p className="text-xs font-black" style={{ color: ring }}>{row ? row.score.toLocaleString('vi-VN') : 0} đ</p>
-      <div className={`mt-2 w-full rounded-t-xl bg-gradient-to-b ${bg} ${h}`} />
+      <p className={`max-w-[96px] truncate text-center text-sm font-black ${empty ? 'text-slate-300' : 'text-slate-700'}`}>{row?.name || 'Chưa có'}</p>
+      <p className="text-xs font-black" style={{ color: empty ? '#CBD5E1' : ring }}>{empty ? '—' : `${row.score.toLocaleString('vi-VN')} đ`}</p>
+      <div className={`mt-2 flex w-full justify-center rounded-t-2xl bg-gradient-to-b ${bg} ${h} ${empty ? 'opacity-50' : 'shadow-inner'}`}>
+        <span className="mt-2.5 text-2xl drop-shadow-sm sm:text-3xl">{medal}</span>
+      </div>
     </div>
   );
 }

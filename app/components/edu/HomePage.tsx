@@ -92,6 +92,8 @@ const HUBS = [
   { href: '/kham-pha', emoji: '🔎', label: 'Đố vui khám phá', c: '#22C55E' },
   { href: '/thi-tai', emoji: '🏆', label: 'Thi Tài giành huy chương', c: '#F97316' },
   { href: '/trieu-phu-nhi', emoji: '👑', label: 'Ai Là Triệu Phú Nhí', c: '#FFC42E' },
+  { href: '/vong-tron-am', emoji: '🎡', label: 'Vòng tròn âm vần', c: '#EF4444' },
+  { href: '/noi-am-van', emoji: '🔗', label: 'Game nối âm vần', c: '#6366F1' },
   { href: '/hoc-tieng-anh', emoji: '🦉', label: 'Game học tiếng Anh', c: '#10B981' },
   { href: '/tinh-huong-tieng-anh', emoji: '🗣️', label: '360 tình huống nói với con', c: '#FF6B9D' },
   { href: '/tu-vung-tieng-anh', emoji: '🔤', label: 'Từ vựng tiếng Anh', c: '#6BCB77' },

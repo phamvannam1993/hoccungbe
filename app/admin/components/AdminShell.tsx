@@ -40,6 +40,7 @@ const navItems = [
   { href: '/admin/media', label: '🖼️ Thư viện Media', icon: ImageIcon },
   { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/vocabulary', label: '🔤 Từ vựng tiếng Anh', icon: Languages },
+  { href: '/admin/am-van', label: '🎡 Ảnh vòng tròn âm vần', icon: Languages },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
   { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },
   { href: '/admin/mini-games', label: 'Mini Game', icon: Gamepad2 },

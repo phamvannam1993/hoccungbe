@@ -7,7 +7,7 @@
  *
  * Chạy: npm run kiem:danh-van
  */
-import { buocDanhVan, buocDanhVanChiTiet, tachTieng, AM_DOC } from '../app/lib/danhVan';
+import { buocDanhVan, tachTieng, AM_DOC } from '../app/lib/danhVan';
 import { VONG_AM } from '../app/lib/vongTronAm';
 
 type Loi = { tu: string; vong: string; luat: string; chiTiet: string };
@@ -78,11 +78,12 @@ for (const vong of VONG_AM) {
     // ("áo", "ổ", "ý", "yếu") thì không có gì để ghép — chỉ còn 3 bước.
     const khongGhepDuoc = !t.amDau && !/(ng|nh|ch|[mnptc])$/.test(boThanhHet(tieng));
     if (t.thanh !== 'ngang') {
-      if (b.length !== (khongGhepDuoc ? 3 : 5))
+      const soBuoc = khongGhepDuoc ? 3 : laKhep(tieng) ? 4 : 5;
+      if (b.length !== soBuoc)
         ghi(loi, tieng, V, 'L4 thiếu bước', `${b.length} bước: "${b.join(' - ')}"`);
       if (b[b.length - 2] !== t.thanh)
         ghi(loi, tieng, V, 'L4b gọi tên dấu', `áp chót là "${b[b.length - 2]}", phải là "${t.thanh}"`);
-      if (!khongGhepDuoc && b[b.length - 3] !== t.tiengKhongDau)
+      if (!khongGhepDuoc && !laKhep(tieng) && b[b.length - 3] !== t.tiengKhongDau)
         ghi(loi, tieng, V, 'L4c bước tiếng chưa dấu',
           `bước 3 là "${b[b.length - 3]}", phải là "${t.tiengKhongDau}"`);
     }
@@ -104,35 +105,12 @@ for (const vong of VONG_AM) {
       if (i > 0 && x === b[i - 1]) ghi(loi, tieng, V, 'L6b lặp liền', `bước ${i} và ${i + 1} đều là "${x}"`);
     });
 
-    // ── L11: MỌI chữ gửi cho máy đọc phải là tiếng có thật ───────────────────
-    // Tiếng đóng (p, t, c, ch) không mang được thanh ngang, nên nếu phần ĐỌC còn
-    // sót dạng chưa dấu thì máy sẽ gán bừa thanh: "but" phát ra thành "bắt".
-    for (const [i, ct] of buocDanhVanChiTiet(tieng).entries()) {
-      if (THANH.includes(ct.doc)) continue;          // bước gọi tên dấu
-      if (/^[a-zăâđêôơư]+ờ$/.test(ct.doc)) continue; // bước đọc âm ("bờ", "ngờ")
-      if (laKhep(ct.doc) && boThanhHet(ct.doc) === ct.doc)
-        ghi(loi, tieng, V, 'L11 chữ đọc không tồn tại',
-          `bước ${i + 1} đọc "${ct.doc}" — tiếng đóng thiếu dấu, máy sẽ đọc sai`);
-    }
-
-    // ── L12: phần NHÌN phải khớp `buocDanhVan` (hai hàm không được lệch nhau) ─
-    const hien = buocDanhVanChiTiet(tieng).map((x) => x.hien);
-    if (hien.join('|') !== b.join('|'))
-      ghi(loi, tieng, V, 'L12 hiển thị lệch', `${hien.join(' - ')} ≠ ${b.join(' - ')}`);
-
-    // ── L13: phần ĐỌC chỉ được khác phần NHÌN ở dấu thanh, không đổi chữ ──────
-    for (const ct of buocDanhVanChiTiet(tieng)) {
-      if (ct.doc !== ct.hien && boThanhHet(ct.doc) !== boThanhHet(ct.hien))
-        ghi(loi, tieng, V, 'L13 đọc lệch chữ', `nhìn "${ct.hien}" mà đọc "${ct.doc}"`);
-    }
-
-    // ── C3 (cảnh báo): bước "tiếng chưa dấu" của tiếng ĐÓNG không tồn tại thật.
-    // Không phải lỗi dữ liệu — là đánh đổi đã chọn — nhưng phải đếm được để biết
-    // có bao nhiêu chỗ máy đọc có thể ra sai thanh.
+    // ── L11: tiếng ĐÓNG không được có bước đọc trọn tiếng chưa dấu ───────────
+    // "but", "côt", "băp" không tồn tại trong tiếng Việt; giọng đọc gặp chúng sẽ
+    // tự gán thanh ("but" từng phát ra thành "bắt").
     if (laKhep(tieng) && t.thanh !== 'ngang' && b.includes(t.tiengKhongDau))
-      ghi(canhBao, tieng, V, 'C3 bước chưa dấu của tiếng đóng',
-        `nhìn "${t.tiengKhongDau}" (dạng không có thật) → đọc "${
-          buocDanhVanChiTiet(tieng).find((x) => x.hien === t.tiengKhongDau)?.doc}"`);
+      ghi(loi, tieng, V, 'L11 tiếng chưa dấu không tồn tại',
+        `có bước "${t.tiengKhongDau}" — tiếng đóng không mang được thanh ngang`);
 
     // ── L7: phần VẦN phải tách được thành đệm + âm chính + âm cuối ────────────
     const vanSach = boThanhHet(t.van);
@@ -165,7 +143,7 @@ for (const vong of VONG_AM) {
 }
 
 const tong = VONG_AM.reduce((a, v) => a + v.tu.length, 0);
-console.log(`Đã soát ${tong} từ / ${VONG_AM.length} vòng, 13 luật + 3 cảnh báo.\n`);
+console.log(`Đã soát ${tong} từ / ${VONG_AM.length} vòng, 11 luật + 2 cảnh báo.\n`);
 const in_ = (ten: string, ds: Loi[]) => {
   if (!ds.length) { console.log(`✅ ${ten}: không có`); return; }
   console.log(`\n${ten} (${ds.length}):`);

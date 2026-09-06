@@ -12,7 +12,13 @@
 export type TuVong = {
   /** Từ hiển thị, có thể gồm hai tiếng ("phong bì"). */
   tu: string;
+  /** Hình mặc định khi chưa có ảnh thật. */
   emoji: string;
+  /**
+   * Ảnh thật, ghi tay (vd ảnh trên S3). Bỏ trống thì hệ thống tự tìm ảnh cùng tên
+   * trong public/hinh-tu/ — xem `lib/hinhTu.ts`. Không có ảnh thì dùng emoji.
+   */
+  anh?: string;
   /** Câu ngắn giúp bé hình dung nghĩa. */
   cau: string;
 };

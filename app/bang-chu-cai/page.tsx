@@ -102,6 +102,8 @@ export default function Page() {
           <KidLinkList
             tone="sky"
             items={[
+              { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
+              { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
               { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa học Tiếng Việt lớp 1', emoji: '📚' },
               { href: '/luyen-viet-chu', label: 'Luyện viết chữ cho bé', emoji: '✍️' },
               { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '✏️' },

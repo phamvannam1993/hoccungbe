@@ -1,11 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { VONG_AM } from '../lib/vongTronAm';
-import { buocDanhVanChiTiet, chuoiDanhVan } from '../lib/danhVan';
+import { buocDanhVan, chuoiDanhVan } from '../lib/danhVan';
 import { speakText, speakSequence, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import Wheel from './Wheel';
 import BangChuCai from './BangChuCai';
+import HinhTu from './HinhTu';
 
 // Trang "Vòng tròn âm vần".
 //
@@ -29,7 +31,7 @@ export default function VongTronAmClient() {
   const tu = chon != null ? vong.tu[chon] : null;
   // Mỗi bước có chữ để NHÌN và chữ để ĐỌC — khác nhau ở tiếng đóng (nhìn "ut",
   // đọc "út"), xem `danhVan.ts`.
-  const buoc = useMemo(() => (tu ? buocDanhVanChiTiet(tu.tu.split(' ')[0]) : []), [tu]);
+  const buoc = useMemo(() => (tu ? buocDanhVan(tu.tu.split(' ')[0]) : []), [tu]);
 
   // Tiến độ nằm ở localStorage nên chỉ đọc được trên trình duyệt, không đọc
   // được lúc dựng trang ở máy chủ. Vì vậy phải đặt trong effect và chấp nhận
@@ -116,7 +118,7 @@ export default function VongTronAmClient() {
     if (!tu) return;
     stopSpeaking();
     speakSequence(
-      buoc.map((b) => ({ text: b.doc, lang: 'vi' as const })),
+      buoc.map((b) => ({ text: b, lang: 'vi' as const })),
       (i) => setDangDoc(i),
       () => {
         setDangDoc(null);
@@ -197,6 +199,14 @@ export default function VongTronAmClient() {
 
       {/* Bảng 29 chữ cái — phần nền tảng, để dưới vòng tròn vì bé vào trang là
           muốn chơi vòng quay trước, tra bảng chữ sau. */}
+      {/* Lối sang game: luyện xong một vòng thì bé có chỗ dùng ngay cái vừa học. */}
+      <Link
+        href="/noi-am-van"
+        className="mt-6 flex items-center justify-center gap-2 rounded-2xl border-2 border-indigo-200 bg-indigo-50 py-3 text-sm font-black text-indigo-600"
+      >
+        🔗 Chơi game nối âm vần
+      </Link>
+
       <BangChuCai
         onDoc={doc}
         amHienTai={amHienTai}
@@ -230,7 +240,7 @@ export default function VongTronAmClient() {
             </div>
 
             <div className="grid place-items-center rounded-3xl py-6" style={{ background: `${vong.mau}14` }}>
-              <span className="text-7xl" aria-hidden>{tu.emoji}</span>
+              <HinhTu tu={tu.tu} emoji={tu.emoji} anh={tu.anh} co={128} lop="h-24 w-24 text-6xl sm:h-28 sm:w-28 sm:text-7xl" />
             </div>
 
             <p className="chu-mau mt-4 text-center text-4xl font-black" style={{ color: vong.mau }}>{tu.tu}</p>
@@ -251,7 +261,7 @@ export default function VongTronAmClient() {
                       }`}
                       style={dangDoc === i ? { background: vong.mau } : { background: '#fff' }}
                     >
-                      {b.hien}
+                      {b}
                     </span>
                   </span>
                 ))}

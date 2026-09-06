@@ -123,66 +123,53 @@ function vanKhongDau(tiengKhongDau: string, amDau: string): string {
   return tiengKhongDau.slice(amDau.length);
 }
 
-export type BuocDanhVan = {
-  /** Chữ bé NHÌN thấy trên màn hình, vd "ut". */
-  hien: string;
-  /** Chữ gửi cho máy ĐỌC, vd "út". Thường trùng `hien`, trừ tiếng đóng. */
-  doc: string;
-};
-
 /**
- * Các bước đánh vần của một TIẾNG, đầy đủ theo cách đọc ở lớp 1:
+ * Các bước đánh vần của một TIẾNG, theo cách đọc ở lớp 1:
  *
  *     âm đầu – vần – tiếng chưa dấu – tên dấu – tiếng
- *     bờ  –  ut  –  but  –  sắc  –  bút
  *     bờ  –  ong –  bong –  sắc  –  bóng
  *
  * Tiếng thanh ngang dừng ở bước thứ ba ("bờ – ong – bong").
- * Tiếng không có âm đầu thì hai bước đầu là ÂM CHÍNH + ÂM CUỐI ("ô – cờ – ôc –
- * sắc – ốc"), vì không có âm đầu để đọc.
+ * Tiếng không có âm đầu thì hai bước đầu là ÂM CHÍNH + ÂM CUỐI ("ă – nờ – ăn").
  *
- * VÌ SAO CÓ HAI TRƯỜNG `hien` VÀ `doc`:
- * Với tiếng ĐÓNG (kết thúc p, t, c, ch), các dạng chưa dấu "ut", "but", "băp"
- * KHÔNG TỒN TẠI trong tiếng Việt — tiếng đóng chỉ mang được thanh sắc hoặc nặng.
- * Máy đọc gặp dạng này sẽ tự gán bừa một thanh: "but" từng phát ra thành "bắt",
- * "băp" thành "bặp". Nên phần NHÌN giữ nguyên dạng chưa dấu để bé thấy dấu được
- * thêm vào lúc nào, còn phần ĐỌC thì phát âm có dấu thật:
+ * RIÊNG TIẾNG ĐÓNG (kết thúc p, t, c, ch) BỎ BƯỚC "tiếng chưa dấu":
  *
- *     nhìn:  bờ – ut – but – sắc – bút
- *     nghe:  bờ – út – bút – sắc – bút
+ *     bờ  –  ut  –  sắc  –  bút        (B + UT + SẮC = BÚT)
+ *     cờ  –  ôt  –  nặng –  cột
+ *     ô   –  cờ  –  sắc  –  ốc
+ *
+ * Vì tiếng đóng chỉ mang được thanh sắc hoặc nặng, nên "but", "côt", "băp" là
+ * những tiếng KHÔNG TỒN TẠI. Đã thử cả hai cách khác và bỏ cả hai:
+ *   • đọc đúng chữ chưa dấu → giọng đọc tự gán thanh, "but" phát ra thành "bắt";
+ *   • đọc thay bằng dạng có dấu ("côt" phát ra "cột") → bé nghe trọn tiếng
+ *     trước khi gọi tên dấu, mất luôn cái đang được dạy.
+ * Bỏ hẳn bước đó thì mọi mẩu phát ra đều đọc được: phần vần trần ("ut", "ôt")
+ * là VẦN chứ không phải tiếng, nên không vướng luật thanh — và đây vốn là thứ
+ * vẫn được đọc rời khi ghép vần.
+ *
+ * KHÔNG tách "chữ để nhìn" khỏi "chữ để đọc": đã làm và đã gỡ, vì nghe một đằng
+ * nhìn một nẻo còn khó hiểu hơn.
  */
-export function buocDanhVanChiTiet(tieng: string): BuocDanhVan[] {
+export function buocDanhVan(tieng: string): string[] {
   const t = tachTieng(tieng);
-  const buoc: BuocDanhVan[] = [];
-  const deu = (x: string) => ({ hien: x, doc: x });
-
-  // Tiếng đóng không mang được thanh ngang → dạng chưa dấu phải đọc có dấu.
+  const buoc: string[] = [];
   const dong = laAmTietKhep(t.tiengKhongDau) && t.thanh !== 'ngang';
 
   if (t.amDau) {
-    buoc.push(deu(t.amDoc));
-    buoc.push({
-      hien: vanKhongDau(t.tiengKhongDau, t.amDau),
-      doc: dong ? t.tieng.slice(t.amDau.length) : vanKhongDau(t.tiengKhongDau, t.amDau),
-    });
+    buoc.push(t.amDoc);
+    buoc.push(vanKhongDau(t.tiengKhongDau, t.amDau));
   } else {
     // "ăn", "ong", "ốc": không có âm đầu thì ghép âm chính với âm cuối.
     const tach = tachVanKhongAmDau(t.tiengKhongDau);
-    if (tach) { buoc.push(deu(tach.chinh)); buoc.push(deu(tach.cuoiDoc)); }
+    if (tach) { buoc.push(tach.chinh); buoc.push(tach.cuoiDoc); }
   }
 
-  // Bước đọc trọn tiếng chưa dấu. Bỏ qua khi trùng y nguyên bước ngay trước
-  // ("ao", "ô", "yêu" — vần không có phụ âm cuối) để không đọc lặp hai lần.
-  if (buoc[buoc.length - 1]?.hien !== t.tiengKhongDau)
-    buoc.push({ hien: t.tiengKhongDau, doc: dong ? t.tieng : t.tiengKhongDau });
+  // Bước đọc trọn tiếng chưa dấu. Bỏ khi tiếng đóng (dạng đó không tồn tại), và
+  // khi trùng y nguyên bước ngay trước ("ao", "ô", "yêu" — vần không phụ âm cuối).
+  if (!dong && buoc[buoc.length - 1] !== t.tiengKhongDau) buoc.push(t.tiengKhongDau);
 
-  if (t.thanh !== 'ngang') { buoc.push(deu(t.thanh)); buoc.push(deu(t.tieng)); }
+  if (t.thanh !== 'ngang') { buoc.push(t.thanh); buoc.push(t.tieng); }
   return buoc;
-}
-
-/** Chỉ phần chữ hiển thị của các bước. */
-export function buocDanhVan(tieng: string): string[] {
-  return buocDanhVanChiTiet(tieng).map((b) => b.hien);
 }
 
 /** Chuỗi hiển thị: "bờ - ong - bong - sắc - bóng". */

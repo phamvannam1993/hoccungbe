@@ -7,7 +7,7 @@ import {
 } from '../../../lib/skillPractice';
 import { getCurrentChildId, isGuest } from '../../../lib/childData';
 import { speakSequence, stopSpeaking, unlockAudio } from '../../../components/edu/utils/speech';
-import { splitForSpeech, isEnglishSkill } from '../../../lib/skillSpeech';
+import { splitForSpeech, type SpeechSubject } from '../../../lib/skillSpeech';
 
 // Một phiên luyện TỔNG HỢP của một kỹ năng — không đi qua từng bài học.
 // Vòng học: chọn đáp án → chấm ngay → giải thích CÁCH LÀM → nếu sai thì
@@ -89,11 +89,14 @@ export default function LuyenKyNangClient({
   skillName,
   icon,
   grade,
+  subject,
 }: {
   skillCode: string;
   skillName: string;
   icon?: string | null;
   grade: string;
+  /** Môn quyết định cách đọc: Toán đọc đơn vị đo, Tiếng Việt đọc âm con chữ. */
+  subject: SpeechSubject;
 }) {
   const [stage, setStage] = useState<Stage>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -145,8 +148,8 @@ export default function LuyenKyNangClient({
   // giọng thì từ tiếng Anh sai bét.
   const speak = useCallback((text: string) => {
     if (!text) return;
-    speakSequence(splitForSpeech(text, isEnglishSkill(skillCode)));
-  }, [skillCode]);
+    speakSequence(splitForSpeech(text, subject));
+  }, [subject]);
 
   const say = useCallback((text: string) => {
     if (!sound || !text) return;

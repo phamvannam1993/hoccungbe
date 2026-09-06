@@ -113,7 +113,7 @@ export default async function Page({ params }: Props) {
 
       <div className="mt-6 grid gap-5">
         {/* Luyện TỔNG HỢP là hành động chính — bé không phải chọn bài nào trước. */}
-        <LuyenKyNangClient skillCode={current.code} skillName={current.name} icon={current.icon} grade={grade} />
+        <LuyenKyNangClient skillCode={current.code} skillName={current.name} icon={current.icon} grade={grade} subject={subject} />
 
         {siblings.length > 0 && (
           <KidCard emoji="🎯" title={`Kỹ năng ${label} khác`} tone="sky">

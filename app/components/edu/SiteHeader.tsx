@@ -224,16 +224,40 @@ export default function SiteHeader() {
           <StarWallet />
           <NotificationBell compact />
           {(user || guestChild) ? (
-            <div className="relative" ref={mobileAccountRef}>
-              <button onClick={() => setAccountOpen((v) => !v)}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white text-[#c0392b] text-xs font-bold shadow">
-                {user ? <span className="text-sm">👋</span> : <FramedAvatar child={guestChild} className="h-5 w-5" />}
-                <span className="max-w-[64px] truncate">{user?.fullName ?? guestChild?.fullName}</span>
-                <ChevronDown size={12} className={`transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
+            <div className="relative shrink-0" ref={mobileAccountRef}>
+              {/*
+                Trên điện thoại KHÔNG hiện tên. Hàng này đã có streak, ví sao và
+                chuông thông báo chen nhau, nút bị ép lại nên tên dài bao nhiêu
+                cũng cụt thành "B…" — nới max-width không cứu được vì flex vẫn
+                co. Ảnh đại diện đã đủ nhận ra là bé nào, tên đầy đủ hiện trong
+                menu khi bấm mở.
+              */}
+              <button
+                onClick={() => setAccountOpen((v) => !v)}
+                aria-label={`Tài khoản của ${user?.fullName ?? guestChild?.nickname ?? guestChild?.fullName ?? 'bé'}`}
+                className="flex shrink-0 items-center gap-0.5 rounded-full bg-white py-1 pl-1 pr-1.5 shadow-md ring-1 ring-black/5"
+              >
+                {user ? (
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[#fdecea] text-sm">👋</span>
+                ) : (
+                  <FramedAvatar child={guestChild} className="h-7 w-7" />
+                )}
+                <ChevronDown size={13} className={`shrink-0 text-[#c0392b] transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
               </button>
               {accountOpen && (
                 <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                  <div className="px-4 pb-1.5 pt-0.5 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
+                  {/* Tên hiện ở đây thay cho chỗ trên nút — có đủ chỗ để không cắt. */}
+                  <div className="flex items-center gap-2 px-4 pb-2 pt-1">
+                    {user ? (
+                      <span className="grid h-8 w-8 place-items-center rounded-full bg-[#fdecea] text-base">👋</span>
+                    ) : (
+                      <FramedAvatar child={guestChild} className="h-8 w-8" />
+                    )}
+                    <span className="min-w-0 truncate text-sm font-bold text-gray-800">
+                      {user?.fullName ?? guestChild?.nickname ?? guestChild?.fullName}
+                    </span>
+                  </div>
+                  <div className="border-t border-gray-100 px-4 pb-1.5 pt-2 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
                   {ACCOUNT_LINKS.map((l) => (
                     <Link key={l.href} href={l.href} onClick={() => setAccountOpen(false)}
                       className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#fdecea] hover:text-[#c0392b] transition-colors">

@@ -139,6 +139,29 @@ export async function courseEntries(): Promise<SitemapEntry[]> {
     .map((c) => ({ loc: `${SITE_URL}/khoa-hoc/${c.slug}`, lastmod: safeDate(c.updatedAt || c.createdAt || now) }));
 }
 
+// Trang "Học theo kỹ năng": hub + 1 trang/khóa + 1 trang/kỹ năng.
+// Đây là trục SEO theo NHU CẦU ("luyện phép chia lớp 3") bổ trợ cho trục
+// theo BÀI của sách giáo khoa — cùng kho bài, hai đường vào khác nhau.
+export async function skillEntries(): Promise<SitemapEntry[]> {
+  const { getSkillCatalog, parseCourseSlug } = await import('./skillSeo');
+  const lastmod = safeDate(new Date());
+  const courses = (await courseList()).filter((c) => parseCourseSlug(c.slug));
+
+  const perCourse = await Promise.all(
+    courses.map(async (c) => {
+      const parsed = parseCourseSlug(c.slug)!;
+      const skills = await getSkillCatalog({ grade: parsed.grade, subject: parsed.subject });
+      if (!skills.length) return [];
+      return [
+        { loc: `${SITE_URL}/ky-nang/${c.slug}`, lastmod },
+        ...skills.map((k) => ({ loc: `${SITE_URL}/ky-nang/${c.slug}/${k.code}`, lastmod })),
+      ];
+    }),
+  );
+
+  return [{ loc: `${SITE_URL}/ky-nang`, lastmod }, ...perCourse.flat()];
+}
+
 // Danh sách khóa học (id + slug + loại) — để tách sitemap lessons/phiếu theo từng khóa.
 export async function courseList(): Promise<{ id: number; slug: string; courseType?: string }[]> {
   type C = { id?: number; slug?: string; isPublished?: boolean; courseType?: string };

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ThreeWaysToLearn from './ThreeWaysToLearn';
 import Image from 'next/image';
 import type { ApiCourse, ApiMiniGame } from '../../lib/api';
 import HomeCourseSection from './HomeCourseSection';
@@ -228,6 +229,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <ThreeWaysToLearn />
 
       {/* ── COURSES ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">

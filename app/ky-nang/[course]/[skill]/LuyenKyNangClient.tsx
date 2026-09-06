@@ -6,7 +6,8 @@ import {
   type PracticeQuestion, type CheckResult, type MasteryProgress, type ChildSkillLevel,
 } from '../../../lib/skillPractice';
 import { getCurrentChildId, isGuest } from '../../../lib/childData';
-import { speakText, stopSpeaking, unlockAudio } from '../../../components/edu/utils/speech';
+import { speakSequence, stopSpeaking, unlockAudio } from '../../../components/edu/utils/speech';
+import { splitForSpeech, isEnglishSkill } from '../../../lib/skillSpeech';
 
 // Một phiên luyện TỔNG HỢP của một kỹ năng — không đi qua từng bài học.
 // Vòng học: chọn đáp án → chấm ngay → giải thích CÁCH LÀM → nếu sai thì
@@ -41,38 +42,6 @@ function LevelBar({ level }: { level: number }) {
       ))}
     </div>
   );
-}
-
-/**
- * Đổi ký hiệu toán sang chữ đọc được.
- * Máy đọc sẽ bỏ qua hoặc đọc sai các ký hiệu như "=", "×", "5/8", nên câu hỏi
- * phải được diễn giải thành lời trước khi phát.
- */
-function forSpeech(text: string): string {
-  return text
-    .replace(/\[b\d+\]/g, ' chỗ trống ')
-    .replace(/☐/g, ' ô trống ')
-    .replace(/(\d)\s*\/\s*(\d)/g, '$1 phần $2')
-    .replace(/(\d)\s*%/g, '$1 phần trăm')
-    .replace(/cm²/g, 'xăng-ti-mét vuông')
-    .replace(/cm³/g, 'xăng-ti-mét khối')
-    .replace(/×/g, ' nhân ')
-    .replace(/÷/g, ' chia ')
-    .replace(/−/g, ' trừ ')
-    .replace(/(\d)\s*-\s*(\d)/g, '$1 trừ $2')
-    .replace(/(\d)\s*\+\s*(\d)/g, '$1 cộng $2')
-    // Dấu ":" vừa là phép chia vừa là dấu hai chấm tiếng Việt. Phép chia luôn có
-    // khoảng trắng CẢ HAI bên ("36 : 4"), dấu câu thì không ("Cộng 14 với 2: …").
-    // Không phân biệt thì "với 2: 14" bị đọc thành "2 chia 14".
-    .replace(/(\d) : (\d)/g, '$1 chia $2')
-    // Biểu thức có ẩn ("x + 7"): dấu đứng riêng giữa hai khoảng trắng.
-    // Gạch nối trong từ tiếng Việt ("xăng-ti-mét") không có khoảng trắng nên không dính.
-    .replace(/ \+ /g, ' cộng ')
-    .replace(/ - /g, ' trừ ')
-    .replace(/=\s*\?/g, ' bằng bao nhiêu?')
-    .replace(/=/g, ' bằng ')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 const DIFF_NAME: Record<string, string> = { easy: 'Dễ', medium: 'Trung bình', hard: 'Khó' };
@@ -171,10 +140,18 @@ export default function LuyenKyNangClient({
     setSound(next);
   }
 
+  // Câu hỏi thường trộn hai thứ tiếng ('Từ "window" nghĩa là gì?'), nên phải
+  // cắt thành từng đoạn kèm ngôn ngữ rồi phát nối tiếp — đọc cả câu bằng một
+  // giọng thì từ tiếng Anh sai bét.
+  const speak = useCallback((text: string) => {
+    if (!text) return;
+    speakSequence(splitForSpeech(text, isEnglishSkill(skillCode)));
+  }, [skillCode]);
+
   const say = useCallback((text: string) => {
     if (!sound || !text) return;
-    speakText(forSpeech(text));
-  }, [sound]);
+    speak(text);
+  }, [sound, speak]);
 
   // Câu đang hiển thị: câu chính, hoặc câu tương tự khi bé đang làm lại.
   const current = retry ?? queue[idx];
@@ -193,7 +170,7 @@ export default function LuyenKyNangClient({
   useEffect(() => {
     if (stage !== 'playing' || !current || !sound) return;
     stopSpeaking();
-    const timer = setTimeout(() => speakText(forSpeech(current.questionText)), 350);
+    const timer = setTimeout(() => speak(current.questionText), 350);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current?.id, stage, sound]);
@@ -232,8 +209,10 @@ export default function LuyenKyNangClient({
     try {
       const r = await checkAnswer(current.id, i);
       setResult(r);
-      // Đọc luôn lời giải thích — đây là chỗ bé học được cách làm, không phải chỗ đáp án.
-      say(`${r.isCorrect ? 'Chính xác!' : 'Thử nghĩ lại nhé!'} ${r.explanation}`);
+      // Tự đọc NHẬN XÉT → ĐÁP ÁN ĐÚNG → CÁCH LÀM, không bắt bé phải bấm nút.
+      // Đáp án để trong ngoặc kép để phần luyện tiếng Anh đọc đúng giọng Anh.
+      const nhanXet = r.isCorrect ? 'Chính xác!' : 'Chưa đúng rồi.';
+      say(`${nhanXet} Đáp án đúng là "${r.correctAnswer}". ${r.explanation}`);
       // Sai ở câu chính thì nạp sẵn một câu cùng dạng để bé thử lại ngay.
       if (!r.isCorrect && !retry) {
         getVariant(current.id)
@@ -417,7 +396,7 @@ export default function LuyenKyNangClient({
 
       <div className="flex items-start gap-2">
         <button
-          onClick={() => { unlockAudio(); speakText(forSpeech(current.questionText)); }}
+          onClick={() => { unlockAudio(); speak(current.questionText); }}
           aria-label="Nghe lại câu hỏi"
           className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-violet-50 text-violet-600 transition hover:bg-violet-100"
         >
@@ -459,7 +438,7 @@ export default function LuyenKyNangClient({
           </p>
           <div className="mt-1 flex items-start gap-2">
             <button
-              onClick={() => { unlockAudio(); speakText(forSpeech(result.explanation)); }}
+              onClick={() => { unlockAudio(); speak(`Đáp án đúng là "${result.correctAnswer}". ${result.explanation}`); }}
               aria-label="Nghe lại lời giải thích"
               className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/70 text-sm transition hover:bg-white"
             >

@@ -91,6 +91,7 @@ const HUBS = [
   { href: '/tro-choi', emoji: '🎮', label: 'Trò chơi học tập', c: '#38BDF8' },
   { href: '/kham-pha', emoji: '🔎', label: 'Đố vui khám phá', c: '#22C55E' },
   { href: '/thi-tai', emoji: '🏆', label: 'Thi Tài giành huy chương', c: '#F97316' },
+  { href: '/trieu-phu-nhi', emoji: '👑', label: 'Ai Là Triệu Phú Nhí', c: '#FFC42E' },
   { href: '/hoc-tieng-anh', emoji: '🦉', label: 'Game học tiếng Anh', c: '#10B981' },
   { href: '/tinh-huong-tieng-anh', emoji: '🗣️', label: '360 tình huống nói với con', c: '#FF6B9D' },
   { href: '/tu-vung-tieng-anh', emoji: '🔤', label: 'Từ vựng tiếng Anh', c: '#6BCB77' },

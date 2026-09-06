@@ -38,7 +38,17 @@ const NAV_MENU: NavItem[] = [
       { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
     ],
   },
-  { href: '/thi-tai', label: 'THI TÀI' },
+  {
+    // Gom các sân chơi thi đấu vào một nhóm — thêm mục cấp 1 nữa thì thanh menu
+    // quá chật trên màn hình vừa.
+    href: '/thi-tai',
+    label: 'THI TÀI',
+    children: [
+      { href: '/thi-tai', label: 'Thi Tài giành huy chương' },
+      { href: '/trieu-phu-nhi', label: 'Ai Là Triệu Phú Nhí' },
+      { href: '/kham-pha', label: 'Đố vui khám phá' },
+    ],
+  },
   { href: '/de-thi', label: 'ÔN THI' },
   // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   { href: '/bai-viet', label: 'GÓC PHỤ HUYNH' },

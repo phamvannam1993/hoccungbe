@@ -89,6 +89,42 @@ export default function Page() {
       {/* GamesView (server component) đã SSR H1 + danh sách game crawlable → không cần khối sr-only lặp lại. */}
       <GamesView />
 
+      {/*
+        "Ai Là Triệu Phú Nhí" KHÔNG nằm trong gamesData vì nó không phải mini-game:
+        có 3 chế độ, thang thưởng, bảng xếp hạng và phân tích năng lực — quy mô
+        gần với /thi-tai hơn. Nhưng đây là nơi trẻ tìm trò chơi, nên phải có lối
+        vào nổi bật ở đây.
+      */}
+      <section className="mx-auto max-w-4xl px-4 pb-2">
+        <Link
+          href="/trieu-phu-nhi"
+          className="flex items-center gap-4 rounded-3xl p-4 text-white transition hover:-translate-y-1 sm:p-5"
+          style={{
+            background: 'radial-gradient(120% 100% at 50% 0%, #1e40af 0%, #10256e 55%, #071143 100%)',
+            boxShadow: '0 10px 0 #050d33, 0 20px 34px rgba(7,17,67,.35)',
+          }}
+        >
+          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-white/10 text-4xl" aria-hidden>
+            👑
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-black uppercase tracking-widest text-[#FFD54A]">
+              Sân chơi lớn
+            </span>
+            <span className="block text-lg font-black sm:text-xl">Ai Là Triệu Phú Nhí</span>
+            <span className="mt-0.5 block text-xs font-bold text-white/70">
+              Leo 15 mốc thưởng · Thử thách 60 giây · Thử thách Boss
+            </span>
+          </span>
+          <span
+            className="hidden shrink-0 rounded-full px-5 py-2.5 text-sm font-black text-[#5a2d00] sm:block"
+            style={{ background: 'linear-gradient(180deg,#FFE27A,#F0A400)', boxShadow: '0 4px 0 #B96A00' }}
+          >
+            Chơi ngay
+          </span>
+        </Link>
+      </section>
+
       {/* Link sang các hub danh mục. Trang này liệt kê phẳng cả kho nên tự nó không
           nhắm được truy vấn hẹp ("game toán", "trò chơi cho bé 3 tuổi"); các hub bên
           dưới làm việc đó, và cần link từ đây để Google tìm ra chúng. */}

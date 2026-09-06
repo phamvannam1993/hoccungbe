@@ -11,6 +11,8 @@
   --font-sans: var(--font-quicksand), var(--font-nunito), 'Quicksand', 'Nunito', sans-serif;
   --font-display: var(--font-baloo2), 'Baloo 2', sans-serif;
   --font-mono: ui-monospace, monospace;
+  /* Chữ mẫu cho bé tập đọc — dùng qua class `font-chu-mau` (Tailwind sinh sẵn). */
+  --font-chu-mau: var(--font-chu-mau-src), 'Andika', var(--font-quicksand), sans-serif;
 }
 
 /* KHÔNG đảo màu theo prefers-color-scheme.
@@ -122,6 +124,9 @@ input, select, optgroup, textarea {
 }
 
 .kid-display { font-family: var(--font-display); }
+
+/* Chỗ nào TRÌNH BÀY chữ cái/từ cho bé nhận mặt chữ thì dùng class này. */
+.chu-mau { font-family: var(--font-chu-mau); font-feature-settings: 'ss01' 1; }
 
 .kid-bg { background: var(--kid-bg); }
 .kid-bg-vivid { background: var(--kid-bg-vivid); }

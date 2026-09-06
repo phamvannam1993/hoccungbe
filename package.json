@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "kiem:danh-van": "tsc --target es2020 --module commonjs --esModuleInterop --skipLibCheck --outDir .tmp-kiem scripts/kiem-danh-van.ts && node .tmp-kiem/scripts/kiem-danh-van.js"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.23.6",

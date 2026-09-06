@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { Nunito, Baloo_2, Quicksand } from 'next/font/google';
+import { Nunito, Baloo_2, Quicksand, Andika } from 'next/font/google';
 import SiteShell from './components/SiteShell';
 import PWARegister from './components/PWARegister';
 import { DEFAULT_LOGO, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, absoluteUrl } from './lib/seo';
@@ -28,6 +28,17 @@ const quicksand = Quicksand({
   subsets: ['latin', 'vietnamese'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-quicksand',
+  display: 'swap',
+});
+
+// CHỮ MẪU TẬP ĐỌC. Andika là font do SIL làm riêng cho người MỚI học đọc: 'a' và
+// 'g' một tầng, 'l' có chân, 'I'/'l'/'1' không lẫn nhau — đúng dạng chữ bé được
+// dạy viết ở lớp 1. Chỉ dùng cho những chỗ TRÌNH BÀY CHỮ CÁI/TỪ để bé nhận mặt
+// chữ (vòng tròn âm vần, bước đánh vần), không thay font toàn site.
+const andika = Andika({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '700'],
+  variable: '--font-chu-mau',
   display: 'swap',
 });
 
@@ -205,7 +216,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="vi" className={`${nunito.variable} ${baloo2.variable} ${quicksand.variable}`}>
+    <html lang="vi" className={`${nunito.variable} ${baloo2.variable} ${quicksand.variable} ${andika.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -88,7 +88,6 @@ export function tachTieng(tieng: string): TachTieng {
  * Những tiếng này chỉ mang được thanh SẮC hoặc NẶNG — dùng để KIỂM TRA dữ liệu
  * (xem `scripts/kiem-danh-van.ts`), không dùng để đổi cách đánh vần.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function laAmTietKhep(tiengKhongDau: string): boolean {
   return /(p|t|c|ch)$/.test(tiengKhongDau);
 }
@@ -118,55 +117,74 @@ function tachVanKhongAmDau(vanKhongDau: string): { chinh: string; cuoiDoc: strin
   return null;
 }
 
-/** Phần vần KHÔNG dấu thanh, vd "bắp" → "ăp". */
+/**
+ * Nguyên âm đôi/ba viết bằng nhiều con chữ. Tiếng KHÔNG có âm đầu thì bé phải
+ * đọc ngay từ con chữ đầu tiên, nên phải đánh vần cả phần này: "y – ê – yê".
+ * Tiếng có âm đầu thì không cần, vì bé đã bám vào âm đầu để vào vần rồi.
+ */
+const AM_CHINH_GHEP = ['yê', 'iê', 'uô', 'ươ', 'ya', 'ia', 'ua', 'ưa'];
+
+/** Phần vần KHÔNG dấu thanh, vd "bóng" → "ong". */
 function vanKhongDau(tiengKhongDau: string, amDau: string): string {
   return tiengKhongDau.slice(amDau.length);
 }
 
+/** Phần vần CÓ dấu thanh, cắt thẳng từ tiếng gốc: "ngọt" → "ọt". */
+function vanCoDau(tieng: string, amDau: string): string {
+  return tieng.slice(amDau.length);
+}
+
 /**
- * Các bước đánh vần của một TIẾNG, theo cách đọc ở lớp 1:
+ * Các bước đánh vần của một TIẾNG, theo cách đọc ở lớp 1.
  *
- *     âm đầu – vần – tiếng chưa dấu – tên dấu – tiếng
- *     bờ  –  ong –  bong –  sắc  –  bóng
- *
+ * CÓ ÂM ĐẦU — âm đầu, vần, tiếng chưa dấu, tên dấu, tiếng:
+ *     bờ  – ong – bong – sắc – bóng
  * Tiếng thanh ngang dừng ở bước thứ ba ("bờ – ong – bong").
- * Tiếng không có âm đầu thì hai bước đầu là ÂM CHÍNH + ÂM CUỐI ("ă – nờ – ăn").
  *
- * RIÊNG TIẾNG ĐÓNG (kết thúc p, t, c, ch) BỎ BƯỚC "tiếng chưa dấu":
+ * KHÔNG CÓ ÂM ĐẦU — đánh vần từ trong ra ngoài: âm chính, âm cuối, vần, dấu, tiếng.
+ *     ă  – nờ  – ăn
+ * Âm chính nhiều con chữ thì đọc rời từng chữ trước khi ghép:
+ *     y  – ê   – yê  – nờ – yên – sắc – yến
  *
- *     bờ  –  ut  –  sắc  –  bút        (B + UT + SẮC = BÚT)
- *     cờ  –  ôt  –  nặng –  cột
- *     ô   –  cờ  –  sắc  –  ốc
+ * TIẾNG ĐÓNG (kết thúc p, t, c, ch) — DẤU NẰM SẴN Ở VẦN, và bỏ bước đọc trọn
+ * tiếng chưa dấu:
+ *     ngờ – ọt  – nặng – ngọt
+ *     bờ  – út  – sắc  – bút
+ *     ê   – chờ – ếch  – sắc – ếch
  *
- * Vì tiếng đóng chỉ mang được thanh sắc hoặc nặng, nên "but", "côt", "băp" là
- * những tiếng KHÔNG TỒN TẠI. Đã thử cả hai cách khác và bỏ cả hai:
- *   • đọc đúng chữ chưa dấu → giọng đọc tự gán thanh, "but" phát ra thành "bắt";
- *   • đọc thay bằng dạng có dấu ("côt" phát ra "cột") → bé nghe trọn tiếng
- *     trước khi gọi tên dấu, mất luôn cái đang được dạy.
- * Bỏ hẳn bước đó thì mọi mẩu phát ra đều đọc được: phần vần trần ("ut", "ôt")
- * là VẦN chứ không phải tiếng, nên không vướng luật thanh — và đây vốn là thứ
- * vẫn được đọc rời khi ghép vần.
- *
- * KHÔNG tách "chữ để nhìn" khỏi "chữ để đọc": đã làm và đã gỡ, vì nghe một đằng
- * nhìn một nẻo còn khó hiểu hơn.
+ * Vì tiếng đóng chỉ mang được thanh sắc hoặc nặng, nên "ot", "ut", "ngot",
+ * "but" đều là những chữ KHÔNG TỒN TẠI trong tiếng Việt. Giọng đọc gặp chữ
+ * không có thật thì tự gán bừa một thanh — "ut" từng phát ra thành "bắt",
+ * "ot" thành một âm khác hẳn. Đặt sẵn dấu vào vần thì mọi mẩu đều đọc được,
+ * mà bước gọi tên dấu vẫn còn để bé biết đó là dấu gì.
  */
 export function buocDanhVan(tieng: string): string[] {
   const t = tachTieng(tieng);
   const buoc: string[] = [];
+  // Tiếng đóng mang dấu: vần phải giữ dấu, và không có dạng tiếng chưa dấu.
   const dong = laAmTietKhep(t.tiengKhongDau) && t.thanh !== 'ngang';
 
   if (t.amDau) {
     buoc.push(t.amDoc);
-    buoc.push(vanKhongDau(t.tiengKhongDau, t.amDau));
+    buoc.push(dong ? vanCoDau(t.tieng, t.amDau) : vanKhongDau(t.tiengKhongDau, t.amDau));
+    if (!dong) buoc.push(t.tiengKhongDau);
   } else {
-    // "ăn", "ong", "ốc": không có âm đầu thì ghép âm chính với âm cuối.
     const tach = tachVanKhongAmDau(t.tiengKhongDau);
-    if (tach) { buoc.push(tach.chinh); buoc.push(tach.cuoiDoc); }
+    if (tach) {
+      // "yê" → đọc "y", "ê" rồi mới tới "yê".
+      const ghep = AM_CHINH_GHEP.find((x) => x === tach.chinh);
+      if (ghep) for (const chu of ghep) buoc.push(chu);
+      buoc.push(tach.chinh);
+      buoc.push(tach.cuoiDoc);
+      // Không có âm đầu thì "vần" chính là cả tiếng. Với tiếng đóng, vần đã mang
+      // sẵn dấu nên bước này trùng y hệt bước cuối ("ếch … ếch") — bỏ đi cho khỏi
+      // đọc lặp; bước gọi tên dấu vẫn còn.
+      if (!dong) buoc.push(t.tiengKhongDau);
+    } else if (buoc[buoc.length - 1] !== t.tiengKhongDau) {
+      // "ao", "ô", "yêu": vần không có phụ âm cuối, không có gì để ghép.
+      buoc.push(t.tiengKhongDau);
+    }
   }
-
-  // Bước đọc trọn tiếng chưa dấu. Bỏ khi tiếng đóng (dạng đó không tồn tại), và
-  // khi trùng y nguyên bước ngay trước ("ao", "ô", "yêu" — vần không phụ âm cuối).
-  if (!dong && buoc[buoc.length - 1] !== t.tiengKhongDau) buoc.push(t.tiengKhongDau);
 
   if (t.thanh !== 'ngang') { buoc.push(t.thanh); buoc.push(t.tieng); }
   return buoc;

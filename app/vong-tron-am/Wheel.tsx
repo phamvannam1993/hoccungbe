@@ -1,12 +1,17 @@
 'use client';
 
 import type { VongAm } from '../lib/vongTronAm';
+import { khoaAnh } from '../lib/hinhTu';
+import { useVocabImages, isImageUrl } from '../components/edu/utils/vocabImages';
 
 // Vòng tròn âm vần: 10 từ xếp quanh một âm ở giữa.
 //
 // Vẽ bằng SVG chứ không phải nhiều thẻ div xoay bằng CSS: múi bánh xe là hình
 // quạt, div không cắt được hình đó nếu không dùng mặt nạ phức tạp. SVG cũng co
 // giãn theo màn hình mà không vỡ nét.
+
+/** Cạnh ô hình trong mỗi múi. */
+const CO_HINH = 38;
 
 const R_NGOAI = 188;
 const R_TRONG = 82;
@@ -63,6 +68,14 @@ export default function Wheel({
   onChonTu: (i: number) => void;
   onDocAm: () => void;
 }) {
+  // Ảnh admin tải lên; từ nào chưa có thì rơi về emoji.
+  const map = useVocabImages();
+  const anh: Record<string, string> = {};
+  for (const w of vong.tu) {
+    const url = map[khoaAnh(w.tu)];
+    if (isImageUrl(url)) anh[w.tu] = url;
+  }
+
   const n = vong.tu.length;
   const buoc = 360 / n;
   const xoay = chon == null ? 0 : lamTron(-(chon * buoc));
@@ -77,6 +90,14 @@ export default function Wheel({
           <filter id="bongMui" x="-40%" y="-40%" width="180%" height="180%">
             <feDropShadow dx="0" dy="4" stdDeviation="5" floodOpacity="0.16" />
           </filter>
+          {/* Bo góc ô ảnh. clipPath dùng toạ độ của chính phần tử được cắt, mà ô
+              ảnh đặt ở tâm nên hình vuông cắt cũng phải nằm quanh tâm. */}
+          <clipPath id="boGocHinh">
+            <rect
+              x={-CO_HINH / 2} y={8 - CO_HINH * 0.72}
+              width={CO_HINH} height={CO_HINH} rx={9}
+            />
+          </clipPath>
           <radialGradient id="loiGiua" cx="38%" cy="30%">
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="100%" stopColor={`${vong.mau}18`} />
@@ -127,7 +148,19 @@ export default function Wheel({
                     {w.tu}
                   </text>
 
-                  <text y={8} textAnchor="middle" fontSize="30">{w.emoji}</text>
+                  {/* Có ảnh thì dùng ảnh, không thì emoji — giống thẻ từ và game nối.
+                      Trong SVG phải dùng <image> chứ không dùng được next/image. */}
+                  {anh[w.tu] ? (
+                    <image
+                      href={anh[w.tu]}
+                      x={-CO_HINH / 2} y={8 - CO_HINH * 0.72}
+                      width={CO_HINH} height={CO_HINH}
+                      preserveAspectRatio="xMidYMid meet"
+                      clipPath="url(#boGocHinh)"
+                    />
+                  ) : (
+                    <text y={8} textAnchor="middle" fontSize="30">{w.emoji}</text>
+                  )}
 
                   {/* Nhãn trạng thái, giống thẻ "Đã đánh vần" trong bản thiết kế */}
                   <rect

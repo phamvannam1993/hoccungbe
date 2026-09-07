@@ -145,6 +145,8 @@ function vanCoDau(tieng: string, amDau: string): string {
  *     ă  – nờ  – ăn
  * Âm chính nhiều con chữ thì đọc rời từng chữ trước khi ghép:
  *     y  – ê   – yê  – nờ – yên – sắc – yến
+ *     a  – o   – ao
+ *     a  – o   – ao  – sắc – áo
  *
  * TIẾNG ĐÓNG (kết thúc p, t, c, ch) — DẤU NẰM SẴN Ở VẦN, và bỏ bước đọc trọn
  * tiếng chưa dấu:
@@ -180,8 +182,11 @@ export function buocDanhVan(tieng: string): string[] {
       // sẵn dấu nên bước này trùng y hệt bước cuối ("ếch … ếch") — bỏ đi cho khỏi
       // đọc lặp; bước gọi tên dấu vẫn còn.
       if (!dong) buoc.push(t.tiengKhongDau);
-    } else if (buoc[buoc.length - 1] !== t.tiengKhongDau) {
-      // "ao", "ô", "yêu": vần không có phụ âm cuối, không có gì để ghép.
+    } else {
+      // "ao", "ô", "yêu": vần không có phụ âm cuối. Vẫn đánh vần được nếu viết
+      // bằng nhiều con chữ — đọc rời từng chữ rồi ghép: "a – o – ao".
+      // Tiếng một con chữ ("ô", "y") thì không có gì để ghép, chỉ đọc chính nó.
+      if (t.tiengKhongDau.length > 1) for (const chu of t.tiengKhongDau) buoc.push(chu);
       buoc.push(t.tiengKhongDau);
     }
   }

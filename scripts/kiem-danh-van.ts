@@ -81,8 +81,9 @@ for (const vong of VONG_AM) {
       // âm đầu + vần (+ tiếng chưa dấu, trừ tiếng đóng) (+ dấu + tiếng)
       mongDoi = 2 + (laKhep(tieng) && t.thanh !== 'ngang' ? 0 : 1);
     } else if (!coCuoi) {
-      // "ao", "ô", "yêu": không có gì để ghép, chỉ còn chính tiếng
-      mongDoi = 1;
+      // "ao", "yêu": đọc rời từng con chữ rồi ghép ("a – o – ao").
+      // "ô", "y": một con chữ, không có gì để ghép.
+      mongDoi = sach.length > 1 ? sach.length + 1 : 1;
     } else {
       // âm chính + âm cuối + vần, cộng thêm mỗi con chữ của âm chính ghép
       const chinh = sach.replace(/(ng|nh|ch|[mnptc])$/, '');

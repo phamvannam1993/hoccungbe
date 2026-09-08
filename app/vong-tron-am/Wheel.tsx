@@ -61,18 +61,32 @@ const TRANG_TRI: [number, number, string][] = [
 
 export default function Wheel({
   vong, chon, daHoc, onChonTu, onDocAm,
+  nhanXong = '✓ Đã đánh vần',
+  nhanChua = '🔊 Đánh vần',
+  chuGiua,
+  nhanGiua,
+  khoaAnhCuaTu = khoaAnh,
 }: {
   vong: VongAm;
   chon: number | null;
   daHoc: Set<string>;
   onChonTu: (i: number) => void;
   onDocAm: () => void;
+  /** Nhãn trong múi khi từ đã học / chưa học. */
+  nhanXong?: string;
+  nhanChua?: string;
+  /** Chữ lớn ở giữa; mặc định là mã âm của vòng. */
+  chuGiua?: string;
+  /** Nhãn nhỏ dưới chữ giữa; mặc định là "Âm <đọc>". */
+  nhanGiua?: string;
+  /** Cách tra ảnh — vòng từ vựng dùng khoá khác vòng âm vần. */
+  khoaAnhCuaTu?: (tu: string) => string;
 }) {
   // Ảnh admin tải lên; từ nào chưa có thì rơi về emoji.
   const map = useVocabImages();
   const anh: Record<string, string> = {};
   for (const w of vong.tu) {
-    const url = map[khoaAnh(w.tu)];
+    const url = map[khoaAnhCuaTu(w.tu)];
     if (isImageUrl(url)) anh[w.tu] = url;
   }
 
@@ -169,7 +183,7 @@ export default function Wheel({
                   />
                   <text y={33} textAnchor="middle" fontSize="10.5" fontWeight="700"
                     fill={xong ? '#16a34a' : sac.dam}>
-                    {xong ? '✓ Đã đánh vần' : '🔊 Đánh vần'}
+                    {xong ? nhanXong : nhanChua}
                   </text>
                 </g>
               </g>
@@ -186,12 +200,13 @@ export default function Wheel({
           <circle cx={-24} cy={-34} r="4.5" fill="#ef4444" opacity="0.85" />
           <circle cx={24} cy={-34} r="4.5" fill="#3b82f6" opacity="0.85" />
 
-          <text className="chu-mau" y="8" textAnchor="middle" fontSize="52" fontWeight="700" fill={vong.mau}>
-            {vong.am}
+          <text className="chu-mau" y="8" textAnchor="middle"
+            fontSize={(chuGiua ?? vong.am).length > 3 ? 30 : 52} fontWeight="700" fill={vong.mau}>
+            {chuGiua ?? vong.am}
           </text>
-          <rect x={-52} y={24} width={104} height={24} rx={12} fill={`${vong.mau}1a`} />
+          <rect x={-62} y={24} width={124} height={24} rx={12} fill={`${vong.mau}1a`} />
           <text y={40} textAnchor="middle" fontSize="12.5" fontWeight="800" fill={vong.mau}>
-            🔊 Âm {vong.doc}
+            {nhanGiua ?? `🔊 Âm ${vong.doc}`}
           </text>
         </g>
       </svg>

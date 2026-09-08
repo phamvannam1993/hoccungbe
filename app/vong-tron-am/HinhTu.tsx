@@ -26,15 +26,17 @@ type Props = {
    * Tách khỏi `co` vì trên điện thoại ô phải nhỏ lại, mà ảnh tải về thì không cần đổi.
    */
   lop?: string;
+  /** Khoá tra ảnh, nếu khác quy tắc của vòng tròn âm vần (vd từ vựng tiếng Anh). */
+  khoa?: string;
 };
 
-export default function HinhTu({ tu, emoji, anh, co, lop = '' }: Props) {
+export default function HinhTu({ tu, emoji, anh, co, lop = '', khoa }: Props) {
   const map = useVocabImages();
   const [loi, setLoi] = useState(false);
 
   // Ảnh ghi tay chấp nhận cả đường dẫn nội bộ ("/anh/bo.webp"); ảnh từ bảng thì
   // phải là URL đầy đủ, vì đó là thứ /api/upload/image trả về.
-  const tuBang = map[khoaAnh(tu)];
+  const tuBang = map[khoa ?? khoaAnh(tu)];
   const nguon = anh || (isImageUrl(tuBang) ? tuBang : null);
 
   if (!nguon || loi)

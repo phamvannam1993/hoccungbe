@@ -80,7 +80,7 @@ export default function VongTuVungClient() {
   const soDaHoc = vong.tu.filter((w) => daHoc.has(`${vong.chuDe.slug}:${w.en}`)).length;
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-3 pb-4 pt-4 sm:px-4">
+    <div className="mx-auto w-full max-w-3xl overflow-x-hidden px-3 pb-4 pt-3 sm:px-4">
       {/* Chọn LỚP */}
       <div className="mb-3 flex flex-wrap items-center justify-center gap-1.5">
         <span className="text-xs font-black uppercase tracking-wide text-slate-400">Lớp</span>
@@ -98,53 +98,60 @@ export default function VongTuVungClient() {
         ))}
       </div>
 
-      {/* Chọn CHỦ ĐỀ và vòng trong chủ đề */}
-      <div className="mb-4 flex flex-wrap justify-center gap-1.5">
+      {/* Chọn CHỦ ĐỀ — lưới 2 cột trên điện thoại.
+          Trước đây in luôn nút số phần của MỌI chủ đề ngay tại đây; riêng "Động
+          vật" đã 25 phần, cộng 10 chủ đề thành hơn 60 nút chen nhau, màn hình
+          nhỏ vỡ hẳn. Giờ tách làm hai bước: chọn chủ đề trước, chọn phần sau. */}
+      <div className="mb-2 grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5">
         {chuDe.map(({ chuDe: c, vong: ds }) => {
           const dangO = c.slug === vong.chuDe.slug;
-          return ds.length === 1 ? (
+          return (
             <button
               key={c.slug}
               onClick={() => { setMaVong(ds[0].ma); setChon(null); setMoThe(false); stopSpeaking(); }}
-              className={`rounded-xl px-2.5 py-1.5 text-xs font-black transition ${
-                dangO ? 'text-white' : 'bg-slate-100 text-slate-600'
+              className={`flex min-w-0 items-center gap-1 rounded-xl px-2 py-2 text-left text-[11px] font-black transition sm:text-xs ${
+                dangO ? 'text-white' : 'bg-white/80 text-slate-600 ring-1 ring-slate-200'
               }`}
               style={dangO ? { background: vong.mau } : undefined}
             >
-              {c.emoji} {c.heading}
+              <span className="shrink-0 text-base" aria-hidden>{c.emoji}</span>
+              <span className="truncate">{c.heading}</span>
             </button>
-          ) : (
-            <span key={c.slug} className={`inline-flex items-center gap-0.5 rounded-xl px-1 py-0.5 ${dangO ? 'bg-slate-100' : ''}`}>
-              <span className="px-1 text-xs font-black text-slate-600">{c.emoji} {c.heading}</span>
-              {/* Chủ đề nhiều từ được cắt thành nhiều vòng 10 từ; đánh số cho bé chọn. */}
-              {ds.map((v) => (
-                <button
-                  key={v.ma}
-                  onClick={() => { setMaVong(v.ma); setChon(null); setMoThe(false); stopSpeaking(); }}
-                  className={`h-6 w-6 rounded-lg text-[11px] font-black transition ${
-                    v.ma === vong.ma ? 'text-white' : 'bg-white text-slate-500 ring-1 ring-slate-200'
-                  }`}
-                  style={v.ma === vong.ma ? { background: vong.mau } : undefined}
-                >
-                  {v.thuTu}
-                </button>
-              ))}
-            </span>
           );
         })}
       </div>
 
+      {/* Chọn PHẦN trong chủ đề — chỉ hiện khi chủ đề bị cắt thành nhiều vòng.
+          Cho cuộn ngang vì chủ đề lớn có tới 25 phần. */}
+      {vong.tongVong > 1 && (
+        <div className="-mx-3 mb-3 flex items-center gap-1 overflow-x-auto px-3 pb-1 sm:mx-0 sm:px-0">
+          <span className="shrink-0 pr-1 text-[10px] font-black uppercase tracking-wide text-slate-400">Phần</span>
+          {chuDe.find((c) => c.chuDe.slug === vong.chuDe.slug)?.vong.map((v) => (
+            <button
+              key={v.ma}
+              onClick={() => { setMaVong(v.ma); setChon(null); setMoThe(false); stopSpeaking(); }}
+              className={`h-7 w-7 shrink-0 rounded-lg text-[11px] font-black transition ${
+                v.ma === vong.ma ? 'text-white' : 'bg-white text-slate-500 ring-1 ring-slate-200'
+              }`}
+              style={v.ma === vong.ma ? { background: vong.mau } : undefined}
+            >
+              {v.thuTu}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Tiến độ của vòng đang học */}
-      <div className="mb-3 flex items-center gap-3">
-        <span className="text-sm font-black text-slate-700">
+      <div className="mb-3 flex items-center gap-2 sm:gap-3">
+        <span className="min-w-0 shrink-0 truncate text-xs font-black text-slate-700 sm:text-sm">
           {vong.chuDe.emoji} {vong.chuDe.heading}
-          {vong.tongVong > 1 && <span className="text-slate-400"> · phần {vong.thuTu}/{vong.tongVong}</span>}
+          {vong.tongVong > 1 && <span className="text-slate-400"> · {vong.thuTu}/{vong.tongVong}</span>}
         </span>
         <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-slate-100">
           <div className="h-full rounded-full transition-all"
             style={{ width: `${(soDaHoc / vong.tu.length) * 100}%`, background: vong.mau }} />
         </div>
-        <span className="text-sm font-black text-slate-500">{soDaHoc}/{vong.tu.length}</span>
+        <span className="shrink-0 text-xs font-black text-slate-500 sm:text-sm">{soDaHoc}/{vong.tu.length}</span>
       </div>
 
       <Wheel

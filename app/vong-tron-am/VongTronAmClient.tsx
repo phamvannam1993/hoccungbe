@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { VONG_AM } from '../lib/vongTronAm';
-import { buocDanhVan, chuoiDanhVan } from '../lib/danhVan';
+import { buocDanhVan } from '../lib/danhVan';
 import { speakText, speakSequence, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import Wheel from './Wheel';
 import BangChuCai from './BangChuCai';
@@ -137,7 +137,7 @@ export default function VongTronAmClient() {
       <div className="mb-4 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
         <button
           onClick={docAm}
-          className="inline-flex max-w-full items-center gap-2.5 rounded-full bg-white py-2 pl-4 pr-3 shadow-lg ring-1 ring-black/5"
+          className="inline-flex max-w-full items-center gap-2.5 rounded-full border-2 border-white bg-white py-2 pl-4 pr-3 shadow-[0_5px_0_rgba(148,163,184,.20)] transition active:translate-y-0.5"
         >
           <span className="shrink-0 text-sm font-black text-slate-600">Bé học chữ</span>
           <span className="chu-mau shrink-0 rounded-2xl px-3.5 py-1 text-2xl font-black text-white"
@@ -168,10 +168,10 @@ export default function VongTronAmClient() {
                 setChon(null);
                 setMoThe(false);
               }}
-              className={`chu-mau relative rounded-2xl px-1 py-2 text-sm font-black leading-none transition sm:text-base ${dang ? 'text-white' : 'text-slate-600'}`}
+              className={`chu-mau relative rounded-2xl px-1 py-2.5 text-sm font-black leading-none transition-all sm:text-base ${dang ? 'scale-105 text-white' : 'text-slate-600 hover:-translate-y-0.5'}`}
               style={{
-                background: dang ? v.mau : '#f1f5f9',
-                boxShadow: dang ? `0 4px 0 ${v.mau}99` : undefined,
+                background: dang ? v.mau : '#fff',
+                boxShadow: dang ? `0 4px 0 ${v.mau}99` : '0 3px 0 rgba(148,163,184,.22)',
               }}
             >
               {v.am}
@@ -222,67 +222,91 @@ export default function VongTronAmClient() {
 
       {/* Thẻ từ */}
       {moThe && tu && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 p-4"
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/55 p-3 backdrop-blur-sm sm:p-4"
           onClick={() => { setMoThe(false); stopSpeaking(); setDangDoc(null); }}>
-          <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-[28px] bg-white p-4 shadow-2xl sm:p-5"
-            onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between">
-              <span className="rounded-full px-3 py-1 text-xs font-black text-white" style={{ background: vong.mau }}>
-                Âm {vong.doc}
-              </span>
-              {daHoc.has(tu.tu) && (
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-600">
-                  ✓ Đã đánh vần
+          <div
+            className="nav-bung max-h-[92dvh] w-full max-w-md overflow-hidden overflow-y-auto rounded-[32px] bg-white shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Dải màu đầu thẻ mang màu của âm đang học — mở thẻ ra là biết ngay
+                đang ở vòng nào, không phải đọc chữ. */}
+            <div className="relative px-4 pb-14 pt-3.5 sm:px-5"
+              style={{ background: `linear-gradient(160deg, ${vong.mau} 0%, ${vong.mau}cc 100%)` }}>
+              <div className="flex items-center gap-2">
+                <span className="chu-mau grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-white/25 text-lg font-black text-white">
+                  {vong.am}
                 </span>
-              )}
-              <button onClick={() => { setMoThe(false); stopSpeaking(); }}
-                aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-500">✕</button>
-            </div>
-
-            <div className="grid place-items-center rounded-3xl py-6" style={{ background: `${vong.mau}14` }}>
-              <HinhTu tu={tu.tu} emoji={tu.emoji} anh={tu.anh} co={128} lop="h-24 w-24 text-6xl sm:h-28 sm:w-28 sm:text-7xl" />
-            </div>
-
-            <p className="chu-mau mt-4 text-center text-4xl font-black" style={{ color: vong.mau }}>{tu.tu}</p>
-            <p className="mt-1 text-center text-sm font-bold text-slate-500">“{tu.cau}”</p>
-
-            {/* Các bước đánh vần — bước đang đọc sáng lên */}
-            <div className="mt-4 rounded-2xl border-2 border-amber-200 bg-amber-50 p-3">
-              <p className="mb-2 text-xs font-black uppercase tracking-wide text-amber-700">
-                📖 Đánh vần
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-1.5">
-                {buoc.map((b, i) => (
-                  <span key={i} className="flex items-center gap-1.5">
-                    {i > 0 && <span className="text-amber-400">–</span>}
-                    <span
-                      className={`chu-mau rounded-lg px-2.5 py-1 text-lg font-black transition ${
-                        dangDoc === i ? 'text-white' : 'text-rose-600'
-                      }`}
-                      style={dangDoc === i ? { background: vong.mau } : { background: '#fff' }}
-                    >
-                      {b}
-                    </span>
+                <span className="text-sm font-black text-white/90">Âm {vong.doc}</span>
+                {daHoc.has(tu.tu) && (
+                  <span className="rounded-full bg-white/25 px-2.5 py-1 text-[11px] font-black text-white">
+                    ✓ Đã đánh vần
                   </span>
-                ))}
+                )}
+                <button onClick={() => { setMoThe(false); stopSpeaking(); }}
+                  aria-label="Đóng"
+                  className="ml-auto grid h-9 w-9 place-items-center rounded-full bg-white/25 text-lg text-white transition hover:bg-white/40">
+                  ✕
+                </button>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <button onClick={docCaTu}
-                className="rounded-2xl border-2 border-slate-200 py-3 text-sm font-black text-slate-700 hover:bg-slate-50">
-                🔊 Đọc cả từ
-              </button>
-              <button onClick={danhVan}
-                className="rounded-2xl py-3 text-sm font-black text-white"
-                style={{ background: vong.mau, boxShadow: `0 4px 0 ${vong.mau}99` }}>
-                🎵 Đánh vần từng âm
-              </button>
+            {/* Ô hình đè lên ranh giới giữa dải màu và phần trắng, cho thẻ có chiều sâu.
+                PHẢI có relative + z-10: dải màu ở trên có `relative`, mà phần tử được
+                định vị luôn vẽ đè lên phần tử thường, nên thiếu hai lớp này là ảnh
+                bị dải màu che mất nửa trên. */}
+            <div className="relative z-10 -mt-11 px-4 sm:px-5">
+              <div className="mx-auto grid h-32 w-32 place-items-center rounded-[28px] border-4 border-white bg-white shadow-lg sm:h-36 sm:w-36">
+                <div className="grid h-full w-full place-items-center rounded-[22px]" style={{ background: `${vong.mau}12` }}>
+                  <HinhTu tu={tu.tu} emoji={tu.emoji} anh={tu.anh} co={144}
+                    lop="h-24 w-24 text-6xl sm:h-28 sm:w-28 sm:text-7xl" />
+                </div>
+              </div>
             </div>
 
-            <p className="chu-mau mt-3 text-center text-xs font-bold text-slate-400">
-              {chuoiDanhVan(tu.tu.split(' ')[0])}
-            </p>
+            <div className="px-4 pb-5 pt-3 sm:px-5">
+              <p className="chu-mau text-center text-[42px] font-black leading-none" style={{ color: vong.mau }}>
+                {tu.tu}
+              </p>
+              <p className="mt-2 text-center text-sm font-bold text-slate-500">“{tu.cau}”</p>
+
+              {/* Các bước đánh vần — bước đang đọc sáng lên và nhích to hơn một chút,
+                  để bé nhìn theo được đúng lúc phát ra tiếng. */}
+              <div className="mt-4 rounded-[22px] border-2 border-amber-200 bg-gradient-to-b from-amber-50 to-white p-3">
+                <p className="mb-2 text-center text-[11px] font-black uppercase tracking-widest text-amber-600">
+                  📖 Đánh vần
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-1">
+                  {buoc.map((b, i) => (
+                    <span key={i} className="flex items-center gap-1">
+                      {i > 0 && <span className="text-amber-300">→</span>}
+                      <span
+                        className={`chu-mau rounded-xl px-2.5 py-1.5 text-lg font-black transition-all duration-200 ${
+                          dangDoc === i ? 'scale-110 text-white shadow-md' : 'text-rose-600'
+                        }`}
+                        style={dangDoc === i
+                          ? { background: vong.mau }
+                          : { background: '#fff', boxShadow: '0 2px 0 rgba(148,163,184,.25)' }}
+                      >
+                        {b}
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <button onClick={docCaTu}
+                  className="rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-black text-slate-700 transition active:translate-y-0.5"
+                  style={{ boxShadow: '0 4px 0 rgba(148,163,184,.28)' }}>
+                  🔊 Đọc cả từ
+                </button>
+                <button onClick={danhVan}
+                  className="rounded-2xl py-3 text-sm font-black text-white transition active:translate-y-0.5"
+                  style={{ background: vong.mau, boxShadow: `0 4px 0 ${vong.mau}99` }}>
+                  🎵 Đánh vần
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -89,8 +89,8 @@ export default function VongTuVungClient() {
           <button
             key={l}
             onClick={() => { setLop(l); setMaVong(null); setChon(null); setMoThe(false); stopSpeaking(); }}
-            className={`h-9 w-9 rounded-xl text-sm font-black transition ${
-              l === lop ? 'text-white' : 'bg-slate-100 text-slate-600'
+            className={`h-9 w-9 rounded-xl text-sm font-black transition-all ${
+              l === lop ? 'scale-105 text-white' : 'bg-white text-slate-600 shadow-[0_3px_0_rgba(148,163,184,.22)] hover:-translate-y-0.5'
             }`}
             style={l === lop ? { background: vong.mau, boxShadow: `0 3px 0 ${vong.mau}80` } : undefined}
           >
@@ -110,8 +110,8 @@ export default function VongTuVungClient() {
             <button
               key={c.slug}
               onClick={() => { setMaVong(ds[0].ma); setChon(null); setMoThe(false); stopSpeaking(); }}
-              className={`flex min-w-0 items-center gap-1 rounded-xl px-2 py-2 text-left text-[11px] font-black transition sm:text-xs ${
-                dangO ? 'text-white' : 'bg-white/80 text-slate-600 ring-1 ring-slate-200'
+              className={`flex min-w-0 items-center gap-1 rounded-xl px-2 py-2 text-left text-[11px] font-black transition-all sm:text-xs ${
+                dangO ? 'text-white' : 'bg-white text-slate-600 shadow-[0_3px_0_rgba(148,163,184,.20)] hover:-translate-y-0.5'
               }`}
               style={dangO ? { background: vong.mau } : undefined}
             >
@@ -178,63 +178,98 @@ export default function VongTuVungClient() {
 
       {/* Thẻ từ */}
       {moThe && tu && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 p-4"
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/55 p-3 backdrop-blur-sm sm:p-4"
           onClick={() => { setMoThe(false); stopSpeaking(); }}>
-          <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-[28px] bg-white p-4 shadow-2xl sm:p-5"
-            onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between">
-              <span className="rounded-full px-3 py-1 text-xs font-black text-white" style={{ background: vong.mau }}>
-                {vong.chuDe.emoji} {vong.chuDe.heading}
-              </span>
-              <button onClick={() => { setMoThe(false); stopSpeaking(); }}
-                aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-full bg-slate-100 text-slate-500">✕</button>
-            </div>
-
-            <div className="grid place-items-center rounded-3xl py-6" style={{ background: `${vong.mau}14` }}>
-              <HinhTu tu={tu.en} emoji={tu.emoji} co={128}
-                lop="h-24 w-24 text-6xl sm:h-28 sm:w-28 sm:text-7xl"
-                khoa={khoaAnhTuVung(vong.chuDe.slug, tu.en)} />
-            </div>
-
-            <p className="mt-4 text-center text-4xl font-black" style={{ color: vong.mau }}>{tu.en}</p>
-            <p className="mt-1 text-center text-sm font-bold text-slate-400">{tu.ipa}</p>
-            <p className="mt-1 text-center text-lg font-black text-slate-700">{tu.vi}</p>
-
-            {tu.example && (
-              <div className="mt-4 flex items-start gap-2 rounded-2xl border-2 border-amber-200 bg-amber-50 p-3">
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-bold text-amber-900">{tu.example}</p>
-                  {tu.exampleVi && <p className="mt-1 text-xs font-bold text-amber-700">{tu.exampleVi}</p>}
-                </div>
-                {/* Nghe cả câu ví dụ, kèm nghĩa nếu có — nghe từ trong câu mới nhớ được cách dùng. */}
-                <button
-                  onClick={() => { stopSpeaking(); speakEnThenVi(tu.example!, tu.exampleVi ?? ''); }}
-                  aria-label="Nghe câu ví dụ"
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-amber-200 text-base text-amber-800"
-                >
-                  🔊
+          <div
+            className="nav-bung max-h-[92dvh] w-full max-w-md overflow-hidden overflow-y-auto rounded-[32px] bg-white shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Dải màu đầu thẻ mang màu của chủ đề — mở ra là biết ngay đang ở đâu. */}
+            <div className="relative px-4 pb-14 pt-3.5 sm:px-5"
+              style={{ background: `linear-gradient(160deg, ${vong.mau} 0%, ${vong.mau}cc 100%)` }}>
+              <div className="flex items-center gap-2">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-white/25 text-lg">
+                  {vong.chuDe.emoji}
+                </span>
+                <span className="min-w-0 truncate text-sm font-black text-white/90">{vong.chuDe.heading}</span>
+                {daHoc.has(`${vong.chuDe.slug}:${tu.en}`) && (
+                  <span className="shrink-0 rounded-full bg-white/25 px-2.5 py-1 text-[11px] font-black text-white">
+                    ✓ Đã thuộc
+                  </span>
+                )}
+                <button onClick={() => { setMoThe(false); stopSpeaking(); }}
+                  aria-label="Đóng"
+                  className="ml-auto grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/25 text-lg text-white transition hover:bg-white/40">
+                  ✕
                 </button>
               </div>
-            )}
+            </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <button onClick={() => { stopSpeaking(); speakEnThenVi(tu.en, tu.vi); }}
-                className="rounded-2xl py-3 text-sm font-black text-white" style={{ background: vong.mau }}>
-                🔊 Anh + Việt
-              </button>
-              {/* Đọc chậm: bé mới học cần nghe rõ từng âm mới bắt chước được. */}
-              <button onClick={() => { stopSpeaking(); speakEnglishSlow(tu.en); }}
-                className="rounded-2xl border-2 border-slate-200 py-3 text-sm font-black text-slate-700">
-                🐢 Chậm
-              </button>
-              <button onClick={() => { stopSpeaking(); speakText(tu.vi); }}
-                className="rounded-2xl border-2 border-slate-200 py-3 text-sm font-black text-slate-700">
-                🇻🇳 Nghĩa
-              </button>
-              <button onClick={() => { danhDauDaHoc(tu.en); setMoThe(false); }}
-                className="rounded-2xl border-2 border-emerald-300 bg-emerald-50 py-3 text-sm font-black text-emerald-700">
-                ✓ Thuộc
-              </button>
+            {/* PHẢI có relative + z-10: dải màu ở trên có `relative`, mà phần tử được
+                định vị luôn vẽ đè lên phần tử thường — thiếu là ảnh bị che mất nửa trên. */}
+            <div className="relative z-10 -mt-11 px-4 sm:px-5">
+              <div className="mx-auto grid h-32 w-32 place-items-center rounded-[28px] border-4 border-white bg-white shadow-lg sm:h-36 sm:w-36">
+                <div className="grid h-full w-full place-items-center rounded-[22px]" style={{ background: `${vong.mau}12` }}>
+                  <HinhTu tu={tu.en} emoji={tu.emoji} co={144}
+                    lop="h-24 w-24 text-6xl sm:h-28 sm:w-28 sm:text-7xl"
+                    khoa={khoaAnhTuVung(vong.chuDe.slug, tu.en)} />
+                </div>
+              </div>
+            </div>
+
+            <div className="px-4 pb-5 pt-3 sm:px-5">
+              <p className="chu-mau text-center text-[40px] font-black leading-none" style={{ color: vong.mau }}>
+                {tu.en}
+              </p>
+              {/* Phiên âm trong khung riêng: đây là thứ ba mẹ đọc mẫu cho con,
+                  để lẫn vào dòng chữ thường thì rất dễ lướt qua. */}
+              <p className="mt-2 text-center">
+                <span className="inline-block rounded-full bg-slate-100 px-3 py-1 text-sm font-bold text-slate-500">
+                  {tu.ipa}
+                </span>
+              </p>
+              <p className="mt-2 text-center text-xl font-black text-slate-800">{tu.vi}</p>
+
+              {tu.example && (
+                <div className="mt-4 flex items-start gap-2 rounded-[22px] border-2 border-amber-200 bg-gradient-to-b from-amber-50 to-white p-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-bold text-amber-900">{tu.example}</p>
+                    {tu.exampleVi && <p className="mt-1 text-xs font-bold text-amber-700">{tu.exampleVi}</p>}
+                  </div>
+                  {/* Nghe cả câu ví dụ, kèm nghĩa — nghe từ trong câu mới nhớ cách dùng. */}
+                  <button
+                    onClick={() => { stopSpeaking(); speakEnThenVi(tu.example!, tu.exampleVi ?? ''); }}
+                    aria-label="Nghe câu ví dụ"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-amber-200 text-base text-amber-800 transition active:translate-y-0.5"
+                  >
+                    🔊
+                  </button>
+                </div>
+              )}
+
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <button onClick={() => { stopSpeaking(); speakEnThenVi(tu.en, tu.vi); }}
+                  className="rounded-2xl py-3 text-sm font-black text-white transition active:translate-y-0.5"
+                  style={{ background: vong.mau, boxShadow: `0 4px 0 ${vong.mau}99` }}>
+                  🔊 Anh + Việt
+                </button>
+                {/* Đọc chậm: bé mới học cần nghe rõ từng âm mới bắt chước được. */}
+                <button onClick={() => { stopSpeaking(); speakEnglishSlow(tu.en); }}
+                  className="rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-black text-slate-700 transition active:translate-y-0.5"
+                  style={{ boxShadow: '0 4px 0 rgba(148,163,184,.28)' }}>
+                  🐢 Chậm
+                </button>
+                <button onClick={() => { stopSpeaking(); speakText(tu.vi); }}
+                  className="rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-black text-slate-700 transition active:translate-y-0.5"
+                  style={{ boxShadow: '0 4px 0 rgba(148,163,184,.28)' }}>
+                  🇻🇳 Nghĩa
+                </button>
+                <button onClick={() => { danhDauDaHoc(tu.en); setMoThe(false); }}
+                  className="rounded-2xl border-2 border-emerald-300 bg-emerald-50 py-3 text-sm font-black text-emerald-700 transition active:translate-y-0.5"
+                  style={{ boxShadow: '0 4px 0 rgba(16,185,129,.35)' }}>
+                  ✓ Thuộc
+                </button>
+              </div>
             </div>
           </div>
         </div>

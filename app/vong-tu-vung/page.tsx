@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import VongTuVungClient from './VongTuVungClient';
+import { NenGameNghe } from '../components/edu/NenGameNghe';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { VONG_TU_VUNG, CAC_LOP, chuDeTheoLop } from '../lib/vongTuVung';
 
@@ -25,20 +26,14 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    // Nền phải phủ HAI chỗ, thiếu chỗ nào cũng lòi nền teal của <body>:
-    //  • min-h-screen — <main> của SiteShell cũng min-h-screen, nội dung ngắn hơn
-    //    màn hình thì main vẫn cao 100vh; trang không cao theo là hở đáy.
-    //  • -mb-24 + pb-32 — main còn có pb-24 chừa chỗ cho thanh nav dưới ở mobile.
-    <div className="-mb-24 min-h-screen pb-32 lg:-mb-0 lg:pb-8"
-      style={{ background: 'linear-gradient(180deg,#f0fdfa 0%,#eff6ff 55%,#faf5ff 100%)' }}>
-      <header className="mx-auto max-w-3xl px-4 pt-6 text-center">
-        <h1 className="chu-mau text-2xl font-black text-slate-900 sm:text-3xl">🎡 Vòng tròn từ vựng tiếng Anh</h1>
-        <p className="mx-auto mt-2 max-w-lg text-sm font-bold text-slate-500">
-          Chọn lớp và chủ đề, bấm vào từng ô để nghe phát âm, xem phiên âm và nghĩa.
-          Hơn {soTu.toLocaleString('vi-VN')} từ chia theo {soChuDe} chủ đề.
-        </p>
-      </header>
+    <NenGameNghe
+      nhan="🎡 Từ vựng tiếng Anh"
+      tieuDe="Vòng tròn từ vựng"
+      moTa={`Chọn lớp và chủ đề, bấm vào từng ô để nghe phát âm, xem phiên âm và nghĩa. Hơn ${soTu.toLocaleString('vi-VN')} từ chia theo ${soChuDe} chủ đề.`}
+      nen="linear-gradient(165deg,#ecfeff 0%,#eff6ff 50%,#faf5ff 100%)"
+      trangTri={['🎡', '🔤', '🌍', '⭐']}
+    >
       <VongTuVungClient />
-    </div>
+    </NenGameNghe>
   );
 }

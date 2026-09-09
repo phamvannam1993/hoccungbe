@@ -151,7 +151,7 @@ export default function AdminAmVanPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
+    <div className="mx-auto max-w-[1440px] p-6">
       <div className="mb-5">
         <h1 className="text-2xl font-bold">Ảnh cho Vòng tròn âm vần</h1>
         <p className="mt-1 text-sm text-gray-500">

@@ -129,7 +129,7 @@ export default function ProgressPage() {
   ];
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-6 sm:px-6 sm:py-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-6 sm:px-6 sm:py-8">
       <div
         className="rounded-[28px] p-3 sm:rounded-[36px] sm:p-6"
         style={{ background: 'linear-gradient(180deg,#eef6ff 0%,#f1f9ff 42%,#faf5ff 100%)' }}

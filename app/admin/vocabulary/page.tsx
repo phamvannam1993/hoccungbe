@@ -116,7 +116,7 @@ export default function AdminVocabularyPage() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-[1440px] mx-auto">
       <div className="mb-5">
         <h1 className="text-2xl font-bold text-gray-900">🔤 Từ vựng tiếng Anh — Ảnh minh hoạ</h1>
         <p className="mt-1 text-sm text-gray-500">

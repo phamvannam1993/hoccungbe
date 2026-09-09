@@ -967,7 +967,7 @@ export default function MathFunPage() {
 
   if (viewMode === 'stickers') {
     return (
-      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         <div className="mb-4 rounded-[24px] bg-gradient-to-r from-pink-400 to-orange-400 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -1029,7 +1029,7 @@ export default function MathFunPage() {
 
   if (viewMode === 'achievements') {
     return (
-      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         <div className="mb-4 rounded-[24px] bg-gradient-to-r from-sky-400 to-violet-400 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -1135,7 +1135,7 @@ export default function MathFunPage() {
 
   if (viewMode === 'levels') {
     return (
-      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         <div className="mb-4 rounded-[24px] bg-gradient-to-r from-amber-400 to-orange-400 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -1547,7 +1547,7 @@ export default function MathFunPage() {
     currentQuestion.operator === '-' ? Math.min(currentQuestion.right, 6) : 0;
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
       <div className="mb-4 rounded-[24px] bg-gradient-to-r from-amber-400 to-orange-400 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>

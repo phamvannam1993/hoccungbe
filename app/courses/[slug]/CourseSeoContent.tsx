@@ -69,33 +69,43 @@ export default function CourseSeoContent({
   ];
 
   return (
-    <section className="mx-auto max-w-4xl space-y-6 px-4 pb-10">
+    // Cùng khuôn 1440px với phần trên (CourseDetailPage), nếu không hai khối
+    // lệch mép nhau — đúng chỗ đang thấy trong ảnh.
+    //
+    // Nhưng KHÔNG để đoạn giới thiệu chạy hết 1440px: dòng chữ dài như vậy đọc
+    // rất mỏi mắt. Chia hai cột — giới thiệu bên trái, hỏi đáp và luyện tập bên
+    // phải — vừa thẳng mép với phần trên, vừa giữ độ dài dòng dễ đọc.
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-10 sm:px-6">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <KidCard emoji="🎓" title={`Giới thiệu khóa học ${course.title}`} tone="pink">
-        <p className="leading-7 text-slate-600">{intro}</p>
-        {topicNames.length > 0 && (
-          <div className="mt-5">
-            <h3 className="font-black text-slate-900 kid-display">Chương trình học {course.title}</h3>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-              {topicNames.map((name) => (
-                <li key={name} className="flex items-start gap-2 rounded-2xl px-3 py-2 text-slate-700" style={{ background: '#FFF1F6' }}>
-                  <span aria-hidden style={{ color: '#FF6B9D' }}>◆</span>
-                  <span>{name}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </KidCard>
+      <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+        <KidCard emoji="🎓" title={`Giới thiệu khóa học ${course.title}`} tone="pink">
+          <p className="leading-7 text-slate-600">{intro}</p>
+          {topicNames.length > 0 && (
+            <div className="mt-5">
+              <h3 className="font-black text-slate-900 kid-display">Chương trình học {course.title}</h3>
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                {topicNames.map((name) => (
+                  <li key={name} className="flex items-start gap-2 rounded-2xl px-3 py-2 text-slate-700" style={{ background: '#FFF1F6' }}>
+                    <span aria-hidden style={{ color: '#FF6B9D' }}>◆</span>
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </KidCard>
 
-      <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
-        <KidFaq items={faq} />
-      </KidCard>
+        <div className="grid gap-5">
+          <KidCard emoji="⭐" title={`Luyện tập & ôn thi ${course.title}`} tone="green">
+            <KidLinkList tone="green" items={links} />
+          </KidCard>
 
-      <KidCard emoji="⭐" title={`Luyện tập & ôn thi ${course.title}`} tone="green">
-        <KidLinkList tone="green" items={links} />
-      </KidCard>
+          <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
+            <KidFaq items={faq} />
+          </KidCard>
+        </div>
+      </div>
     </section>
   );
 }

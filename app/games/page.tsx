@@ -95,7 +95,7 @@ export default function Page() {
         gần với /thi-tai hơn. Nhưng đây là nơi trẻ tìm trò chơi, nên phải có lối
         vào nổi bật ở đây.
       */}
-      <section className="mx-auto max-w-4xl px-4 pb-2">
+      <section className="mx-auto w-full max-w-[1440px] px-4 pb-3 sm:px-6">
         <Link
           href="/trieu-phu-nhi"
           className="flex items-center gap-4 rounded-3xl p-4 text-white transition hover:-translate-y-1 sm:p-5"
@@ -128,7 +128,7 @@ export default function Page() {
       {/* Link sang các hub danh mục. Trang này liệt kê phẳng cả kho nên tự nó không
           nhắm được truy vấn hẹp ("game toán", "trò chơi cho bé 3 tuổi"); các hub bên
           dưới làm việc đó, và cần link từ đây để Google tìm ra chúng. */}
-      <nav aria-label="Nhóm trò chơi" className="mx-auto max-w-4xl px-4 pb-12">
+      <nav aria-label="Nhóm trò chơi" className="mx-auto w-full max-w-[1440px] px-4 pb-10 sm:px-6">
         <h2 className="text-lg font-bold text-slate-900">Chọn theo nhóm</h2>
         <ul className="mt-3 flex flex-wrap gap-2">
           {publishableCategories().map((c) => (

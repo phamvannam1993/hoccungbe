@@ -177,7 +177,7 @@ export default function PuzzleAdminPage() {
   if (loading) return <div className="p-8">Đang tải...</div>;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-8 max-w-[1440px] mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900">🎮 Quản Lý Puzzles</h1>
         <div className="flex gap-3">

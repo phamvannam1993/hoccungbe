@@ -70,7 +70,7 @@ export default async function GamesView() {
   const games: ApiMiniGame[] = apiGames.length > 0 ? apiGames.map(enrichGame) : gamesData.map(toApiMiniGame);
 
   return (
-    <div className="py-4 sm:py-6">
+    <div className="mx-auto w-full max-w-[1440px] px-4 py-4 sm:px-6 sm:py-6">
       {/* Client component: breadcrumb + header + filter + game grid (light theme) */}
       <GamesFilter games={games} />
     </div>

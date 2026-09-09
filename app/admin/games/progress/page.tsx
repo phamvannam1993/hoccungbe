@@ -41,7 +41,7 @@ export default function ProgressAdminPage() {
   if (loading) return <div className="p-8">Đang tải...</div>;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-8 max-w-[1440px] mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">📊 Tiến Độ Người Chơi</h1>
         <Link

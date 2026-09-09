@@ -101,7 +101,7 @@ export default function HocHomNayClient() {
   const hasFocus = !!(strong || weak || learning);
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-8">
       <div className="rounded-[24px] p-2.5 sm:rounded-[36px] sm:p-6" style={{ background: 'linear-gradient(180deg,#eef6ff 0%,#f1f9ff 42%,#faf5ff 100%)' }}>
         {/* Header banner */}
         <div className="relative overflow-hidden rounded-[22px] p-4 text-white shadow-sm sm:p-7" style={{ background: 'linear-gradient(120deg,#2563eb 0%,#3b82f6 55%,#60a5fa 100%)' }}>

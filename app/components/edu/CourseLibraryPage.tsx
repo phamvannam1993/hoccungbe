@@ -99,7 +99,7 @@ export default function CourseLibraryPage() {
       <span aria-hidden className="pointer-events-none select-none hidden lg:block absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
 
       {/* Breadcrumb */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
         <nav className="flex flex-wrap items-center gap-1.5 text-sm">
           <Link href="/" className="font-bold kid-display" style={{ color: '#A06CD5' }}>🏠 Trang chủ</Link>
           <span style={{ color: '#FF6B9D' }}>›</span>
@@ -108,7 +108,7 @@ export default function CourseLibraryPage() {
       </div>
 
       {/* Hero */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-4 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 pb-4 relative">
         <div
           className="bg-white rounded-[32px] border-4 border-pink-200 p-6 sm:p-8 kid-pop-in"
           style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}
@@ -131,7 +131,7 @@ export default function CourseLibraryPage() {
 
       {/* Lọc theo lớp — nằm ngoài thẻ hero, gọn 1 hàng (Tất cả ở cuối) */}
       {availableGrades.length > 0 && (
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {availableGrades.map((g) => (
               <button
@@ -158,7 +158,7 @@ export default function CourseLibraryPage() {
       )}
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 pb-12 relative">
         {visibleCourses.length === 0 ? (
           <div
             className="bg-white rounded-3xl border-4 border-pink-200 p-12 text-center"

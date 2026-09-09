@@ -43,7 +43,7 @@ export default async function CourseLessonDetailPage({ params }: PageProps) {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
+    <section className="mx-auto max-w-[1440px] px-6 py-8 lg:px-8 lg:py-12">
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-6">
           <div className="rounded-[36px] bg-white p-6 shadow-sm ring-1 ring-slate-100 lg:p-8">

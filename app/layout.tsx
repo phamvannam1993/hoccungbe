@@ -180,7 +180,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#6ec6c6',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -223,7 +223,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-screen text-slate-900 antialiased bg-[#6ec6c6] font-sans">
+      {/* Nền sáng thay cho teal: bản thiết kế mới là nền trắng, và nền teal chính
+          là thứ lộ ra thành "vệt xanh" mỗi khi một trang con không phủ kín chiều cao. */}
+      <body className="min-h-screen bg-[#f8fafc] font-sans text-slate-900 antialiased">
         <SiteShell>{children}</SiteShell>
         <PWARegister />
 

@@ -78,10 +78,10 @@ export default function OnTapCauSaiClient() {
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-3 py-6 sm:px-6 sm:py-8">
-      <div className="rounded-[28px] p-3 sm:rounded-[36px] sm:p-6" style={{ background: 'linear-gradient(180deg,#eef6ff 0%,#f1f9ff 42%,#faf5ff 100%)' }}>
+    <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
+      <div className="rounded-[28px] p-3 sm:rounded-[36px] sm:p-6" style={{ background: 'linear-gradient(165deg,#dbeafe 0%,#ede9fe 55%,#fce7f3 100%)' }}>
         {/* Header */}
-        <div className="relative overflow-hidden rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-6">
+        <div className="relative overflow-hidden rounded-[24px] bg-white p-4 shadow-[0_5px_0_rgba(148,163,184,.18)] ring-2 ring-white sm:p-6">
           <div className="flex items-center gap-3 sm:gap-5">
             <Link href="/dashboard" className="flex shrink-0 items-center gap-1 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-500 ring-1 ring-slate-100 hover:bg-slate-100">
               <ArrowLeft size={14} /> Quay lại
@@ -97,7 +97,7 @@ export default function OnTapCauSaiClient() {
           </div>
         </div>
 
-        {loading && <p className="py-16 text-center text-slate-400">Đang tải…</p>}
+        {loading && <p className="py-16 text-center font-bold text-slate-500">Đang tải…</p>}
 
         {!loading && noChild && (
           <div className="mt-4 rounded-2xl bg-amber-50 p-4 text-center text-sm text-amber-800 ring-1 ring-amber-100">
@@ -108,14 +108,14 @@ export default function OnTapCauSaiClient() {
         {!loading && !noChild && (
           <>
             {/* KPI */}
-            <div className="mt-4 grid grid-cols-2 gap-3 rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-slate-100 lg:grid-cols-4 sm:p-5">
+            <div className="mt-4 grid grid-cols-2 gap-3 rounded-[24px] bg-white p-4 shadow-[0_5px_0_rgba(148,163,184,.18)] ring-2 ring-white lg:grid-cols-4 sm:p-5">
               {kpis.map((k) => (
                 <div key={k.label} className="flex items-center gap-2.5">
                   <KidIcon name={k.icon} className="h-11 w-11 shrink-0" />
                   <div className="min-w-0">
-                    <div className="text-[11px] font-semibold text-slate-400">{k.label}</div>
-                    <div className="text-lg font-black leading-tight" style={{ color: k.color }}>{k.value}</div>
-                    {k.sub && <div className="truncate text-[10px] text-slate-400">{k.sub}</div>}
+                    <div className="text-[11px] font-bold text-slate-500">{k.label}</div>
+                    <div className="text-xl font-black leading-tight sm:text-2xl" style={{ color: k.color }}>{k.value}</div>
+                    {k.sub && <div className="truncate text-[10px] font-medium text-slate-500">{k.sub}</div>}
                   </div>
                 </div>
               ))}
@@ -123,7 +123,7 @@ export default function OnTapCauSaiClient() {
 
             {/* Bộ lọc môn + sắp xếp */}
             {wrongAll.length > 0 && (
-              <div className="mt-4 flex flex-wrap items-center gap-2 rounded-[20px] bg-white p-3 shadow-sm ring-1 ring-slate-100">
+              <div className="mt-4 flex flex-wrap items-center gap-2 rounded-[20px] bg-white p-3 shadow-[0_5px_0_rgba(148,163,184,.18)] ring-2 ring-white">
                 <FilterTab active={subject === 'all'} onClick={() => setSubject('all')} label={`Tất cả (${wrongAll.length})`} />
                 {subjectTabs.map(([ct, n]) => (
                   <FilterTab key={ct} active={subject === ct} onClick={() => setSubject(ct)} icon={<KidIcon name={subjectIcon(ct)} className="h-4 w-4" />} label={`${subjectInfo(ct).name} (${n})`} />
@@ -153,7 +153,7 @@ export default function OnTapCauSaiClient() {
                   const href = lessonHref(w);
                   const info = subjectInfo(w.courseType);
                   return (
-                    <div key={w.lessonId} className="flex flex-col gap-3 rounded-[20px] bg-white p-3.5 shadow-sm ring-1 ring-slate-100 sm:flex-row sm:items-center sm:p-4">
+                    <div key={w.lessonId} className="flex flex-col gap-3 rounded-[20px] bg-white p-3.5 shadow-[0_5px_0_rgba(148,163,184,.18)] ring-2 ring-white transition hover:-translate-y-0.5 sm:flex-row sm:items-center sm:p-4">
                       <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-slate-50 ring-1 ring-slate-100">
                         <KidIcon name={subjectIcon(w.courseType)} className="h-10 w-10" />
                       </div>
@@ -162,7 +162,7 @@ export default function OnTapCauSaiClient() {
                           <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-600">{info.name}</span>
                           <span className="truncate font-black text-slate-800">{w.lessonTitle ?? `Bài #${w.lessonId}`}</span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">
+                        <p className="mt-1 text-xs font-medium text-slate-500">
                           Làm sai vào {fmtDate(w.createdAt)} · Sai {w.wrong}/{w.totalQuestions} câu
                         </p>
                       </div>

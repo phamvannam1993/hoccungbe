@@ -44,20 +44,20 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
   if (featured) {
     return (
       <Link href={`/bai-viet/${article.slug}`}
-        className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col sm:flex-row">
+        className="group flex flex-col overflow-hidden rounded-[26px] border-2 border-white bg-white shadow-[0_5px_0_rgba(148,163,184,.20)] transition hover:-translate-y-0.5 sm:flex-row">
         <div className="relative shrink-0 w-full sm:w-80 h-52 sm:h-auto">
           {article.thumbnailUrl
             ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
-            : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-5xl">📝</div>
+            : <div className="absolute inset-0 bg-gradient-to-br from-violet-400 to-fuchsia-400 flex items-center justify-center text-5xl">📝</div>
           }
           {article.category && CATEGORY_LABEL[article.category] && (
-            <span className="absolute top-3 left-3 bg-[#c0392b] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow">
+            <span className="absolute left-3 top-3 rounded-full bg-violet-600 px-2.5 py-1 text-[11px] font-black text-white shadow">
               {CATEGORY_LABEL[article.category]}
             </span>
           )}
         </div>
         <div className="p-6 flex flex-col justify-center flex-1">
-          <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#c0392b] transition-colors leading-snug mb-3 line-clamp-3">
+          <h2 className="text-xl font-bold text-gray-800 group-hover:text-violet-700 transition-colors leading-snug mb-3 line-clamp-3">
             {article.title}
           </h2>
           {article.excerpt && (
@@ -75,20 +75,20 @@ function ArticleCard({ article, featured }: { article: Article; featured?: boole
 
   return (
     <Link href={`/bai-viet/${article.slug}`}
-      className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+      className="group flex h-full flex-col overflow-hidden rounded-[26px] border-2 border-white bg-white shadow-[0_5px_0_rgba(148,163,184,.20)] transition hover:-translate-y-0.5">
       <div className="relative w-full h-44">
         {article.thumbnailUrl
           ? <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" unoptimized />
-          : <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-[#c0392b] flex items-center justify-center text-3xl">📝</div>
+          : <div className="absolute inset-0 bg-gradient-to-br from-violet-400 to-fuchsia-400 flex items-center justify-center text-3xl">📝</div>
         }
         {article.category && CATEGORY_LABEL[article.category] && (
-          <span className="absolute top-2 left-2 bg-[#c0392b] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+          <span className="absolute left-2 top-2 rounded-full bg-violet-600 px-2 py-0.5 text-[10px] font-black text-white">
             {CATEGORY_LABEL[article.category]}
           </span>
         )}
       </div>
       <div className="p-4 flex flex-col flex-1">
-        <h2 className="font-bold text-gray-800 group-hover:text-[#c0392b] transition-colors line-clamp-2 leading-snug text-sm mb-1.5 flex-1">
+        <h2 className="font-bold text-gray-800 group-hover:text-violet-700 transition-colors line-clamp-2 leading-snug text-sm mb-1.5 flex-1">
           {article.title}
         </h2>
         {article.excerpt && (
@@ -139,38 +139,47 @@ function ArticlesContent() {
   const [featured, ...rest] = articles;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
       {/* Breadcrumb */}
-      <nav className="text-sm text-white/70 mb-4 flex items-center gap-1.5">
-        <Link href="/" className="hover:text-white">Trang chủ</Link>
-        <span className="text-white/40">›</span>
-        <span className="text-white font-medium">Bài viết</span>
+      <nav className="mb-3 flex items-center gap-1.5 text-sm text-slate-500">
+        <Link href="/" className="hover:text-slate-800">Trang chủ</Link>
+        <span className="text-slate-300">›</span>
+        <span className="font-medium text-slate-800">Bài viết</span>
         {categoryParam && (
-          <><span className="text-white/40">›</span>
-          <span className="text-white">{CATEGORY_LABEL[categoryParam] || categoryParam}</span></>
+          <><span className="text-slate-300">›</span>
+          <span className="text-slate-700">{CATEGORY_LABEL[categoryParam] || categoryParam}</span></>
         )}
       </nav>
 
-      {/* H1 hiển thị của trang danh sách (bài viết chi tiết có H1 riêng) */}
-      <header className="mb-6">
-        <div className="text-2xl sm:text-3xl font-black text-white leading-tight">
-          Góc phụ huynh
+      {/* Đầu trang: thẻ nền chuyển sắc.
+          Trước đây là chữ TRẮNG đặt thẳng lên nền trang — hồi nền site còn màu
+          teal thì đọc được, giờ nền sáng nên chữ trắng gần như mất hút. */}
+      <header className="mb-5 overflow-hidden rounded-[28px] border-2 border-white bg-gradient-to-br from-amber-50 via-rose-50 to-violet-50 p-5 shadow-sm sm:p-7">
+        <div className="flex items-center gap-4">
+          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-white text-3xl shadow-sm sm:h-20 sm:w-20 sm:text-4xl" aria-hidden>
+            📖
+          </span>
+          <div className="min-w-0">
+            <h1 className="kid-display text-2xl font-black leading-tight text-slate-900 sm:text-3xl">
+              Góc phụ huynh
+            </h1>
+            <p className="mt-1 text-sm font-bold text-slate-500 sm:text-base">
+              Kinh nghiệm nuôi dạy và học cùng con
+            </p>
+          </div>
         </div>
-        <p className="mt-1 text-sm sm:text-base text-white/80">
-          Kinh nghiệm nuôi dạy và học cùng con
-        </p>
       </header>
 
       <div className="flex gap-7 items-start">
         {/* ── Sidebar ───────────────────────────────────── */}
         <aside className="hidden lg:block w-52 shrink-0">
-          <div className="bg-white rounded-2xl shadow-sm p-5 sticky top-6">
-            <h3 className="text-sm font-bold text-[#c0392b] uppercase tracking-wide mb-4">Danh mục bài viết</h3>
+          <div className="sticky top-6 rounded-[26px] border-2 border-white bg-white p-4 shadow-[0_5px_0_rgba(148,163,184,.20)]">
+            <h3 className="mb-3 text-[11px] font-black uppercase tracking-wide text-slate-400">Danh mục bài viết</h3>
             <ul className="space-y-0.5">
               <li>
                 <button onClick={() => setCategory('')}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                    !categoryParam ? 'bg-[#c0392b]/10 text-[#c0392b] font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#c0392b]'
+                    !categoryParam ? 'bg-violet-100 font-black text-violet-700' : 'text-slate-600 hover:bg-slate-50 hover:text-violet-700'
                   }`}>
                   Tất cả <span className="text-gray-300">›</span>
                 </button>
@@ -179,7 +188,7 @@ function ArticlesContent() {
                 <li key={cat.value}>
                   <button onClick={() => setCategory(cat.value)}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                      categoryParam === cat.value ? 'bg-[#c0392b]/10 text-[#c0392b] font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-[#c0392b]'
+                      categoryParam === cat.value ? 'bg-violet-100 font-black text-violet-700' : 'text-slate-600 hover:bg-slate-50 hover:text-violet-700'
                     }`}>
                     {cat.label} <span className="text-gray-300">›</span>
                   </button>
@@ -196,7 +205,7 @@ function ArticlesContent() {
             {[{ value: '', label: 'Tất cả' }, ...CATEGORIES].map((cat) => (
               <button key={cat.value} onClick={() => setCategory(cat.value)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                  categoryParam === cat.value ? 'bg-[#c0392b] text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+                  categoryParam === cat.value ? 'bg-violet-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
                 }`}>
                 {cat.label}
               </button>
@@ -205,10 +214,10 @@ function ArticlesContent() {
 
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#c0392b] border-t-transparent" />
+              <div className="animate-spin rounded-full h-10 w-10 border-4 border-violet-500 border-t-transparent" />
             </div>
           ) : articles.length === 0 ? (
-            <div className="bg-white rounded-2xl p-16 text-center text-gray-400">
+            <div className="rounded-[26px] border-2 border-white bg-white p-16 text-center text-slate-400 shadow-[0_5px_0_rgba(148,163,184,.20)]">
               <div className="text-4xl mb-3">📭</div>
               <p>Chưa có bài viết nào.</p>
             </div>
@@ -234,7 +243,7 @@ function ArticlesContent() {
               {hasMore && (
                 <div className="text-center mt-4">
                   <button onClick={handleLoadMore} disabled={loadingMore}
-                    className="px-8 py-2.5 bg-[#c0392b] text-white rounded-full text-sm font-semibold hover:bg-[#a93226] transition-colors disabled:opacity-60">
+                    className="rounded-full bg-violet-600 px-8 py-3 text-sm font-black text-white transition hover:bg-violet-700 disabled:opacity-60">
                     {loadingMore ? 'Đang tải...' : 'Xem thêm bài viết'}
                   </button>
                 </div>
@@ -251,7 +260,7 @@ export default function BaiVietPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#c0392b] border-t-transparent" />
+        <div className="animate-spin rounded-full h-10 w-10 border-4 border-violet-500 border-t-transparent" />
       </div>
     }>
       <ArticlesContent />

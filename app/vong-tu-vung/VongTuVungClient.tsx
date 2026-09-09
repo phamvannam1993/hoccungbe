@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { CAC_LOP, chuDeTheoLop, type Lop, type VongTu } from '../lib/vongTuVung';
 import { khoaAnhTuVung } from '../lib/anhTuVung';
 import { speakEnThenVi, speakEnglishSlow, speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
@@ -153,6 +154,14 @@ export default function VongTuVungClient() {
         </div>
         <span className="shrink-0 text-xs font-black text-slate-500 sm:text-sm">{soDaHoc}/{vong.tu.length}</span>
       </div>
+
+      {/* Lối sang game nghe: học xong một vòng thì có chỗ kiểm lại ngay. */}
+      <Link
+        href="/luyen-nghe"
+        className="mb-3 flex items-center justify-center gap-2 rounded-2xl border-2 border-violet-200 bg-violet-50 py-2.5 text-sm font-black text-violet-600"
+      >
+        🎧 Chơi game luyện nghe
+      </Link>
 
       <Wheel
         vong={choWheel}

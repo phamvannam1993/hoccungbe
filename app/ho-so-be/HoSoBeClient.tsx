@@ -179,7 +179,7 @@ export default function HoSoBeClient() {
   const inputCls = 'w-full min-w-0 bg-transparent py-2.5 text-sm font-normal text-slate-800 placeholder:text-slate-300 focus:outline-none';
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-5 sm:px-6 sm:py-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-5 sm:px-6 sm:py-8">
       <div className="rounded-[24px] p-2.5 sm:rounded-[36px] sm:p-6" style={{ background: 'linear-gradient(180deg,#eef6ff 0%,#f1f9ff 42%,#faf5ff 100%)' }}>
         {/* Header */}
         <div className="rounded-[22px] bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-6">

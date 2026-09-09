@@ -98,7 +98,7 @@ export default function ParentDashboardPage() {
   }
 
   if (loading) {
-    return <section className="mx-auto max-w-6xl px-4 py-16 text-center text-slate-500">Đang tải bảng theo dõi…</section>;
+    return <section className="mx-auto max-w-[1440px] px-4 py-16 text-center text-slate-500">Đang tải bảng theo dõi…</section>;
   }
 
   // ── Số liệu suy ra ──
@@ -148,7 +148,7 @@ export default function ParentDashboardPage() {
   const currentChild = children.find((c) => c.id === childId);
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-6 sm:px-6 sm:py-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-6 sm:px-6 sm:py-8">
       <div className="rounded-[28px] p-3 sm:rounded-[36px] sm:p-6" style={{ background: 'linear-gradient(180deg,#eef6ff 0%,#f1f9ff 42%,#faf5ff 100%)' }}>
         {/* Header */}
         <div className="relative flex items-center justify-between gap-3 overflow-hidden">

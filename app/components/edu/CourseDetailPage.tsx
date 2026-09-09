@@ -124,7 +124,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
       <span aria-hidden className="hidden sm:inline pointer-events-none select-none absolute top-96 left-6 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>🌈</span>
 
       {/* Breadcrumb */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 pt-4 pb-2 relative">
         <nav className="flex flex-wrap items-center gap-1.5 text-sm">
           <Link href="/" className="font-bold kid-display" style={{ color: '#A06CD5' }}>🏠 Trang chủ</Link>
           <span style={{ color: '#FF6B9D' }}>›</span>
@@ -134,7 +134,7 @@ export default function CourseDetailPage({ slug, initial }: CourseDetailProps) {
         </nav>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
         {/* Hero card */}
         <div
           className="bg-white rounded-[24px] sm:rounded-[32px] border-4 border-pink-200 p-4 sm:p-8 mb-4 sm:mb-6 kid-pop-in"

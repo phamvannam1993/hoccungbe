@@ -165,14 +165,15 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}/>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
         {/* Breadcrumb */}
-        <nav className="text-sm text-white/70 mb-6 flex flex-wrap items-center gap-1.5">
-          <Link href="/" className="hover:text-white">Trang chủ</Link>
-          <span className="text-white/40">›</span>
-          <Link href="/bai-viet" className="hover:text-white">Bài viết</Link>
-          <span className="text-white/40">›</span>
-          <span className="text-white line-clamp-1">{article.title}</span>
+        {/* Chữ xám chứ không phải trắng: nền trang giờ sáng, chữ trắng mất hút. */}
+        <nav className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-slate-500">
+          <Link href="/" className="hover:text-slate-800">Trang chủ</Link>
+          <span className="text-slate-300">›</span>
+          <Link href="/bai-viet" className="hover:text-slate-800">Bài viết</Link>
+          <span className="text-slate-300">›</span>
+          <span className="line-clamp-1 font-medium text-slate-800">{article.title}</span>
         </nav>
 
         <div className="flex gap-6 items-start min-w-0 overflow-x-hidden">
@@ -393,7 +394,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
           {/* ── Right sidebar — share (fixed, 2xl only) ───────────────── */}
           <aside className="hidden 2xl:flex fixed right-6 top-48 flex-col items-center gap-3 z-10">
-            <span className="text-[10px] text-white/60 font-medium uppercase tracking-widest whitespace-nowrap mb-1">Share</span>
+            <span className="mb-1 whitespace-nowrap text-[10px] font-medium uppercase tracking-widest text-slate-400">Share</span>
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer"
               className="w-11 h-11 rounded-full bg-[#1877f2] text-white flex items-center justify-center hover:scale-110 transition-transform font-bold shadow-md text-base">f</a>
             <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noopener noreferrer"

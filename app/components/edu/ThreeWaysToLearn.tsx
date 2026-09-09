@@ -47,7 +47,7 @@ const WAYS = [
 
 export default function ThreeWaysToLearn() {
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6" aria-label="Ba cách học trên Bé Hay Học">
+    <section className="max-w-[1440px] mx-auto px-4 sm:px-6 py-6" aria-label="Ba cách học trên Bé Hay Học">
       <div className="mb-4 text-center">
         <p className="text-[11px] font-black uppercase tracking-widest kid-display" style={{ color: '#7C3AED' }}>
           Bé muốn học kiểu nào?

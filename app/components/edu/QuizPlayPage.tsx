@@ -2760,7 +2760,7 @@ export default function QuizPlayPage({
 
       {/* Top bar: breadcrumb thẻ trắng 1 hàng (cuộn ngang nếu dài) + dãy chọn bài ở hàng riêng */}
       <div className="w-full px-3 sm:px-6 py-3">
-        <div className="max-w-6xl mx-auto space-y-2.5">
+        <div className="max-w-[1440px] mx-auto space-y-2.5">
           <nav className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap rounded-2xl bg-white/95 px-4 py-2.5 text-xs sm:text-sm text-slate-500 shadow-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <Link href="/" className="shrink-0 font-medium hover:text-pink-500">🏠 Trang chủ</Link>
             {lesson?.course && (
@@ -2806,7 +2806,7 @@ export default function QuizPlayPage({
       </div>
 
       {/* Layout */}
-      <div className="flex flex-1 items-start justify-center gap-3 px-4 sm:px-6 py-4 max-w-6xl mx-auto w-full">
+      <div className="flex flex-1 items-start justify-center gap-3 px-4 sm:px-6 py-4 max-w-[1440px] mx-auto w-full">
 
         {/* Left sidebar — question list */}
         <div className="hidden md:flex flex-col w-16 bg-white rounded-3xl shadow-md shrink-0 border-4 border-purple-200 p-2 gap-1.5">

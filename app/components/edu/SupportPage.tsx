@@ -46,7 +46,7 @@ export default function SupportPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 space-y-10">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-12 space-y-10">
 
         {/* Contact channels */}
         <div className="grid gap-4 sm:grid-cols-2">

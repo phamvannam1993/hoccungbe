@@ -106,6 +106,7 @@ export default function Page() {
         <ul className="mt-4 grid gap-4 sm:grid-cols-3">
           {[
             { href: '/vong-tu-vung', emoji: '🎡', title: 'Vòng tròn từ vựng', desc: 'Bánh xe theo lớp & chủ đề', c: 'from-sky-400 to-cyan-400' },
+            { href: '/luyen-nghe', emoji: '🎧', title: 'Luyện nghe tiếng Anh', desc: '3 game nghe theo lớp', c: 'from-violet-400 to-purple-400' },
             { href: '/bang-chu-cai-tieng-anh', emoji: '🔤', title: 'Bảng chữ cái A–Z', desc: 'Tên chữ, âm & từ mẫu', c: 'from-pink-400 to-rose-400' },
             { href: '/phonics-tieng-anh', emoji: '🔉', title: 'Phonics ghép vần', desc: 'Đọc từ CVC: cat, dog, sun', c: 'from-violet-400 to-fuchsia-400' },
             { href: '/mau-cau-tieng-anh', emoji: '💬', title: 'Mẫu câu giao tiếp', desc: 'This is a…, I like…, I can…', c: 'from-amber-400 to-orange-400' },

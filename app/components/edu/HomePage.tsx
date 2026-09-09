@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import ThreeWaysToLearn from './ThreeWaysToLearn';
+import ChonLop from './ChonLop';
 import Image from 'next/image';
 import type { ApiCourse, ApiMiniGame } from '../../lib/api';
 import HomeCourseSection from './HomeCourseSection';
-import { gamesData } from './data/gamesData';
 
 interface Article {
   id: number; title: string; slug: string;
@@ -64,21 +64,15 @@ async function fetchCourses(): Promise<ApiCourse[]> {
   }
 }
 
-const FEATURES = [
-  { emoji: '📚', title: 'Bài học có video', desc: 'Video ngắn, trực quan giúp bé dễ hiểu và không mất tập trung.' },
-  { emoji: '🎮', title: 'Trò chơi giáo dục', desc: 'Hơn 30 trò chơi rèn toán, chữ, tiếng Anh và tư duy mỗi ngày.' },
-  { emoji: '✏️', title: 'Bài tập luyện tập', desc: 'Bài tập bám sát chương trình, giúp bé ôn tập và ghi nhớ lâu hơn.' },
-  { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh xem được kết quả học tập và kỹ năng của bé rõ ràng.' },
-];
 
-// Số trò chơi lấy động từ dữ liệu (tránh lệch "30+" trong khi thực tế ít hơn).
-const READY_GAMES_COUNT = gamesData.filter((g) => g.status === 'ready').length;
 
-const STATS = [
-  { value: '400+', label: 'Bài học' },
-  { value: `${READY_GAMES_COUNT}`, label: 'Trò chơi' },
-  { value: '3–10', label: 'Độ tuổi' },
-  { value: '100%', label: 'Miễn phí dùng thử' },
+// Dải cam kết — trả lời câu hỏi "vì sao nên dùng" ngay trên màn hình đầu.
+const DIEM_MANH = [
+  { emoji: '⭐', d1: 'Nội dung bám sát', d2: 'chương trình của Bộ GD&ĐT', mau: '#fef3c7' },
+  { emoji: '💗', d1: 'Giao diện thân thiện', d2: 'phù hợp với trẻ em', mau: '#fce7f3' },
+  { emoji: '📊', d1: 'Bài học đa dạng', d2: 'hấp dẫn, sinh động', mau: '#d1fae5' },
+  { emoji: '🛡️', d1: 'Theo dõi tiến độ học tập', d2: 'dễ dàng', mau: '#e0f2fe' },
+  { emoji: '👨‍👩‍👧', d1: 'Đồng hành cùng phụ huynh', d2: 'trong hành trình học của con', mau: '#ede9fe' },
 ];
 
 // Dải "Khám phá": link tới MỌI hub chính từ trang chủ (trang mạnh nhất) → dồn internal
@@ -95,6 +89,7 @@ const HUBS = [
   { href: '/vong-tron-am', emoji: '🎡', label: 'Vòng tròn âm vần', c: '#EF4444' },
   { href: '/noi-am-van', emoji: '🔗', label: 'Game nối âm vần', c: '#6366F1' },
   { href: '/vong-tu-vung', emoji: '🔤', label: 'Vòng tròn từ vựng Anh', c: '#0EA5E9' },
+  { href: '/luyen-nghe', emoji: '🎧', label: 'Luyện nghe tiếng Anh', c: '#8B5CF6' },
   { href: '/hoc-tieng-anh', emoji: '🦉', label: 'Game học tiếng Anh', c: '#10B981' },
   { href: '/tinh-huong-tieng-anh', emoji: '🗣️', label: '360 tình huống nói với con', c: '#FF6B9D' },
   { href: '/tu-vung-tieng-anh', emoji: '🔤', label: 'Từ vựng tiếng Anh', c: '#6BCB77' },
@@ -114,130 +109,80 @@ export default async function HomePage() {
       <span aria-hidden className="pointer-events-none select-none absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>💖</span>
       <span aria-hidden className="pointer-events-none select-none absolute top-96 right-6 text-4xl opacity-60" style={{ animation: 'bounce-pop 3s ease-in-out infinite' }}>🌈</span>
 
-      {/* ── HERO ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-6 relative">
-        <div className="bg-white rounded-[32px] border-4 border-pink-200 overflow-hidden" style={{ boxShadow: '0 12px 40px rgba(255,107,157,0.20)' }}>
-          <div className="grid lg:grid-cols-2">
-            {/* Left */}
-            <div className="p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
-              <span className="inline-block rounded-full text-white text-xs font-black px-4 py-1.5 mb-4 w-fit kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)' }}>
-                Nền tảng học tập cho bé 3–10 tuổi
-              </span>
-              {/* Cỡ chữ nhỏ hơn trên mobile để tiêu đề không vỡ dòng lẻ */}
-              <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight kid-display">
-                Học Toán, Tiếng Việt &amp; Tiếng Anh<br />
-                <span style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>cho bé 3–10 tuổi</span> 🎉
-              </h1>
-              <p className="mt-4 text-slate-600 leading-relaxed">
-                Học vui mỗi ngày, bé tiến bộ thấy rõ. Bài học ngắn, trò chơi giáo dục và bài tập luyện tập giúp bé học hiệu quả tại nhà; phụ huynh theo dõi tiến độ dễ dàng.
-              </p>
+      {/* ── HERO ──
+          Ảnh banner đã vẽ sẵn cả chữ lẫn nút, tỉ lệ 1536×370 (rất ngang). Dùng
+          thẳng ảnh ở màn rộng thì đẹp đúng như bản thiết kế; nhưng ở màn hẹp
+          ảnh co lại còn vài chục pixel chiều cao, chữ trong ảnh không đọc nổi —
+          nên mobile dựng lại bằng chữ thật trên nền trời.
 
-              {/* Mobile: 4 thẻ tính năng gọn 1 hàng (desktop hiển thị ở cột phải) */}
-              <div className="mt-5 grid grid-cols-4 gap-2 lg:hidden">
-                {FEATURES.map((f, i) => {
-                  const c = ['#FF6B9D', '#FFD93D', '#4ECDC4', '#A06CD5'][i % 4];
-                  return (
-                    <div
-                      key={f.title}
-                      className="rounded-2xl bg-white p-2 text-center"
-                      style={{ border: `2px solid ${c}`, boxShadow: `0 3px 0 ${c}aa` }}
-                    >
-                      <div className="text-2xl leading-none">{f.emoji}</div>
-                      <p className="mt-1 text-[10px] font-black leading-tight text-slate-800 kid-display">{f.title}</p>
-                    </div>
-                  );
-                })}
-              </div>
+          Chữ trong ảnh máy tìm kiếm và trình đọc màn hình đều không thấy, nên
+          <h1> thật vẫn phải có: ở mobile thì hiện, ở desktop thì ẩn bằng sr-only. */}
+      <section className="relative" aria-label="Giới thiệu Bé Hay Học">
+        {/* Màn rộng: dùng đúng ảnh thiết kế */}
+        <Link href="/khoa-hoc" className="relative hidden lg:block" aria-label="Bắt đầu học ngay">
+          <Image
+            src="/assets/images/banner.png"
+            alt="Bé Hay Học — học mỗi ngày, tự tin vươn xa. Học Toán, Tiếng Việt, Tiếng Anh cho học sinh tiểu học."
+            width={1536} height={370} priority
+            className="h-auto w-full"
+          />
+          <h1 className="sr-only">Học mỗi ngày, tự tin vươn xa — Bé Hay Học</h1>
+        </Link>
 
-              {/* Mobile: 2 nút cùng hàng; desktop giữ nguyên */}
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-                <Link href="/khoa-hoc"
-                  className="kid-btn-3d text-xs sm:text-sm text-center whitespace-nowrap !px-3 sm:!px-8"
-                  style={{ background: 'linear-gradient(135deg, #FF6B9D, #FF9F45)', boxShadow: '0 6px 0 #c0392b' }}>
-                  📚 Xem khóa học
-                </Link>
-                <Link href="/tro-choi"
-                  className="kid-btn-3d text-xs sm:text-sm text-center whitespace-nowrap !px-3 sm:!px-8"
-                  style={{ background: 'linear-gradient(135deg, #4ECDC4, #87CEEB)', boxShadow: '0 6px 0 #0e7490' }}>
-                  🎮 Kho trò chơi
-                </Link>
-              </div>
-              {/* Stats */}
-              <div className="mt-8 grid grid-cols-4 gap-3">
-                {STATS.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <p className="text-xl font-black text-slate-900">{s.value}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Right — chỉ hiện từ desktop (mobile đã có dải 4 thẻ gọn ở trên) */}
-            <div className="hidden lg:flex p-8 items-center justify-center min-h-[280px]" style={{ background: 'linear-gradient(135deg, #FFE5F1 0%, #FFF4D6 50%, #C9F0FF 100%)' }}>
-              <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
-                {FEATURES.map((f, i) => {
-                  const colors = ['#FF6B9D', '#FFD93D', '#4ECDC4', '#A06CD5'];
-                  const c = colors[i % colors.length];
-                  return (
-                    <div key={f.title} className="bg-white rounded-3xl p-4 kid-card-hover" style={{ border: `3px solid ${c}`, boxShadow: `0 4px 0 ${c}aa` }}>
-                      <div className="text-4xl mb-2">{f.emoji}</div>
-                      <p className="font-black text-sm text-slate-800 leading-snug kid-display">{f.title}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+        {/* Màn hẹp: chữ thật trên nền trời, đọc được ở mọi cỡ */}
+        <div className="relative overflow-hidden rounded-b-[36px] lg:hidden"
+          style={{ background: 'linear-gradient(180deg,#bfe9ff 0%,#daf3ff 45%,#eaf9e6 100%)' }}>
+          <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
+            <span className="absolute left-[6%] top-[12%] text-4xl opacity-80">☁️</span>
+            <span className="absolute right-[8%] top-[6%] text-3xl opacity-70">☁️</span>
+            <span className="absolute right-[12%] bottom-[8%] text-5xl opacity-90">🏫</span>
+          </div>
+          <div className="relative px-4 pb-8 pt-7">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-[11px] font-black text-slate-600 shadow-sm">
+              ⭐ Nền tảng học tập dành cho học sinh tiểu học
+            </span>
+            <h1 className="kid-display mt-3 text-[32px] font-black leading-[1.1]">
+              <span className="block text-[#1e5aa8]">Học mỗi ngày</span>
+              <span className="block text-[#f5911e]">Tự tin vươn xa</span>
+            </h1>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-600">
+              Bé Hay Học giúp bé học Toán, Tiếng Việt, Tiếng Anh qua các bài học sinh động,
+              trò chơi hấp dẫn và phương pháp khoa học, hiệu quả.
+            </p>
+            <Link href="/khoa-hoc"
+              className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-black text-[#7a4a00] transition active:translate-y-0.5"
+              style={{ background: 'linear-gradient(180deg,#ffd452 0%,#f7b731 100%)', boxShadow: '0 5px 0 #d99a12' }}>
+              ▶ Bắt đầu học ngay
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── KHÁM PHÁ: link tới mọi hub chính (internal linking từ trang chủ) ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-2 pb-4" aria-label="Khám phá Bé Hay Học">
-        <div className="bg-white rounded-3xl border-4 border-sky-200 p-4 sm:p-6" style={{ boxShadow: '0 8px 30px rgba(56,189,248,0.18)' }}>
-          <h2 className="text-lg sm:text-2xl font-black kid-display mb-4 text-slate-900">Khám phá Bé Hay Học</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {HUBS.map((h) => (
-              <Link
-                key={h.href}
-                href={h.href}
-                className="flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-3 kid-card-hover"
-                style={{ borderColor: h.c, boxShadow: `0 3px 0 ${h.c}aa` }}
-              >
-                <span className="text-2xl leading-none" aria-hidden>{h.emoji}</span>
-                <span className="font-black text-xs sm:text-sm text-slate-800 kid-display leading-tight">{h.label}</span>
-              </Link>
-            ))}
-          </div>
+      {/* ── MỘT CÂU HỎI: bé học lớp mấy? ──
+          Thay cho dải 5 môn trước đây. Bày sẵn mọi môn của mọi lớp thì người vào
+          phải tự lọc; hỏi một câu rồi chỉ mở phần của lớp đó thì bé bấm được ngay. */}
+      <ChonLop />
 
-          {/* Học theo lớp: link tới hub /lop-1…5 (gom cả 3 môn của từng lớp) */}
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-sm font-black text-slate-700 kid-display">Học theo lớp:</span>
-            {['1', '2', '3', '4', '5'].map((gr) => (
-              <Link
-                key={gr}
-                href={`/lop-${gr}`}
-                className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-sky-100 hover:text-sky-700 kid-display"
-              >
-                Lớp {gr}
-              </Link>
-            ))}
-          </div>
-
-          {/* Chuyên đề evergreen (keyword traffic cao) */}
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-sm font-black text-slate-700 kid-display">Chuyên đề:</span>
-            <Link href="/toan-tu-duy" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-violet-100 hover:text-violet-700 kid-display">Toán tư duy</Link>
-            <Link href="/bang-cuu-chuong" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-amber-100 hover:text-amber-700 kid-display">Bảng cửu chương</Link>
-            <Link href="/bang-chu-cai" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-pink-100 hover:text-pink-700 kid-display">Bảng chữ cái</Link>
-            <Link href="/luyen-viet-chu" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-teal-100 hover:text-teal-700 kid-display">Luyện viết chữ</Link>
-          </div>
-        </div>
+      {/* ── DẢI CAM KẾT ── */}
+      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6" aria-label="Vì sao chọn Bé Hay Học">
+        <ul className="grid grid-cols-1 gap-x-2 gap-y-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-slate-100 lg:grid-cols-5">
+          {DIEM_MANH.map((d) => (
+            <li key={d.d1} className="flex items-center gap-2.5 px-2">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-lg"
+                style={{ background: d.mau }} aria-hidden>{d.emoji}</span>
+              <span className="min-w-0 text-[11px] font-bold leading-tight text-slate-600 sm:text-xs">
+                <span className="block text-slate-800">{d.d1}</span>
+                {d.d2}
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <ThreeWaysToLearn />
 
       {/* ── COURSES ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
         <div className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="min-w-0">
@@ -254,32 +199,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-white rounded-3xl border-4 border-yellow-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,217,61,0.20)' }}>
-          <div className="text-center mb-8">
-            <p className="text-xs font-black uppercase tracking-widest mb-2 kid-display" style={{ color: '#FF6B9D' }}>✨ Tại sao chọn Bé Hay Học ✨</p>
-            <h2 className="text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #FF6B9D, #A06CD5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Học hiệu quả, bé vui, bố mẹ yên tâm</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {([
-              { emoji: '⏱️', title: 'Bài học ngắn 5–10 phút', desc: 'Phù hợp khả năng tập trung của trẻ nhỏ, không bị quá tải.', color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
-              { emoji: '🎯', title: 'Đúng độ tuổi', desc: 'Nội dung được phân cấp theo từng lứa tuổi từ 3 đến 10 tuổi.', color: '#4ECDC4', bg: 'linear-gradient(135deg, #C9F0FF 0%, #B3E5DC 100%)' },
-              { emoji: '📊', title: 'Theo dõi tiến độ', desc: 'Phụ huynh nắm rõ bé học gì, làm tốt gì và cần ôn gì.', color: '#A06CD5', bg: 'linear-gradient(135deg, #EBD8FF 0%, #DDC3FF 100%)' },
-              { emoji: '💛', title: 'Không áp lực', desc: 'Học qua trò chơi và video giúp bé hứng thú, không chán.', color: '#FF9F45', bg: 'linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%)' },
-            ] as const).map((f) => (
-              <div key={f.title} className="rounded-3xl p-5 kid-card-hover" style={{ background: f.bg, border: `3px solid ${f.color}`, boxShadow: `0 4px 0 ${f.color}66` }}>
-                <div className="text-4xl mb-2">{f.emoji}</div>
-                <h3 className="font-black text-slate-900 text-sm mb-1.5 kid-display" style={{ color: f.color }}>{f.title}</h3>
-                <p className="text-xs text-slate-700 leading-relaxed font-medium">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── GAMES ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
         <div className="bg-white rounded-3xl border-4 border-purple-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(160,108,213,0.20)' }}>
           <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
             <div>
@@ -310,7 +231,7 @@ export default async function HomePage() {
 
       {/* ── BÀI VIẾT ── */}
       {articles.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
           <div className="bg-white rounded-3xl border-4 border-cyan-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(78,205,196,0.20)' }}>
             <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
               <div>
@@ -352,8 +273,55 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ── KHÁM PHÁ — GẤP LẠI ──
+          17 lối vào này cần cho tìm kiếm (dồn liên kết nội bộ từ trang mạnh nhất),
+          nhưng bày hết ra đầu trang thì người vào rối, không biết bắt đầu từ đâu.
+          Gấp vào một thẻ mở-đóng: ai cần thì mở, ai không thì không thấy. */}
+      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6" aria-label="Khám phá Bé Hay Học">
+        <details className="bg-white rounded-3xl border-4 border-sky-200 p-4 sm:p-6" style={{ boxShadow: '0 8px 30px rgba(56,189,248,0.18)' }}>
+          <summary className="cursor-pointer text-lg sm:text-2xl font-black kid-display text-slate-900">Xem tất cả nội dung của Bé Hay Học</summary>
+          <div className="h-4" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {HUBS.map((h) => (
+              <Link
+                key={h.href}
+                href={h.href}
+                className="flex items-center gap-2 rounded-2xl border-2 bg-white px-3 py-3 kid-card-hover"
+                style={{ borderColor: h.c, boxShadow: `0 3px 0 ${h.c}aa` }}
+              >
+                <span className="text-2xl leading-none" aria-hidden>{h.emoji}</span>
+                <span className="font-black text-xs sm:text-sm text-slate-800 kid-display leading-tight">{h.label}</span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Học theo lớp: link tới hub /lop-1…5 (gom cả 3 môn của từng lớp) */}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-black text-slate-700 kid-display">Học theo lớp:</span>
+            {['1', '2', '3', '4', '5'].map((gr) => (
+              <Link
+                key={gr}
+                href={`/lop-${gr}`}
+                className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-sky-100 hover:text-sky-700 kid-display"
+              >
+                Lớp {gr}
+              </Link>
+            ))}
+          </div>
+
+          {/* Chuyên đề evergreen (keyword traffic cao) */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-black text-slate-700 kid-display">Chuyên đề:</span>
+            <Link href="/toan-tu-duy" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-violet-100 hover:text-violet-700 kid-display">Toán tư duy</Link>
+            <Link href="/bang-cuu-chuong" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-amber-100 hover:text-amber-700 kid-display">Bảng cửu chương</Link>
+            <Link href="/bang-chu-cai" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-pink-100 hover:text-pink-700 kid-display">Bảng chữ cái</Link>
+            <Link href="/luyen-viet-chu" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-teal-100 hover:text-teal-700 kid-display">Luyện viết chữ</Link>
+          </div>
+        </details>
+      </section>
+
       {/* ── CTA ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-6 pb-10">
+      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
         <div className="rounded-[32px] px-8 py-10 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FFD93D 50%, #4ECDC4 100%)', boxShadow: '0 12px 40px rgba(255,107,157,0.35)' }}>
           <span aria-hidden className="absolute top-4 left-6 text-4xl opacity-80" style={{ animation: 'wiggle 3s infinite' }}>🚀</span>
           <span aria-hidden className="absolute bottom-4 right-6 text-4xl opacity-80" style={{ animation: 'bounce-pop 2.5s infinite' }}>🌟</span>

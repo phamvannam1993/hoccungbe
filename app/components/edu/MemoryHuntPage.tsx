@@ -984,7 +984,7 @@ export default function MemoryHuntPage() {
 
   if (viewMode === 'menu') {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-[28px] bg-gradient-to-r from-violet-500 to-fuchsia-500 p-6 text-white shadow-lg">
           <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
             Trò chơi ghi nhớ
@@ -1169,7 +1169,7 @@ export default function MemoryHuntPage() {
 
   if (viewMode === 'stickers') {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-[28px] bg-gradient-to-r from-pink-500 to-fuchsia-500 p-6 text-white shadow-lg">
           <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
             Bộ sưu tập
@@ -1213,7 +1213,7 @@ export default function MemoryHuntPage() {
 
   if (viewMode === 'history') {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-[28px] bg-gradient-to-r from-sky-500 to-violet-500 p-6 text-white shadow-lg">
           <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
             Lịch sử
@@ -1282,7 +1282,7 @@ export default function MemoryHuntPage() {
 
   if (viewMode === 'achievements') {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-[28px] bg-gradient-to-r from-sky-500 to-violet-500 p-6 text-white shadow-lg">
           <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">
             Thành tích
@@ -1455,7 +1455,7 @@ export default function MemoryHuntPage() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8">
       <div className="mb-6 flex flex-col gap-4 rounded-[28px] bg-gradient-to-r from-violet-500 to-fuchsia-500 p-6 text-white shadow-lg sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="mb-2 inline-flex rounded-full bg-white/20 px-3 py-1 text-sm font-semibold">

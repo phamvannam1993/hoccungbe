@@ -193,7 +193,7 @@ export default function WordPictureMatchPage() {
 
   if (!currentQuestion) {
     return (
-      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-100">
           <div className="text-4xl animate-spin inline-block">⏳</div>
         </div>
@@ -202,7 +202,7 @@ export default function WordPictureMatchPage() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+    <section className="mx-auto max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
       <div className="mb-4 rounded-[24px] bg-gradient-to-r from-sky-500 to-cyan-400 p-4 text-white shadow-lg sm:mb-6 sm:rounded-[28px] sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>

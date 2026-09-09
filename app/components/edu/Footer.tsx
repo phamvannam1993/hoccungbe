@@ -69,33 +69,31 @@ export default function Footer() {
   }, []);
   return (
     <footer data-nosnippet className="bg-[#e8735a] border-t border-white/20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+      <div className="mx-auto max-w-[1440px] px-4 py-7 sm:px-6 sm:py-9">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-8 lg:grid-cols-12">
+          <div className="col-span-2 lg:col-span-4">
             <Link href="/" aria-label="Về trang chủ Bé Hay Học">
-              <Image src="/assets/images/logo.png" alt="Bé Hay Học" width={180} height={65} className="object-contain mix-blend-multiply" unoptimized />
+              <Image src="/assets/images/logo.png" alt="Bé Hay Học" width={180} height={65} className="h-10 w-auto object-contain mix-blend-multiply sm:h-14" unoptimized />
             </Link>
 
-            <p className="mt-5 max-w-md text-sm leading-7 text-white/90">
-              Bé Hay Học là nền tảng học tập và trò chơi giáo dục cho bé từ
-              3 đến 10 tuổi, giúp trẻ học chữ, toán, tiếng Anh và tư duy qua
-              các bài học ngắn, trực quan, dễ tiếp thu.
-            </p>
-
-            <p className="mt-3 max-w-md text-sm leading-7 text-white/90">
-              Phụ huynh có thể đồng hành cùng con tại nhà, theo dõi tiến độ học
-              tập và lựa chọn nội dung phù hợp với từng độ tuổi của bé.
+            {/* Một đoạn thay vì hai: chân trang không phải chỗ đọc giới thiệu dài. */}
+            <p className="mt-3 max-w-md text-[13px] leading-6 text-white/90 sm:text-sm">
+              Nền tảng học tập và trò chơi giáo dục cho bé 3–10 tuổi: học chữ, toán,
+              tiếng Anh và tư duy qua các bài học ngắn, trực quan.
             </p>
           </div>
 
-          <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
+          <div className="col-span-1 lg:col-span-2">
+            <h2 className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">
               Khám phá
             </h2>
-            <ul className="mt-5 space-y-3">
-              {quickLinks.map((item) => (
+            <ul className="mt-4 space-y-2">
+              {/* Chỉ 8 lối vào chính. Trước đây đổ hết 26 mục làm chân trang dài
+                  hơn cả phần nội dung; số còn lại vẫn có ở khối "Xem tất cả nội
+                  dung" trên trang chủ nên không mất liên kết nội bộ. */}
+              {quickLinks.slice(0, 8).map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
+                  <Link href={item.href} className="text-[13px] text-white/90 transition hover:text-white sm:text-sm">
                     {item.label}
                   </Link>
                 </li>
@@ -103,14 +101,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
+          <div className="col-span-1 lg:col-span-2">
+            <h2 className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">
               Chủ đề học tập
             </h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-4 space-y-2">
               {seoLinks.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
+                  <Link href={item.href} className="text-[13px] text-white/90 transition hover:text-white sm:text-sm">
                     {item.label}
                   </Link>
                 </li>
@@ -118,14 +116,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
+          <div className="col-span-1 lg:col-span-2">
+            <h2 className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">
               Phụ huynh
             </h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-4 space-y-2">
               {[...parentLinks, ...legalLinks].map((item) => (
                 <li key={item.href + item.label}>
-                  <Link href={item.href} className="text-sm text-white/90 transition hover:text-white">
+                  <Link href={item.href} className="text-[13px] text-white/90 transition hover:text-white sm:text-sm">
                     {item.label}
                   </Link>
                 </li>
@@ -133,8 +131,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <h2 className="text-sm font-black uppercase tracking-[0.14em] text-white">
+          <div className="col-span-1 lg:col-span-2">
+            <h2 className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">
               Liên hệ
             </h2>
             <div className="mt-5 space-y-4 text-sm text-white/90">
@@ -161,8 +159,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/20 pt-6">
-          <div className="flex flex-col gap-3 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 border-t border-white/20 pt-4 sm:mt-8 sm:pt-5">
+          <div className="flex flex-col gap-2.5 text-[12px] text-white/80 sm:flex-row sm:items-center sm:justify-between sm:text-sm">
             <p>© {new Date().getFullYear()} Bé Hay Học. Nền tảng học tập và trò chơi giáo dục cho bé.</p>
             <div className="flex flex-wrap gap-4">
               {legalLinks.map((item) => (

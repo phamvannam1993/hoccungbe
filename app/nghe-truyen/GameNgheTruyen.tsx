@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { CAC_LOP, type Lop } from '../lib/vongTuVung';
 import { MAU_LOP, xao } from '../lib/deNghe';
 import { truyenTheoLop, type Truyen } from '../lib/truyenNghe';
-import { speakEnglish, speakSequence, speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
+import { speakEnThenVi, speakEnglish, speakSequence, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 
 // GAME NGHE TRUYỆN — nghe rồi trả lời câu hỏi.
 //
@@ -62,7 +62,6 @@ export default function GameNgheTruyen() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setDaLam(new Set(JSON.parse(raw) as string[]));
     } catch { /* trình duyệt chặn lưu thì bỏ qua */ }
   }, []);
@@ -79,6 +78,15 @@ export default function GameNgheTruyen() {
       () => setDangDoc(null),
     );
   }
+
+  // Sang câu mới thì đọc luôn câu hỏi, không bắt bé tự bấm.
+  useEffect(() => {
+    if (chang !== 'hoi' || !de[so] || chon) return;
+    const t = window.setTimeout(() => speakEnThenVi(de[so].hoi, de[so].hoiVi), 300);
+    return () => window.clearTimeout(t);
+    // Chỉ chạy khi ĐỔI CÂU; thêm `chon` vào đây thì trả lời xong lại đọc lại đề.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chang, so]);
 
   function tra(dapAn: string) {
     if (chon || !de[so]) return;
@@ -256,8 +264,10 @@ export default function GameNgheTruyen() {
           <div className="mb-3 rounded-[26px] border-2 border-white bg-white/85 p-4 text-center shadow-lg">
             <p className="chu-mau text-lg font-black text-slate-800">{cau.hoi}</p>
             <p className="mt-1 text-xs font-bold text-slate-400">{cau.hoiVi}</p>
-            <button onClick={() => { stopSpeaking(); speakText(cau.hoi); }}
-              className="mt-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black text-slate-500">🔊 Nghe câu hỏi</button>
+            <button onClick={() => { stopSpeaking(); speakEnThenVi(cau.hoi, cau.hoiVi); }}
+              className="mt-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black text-slate-500">
+              🔊 Nghe câu hỏi + nghĩa
+            </button>
           </div>
 
           <ul className="grid gap-2">

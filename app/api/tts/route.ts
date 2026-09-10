@@ -13,7 +13,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 // Nhớ kết quả tra trong tiến trình để mỗi đoạn chỉ hỏi máy chủ một lần.
 // Lưu cả lần trượt (null) — trượt là phần lớn, hỏi lại mỗi lần thì phí.
 const KHO = new Map<string, { url: string | null; hetHan: number }>();
-const HAN = 10 * 60 * 1000;
+const HAN_CO = 10 * 60 * 1000;
+// Lần TRƯỢT chỉ nhớ ngắn: vừa sinh xong audio cho một đoạn mà còn nhớ "chưa
+// có" cả 10 phút thì trang web vẫn đọc giọng Google, tưởng là ghép hỏng.
+const HAN_TRUOT = 60 * 1000;
 
 async function traKho(text: string): Promise<string | null> {
   const co = KHO.get(text);
@@ -31,7 +34,7 @@ async function traKho(text: string): Promise<string | null> {
   } catch {
     // Máy chủ giọng đọc trục trặc thì im lặng dùng giọng Google — bé vẫn nghe được.
   }
-  KHO.set(text, { url, hetHan: Date.now() + HAN });
+  KHO.set(text, { url, hetHan: Date.now() + (url ? HAN_CO : HAN_TRUOT) });
   return url;
 }
 

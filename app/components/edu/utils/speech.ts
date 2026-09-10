@@ -71,15 +71,23 @@ export function speakText(text: string, options: SpeakTextOptions = {}): void {
   // (Route /api/tts đọc tham số `tl`.) Không có lang → mặc định tiếng Việt.
   const tl = options.lang && options.lang.toLowerCase().startsWith('en') ? 'en' : 'vi';
   // Tái sử dụng cùng một phần tử (đã được mở khóa) → phát được cả khi tự động.
-  el.src = `/api/tts?q=${encodeURIComponent(text.trim())}&tl=${tl}`;
+  el.src = ttsUrl(text, tl);
   el.play().catch(() => { /* chỉ dùng giọng API */ });
 }
 
 // URL đọc qua proxy /api/tts: tl='en' → giọng Mỹ, 'vi' → giọng Việt. speed<1 → đọc chậm.
 // Dùng MP3 server-side (Google Translate TTS) nên KHÔNG phụ thuộc giọng cài trên máy —
 // tiếng Anh luôn ra giọng Anh chuẩn, kể cả khi trình duyệt không có voice tiếng Anh.
+//
+// `v`: đổi số này là mọi trình duyệt bỏ tệp cũ và hỏi lại từ đầu. Cần vì bản
+// trước trả kèm `immutable, max-age=1 tuần` — bé nào đã nghe một từ bằng giọng
+// Google thì cả tuần sau vẫn nghe đúng tệp đó, dù kho đã có giọng riêng.
+// Tăng số này mỗi khi đổi nguồn giọng.
+const PHIEN_BAN_GIONG = 2;
+
 const ttsUrl = (text: string, tl: 'en' | 'vi', speed?: number) =>
-  `/api/tts?q=${encodeURIComponent(text.trim())}&tl=${tl}${speed && speed < 1 ? `&speed=${speed}` : ''}`;
+  `/api/tts?q=${encodeURIComponent(text.trim())}&tl=${tl}` +
+  `${speed && speed < 1 ? `&speed=${speed}` : ''}&v=${PHIEN_BAN_GIONG}`;
 
 // Phát 1 nguồn audio qua phần tử dùng chung; onEnd (nếu có) chạy khi phát xong.
 function playSrc(src: string, onEnd?: () => void): void {

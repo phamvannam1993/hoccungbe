@@ -64,23 +64,27 @@ for (const t of CHI_CHU_DE ? [] : TRUYEN_NGHE) {
   for (const h of t.hoi) them(h.hoiVi);
 }
 
-// CHỈ giữ đoạn từ HAI TIẾNG trở lên.
+// Tách hai nhóm vì mỗi nhóm phải sinh bằng một giọng khác nhau.
 //
-// Giọng nhái đọc một tiếng trơ trọi rất thất thường — đã đo và xác nhận nhiều
-// lần ở phần âm vần. Với một tiếng thì để nguyên giọng cũ (Google) còn chắc
-// hơn: nó không hay bằng nhưng không đọc trượt.
+// Giọng nhái (VieNeu) đọc một tiếng trơ trọi ra rác — đo lại 10 tiếng thì cả
+// 10 lần đều không thành tiếng nói, chỉ 0,2–0,4 giây ù ù. Nhóm một tiếng phải
+// sinh bằng giọng Microsoft: chạy script sinh với
+//     TTS_LOCAL_URL=http://localhost:8000/api/tts/danh-van TTS_RATE=-10
+// Mặc định script này xuất nhóm NHIỀU TIẾNG; thêm --mot-tieng để xuất nhóm kia.
+const CHI_MOT_TIENG = process.argv.includes('--mot-tieng');
 const nhieuTieng = (t) => t.trim().split(/\s+/).length >= 2;
+const giu = CHI_MOT_TIENG ? (t) => !nhieuTieng(t) : nhieuTieng;
 
-const boQua = [...doan].filter((t) => !nhieuTieng(t));
-const ds = [...doan].filter(nhieuTieng).sort((a, b) => a.localeCompare(b, 'vi'));
+const boQua = [...doan].filter((t) => !giu(t));
+const ds = [...doan].filter(giu).sort((a, b) => a.localeCompare(b, 'vi'));
 fs.writeFileSync(RA, JSON.stringify(ds, null, 2));
 fs.rmSync(TMP, { recursive: true, force: true });
 
 console.log(`Chủ đề        : ${VOCAB_TOPICS.length}`);
 console.log(`Truyện        : ${TRUYEN_NGHE.length}`);
 console.log(`Đoạn tiếng Việt khác nhau: ${doan.size}`);
-console.log(`  → sinh audio (≥ 2 tiếng)  : ${ds.length}`);
-console.log(`  → để giọng cũ (1 tiếng)   : ${boQua.length}`);
+console.log(`  → xuất ra (${CHI_MOT_TIENG ? '1 tiếng, giọng Microsoft' : '≥ 2 tiếng, giọng nhái'}) : ${ds.length}`);
+console.log(`  → nhóm còn lại                    : ${boQua.length}`);
 console.log(`\n✓ Đã ghi ra ${RA}`);
 console.log('Vài ví dụ:');
 for (const t of ds.slice(0, 8)) console.log(`   "${t}"`);

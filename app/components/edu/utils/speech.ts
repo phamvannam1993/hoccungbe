@@ -127,6 +127,26 @@ export function speakEnThenVi(en: string, vi: string): void {
   else thenVi();
 }
 
+// Đọc TIẾNG ANH rồi đọc LẦN LƯỢT từng nghĩa tiếng Việt.
+//
+// Nghĩa nhiều vế ("chú, bác, cậu") phải tách ra đọc rời: đưa cả chuỗi cho máy
+// đọc thì nó vấp ở dấu phẩy và phát ra thứ khác hẳn ("2, 3, cầu").
+export function speakEnThenViList(en: string, vis: string[]): void {
+  if (typeof window === 'undefined') return;
+  const items: { text: string; lang: 'en' | 'vi' }[] = [];
+  if (en && en.trim()) items.push({ text: en, lang: 'en' });
+  for (const v of vis || []) if (v && v.trim()) items.push({ text: v, lang: 'vi' });
+  if (!items.length) return;
+  speakSequence(items);
+}
+
+// Đọc lần lượt các nghĩa tiếng Việt (nút loa 🔊 chỉ đọc nghĩa).
+export function speakViList(vis: string[]): void {
+  if (typeof window === 'undefined') return;
+  const items = (vis || []).filter((v) => v && v.trim()).map((v) => ({ text: v, lang: 'vi' as const }));
+  if (items.length) speakSequence(items);
+}
+
 // Phát NỐI TIẾP nhiều mẩu (hội thoại, bài hát). Mỗi mẩu {text, lang}.
 // Dùng chung _gen nên gọi mới (hoặc stopSpeaking) sẽ dừng chuỗi đang phát.
 export function speakSequence(

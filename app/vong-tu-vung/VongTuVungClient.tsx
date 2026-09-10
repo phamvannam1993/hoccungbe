@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { CAC_LOP, chuDeTheoLop, type Lop, type VongTu } from '../lib/vongTuVung';
 import { khoaAnhTuVung } from '../lib/anhTuVung';
-import { speakEnThenVi, speakEnglishSlow, speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
+import { docNghiaDs } from '../lib/docTuVung';
+import { speakEnThenVi, speakEnThenViList, speakViList, speakEnglishSlow, speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import Wheel from '../vong-tron-am/Wheel';
 import HinhTu from '../vong-tron-am/HinhTu';
 import type { VongAm } from '../lib/vongTronAm';
@@ -69,7 +70,7 @@ export default function VongTuVungClient() {
     // Đọc TIẾNG ANH rồi tới NGHĨA TIẾNG VIỆT: bé chưa đọc được chữ vẫn hiểu từ
     // vừa nghe là gì, không phải đoán qua hình.
     const w = vong!.tu[i];
-    speakEnThenVi(w.en, w.vi);
+    speakEnThenViList(w.en, docNghiaDs(w.vi));
   }
 
   function danhDauDaHoc(en: string) {
@@ -248,7 +249,7 @@ export default function VongTuVungClient() {
               )}
 
               <div className="mt-4 grid grid-cols-2 gap-2">
-                <button onClick={() => { stopSpeaking(); speakEnThenVi(tu.en, tu.vi); }}
+                <button onClick={() => { stopSpeaking(); speakEnThenViList(tu.en, docNghiaDs(tu.vi)); }}
                   className="rounded-2xl py-3 text-sm font-black text-white transition active:translate-y-0.5"
                   style={{ background: vong.mau, boxShadow: `0 4px 0 ${vong.mau}99` }}>
                   🔊 Anh + Việt
@@ -259,7 +260,7 @@ export default function VongTuVungClient() {
                   style={{ boxShadow: '0 4px 0 rgba(148,163,184,.28)' }}>
                   🐢 Chậm
                 </button>
-                <button onClick={() => { stopSpeaking(); speakText(tu.vi); }}
+                <button onClick={() => { stopSpeaking(); speakViList(docNghiaDs(tu.vi)); }}
                   className="rounded-2xl border-2 border-slate-200 bg-white py-3 text-sm font-black text-slate-700 transition active:translate-y-0.5"
                   style={{ boxShadow: '0 4px 0 rgba(148,163,184,.28)' }}>
                   🇻🇳 Nghĩa

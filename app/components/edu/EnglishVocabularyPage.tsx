@@ -17,7 +17,8 @@ import EnglishProfileCard from './EnglishProfileCard';
 import EnglishFlashcardPanel from './EnglishFlashcardPanel';
 import EnglishLeaderboard from './EnglishLeaderboard';
 import Link from 'next/link';
-import { speakText, stopSpeaking } from './utils/speech';
+import { speakText, speakViList, stopSpeaking } from './utils/speech';
+import { docNghiaDs } from '../../lib/docTuVung';
 import { useVocabImages, isImageUrl } from './utils/vocabImages';
 
 type BuiltEnglishQuestion = EnglishWordItem & {
@@ -633,9 +634,13 @@ export default function EnglishVocabularyPage() {
     speakText(text, { lang: 'en-US' });
   };
 
+  // Nghĩa nhiều vế ("chú, bác, cậu") phải đọc rời từng vế: nhồi cả chuỗi vào
+  // một lần đọc thì máy vấp ở dấu phẩy và phát ra thứ khác hẳn.
   const speakVietnamese = (text: string) => {
     if (!speechEnabled) return;
-    speakText(text);
+    const manh = docNghiaDs(text);
+    if (manh.length > 1) speakViList(manh);
+    else speakText(text);
   };
 
   const speakWord = (text: string) => {

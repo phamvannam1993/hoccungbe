@@ -4,6 +4,37 @@
 
 export const runtime = 'nodejs';
 
+// Kho giọng đọc riêng (VieNeu, đã sinh sẵn và để trên S3). Tiếng Việt tra kho
+// này trước; có thì chuyển hướng thẳng sang tệp S3, không có thì rơi về giọng
+// Google như cũ. Nhờ vậy trang từ vựng và Vòng tròn từ vựng dùng ngay giọng
+// mới mà không phải sửa một dòng nào ở phía client.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+// Nhớ kết quả tra trong tiến trình để mỗi đoạn chỉ hỏi máy chủ một lần.
+// Lưu cả lần trượt (null) — trượt là phần lớn, hỏi lại mỗi lần thì phí.
+const KHO = new Map<string, { url: string | null; hetHan: number }>();
+const HAN = 10 * 60 * 1000;
+
+async function traKho(text: string): Promise<string | null> {
+  const co = KHO.get(text);
+  if (co && co.hetHan > Date.now()) return co.url;
+  let url: string | null = null;
+  try {
+    const r = await fetch(`${API_URL}/api/tts/cached?text=${encodeURIComponent(text)}`, {
+      signal: AbortSignal.timeout(2500),
+      cache: 'no-store',
+    });
+    if (r.ok) {
+      const j = await r.json();
+      if (typeof j?.audioUrl === 'string' && /^https?:\/\//.test(j.audioUrl)) url = j.audioUrl;
+    }
+  } catch {
+    // Máy chủ giọng đọc trục trặc thì im lặng dùng giọng Google — bé vẫn nghe được.
+  }
+  KHO.set(text, { url, hetHan: Date.now() + HAN });
+  return url;
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = (searchParams.get('q') || '').trim().slice(0, 200);
@@ -16,6 +47,13 @@ export async function GET(req: Request) {
   // speed<1 → đọc chậm (dùng cho phonics "đánh vần"). Kẹp trong [0.1, 1].
   const speedRaw = parseFloat(searchParams.get('speed') || '1');
   const ttsspeed = Number.isFinite(speedRaw) ? Math.min(1, Math.max(0.1, speedRaw)) : 1;
+
+  // Chỉ tra kho khi đọc tiếng Việt ở tốc độ thường: tệp trong kho là bản đọc
+  // tốc độ chuẩn, không có bản chậm cho nút con rùa.
+  if (tl === 'vi' && ttsspeed === 1) {
+    const s3 = await traKho(q);
+    if (s3) return Response.redirect(s3, 302);
+  }
 
   const url =
     `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&ttsspeed=${ttsspeed}` +
@@ -37,7 +75,10 @@ export async function GET(req: Request) {
     return new Response(buf, {
       headers: {
         'Content-Type': 'audio/mpeg',
-        'Cache-Control': 'public, max-age=604800, s-maxage=604800, immutable',
+        // Chỉ giữ 1 giờ, KHÔNG immutable: đây là bản dự phòng của Google, đoạn
+        // nào sinh xong giọng riêng thì trình duyệt phải sớm hỏi lại để đổi
+        // sang giọng mới, chứ không ôm tệp cũ cả tuần.
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       },
     });
   } catch {

@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { CAC_LOP, type Lop } from '../lib/vongTuVung';
 import { MAU_LOP, raDeNghe, type CauNghe } from '../lib/deNghe';
 import { khoaAnhTuVung } from '../lib/anhTuVung';
-import { speakEnThenVi, speakEnglish, speakEnglishSlow, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
+import { docNghiaDs } from '../lib/docTuVung';
+import { speakEnThenViList, speakEnglish, speakEnglishSlow, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import HinhTu from '../vong-tron-am/HinhTu';
 
 // GAME NGHE — CHỌN HÌNH
@@ -72,7 +73,7 @@ export default function GameNgheChonHinh() {
     // Sai thì đọc lại kèm nghĩa để bé biết mình vừa nghe từ gì.
     stopSpeaking();
     if (dung) speakEnglish(cau.dung.en);
-    else speakEnThenVi(cau.dung.en, cau.dung.vi);
+    else speakEnThenViList(cau.dung.en, docNghiaDs(cau.dung.vi));
 
     window.setTimeout(() => {
       if (so + 1 >= de.length) {

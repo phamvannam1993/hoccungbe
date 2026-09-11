@@ -112,37 +112,13 @@ export function stopSuspense() {
 }
 
 // ── Nhạc nền ─────────────────────────────────────────────────────────────
-// Nhạc chủ đề của chương trình, phát lặp ở âm lượng nhỏ.
-// Chỉ chạy ở các màn MENU. Vào ván thì tắt hẳn để nhường chỗ cho lời đọc đề,
-// tiếng hồi hộp và tiếng công bố kết quả — chồng nhạc lên lời đọc thì bé
-// không nghe rõ đề.
-const MUSIC_SRC = '/assets/audio/Nhac-nen-game-show-ai-la-trieu-phu-www_tiengdong_com.mp3';
-const MUSIC_VOL = 0.22;
+// KHÔNG CÒN NHẠC NỀN.
+//
+// Trang này từng phát nhạc chủ đề ở các màn menu. Đã bỏ theo yêu cầu: nhạc
+// chồng lên lời đọc đề và các hiệu ứng khác làm bé khó tập trung.
+//
+// Giữ lại hai hàm rỗng để mọi chỗ gọi cũ vẫn chạy — bỏ hẳn thì phải sửa rải
+// rác ở nút bật/tắt tiếng, lúc rời trang, lúc đổi màn.
+export function startMusic() { /* đã bỏ nhạc nền */ }
 
-let music: HTMLAudioElement | null = null;
-
-function musicEl(): HTMLAudioElement | null {
-  if (typeof window === 'undefined') return null;
-  if (!music) {
-    music = new Audio(MUSIC_SRC);
-    music.loop = true;
-    music.preload = 'auto';
-    music.volume = MUSIC_VOL;
-  }
-  return music;
-}
-
-/** Bật nhạc nền. Phải gọi trong một cử chỉ chạm, nếu không trình duyệt chặn. */
-export function startMusic() {
-  const el = musicEl();
-  if (!el || !enabled) return;
-  el.volume = MUSIC_VOL;
-  void el.play().catch(() => { /* chặn tự phát thì thôi */ });
-}
-
-export function stopMusic() {
-  const el = musicEl();
-  if (!el) return;
-  el.pause();
-  try { el.currentTime = 0; } catch { /* bỏ qua */ }
-}
+export function stopMusic() { /* đã bỏ nhạc nền */ }

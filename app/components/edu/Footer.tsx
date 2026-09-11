@@ -21,8 +21,15 @@ const quickLinks = [
   { label: 'Truyện cổ tích', href: '/truyen-co-tich' },
   { label: 'Thành ngữ, tục ngữ', href: '/thanh-ngu-tuc-ngu' },
   { label: 'Tập làm văn', href: '/tap-lam-van' },
+  { label: 'Học Toán – bộ công cụ', href: '/hoc-toan' },
   { label: 'Toán tư duy', href: '/toan-tu-duy' },
   { label: 'Luyện tính nhẩm', href: '/luyen-tinh-nham' },
+  { label: 'Xem đồng hồ', href: '/xem-dong-ho' },
+  { label: 'Phân số trực quan', href: '/phan-so' },
+  { label: 'Sơ đồ đoạn thẳng', href: '/so-do-doan-thang' },
+  { label: 'Đặt tính rồi tính', href: '/dat-tinh' },
+  { label: 'Tiền Việt Nam', href: '/tien-viet-nam' },
+  { label: 'Bảng cộng trừ', href: '/bang-cong-tru' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },
   { label: 'Phonics – Ghép vần đọc', href: '/phonics-tieng-anh' },
@@ -136,9 +143,12 @@ export default function Footer() {
               Liên hệ
             </h2>
             <div className="mt-5 space-y-4 text-sm text-white/90">
-              <p className="flex gap-3">
+              {/* min-w-0 + break-all: địa chỉ email là một chuỗi liền không có
+                  chỗ ngắt, ở bề ngang 1024px nó đẩy cả trang rộng ra 1043px
+                  làm xuất hiện thanh cuộn ngang. Đã đo trên iPad ngang. */}
+              <p className="flex min-w-0 gap-3">
                 <Mail size={18} className="mt-1 shrink-0 text-white/90" />
-                <span>
+                <span className="min-w-0 break-all">
                   Email hỗ trợ:<br />
                   <a href="mailto:behayhoc@gmail.com" className="font-semibold text-white transition hover:underline">
                     behayhoc@gmail.com

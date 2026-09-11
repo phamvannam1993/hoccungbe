@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "kiem:tu-duy": "node scripts/kiem-tu-duy.cjs",
+    "kiem:toan": "node scripts/kiem-toan.cjs",
     "kiem:ipa": "node scripts/kiem-ipa.cjs",
     "dev": "next dev",
     "build": "next build",

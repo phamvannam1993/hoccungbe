@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getPublishedCourses } from '../lib/topicSeo';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
+import { CONG_CU_TOAN } from '../lib/congCuToan';
 import { KidShell, KidCrumb, KidHero, KidCard, KidPills } from '../components/seo/kid';
 
 // Sơ đồ trang (HTML sitemap): /so-do-trang.
@@ -28,11 +29,12 @@ const HUBS = [
   { href: '/bai-viet', label: 'Góc phụ huynh' },
 ];
 const CHUYEN_DE = [
-  { href: '/toan-tu-duy', label: 'Toán tư duy' },
-  { href: '/bang-cuu-chuong', label: 'Bảng cửu chương' },
+  { href: '/hoc-toan', label: 'Học Toán – bộ công cụ' },
+  ...CONG_CU_TOAN.map((c) => ({ href: c.href, label: c.ten })),
+  { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA' },
   { href: '/bang-chu-cai', label: 'Bảng chữ cái' },
   { href: '/luyen-viet-chu', label: 'Luyện viết chữ' },
-];
+].filter((x, i, ds) => ds.findIndex((y) => y.href === x.href) === i);
 const GRADES = ['1', '2', '3', '4', '5'];
 
 export default async function Page() {

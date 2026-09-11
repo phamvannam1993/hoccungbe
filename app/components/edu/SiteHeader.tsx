@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Menu, X, Coffee } from 'lucide-react';
 import { isGuest, listChildren, type Child } from '../../lib/childData';
+import { CONG_CU_TOAN } from '../../lib/congCuToan';
 import { ChildAvatar } from './KidIcon';
 import FramedAvatar from './FramedAvatar';
 import NotificationBell from './NotificationBell';
@@ -23,6 +24,16 @@ const SUBJECTS = [
 const NAV_MENU: NavItem[] = [
   { href: '/', label: 'Trang chủ' },
   { href: '/khoa-hoc', label: 'Lớp học', mega: 'grades' },
+  {
+    // Gom công cụ Toán vào một nhóm — danh sách lấy từ app/lib/congCuToan.ts
+    // để thêm công cụ mới chỉ phải sửa một chỗ.
+    href: '/hoc-toan',
+    label: 'Toán',
+    children: [
+      { href: '/hoc-toan', label: 'Tất cả công cụ Toán' },
+      ...CONG_CU_TOAN.map((c) => ({ href: c.href, label: `${c.emoji} ${c.ten}` })),
+    ],
+  },
   { href: '/tro-choi', label: 'Game' },
   {
     href: '/tu-vung-tieng-anh',
@@ -169,7 +180,10 @@ export default function SiteHeader() {
 
         {/* Nav nằm CÙNG HÀNG với logo và nút đăng nhập, đúng bản thiết kế.
             Trước đây nav là một hàng riêng bên dưới, làm header cao gấp đôi. */}
-        <div className="hidden min-w-0 flex-1 items-center gap-3 md:flex" ref={navRef}>
+        {/* Menu ngang chỉ bật từ 1024px. Ở 768px (iPad dựng đứng) menu đầy đủ
+            cộng nhóm nút bên phải vượt quá bề ngang màn hình — đo được trang
+            tràn tới 939px — nên dưới mốc đó dùng nút ba gạch. */}
+        <div className="hidden min-w-0 flex-1 items-center gap-3 lg:flex" ref={navRef}>
           {/* Nav chữ trên nền trắng thay cho thanh gradient đỏ: nhẹ mắt hơn, và
               để mục đang xem nổi lên bằng màu chứ không phải bằng khối nền đậm. */}
           <nav className="relative flex min-w-0 flex-nowrap items-center gap-0.5">
@@ -188,7 +202,7 @@ export default function SiteHeader() {
                         window.location.href = item.href;
                       }
                     }}
-                    className={`group relative flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 py-2 text-[13px] font-bold transition-all duration-200
+                    className={`group relative flex items-center gap-1 whitespace-nowrap rounded-xl px-2 py-2 text-[13px] font-bold transition-all duration-200
                       ${isActive
                         ? 'text-[#2563eb]'
                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
@@ -289,7 +303,7 @@ export default function SiteHeader() {
             {/* CTA Ủng hộ — nổi bật, tách khỏi các mục menu thường */}
             <Link
               href="/ung-ho"
-              className="ml-1 flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-[12px] font-bold text-white shadow-sm transition-all duration-200 hover:brightness-105"
+              className="ml-1 hidden shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-[12px] font-bold text-white shadow-sm transition-all duration-200 hover:brightness-105 xl:flex"
             >
               <Coffee size={15} />
               Ủng hộ
@@ -300,7 +314,9 @@ export default function SiteHeader() {
               người đã biết mình cần gì, khỏi phải lần theo menu. */}
           {/* Bề ngang CỐ ĐỊNH và shrink-0. Để nó co giãn thì khi menu dài, ô bị
               bóp còn mấy chục pixel — chỉ đọc được chữ "Tì" và cái kính lúp. */}
-          <form action="/tim-kiem" className="ml-auto hidden w-[200px] shrink-0 items-center gap-2 rounded-full bg-slate-100 px-3.5 py-2 xl:flex">
+          {/* Ô tìm kiếm chỉ hiện ở màn thật rộng (≥1536px). Từ khi menu có thêm
+              nhóm "Toán", ở 1280px thanh menu chạm vào ô này và chữ đè lên nhau. */}
+          <form action="/tim-kiem" className="ml-auto hidden w-[190px] shrink-0 items-center gap-2 rounded-full bg-slate-100 px-3.5 py-2 2xl:flex">
             <input name="q" placeholder="Tìm kiếm bài học…" aria-label="Tìm kiếm bài học"
               className="w-full min-w-0 bg-transparent text-sm font-medium text-slate-700 outline-none placeholder:text-slate-400" />
             <button type="submit" aria-label="Tìm" className="shrink-0 text-slate-500">🔍</button>
@@ -312,7 +328,7 @@ export default function SiteHeader() {
             dòng. Khi nav dồn về cùng hàng thì kiểu xếp dọc này đội lên trên và
             đè vào ô tìm kiếm. Liên kết "Câu hỏi thường gặp" đã có sẵn ở chân
             trang và trong menu Hỗ trợ nên bỏ khỏi đây, không mất đường vào. */}
-        <div className="hidden shrink-0 items-center md:flex">
+        <div className="hidden shrink-0 items-center lg:flex">
           <div className="flex items-center gap-2">
             <HeaderStreak />
             <StarWallet />
@@ -357,12 +373,16 @@ export default function SiteHeader() {
               </div>
             ) : (
               <>
+                {/* Ở 1024–1279px chỉ còn chỗ cho MỘT nút: giữ "Đăng ký" vì đó
+                    là việc muốn người dùng làm; "Đăng nhập" vẫn có trong menu
+                    ba gạch và ở chân trang. Đệm hai bên cũng hẹp lại một chút
+                    để hàng nút không đẩy menu tràn ra ngoài. */}
                 <Link href="/dang-nhap"
-                  className="rounded-full border-2 border-[#2563eb] px-5 py-1.5 text-sm font-bold text-[#2563eb] transition hover:bg-blue-50">
+                  className="hidden rounded-full border-2 border-[#2563eb] px-4 py-1.5 text-sm font-bold text-[#2563eb] transition hover:bg-blue-50 xl:inline-flex">
                   Đăng nhập
                 </Link>
                 <Link href="/dang-ky"
-                  className="rounded-full bg-[#2563eb] px-5 py-1.5 text-sm font-bold text-white shadow transition hover:bg-blue-700">
+                  className="rounded-full bg-[#2563eb] px-4 py-1.5 text-sm font-bold text-white shadow transition hover:bg-blue-700">
                   Đăng ký
                 </Link>
               </>
@@ -371,7 +391,7 @@ export default function SiteHeader() {
         </div>
 
         {/* Mobile: auth + hamburger */}
-        <div className="flex md:hidden items-center gap-1.5">
+        <div className="flex lg:hidden items-center gap-1.5">
           <HeaderStreak />
           <StarWallet />
           <NotificationBell compact />

@@ -175,3 +175,82 @@ input, select, optgroup, textarea {
 @media (prefers-reduced-motion: reduce) {
   .kh-hoi, .kh-nhay, .kh-rung { animation: none; }
 }
+
+/* ── Ba công cụ Toán: đồng hồ, phân số, sơ đồ đoạn thẳng ─────────────────── */
+/* Vài hiệu ứng nhỏ để màn hình có sức sống với trẻ, nhưng không làm rối mắt
+   lúc bé đang tính: chỉ chạy khi ĐÚNG hoặc khi cần hướng sự chú ý. */
+
+/* Ăn mừng khi trả lời đúng: nảy nhẹ một cái rồi thôi. */
+@keyframes toan-an-mung {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.06) rotate(-1.5deg); }
+  70% { transform: scale(.98) rotate(1deg); }
+  100% { transform: scale(1); }
+}
+.toan-an-mung { animation: toan-an-mung .5s ease-out; }
+
+/* Ô ẩn số trong sơ đồ: viền chạy như kiến bò, kéo mắt bé về chỗ cần tìm. */
+@keyframes toan-vien-chay { to { stroke-dashoffset: -20; } }
+.toan-an-so { animation: toan-vien-chay 1.2s linear infinite; }
+
+/* Nút bấm kiểu phím nổi: nhấn xuống là lún, cảm giác như bấm phím thật. */
+.toan-nut-noi { transition: transform .08s ease, box-shadow .08s ease; }
+.toan-nut-noi:active:not(:disabled) { transform: translateY(4px); box-shadow: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .toan-an-mung, .toan-an-so { animation: none; }
+}
+
+/* ── Bộ mặt chung cho các công cụ Toán ───────────────────────────────────── */
+/* Mục tiêu: nhìn vui mắt như đồ chơi, nhưng KHÔNG động đậy lúc bé đang tính.
+   Mọi chuyển động chỉ xảy ra khi mở bài mới hoặc khi trả lời đúng. */
+
+/* Nền khung có chấm bi mờ — giống giấy kẻ ô của vở bé, đỡ trống trải. */
+.toan-nen {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, .06) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+/* Thẻ câu hỏi trượt lên khi sang bài mới. */
+@keyframes toan-vao-cho {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+.toan-vao { animation: toan-vao-cho .32s cubic-bezier(.2, .8, .3, 1); }
+
+/* Tiêu đề dán như nhãn sticker, hơi nghiêng cho có nét vẽ tay. */
+.toan-nhan {
+  display: inline-block;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 3px 0 rgba(15, 23, 42, .12);
+}
+
+/* Pháo giấy khi trả lời đúng: mỗi mẩu bay theo một hướng riêng, biến mất sau
+   900ms. Các biến --x, --y, --xoay do React đặt cho từng mẩu. */
+@keyframes toan-phao-bay {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(.6); }
+  25% { opacity: 1; transform: translate(calc(var(--x) * .5), calc(var(--y) * .5)) scale(1.15); }
+  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 60px)) rotate(var(--xoay)) scale(.9); }
+}
+.toan-phao-manh {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  font-size: 20px;
+  pointer-events: none;
+  animation: toan-phao-bay .9s ease-out forwards;
+}
+
+/* Ngôi sao điểm số nảy lên mỗi lần được cộng điểm. */
+@keyframes toan-sao-nay {
+  0%, 100% { transform: scale(1) rotate(0); }
+  40% { transform: scale(1.35) rotate(-12deg); }
+  70% { transform: scale(.95) rotate(6deg); }
+}
+.toan-sao-nay { animation: toan-sao-nay .45s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .toan-vao, .toan-phao-manh, .toan-sao-nay { animation: none; }
+  .toan-phao-manh { display: none; }
+}

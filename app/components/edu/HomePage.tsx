@@ -312,10 +312,14 @@ export default async function HomePage() {
           {/* Chuyên đề evergreen (keyword traffic cao) */}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="text-sm font-black text-slate-700 kid-display">Chuyên đề:</span>
+            <Link href="/hoc-toan" className="rounded-full bg-sky-100 px-4 py-1.5 text-sm font-black text-sky-800 hover:bg-sky-200 kid-display">🔢 Học Toán (10 công cụ)</Link>
             <Link href="/toan-tu-duy" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-violet-100 hover:text-violet-700 kid-display">Toán tư duy</Link>
             <Link href="/bang-cuu-chuong" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-amber-100 hover:text-amber-700 kid-display">Bảng cửu chương</Link>
             <Link href="/bang-chu-cai" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-pink-100 hover:text-pink-700 kid-display">Bảng chữ cái</Link>
             <Link href="/luyen-viet-chu" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-teal-100 hover:text-teal-700 kid-display">Luyện viết chữ</Link>
+            <Link href="/xem-dong-ho" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-blue-100 hover:text-blue-700 kid-display">Xem đồng hồ</Link>
+            <Link href="/phan-so" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-orange-100 hover:text-orange-700 kid-display">Phân số</Link>
+            <Link href="/bang-phien-am-ipa" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-sky-100 hover:text-sky-700 kid-display">Bảng phiên âm IPA</Link>
           </div>
         </details>
       </section>

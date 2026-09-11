@@ -45,10 +45,12 @@ export default function GameDoanAm({ onXong }: { onXong?: (am: string, dung: boo
 
   // Đề bốc ngẫu nhiên nên phải dựng ở trình duyệt, không dựng sẵn ở máy chủ —
   // dựng sẵn thì máy chủ và trình duyệt ra hai bộ đề khác nhau.
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setDe(raDe()));
-    return () => cancelAnimationFrame(id);
-  }, []);
+  // Đặt state THẲNG trong useEffect, không bọc microtask/rAF nữa: hai cách kia
+  // có thể chạy TRƯỚC khi React hydrate xong, làm lần vẽ đầu ở trình duyệt
+  // khác HTML của máy chủ (đã đo: React báo lệch ngay trang này). useEffect thì
+  // React bảo đảm chạy sau khi hydrate.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setDe(raDe()); }, []);
 
   const cau = de[i];
 

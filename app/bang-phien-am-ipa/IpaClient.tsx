@@ -39,13 +39,11 @@ export default function IpaClient() {
   // Đọc sau khi khung hình đầu tiên đã vẽ: máy chủ không có localStorage nên
   // đặt state ngay trong lượt vẽ đầu sẽ lệch giữa máy chủ và trình duyệt.
   useEffect(() => {
-    const id = requestAnimationFrame(() => {
-      try {
-        const t = JSON.parse(localStorage.getItem(KHOA_LUU) || '[]');
-        if (Array.isArray(t)) setDaHoc(t.filter((x) => typeof x === 'string'));
-      } catch { /* máy chặn lưu trữ thì thôi, chỉ mất phần đánh dấu */ }
-    });
-    return () => cancelAnimationFrame(id);
+    try {
+      const t = JSON.parse(localStorage.getItem(KHOA_LUU) || '[]');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (Array.isArray(t)) setDaHoc(t.filter((x) => typeof x === 'string'));
+    } catch { /* máy chặn lưu trữ thì thôi, chỉ mất phần đánh dấu */ }
   }, []);
 
   const danhDau = useCallback((am: string) => {

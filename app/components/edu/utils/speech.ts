@@ -85,8 +85,30 @@ export function speakText(text: string, options: SpeakTextOptions = {}): void {
 // Tăng số này mỗi khi đổi nguồn giọng.
 const PHIEN_BAN_GIONG = 2;
 
+/**
+ * Đổi ký hiệu toán sang chữ TRƯỚC KHI đọc tiếng Việt.
+ *
+ * Máy đọc dấu "−" thành "gạch ngang", "×" thành "chữ x" — đã nghe thấy thật ở
+ * trang sơ đồ đoạn thẳng. Chỉ đổi khi ký hiệu nằm GIỮA HAI SỐ, để không phá
+ * các dấu gạch nối trong chữ ("Bê-la", "ba-lô").
+ */
+function docKyHieuToan(text: string): string {
+  return text
+    // Vế trái nhận cả dấu ")" để câu "(87 − 39) : 2" cũng đọc đúng.
+    .replace(/([\d)])\s*[+＋]\s*(\d)/g, '$1 cộng $2')
+    .replace(/([\d)])\s*[-−–—]\s*(\d)/g, '$1 trừ $2')
+    .replace(/([\d)])\s*[×✕x*]\s*(\d)/g, '$1 nhân $2')
+    .replace(/([\d)])\s*[:÷]\s*(\d)/g, '$1 chia $2')
+    .replace(/([\d)])\s*=\s*(\d)/g, '$1 bằng $2')
+    .replace(/(\d)\s*\/\s*(\d)/g, '$1 phần $2')
+    // Bỏ ngoặc: đọc lên thì ngoặc không thành tiếng, để lại máy đọc lắp bắp.
+    .replace(/[()]/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 const ttsUrl = (text: string, tl: 'en' | 'vi', speed?: number) =>
-  `/api/tts?q=${encodeURIComponent(text.trim())}&tl=${tl}` +
+  `/api/tts?q=${encodeURIComponent(tl === 'vi' ? docKyHieuToan(text) : text.trim())}&tl=${tl}` +
   `${speed && speed < 1 ? `&speed=${speed}` : ''}&v=${PHIEN_BAN_GIONG}`;
 
 // Phát 1 nguồn audio qua phần tử dùng chung; onEnd (nếu có) chạy khi phát xong.

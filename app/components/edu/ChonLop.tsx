@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { CONG_CU_TOAN, congCuNoiBat } from '../../lib/congCuToan';
 import Link from 'next/link';
 
 // "BÉ HỌC LỚP MẤY?" — một câu hỏi duy nhất ở đầu trang chủ.
@@ -20,9 +21,19 @@ type Nhom = {
   phu: string;
   emoji: string;
   mau: string;
-  /** Ba việc chính của lứa tuổi này. Ba chứ không phải mười — để bé bấm được ngay. */
+  /**
+   * Vài việc chính của lứa tuổi này — bốn chứ không phải mười, để bé bấm được
+   * ngay: ba mục học theo bài, cộng một công cụ để bé tự thao tác.
+   */
   viec: { href: string; emoji: string; ten: string; mo: string }[];
 };
+
+/** Công cụ Toán nổi bật của một lớp, lấy từ danh sách dùng chung. */
+function congCuChoLop(g: number) {
+  const href = congCuNoiBat[g];
+  const c = CONG_CU_TOAN.find((x) => x.href === href) ?? CONG_CU_TOAN[0];
+  return { href: c.href, emoji: c.emoji, ten: c.ten, mo: 'Công cụ bấm được, tự làm tự chấm' };
+}
 
 const NHOM: Nhom[] = [
   {
@@ -31,6 +42,7 @@ const NHOM: Nhom[] = [
       { href: '/bang-chu-cai', emoji: '🔤', ten: 'Bảng chữ cái', mo: 'Nhận mặt 29 chữ' },
       { href: '/vong-tron-am', emoji: '🎡', ten: 'Vòng tròn âm vần', mo: 'Tập đánh vần' },
       { href: '/tro-choi/dem-so', emoji: '🔢', ten: 'Tập đếm số', mo: 'Đếm và so sánh' },
+      { href: '/bang-cong-tru', emoji: '➕', ten: 'Bảng cộng trừ', mo: 'Làm quen phép cộng trong 10' },
     ],
   },
   ...([1, 2, 3, 4, 5] as const).map((g) => ({
@@ -43,6 +55,10 @@ const NHOM: Nhom[] = [
       { href: `/khoa-hoc/toan-lop-${g}`, emoji: '🔢', ten: `Toán lớp ${g}`, mo: 'Học theo bài, có bài tập' },
       { href: `/khoa-hoc/tieng-viet-lop-${g}`, emoji: '📖', ten: `Tiếng Việt lớp ${g}`, mo: 'Đọc, viết, chính tả' },
       { href: '/luyen-nghe', emoji: '🎧', ten: 'Tiếng Anh', mo: 'Nghe và học từ vựng' },
+      // Việc thứ tư: công cụ Toán hợp nhất với lứa tuổi này. Ba việc đầu là
+      // học theo bài, mục này là chỗ bé tự thao tác — hai kiểu khác nhau nên
+      // để cạnh nhau thay vì thay thế.
+      congCuChoLop(g),
     ],
   })),
 ];

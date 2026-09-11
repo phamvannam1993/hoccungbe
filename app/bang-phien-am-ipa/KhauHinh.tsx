@@ -14,8 +14,10 @@ const W = 320;
 const H = 320;
 
 /** Trần vòm miệng tại hoành độ x — lưỡi không được chồm lên trên đường này. */
+// Làm tròn kết quả Math.sin: Node và trình duyệt lệch nhau ở chữ số cuối, đủ
+// để React báo HTML hai bên khác nhau.
 const tranVom = (x: number) =>
-  194 - Math.sin(Math.min(1, Math.max(0, (x - 104) / 118)) * Math.PI) * 18;
+  Math.round((194 - Math.sin(Math.min(1, Math.max(0, (x - 104) / 118)) * Math.PI) * 18) * 100) / 100;
 
 /** Vị trí đỉnh lưỡi theo số đo: trước/sau theo trục x, cao/thấp theo trục y. */
 function dinhLuoi(h: KhauHinhSo) {

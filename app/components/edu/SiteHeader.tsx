@@ -31,6 +31,7 @@ const NAV_MENU: NavItem[] = [
       { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề' },
       { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái A–Z' },
       { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc' },
+      { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA' },
       { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng' },
       { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp' },
       { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống' },

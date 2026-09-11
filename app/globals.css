@@ -159,3 +159,19 @@ input, select, optgroup, textarea {
 @media (prefers-reduced-motion: reduce) {
   .nav-duong, .nav-rung, .nav-bung, .nav-toa, .nav-troi, .nav-sao { animation: none; }
 }
+
+/* ── Hình khẩu hình động ở trang Bảng phiên âm IPA ───────────────────────── */
+/* Luồng hơi thở nhè nhẹ và vòng tròn điểm cản nhấp nháy: hai chi tiết nhỏ này
+   khiến hình trông như đang phát ra âm, thay vì một bức vẽ đứng im. */
+@keyframes kh-hoi-tho { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+.kh-hoi { animation: kh-hoi-tho 1.6s ease-in-out infinite; }
+
+@keyframes kh-nhay-vong { 0% { r: 9; opacity: .9; } 70% { r: 17; opacity: 0; } 100% { r: 9; opacity: 0; } }
+.kh-nhay { animation: kh-nhay-vong 1.8s ease-out infinite; }
+
+@keyframes kh-rung-co { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.16); } }
+.kh-rung { animation: kh-rung-co .5s ease-in-out infinite; transform-origin: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kh-hoi, .kh-nhay, .kh-rung { animation: none; }
+}

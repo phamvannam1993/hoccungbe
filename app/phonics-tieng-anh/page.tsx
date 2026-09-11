@@ -70,6 +70,7 @@ export default function Page() {
             tone="blue"
             items={[
               { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+              { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA – 44 âm', emoji: '🗣️' },
               { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp tiếng Anh', emoji: '💬' },
               { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
             ]}

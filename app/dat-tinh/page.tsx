@@ -6,9 +6,9 @@ import DatTinhClient from './DatTinhClient';
 
 export const revalidate = 86400;
 
-const TITLE = 'Đặt tính rồi tính – cộng trừ nhân cột dọc cho bé lớp 1 đến lớp 5';
+const TITLE = 'Đặt tính rồi tính – cộng trừ nhân chia cột dọc cho bé lớp 1 đến lớp 5';
 const DESCRIPTION =
-  'Bé điền từng chữ số vào bảng cột dọc như làm trên giấy, có ô ghi số nhớ. Máy chấm TỪNG CỘT và chỉ đúng chỗ sai: quên nhớ 1, không mượn khi trừ, viết hai chữ số vào một ô. Miễn phí.';
+  'Bé điền từng chữ số vào bảng cột dọc như làm trên giấy, có ô ghi số nhớ; phép chia làm theo bốn việc ước lượng – nhân – trừ – hạ. Máy chấm TỪNG CỘT, TỪNG BƯỚC và chỉ đúng chỗ sai. Miễn phí.';
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -50,8 +50,16 @@ export default function Page() {
       a: 'Trắc nghiệm chỉ nói đúng hay sai. Ở đây máy chấm từng cột và nói rõ sai vì đâu: "hàng chục: bé quên cộng thêm 1 nhớ từ hàng bên phải" hay "8 không trừ được 9 nên phải mượn 1". Ba mẹ nhìn là biết cần dạy lại chỗ nào.',
     },
     {
+      q: 'Chia cột dọc làm thế nào cho đỡ rối?',
+      a: 'Mỗi bước lặp đúng bốn việc: ước lượng chữ số thương, nhân ngược lại, trừ để biết còn dư bao nhiêu, rồi hạ chữ số tiếp theo. Ở đây bé chỉ phải điền hai thứ là chữ số thương và số dư — phần nhân máy làm giúp, vì đó là bảng cửu chương chứ không phải cái đang học.',
+    },
+    {
+      q: 'Vì sao số dư phải nhỏ hơn số chia?',
+      a: 'Vì nếu số dư còn lớn hơn hoặc bằng số chia thì vẫn chia thêm được một lần nữa — nghĩa là chữ số thương vừa ước lượng còn thiếu. Đây là cách tự kiểm nhanh nhất khi làm phép chia.',
+    },
+    {
       q: 'Bé lớp mấy học được?',
-      a: 'Lớp 1 cộng trừ hai chữ số không nhớ; lớp 2 có nhớ trong phạm vi 100; lớp 3 thêm ba chữ số và phép nhân với số có một chữ số; lớp 4–5 số lớn hơn, nhiều lần nhớ liên tiếp.',
+      a: 'Lớp 1 cộng trừ hai chữ số không nhớ; lớp 2 có nhớ trong phạm vi 100; lớp 3 thêm ba chữ số, phép nhân và phép chia hết cho số có một chữ số; lớp 4 chia có dư; lớp 5 chia cho số có hai chữ số.',
     },
   ];
 
@@ -69,7 +77,7 @@ export default function Page() {
           <>
             Bé điền từng chữ số như làm trên giấy, có <strong>ô ghi số nhớ</strong> ở trên. Máy chấm{' '}
             <strong>từng cột</strong> và nói rõ sai ở đâu — quên nhớ 1, không mượn khi trừ, hay viết hai chữ số vào
-            một ô.
+            một ô. Phép <strong>chia cột dọc</strong> chấm theo từng bước: ước lượng thương, nhân, trừ, hạ.
           </>
         }
       />

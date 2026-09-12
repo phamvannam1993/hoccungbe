@@ -24,9 +24,9 @@ const nn = (min: number, max: number) => Math.floor(Math.random() * (max - min +
 export const MUC_DO: { lop: MucDo; ten: string; moTa: string }[] = [
   { lop: 1, ten: 'Lớp 1', moTa: 'Cộng, trừ số có hai chữ số — không nhớ' },
   { lop: 2, ten: 'Lớp 2', moTa: 'Cộng, trừ có nhớ trong phạm vi 100' },
-  { lop: 3, ten: 'Lớp 3', moTa: 'Số có ba chữ số, thêm phép nhân với số có một chữ số' },
-  { lop: 4, ten: 'Lớp 4', moTa: 'Số có bốn chữ số, nhân với số có một chữ số' },
-  { lop: 5, ten: 'Lớp 5', moTa: 'Số lớn, nhiều lần nhớ liên tiếp' },
+  { lop: 3, ten: 'Lớp 3', moTa: 'Số có ba chữ số, thêm nhân và chia cho số có một chữ số' },
+  { lop: 4, ten: 'Lớp 4', moTa: 'Số có bốn chữ số, nhân và chia có dư' },
+  { lop: 5, ten: 'Lớp 5', moTa: 'Số lớn, nhiều lần nhớ liên tiếp; chia cho số có hai chữ số' },
 ];
 
 /** Chữ số của một số, hàng đơn vị đứng trước. */

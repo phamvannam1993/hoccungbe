@@ -14,6 +14,7 @@ import {
 } from '../lib/childData';
 import { starsForScore } from '../lib/stars';
 import { shareAchievement } from '../lib/share';
+import { choLuyen, loiKhuyen, type ChoLuyen } from '../lib/luyenTheoKyNang';
 import FramedAvatar from '../components/edu/FramedAvatar';
 
 type Report = {
@@ -27,7 +28,8 @@ type Report = {
   streak: number;
   bySubject: { name: string; icon: string; count: number }[];
   topSubject: string | null;
-  focus: string | null; // kỹ năng yếu nên luyện thêm
+  focus: string | null;
+  yeu: DiemYeu[]; // kỹ năng yếu nên luyện thêm
 };
 
 const WEEK = 7 * 86400000;
@@ -36,6 +38,16 @@ function inRange(iso: string, from: number, to: number): boolean {
   const t = Date.parse(iso);
   return t >= from && t < to;
 }
+
+/** Một kỹ năng bé đang yếu, kèm chỗ luyện. */
+type DiemYeu = {
+  ten: string;
+  mon: string;
+  phanTram: number;
+  dung: number;
+  tong: number;
+  cho: ChoLuyen;
+};
 
 export default function BaoCaoClient() {
   const [ready, setReady] = useState(false);
@@ -79,6 +91,22 @@ export default function BaoCaoClient() {
       // Kỹ năng yếu nhất (mastery thấp nhất) → gợi ý luyện tuần tới
       const weakest = [...mastery].sort((a, b) => a.masteryPercent - b.masteryPercent)[0];
 
+      // DANH SÁCH điểm yếu, không chỉ một cái. Chỉ tính kỹ năng bé đã làm ít
+      // nhất 3 câu — dưới mức đó thì con số phần trăm không nói lên điều gì,
+      // nêu ra chỉ làm ba mẹ lo hão.
+      const yeu: DiemYeu[] = mastery
+        .filter((m) => (m.totalCount ?? 0) >= 3 && Number(m.masteryPercent) < 80)
+        .sort((a, b) => Number(a.masteryPercent) - Number(b.masteryPercent))
+        .slice(0, 4)
+        .map((m) => ({
+          ten: m.skill?.name || m.subject,
+          mon: m.skill?.subject || m.subject,
+          phanTram: Math.round(Number(m.masteryPercent)),
+          dung: m.correctCount ?? 0,
+          tong: m.totalCount ?? 0,
+          cho: choLuyen(m.skill?.name || m.subject, m.skill?.subject || m.subject),
+        }));
+
       setReport({
         child: kids.find((k) => k.id === id) || null,
         lessons: thisWeek.length,
@@ -91,6 +119,7 @@ export default function BaoCaoClient() {
         bySubject,
         topSubject: bySubject[0]?.name || null,
         focus: weakest ? weakest.skill?.name || weakest.subject : null,
+        yeu,
       });
       setReady(true);
     })();
@@ -172,15 +201,49 @@ export default function BaoCaoClient() {
         </div>
       )}
 
-      {/* Gợi ý tuần tới */}
-      {report.focus && (
+      {/* Điểm yếu — kèm CHỖ LUYỆN cụ thể, đây mới là thứ ba mẹ cần */}
+      {report.yeu.length > 0 ? (
+        <div className="rounded-3xl border-2 border-violet-100 bg-violet-50 p-5">
+          <h3 className="text-sm font-black text-violet-700">🎯 Bé còn yếu ở đâu, luyện ở đâu</h3>
+          <p className="mt-1 text-sm text-slate-600">
+            Xếp theo mức làm đúng thấp nhất. Chỉ tính những phần bé đã làm từ 3 câu trở lên.
+          </p>
+          <ul className="mt-3 space-y-2.5">
+            {report.yeu.map((y) => (
+              <li key={y.ten} className="rounded-2xl bg-white p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <b className="text-slate-900">{y.ten}</b>
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-black ${
+                    y.phanTram < 50 ? 'bg-rose-100 text-rose-700'
+                      : y.phanTram < 70 ? 'bg-amber-100 text-amber-700'
+                      : 'bg-emerald-100 text-emerald-700'}`}>
+                    đúng {y.phanTram}%
+                  </span>
+                  <span className="text-xs font-bold text-slate-400">{y.dung}/{y.tong} câu</span>
+                  <Link href={y.cho.href}
+                        className="ml-auto rounded-full bg-violet-600 px-4 py-1.5 text-xs font-black text-white shadow-[0_3px_0_#5b21b6] transition active:translate-y-0.5 active:shadow-none">
+                    {y.cho.emoji} Luyện {y.cho.ten}
+                  </Link>
+                </div>
+                {/* Thanh mức độ — nhìn là thấy phần nào hụt nhiều nhất */}
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className={`h-full rounded-full ${y.phanTram < 50 ? 'bg-rose-400' : y.phanTram < 70 ? 'bg-amber-400' : 'bg-emerald-400'}`}
+                       style={{ width: `${Math.max(4, y.phanTram)}%` }} />
+                </div>
+                <p className="mt-1.5 text-xs leading-5 text-slate-500">{loiKhuyen(y.phanTram, y.tong)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : report.focus ? (
         <div className="rounded-3xl border-2 border-violet-100 bg-violet-50 p-5">
           <h3 className="text-sm font-black text-violet-700">🎯 Gợi ý cho tuần tới</h3>
           <p className="mt-1 text-slate-700">
-            Bé có thể luyện thêm <b>{report.focus}</b> để tiến bộ đều hơn. Vào <Link href="/hoc-hom-nay" className="font-bold text-violet-600 underline">Học hôm nay</Link> để hệ thống tự gợi ý bài phù hợp.
+            Bé chưa làm đủ bài để chỉ ra điểm yếu chắc chắn. Cho bé làm thêm vài bài ở <b>{report.focus}</b>, hoặc vào{' '}
+            <Link href="/hoc-hom-nay" className="font-bold text-violet-600 underline">Học hôm nay</Link> để hệ thống gợi ý.
           </p>
         </div>
-      )}
+      ) : null}
 
       {/* Hành động */}
       <div className="flex flex-wrap justify-center gap-3">

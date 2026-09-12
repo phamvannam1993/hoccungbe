@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import BangDatTinh from './BangDatTinh';
+import BangChiaDoc from './BangChiaDoc';
 import { MUC_DO, nhacCot, raPhep, type Dau, type MucDo, type PhepDat } from '../lib/datTinh';
+import { nhacBuoc, raPhepChia, type MucDo as MucDoChia, type PhepChia } from '../lib/datTinhChia';
 import { speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import PhaoAnMung from '../components/edu/PhaoAnMung';
 
@@ -21,17 +23,33 @@ const PHEP_MO_MAN: PhepDat = {
 
 export default function DatTinhClient() {
   const [lop, setLop] = useState<MucDo>(2);
-  const [locDau, setLocDau] = useState<Dau | 'all'>('all');
+  // ':' là phép chia — đi bảng riêng nên không nằm trong kiểu Dau.
+  const [locDau, setLocDau] = useState<Dau | 'all' | ':'>('all');
   const [phep, setPhep] = useState<PhepDat>(PHEP_MO_MAN);
   const [dien, setDien] = useState<(number | null)[]>([]);
   const [nhoDien, setNhoDien] = useState<(number | null)[]>([]);
   const [o, setO] = useState(0);
   const [oNho, setONho] = useState<number | null>(null);
   const [daCham, setDaCham] = useState(false);
+
+  // Phép chia đi một đường riêng: bảng khác, cách điền khác (mỗi bước hai ô:
+  // chữ số thương và số dư), nên không nhét chung state với ba phép kia.
+  const [chia, setChia] = useState<PhepChia | null>(null);
+  const [dienChia, setDienChia] = useState<{ thuong: number | null; du: number | null }[]>([]);
+  const [oChia, setOChia] = useState<{ buoc: number; loai: 'thuong' | 'du' }>({ buoc: 0, loai: 'thuong' });
   const [diem, setDiem] = useState(0);
   const [tong, setTong] = useState(0);
 
   const raDe = useCallback(() => {
+    if (locDau === ':') {
+      const pc = raPhepChia(Math.max(3, lop) as MucDoChia);
+      setChia(pc);
+      setDienChia(pc.buoc.map(() => ({ thuong: null, du: null })));
+      setOChia({ buoc: 0, loai: 'thuong' });
+      setDaCham(false);
+      return null;
+    }
+    setChia(null);
     const p = raPhep(lop, locDau === 'all' ? undefined : locDau);
     setPhep(p);
     setDien(Array(p.soCot).fill(null));
@@ -57,12 +75,21 @@ export default function DatTinhClient() {
 
   function doiLop(l: MucDo) {
     setLop(l);
-    if (l <= 2) setLocDau((d) => (d === '×' ? 'all' : d));
+    // Lớp 1, 2 chưa học nhân chia đặt cột dọc.
+    if (l <= 2) setLocDau((d) => (d === '×' || d === ':' ? 'all' : d));
     try { localStorage.setItem(KHOA_LUU, String(l)); } catch { /* bỏ qua */ }
   }
 
   function bamSo(n: number) {
     if (daCham) return;
+    if (chia) {
+      setDienChia((ds) => ds.map((x, i) => (i === oChia.buoc ? { ...x, [oChia.loai]: n } : x)));
+      // Điền xong thương thì nhảy sang ô dư của cùng bước; điền xong dư thì
+      // sang bước kế — đúng thứ tự làm trên giấy.
+      if (oChia.loai === 'thuong') setOChia({ ...oChia, loai: 'du' });
+      else if (oChia.buoc < chia.buoc.length - 1) setOChia({ buoc: oChia.buoc + 1, loai: 'thuong' });
+      return;
+    }
     if (oNho !== null) {
       setNhoDien((ds) => ds.map((x, i) => (i === oNho ? n : x)));
       setONho(null);
@@ -75,11 +102,28 @@ export default function DatTinhClient() {
 
   function xoa() {
     if (daCham) return;
+    if (chia) {
+      setDienChia((ds) => ds.map((x, i) => (i === oChia.buoc ? { ...x, [oChia.loai]: null } : x)));
+      return;
+    }
     if (oNho !== null) { setNhoDien((ds) => ds.map((x, i) => (i === oNho ? null : x))); return; }
     setDien((ds) => ds.map((x, i) => (i === o ? null : x)));
   }
 
   function cham() {
+    if (chia) {
+      if (daCham || dienChia.some((x) => x.thuong === null || x.du === null)) return;
+      setDaCham(true);
+      const ok = chia.buoc.every((b, i) => dienChia[i].thuong === b.chuSoThuong && dienChia[i].du === b.du);
+      setTong((t) => t + 1);
+      if (ok) setDiem((d) => d + 1);
+      unlockAudio();
+      stopSpeaking();
+      speakText(ok
+        ? `Đúng rồi. ${chia.a} chia ${chia.b} bằng ${chia.thuong}${chia.du ? ` dư ${chia.du}` : ''}`
+        : `Chưa đúng. Kết quả là ${chia.thuong}${chia.du ? ` dư ${chia.du}` : ''}`);
+      return;
+    }
     if (daCham || dien.some((x) => x === null)) return;
     setDaCham(true);
     const ok = dien.every((x, i) => x === phep.chuSoKq[i]);
@@ -132,11 +176,11 @@ export default function DatTinhClient() {
       <p className="mt-1.5 text-xs text-slate-500">{MUC_DO.find((m) => m.lop === lop)!.moTa}</p>
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {(['all', '+', '−', ...(lop >= 3 ? ['×' as Dau] : [])] as (Dau | 'all')[]).map((d) => (
+        {(['all', '+', '−', ...(lop >= 3 ? (['×', ':'] as (Dau | ':')[]) : [])] as (Dau | 'all' | ':')[]).map((d) => (
           <button key={d} onClick={() => setLocDau(d)}
                   className={`rounded-full border-2 px-4 py-1.5 text-sm font-black ${
                     locDau === d ? 'border-violet-600 bg-violet-600 text-white' : 'border-violet-200 bg-violet-50 text-violet-700'}`}>
-            {d === 'all' ? 'Cả ba phép' : d}
+            {d === 'all' ? 'Cộng, trừ, nhân' : d === ':' ? ': (chia)' : d}
           </button>
         ))}
       </div>
@@ -148,23 +192,42 @@ export default function DatTinhClient() {
         <div className="flex flex-col items-center">
           <p className="mb-2 flex items-center gap-2 text-sm font-black text-slate-600">
             <button
-              onClick={() => { unlockAudio(); stopSpeaking(); speakText(`Đặt tính rồi tính. ${phep.a} ${phep.dau} ${phep.b}`); }}
+              onClick={() => {
+                unlockAudio(); stopSpeaking();
+                speakText(chia ? `Đặt tính rồi tính. ${chia.a} chia ${chia.b}` : `Đặt tính rồi tính. ${phep.a} ${phep.dau} ${phep.b}`);
+              }}
               className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-b from-sky-400 to-blue-600 text-white shadow-[0_3px_0_#1e40af] transition active:translate-y-0.5 active:shadow-none"
               aria-label="Nghe đọc đề bài"
             >
               🔊
             </button>
-            Đặt tính rồi tính: {phep.a} {phep.dau} {phep.b}
+            Đặt tính rồi tính: {chia ? `${chia.a} : ${chia.b}` : `${phep.a} ${phep.dau} ${phep.b}`}
           </p>
-          <BangDatTinh
-            phep={phep} dien={dien} nhoDien={nhoDien} oDangChon={o} oNho={oNho}
-            onChonO={(i) => { setO(i); setONho(null); }}
-            onChonNho={(i) => setONho(oNho === i ? null : i)}
-            daCham={daCham}
-          />
-          <p className="mt-2 max-w-[280px] text-center text-xs leading-5 text-slate-500">
-            Điền từ <b>hàng đơn vị</b> (ô bên phải) sang trái. Hàng ô gạch nét đứt ở trên để <b>ghi số nhớ</b> nếu cần.
-          </p>
+          {chia ? (
+            <>
+              <BangChiaDoc
+                phep={chia} dien={dienChia} oDang={oChia}
+                onChonO={(buoc, loai) => setOChia({ buoc, loai })}
+                daCham={daCham}
+              />
+              <p className="mt-2 max-w-[320px] text-center text-xs leading-5 text-slate-500">
+                Mỗi bước làm bốn việc: <b>ước lượng</b> chữ số thương → máy <b>nhân</b> giúp →
+                bé điền <b>số dư</b> → <b>hạ</b> chữ số tiếp theo.
+              </p>
+            </>
+          ) : (
+            <>
+              <BangDatTinh
+                phep={phep} dien={dien} nhoDien={nhoDien} oDangChon={o} oNho={oNho}
+                onChonO={(i) => { setO(i); setONho(null); }}
+                onChonNho={(i) => setONho(oNho === i ? null : i)}
+                daCham={daCham}
+              />
+              <p className="mt-2 max-w-[280px] text-center text-xs leading-5 text-slate-500">
+                Điền từ <b>hàng đơn vị</b> (ô bên phải) sang trái. Hàng ô gạch nét đứt ở trên để <b>ghi số nhớ</b> nếu cần.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Bàn phím số */}
@@ -184,7 +247,10 @@ export default function DatTinhClient() {
                     className="h-[68px] rounded-2xl border-2 border-slate-200 bg-white text-2xl font-black text-slate-800 shadow-[0_4px_0_#e2e8f0] transition active:translate-y-1 active:shadow-none disabled:opacity-50">
               0
             </button>
-            <button onClick={cham} disabled={daCham || dien.some((x) => x === null)}
+            <button onClick={cham}
+                    disabled={daCham || (chia
+                      ? dienChia.some((x) => x.thuong === null || x.du === null)
+                      : dien.some((x) => x === null))}
                     className="h-[68px] rounded-2xl bg-gradient-to-b from-emerald-400 to-emerald-600 text-base font-black text-white shadow-[0_4px_0_#047857] transition active:translate-y-1 active:shadow-none disabled:opacity-40">
               ✓
             </button>
@@ -194,8 +260,37 @@ export default function DatTinhClient() {
             Gõ số trên bàn phím cũng được · Enter để chấm · ⌫ xoá
           </p>
 
+          {/* Chấm bài phép CHIA — chỉ ra sai ở bước nào, việc nào */}
+          {daCham && chia && (() => {
+            const sai = chia.buoc.flatMap((b, i) => [
+              ...(dienChia[i].thuong !== b.chuSoThuong ? [{ i, viec: 'thuong' as const }] : []),
+              ...(dienChia[i].du !== b.du ? [{ i, viec: 'du' as const }] : []),
+            ]);
+            return (
+              <div className={`mt-4 rounded-2xl border-2 p-4 ${sai.length === 0 ? 'toan-an-mung border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'}`}>
+                <p className="font-black text-slate-900">
+                  {sai.length === 0 ? '🎉 Đúng hết!' : `💡 Sai ${sai.length} chỗ`} — {chia.a} : {chia.b} = {chia.thuong}
+                  {chia.du > 0 && <> dư {chia.du}</>}
+                </p>
+                {sai.length > 0 && (
+                  <ul className="mt-2 space-y-1.5 text-sm leading-6 text-slate-700">
+                    {sai.map((x, k) => <li key={k}>• {nhacBuoc(chia, x.i, x.viec)}</li>)}
+                  </ul>
+                )}
+                {sai.length === 0 && (
+                  <p className="mt-1 text-sm leading-6 text-slate-700">
+                    Thử lại cho chắc: {chia.thuong} × {chia.b}{chia.du > 0 ? ` + ${chia.du}` : ''} = {chia.a}.
+                  </p>
+                )}
+                <button onClick={() => { raDe(); }} className="mt-3 rounded-full bg-slate-900 px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_0_#0f172a55] transition active:translate-y-1 active:shadow-none">
+                  Bài tiếp →
+                </button>
+              </div>
+            );
+          })()}
+
           {/* Chấm bài: chỉ đúng cột sai và nói vì sao */}
-          {daCham && (
+          {daCham && !chia && (
             <div className={`mt-4 rounded-2xl border-2 p-4 ${dungHet ? 'toan-an-mung border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'}`}>
               <p className="font-black text-slate-900">
                 {dungHet ? '🎉 Đúng hết!' : `💡 Sai ${cotSai.length} cột`} — {phep.a} {phep.dau} {phep.b} = {phep.kq}
@@ -212,7 +307,13 @@ export default function DatTinhClient() {
                   Bài này có <b>{phep.nho.filter((n) => n > 0).length} lần nhớ</b> — bé làm đúng hết là rất giỏi.
                 </p>
               )}
-              <button onClick={() => { const p = raDe(); unlockAudio(); stopSpeaking(); speakText(`${p.a} ${p.dau} ${p.b}`); }}
+              <button onClick={() => {
+                        // raDe trả về null khi đang ở phép chia (bảng riêng);
+                        // nhánh này chỉ chạy với cộng/trừ/nhân nên vẫn kiểm cho chắc.
+                        const moi = raDe();
+                        unlockAudio(); stopSpeaking();
+                        if (moi) speakText(`${moi.a} ${moi.dau} ${moi.b}`);
+                      }}
                       className="mt-3 rounded-full bg-slate-900 px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_0_#0f172a55] transition active:translate-y-1 active:shadow-none">
                 Bài tiếp →
               </button>

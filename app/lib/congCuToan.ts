@@ -26,7 +26,7 @@ export const CONG_CU_TOAN: CongCuToan[] = [
   },
   {
     href: '/dat-tinh', ten: 'Đặt tính rồi tính', emoji: '🧮', lop: [1, 2, 3, 4, 5], mau: '#8b5cf6', moi: true,
-    moTa: 'Điền từng chữ số vào cột dọc, có ô ghi số nhớ; máy chấm từng cột và chỉ đúng chỗ sai.',
+    moTa: 'Cộng, trừ, nhân và chia cột dọc; có ô ghi số nhớ, máy chấm từng cột và từng bước chia.',
   },
   {
     href: '/xem-dong-ho', ten: 'Xem đồng hồ', emoji: '🕐', lop: [1, 2, 3, 4, 5], mau: '#2563eb', moi: true,
@@ -43,6 +43,30 @@ export const CONG_CU_TOAN: CongCuToan[] = [
   {
     href: '/tien-viet-nam', ten: 'Tiền Việt Nam', emoji: '💵', lop: [1, 2, 3, 4, 5], mau: '#0d9488', moi: true,
     moTa: 'Nhận mặt tờ tiền thật, chọn tờ trả đủ và tính tiền được trả lại.',
+  },
+  {
+    href: '/do-luong', ten: 'Đo lường', emoji: '📐', lop: [1, 2, 3, 4, 5], mau: '#d97706', moi: true,
+    moTa: 'Đọc số đo trên thước kẻ, đặt quả cân cho thăng bằng và đổi đơn vị đo.',
+  },
+  {
+    href: '/hinh-hoc', ten: 'Hình học', emoji: '🔷', lop: [1, 2, 3, 4, 5], mau: '#0891b2', moi: true,
+    moTa: 'Nhận tên hình phẳng và khối 3D, tô nửa còn lại cho hình đối xứng, đếm mặt – đỉnh.',
+  },
+  {
+    href: '/chu-vi-dien-tich', ten: 'Chu vi & diện tích', emoji: '📏', lop: [3, 4, 5], mau: '#16a34a', moi: true,
+    moTa: 'Kéo cạnh hình chữ nhật để thấy chu vi và diện tích đổi theo, rồi tính theo công thức.',
+  },
+  {
+    href: '/bieu-do', ten: 'Biểu đồ', emoji: '📊', lop: [2, 3, 4, 5], mau: '#6366f1', moi: true,
+    moTa: 'Đọc biểu đồ tranh và biểu đồ cột, rồi tự kéo cột vẽ biểu đồ từ bảng số liệu.',
+  },
+  {
+    href: '/tim-x', ten: 'Tìm x', emoji: '⚖️', lop: [2, 3, 4, 5], mau: '#7c3aed', moi: true,
+    moTa: 'Tìm thành phần chưa biết, có cân thăng bằng nghiêng theo giá trị bé chọn.',
+  },
+  {
+    href: '/so-thap-phan', ten: 'Số thập phân', emoji: '🔟', lop: [4, 5], mau: '#0284c7', moi: true,
+    moTa: 'Đọc số thập phân trên thanh 10 phần và lưới 100 ô, so sánh và đổi từ phân số.',
   },
   {
     href: '/luyen-tinh-nham', ten: 'Luyện tính nhẩm', emoji: '⚡', lop: [1, 2, 3, 4, 5], mau: '#0ea5e9',

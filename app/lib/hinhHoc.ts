@@ -153,6 +153,22 @@ export function kiemHinhHoc() {
       if (k.hoi !== 'ten' && k.khoi.cong) loi.push(`Lớp ${lop}: hỏi số mặt/đỉnh của khối có mặt cong (${k.khoi.ten})`);
       if (k.hoi !== 'ten' && lop < 4) loi.push(`Lớp ${lop} chưa học đếm mặt – đỉnh`);
 
+      if (lop === 1) {
+        const v = raBaiViTri();
+        if (v.o.length !== 4) loi.push('Bài vị trí không có đủ 4 con vật');
+        if (new Set(v.o.map((x) => x.vt)).size !== v.o.length) loi.push('Hai con vật đứng trùng ô');
+        if (v.o.some((x) => x.vt < 0 || x.vt > 8)) loi.push('Con vật nằm ngoài lưới 3×3');
+        if (!v.o.some((x) => x.vt === v.dapAn)) loi.push('Ô đáp án không có con vật nào');
+        if (v.dapAn === v.moc) loi.push('Đáp án trùng với chính con vật làm mốc');
+        if (!v.chon.includes(v.dapAn)) loi.push('Thiếu đáp án đúng ở bài vị trí');
+        if (v.chon.includes(v.moc)) loi.push('Đáp án chứa luôn con vật làm mốc');
+        // Ô đáp án phải đúng hướng so với mốc.
+        const dung =
+          v.huong === 'trai' ? v.moc - 1 : v.huong === 'phai' ? v.moc + 1
+          : v.huong === 'tren' ? v.moc - 3 : v.moc + 3;
+        if (v.dapAn !== dung) loi.push(`Bài vị trí: hướng ${v.huong} tính sai ô`);
+      }
+
       const d = raBaiDoiXung(lop);
       if (d.mau.length !== d.dapAn.length) loi.push(`Lớp ${lop}: số ô đối xứng không khớp số ô mẫu`);
       if (new Set(d.dapAn).size !== d.dapAn.length) loi.push(`Lớp ${lop}: ô đối xứng bị trùng`);
@@ -162,4 +178,71 @@ export function kiemHinhHoc() {
     }
   }
   return { loi: [...new Set(loi)] };
+}
+
+/* ─────────── 4. VỊ TRÍ, ĐỊNH HƯỚNG KHÔNG GIAN (lớp 1) ─────────── */
+
+// Lớp 1 có 60 câu về trái – phải – trên – dưới – trước – sau mà toàn bằng chữ.
+// Trẻ 6 tuổi chưa đọc trôi, bắt đọc đề để học phương hướng là ngược đời: phải
+// cho bé NHÌN THẤY các con vật xếp trên lưới rồi chỉ.
+
+export type ViTri = 'trai' | 'phai' | 'tren' | 'duoi' | 'giua';
+
+export const TEN_VI_TRI: Record<ViTri, string> = {
+  'trai': 'bên trái', 'phai': 'bên phải', 'tren': 'phía trên', 'duoi': 'phía dưới', 'giua': 'ở giữa',
+};
+
+export type BaiViTri = {
+  /** Các con vật xếp trên lưới 3×3, ghi theo chỉ số 0…8. */
+  o: { vt: number; emoji: string; ten: string }[];
+  /** Con vật làm mốc. */ moc: number;
+  huong: ViTri;
+  /** Chỉ số ô là đáp án đúng. */ dapAn: number;
+  chon: number[];
+};
+
+const CON_VAT = [
+  { emoji: '🐱', ten: 'con mèo' }, { emoji: '🐶', ten: 'con chó' },
+  { emoji: '🐰', ten: 'con thỏ' }, { emoji: '🐻', ten: 'con gấu' },
+  { emoji: '🐦', ten: 'con chim' }, { emoji: '🐢', ten: 'con rùa' },
+];
+
+export function raBaiViTri(): BaiViTri {
+  for (let lan = 0; lan < 100; lan++) {
+    // Lưới 3×3, đặt 4 con vật vào 4 ô khác nhau.
+    const oDung = xao([0, 1, 2, 3, 4, 5, 6, 7, 8]).slice(0, 4);
+    const vat = xao(CON_VAT).slice(0, 4);
+    const o = oDung.map((vt, i) => ({ vt, emoji: vat[i].emoji, ten: vat[i].ten }));
+    const moc = chon(o);
+    const huong = chon(['trai', 'phai', 'tren', 'duoi'] as ViTri[]);
+    const h = Math.floor(moc.vt / 3);
+    const c = moc.vt % 3;
+    // Ô cần tìm phải nằm TRONG lưới và phải có con vật đứng đó.
+    const dich =
+      huong === 'trai' ? (c > 0 ? moc.vt - 1 : -1)
+      : huong === 'phai' ? (c < 2 ? moc.vt + 1 : -1)
+      : huong === 'tren' ? (h > 0 ? moc.vt - 3 : -1)
+      : (h < 2 ? moc.vt + 3 : -1);
+    if (dich < 0) continue;
+    const co = o.find((x) => x.vt === dich);
+    if (!co) continue;
+    return {
+      o, moc: moc.vt, huong, dapAn: dich,
+      chon: xao(o.filter((x) => x.vt !== moc.vt).map((x) => x.vt)),
+    };
+  }
+  const o = [
+    { vt: 3, emoji: '🐱', ten: 'con mèo' }, { vt: 4, emoji: '🐶', ten: 'con chó' },
+    { vt: 5, emoji: '🐰', ten: 'con thỏ' }, { vt: 1, emoji: '🐻', ten: 'con gấu' },
+  ];
+  return { o, moc: 4, huong: 'trai', dapAn: 3, chon: xao([3, 5, 1]) };
+}
+
+export function giaiViTri(b: BaiViTri): string {
+  const moc = b.o.find((x) => x.vt === b.moc)!;
+  const dap = b.o.find((x) => x.vt === b.dapAn)!;
+  const meo = b.huong === 'trai' || b.huong === 'phai'
+    ? ' Mẹo: trái – phải tính theo hướng bé NHÌN VÀO hình, giống lúc bé giơ tay trái tay phải của chính mình.'
+    : ' Mẹo: phía trên là hàng nằm cao hơn, phía dưới là hàng nằm thấp hơn.';
+  return `Tìm ô nằm ngay ${TEN_VI_TRI[b.huong]} ${moc.ten} — đó là ${dap.ten}.${meo}`;
 }

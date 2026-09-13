@@ -4,7 +4,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { playCorrect, playWrong, playWin, confetti } from '../lib/celebrate';
 
 type Op = '+' | '−' | '×' | '÷';
-type Problem = { a: number; b: number; op: Op; answer: number };
+type Problem = {
+  a: number; b: number; op: Op; answer: number;
+  /** Số hạng thứ ba — chỉ có ở dạng tính nhanh ba số. */ c?: number;
+  op2?: Op;
+  /** Mẹo nhóm số, ghi sẵn lúc sinh đề vì chỉ bộ sinh mới biết nhóm cặp nào. */
+  meo?: string;
+};
 
 type Level = { key: string; label: string; gen: () => Problem };
 
@@ -31,8 +37,41 @@ function div(): Problem {
   return { a: b * q, b, op: '÷', answer: q };
 }
 
+/**
+ * Tính nhanh ba số — dạy TÍNH CHẤT GIAO HOÁN và KẾT HỢP (lớp 4).
+ *
+ * Điểm của dạng này không phải tính đúng, mà là NHÓM CHO KHÉO: đổi chỗ và gộp
+ * cặp tròn chục, tròn trăm thì nhẩm được trong đầu. Vì vậy mỗi đề đều dựng từ
+ * một cặp đẹp có sẵn, và mẹo nhóm ghi luôn vào đề để phần giải thích nói đúng
+ * cặp đó chứ không nói chung chung.
+ */
+function tinhNhanh(): Problem {
+  if (Math.random() < 0.5) {
+    // Phép nhân: cặp cho tích tròn.
+    const cap = pick([[25, 4], [4, 25], [2, 50], [50, 2], [5, 2], [2, 5], [20, 5], [5, 20]]);
+    const c = rnd(2, 9);
+    const [a, b] = cap;
+    return {
+      a, b, op: '×', c, op2: '×', answer: a * b * c,
+      meo: `Nhóm ${a} × ${b} = ${a * b} trước cho tròn, rồi ${a * b} × ${c} = ${a * b * c}. Nhân đổi chỗ và gộp nhóm thế nào kết quả cũng như nhau.`,
+    };
+  }
+  // Phép cộng: hai số cộng lại tròn chục. Số đầu phải có hàng đơn vị KHÁC 0,
+  // nếu không thì chẳng có cặp nào để gộp — đề mất hết ý nghĩa mà mẹo vẫn ghi
+  // "gộp cặp tròn chục". Đã đo: cứ 20 đề thì một đề dính lỗi này.
+  const a = rnd(2, 8) * 10 + rnd(1, 9);
+  const b = 10 - (a % 10);
+  const c = rnd(11, 79);
+  return {
+    a, b, op: '+', c, op2: '+', answer: a + b + c,
+    meo: `Đổi chỗ để gộp cặp tròn chục trước: ${a} + ${b} = ${a + b}, rồi ${a + b} + ${c} = ${a + b + c}. Cộng đổi chỗ hay gộp nhóm thì tổng vẫn thế.`,
+  };
+}
+
 // Giải thích cách tính từng bước cho bé (mẹo làm tròn chục / bảng nhân).
 function explain(p: Problem): string {
+  // Dạng tính nhanh đã có sẵn mẹo nhóm số từ lúc sinh đề.
+  if (p.meo) return p.meo;
   const { a, b, op, answer } = p;
   if (op === '+') {
     if (a === 0 || b === 0) return `Cộng với 0: kết quả bằng chính số kia = ${answer}.`;
@@ -67,6 +106,7 @@ const LEVELS: Level[] = [
   { key: 'nhan', label: 'Bảng nhân (×)', gen: mul },
   { key: 'chia', label: 'Bảng chia (÷)', gen: div },
   { key: 'mix', label: 'Hỗn hợp', gen: () => pick([() => addSub(100), mul, div])() },
+  { key: 'nhanh', label: 'Tính nhanh (nhóm số)', gen: tinhNhanh },
 ];
 
 const DURATION = 60;
@@ -177,7 +217,9 @@ export default function LuyenTinhNhamClient() {
           <>
             <div className="text-center">
               <span className="text-4xl font-black tracking-wider text-slate-800 sm:text-5xl">
-                {prob ? `${prob.a} ${prob.op} ${prob.b} = ` : '…'}
+                {prob
+                  ? `${prob.a} ${prob.op} ${prob.b}${prob.c !== undefined ? ` ${prob.op2} ${prob.c}` : ''} = `
+                  : '…'}
                 <span className={`ml-1 inline-block min-w-[1.5em] rounded-xl px-2 ${feedback === 'right' ? 'bg-emerald-100 text-emerald-700' : feedback === 'wrong' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-sky-600'}`}>{input || '?'}</span>
               </span>
             </div>

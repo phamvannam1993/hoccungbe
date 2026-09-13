@@ -69,6 +69,14 @@ export const CONG_CU_TOAN: CongCuToan[] = [
     moTa: 'Đọc số thập phân trên thanh 10 phần và lưới 100 ô, so sánh và đổi từ phân số.',
   },
   {
+    href: '/cau-tao-so', ten: 'Cấu tạo số', emoji: '🔢', lop: [3, 4, 5], mau: '#4f46e5', moi: true,
+    moTa: 'Hàng và lớp, viết số thành tổng, đọc số thành lời và biểu thức chứa chữ.',
+  },
+  {
+    href: '/xac-suat', ten: 'Chắc chắn – có thể', emoji: '🎲', lop: [2, 3, 4, 5], mau: '#c026d3', moi: true,
+    moTa: 'Nhìn hộp bóng đoán khả năng xảy ra, có phần rút thử nhiều lần để kiểm chứng.',
+  },
+  {
     href: '/luyen-tinh-nham', ten: 'Luyện tính nhẩm', emoji: '⚡', lop: [1, 2, 3, 4, 5], mau: '#0ea5e9',
     moTa: 'Cộng trừ nhân chia theo mức, có bàn phím số và chế độ tính nhanh 60 giây.',
   },

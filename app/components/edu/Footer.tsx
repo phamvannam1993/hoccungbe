@@ -35,6 +35,8 @@ const quickLinks = [
   { label: 'Biểu đồ', href: '/bieu-do' },
   { label: 'Tìm x', href: '/tim-x' },
   { label: 'Số thập phân', href: '/so-thap-phan' },
+  { label: 'Cấu tạo số', href: '/cau-tao-so' },
+  { label: 'Xác suất', href: '/xac-suat' },
   { label: 'Bảng cộng trừ', href: '/bang-cong-tru' },
   { label: 'Từ vựng tiếng Anh', href: '/tu-vung-tieng-anh' },
   { label: 'Bảng chữ cái tiếng Anh', href: '/bang-chu-cai-tieng-anh' },

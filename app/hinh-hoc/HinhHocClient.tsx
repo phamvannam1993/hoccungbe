@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import VeHinh, { VeKhoi } from './VeHinh';
 import {
-  HINH_PHANG, MUC_DO, raBaiDoiXung, raBaiHinh, raBaiKhoi,
-  type BaiDoiXung, type BaiHinh, type BaiKhoi, type MucDo,
+  HINH_PHANG, MUC_DO, TEN_VI_TRI, giaiViTri, raBaiDoiXung, raBaiHinh, raBaiKhoi, raBaiViTri,
+  type BaiDoiXung, type BaiHinh, type BaiKhoi, type BaiViTri, type MucDo,
 } from '../lib/hinhHoc';
 import { speakText, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import PhaoAnMung from '../components/edu/PhaoAnMung';
@@ -15,13 +15,15 @@ import PhaoAnMung from '../components/edu/PhaoAnMung';
 //   🪞 Đối xứng   — nửa trái tô sẵn, bé tô nửa phải cho đối xứng. Chấm từng ô.
 //   🧊 Khối 3D    — nhận tên khối, và từ lớp 4 đếm mặt – đỉnh.
 
-type Dang = 'hinh' | 'doi-xung' | 'khoi';
+type Dang = 'hinh' | 'doi-xung' | 'khoi' | 'vi-tri';
 const KHOA_LUU = 'bhh_hinh_hoc';
 
 const DANG: { id: Dang; ten: string; emoji: string; tuLop: MucDo }[] = [
   { id: 'hinh', ten: 'Nhận hình', emoji: '🔷', tuLop: 1 },
   { id: 'doi-xung', ten: 'Đối xứng', emoji: '🪞', tuLop: 2 },
   { id: 'khoi', ten: 'Khối 3D', emoji: '🧊', tuLop: 1 },
+  // Chỉ lớp 1 học riêng phần phương hướng; lớp trên đã dùng nó trong các bài khác.
+  { id: 'vi-tri', ten: 'Vị trí', emoji: '🧭', tuLop: 1 },
 ];
 
 const HINH_MO_MAN: BaiHinh = {
@@ -36,6 +38,7 @@ export default function HinhHocClient() {
   const [bh, setBh] = useState<BaiHinh>(HINH_MO_MAN);
   const [bk, setBk] = useState<BaiKhoi | null>(null);
   const [bd, setBd] = useState<BaiDoiXung | null>(null);
+  const [bv, setBv] = useState<BaiViTri | null>(null);
   const [daTo, setDaTo] = useState<number[]>([]);
 
   const [daBam, setDaBam] = useState<string | null>(null);
@@ -49,6 +52,7 @@ export default function HinhHocClient() {
     setDaTo([]);
     if (dang === 'hinh') setBh(raBaiHinh(lop));
     else if (dang === 'khoi') setBk(raBaiKhoi(lop));
+    else if (dang === 'vi-tri') setBv(raBaiViTri());
     else setBd(raBaiDoiXung(lop));
   }, [lop, dang]);
 
@@ -81,7 +85,9 @@ export default function HinhHocClient() {
     speakText(ok ? `Đúng rồi. ${doc}` : `Chưa đúng. ${doc}`);
   }
 
-  const dangCo = DANG.filter((d) => lop >= d.tuLop);
+  // Tab "Vị trí" chỉ để cho lớp 1–2; lớp lớn hơn đã thạo phương hướng rồi,
+  // để lại chỉ làm loãng.
+  const dangCo = DANG.filter((d) => lop >= d.tuLop && (d.id !== 'vi-tri' || lop <= 2));
   const nut = (dung: boolean, bam: boolean) => {
     if (!ketQua) return 'border-slate-200 bg-white text-slate-800';
     if (dung) return 'border-emerald-400 bg-emerald-50 text-emerald-700';
@@ -211,6 +217,43 @@ export default function HinhHocClient() {
           </div>
         )}
 
+        {/* 🧭 VỊ TRÍ */}
+        {dang === 'vi-tri' && bv && (
+          <div className="flex flex-col items-center">
+            <p className="flex items-center gap-3 text-center text-lg font-black text-slate-900">
+              <button onClick={() => { unlockAudio(); stopSpeaking(); speakText(`Con vật nào đứng ${TEN_VI_TRI[bv.huong]} ${bv.o.find((x) => x.vt === bv.moc)!.ten}?`); }}
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-b from-sky-400 to-blue-600 text-lg text-white shadow-[0_4px_0_#1e40af] transition active:translate-y-1 active:shadow-none"
+                      aria-label="Nghe đọc câu hỏi">🔊</button>
+              Con nào đứng <span className="text-cyan-700">{TEN_VI_TRI[bv.huong]}</span>{' '}
+              {bv.o.find((x) => x.vt === bv.moc)!.emoji} {bv.o.find((x) => x.vt === bv.moc)!.ten}?
+            </p>
+
+            {/* Lưới 3×3 — con vật làm mốc được khoanh vàng */}
+            <div className="mt-4 grid grid-cols-3 gap-2 rounded-2xl bg-white p-3">
+              {Array.from({ length: 9 }, (_, i) => {
+                const co = bv.o.find((x) => x.vt === i);
+                const laMoc = i === bv.moc;
+                const laDap = i === bv.dapAn;
+                let vien = 'border-slate-100 bg-slate-50';
+                if (laMoc) vien = 'border-amber-400 bg-amber-50 ring-4 ring-amber-100';
+                else if (ketQua && laDap) vien = 'border-emerald-400 bg-emerald-50';
+                else if (ketQua && daBam === String(i)) vien = 'border-rose-300 bg-rose-50';
+                return (
+                  <button key={i}
+                          disabled={!co || laMoc || !!ketQua}
+                          onClick={() => { setDaBam(String(i)); cham(i === bv.dapAn, giaiViTri(bv)); }}
+                          className={`grid h-20 w-20 place-items-center rounded-2xl border-2 text-4xl transition ${vien} ${
+                            co && !laMoc && !ketQua ? 'cursor-pointer hover:-translate-y-0.5' : ''}`}
+                          aria-label={co ? co.ten : 'ô trống'}>
+                    {co?.emoji ?? ''}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-2 text-xs text-slate-500">Ô viền vàng là con vật được nhắc trong câu hỏi.</p>
+          </div>
+        )}
+
         {ketQua && (
           <div className={`mt-5 rounded-2xl border-2 p-4 ${ketQua === 'dung' ? 'toan-an-mung border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'}`}>
             <p className="font-black text-slate-900">{ketQua === 'dung' ? '🎉 Đúng rồi!' : '💡 Chưa đúng'}</p>
@@ -218,6 +261,7 @@ export default function HinhHocClient() {
               {dang === 'hinh' && `${bh.hinh.ten}: ${bh.hinh.dacDiem}.`}
               {dang === 'doi-xung' && 'Hai nửa phải giống hệt nhau khi gấp đôi theo đường kẻ đỏ: ô nào cách trục mấy cột thì ô đối diện cũng cách đúng bấy nhiêu cột, và phải cùng hàng.'}
               {dang === 'khoi' && bk && giaiKhoi(bk)}
+              {dang === 'vi-tri' && bv && giaiViTri(bv)}
             </p>
             <button onClick={raDe} className="mt-3 rounded-full bg-slate-900 px-6 py-2.5 text-sm font-black text-white shadow-[0_4px_0_#0f172a55] transition active:translate-y-1 active:shadow-none">
               Bài tiếp →

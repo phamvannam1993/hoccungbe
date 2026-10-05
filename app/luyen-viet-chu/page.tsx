@@ -71,6 +71,14 @@ export default function Page() {
           >
             ✍️ Chơi trò tô chữ ngay
           </Link>
+          {/* Cùng chủ đề nhưng khác việc: trang kia là vở in ra giấy. Nối chéo
+              để ba mẹ tìm được và để công cụ tìm kiếm hiểu hai trang khác nhau. */}
+          <Link
+            href="/luyen-viet-chu-dep"
+            className="ml-0 mt-3 inline-flex items-center gap-2 rounded-2xl border-2 border-slate-200 px-5 py-3 font-black text-slate-700 hover:bg-slate-50 sm:ml-3 sm:mt-0"
+          >
+            🖨 In vở tập viết ô li
+          </Link>
         </div>
       </KidHero>
 

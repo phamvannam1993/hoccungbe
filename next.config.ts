@@ -21,6 +21,7 @@ const GAME_MAP: Record<string, string> = {
   'trace-sentence': 'to-theo-net-cau',
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
   'bubble-vocabulary': 'bat-bong-tu-vung',
+  'vietnamese-first-grade': 'tieng-viet-lop-1',
 
   // Tư duy
   'puzzle-game': 'ghep-hinh-rung',
@@ -29,6 +30,18 @@ const GAME_MAP: Record<string, string> = {
 const VI_TO_EN = Object.fromEntries(Object.entries(GAME_MAP).map(([en, vi]) => [vi, en]));
 
 const nextConfig: NextConfig = {
+  // Bỏ bước kiểm kiểu TRONG lúc build trên máy chủ.
+  //
+  // Vì sao: bước "Running TypeScript" của Next chạy thêm một tiến trình tsc
+  // ngay sau khi đã biên dịch xong — trên máy chủ RAM nhỏ, tiến trình này bị
+  // hệ điều hành giết mà không in ra lỗi gì, nhìn như build treo. Đo ở máy
+  // phát triển: tsc chỉ tốn 448 MB và 2,45 giây, tức là mã không nặng, chỉ là
+  // máy chủ không còn chỗ.
+  //
+  // KHÔNG có nghĩa là thôi kiểm kiểu: chạy `npm run kiem:kieu` (tsc --noEmit)
+  // trước khi đẩy mã lên. Đừng bỏ bước đó.
+  typescript: { ignoreBuildErrors: true },
+
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.amazonaws.com' },

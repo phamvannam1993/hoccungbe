@@ -18,7 +18,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // → không kèm header/footer. Nhưng hub /phieu-bai-tap và /phieu-bai-tap/lop/… là
   // trang duyệt bình thường → vẫn cần header/footer.
   const isWorksheet =
-    segments[0] === 'phieu-bai-tap' && segments.length >= 2 && segments[1] !== 'lop';
+    (segments[0] === 'phieu-bai-tap' && segments.length >= 2 && segments[1] !== 'lop') ||
+    // Phiếu tập viết: /luyen-viet-chu-dep/{bộ} là tờ giấy để in, hub thì không.
+    (segments[0] === 'luyen-viet-chu-dep' && segments.length >= 2);
   if (isAdmin || isWorksheet) return <>{children}</>;
   return (
     <>

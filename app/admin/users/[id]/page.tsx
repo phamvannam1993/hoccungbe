@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Eye } from 'lucide-react';
 import { apiFetch } from '../../lib/api';
 import { statusBadge } from '../../components/Badge';
 import DataTable from '../../components/DataTable';
@@ -29,6 +29,16 @@ interface Child {
   gender?: string;
   currentLevel?: string;
   status?: string;
+  createdAt?: string;
+}
+
+interface Subscription {
+  id: string;
+  planName?: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+  amount?: number | string;
 }
 
 export default function UserDetailPage() {
@@ -40,6 +50,7 @@ export default function UserDetailPage() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ fullName: '', phone: '', role: '', status: '' });
   const [children, setChildren] = useState<Child[]>([]);
+  const [subs, setSubs] = useState<Subscription[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,6 +66,8 @@ export default function UserDetailPage() {
       }
     };
     fetchUser();
+    // Gói đăng ký là khối phụ: lỗi ở đây không được chặn trang hồ sơ.
+    apiFetch<Subscription[]>(`/subscriptions/user/${id}`).then((r) => setSubs(r || [])).catch(() => {});
   }, [id]);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -90,7 +103,11 @@ export default function UserDetailPage() {
           <h2 className="font-semibold text-gray-700 mb-4">Thông tin hiện tại</h2>
           <dl className="space-y-3 text-sm">
             <div className="flex gap-2"><dt className="text-gray-500 w-32">ID:</dt><dd className="font-mono text-xs">{user.id}</dd></div>
+            <div className="flex gap-2"><dt className="text-gray-500 w-32">Họ tên:</dt><dd className="font-medium">{user.fullName}</dd></div>
             <div className="flex gap-2"><dt className="text-gray-500 w-32">Email:</dt><dd>{user.email}</dd></div>
+            <div className="flex gap-2"><dt className="text-gray-500 w-32">Điện thoại:</dt><dd>{user.phone || '-'}</dd></div>
+            <div className="flex gap-2"><dt className="text-gray-500 w-32">Vai trò:</dt><dd>{user.role}</dd></div>
+            <div className="flex gap-2"><dt className="text-gray-500 w-32">Số trẻ:</dt><dd>{children.length}</dd></div>
             <div className="flex gap-2"><dt className="text-gray-500 w-32">Trạng thái:</dt><dd>{statusBadge(user.status)}</dd></div>
             <div className="flex gap-2"><dt className="text-gray-500 w-32">Tạo lúc:</dt><dd>{user.createdAt ? new Date(user.createdAt).toLocaleString('vi-VN') : '-'}</dd></div>
             <div className="flex gap-2"><dt className="text-gray-500 w-32">Đăng nhập cuối:</dt><dd>{user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString('vi-VN') : '-'}</dd></div>
@@ -157,17 +174,34 @@ export default function UserDetailPage() {
       <div className="mt-6 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h2 className="font-semibold text-gray-700 mb-4">Danh sách trẻ em ({children.length})</h2>
         <DataTable
-          headers={['ID', 'Họ tên', 'Biệt danh', 'Tuổi', 'Giới tính', 'Level', 'Trạng thái']}
+          headers={['ID', 'Họ tên', 'Biệt danh', 'Tuổi', 'Giới tính', 'Level', 'Trạng thái', '']}
           rows={children.map((c) => [
             <span key="id" className="text-xs font-mono text-gray-400">{c.id}</span>,
-            c.fullName,
+            <Link key="n" href={`/admin/children/${c.id}`} className="font-medium text-blue-600 hover:underline">{c.fullName}</Link>,
             c.nickname || '-',
             c.age ?? '-',
-            c.gender || '-',
+            c.gender === 'male' ? 'Bé trai' : c.gender === 'female' ? 'Bé gái' : c.gender || '-',
             c.currentLevel || '-',
             statusBadge(c.status || 'active'),
+            <Link key="x" href={`/admin/children/${c.id}`} title="Xem chi tiết" className="inline-flex p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Eye size={16} /></Link>,
           ])}
           emptyMessage="Không có trẻ em nào"
+        />
+      </div>
+
+      {/* Gói đăng ký */}
+      <div className="mt-6 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 className="font-semibold text-gray-700 mb-4">Gói đăng ký ({subs.length})</h2>
+        <DataTable
+          headers={['Gói', 'Trạng thái', 'Bắt đầu', 'Kết thúc', 'Số tiền']}
+          rows={subs.map((s) => [
+            s.planName || '-',
+            statusBadge(s.status || 'active'),
+            s.startDate ? new Date(s.startDate).toLocaleDateString('vi-VN') : '-',
+            s.endDate ? new Date(s.endDate).toLocaleDateString('vi-VN') : '-',
+            s.amount != null ? `${Number(s.amount).toLocaleString('vi-VN')} đ` : '-',
+          ])}
+          emptyMessage="Chưa có gói đăng ký nào"
         />
       </div>
     </div>

@@ -6,11 +6,13 @@
     "kiem:tu-duy": "node scripts/kiem-tu-duy.cjs",
     "kiem:toan": "node scripts/kiem-toan.cjs",
     "kiem:ipa": "node scripts/kiem-ipa.cjs",
+    "kiem:kieu": "tsc --noEmit",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "kiem:danh-van": "tsc --target es2020 --module commonjs --esModuleInterop --skipLibCheck --outDir .tmp-kiem scripts/kiem-danh-van.ts && node .tmp-kiem/scripts/kiem-danh-van.js"
+    "kiem:danh-van": "tsc --target es2020 --module commonjs --esModuleInterop --skipLibCheck --outDir .tmp-kiem scripts/kiem-danh-van.ts && node .tmp-kiem/scripts/kiem-danh-van.js",
+    "kiem:viet": "node scripts/kiem-luyen-viet.cjs"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.23.6",

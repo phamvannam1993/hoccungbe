@@ -77,6 +77,7 @@ export default function Page() {
             items={[
               { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
               { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
+              { href: '/tro-choi/tieng-viet-lop-1', label: 'Game Học Tiếng Việt lớp 1', emoji: '🎮' },
               { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🅰️' },
               { href: '/luyen-viet-chu', label: 'Luyện viết chữ', emoji: '✍️' },
               { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa Tiếng Việt lớp 1', emoji: '🎒' },

@@ -62,6 +62,7 @@ const NAV_MENU: NavItem[] = [
     ],
   },
   { href: '/de-thi', label: 'Ôn thi' },
+  { href: '/luyen-viet-chu-dep', label: 'Tập viết' },
   // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   { href: '/bai-viet', label: 'Blog' },
 ];

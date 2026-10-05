@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'học tập cho trẻ nhỏ',
   ],
   alternates: {
-    canonical: '/blog/thoi-luong-hoc-phu-hop-cho-tre',
+    canonical: '/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre',
   },
   openGraph: {
     title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
     description:
       'Thời lượng học phù hợp giúp bé tập trung hơn và không bị quá tải khi học tại nhà.',
-    url: '/blog/thoi-luong-hoc-phu-hop-cho-tre',
+    url: '/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre',
     type: 'article',
     images: [
       {

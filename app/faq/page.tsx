@@ -27,14 +27,14 @@ export const metadata: Metadata = {
   ],
 
   alternates: {
-    canonical: '/faq',
+    canonical: '/cau-hoi-thuong-gap',
   },
 
   openGraph: {
     title: 'Câu hỏi thường gặp | Bé Hay Học',
     description:
       'Giải đáp các thắc mắc phổ biến của phụ huynh khi cho bé học chữ, toán, tiếng Anh và tư duy qua trò chơi giáo dục.',
-    url: '/faq',
+    url: '/cau-hoi-thuong-gap',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
@@ -116,7 +116,7 @@ const faqs = [
     icon: HelpCircle,
     question: 'Nếu gặp lỗi khi sử dụng thì liên hệ ở đâu?',
     answer:
-      'Nếu gặp lỗi đăng nhập, lỗi hiển thị, vấn đề với bài học, trò chơi hoặc tài khoản, phụ huynh có thể gửi email đến support@behayhoc.com hoặc truy cập trang Liên hệ để gửi yêu cầu hỗ trợ. Khi liên hệ, nên mô tả ngắn vấn đề, thiết bị đang dùng và tài khoản nếu có.',
+      'Nếu gặp lỗi đăng nhập, lỗi hiển thị, vấn đề với bài học, trò chơi hoặc tài khoản, phụ huynh có thể gửi email đến behayhoc@gmail.com hoặc truy cập trang Liên hệ để gửi yêu cầu hỗ trợ. Khi liên hệ, nên mô tả ngắn vấn đề, thiết bị đang dùng và tài khoản nếu có.',
   },
 ];
 

@@ -1,0 +1,607 @@
+/* ── Layout ─────────────────────────────────────────────── */
+.app {
+  max-width: 1152px;
+  margin: 16px auto;
+  padding: 14px;
+  background: #1a2a4a;
+  border-radius: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Overlays ───────────────────────────────────────────── */
+.startOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 20, 40, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.gameOverBox {
+  background: white;
+  border-radius: 20px;
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 360px;
+  width: 90%;
+}
+
+.gameOverTitle {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1f3440;
+}
+
+.gameOverScore {
+  font-size: 18px;
+  color: #536c78;
+  font-weight: 700;
+}
+
+.gameOverScore strong {
+  color: #1f3440;
+  font-size: 22px;
+}
+
+.instructions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: #3a5060;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.instructions li::before {
+  content: "✓ ";
+  color: #31b558;
+  font-weight: 900;
+}
+
+.startButton {
+  white-space: nowrap;
+  border-radius: 999px;
+  background: #f7c948;
+  color: #1f3440;
+  border: none;
+  padding: 14px 36px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,.1);
+  transition: transform .1s, box-shadow .1s;
+}
+
+.startButton:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 rgba(0,0,0,.1);
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.header {
+  height: 64px;
+  flex: 0 0 auto;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  z-index: 10;
+}
+
+.header h1 {
+  margin: 0;
+  color: #1f3440;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.header span {
+  display: block;
+  margin-top: 4px;
+  color: #647782;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.close {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #ff6b10;
+  color: white;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Game wrap (scene + bottom bar) ─────────────────────── */
+.gameWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Game scene ─────────────────────────────────────────── */
+.game {
+  position: relative;
+  overflow: hidden;
+  border: 8px solid #044653;
+  border-radius: 0;
+  background: linear-gradient(180deg, #fff3b8 0%, #ffd77a 36%, #cdeaf8 72%, #f7fbff 100%);
+  aspect-ratio: 16 / 9;
+}
+
+/* Snow */
+.snow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.snow i {
+  position: absolute;
+  top: -20px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.68);
+  animation: snowFall linear infinite;
+}
+
+/* Mountains */
+.mountains {
+  position: absolute;
+  left: 0;
+  right: 280px;
+  bottom: 0;
+  height: 360px;
+  z-index: 1;
+}
+
+.mountains span {
+  position: absolute;
+  bottom: -8px;
+  display: block;
+  clip-path: polygon(0 100%, 45% 0, 100% 100%);
+}
+
+.mountains span:nth-child(1) {
+  left: -70px;
+  width: 520px;
+  height: 280px;
+  background: linear-gradient(135deg, #fff 0 36%, #d8e9f3 37% 60%, #fff 61%);
+}
+
+.mountains span:nth-child(2) {
+  left: 245px;
+  width: 460px;
+  height: 220px;
+  background: linear-gradient(135deg, #f7fbff 0 44%, #c7dbe9 45% 62%, #fff 63%);
+  opacity: .78;
+}
+
+.mountains span:nth-child(3) {
+  left: 620px;
+  width: 380px;
+  height: 160px;
+  background: linear-gradient(135deg, #f7fbff 0 44%, #c7dbe9 45% 62%, #fff 63%);
+  opacity: .55;
+}
+
+/* Trees */
+.trees {
+  position: absolute;
+  left: 420px;
+  bottom: 98px;
+  z-index: 3;
+}
+
+.trees span {
+  position: absolute;
+  bottom: 0;
+  width: 22px;
+  height: 46px;
+  background: #2b5f3a;
+  clip-path: polygon(50% 0, 100% 70%, 70% 70%, 100% 100%, 0 100%, 30% 70%, 0 70%);
+}
+
+.trees span:nth-child(1)  { left: 0;    transform: scale(.7);  }
+.trees span:nth-child(2)  { left: 32px; transform: scale(.95); }
+.trees span:nth-child(3)  { left: 70px; transform: scale(.8);  }
+.trees span:nth-child(4)  { left: 112px;transform: scale(1.1); }
+.trees span:nth-child(5)  { left: 154px;transform: scale(.82); }
+.trees span:nth-child(6)  { left: 196px;transform: scale(1);   }
+.trees span:nth-child(7)  { left: 238px;transform: scale(.8);  }
+.trees span:nth-child(8)  { left: 280px;transform: scale(.9);  }
+.trees span:nth-child(9)  { left: 322px;transform: scale(.7);  }
+.trees span:nth-child(10) { left: 364px;transform: scale(.95); }
+
+/* ── Left panel ─────────────────────────────────────────── */
+.left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 280px;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instruction {
+  margin-top: 36px;
+  text-align: center;
+  color: #0a4d5b;
+}
+
+.instruction h2 {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: 1px;
+}
+
+.instruction p {
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: rgba(10,77,91,.78);
+  font-weight: 700;
+}
+
+/* ── Sequence ───────────────────────────────────────────── */
+.sequence {
+  margin-top: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #064855;
+  flex-wrap: wrap;
+  padding: 0 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.item strong,
+.item b {
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.item b {
+  font-weight: 800;
+}
+
+.blank {
+  position: relative;
+  width: 112px;
+  height: 66px;
+  border: 3px solid #03a4bd;
+  background: rgba(237,255,85,.75);
+  display: grid;
+  place-items: center;
+  font-size: 44px;
+  font-weight: 900;
+  color: #064855;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.7) inset;
+}
+
+.blank em {
+  width: 3px;
+  height: 38px;
+  display: block;
+  background: rgba(5,84,99,.45);
+  animation: blink .9s infinite;
+}
+
+.ok  { background: #ccffbf; border-color: #31b558; }
+.bad { background: #ffd1d1; border-color: #e24848; }
+
+/* ── Bottom bar ─────────────────────────────────────────── */
+.bottom {
+  position: absolute;
+  left: 54px;
+  right: 294px;
+  bottom: 20px;
+  height: 76px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 12px 22px;
+  border-radius: 44px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 6px 18px rgba(40,80,100,.16);
+}
+
+.sound,
+.check {
+  border: none;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.sound {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 28px;
+  background: #fff;
+  border: 4px solid #18bdd0;
+}
+
+.progress { flex: 1; }
+
+.progress div {
+  height: 30px;
+  border-radius: 999px;
+  background: #b7c8d8;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #76c7e8;
+  transition: width .3s ease;
+}
+
+.progress small {
+  display: block;
+  margin-top: 6px;
+  color: #536c78;
+  font-weight: 800;
+}
+
+.check {
+  width: 76px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 46px;
+  line-height: 1;
+  background: #eff4c4;
+  color: rgba(45,116,64,.3);
+}
+
+.active {
+  background: #eafbb3;
+  color: #4eb062;
+}
+
+/* ── Right panel (keypad) ───────────────────────────────── */
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  z-index: 10;
+  padding: 16px 18px;
+  border-left: 4px solid rgba(5,68,83,.35);
+  background: linear-gradient(180deg, rgba(99,209,196,.82), rgba(86,210,219,.76));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.next {
+  color: #064855;
+  font-size: 38px;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+/* Trash / clear button — styled square × */
+.trash {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: #ef4444;
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 0 rgba(0,0,0,.14);
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  justify-content: center;
+  gap: 14px 12px;
+}
+
+.keypad button,
+.back {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: #064855;
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0,0,0,.12);
+}
+
+.keypad button:last-child { grid-column: 2; }
+
+.back {
+  width: 64px;
+  height: 64px;
+  font-size: 22px;
+  align-self: center;
+}
+
+/* ── Feedback boxes ─────────────────────────────────────── */
+.correctBox,
+.wrongBox {
+  position: absolute;
+  left: 50%;
+  top: 156px;
+  transform: translateX(-50%);
+  z-index: 30;
+  min-width: 280px;
+  text-align: center;
+  padding: 18px 24px;
+  border-radius: 24px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.18);
+}
+
+.correctBox { background: #e1ffd9; color: #246a2b; }
+.wrongBox   { background: #ffe0e0; color: #942d2d; }
+
+.correctBox strong,
+.wrongBox strong {
+  display: block;
+  font-size: 28px;
+}
+
+.correctBox span,
+.wrongBox span {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ── Animations ─────────────────────────────────────────── */
+.shake { animation: shake .28s ease-in-out 2; }
+
+@keyframes snowFall {
+  from { transform: translateY(-20px); opacity: 0; }
+  20%  { opacity: 1; }
+  to   { transform: translateY(760px); opacity: 0; }
+}
+
+@keyframes blink {
+  0%,45%    { opacity: 1; }
+  46%,100%  { opacity: 0; }
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0);    }
+  25%     { transform: translateX(-10px);}
+  75%     { transform: translateX(10px); }
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .panel   { width: 260px; }
+  .left    { right: 260px; }
+  .mountains { right: 260px; }
+  .item strong,
+  .item b  { font-size: 38px; }
+  .blank   { width: 92px; height: 58px; }
+  .keypad  { grid-template-columns: repeat(3, 58px); gap: 18px 12px; }
+  .keypad button,
+  .back    { width: 58px; height: 58px; font-size: 30px; }
+  .instruction h2 { font-size: 30px; }
+}
+
+@media (max-width: 720px) {
+  .app { margin: 8px; padding: 8px; border-radius: 18px; }
+  .modal { border-radius: 14px; }
+
+  .game {
+    aspect-ratio: 4 / 3;
+    border-width: 4px;
+    border-radius: 0;
+  }
+
+  .bottom {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    height: 52px;
+    padding: 8px 14px;
+    gap: 10px;
+    z-index: 20;
+  }
+  .sound { width: 38px; height: 38px; font-size: 18px; border-width: 3px; }
+  .progress div { height: 18px; }
+  .check { width: 48px; height: 40px; font-size: 28px; }
+
+  .left { right: 0; width: 100%; }
+  .mountains { right: 0; }
+
+  .instruction { margin-top: 20px; }
+  .instruction h2 { font-size: 18px; }
+  .instruction p  { font-size: 12px; margin-top: 4px; }
+
+  .sequence { margin-top: 50px; gap: 6px; padding: 0 8px; }
+  .item { gap: 6px; }
+  .item strong, .item b { font-size: 24px; }
+  .blank { width: 56px; height: 40px; font-size: 26px; }
+
+  .panel {
+    position: static;
+    width: 100%;
+    border-left: none;
+    border-top: 4px solid rgba(5,68,83,.35);
+    border-radius: 0 0 10px 10px;
+    padding: 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .keypad {
+    grid-template-columns: repeat(3, 58px);
+    gap: 10px;
+  }
+  .keypad button, .back { width: 58px; height: 58px; font-size: 24px; }
+  .back {
+    position: static;
+    margin: 0;
+    align-self: center;
+  }
+}

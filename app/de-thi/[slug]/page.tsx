@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import ExamPage from '../../components/edu/ExamPage';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 type Props = { params: Promise<{ slug: string }> };

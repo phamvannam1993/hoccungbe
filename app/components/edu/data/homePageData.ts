@@ -32,28 +32,28 @@ export const learningCategories: LearningCategory[] = [
     icon: '🔤',
     title: 'Làm quen mặt chữ',
     desc: 'Bé nhận diện chữ, âm và từ đơn giản qua hình ảnh trực quan.',
-    href: '/courses/lam-quen-mat-chu',
+    href: '/khoa-hoc/lam-quen-mat-chu',
     bg: 'bg-sky-50',
   },
   {
     icon: '🔢',
     title: 'Toán vui mỗi ngày',
     desc: 'Học đếm số, so sánh, cộng trừ cơ bản bằng trò chơi ngắn.',
-    href: '/courses/toan-vui-moi-ngay',
+    href: '/khoa-hoc/toan-vui-moi-ngay',
     bg: 'bg-violet-50',
   },
   {
     icon: '🧠',
     title: 'Phản xạ và ghi nhớ',
     desc: 'Rèn khả năng quan sát, ghi nhớ và suy luận theo độ tuổi.',
-    href: '/courses/phan-xa-va-ghi-nho',
+    href: '/khoa-hoc/phan-xa-va-ghi-nho',
     bg: 'bg-pink-50',
   },
   {
     icon: '🇬🇧',
     title: 'Tiếng Anh đầu đời',
     desc: 'Bé học từ vựng tiếng Anh cơ bản qua hình ảnh, âm thanh, flashcard và trò chơi tương tác ngắn.',
-    href: '/courses/tieng-anh-dau-doi',
+    href: '/khoa-hoc/tieng-anh-dau-doi',
     bg: 'bg-emerald-50',
   },
 ];
@@ -80,29 +80,29 @@ export const parentResources: ParentResource[] = [
   {
     title: '5 cách giúp bé tập trung hơn khi học tại nhà',
     desc: 'Những thay đổi nhỏ nhưng rất hiệu quả để bé vào nhịp học tốt hơn mỗi ngày.',
-    href: '/blog/giup-be-tap-trung-khi-hoc',
+    href: '/goc-phu-huynh/giup-be-tap-trung-khi-hoc',
   },
   {
     title: 'Nên cho trẻ 3–6 tuổi học bao lâu mỗi lần',
     desc: 'Thời lượng học phù hợp giúp bé hứng thú và không bị quá tải.',
-    href: '/blog/thoi-luong-hoc-phu-hop-cho-tre',
+    href: '/goc-phu-huynh/thoi-luong-hoc-phu-hop-cho-tre',
   },
   {
     title: 'Gợi ý góc học tập đơn giản cho bé',
     desc: 'Một không gian học đúng sẽ giúp bé tập trung và chủ động hơn.',
-    href: '/blog/goc-hoc-tap-cho-be',
+    href: '/goc-phu-huynh/goc-hoc-tap-cho-be',
   },
 ];
 
 const FEATURED_GAME_SLUGS = [
-  'ghep-tu',
-  'toan-vui',
-  'tu-vung-tieng-anh',
-  'me-cung-nho',
+  'tho-vao-hang',
+  'tho-cap-ca-rot',
+  'chim-bay-mat',
+  'dem-chim',
 ] as const;
 
 export const featuredGames: FeaturedGame[] = FEATURED_GAME_SLUGS.map((pageKey) => {
-  const game = gamesData.find((g) => g.page === pageKey);
+  const game = gamesData.find((g) => g.page === pageKey || g.slug === pageKey);
   if (!game) {
     throw new Error(`Featured game with page="${pageKey}" not found in gamesData`);
   }
@@ -110,6 +110,6 @@ export const featuredGames: FeaturedGame[] = FEATURED_GAME_SLUGS.map((pageKey) =
     title: game.title,
     desc: game.description,
     age: game.age,
-    href: `/tro-choi/${game.page}`,
+    href: `/tro-choi/${game.slug}`,
   };
 });

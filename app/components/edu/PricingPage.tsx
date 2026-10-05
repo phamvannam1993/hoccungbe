@@ -20,7 +20,7 @@ export default function PricingPage() {
       name: 'Trường học',
       price: 'Liên hệ',
       desc: 'Dành cho lớp học, trung tâm và trường học muốn triển khai đồng bộ.',
-      features: ['Quản lý nhiều học sinh', 'Dashboard giáo viên', 'Báo cáo theo lớp', 'Tùy chỉnh nội dung'],
+      features: ['Quản lý nhiều học sinh', 'Trang quản lý giáo viên', 'Báo cáo theo lớp', 'Tùy chỉnh nội dung'],
       primary: false,
     },
   ];

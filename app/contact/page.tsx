@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'Liên hệ | Bé Hay Học',
     description:
       'Cần hỗ trợ về tài khoản, khóa học, trò chơi giáo dục hoặc bảng giá? Liên hệ Bé Hay Học để được đồng hành.',
-    url: '/contact',
+    url: '/lien-he',
     siteName: 'Bé Hay Học',
     locale: 'vi_VN',
     type: 'website',
@@ -61,24 +61,25 @@ const contactItems = [
   {
     icon: Mail,
     title: 'Email hỗ trợ',
-    value: 'support@behayhoc.com',
-    href: 'mailto:support@behayhoc.com',
+    value: 'behayhoc@gmail.com',
+    href: 'mailto:behayhoc@gmail.com',
     description:
       'Gửi câu hỏi về tài khoản, khóa học, trò chơi hoặc các vấn đề kỹ thuật khi sử dụng website.',
   },
-  {
-    icon: Phone,
-    title: 'Hotline',
-    value: '0123 456 789',
-    href: 'tel:0123456789',
-    description:
-      'Liên hệ trong giờ hỗ trợ để được tư vấn nhanh về lộ trình học và cách bắt đầu cho bé.',
-  },
+  // Hotline tạm ẩn
+  // {
+  //   icon: Phone,
+  //   title: 'Hotline',
+  //   value: '0123 456 789',
+  //   href: 'tel:0123456789',
+  //   description:
+  //     'Liên hệ trong giờ hỗ trợ để được tư vấn nhanh về lộ trình học và cách bắt đầu cho bé.',
+  // },
   {
     icon: MessageCircle,
     title: 'Tư vấn phụ huynh',
     value: 'Gửi yêu cầu hỗ trợ',
-    href: 'mailto:support@behayhoc.com?subject=Yêu cầu tư vấn Bé Hay Học',
+    href: 'mailto:behayhoc@gmail.com?subject=Yêu cầu tư vấn Bé Hay Học',
     description:
       'Phù hợp nếu phụ huynh chưa biết nên chọn bài học, trò chơi hoặc gói học nào cho con.',
   },
@@ -114,7 +115,7 @@ export default function ContactPage() {
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href="mailto:support@behayhoc.com"
+                href="mailto:behayhoc@gmail.com"
                 className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-sky-700"
               >
                 Gửi email hỗ trợ

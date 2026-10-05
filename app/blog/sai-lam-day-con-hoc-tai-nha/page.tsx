@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     'phụ huynh dạy con sai cách',
   ],
   alternates: {
-    canonical: '/blog/sai-lam-day-con-hoc-tai-nha',
+    canonical: '/goc-phu-huynh/sai-lam-day-con-hoc-tai-nha',
   },
   openGraph: {
     title: '3 sai lầm phụ huynh hay mắc khi dạy con học ở nhà',
     description:
       'Nhiều phụ huynh vô tình khiến con chán học mà không nhận ra.',
-    url: '/blog/sai-lam-day-con-hoc-tai-nha',
+    url: '/goc-phu-huynh/sai-lam-day-con-hoc-tai-nha',
     type: 'article',
     images: [
       {

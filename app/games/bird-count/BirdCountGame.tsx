@@ -1,0 +1,245 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { generateQuestion } from "./data";
+import { speakText, stopSpeaking } from "../../components/edu/utils/speech";
+import styles from "./BirdCountGame.module.css";
+
+type BirdProps = {
+  top: number;
+  delay: number;
+  duration: number;
+};
+
+function Bird({ top, delay, duration }: BirdProps) {
+  return (
+    <div
+      className={styles.bird}
+      style={{
+        top,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`,
+      }}
+    >
+      <div className={styles.tail} />
+      <div className={styles.wingLeft} />
+      <div className={styles.wingRight} />
+      <div className={styles.birdBody} />
+      <div className={styles.birdHead} />
+      <div className={styles.beak} />
+    </div>
+  );
+}
+
+export default function BirdCountGame() {
+  const [round, setRound] = useState(0);
+  const [bestRound, setBestRound] = useState(0);
+  const [prevBirdCount, setPrevBirdCount] = useState<number | undefined>(undefined);
+  const [replayKey, setReplayKey] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [message, setMessage] = useState("Quan sát chim bay qua màn hình rồi chọn đáp án.");
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+
+  const question = useMemo(() => generateQuestion(round, prevBirdCount), [round, prevBirdCount]);
+  const isAnswered = selectedAnswer !== null;
+
+  const birds = useMemo(() => {
+    const baseDuration = 6.2 * question.speedFactor;
+    return Array.from({ length: question.birdCount }, (_, index) => {
+      const seed = (index * 9301 + replayKey * 49297 + round * 7919) % 233280;
+      const rand = seed / 233280;
+      return {
+        top: 110 + (index % 3) * 64 + rand * 10,
+        delay: index * 0.55 * question.speedFactor,
+        duration: baseDuration + (index % 3) * 0.45,
+      };
+    });
+  }, [question.birdCount, question.speedFactor, replayKey, round]);
+
+  useEffect(() => {
+    if (gameOver) return;
+    setSelectedAnswer(null);
+    const intro = "Quan sát chim bay qua màn hình rồi chọn đáp án.";
+    setMessage(intro);
+    const introTimer = window.setTimeout(() => {
+      if (audioUnlocked) speakText(intro, { lang: "vi-VN", rate: 0.95 });
+    }, 600);
+
+    const timer = window.setTimeout(() => {
+      const prompt = "Bây giờ hãy chọn số chim bạn vừa thấy.";
+      setMessage(prompt);
+      if (audioUnlocked) speakText(prompt, { lang: "vi-VN", rate: 0.95 });
+    }, 4000);
+
+    return () => {
+      window.clearTimeout(introTimer);
+      window.clearTimeout(timer);
+    };
+  }, [round, replayKey, audioUnlocked, gameOver]);
+
+  const handleChoose = (answer: number) => {
+    if (isAnswered || gameOver) return;
+
+    setSelectedAnswer(answer);
+
+    if (answer === question.birdCount) {
+      const msg = `Đúng rồi! Có ${question.birdCount} chú chim.`;
+      setMessage(msg);
+      speakText(msg, { lang: "vi-VN", rate: 0.95 });
+      setBestRound((b) => Math.max(b, round + 1));
+      window.setTimeout(() => {
+        setPrevBirdCount(question.birdCount);
+        setRound((r) => r + 1);
+        setReplayKey((current) => current + 1);
+      }, 2800);
+    } else {
+      const msg = `Sai rồi! Có ${question.birdCount} chú chim. Trò chơi kết thúc.`;
+      setMessage(msg);
+      speakText(msg, { lang: "vi-VN", rate: 0.95 });
+      setGameOver(true);
+    }
+  };
+
+  const handleReplay = () => {
+    setReplayKey((current) => current + 1);
+  };
+
+  const handleSpeak = () => {
+    speakText(question.question, { lang: "vi-VN", rate: 0.95 });
+  };
+
+  const handleRestart = () => {
+    setRound(0);
+    setPrevBirdCount(undefined);
+    setReplayKey((current) => current + 1);
+    setSelectedAnswer(null);
+    setGameOver(false);
+  };
+
+  useEffect(() => {
+    return () => stopSpeaking();
+  }, []);
+
+  const handleStart = () => {
+    setAudioUnlocked(true);
+    // Không gọi speakText ở đây — useEffect sẽ tự đọc intro khi audioUnlocked đổi
+  };
+
+  return (
+    <main className={styles.app}>
+      <section className={styles.game}>
+        {!audioUnlocked && (
+          <div className={styles.startOverlay}>
+            <button className={styles.startButton} onClick={handleStart}>
+              ▶ Bắt đầu
+            </button>
+          </div>
+        )}
+        {gameOver && (
+          <div className={styles.startOverlay}>
+            <div className={styles.gameOverBox}>
+              <div className={styles.gameOverTitle}>Trò chơi kết thúc</div>
+              <div className={styles.gameOverScore}>
+                Bạn đã trả lời đúng <strong>{bestRound}</strong> câu
+              </div>
+              <button className={styles.startButton} onClick={handleRestart}>
+                ↻ Chơi lại
+              </button>
+            </div>
+          </div>
+        )}
+        <div className={styles.scene}>
+          <div className={styles.leftHill} />
+          <div className={styles.treeTopLeft} />
+
+          <div className={styles.mountains}>
+            <div className={`${styles.mountain} ${styles.m1}`} />
+            <div className={`${styles.mountain} ${styles.m2}`} />
+            <div className={`${styles.mountain} ${styles.m3}`} />
+            <div className={`${styles.mountain} ${styles.m4}`} />
+            <div className={`${styles.mountain} ${styles.m5}`} />
+          </div>
+
+          <div className={styles.house}>
+            <div className={styles.chimney} />
+            <div className={styles.roofMain} />
+            <div className={styles.roofSide} />
+            <div className={styles.frontWall} />
+            <div className={styles.sideWall} />
+            <div className={`${styles.window} ${styles.w1}`} />
+            <div className={`${styles.window} ${styles.w2}`} />
+            <div className={`${styles.window} ${styles.w3}`} />
+            <div className={`${styles.window} ${styles.w4}`} />
+            <div className={styles.door} />
+          </div>
+
+          <div className={styles.pier} />
+          <div className={styles.grassBand} />
+          <div className={styles.flowersBottom} />
+          <div className={styles.pond} />
+
+          <div className={styles.rightTree}>
+            <div className={styles.crown} />
+            <div className={styles.trunk} />
+          </div>
+
+          <div className={styles.birdsLayer} key={`${round}-${replayKey}`}>
+            {birds.map((bird, index) => (
+              <Bird
+                key={index}
+                top={bird.top}
+                delay={bird.delay}
+                duration={bird.duration}
+              />
+            ))}
+          </div>
+
+          <div className={styles.hudTop}>
+            <span className={styles.roundBadge}>{round + 1}</span>
+            <span>Lượt chơi</span>
+          </div>
+
+          <div className={styles.message}>{message}</div>
+
+          <button className={styles.replayButton} onClick={handleReplay}>
+            <span className={styles.replayIcon}>↻</span>
+            <span>Xem lại</span>
+          </button>
+        </div>
+
+        <div className={styles.questionPanel}>
+          <div className={styles.questionRow}>
+            <button className={styles.audioButton} onClick={handleSpeak}>
+              🔊
+            </button>
+            <div className={styles.questionText}>{question.question}</div>
+          </div>
+
+          <div className={styles.options}>
+            {question.options.map((option) => {
+              const isSelected = selectedAnswer === option;
+              const isCorrect = isAnswered && option === question.birdCount;
+              const isWrong = isSelected && option !== question.birdCount;
+
+              return (
+                <button
+                  key={option}
+                  className={[
+                    styles.optionButton,
+                    isAnswered ? styles.disabledOption : "",
+                    isCorrect ? styles.correctOption : "",
+                    isWrong ? styles.wrongOption : "",
+                  ].join(" ")}
+                  onClick={() => handleChoose(option)}
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

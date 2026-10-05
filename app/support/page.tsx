@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Hỗ trợ phụ huynh | Bé Hay Học',
     description:
       'Cần tư vấn chọn lộ trình, hỗ trợ tài khoản hoặc tìm hiểu thêm về cách hệ thống hoạt động? Chúng tôi luôn sẵn sàng đồng hành.',
-    url: '/support',
+    url: '/ho-tro',
     type: 'website',
     images: [
       {

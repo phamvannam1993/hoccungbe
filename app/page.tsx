@@ -56,7 +56,8 @@ export const metadata: Metadata = {
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 export default function Page() {
-  const jsonLd = {
+  // Single WebSite schema with correct SearchAction URL (C5, C6)
+  const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Bé Hay Học',
@@ -65,21 +66,14 @@ export default function Page() {
     description: 'Nền tảng học tập & trò chơi giáo dục cho bé 3-10 tuổi',
     potentialAction: {
       '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/courses?q={search_term_string}` },
+      target: { '@type': 'EntryPoint', urlTemplate: `${SITE}/khoa-hoc?q={search_term_string}` },
       'query-input': 'required name=search_term_string',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Bé Hay Học',
-      url: SITE,
-      logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` },
-      sameAs: [],
     },
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       <HomePage />
     </>
   );

@@ -4,28 +4,28 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const quickLinks = [
   { label: 'Trang chủ', href: '/' },
-  { label: 'Khóa học cho bé', href: '/courses' },
-  { label: 'Kho trò chơi giáo dục', href: '/games' },
-  { label: 'Tiến độ học tập', href: '/progress' },
+  { label: 'Khóa học cho bé', href: '/khoa-hoc' },
+  { label: 'Kho trò chơi giáo dục', href: '/tro-choi' },
+  { label: 'Tiến độ học tập', href: '/tien-do' },
 ];
 
 const parentLinks = [
-  { label: 'Góc phụ huynh', href: '/bai-viet' },
+  { label: 'Góc phụ huynh', href: '/goc-phu-huynh' },
   { label: 'Cách bắt đầu', href: '/huong-dan' },
   { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
   { label: 'Liên hệ', href: '/lien-he' },
 ];
 
 const seoLinks = [
-  { label: 'Học chữ cái cho bé', href: '/courses' },
-  { label: 'Học toán vui cho bé', href: '/courses' },
-  { label: 'Học tiếng Anh cho bé', href: '/courses' },
-  { label: 'Trò chơi tư duy cho trẻ em', href: '/games' },
+  { label: 'Học chữ cái cho bé', href: '/khoa-hoc' },
+  { label: 'Học toán vui cho bé', href: '/khoa-hoc' },
+  { label: 'Học tiếng Anh cho bé', href: '/khoa-hoc' },
+  { label: 'Trò chơi tư duy cho trẻ em', href: '/tro-choi' },
 ];
 
 const legalLinks = [
-  { label: 'Chính sách bảo mật', href: '/privacy-policy' },
-  { label: 'Điều khoản sử dụng', href: '/terms' },
+  { label: 'Chính sách bảo mật', href: '/chinh-sach-bao-mat' },
+  { label: 'Điều khoản sử dụng', href: '/dieu-khoan' },
 ];
 
 export default function Footer() {
@@ -104,20 +104,12 @@ export default function Footer() {
                 <Mail size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>
                   Email hỗ trợ:<br />
-                  <a href="mailto:support@behayhoc.com" className="font-semibold text-white transition hover:underline">
-                    support@behayhoc.com
+                  <a href="mailto:behayhoc@gmail.com" className="font-semibold text-white transition hover:underline">
+                    behayhoc@gmail.com
                   </a>
                 </span>
               </p>
-              <p className="flex gap-3">
-                <Phone size={18} className="mt-1 shrink-0 text-white/90" />
-                <span>
-                  Hotline:<br />
-                  <a href="tel:0123456789" className="font-semibold text-white transition hover:underline">
-                    0123 456 789
-                  </a>
-                </span>
-              </p>
+              {/* Hotline tạm ẩn */}
               <p className="flex gap-3">
                 <MapPin size={18} className="mt-1 shrink-0 text-white/90" />
                 <span>

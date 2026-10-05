@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Tiến độ học tập của bé | Bé Hay Học',
     description:
       'Xem báo cáo trực quan về quá trình học tập, kỹ năng phát triển và nội dung gợi ý cho bé.',
-    url: '/progress',
+    url: '/tien-do',
     type: 'website',
     images: [
       {

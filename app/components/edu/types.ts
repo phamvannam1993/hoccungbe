@@ -1,6 +1,6 @@
 export type PageKey =
+  // ─── Hệ thống ─────────────────────────────────────────────
   | 'home'
-  | 'tro-choi'
   | 'lesson'
   | 'tien-do'
   | 'pricing'
@@ -9,38 +9,72 @@ export type PageKey =
   | 'dashboard'
   | 'khoa-hoc'
   | 'ho-tro'
+  | 'tro-choi'
+
+  // ─── Toán & đếm số ────────────────────────────────────────
   | 'toan-vui'
-  | 'san-hinh-ghi-nho'
-  | 'tu-vung-tieng-anh'
-  | 'ghep-am-thanh'
-  | 'chon-nhanh'
-  | 'tim-so-thieu'
-  | 'ghep-bong'
-  | 'sap-xep-mau'
-  | 'dem-dong-vat'
-  | 'chu-cai-dau'
-  | 'ghep-nhom'
-  | 'ghep-tu'
-  | 'cap-doi-trai-nghia'
-  | 'sap-xep-thu-tu'
-  | 'tim-ke-le'
-  | 'am-dau'
-  | 'so-va-so-luong'
-  | 'hoan-thanh-quy-luat'
-  | 'nghe-va-lam'
-  | 'me-cung-nho'
-  | 'ghep-doi'
-  | 'so-roi'
-  | 'nho-thu-tu'
-  | 'ghep-van'
-  | 'hai-tao'
-  | 'cho-vat-an'
   | 'toan-bong-bong'
-  | 'cong-tren-so-do'
+  | 'tim-so-thieu'
+  | 'dem-dong-vat'
+  | 'dem-chim'
+  | 'chim-bay-mat'
+  | 'tho-vao-hang'
+  | 'tho-cap-ca-rot'
+  | 'so-va-so-luong'
   | 'so-sanh-so'
-  | 'viet-day-so'
+  | 'so-roi'
   | 'noi-so'
+  | 'viet-day-so'
+  | 'cong-tren-so-do'
+  | 'ca-trong-ho'
+  | 'tau-hoc-toan'
+  | 'day-so'
+  | 'keo-cot-so'
+
+  // ─── Ngôn ngữ & chữ ───────────────────────────────────────
+  | 'ghep-tu'
+  | 'ghep-van'
+  | 'chu-cai-dau'
+  | 'am-dau'
+  | 'cap-doi-trai-nghia'
+  | 'tu-vung-tieng-anh'
+  | 'fishing-letters'
+  | 'missing-letter'
+  | 'letter-tracing'
+  | 'trace-sentence'
+  | 'doc-van-ghep-chu'
+
+  // ─── Ghi nhớ & tập trung ──────────────────────────────────
+  | 'san-hinh-ghi-nho'
+  | 'nho-thu-tu'
+  | 'chon-nhanh'
+  | 'ghep-doi'
+  | 'ghep-bong'
+
+  // ─── Quan sát, tư duy & phân loại ─────────────────────────
+  | 'sap-xep-mau'
+  | 'sap-xep-thu-tu'
+  | 'sap-xep-truyen'
+  | 'ghep-nhom'
+  | 'tim-ke-le'
+  | 'hoan-thanh-quy-luat'
   | 'tim-cho-cho-vat'
-  | 'sap-xep-truyen';
+  | 'me-cung-nho'
+
+  // ─── Nghe & tương tác ─────────────────────────────────────
+  | 'ghep-am-thanh'
+  | 'nghe-va-lam'
+  | 'bubble-vocabulary'
+
+  // ─── Hoạt động sống ───────────────────────────────────────
+  | 'hai-tao'
+  | 'hai-tao-hoc'
+  | 'cho-vat-an'
+
+  // ─── Ghép hình & logic ────────────────────────────────────
+  | 'ghep-hinh-rung'
+  | 'ghep-manh-hinh'
+  | 'puzzle-game'
+  | 'toan-bong-bong-bien';
 
 export type SetPage = (page: PageKey) => void;

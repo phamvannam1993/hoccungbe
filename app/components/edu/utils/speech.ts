@@ -1,6 +1,5 @@
 // utils/speech.ts
-// Primary: Google TTS via /api/tts (natural voice, cached)
-// Fallback: Web Speech API (browser-native)
+// Đọc bằng giọng riêng của app qua /api/tts (natural voice, cached). Không dùng Google TTS.
 
 export type SpeakTextOptions = {
   lang?: string;
@@ -12,43 +11,11 @@ export type SpeakTextOptions = {
 
 let _currentAudio: HTMLAudioElement | null = null;
 
-function speakWebSpeech(text: string, options: SpeakTextOptions = {}): void {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-  const {
-    lang = 'vi-VN',
-    rate = 0.9,
-    pitch = 1.1,
-    volume = 1,
-    preferredVoiceNameIncludes = ['female', 'woman', 'girl', 'linh', 'mai', 'han', 'oanh', 'vy'],
-  } = options;
-
-  const synth = window.speechSynthesis;
-  synth.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voices = synth.getVoices();
-  const normalizedLang = lang.toLowerCase();
-  const sameLang = voices.filter((v) => v.lang.toLowerCase().startsWith(normalizedLang.split('-')[0]));
-  const preferred = sameLang.find((v) =>
-    preferredVoiceNameIncludes.some((kw) => v.name.toLowerCase().includes(kw.toLowerCase()))
-  );
-  const voice = preferred || sameLang[0] || voices[0] || null;
-
-  utterance.lang = lang;
-  utterance.rate = rate;
-  utterance.pitch = pitch;
-  utterance.volume = volume;
-  if (voice) { utterance.voice = voice; utterance.lang = voice.lang; }
-
-  synth.speak(utterance);
-}
-
 export function speakText(
   text: string,
-  options: SpeakTextOptions = {}
+  _options: SpeakTextOptions = {}
 ): void {
-  if (typeof window === 'undefined' || !text.trim()) return;
+  if (typeof window === 'undefined' || !text || !text.trim()) return;
 
   // Stop any current audio
   if (_currentAudio) {
@@ -64,10 +31,7 @@ export function speakText(
   const audio = new Audio(url);
   _currentAudio = audio;
 
-  audio.play().catch(() => {
-    // Fallback to Web Speech API if Google TTS fails
-    speakWebSpeech(text, options);
-  });
+  audio.play().catch(() => {/* chỉ dùng giọng API */});
 }
 
 export function stopSpeaking(): void {

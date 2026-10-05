@@ -20,6 +20,10 @@ import {
   Layers,
   Tag,
   Newspaper,
+  MessageSquare,
+  ClipboardList,
+  File,
+  Music,
 } from 'lucide-react';
 
 const navItems = [
@@ -29,13 +33,22 @@ const navItems = [
   { href: '/admin/volumes', label: 'Tập (Volume)', icon: Layers },
   { href: '/admin/topics', label: 'Chủ đề', icon: Tag },
   { href: '/admin/lessons', label: 'Bài học', icon: FileText },
+  { href: '/admin/documents', label: '📄 Kho Tài Liệu', icon: File },
+  { href: '/admin/audio-library', label: '🎵 Kho Âm Thanh', icon: Music },
+  { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
-  { href: '/admin/games', label: 'Trò chơi', icon: Gamepad2 },
+  { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },
+  { href: '/admin/mini-games', label: 'Mini Game', icon: Gamepad2 },
+  { href: '/admin/games/puzzles', label: '🧩 Puzzle Game', icon: Gamepad2 },
+  { href: '/admin/games/leaderboard', label: '🏆 Bảng Xếp Hạng', icon: TrendingUp },
+  { href: '/admin/games/progress', label: '📊 Tiến Độ Game', icon: TrendingUp },
   { href: '/admin/children', label: 'Trẻ em', icon: Baby },
   { href: '/admin/progress', label: 'Tiến độ', icon: TrendingUp },
   { href: '/admin/rewards', label: 'Phần thưởng', icon: Star },
   { href: '/admin/subscriptions', label: 'Đăng ký', icon: CreditCard },
   { href: '/admin/articles', label: 'Bài viết', icon: Newspaper },
+  { href: '/admin/exams', label: 'Đề thi', icon: ClipboardList },
+  { href: '/admin/feedback', label: 'Góp ý', icon: MessageSquare },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {

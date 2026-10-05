@@ -1,0 +1,30 @@
+# Bé Hay Học - Nền tảng học tập cho trẻ 3-10 tuổi
+
+# License: RSL-1.0
+# Language: vi
+
+> Bé Hay Học (behayhoc.com) là nền tảng học tập trực tuyến dành cho trẻ em
+> từ 3 đến 10 tuổi tại Việt Nam, cung cấp bài học tương tác ngắn 5-10 phút,
+> 30+ trò chơi giáo dục, bài tập luyện tập theo 3 mức độ và công cụ theo dõi
+> tiến độ cho phụ huynh. Nội dung gồm: Tiếng Việt lớp 1-2, Toán lớp 1-2,
+> Tiếng Anh đầu đời, tư duy logic.
+
+## Nội dung chính
+
+- [Khóa học](https://behayhoc.com/khoa-hoc): Tiếng Việt lớp 1, Tiếng Việt lớp 2, Toán lớp 1-2
+- [Kho trò chơi](https://behayhoc.com/tro-choi): 30+ trò chơi giáo dục tương tác
+- [Bài viết](https://behayhoc.com/bai-viet): Kiến thức nuôi dạy con, mẹo học tập
+- [Câu hỏi thường gặp](https://behayhoc.com/cau-hoi-thuong-gap): Giải đáp về nền tảng
+- [Hướng dẫn sử dụng](https://behayhoc.com/huong-dan): Quy trình học 4 bước
+
+## Đối tượng sử dụng
+
+- Trẻ em 3-10 tuổi tại Việt Nam
+- Phụ huynh người Việt muốn theo dõi và hỗ trợ việc học của con
+
+## Thông tin liên hệ
+
+- Website: https://behayhoc.com
+- Email: behayhoc@gmail.com
+- Facebook: https://www.facebook.com/behayhoc
+- YouTube: https://www.youtube.com/@behayhoc

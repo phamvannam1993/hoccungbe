@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import ArticleContent from '../../components/edu/ArticleContent';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://behayhoc.com';
 
 interface Article {
@@ -77,6 +79,7 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
   ]);
 
   if (!article) {
+    notFound();
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-700 mb-4">Bài viết không tìm thấy</h1>
@@ -177,10 +180,10 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
           <main className="flex-1 min-w-0">
             <article className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
               {/* Category badge */}
-              {article.category && (
+              {article.category && CATEGORY_LABEL[article.category] && (
                 <Link href={`/bai-viet?category=${article.category}`}
                   className="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full bg-[#c0392b]/10 text-[#c0392b] hover:bg-[#c0392b]/20 transition-colors">
-                  {CATEGORY_LABEL[article.category] || article.category}
+                  {CATEGORY_LABEL[article.category]}
                 </Link>
               )}
 
@@ -198,9 +201,10 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
               {/* Thumbnail */}
               {article.thumbnailUrl && (
-                <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden mb-6">
-                  <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover" unoptimized priority />
-                </div>
+                <ArticleContent
+                  html={`<img src="${article.thumbnailUrl}" alt="${article.title.replace(/"/g, '&quot;')}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin:0 0 24px 0;" />`}
+                  className=""
+                />
               )}
 
               {/* Excerpt */}
@@ -210,8 +214,35 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
 
               {/* HTML Content */}
               <style>{`
-                .article-content { overflow-x: hidden; word-break: break-word; }
-                .article-content * { max-width: 100% !important; box-sizing: border-box; }
+                .article-content {
+                  overflow-x: hidden;
+                  word-break: normal;
+                  overflow-wrap: break-word;
+                  hyphens: none;
+                  -webkit-hyphens: none;
+                  white-space: normal;
+                }
+                /* Đè mọi inline style của editor để text wrap đúng tại space */
+                .article-content *,
+                .article-content *::before,
+                .article-content *::after {
+                  max-width: 100% !important;
+                  width: auto !important;
+                  box-sizing: border-box;
+                  word-break: normal !important;
+                  overflow-wrap: break-word !important;
+                  white-space: normal !important;
+                  hyphens: none !important;
+                  -webkit-hyphens: none !important;
+                }
+                /* Trừ pre/code — giữ khoảng trắng nhưng cho phép wrap */
+                .article-content pre, .article-content code {
+                  white-space: pre-wrap !important;
+                  overflow-wrap: anywhere !important;
+                }
+                /* Bảng và ảnh không bị ép width auto */
+                .article-content table { width: 100% !important; }
+                .article-content img { width: auto !important; height: auto !important; }
                 .article-content p { margin-bottom: 1rem; line-height: 1.75; }
                 .article-content img { height: auto !important; width: auto !important; max-width: 100% !important; border-radius: 10px; margin: 12px auto; display: block; }
                 .article-content .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; margin: 16px 0; }
@@ -233,7 +264,8 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
                 .article-content ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
                 .article-content li { margin-bottom: 0.4rem; line-height: 1.7; }
               `}</style>
-              <div
+              <ArticleContent
+                html={article.content}
                 className="article-content prose prose-base max-w-none text-gray-700 leading-relaxed
                   [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-3
                   [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-800 [&_h3]:mt-6 [&_h3]:mb-2
@@ -244,7 +276,6 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
                   [&_strong]:text-gray-800
                   [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-sm
                   [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-xl [&_pre]:p-4"
-                dangerouslySetInnerHTML={{ __html: article.content }}
               />
 
               {/* Tags */}

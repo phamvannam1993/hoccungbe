@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'bé hay học',
   ],
   alternates: {
-    canonical: '/login',
+    canonical: '/dang-nhap',
   },
   robots: {
     index: false,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Đăng nhập | Bé Hay Học',
     description:
       'Đăng nhập để tiếp tục học, lưu tiến độ và theo dõi hành trình học tập của bé.',
-    url: '/login',
+    url: '/dang-nhap',
     type: 'website',
     images: [
       {

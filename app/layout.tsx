@@ -230,6 +230,12 @@ export default function RootLayout({
         <PWARegister />
 
         <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3236340785559696"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
+        <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0SJ6BCCVGN"
           strategy="afterInteractive"
         />

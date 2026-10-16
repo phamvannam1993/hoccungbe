@@ -1,0 +1,144 @@
+{
+  "bai-1": {
+    "concept": "Tiền Việt Nam có các tờ 1 000, 2 000, 5 000, 10 000, 20 000 đồng. Tờ có số lớn hơn thì có giá trị lớn hơn.",
+    "examples": [
+      {
+        "prompt": "Tờ nào có giá trị BÉ hơn:\ntờ 5 000 đồng hay tờ 10 000 đồng?",
+        "visual": {
+          "money": [
+            5000,
+            10000
+          ]
+        },
+        "answer": "5 nghìn bé hơn 10 nghìn. Tờ 5 000 đồng có giá trị bé hơn."
+      },
+      {
+        "prompt": "Bé có 1 tờ 2 000 đồng\nvà 1 tờ 1 000 đồng.\nBé có tất cả bao nhiêu tiền?",
+        "visual": {
+          "money": [
+            2000,
+            1000
+          ]
+        },
+        "answer": "2 + 1 = 3 (nghìn). Bé có 3 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đọc số in trên từng tờ tiền.",
+      "Bỏ ba số 0, nghĩ theo “nghìn” cho dễ.",
+      "So sánh hoặc cộng các số nghìn.",
+      "Viết kết quả kèm chữ “đồng”."
+    ],
+    "tips": [
+      "Nhiều tờ chưa chắc nhiều tiền, phải xem số trên tờ! 💵",
+      "Cộng theo nghìn rồi thêm ba số 0, đừng viết ghép hai số cạnh nhau nhé!"
+    ]
+  },
+  "bai-2": {
+    "concept": "Mua hai món thì phải trả tiền cả hai món. Ta lấy giá món thứ nhất cộng giá món thứ hai.",
+    "examples": [
+      {
+        "prompt": "Bánh 🍩 giá 1 000 đồng.\nSữa 🥛 giá 6 000 đồng.\nMua cả hai hết bao nhiêu tiền?",
+        "visual": {
+          "emoji": "🍩 + 🥛"
+        },
+        "answer": "1 + 6 = 7 (nghìn). Mua cả hai hết 7 000 đồng."
+      },
+      {
+        "prompt": "Bé mua 2 quả bóng 🎈.\nMỗi quả giá 4 000 đồng.\nBé trả bao nhiêu tiền?",
+        "visual": {
+          "emoji": "🎈 🎈"
+        },
+        "answer": "4 000 + 4 000 = 8 000 đồng. Bé trả 8 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đọc giá của từng món.",
+      "Nghĩ theo “nghìn”: bỏ ba số 0.",
+      "Cộng giá các món lại.",
+      "Thêm “nghìn đồng” vào kết quả."
+    ],
+    "tips": [
+      "Mua cả hai là phép cộng, đừng trừ nhầm! ➕",
+      "Không viết ghép hai số cạnh nhau: 2 000 và 5 000 là 7 000, không phải 25 000."
+    ]
+  },
+  "bai-3": {
+    "concept": "Giá món đồ bé hơn hoặc bằng số tiền bé có thì bé mua được. Giá lớn hơn số tiền thì bé chưa đủ tiền.",
+    "examples": [
+      {
+        "prompt": "Bé có 6 000 đồng.\nBé mua được món nào:\nkem 7 000 đồng hay bánh 4 000 đồng?",
+        "visual": {
+          "emoji": "🍦 🍪"
+        },
+        "answer": "4 000 < 6 000 nên mua được bánh. 7 000 > 6 000 nên chưa đủ tiền mua kem."
+      },
+      {
+        "prompt": "Bé có 10 000 đồng.\nBé muốn mua sách giá 18 000 đồng.\nBé cần thêm bao nhiêu tiền?",
+        "answer": "18 − 10 = 8 (nghìn). Bé cần thêm 8 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đếm xem bé có tất cả bao nhiêu tiền.",
+      "Cộng giá các món trước nếu bé mua hai món.",
+      "So sánh giá món đồ với số tiền bé có.",
+      "Chọn món có giá không vượt quá số tiền."
+    ],
+    "tips": [
+      "Giá bằng đúng số tiền là vừa đủ, vẫn mua được! ✅",
+      "Mua hai món: cộng cả hai giá rồi mới so."
+    ]
+  },
+  "bai-4": {
+    "concept": "Tiền còn lại là số tiền lúc đầu bớt đi số tiền đã tiêu. Ta làm phép trừ.",
+    "examples": [
+      {
+        "prompt": "Bé có 8 000 đồng.\nBé mua kẹo hết 2 000 đồng.\nBé còn lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "💵 ➖ 🍬"
+        },
+        "answer": "8 − 2 = 6 (nghìn). Bé còn lại 6 000 đồng."
+      },
+      {
+        "prompt": "Bé có 3 000 đồng.\nBé mua bánh hết 3 000 đồng.\nBé còn lại bao nhiêu tiền?",
+        "answer": "3 − 3 = 0. Bé tiêu hết tiền, còn 0 đồng."
+      }
+    ],
+    "steps": [
+      "Tìm số tiền bé có lúc đầu.",
+      "Tìm số tiền bé đã tiêu.",
+      "Lấy tiền lúc đầu trừ tiền đã tiêu.",
+      "Trừ lần lượt từng món nếu bé mua nhiều món."
+    ],
+    "tips": [
+      "Tiền bớt đi là phép trừ, đừng cộng thêm! ➖",
+      "Có bao nhiêu tiêu bấy nhiêu thì còn 0 đồng."
+    ]
+  },
+  "bai-5": {
+    "concept": "Mua hàng hợp lý là chọn chỗ bán rẻ hơn và tiêu không quá số tiền mình có. Ta so sánh giá để chọn.",
+    "examples": [
+      {
+        "prompt": "Cùng quyển vở 📒: cửa hàng A bán 9 000 đồng,\ncửa hàng B bán 7 000 đồng.\nMua ở đâu rẻ hơn, rẻ hơn bao nhiêu?",
+        "visual": {
+          "emoji": "🏪 📒"
+        },
+        "answer": "7 000 < 9 000 nên cửa hàng B rẻ hơn. 9 − 7 = 2, rẻ hơn 2 000 đồng."
+      },
+      {
+        "prompt": "Mỗi quả bóng 🎈 giá 2 000 đồng.\nBé có 5 000 đồng.\nBé mua được nhiều nhất mấy quả?",
+        "answer": "Đếm thêm 2 nghìn: 2 000, 4 000 là 2 quả. 3 quả là 6 000 đồng, quá 5 000. Bé mua được nhiều nhất 2 quả."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ giá ở từng chỗ hoặc từng cách mua.",
+      "Tính tổng tiền mỗi cách nếu mua nhiều món.",
+      "So sánh các số tiền với nhau.",
+      "Chọn cách rẻ nhất mà vẫn đủ tiền."
+    ],
+    "tips": [
+      "Giá 1 món rẻ chưa chắc mua nhiều món vẫn rẻ, cứ cộng lại mà xem! 🧮",
+      "Hỏi “đỡ tốn bao nhiêu” thì lấy giá đắt trừ giá rẻ."
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "bai-1": {
+    "concept": "Được thêm, được cho, mua thêm thì làm phép cộng. Ăn mất, bay đi, làm vỡ thì làm phép trừ.",
+    "examples": [
+      {
+        "prompt": "Có 2 bông hoa. Bé hái thêm 5 bông.\nCó tất cả mấy bông hoa?",
+        "visual": {
+          "emoji": "🌼🌼 ➕ 🌼🌼🌼🌼🌼"
+        },
+        "answer": "Hái thêm là có nhiều lên: 2 + 5 = 7. Có 7 bông hoa."
+      },
+      {
+        "prompt": "Có 8 quả bóng. 3 quả bay mất.\nCòn mấy quả bóng?",
+        "visual": {
+          "emoji": "🎈🎈🎈🎈🎈🎈🎈🎈"
+        },
+        "answer": "Bay mất là bớt đi: 8 − 3 = 5. Còn 5 quả bóng."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, tìm số lúc đầu.",
+      "Tìm chữ cho biết thêm vào hay bớt đi.",
+      "Viết phép cộng hoặc phép trừ.",
+      "Tính rồi trả lời đủ câu."
+    ],
+    "tips": [
+      "“Bạn cho bé” là bé có thêm, phải cộng!",
+      "Ăn hết thì còn 0.",
+      "Hỏi “thêm mấy để đủ 10” thì đếm tiếp đến 10."
+    ]
+  },
+  "bai-2": {
+    "concept": "Tìm số của bạn nhiều hơn thì cộng thêm, của bạn ít hơn thì trừ đi. Muốn biết hơn kém nhau mấy, bé lấy số lớn trừ số bé.",
+    "examples": [
+      {
+        "prompt": "Hoa có 4 con búp bê. Mai có nhiều hơn Hoa 3 con.\nMai có mấy con búp bê?",
+        "answer": "Mai nhiều hơn nên cộng: 4 + 3 = 7. Mai có 7 con búp bê."
+      },
+      {
+        "prompt": "Có 7 cái cốc và 4 cái thìa.\nSố cốc nhiều hơn số thìa mấy cái?",
+        "visual": {
+          "emoji": "🥤🥤🥤🥤🥤🥤🥤\n🥄🥄🥄🥄"
+        },
+        "answer": "Lấy số lớn trừ số bé: 7 − 4 = 3. Số cốc nhiều hơn số thìa 3 cái."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ xem ai nhiều hơn, ai ít hơn.",
+      "Tìm số của bạn đã biết.",
+      "Cộng nếu hỏi bạn nhiều hơn, trừ nếu hỏi bạn ít hơn.",
+      "Lấy số lớn trừ số bé khi hỏi hơn kém mấy."
+    ],
+    "tips": [
+      "Thấy “nhiều hơn” chưa chắc đã cộng, xem đề hỏi ai!",
+      "Xếp hai hàng thẳng nhau để so cho dễ."
+    ]
+  },
+  "bai-3": {
+    "concept": "Bài này hỏi lúc đầu có mấy. Bé làm ngược lại: đã bớt đi thì cộng vào, đã thêm vào thì trừ ra.",
+    "examples": [
+      {
+        "prompt": "Bé cho bạn 2 viên bi thì còn 6 viên.\nLúc đầu bé có mấy viên bi?",
+        "visual": {
+          "emoji": "🔵🔵🔵🔵🔵🔵 ➕ 🔵🔵"
+        },
+        "answer": "Làm ngược lại, gộp số còn với số đã cho: 6 + 2 = 8. Thử lại: 8 − 2 = 6."
+      },
+      {
+        "prompt": "Bà cho Nam thêm 2 quả cam. Bây giờ Nam có 8 quả.\nLúc đầu Nam có mấy quả cam?",
+        "answer": "Làm ngược lại, bỏ số bà cho ra: 8 − 2 = 6. Thử lại: 6 + 2 = 8."
+      }
+    ],
+    "steps": [
+      "Tìm số bây giờ có hoặc còn lại.",
+      "Xem lúc trước đã thêm vào hay bớt đi.",
+      "Làm ngược lại: bớt thì cộng, thêm thì trừ.",
+      "Thử lại bằng câu chuyện trong đề."
+    ],
+    "tips": [
+      "Hỏi “lúc đầu” thì làm ngược lại!",
+      "Cho đi 3 rồi được lại 3 thì vẫn như cũ."
+    ]
+  },
+  "bai-4": {
+    "concept": "Bài hai bước có hai lần thay đổi. Bé tính lần lượt từng bước theo đúng thứ tự câu chuyện.",
+    "examples": [
+      {
+        "prompt": "Có 4 con cá. Thả thêm 5 con, rồi vớt ra 3 con.\nCòn mấy con cá?",
+        "visual": {
+          "emoji": "🐟🐟🐟🐟 ➕ 🐟🐟🐟🐟🐟 ➖ 🐟🐟🐟"
+        },
+        "answer": "Bước một: 4 + 5 = 9. Bước hai: 9 − 3 = 6. Còn 6 con cá."
+      },
+      {
+        "prompt": "Có 9 quả táo. Bé ăn 2 quả, rồi ăn thêm 3 quả nữa.\nCòn mấy quả táo?",
+        "answer": "Ăn hai lần là bớt hai lần: 9 − 2 = 7, rồi 7 − 3 = 4. Còn 4 quả táo."
+      }
+    ],
+    "steps": [
+      "Tìm số lúc đầu.",
+      "Làm bước một: thêm vào hay bớt đi.",
+      "Lấy kết quả bước một làm tiếp bước hai.",
+      "Trả lời bằng kết quả cuối cùng."
+    ],
+    "tips": [
+      "“Ăn thêm” vẫn là bớt đi!",
+      "Kết quả bước một chưa phải đáp số."
+    ]
+  },
+  "bai-5": {
+    "concept": "Dữ kiện gây nhiễu là số có trong đề nhưng không cần để giải. Bé chỉ dùng các số nói về đúng thứ mà câu hỏi hỏi.",
+    "examples": [
+      {
+        "prompt": "Bé có 5 cái bút chì và 4 cục tẩy.\nMẹ mua thêm 2 cái bút chì.\nBé có mấy cái bút chì?",
+        "visual": {
+          "emoji": "✏️✏️✏️✏️✏️ ➕ ✏️✏️"
+        },
+        "answer": "Chỉ dùng số bút chì: 5 + 2 = 7. Bé có 7 cái bút chì, 4 cục tẩy là số gây nhiễu."
+      },
+      {
+        "prompt": "Hôm nay là thứ Ba. Có 9 con gà, 3 con chạy đi.\nCòn mấy con gà?",
+        "answer": "9 − 3 = 6. Còn 6 con gà. “Thứ Ba” là dữ kiện gây nhiễu."
+      }
+    ],
+    "steps": [
+      "Đọc câu hỏi trước xem hỏi về cái gì.",
+      "Gạch chân các số nói về thứ đó.",
+      "Bỏ qua số tuổi, ngày và đồ vật khác.",
+      "Tính rồi trả lời đủ câu."
+    ],
+    "tips": [
+      "Hỏi gì dùng nấy, số lạ để đấy!",
+      "Đề có nhiều số, đừng cộng hết các số!"
+    ]
+  }
+}

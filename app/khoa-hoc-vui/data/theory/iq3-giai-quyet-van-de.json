@@ -1,0 +1,179 @@
+{
+  "bai-1": {
+    "concept": "Chia đều thành các nhóm bằng nhau thì làm phép chia; số dư luôn bé hơn số chia. Muốn bạn nào cũng có chỗ mà còn dư bạn thì phải thêm 1 xe (lều, thuyền) nữa.",
+    "examples": [
+      {
+        "prompt": "Có 27 bạn đi thuyền, mỗi thuyền chở 5 bạn.\nCần ít nhất bao nhiêu thuyền?",
+        "visual": {
+          "emoji": "⛵⛵⛵⛵⛵ ➕ ⛵"
+        },
+        "answer": "27 : 5 = 5 (dư 2). 5 thuyền chở được 25 bạn, còn 2 bạn nên cần thêm 1 thuyền: 5 + 1 = 6 thuyền."
+      },
+      {
+        "prompt": "Có 40 cái kẹo chia đều cho 6 bạn, mỗi bạn được nhiều nhất có thể.\nCòn thừa mấy cái kẹo?",
+        "answer": "Số lớn nhất trong bảng nhân 6 không vượt quá 40 là 36 = 6 × 6. Mỗi bạn được 6 cái, còn thừa 40 − 36 = 4 cái."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: đề hỏi số nhóm, số dư hay số chỗ cần có.",
+      "Làm phép chia, tìm thương và số dư.",
+      "Cần đủ chỗ mà còn dư thì cộng thêm 1.",
+      "Bài nhiều bước thì làm lần lượt từng bước.",
+      "Thử lại: thương × số chia + số dư = số ban đầu."
+    ],
+    "tips": [
+      "Còn dư một bạn cũng cần thêm một xe!",
+      "Số dư phải bé hơn số chia.",
+      "Hỏi \"thừa bao nhiêu\" là hỏi số dư, không phải thương."
+    ]
+  },
+  "bai-2": {
+    "concept": "Vẽ hàng ra giấy giúp bé thấy rõ ai đứng trước, ai đứng sau. Vị trí tính từ đầu cộng vị trí tính từ cuối của cùng một bạn bằng số bạn cộng 1, vì bạn đó được đếm hai lần. Hàng thẳng có số khoảng cách ít hơn số bạn 1.",
+    "examples": [
+      {
+        "prompt": "Bin đứng thứ 3 tính từ đầu hàng và thứ 4 tính từ cuối hàng.\nHàng có bao nhiêu bạn?",
+        "visual": {
+          "emoji": "🧒🧒🙋🧒🧒🧒"
+        },
+        "answer": "Trước Bin có 2 bạn, sau Bin có 3 bạn. Hàng có 2 + 1 + 3 = 6 bạn. Lấy 3 + 4 = 7 là đếm Bin hai lần."
+      },
+      {
+        "prompt": "6 bạn đứng thành một hàng thẳng, hai bạn cạnh nhau cách nhau 2 m.\nTừ bạn đầu hàng đến bạn cuối hàng dài bao nhiêu mét?",
+        "visual": {
+          "emoji": "🧍➖🧍➖🧍➖🧍➖🧍➖🧍"
+        },
+        "answer": "6 bạn có 5 khoảng cách. Mỗi khoảng 2 m nên dài 5 × 2 = 10 m."
+      }
+    ],
+    "steps": [
+      "Vẽ hàng bằng các chấm tròn, đánh dấu bạn cần tìm.",
+      "Đếm số bạn đứng trước và đứng sau bạn đó.",
+      "Cộng thêm chính bạn đó đúng một lần.",
+      "Đổi vị trí \"tính từ cuối\" sang \"tính từ đầu\" khi so hai bạn.",
+      "Đếm khoảng cách giữa các bạn, không đếm số bạn."
+    ],
+    "tips": [
+      "Từ đầu cộng từ cuối, nhớ bớt 1 là ra cả hàng!",
+      "\"Đứng thứ 4\" nghĩa là có 3 bạn đứng trước.",
+      "Năm ngón tay chỉ có bốn kẽ hở."
+    ]
+  },
+  "bai-3": {
+    "concept": "Quãng đường đi rồi về bằng hai lần quãng đường một chiều. Có cả km và m thì đổi hết ra mét (1 km = 1 000 m) rồi mới cộng, trừ, so sánh. Vẽ một đoạn thẳng giúp bé thấy điểm nào ở giữa.",
+    "examples": [
+      {
+        "prompt": "Nhà Bi cách công viên 1 km 200 m.\nBi đã đi được 450 m. Bi còn phải đi bao nhiêu mét nữa?",
+        "answer": "Đổi: 1 km 200 m = 1 000 m + 200 m = 1 200 m. Bi còn phải đi: 1 200 − 450 = 750 m."
+      },
+      {
+        "prompt": "Bưu điện, chợ và nhà bà nằm trên một con đường thẳng, chợ ở GIỮA.\nBưu điện cách chợ 300 m, chợ cách nhà bà 500 m.\nBưu điện cách nhà bà bao nhiêu mét?",
+        "visual": {
+          "emoji": "📮 ➖ 🏪 ➖➖ 🏠"
+        },
+        "answer": "Vẽ đoạn thẳng: bưu điện – chợ – nhà bà. Chợ ở giữa nên quãng đường cả đoạn là 300 + 500 = 800 m."
+      }
+    ],
+    "steps": [
+      "Vẽ đoạn thẳng, đánh dấu các điểm và số đo.",
+      "Đổi hết ra mét nếu có cả km và m.",
+      "Đi rồi về thì gấp đôi; có đoạn quay lại thì cộng thêm.",
+      "Trồng cây cả hai đầu đường: số cây bằng số khoảng cộng 1.",
+      "Kiểm tra lại đơn vị trong câu trả lời."
+    ],
+    "tips": [
+      "1 km = 1 000 m — đổi trước, tính sau!",
+      "Biết cả đoạn mà điểm ở GIỮA: lấy cả đoạn trừ đi một phần.",
+      "Ốc sên chạm đỉnh vào ban ngày là xong, không tụt nữa!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Mỗi năm qua, ai cũng thêm 1 tuổi, nên hiệu số tuổi của hai người không bao giờ thay đổi. Nhưng số lần gấp thì thay đổi theo thời gian. \"… năm nữa\" thì cộng, \"… năm trước\" thì trừ.",
+    "examples": [
+      {
+        "prompt": "Năm nay bà 64 tuổi, cháu 8 tuổi.\nTuổi bà gấp mấy lần tuổi cháu?\n2 năm nữa bà hơn cháu bao nhiêu tuổi?",
+        "answer": "64 : 8 = 8, tuổi bà gấp 8 lần tuổi cháu. Bà hơn cháu 64 − 8 = 56 tuổi; 2 năm nữa bà 66, cháu 10, bà vẫn hơn 56 tuổi."
+      },
+      {
+        "prompt": "Năm nay con 4 tuổi, bố 28 tuổi.\nMấy năm nữa thì tuổi bố gấp 4 lần tuổi con?\nKẻ bảng thử từng năm.",
+        "visual": {
+          "grid": [
+            [
+              "Năm nữa",
+              "Con",
+              "Bố",
+              "Gấp 4 lần?"
+            ],
+            [
+              "1",
+              "5",
+              "29",
+              "Chưa"
+            ],
+            [
+              "2",
+              "6",
+              "30",
+              "Chưa"
+            ],
+            [
+              "3",
+              "7",
+              "31",
+              "Chưa"
+            ],
+            [
+              "4",
+              "8",
+              "?",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Thử lần lượt từng năm: 4 năm nữa con 8 tuổi, bố 32 tuổi, mà 8 × 4 = 32. Vậy 4 năm nữa."
+      }
+    ],
+    "steps": [
+      "Gạch chân mốc thời gian: năm nay, năm nữa hay năm trước.",
+      "Tính tuổi năm nay của từng người trước.",
+      "Nhớ: năm nào hiệu số tuổi cũng như nhau.",
+      "Hỏi \"gấp mấy lần\" ở năm khác thì kẻ bảng thử từng năm.",
+      "Thử lại kết quả với đề bài."
+    ],
+    "tips": [
+      "Năm qua năm, ai cũng thêm tuổi — khoảng cách tuổi giữ nguyên!",
+      "Hai người cùng lớn: mỗi năm, tổng số tuổi của hai người tăng 2.",
+      "Năm nay gấp 5 lần, năm sau chưa chắc còn gấp 5 lần."
+    ]
+  },
+  "bai-5": {
+    "concept": "Sơ đồ đoạn thẳng biến lời văn thành hình: \"gấp 3 lần\" là vẽ 3 đoạn bằng nhau, \"1/4\" là chia đoạn thành 4 phần bằng nhau và lấy 1 phần, \"hơn\" là vẽ dài thêm. Bảng giúp xếp số liệu gọn gàng để thấy ngay ô còn thiếu.",
+    "examples": [
+      {
+        "prompt": "Có 7 con thỏ. Số gà gấp 4 lần số thỏ.\nSố gà nhiều hơn số thỏ bao nhiêu con?",
+        "visual": {
+          "emoji": "🐰🟦   🐔🟦🟦🟦🟦"
+        },
+        "answer": "Thỏ 1 đoạn, gà 4 đoạn như thế. Số gà: 7 × 4 = 28 con. Gà nhiều hơn thỏ: 28 − 7 = 21 con (đúng bằng 3 đoạn)."
+      },
+      {
+        "prompt": "Đĩa có 35 cái bánh. Bé mời khách 1/5 số bánh.\nTrên đĩa còn lại bao nhiêu cái bánh?",
+        "visual": {
+          "emoji": "🟫🟩🟩🟩🟩"
+        },
+        "answer": "Chia 35 cái thành 5 phần bằng nhau: 35 : 5 = 7 cái là 1 phần, đem mời khách. Còn lại 35 − 7 = 28 cái."
+      }
+    ],
+    "steps": [
+      "Vẽ đoạn thẳng cho số đã biết trước.",
+      "Vẽ đoạn cho số kia: gấp, hơn, kém hay một phần mấy.",
+      "Hoặc điền số liệu vào bảng, để trống ô cần tìm.",
+      "Tìm phần trung gian trước, rồi mới tìm điều đề hỏi.",
+      "Đọc lại câu hỏi: hỏi phần lấy ra hay phần còn lại."
+    ],
+    "tips": [
+      "\"1/4\" là chia 4 phần lấy 1, không phải bớt đi 4!",
+      "Hỏi \"nhiều hơn bao nhiêu\" thì nhớ trừ đi số bé.",
+      "Tìm số lớn thì cộng, tìm số bé thì trừ — đọc kỹ ai hơn, ai kém."
+    ]
+  }
+}

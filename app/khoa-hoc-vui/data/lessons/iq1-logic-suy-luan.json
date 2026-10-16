@@ -1,0 +1,1302 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Ai cao hơn, ai thấp hơn?",
+      "emoji": "📏",
+      "description": "Cùng bé so sánh xem ai cao hơn, ai thấp hơn qua những câu đố vui!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k05-b1-01",
+          "type": "choice",
+          "prompt": "An cao hơn Bình. Bình cao hơn Chi.\nAi THẤP nhất?",
+          "options": [
+            {
+              "emoji": "🧒",
+              "text": "An"
+            },
+            {
+              "emoji": "👦",
+              "text": "Bình"
+            },
+            {
+              "emoji": "👧",
+              "text": "Chi"
+            }
+          ],
+          "answer": 2,
+          "method": "Xếp ba bạn từ cao đến thấp rồi xem ai đứng cuối.",
+          "explanation": "An cao hơn Bình, Bình cao hơn Chi, nên thứ tự từ cao đến thấp là An, Bình, Chi. Chi thấp nhất.\nLưu ý: An là cao nhất; Bình đứng giữa."
+        },
+        {
+          "id": "l1k05-b1-02",
+          "type": "choice",
+          "prompt": "Mai thấp hơn Lan.\nVậy Lan thế nào so với Mai?",
+          "options": [
+            {
+              "text": "Lan thấp hơn Mai"
+            },
+            {
+              "text": "Lan cao hơn Mai"
+            },
+            {
+              "text": "Hai bạn cao bằng nhau"
+            }
+          ],
+          "answer": 1,
+          "method": "Nếu Mai thấp hơn thì bạn kia phải thế nào?",
+          "explanation": "Mai thấp hơn Lan nghĩa là Lan cao hơn Mai.\nLưu ý: \"Lan thấp hơn Mai\" là đọc ngược đề; nếu cao bằng nhau thì không ai thấp hơn ai."
+        },
+        {
+          "id": "l1k05-b1-03",
+          "type": "input",
+          "prompt": "Gấu bông 🧸 cao 30 cm.\nBúp bê thấp hơn gấu bông 10 cm.\nBúp bê cao bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "20"
+          ],
+          "unit": "cm",
+          "method": "\"Thấp hơn\" thì lấy chiều cao của gấu bông bớt đi.",
+          "explanation": "Búp bê thấp hơn nên làm tính trừ: 30 − 10 = 20 (cm)."
+        },
+        {
+          "id": "l1k05-b1-04",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Bố cao hơn mẹ. Mẹ cao hơn anh. Anh cao hơn bé.\nXếp từ THẤP đến CAO.",
+          "items": [
+            {
+              "text": "👧 Bé"
+            },
+            {
+              "text": "👦 Anh"
+            },
+            {
+              "text": "👩 Mẹ"
+            },
+            {
+              "text": "👨 Bố"
+            }
+          ],
+          "method": "Tìm người thấp nhất trước, rồi lần lượt người cao hơn.",
+          "explanation": "Bé thấp hơn anh, anh thấp hơn mẹ, mẹ thấp hơn bố. Thứ tự từ thấp đến cao: Bé, Anh, Mẹ, Bố."
+        },
+        {
+          "id": "l1k05-b1-05",
+          "type": "match",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi câu bên trái với câu có cùng ý nghĩa bên phải.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An cao hơn Bình"
+              },
+              "right": {
+                "text": "Bình thấp hơn An"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình cao hơn Chi"
+              },
+              "right": {
+                "text": "Chi thấp hơn Bình"
+              }
+            },
+            {
+              "left": {
+                "text": "Chi cao bằng Dũng"
+              },
+              "right": {
+                "text": "Dũng cao bằng Chi"
+              }
+            }
+          ],
+          "method": "Bạn này cao hơn thì bạn kia thấp hơn.",
+          "explanation": "An cao hơn Bình nghĩa là Bình thấp hơn An. Bình cao hơn Chi nghĩa là Chi thấp hơn Bình. Chi cao bằng Dũng thì Dũng cũng cao bằng Chi."
+        },
+        {
+          "id": "l1k05-b1-06",
+          "type": "multi_choice",
+          "prompt": "Gấu bông 🧸 cao 50 cm.\nChọn TẤT CẢ đồ chơi cao HƠN gấu bông.",
+          "options": [
+            {
+              "text": "Búp bê: 55 cm"
+            },
+            {
+              "text": "Rô-bốt: 48 cm"
+            },
+            {
+              "text": "Ngựa gỗ: 70 cm"
+            },
+            {
+              "text": "Khủng long: 50 cm"
+            },
+            {
+              "text": "Ô tô: 15 cm"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "So sánh số đo của từng đồ chơi với 50 cm.",
+          "explanation": "55 > 50 và 70 > 50 nên búp bê và ngựa gỗ cao hơn gấu bông.\nLưu ý: khủng long cao 50 cm là bằng gấu bông, không cao hơn; rô-bốt và ô tô thấp hơn gấu bông."
+        },
+        {
+          "id": "l1k05-b1-07",
+          "type": "fill_blank",
+          "timeLimit": 30,
+          "prompt": "Cột cờ cao hơn cây bàng. Cây bàng cao hơn ngôi nhà.\nChọn từ đúng điền vào chỗ trống.",
+          "sentence": "Cột cờ cao [[hơn]] ngôi nhà. Ngôi nhà [[thấp]] hơn cột cờ.",
+          "choices": [
+            "hơn",
+            "thấp",
+            "bằng",
+            "cao"
+          ],
+          "method": "Cột cờ cao hơn cây bàng, cây bàng lại cao hơn ngôi nhà.",
+          "explanation": "Cột cờ cao hơn cây bàng, cây bàng cao hơn ngôi nhà, nên cột cờ cao hơn ngôi nhà, và ngôi nhà thấp hơn cột cờ."
+        },
+        {
+          "id": "l1k05-b1-08",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào đồ chơi CAO HƠN ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Gấu bông 35 cm – Rô-bốt 42 cm"
+              },
+              "back": {
+                "text": "Rô-bốt"
+              }
+            },
+            {
+              "front": {
+                "text": "Búp bê 48 cm – Ô tô 20 cm"
+              },
+              "back": {
+                "text": "Búp bê"
+              }
+            },
+            {
+              "front": {
+                "text": "Ngựa gỗ 61 cm – Khủng long 66 cm"
+              },
+              "back": {
+                "text": "Khủng long"
+              }
+            },
+            {
+              "front": {
+                "text": "Cầu trượt 95 cm – Xích đu 89 cm"
+              },
+              "back": {
+                "text": "Cầu trượt"
+              }
+            }
+          ],
+          "method": "So sánh hai số đo, số nào lớn hơn thì bạn đó cao hơn.",
+          "explanation": "42 > 35: rô-bốt cao hơn. 48 > 20: búp bê cao hơn. 66 > 61: khủng long cao hơn. 95 > 89: cầu trượt cao hơn."
+        },
+        {
+          "id": "l1k05-b1-09",
+          "type": "choice",
+          "prompt": "Tí cao hơn Tèo. Tũn thấp hơn Tèo.\nAi CAO nhất?",
+          "options": [
+            {
+              "emoji": "🧒",
+              "text": "Tí"
+            },
+            {
+              "emoji": "👦",
+              "text": "Tèo"
+            },
+            {
+              "emoji": "👶",
+              "text": "Tũn"
+            }
+          ],
+          "answer": 0,
+          "method": "Tũn thấp hơn Tèo nghĩa là Tèo cao hơn Tũn. Xếp ba bạn lại nhé.",
+          "explanation": "Tí cao hơn Tèo, Tèo cao hơn Tũn. Vậy Tí cao nhất.\nLưu ý: Tèo đứng giữa; Tũn thấp nhất."
+        },
+        {
+          "id": "l1k05-b1-10",
+          "type": "input",
+          "prompt": "Cây hoa hồng 🌹 cao 40 cm.\nCây hoa cúc cao hơn cây hoa hồng 5 cm.\nCây hoa cúc cao bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "45"
+          ],
+          "unit": "cm",
+          "method": "\"Cao hơn\" thì lấy chiều cao cây hoa hồng thêm vào.",
+          "explanation": "Cây hoa cúc cao hơn nên làm tính cộng: 40 + 5 = 45 (cm)."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Tìm đồ vật theo gợi ý",
+      "emoji": "🔎",
+      "description": "Bé đọc từng gợi ý để tìm ra đồ vật bí mật nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k05-b2-01",
+          "type": "choice",
+          "prompt": "Đồ vật bí mật KHÔNG ăn được.\nNó dùng để viết.\nĐó là đồ vật nào?",
+          "options": [
+            {
+              "emoji": "🍎",
+              "text": "Quả táo"
+            },
+            {
+              "emoji": "✏️",
+              "text": "Bút chì"
+            },
+            {
+              "emoji": "⚽",
+              "text": "Quả bóng"
+            },
+            {
+              "emoji": "🍌",
+              "text": "Quả chuối"
+            }
+          ],
+          "answer": 1,
+          "method": "Gạch bỏ đồ ăn được trước, rồi tìm đồ dùng để viết.",
+          "explanation": "Táo và chuối ăn được nên bị loại. Quả bóng không dùng để viết. Chỉ còn bút chì.\nLưu ý: quả bóng đúng gợi ý 1 nhưng sai gợi ý 2."
+        },
+        {
+          "id": "l1k05-b2-02",
+          "type": "choice",
+          "prompt": "Đồ vật bí mật ở hàng DƯỚI, ngay ô GIỮA.\nĐó là đồ vật nào?",
+          "visual": {
+            "grid": [
+              [
+                "🧸",
+                "🚗",
+                "⚽"
+              ],
+              [
+                "📕",
+                "🎈",
+                "🪁"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🚗",
+              "text": "Ô tô"
+            },
+            {
+              "emoji": "📕",
+              "text": "Quyển sách"
+            },
+            {
+              "emoji": "🪁",
+              "text": "Cái diều"
+            },
+            {
+              "emoji": "🎈",
+              "text": "Bóng bay"
+            }
+          ],
+          "answer": 3,
+          "method": "Tìm hàng dưới trước, rồi chỉ vào ô ở giữa hàng đó.",
+          "explanation": "Hàng dưới là 📕 🎈 🪁. Ô giữa là bóng bay 🎈.\nLưu ý: ô tô ở giữa nhưng hàng trên; quyển sách và cái diều ở hàng dưới nhưng ở hai bên."
+        },
+        {
+          "id": "l1k05-b2-03",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ đồ vật vừa có màu ĐỎ, vừa ĂN được.",
+          "options": [
+            {
+              "emoji": "🍎",
+              "text": "Quả táo đỏ"
+            },
+            {
+              "emoji": "🍌",
+              "text": "Quả chuối"
+            },
+            {
+              "emoji": "🍓",
+              "text": "Quả dâu tây"
+            },
+            {
+              "emoji": "🚗",
+              "text": "Ô tô đỏ"
+            },
+            {
+              "emoji": "🥦",
+              "text": "Bông cải xanh"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "Đồ vật phải đúng cả HAI gợi ý: màu đỏ và ăn được.",
+          "explanation": "Quả táo đỏ và quả dâu tây vừa màu đỏ vừa ăn được.\nLưu ý: ô tô đỏ không ăn được; chuối và bông cải ăn được nhưng không màu đỏ."
+        },
+        {
+          "id": "l1k05-b2-04",
+          "type": "choice",
+          "prompt": "Con vật bí mật có 2 chân.\nNó bơi rất giỏi nhưng không biết bay.\nĐó là con gì?",
+          "options": [
+            {
+              "emoji": "🐔",
+              "text": "Con gà"
+            },
+            {
+              "emoji": "🐶",
+              "text": "Con chó"
+            },
+            {
+              "emoji": "🐧",
+              "text": "Chim cánh cụt"
+            },
+            {
+              "emoji": "🐟",
+              "text": "Con cá"
+            }
+          ],
+          "answer": 2,
+          "method": "Gạch bỏ con vật sai từng gợi ý một.",
+          "explanation": "Chim cánh cụt có 2 chân, bơi rất giỏi và không biết bay.\nLưu ý: chó có 4 chân; cá không có chân; gà có 2 chân nhưng không bơi được."
+        },
+        {
+          "id": "l1k05-b2-05",
+          "type": "input",
+          "prompt": "Số bí mật có 2 chữ số giống nhau.\nSố đó bé hơn 20.\nĐó là số nào?",
+          "answers": [
+            "11"
+          ],
+          "method": "Kể các số có 2 chữ số bé hơn 20 (từ 10 đến 19), tìm số có 2 chữ số giống nhau.",
+          "explanation": "Các số từ 10 đến 19, chỉ có số 11 có 2 chữ số giống nhau (1 và 1).\nLưu ý: 22 cũng có 2 chữ số giống nhau nhưng lớn hơn 20."
+        },
+        {
+          "id": "l1k05-b2-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi gợi ý với đồ vật bí mật.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 4 bánh, chạy trên đường"
+              },
+              "right": {
+                "emoji": "🚗",
+                "text": "Ô tô"
+              }
+            },
+            {
+              "left": {
+                "text": "Bay trên trời, chở người"
+              },
+              "right": {
+                "emoji": "✈️",
+                "text": "Máy bay"
+              }
+            },
+            {
+              "left": {
+                "text": "Chạy trên đường ray"
+              },
+              "right": {
+                "emoji": "🚂",
+                "text": "Tàu hỏa"
+              }
+            },
+            {
+              "left": {
+                "text": "Đi trên mặt nước"
+              },
+              "right": {
+                "emoji": "🚢",
+                "text": "Tàu thủy"
+              }
+            }
+          ],
+          "method": "Đọc gợi ý: đồ vật đó đi ở đâu?",
+          "explanation": "Ô tô chạy trên đường. Máy bay bay trên trời. Tàu hỏa chạy trên đường ray. Tàu thủy đi trên mặt nước."
+        },
+        {
+          "id": "l1k05-b2-07",
+          "type": "fill_blank",
+          "timeLimit": 30,
+          "prompt": "Quả bí mật có vỏ màu vàng, dài và cong.\nCác bạn khỉ rất thích ăn.",
+          "sentence": "Quả bí mật là quả [[chuối]].",
+          "choices": [
+            "chuối",
+            "táo",
+            "cam",
+            "dưa hấu"
+          ],
+          "method": "Quả nào vừa màu vàng, vừa dài và cong?",
+          "explanation": "Quả chuối có vỏ vàng, dài và cong, khỉ rất thích ăn. Táo, cam, dưa hấu đều tròn."
+        },
+        {
+          "id": "l1k05-b2-08",
+          "type": "multi_choice",
+          "prompt": "Gợi ý: đồ vật bí mật LĂN được và ĂN được.\nChọn TẤT CẢ đồ vật đúng cả hai gợi ý.",
+          "options": [
+            {
+              "emoji": "⚽",
+              "text": "Quả bóng"
+            },
+            {
+              "emoji": "🍊",
+              "text": "Quả cam"
+            },
+            {
+              "emoji": "🎲",
+              "text": "Xúc xắc"
+            },
+            {
+              "emoji": "🍉",
+              "text": "Quả dưa hấu"
+            },
+            {
+              "emoji": "🍰",
+              "text": "Miếng bánh kem"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "Đồ vật phải đúng CẢ HAI gợi ý mới được chọn.",
+          "explanation": "Quả cam và quả dưa hấu tròn nên lăn được, lại ăn được.\nLưu ý: quả bóng lăn được nhưng không ăn được; miếng bánh kem ăn được nhưng không lăn được; xúc xắc không ăn được."
+        },
+        {
+          "id": "l1k05-b2-09",
+          "type": "reveal_match",
+          "timeLimit": 55,
+          "prompt": "Lật từng ô gợi ý bên trái, rồi chạm vào con vật bí mật bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Gáy ò ó o mỗi sáng"
+              },
+              "back": {
+                "emoji": "🐓",
+                "text": "Gà trống"
+              }
+            },
+            {
+              "front": {
+                "text": "Có cái vòi rất dài"
+              },
+              "back": {
+                "emoji": "🐘",
+                "text": "Con voi"
+              }
+            },
+            {
+              "front": {
+                "text": "Kêu meo meo, bắt chuột"
+              },
+              "back": {
+                "emoji": "🐱",
+                "text": "Con mèo"
+              }
+            },
+            {
+              "front": {
+                "text": "Có túi trước bụng để địu con"
+              },
+              "back": {
+                "emoji": "🦘",
+                "text": "Chuột túi"
+              }
+            }
+          ],
+          "method": "Mỗi gợi ý nói về một điều đặc biệt của con vật.",
+          "explanation": "Gà trống gáy ò ó o. Voi có vòi dài. Mèo kêu meo meo và bắt chuột. Chuột túi có túi trước bụng để địu con."
+        },
+        {
+          "id": "l1k05-b2-10",
+          "type": "choice",
+          "prompt": "Đồ vật bí mật nằm ở một GÓC của bảng.\nNó KHÔNG ở hàng trên. Nó ở cột bên PHẢI.\nĐó là đồ vật nào?",
+          "visual": {
+            "grid": [
+              [
+                "🚗",
+                "⚽",
+                "🧸"
+              ],
+              [
+                "🍎",
+                "🎈",
+                "📕"
+              ],
+              [
+                "🪁",
+                "🍌",
+                "✏️"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🪁",
+              "text": "Cái diều"
+            },
+            {
+              "emoji": "✏️",
+              "text": "Bút chì"
+            },
+            {
+              "emoji": "🧸",
+              "text": "Gấu bông"
+            },
+            {
+              "emoji": "📕",
+              "text": "Quyển sách"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm 4 ô ở góc bảng trước, rồi gạch dần theo từng gợi ý.",
+          "explanation": "4 góc bảng là 🚗, 🧸, 🪁, ✏️. Không ở hàng trên: còn 🪁 và ✏️. Ở cột bên phải: chỉ còn ✏️.\nLưu ý: 🪁 ở góc dưới nhưng bên trái; 🧸 ở cột phải nhưng hàng trên; 📕 ở cột phải nhưng không ở góc."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Đúng hay sai?",
+      "emoji": "✅",
+      "description": "Bé suy nghĩ thật kỹ rồi nói xem câu nào đúng, câu nào sai!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k05-b3-01",
+          "type": "match_multi",
+          "timeLimit": 55,
+          "prompt": "Xếp mỗi câu vào nhóm ĐÚNG hoặc SAI.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Đúng"
+            },
+            {
+              "emoji": "❌",
+              "text": "Sai"
+            }
+          ],
+          "items": [
+            {
+              "text": "5 > 3",
+              "group": 0
+            },
+            {
+              "text": "10 < 7",
+              "group": 1
+            },
+            {
+              "text": "Hình tam giác có 3 cạnh",
+              "group": 0
+            },
+            {
+              "text": "Một tuần có 5 ngày",
+              "group": 1
+            },
+            {
+              "text": "4 + 3 = 7",
+              "group": 0
+            },
+            {
+              "text": "Hình tròn có 4 góc",
+              "group": 1
+            }
+          ],
+          "method": "Kiểm tra từng câu một, đừng đoán.",
+          "explanation": "Đúng: 5 > 3; tam giác có 3 cạnh; 4 + 3 = 7.\nSai: 10 lớn hơn 7; một tuần có 7 ngày; hình tròn không có góc."
+        },
+        {
+          "id": "l1k05-b3-02",
+          "type": "choice",
+          "prompt": "Bạn Na nói: \"Số 19 lớn hơn số 91.\"\nBạn Na nói đúng hay sai?",
+          "options": [
+            {
+              "emoji": "✅",
+              "text": "Đúng"
+            },
+            {
+              "emoji": "❌",
+              "text": "Sai"
+            }
+          ],
+          "answer": 1,
+          "method": "So sánh số chục của hai số trước.",
+          "explanation": "19 có 1 chục, 91 có 9 chục. Vậy 19 < 91, bạn Na nói sai.\nLưu ý: hai số có cùng chữ số 1 và 9 nhưng đổi chỗ thì khác nhau."
+        },
+        {
+          "id": "l1k05-b3-03",
+          "type": "input",
+          "prompt": "Có mấy câu ĐÚNG?\n3 + 2 = 5 ; 8 − 3 = 6 ; 15 > 12\nHôm qua của thứ Ba là thứ Tư.",
+          "answers": [
+            "2",
+            "hai"
+          ],
+          "unit": "câu",
+          "method": "Kiểm tra từng câu, đánh dấu câu đúng rồi đếm.",
+          "explanation": "3 + 2 = 5: đúng. 8 − 3 = 5 nên câu 8 − 3 = 6 sai. 15 > 12: đúng. Hôm qua của thứ Ba là thứ Hai nên câu cuối sai. Có 2 câu đúng."
+        },
+        {
+          "id": "l1k05-b3-04",
+          "type": "choice",
+          "prompt": "Bạn Bi nói: \"Ngày mai của Chủ nhật là thứ Hai.\"\nBạn Bi nói đúng hay sai?",
+          "options": [
+            {
+              "emoji": "✅",
+              "text": "Đúng"
+            },
+            {
+              "emoji": "❌",
+              "text": "Sai"
+            }
+          ],
+          "answer": 0,
+          "method": "Đọc lần lượt các ngày trong tuần, xem sau Chủ nhật là ngày nào.",
+          "explanation": "Sau Chủ nhật là thứ Hai của tuần mới. Bạn Bi nói đúng.\nLưu ý: nhiều bạn nghĩ Chủ nhật là ngày cuối nên không có ngày sau — nhưng tuần mới lại bắt đầu từ thứ Hai."
+        },
+        {
+          "id": "l1k05-b3-05",
+          "type": "input",
+          "prompt": "Bạn Tèo viết: 15 − 4 = 10.\nTèo viết sai rồi! Kết quả đúng là bao nhiêu?",
+          "answers": [
+            "11"
+          ],
+          "method": "Tự làm lại phép trừ: lấy 5 đơn vị bớt 4 đơn vị.",
+          "explanation": "15 − 4: 5 đơn vị bớt 4 còn 1, giữ nguyên 1 chục. Kết quả đúng là 11.\nLưu ý: Tèo bớt nhầm thêm 1."
+        },
+        {
+          "id": "l1k05-b3-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các câu ĐÚNG.",
+          "options": [
+            {
+              "text": "Số 0 bé hơn số 1"
+            },
+            {
+              "text": "Con gà có 4 chân"
+            },
+            {
+              "text": "30 + 20 = 50"
+            },
+            {
+              "text": "Hình tam giác có 4 góc"
+            },
+            {
+              "text": "Sau thứ Sáu là thứ Bảy"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Kiểm tra từng câu một, đừng đoán.",
+          "explanation": "Đúng: 0 < 1; 30 + 20 = 50; sau thứ Sáu là thứ Bảy.\nLưu ý: gà chỉ có 2 chân; hình tam giác có 3 góc."
+        },
+        {
+          "id": "l1k05-b3-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Chọn dấu đúng để mọi câu đều ĐÚNG.",
+          "sentence": "14 [[>]] 12 ;  7 [[=]] 7 ;  30 [[<]] 40",
+          "choices": [
+            ">",
+            "=",
+            "<",
+            "+"
+          ],
+          "method": "So sánh số chục trước, nếu bằng thì so sánh số đơn vị.",
+          "explanation": "14 lớn hơn 12 nên dùng >. 7 bằng 7 nên dùng =. 30 bé hơn 40 nên dùng <. Thẻ + là thẻ nhiễu."
+        },
+        {
+          "id": "l1k05-b3-08",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Mỗi câu bên trái đều SAI. Lật ô, rồi chạm vào số đúng phải thay vào.",
+          "pairs": [
+            {
+              "front": {
+                "text": "10 − 4 = 5"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "4 + 4 = 9"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "Một tuần có 6 ngày"
+              },
+              "back": {
+                "text": "7"
+              }
+            },
+            {
+              "front": {
+                "text": "Hình tam giác có 4 cạnh"
+              },
+              "back": {
+                "text": "3"
+              }
+            }
+          ],
+          "method": "Tự làm lại phép tính hoặc nhớ lại điều đúng.",
+          "explanation": "10 − 4 = 6. 4 + 4 = 8. Một tuần có 7 ngày. Hình tam giác có 3 cạnh."
+        },
+        {
+          "id": "l1k05-b3-09",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Bạn Bi đọc: \"Thứ Ba, thứ Hai, thứ Năm, thứ Tư.\"\nBi đọc SAI thứ tự rồi! Xếp lại cho đúng từ SỚM đến MUỘN trong tuần.",
+          "items": [
+            {
+              "text": "Thứ Hai"
+            },
+            {
+              "text": "Thứ Ba"
+            },
+            {
+              "text": "Thứ Tư"
+            },
+            {
+              "text": "Thứ Năm"
+            }
+          ],
+          "method": "Nhớ lại: tuần mới bắt đầu từ thứ Hai.",
+          "explanation": "Thứ tự đúng trong tuần: thứ Hai, thứ Ba, thứ Tư, thứ Năm."
+        },
+        {
+          "id": "l1k05-b3-10",
+          "type": "choice",
+          "prompt": "Tũn nói: \"Số 50 gồm 5 chục và 0 đơn vị.\"\nTèo nói: \"Số 50 bé hơn số 49.\"\nAi nói ĐÚNG?",
+          "options": [
+            {
+              "emoji": "👦",
+              "text": "Tũn"
+            },
+            {
+              "emoji": "🧒",
+              "text": "Tèo"
+            },
+            {
+              "text": "Cả hai bạn"
+            },
+            {
+              "text": "Không bạn nào"
+            }
+          ],
+          "answer": 0,
+          "method": "Kiểm tra riêng câu của từng bạn.",
+          "explanation": "50 gồm 5 chục và 0 đơn vị: Tũn đúng. 50 có 5 chục, 49 chỉ có 4 chục nên 50 > 49: Tèo sai.\nLưu ý: thấy 9 lớn hơn 0 rồi nghĩ 49 lớn hơn là bẫy — phải so sánh số chục trước."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Suy luận thứ tự của ba bạn",
+      "emoji": "🏃",
+      "description": "Ai đứng trước, ai đứng sau? Bé cùng suy luận nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k05-b4-01",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Ba bạn xếp hàng. An đứng đầu hàng.\nBình đứng sau Chi.\nXếp từ ĐẦU hàng đến CUỐI hàng.",
+          "items": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "Bình"
+            }
+          ],
+          "method": "Đặt An ở đầu trước, rồi xem Chi và Bình ai đứng trước.",
+          "explanation": "An đứng đầu. Bình đứng sau Chi nên Chi đứng thứ hai, Bình đứng cuối. Thứ tự: An, Chi, Bình."
+        },
+        {
+          "id": "l1k05-b4-02",
+          "type": "choice",
+          "prompt": "Ba bạn chạy thi. Mai về trước Lan.\nHoa về sau Lan.\nAi về NHẤT?",
+          "options": [
+            {
+              "emoji": "👧",
+              "text": "Lan"
+            },
+            {
+              "emoji": "👧",
+              "text": "Hoa"
+            },
+            {
+              "emoji": "👧",
+              "text": "Mai"
+            }
+          ],
+          "answer": 2,
+          "method": "Xếp ba bạn theo thứ tự về đích.",
+          "explanation": "Mai về trước Lan, Lan về trước Hoa. Thứ tự: Mai, Lan, Hoa. Mai về nhất.\nLưu ý: Lan về nhì, Hoa về cuối."
+        },
+        {
+          "id": "l1k05-b4-03",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Tí, Tèo, Tũn ngồi 3 ghế cạnh nhau. Tèo ngồi giữa.\nTũn không ngồi bên trái.\nChạm tên các bạn từ TRÁI sang PHẢI.",
+          "items": [
+            "Tí",
+            "Tèo",
+            "Tũn"
+          ],
+          "distractors": [],
+          "method": "Đặt Tèo vào giữa trước, rồi xem Tũn phải ngồi bên nào.",
+          "explanation": "Tèo ngồi giữa. Tũn không ngồi bên trái nên Tũn ngồi bên phải. Tí ngồi bên trái. Thứ tự: Tí, Tèo, Tũn."
+        },
+        {
+          "id": "l1k05-b4-04",
+          "type": "choice",
+          "prompt": "Tí, Tèo, Tũn xếp hàng.\nTí đứng trước Tèo. Tũn đứng trước Tí.\nAi đứng CUỐI hàng?",
+          "options": [
+            {
+              "emoji": "🧒",
+              "text": "Tí"
+            },
+            {
+              "emoji": "👦",
+              "text": "Tèo"
+            },
+            {
+              "emoji": "👶",
+              "text": "Tũn"
+            }
+          ],
+          "answer": 1,
+          "method": "Bắt đầu từ bạn đứng trước Tí, rồi xếp dần.",
+          "explanation": "Tũn trước Tí, Tí trước Tèo. Thứ tự: Tũn, Tí, Tèo. Tèo đứng cuối.\nLưu ý: Tũn đứng đầu; Tí đứng giữa."
+        },
+        {
+          "id": "l1k05-b4-05",
+          "type": "input",
+          "prompt": "Ba bạn chạy thi.\nBi về sau Bo nhưng về trước Bé.\nBi về thứ mấy?",
+          "answers": [
+            "2",
+            "thứ 2",
+            "thứ hai",
+            "hai"
+          ],
+          "method": "Có 1 bạn về trước Bi và 1 bạn về sau Bi.",
+          "explanation": "Bo về trước Bi, Bé về sau Bi. Thứ tự: Bo, Bi, Bé. Bi về thứ 2."
+        },
+        {
+          "id": "l1k05-b4-06",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Bông ít tuổi hơn Bin. Bơ nhiều tuổi hơn Bin.\nXếp ba bạn từ ÍT tuổi đến NHIỀU tuổi.",
+          "items": [
+            {
+              "text": "👶 Bông"
+            },
+            {
+              "text": "👦 Bin"
+            },
+            {
+              "text": "🧒 Bơ"
+            }
+          ],
+          "method": "Bin đứng ở đâu: giữa hai bạn kia đúng không?",
+          "explanation": "Bông ít tuổi hơn Bin, Bin ít tuổi hơn Bơ. Thứ tự từ ít đến nhiều tuổi: Bông, Bin, Bơ."
+        },
+        {
+          "id": "l1k05-b4-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "An, Bình, Chi đứng thứ nhất, thứ hai, thứ ba.\nBình đứng thứ ba. Chi không đứng thứ nhất.\nNối mỗi bạn với chỗ đứng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An"
+              },
+              "right": {
+                "text": "Thứ nhất"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình"
+              },
+              "right": {
+                "text": "Thứ ba"
+              }
+            },
+            {
+              "left": {
+                "text": "Chi"
+              },
+              "right": {
+                "text": "Thứ hai"
+              }
+            }
+          ],
+          "method": "Đặt Bình vào chỗ thứ ba trước, rồi xem Chi đứng đâu.",
+          "explanation": "Bình đứng thứ ba. Còn chỗ thứ nhất và thứ hai; Chi không đứng thứ nhất nên Chi đứng thứ hai. An đứng thứ nhất."
+        },
+        {
+          "id": "l1k05-b4-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Hà, Minh, Khôi đứng trên 3 bậc cầu thang.\nHà đứng bậc CAO nhất. Khôi đứng thấp hơn Minh.",
+          "sentence": "Bạn đứng ở giữa là [[Minh]], bạn đứng thấp nhất là [[Khôi]].",
+          "choices": [
+            "Minh",
+            "Khôi",
+            "Hà"
+          ],
+          "method": "Hà đã ở trên cùng. Còn Minh và Khôi, ai thấp hơn?",
+          "explanation": "Hà ở bậc cao nhất. Khôi thấp hơn Minh nên Minh ở giữa, Khôi ở thấp nhất."
+        },
+        {
+          "id": "l1k05-b4-09",
+          "type": "multi_choice",
+          "prompt": "Ba bạn xếp hàng từ đầu đến cuối: Nam, Phong, Quân.\nChọn TẤT CẢ các câu ĐÚNG.",
+          "options": [
+            {
+              "text": "Nam đứng trước Phong"
+            },
+            {
+              "text": "Quân đứng cuối hàng"
+            },
+            {
+              "text": "Phong đứng đầu hàng"
+            },
+            {
+              "text": "Nam đứng trước Quân"
+            },
+            {
+              "text": "Quân đứng trước Phong"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Chỉ tay vào hàng Nam – Phong – Quân rồi kiểm tra từng câu.",
+          "explanation": "Nam đứng trước Phong và trước cả Quân; Quân đứng cuối.\nLưu ý: Nam mới đứng đầu, không phải Phong; Quân đứng sau Phong."
+        },
+        {
+          "id": "l1k05-b4-10",
+          "type": "choice",
+          "prompt": "Ba bạn chạy thi: Mít, Su, Bơ.\nSu về trước Mít. Bơ không về cuối.\nAi về CUỐI?",
+          "options": [
+            {
+              "emoji": "👧",
+              "text": "Bơ"
+            },
+            {
+              "emoji": "🧒",
+              "text": "Su"
+            },
+            {
+              "emoji": "👦",
+              "text": "Mít"
+            }
+          ],
+          "answer": 2,
+          "method": "Gạch bỏ những bạn chắc chắn KHÔNG về cuối.",
+          "explanation": "Su về trước Mít nên Su không về cuối. Bơ không về cuối. Chỉ còn Mít về cuối.\nLưu ý: Su có bạn về sau mình nên không thể về cuối; Bơ đề đã nói không về cuối."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Giải câu đố bằng loại trừ",
+      "emoji": "🧠",
+      "description": "Gạch bỏ cái sai, cái đúng sẽ hiện ra — bé thử nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k05-b5-01",
+          "type": "choice",
+          "prompt": "Có 3 hộp: 🟦 xanh, 🟨 vàng, 🟥 đỏ.\nKẹo không ở hộp đỏ, cũng không ở hộp xanh.\nKẹo ở hộp nào?",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Hộp xanh"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Hộp vàng"
+            },
+            {
+              "emoji": "🟥",
+              "text": "Hộp đỏ"
+            }
+          ],
+          "answer": 1,
+          "method": "Gạch bỏ những hộp đề bài nói KHÔNG có kẹo.",
+          "explanation": "Gạch hộp đỏ, gạch hộp xanh, chỉ còn hộp vàng. Kẹo ở hộp vàng.\nLưu ý: hộp đỏ và hộp xanh đề đã nói không có kẹo."
+        },
+        {
+          "id": "l1k05-b5-02",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "An, Bình, Chi mỗi bạn nuôi 1 con: 🐶, 🐱, 🐰.\nAn nuôi chó. Bình không nuôi mèo.\nNối mỗi bạn với con vật của mình.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An"
+              },
+              "right": {
+                "emoji": "🐶",
+                "text": "Chó"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình"
+              },
+              "right": {
+                "emoji": "🐰",
+                "text": "Thỏ"
+              }
+            },
+            {
+              "left": {
+                "text": "Chi"
+              },
+              "right": {
+                "emoji": "🐱",
+                "text": "Mèo"
+              }
+            }
+          ],
+          "method": "An đã có chó. Bình không nuôi mèo thì Bình nuôi con gì còn lại?",
+          "explanation": "An nuôi chó. Còn mèo và thỏ; Bình không nuôi mèo nên Bình nuôi thỏ. Chi nuôi mèo."
+        },
+        {
+          "id": "l1k05-b5-03",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Hồng, Lan, Cúc mặc áo đỏ, xanh, vàng (mỗi bạn 1 màu).\nHồng mặc áo đỏ. Lan không mặc áo vàng.",
+          "sentence": "Lan mặc áo [[xanh]], Cúc mặc áo [[vàng]].",
+          "choices": [
+            "xanh",
+            "vàng",
+            "đỏ"
+          ],
+          "method": "Áo đỏ đã có người mặc. Lan không mặc vàng thì Lan mặc màu gì?",
+          "explanation": "Hồng mặc áo đỏ, còn xanh và vàng. Lan không mặc áo vàng nên Lan mặc áo xanh. Cúc mặc áo vàng."
+        },
+        {
+          "id": "l1k05-b5-04",
+          "type": "choice",
+          "prompt": "Số bí mật là một trong các số: 3, 8, 12, 15.\nNó KHÔNG có hai chữ số. Nó lớn hơn 5.\nĐó là số nào?",
+          "options": [
+            {
+              "text": "3"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "12"
+            },
+            {
+              "text": "15"
+            }
+          ],
+          "answer": 1,
+          "method": "Gạch bỏ các số có hai chữ số trước, rồi xem số nào lớn hơn 5.",
+          "explanation": "12 và 15 có hai chữ số nên bị gạch. Còn 3 và 8; số lớn hơn 5 là 8.\nLưu ý: 3 không có hai chữ số nhưng bé hơn 5; 12 và 15 lớn hơn 5 nhưng có hai chữ số."
+        },
+        {
+          "id": "l1k05-b5-05",
+          "type": "input",
+          "prompt": "Có 4 cái cốc số 1, 2, 3, 4. Viên bi ở dưới 1 cốc.\nBi không ở cốc 1, không ở cốc 4.\nBi ở cốc có số lớn hơn 2. Bi ở cốc số mấy?",
+          "answers": [
+            "3",
+            "số 3",
+            "ba"
+          ],
+          "method": "Gạch bỏ từng cốc theo mỗi gợi ý.",
+          "explanation": "Gạch cốc 1 và cốc 4, còn cốc 2 và cốc 3. Số lớn hơn 2 là 3. Bi ở cốc số 3."
+        },
+        {
+          "id": "l1k05-b5-06",
+          "type": "multi_choice",
+          "prompt": "Đồ vật bí mật KHÔNG phải đồ ăn, cũng KHÔNG phải con vật.\nChọn TẤT CẢ đồ vật CÓ THỂ là đồ vật bí mật.",
+          "options": [
+            {
+              "emoji": "🍎",
+              "text": "Quả táo"
+            },
+            {
+              "emoji": "✏️",
+              "text": "Bút chì"
+            },
+            {
+              "emoji": "🐶",
+              "text": "Con chó"
+            },
+            {
+              "emoji": "⚽",
+              "text": "Quả bóng"
+            },
+            {
+              "emoji": "🍰",
+              "text": "Bánh kem"
+            },
+            {
+              "emoji": "📕",
+              "text": "Quyển sách"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            5
+          ],
+          "method": "Gạch bỏ đồ ăn, gạch bỏ con vật, còn lại là đáp án.",
+          "explanation": "Gạch táo và bánh kem (đồ ăn), gạch con chó (con vật). Còn bút chì, quả bóng, quyển sách.\nLưu ý: quả bóng có chữ \"quả\" như quả táo nhưng không ăn được."
+        },
+        {
+          "id": "l1k05-b5-07",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Rùa 🐢, Thỏ 🐰, Chó 🐶 thi chạy.\nThỏ ngủ quên nên về cuối. Rùa không về nhất.\nXếp từ về NHẤT đến về CUỐI.",
+          "items": [
+            {
+              "text": "🐶 Chó"
+            },
+            {
+              "text": "🐢 Rùa"
+            },
+            {
+              "text": "🐰 Thỏ"
+            }
+          ],
+          "method": "Đặt Thỏ ở cuối trước, rồi xem Rùa đứng thứ mấy.",
+          "explanation": "Thỏ về cuối. Còn chỗ nhất và nhì; Rùa không về nhất nên Rùa về nhì. Chó về nhất. Thứ tự: Chó, Rùa, Thỏ."
+        },
+        {
+          "id": "l1k05-b5-08",
+          "type": "match",
+          "timeLimit": 55,
+          "prompt": "Tí, Tèo, Tũn mỗi bạn thích 1 loại quả: 🍎, 🍌, 🍉.\nTí không thích táo, không thích chuối. Tèo không thích táo.\nNối mỗi bạn với quả bạn ấy thích.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Tí"
+              },
+              "right": {
+                "emoji": "🍉",
+                "text": "Dưa hấu"
+              }
+            },
+            {
+              "left": {
+                "text": "Tèo"
+              },
+              "right": {
+                "emoji": "🍌",
+                "text": "Chuối"
+              }
+            },
+            {
+              "left": {
+                "text": "Tũn"
+              },
+              "right": {
+                "emoji": "🍎",
+                "text": "Táo"
+              }
+            }
+          ],
+          "method": "Tí bị gạch 2 quả rồi, còn đúng 1 quả. Bắt đầu từ Tí nhé.",
+          "explanation": "Tí không thích táo và chuối nên Tí thích dưa hấu. Còn táo và chuối; Tèo không thích táo nên Tèo thích chuối. Tũn thích táo."
+        },
+        {
+          "id": "l1k05-b5-09",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Mỗi ô là một câu đố: gạch bỏ số sai, còn đúng 1 số.\nLật ô, rồi chạm vào số còn lại.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Trong 1, 2, 3: không phải 1, không phải 2"
+              },
+              "back": {
+                "text": "3"
+              }
+            },
+            {
+              "front": {
+                "text": "Trong 5, 6, 7: không phải 5, không phải 7"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "Trong 9, 11, 12: số không lớn hơn 10"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "Trong 18, 19, 20: số không bé hơn 20"
+              },
+              "back": {
+                "text": "20"
+              }
+            }
+          ],
+          "method": "Đọc từng gợi ý, gạch bỏ số không đúng.",
+          "explanation": "Còn 3. Còn 6. Chỉ 9 không lớn hơn 10. Chỉ 20 không bé hơn 20."
+        },
+        {
+          "id": "l1k05-b5-10",
+          "type": "choice",
+          "prompt": "Lan, Mai, Hà mỗi bạn nuôi 1 con: 🐶, 🐱, 🐟.\nBạn nuôi cá không phải Lan, cũng không phải Mai.\nLan không nuôi chó. Mai nuôi con gì?",
+          "options": [
+            {
+              "emoji": "🐱",
+              "text": "Con mèo"
+            },
+            {
+              "emoji": "🐟",
+              "text": "Con cá"
+            },
+            {
+              "emoji": "🐶",
+              "text": "Con chó"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm bạn nuôi cá trước, rồi đến Lan, cuối cùng là Mai.",
+          "explanation": "Cá không phải của Lan, không phải của Mai nên cá là của Hà. Lan không nuôi chó nên Lan nuôi mèo. Mai nuôi chó.\nLưu ý: cá là của Hà; mèo là của Lan."
+        }
+      ]
+    }
+  ]
+}

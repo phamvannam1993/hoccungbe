@@ -1,0 +1,55 @@
+/* Hiệu ứng riêng của khu "Khóa học vui" */
+@keyframes khv-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.khv-shake { animation: khv-shake 0.4s ease; }
+
+@keyframes khv-pop {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.khv-pop { display: inline-block; animation: khv-pop 0.5s ease both; }
+
+@keyframes khv-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.khv-pulse { animation: khv-pulse 0.6s ease-in-out infinite; }
+
+@keyframes khv-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.khv-float { animation: khv-float 2.4s ease-in-out infinite; }
+
+.khv-noscrollbar { scrollbar-width: none; }
+.khv-noscrollbar::-webkit-scrollbar { display: none; }
+
+@layer components {
+/* Nút theo app 3 Gốc */
+.khv-btn-buy {
+  border-radius: 8px;
+  padding: 10px 0;
+  background: linear-gradient(173.81deg, #ffc936 4.87%, #ffaf36 95.13%);
+  color: #000;
+  font-weight: 800;
+  box-shadow: 0 3px 0 #e19a21;
+}
+.khv-btn-active {
+  border-radius: 8px;
+  padding: 10px 0;
+  background: linear-gradient(173.81deg, #2b95b2 4.87%, #1f7a93 95.13%);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 3px 0 #15607a;
+}
+.khv-btn-buy:active,
+.khv-btn-active:active { transform: translateY(2px); box-shadow: none; }
+}
+
+/* Font Nunito cho cả khu (giống app 3 Gốc) */
+.khv-root { font-family: var(--font-nunito), 'Nunito', sans-serif; }
+.khv-root h1, .khv-root h2, .khv-root h3 { font-family: var(--font-nunito), 'Nunito', sans-serif; }

@@ -1,0 +1,693 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Đọc giờ và phút trên đồng hồ",
+      "emoji": "🕐",
+      "description": "Bé cùng nhìn kim ngắn, kim dài để đọc giờ thật nhanh và thật đúng nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k07-b1-01",
+          "type": "choice",
+          "prompt": "Đồng hồ dưới đây chỉ mấy giờ?",
+          "visual": { "emoji": "🕒" },
+          "options": [
+            { "text": "2 giờ" },
+            { "text": "3 giờ" },
+            { "text": "12 giờ 15 phút" },
+            { "text": "9 giờ" }
+          ],
+          "answer": 1,
+          "method": "Kim dài chỉ số 12 là giờ đúng, kim ngắn chỉ số nào thì là bấy nhiêu giờ.",
+          "explanation": "Kim dài chỉ số 12, kim ngắn chỉ số 3 nên đồng hồ chỉ 3 giờ.\nLưu ý: 2 giờ là đọc nhầm số bên cạnh; 12 giờ 15 phút là đọc ngược hai kim; 9 giờ là nhìn nhầm phía đối diện của mặt đồng hồ."
+        },
+        {
+          "id": "k07-b1-02",
+          "type": "choice",
+          "prompt": "Kim ngắn nằm giữa số 7 và số 8.\nKim dài chỉ số 6.\nĐồng hồ chỉ mấy giờ?",
+          "options": [
+            { "text": "6 giờ 30 phút" },
+            { "text": "8 giờ 30 phút" },
+            { "text": "7 giờ 30 phút" },
+            { "text": "7 giờ 6 phút" }
+          ],
+          "answer": 2,
+          "method": "Kim ngắn ở giữa hai số thì lấy số mà kim ngắn vừa đi qua làm giờ; kim dài chỉ số 6 là 30 phút.",
+          "explanation": "Kim ngắn đã qua số 7 nhưng chưa tới số 8 nên là 7 giờ hơn. Kim dài chỉ số 6 nghĩa là 30 phút. Vậy là 7 giờ 30 phút.\nLưu ý: 6 giờ 30 phút sai vì kim ngắn đã qua số 7 rồi; 8 giờ 30 phút sai vì kim ngắn chưa tới số 8; 7 giờ 6 phút sai vì kim dài chỉ số 6 là 30 phút chứ không phải 6 phút."
+        },
+        {
+          "id": "k07-b1-03",
+          "type": "input",
+          "prompt": "Kim ngắn vừa qua số 9 một chút, kim dài chỉ số 3.\nĐồng hồ chỉ 9 giờ bao nhiêu phút?",
+          "answers": ["15"],
+          "unit": "phút",
+          "method": "Mỗi số trên mặt đồng hồ cách nhau 5 phút, hãy đếm thêm 5 từ số 12.",
+          "explanation": "Kim dài từ số 12 đến số 1 là 5 phút, đến số 2 là 10 phút, đến số 3 là 15 phút. Vậy đồng hồ chỉ 9 giờ 15 phút."
+        },
+        {
+          "id": "k07-b1-04",
+          "type": "input",
+          "prompt": "Lúc 2 giờ, kim dài chỉ số 12.\nSau 1 giờ 30 phút nữa, kim dài chỉ vào số mấy?",
+          "answers": ["6", "số 6"],
+          "method": "Cứ 1 giờ kim dài quay đúng 1 vòng; 30 phút là nửa vòng.",
+          "explanation": "Sau 1 giờ, kim dài quay đúng 1 vòng và lại chỉ số 12 (lúc 3 giờ). Thêm 30 phút, kim dài đi nửa vòng, từ số 12 tới số 6 (lúc 3 giờ 30 phút). Vậy kim dài chỉ vào số 6."
+        },
+        {
+          "id": "k07-b1-05",
+          "type": "match",
+          "prompt": "Nối mỗi đồng hồ với giờ đúng của nó.",
+          "timeLimit": 45,
+          "pairs": [
+            { "left": { "emoji": "🕐" }, "right": { "text": "1 giờ" } },
+            { "left": { "emoji": "🕓" }, "right": { "text": "4 giờ" } },
+            { "left": { "emoji": "🕡" }, "right": { "text": "6 giờ 30 phút" } },
+            { "left": { "emoji": "🕙" }, "right": { "text": "10 giờ" } }
+          ],
+          "method": "Xem kim dài trước: chỉ số 12 là giờ đúng, chỉ số 6 là giờ rưỡi; rồi xem kim ngắn.",
+          "explanation": "🕐 kim ngắn chỉ số 1 → 1 giờ. 🕓 kim ngắn chỉ số 4 → 4 giờ. 🕡 kim dài chỉ số 6, kim ngắn giữa số 6 và 7 → 6 giờ 30 phút. 🕙 kim ngắn chỉ số 10 → 10 giờ."
+        },
+        {
+          "id": "k07-b1-06",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào giờ đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            { "front": { "text": "Kim dài chỉ số 12, kim ngắn chỉ số 5" }, "back": { "text": "5 giờ" } },
+            { "front": { "text": "Kim dài chỉ số 6, kim ngắn ở giữa số 2 và số 3" }, "back": { "text": "2 giờ 30 phút" } },
+            { "front": { "text": "Kim dài chỉ số 3, kim ngắn vừa qua số 7" }, "back": { "text": "7 giờ 15 phút" } },
+            { "front": { "text": "Kim dài chỉ số 12, kim ngắn chỉ số 3" }, "back": { "text": "3 giờ" } },
+            { "front": { "text": "Kim dài chỉ số 3, kim ngắn vừa qua số 12" }, "back": { "text": "12 giờ 15 phút" } }
+          ],
+          "method": "Kim dài chỉ số 12 là giờ đúng, chỉ số 3 là 15 phút, chỉ số 6 là 30 phút; kim ngắn cho biết số giờ.",
+          "explanation": "Kim dài số 12, kim ngắn số 5 → 5 giờ. Kim dài số 6, kim ngắn giữa 2 và 3 → 2 giờ 30 phút. Kim dài số 3, kim ngắn vừa qua số 7 → 7 giờ 15 phút. Kim dài số 12, kim ngắn số 3 → 3 giờ. Kim dài số 3, kim ngắn vừa qua số 12 → 12 giờ 15 phút (đừng nhầm với 3 giờ: phải xem kim nào chỉ số nào)."
+        },
+        {
+          "id": "k07-b1-07",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 40,
+          "sentence": "Một giờ có [[60]] phút. Kim dài chỉ số 6 thì đồng hồ chỉ [[30]] phút, ta còn gọi là giờ [[rưỡi]].",
+          "choices": ["60", "30", "rưỡi", "15", "12"],
+          "method": "Nhớ lại: kim dài đi hết một vòng là một giờ.",
+          "explanation": "Kim dài đi hết một vòng là 60 phút = 1 giờ. Kim dài chỉ số 6 là đi được nửa vòng, tức 30 phút, gọi là giờ rưỡi (ví dụ 7 giờ rưỡi = 7 giờ 30 phút)."
+        },
+        {
+          "id": "k07-b1-08",
+          "type": "order",
+          "prompt": "Xếp các giờ theo thứ tự từ sớm đến muộn (trong cùng một buổi sáng).",
+          "timeLimit": 45,
+          "items": [
+            { "text": "6 giờ 30 phút" },
+            { "text": "7 giờ" },
+            { "text": "7 giờ 30 phút" },
+            { "text": "8 giờ 15 phút" }
+          ],
+          "method": "So sánh số giờ trước; nếu số giờ bằng nhau thì so sánh số phút.",
+          "explanation": "6 giờ 30 phút sớm nhất vì chưa tới 7 giờ. Tiếp theo là 7 giờ, rồi 7 giờ 30 phút, cuối cùng là 8 giờ 15 phút."
+        },
+        {
+          "id": "k07-b1-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ đồng hồ đang chỉ giờ rưỡi (kim dài chỉ số 6).",
+          "options": [
+            { "emoji": "🕜", "text": "A" },
+            { "emoji": "🕒", "text": "B" },
+            { "emoji": "🕞", "text": "C" },
+            { "emoji": "🕘", "text": "D" },
+            { "emoji": "🕤", "text": "E" }
+          ],
+          "answers": [0, 2, 4],
+          "method": "Nhìn kim dài: chỉ thẳng xuống số 6 là giờ rưỡi, chỉ thẳng lên số 12 là giờ đúng.",
+          "explanation": "A là 1 giờ 30 phút, C là 3 giờ 30 phút, E là 9 giờ 30 phút – đều là giờ rưỡi.\nLưu ý: B (3 giờ) và D (9 giờ) có kim dài chỉ số 12 nên là giờ đúng, không phải giờ rưỡi."
+        },
+        {
+          "id": "k07-b1-10",
+          "type": "choice",
+          "prompt": "Lúc 3 giờ, kim ngắn chỉ đúng số 3.\nLúc 3 giờ 30 phút, kim ngắn nằm ở đâu?",
+          "options": [
+            { "text": "Chỉ đúng số 3" },
+            { "text": "Chỉ đúng số 4" },
+            { "text": "Nằm giữa số 3 và số 4" },
+            { "text": "Chỉ đúng số 6" }
+          ],
+          "answer": 2,
+          "method": "Kim ngắn cũng nhích dần theo thời gian, đi được nửa giờ thì kim ngắn đi được nửa đường.",
+          "explanation": "Từ 3 giờ đến 4 giờ, kim ngắn đi từ số 3 sang số 4. Lúc 3 giờ 30 phút là được nửa đường nên kim ngắn nằm giữa số 3 và số 4.\nLưu ý: chỉ đúng số 3 là quên rằng kim ngắn cũng di chuyển; chỉ đúng số 4 là lúc 4 giờ; chỉ số 6 là vị trí của kim dài chứ không phải kim ngắn."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Tính thời gian trước và sau",
+      "emoji": "⏰",
+      "description": "Bé thử tính xem sau một lúc nữa, hay trước đó một lúc, là mấy giờ nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k07-b2-01",
+          "type": "choice",
+          "prompt": "Bây giờ là 9 giờ 30 phút.\n1 giờ nữa là mấy giờ?",
+          "options": [
+            { "text": "10 giờ" },
+            { "text": "10 giờ 30 phút" },
+            { "text": "9 giờ 31 phút" },
+            { "text": "8 giờ 30 phút" }
+          ],
+          "answer": 1,
+          "method": "Thêm 1 giờ thì số giờ tăng 1, số phút giữ nguyên.",
+          "explanation": "9 giờ 30 phút thêm 1 giờ là 10 giờ 30 phút.\nLưu ý: 10 giờ là quên mất 30 phút; 9 giờ 31 phút là cộng nhầm 1 vào số phút; 8 giờ 30 phút là lùi lại 1 giờ chứ không phải tiến lên."
+        },
+        {
+          "id": "k07-b2-02",
+          "type": "input",
+          "prompt": "Bây giờ là 11 giờ trưa.\n3 giờ trước đó là mấy giờ sáng?",
+          "answers": ["8"],
+          "unit": "giờ",
+          "method": "\"Trước đó\" nghĩa là lùi lại, ta làm phép trừ.",
+          "explanation": "Lùi lại 3 giờ: 11 − 3 = 8. Vậy 3 giờ trước đó là 8 giờ sáng."
+        },
+        {
+          "id": "k07-b2-03",
+          "type": "pick_order",
+          "prompt": "Lan ngủ dậy lúc 6 giờ. Sau đó 1 giờ, Lan đến trường.\nChạm lần lượt các thẻ để ghép phép tính tìm giờ Lan đến trường.",
+          "timeLimit": 45,
+          "items": ["6 giờ", "+", "1 giờ", "=", "7 giờ"],
+          "distractors": ["5 giờ"],
+          "method": "\"Sau đó\" nghĩa là thêm vào, ta làm phép cộng.",
+          "explanation": "Lan đến trường lúc 6 giờ + 1 giờ = 7 giờ. Thẻ 5 giờ là kết quả nếu ta trừ nhầm."
+        },
+        {
+          "id": "k07-b2-04",
+          "type": "choice",
+          "prompt": "Bây giờ là 7 giờ 30 phút.\n1 giờ 30 phút nữa là mấy giờ?",
+          "options": [
+            { "text": "8 giờ 30 phút" },
+            { "text": "9 giờ 30 phút" },
+            { "text": "9 giờ" },
+            { "text": "8 giờ 60 phút" }
+          ],
+          "answer": 2,
+          "method": "Thêm 1 giờ trước, rồi thêm tiếp 30 phút; đủ 60 phút thì sang giờ mới.",
+          "explanation": "7 giờ 30 phút thêm 1 giờ là 8 giờ 30 phút. Thêm tiếp 30 phút: 30 + 30 = 60 phút = 1 giờ, nên là 9 giờ.\nLưu ý: 8 giờ 30 phút là quên thêm 30 phút; 9 giờ 30 phút là thêm nhầm 2 giờ; 8 giờ 60 phút sai vì 60 phút đã là 1 giờ, phải đổi thành 9 giờ."
+        },
+        {
+          "id": "k07-b2-05",
+          "type": "input",
+          "prompt": "Bây giờ là 10 giờ.\n30 phút trước đó là 9 giờ bao nhiêu phút?",
+          "answers": ["30"],
+          "unit": "phút",
+          "method": "Tưởng tượng kim dài quay ngược lại nửa vòng; lùi qua giờ đúng thì số giờ giảm đi 1.",
+          "explanation": "Lùi 30 phút từ 10 giờ: kim dài quay ngược nửa vòng, từ số 12 về số 6, kim ngắn lùi về giữa số 9 và số 10. Đó là 9 giờ 30 phút."
+        },
+        {
+          "id": "k07-b2-06",
+          "type": "choice",
+          "prompt": "Bin bắt đầu ngủ trưa lúc 12 giờ trưa.\nBin ngủ 2 giờ thì dậy. Bin dậy lúc mấy giờ?",
+          "options": [
+            { "text": "10 giờ sáng" },
+            { "text": "2 giờ chiều" },
+            { "text": "12 giờ 2 phút" },
+            { "text": "3 giờ chiều" }
+          ],
+          "answer": 1,
+          "method": "Sau 12 giờ trưa, đồng hồ lại bắt đầu đếm từ 1 giờ chiều.",
+          "explanation": "12 giờ trưa thêm 1 giờ là 1 giờ chiều, thêm 1 giờ nữa là 2 giờ chiều (còn gọi là 14 giờ).\nLưu ý: 10 giờ sáng là lùi lại 2 giờ; 12 giờ 2 phút là cộng nhầm 2 vào số phút; 3 giờ chiều là đếm thừa 1 giờ."
+        },
+        {
+          "id": "k07-b2-07",
+          "type": "match",
+          "prompt": "Nối mỗi ô với giờ đúng sau khi thêm hoặc lùi thời gian.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "text": "7 giờ, thêm 2 giờ" }, "right": { "text": "9 giờ" } },
+            { "left": { "text": "7 giờ 30 phút, thêm 30 phút" }, "right": { "text": "8 giờ" } },
+            { "left": { "text": "6 giờ 15 phút, thêm 15 phút" }, "right": { "text": "6 giờ 30 phút" } },
+            { "left": { "text": "11 giờ, lùi 1 giờ" }, "right": { "text": "10 giờ" } }
+          ],
+          "method": "Thêm thì tiến lên, lùi thì quay lại; nếu số phút đủ 60 thì đổi thành 1 giờ.",
+          "explanation": "7 giờ + 2 giờ = 9 giờ. 30 phút + 30 phút = 60 phút = 1 giờ nên 7 giờ 30 phút thêm 30 phút là 8 giờ. 15 + 15 = 30 nên được 6 giờ 30 phút. 11 giờ lùi 1 giờ là 10 giờ."
+        },
+        {
+          "id": "k07-b2-08",
+          "type": "order",
+          "prompt": "Bây giờ là 8 giờ sáng.\nXếp các thời điểm theo thứ tự từ sớm đến muộn (trong cùng buổi sáng).",
+          "timeLimit": 50,
+          "items": [
+            { "text": "1 giờ trước" },
+            { "text": "30 phút trước" },
+            { "text": "Bây giờ" },
+            { "text": "15 phút nữa" },
+            { "text": "2 giờ nữa" }
+          ],
+          "method": "Đổi mỗi ô ra giờ cụ thể rồi mới so sánh.",
+          "explanation": "1 giờ trước là 7 giờ; 30 phút trước là 7 giờ 30 phút; bây giờ là 8 giờ; 15 phút nữa là 8 giờ 15 phút; 2 giờ nữa là 10 giờ. Xếp từ sớm đến muộn: 7 giờ, 7 giờ 30 phút, 8 giờ, 8 giờ 15 phút, 10 giờ."
+        },
+        {
+          "id": "k07-b2-09",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 40,
+          "sentence": "Bây giờ là 4 giờ chiều. 2 giờ trước là [[2]] giờ chiều, còn 2 giờ nữa là [[6]] giờ chiều.",
+          "choices": ["2", "6", "4", "8"],
+          "method": "\"Trước\" thì trừ đi, \"nữa\" thì cộng thêm.",
+          "explanation": "2 giờ trước: 4 − 2 = 2, là 2 giờ chiều. 2 giờ nữa: 4 + 2 = 6, là 6 giờ chiều."
+        },
+        {
+          "id": "k07-b2-10",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào giờ đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "front": { "text": "9 giờ, lùi 30 phút" }, "back": { "text": "8 giờ 30 phút" } },
+            { "front": { "text": "5 giờ 15 phút, thêm 15 phút" }, "back": { "text": "5 giờ 30 phút" } },
+            { "front": { "text": "10 giờ 30 phút, thêm 1 giờ" }, "back": { "text": "11 giờ 30 phút" } },
+            { "front": { "text": "12 giờ, lùi 1 giờ" }, "back": { "text": "11 giờ" } },
+            { "front": { "text": "3 giờ 15 phút, lùi 15 phút" }, "back": { "text": "3 giờ" } }
+          ],
+          "method": "Thêm thì tiến lên, lùi thì quay lại; lùi qua giờ đúng thì số giờ giảm đi 1.",
+          "explanation": "9 giờ lùi 30 phút là 8 giờ 30 phút. 5 giờ 15 phút thêm 15 phút: 15 + 15 = 30, được 5 giờ 30 phút. 10 giờ 30 phút thêm 1 giờ là 11 giờ 30 phút. 12 giờ lùi 1 giờ là 11 giờ. 3 giờ 15 phút lùi 15 phút là 3 giờ đúng."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Lịch, ngày và thứ trong tuần",
+      "emoji": "📅",
+      "description": "Cùng xem lịch và đoán xem hôm nào là thứ mấy nhé bé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k07-b3-01",
+          "type": "choice",
+          "prompt": "Hôm nay là thứ Sáu.\n2 ngày nữa là thứ mấy?",
+          "options": [
+            { "text": "Thứ Bảy" },
+            { "text": "Thứ Hai" },
+            { "text": "Chủ nhật" },
+            { "text": "Thứ Tư" }
+          ],
+          "answer": 2,
+          "method": "Đếm tiếp từng ngày sau thứ Sáu.",
+          "explanation": "Sau thứ Sáu 1 ngày là thứ Bảy, 2 ngày là Chủ nhật.\nLưu ý: thứ Bảy chỉ là 1 ngày nữa; thứ Hai là 3 ngày nữa; thứ Tư là 2 ngày trước đó."
+        },
+        {
+          "id": "k07-b3-02",
+          "type": "input",
+          "prompt": "Thứ Năm tuần này là ngày 10.\nThứ Năm tuần sau là ngày bao nhiêu?",
+          "answers": ["17"],
+          "method": "Một tuần có 7 ngày, từ thứ Năm này đến thứ Năm tuần sau là 7 ngày.",
+          "explanation": "Thứ Năm tuần sau cách thứ Năm này đúng 7 ngày: 10 + 7 = 17. Vậy là ngày 17."
+        },
+        {
+          "id": "k07-b3-03",
+          "type": "order",
+          "prompt": "Xếp các ngày trong tuần theo đúng thứ tự, bắt đầu từ thứ Năm.",
+          "timeLimit": 45,
+          "items": [
+            { "text": "Thứ Năm" },
+            { "text": "Thứ Sáu" },
+            { "text": "Thứ Bảy" },
+            { "text": "Chủ nhật" },
+            { "text": "Thứ Hai" }
+          ],
+          "method": "Nhớ thứ tự: thứ Hai, thứ Ba, thứ Tư, thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật rồi lại thứ Hai.",
+          "explanation": "Sau thứ Năm là thứ Sáu, thứ Bảy, Chủ nhật. Hết tuần thì sang thứ Hai của tuần mới."
+        },
+        {
+          "id": "k07-b3-04",
+          "type": "choice",
+          "prompt": "Hôm qua là thứ Hai.\nNgày mai là thứ mấy?",
+          "options": [
+            { "text": "Thứ Ba" },
+            { "text": "Thứ Tư" },
+            { "text": "Thứ Năm" },
+            { "text": "Chủ nhật" }
+          ],
+          "answer": 1,
+          "method": "Tìm hôm nay là thứ mấy trước, rồi mới tính ngày mai.",
+          "explanation": "Hôm qua là thứ Hai nên hôm nay là thứ Ba, ngày mai là thứ Tư.\nLưu ý: thứ Ba là hôm nay chứ không phải ngày mai; thứ Năm là đếm thừa một ngày; Chủ nhật là ngày trước thứ Hai, tức là đếm lùi."
+        },
+        {
+          "id": "k07-b3-05",
+          "type": "input",
+          "prompt": "Trong một tháng, các ngày thứ Hai là:\nngày 3, ngày 10, ngày 17 và ngày nào nữa?",
+          "answers": ["24"],
+          "method": "Hai ngày thứ Hai liền nhau cách nhau đúng 7 ngày.",
+          "explanation": "3 + 7 = 10, 10 + 7 = 17, 17 + 7 = 24. Vậy ngày thứ Hai tiếp theo là ngày 24."
+        },
+        {
+          "id": "k07-b3-06",
+          "type": "multi_choice",
+          "prompt": "Ngày 1 tháng 5 là thứ Bảy.\nChọn TẤT CẢ các ngày cũng là thứ Bảy trong tháng 5.",
+          "options": [
+            { "text": "Ngày 7" },
+            { "text": "Ngày 8" },
+            { "text": "Ngày 14" },
+            { "text": "Ngày 15" },
+            { "text": "Ngày 22" },
+            { "text": "Ngày 29" }
+          ],
+          "answers": [1, 3, 4, 5],
+          "method": "Bắt đầu từ ngày 1, cứ cộng thêm 7 là lại đến thứ Bảy.",
+          "explanation": "Các ngày thứ Bảy: 1, 8, 15, 22, 29 (mỗi lần thêm 7).\nLưu ý: ngày 7 và ngày 14 là thứ Sáu (đứng ngay trước ngày 8 và ngày 15), là bẫy vì 7 và 14 trông giống \"số của tuần\"."
+        },
+        {
+          "id": "k07-b3-07",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 40,
+          "sentence": "Một tuần lễ có [[7]] ngày. Hôm qua là thứ Sáu thì hôm nay là [[thứ Bảy]]. Hai ngày cuối tuần là thứ Bảy và [[Chủ nhật]].",
+          "choices": ["7", "thứ Bảy", "Chủ nhật", "thứ Năm", "thứ Hai"],
+          "method": "Nhớ thứ tự các ngày trong tuần: thứ Hai, thứ Ba, … thứ Bảy, Chủ nhật.",
+          "explanation": "Một tuần có 7 ngày. Sau thứ Sáu là thứ Bảy, nên hôm qua là thứ Sáu thì hôm nay là thứ Bảy. Thứ Bảy và Chủ nhật là hai ngày cuối tuần."
+        },
+        {
+          "id": "k07-b3-08",
+          "type": "match_multi",
+          "prompt": "Một tuần bắt đầu từ thứ Hai.\nNối mỗi ngày vào đúng nhóm: đứng trước hay đứng sau thứ Tư?",
+          "timeLimit": 50,
+          "groups": [
+            { "text": "Trước thứ Tư", "emoji": "⬅️" },
+            { "text": "Sau thứ Tư", "emoji": "➡️" }
+          ],
+          "items": [
+            { "text": "Thứ Hai", "group": 0 },
+            { "text": "Thứ Năm", "group": 1 },
+            { "text": "Thứ Ba", "group": 0 },
+            { "text": "Chủ nhật", "group": 1 },
+            { "text": "Thứ Sáu", "group": 1 },
+            { "text": "Thứ Bảy", "group": 1 }
+          ],
+          "method": "Đọc lần lượt: thứ Hai, thứ Ba, thứ Tư, thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật.",
+          "explanation": "Trong tuần bắt đầu từ thứ Hai, chỉ có thứ Hai và thứ Ba đứng trước thứ Tư. Thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật đều đứng sau thứ Tư."
+        },
+        {
+          "id": "k07-b3-09",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi ô ở trên với thứ đúng ở dưới.",
+          "timeLimit": 45,
+          "pairs": [
+            { "left": { "text": "1 ngày sau thứ Hai" }, "right": { "text": "Thứ Ba" } },
+            { "left": { "text": "3 ngày sau thứ Sáu" }, "right": { "text": "Thứ Hai" } },
+            { "left": { "text": "1 ngày sau thứ Bảy" }, "right": { "text": "Chủ nhật" } },
+            { "left": { "text": "7 ngày sau thứ Tư" }, "right": { "text": "Thứ Tư" } }
+          ],
+          "method": "Đếm tiếp từng ngày; nhớ rằng đúng 7 ngày sau thì lại về cùng thứ.",
+          "explanation": "Sau thứ Hai 1 ngày là thứ Ba. Sau thứ Sáu: thứ Bảy, Chủ nhật, thứ Hai. Sau thứ Bảy 1 ngày là Chủ nhật. 7 ngày sau thứ Tư lại là thứ Tư."
+        },
+        {
+          "id": "k07-b3-10",
+          "type": "choice",
+          "prompt": "Hôm nay là thứ Tư, ngày 12.\nThứ Tư tuần trước là ngày bao nhiêu?",
+          "options": [
+            { "text": "Ngày 19" },
+            { "text": "Ngày 5" },
+            { "text": "Ngày 11" },
+            { "text": "Ngày 6" }
+          ],
+          "answer": 1,
+          "method": "\"Tuần trước\" là lùi lại đúng 7 ngày.",
+          "explanation": "12 − 7 = 5. Thứ Tư tuần trước là ngày 5.\nLưu ý: ngày 19 là thứ Tư tuần sau (cộng 7); ngày 11 là hôm qua (thứ Ba); ngày 6 là lùi nhầm 6 ngày (12 − 6) thay vì 7 ngày."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Tính thời gian hoạt động",
+      "emoji": "⏱️",
+      "description": "Bé tính xem mỗi việc mình làm mất bao lâu nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k07-b4-01",
+          "type": "choice",
+          "prompt": "Bé bắt đầu đọc truyện lúc 8 giờ và đọc xong lúc 10 giờ.\nBé đọc truyện trong bao lâu?",
+          "options": [
+            { "text": "10 giờ" },
+            { "text": "18 giờ" },
+            { "text": "2 giờ" },
+            { "text": "1 giờ" }
+          ],
+          "answer": 2,
+          "method": "Lấy giờ kết thúc trừ giờ bắt đầu.",
+          "explanation": "10 − 8 = 2. Bé đọc truyện trong 2 giờ.\nLưu ý: 10 giờ là giờ đọc xong chứ không phải thời gian đọc; 18 giờ là cộng nhầm 8 + 10; 1 giờ là đếm thiếu."
+        },
+        {
+          "id": "k07-b4-02",
+          "type": "input",
+          "prompt": "Bé xem hoạt hình từ 7 giờ đến 7 giờ 30 phút.\nBé xem hoạt hình trong bao nhiêu phút?",
+          "answers": ["30"],
+          "unit": "phút",
+          "method": "Số giờ giống nhau, chỉ cần xem số phút tăng thêm bao nhiêu.",
+          "explanation": "Từ 7 giờ đến 7 giờ 30 phút, kim dài đi từ số 12 đến số 6, tức là 30 phút."
+        },
+        {
+          "id": "k07-b4-03",
+          "type": "match_multi",
+          "prompt": "Việc nào chỉ mất vài phút, việc nào mất vài giờ? Nối mỗi việc vào đúng nhóm.",
+          "timeLimit": 50,
+          "groups": [
+            { "text": "Vài phút", "emoji": "⏱️" },
+            { "text": "Vài giờ", "emoji": "🕰️" }
+          ],
+          "items": [
+            { "text": "Đánh răng", "group": 0 },
+            { "text": "Ngủ một đêm", "group": 1 },
+            { "text": "Rửa tay", "group": 0 },
+            { "text": "Một buổi học ở trường", "group": 1 },
+            { "text": "Uống một cốc nước", "group": 0 },
+            { "text": "Đi tham quan cả buổi sáng", "group": 1 }
+          ],
+          "method": "Tưởng tượng mình làm việc đó: xong rất nhanh hay phải chờ rất lâu?",
+          "explanation": "Đánh răng, rửa tay, uống một cốc nước chỉ mất vài phút. Ngủ một đêm, một buổi học ở trường, đi tham quan cả buổi sáng mất vài giờ."
+        },
+        {
+          "id": "k07-b4-04",
+          "type": "choice",
+          "prompt": "Bé tập đàn từ 4 giờ 30 phút đến 5 giờ chiều.\nBé tập đàn trong bao lâu?",
+          "options": [
+            { "text": "1 giờ" },
+            { "text": "30 phút" },
+            { "text": "5 giờ" },
+            { "text": "1 giờ 30 phút" }
+          ],
+          "answer": 1,
+          "method": "Đếm xem kim dài đi từ số 6 đến số 12 hết bao nhiêu phút.",
+          "explanation": "Từ 4 giờ 30 phút đến 5 giờ, kim dài đi từ số 6 về số 12, tức là nửa vòng = 30 phút.\nLưu ý: 1 giờ là chỉ lấy 5 − 4 mà quên 30 phút; 5 giờ là giờ tập xong; 1 giờ 30 phút là cộng nhầm thêm."
+        },
+        {
+          "id": "k07-b4-05",
+          "type": "input",
+          "prompt": "Bộ phim bắt đầu lúc 8 giờ 30 phút và kết thúc lúc 10 giờ.\nBộ phim dài bao nhiêu phút?",
+          "answers": ["90"],
+          "unit": "phút",
+          "method": "Tính từ 8 giờ 30 phút đến 9 giờ, rồi từ 9 giờ đến 10 giờ; nhớ 1 giờ = 60 phút.",
+          "explanation": "Từ 8 giờ 30 phút đến 9 giờ là 30 phút. Từ 9 giờ đến 10 giờ là 1 giờ = 60 phút. Tất cả: 30 + 60 = 90 phút."
+        },
+        {
+          "id": "k07-b4-06",
+          "type": "choice",
+          "prompt": "Bé đi ngủ lúc 9 giờ tối và thức dậy lúc 6 giờ sáng hôm sau.\nBé ngủ được mấy giờ?",
+          "options": [
+            { "text": "3 giờ" },
+            { "text": "15 giờ" },
+            { "text": "9 giờ" },
+            { "text": "6 giờ" }
+          ],
+          "answer": 2,
+          "method": "Tính từ 9 giờ tối đến 12 giờ đêm, rồi từ 12 giờ đêm đến 6 giờ sáng.",
+          "explanation": "Từ 9 giờ tối đến 12 giờ đêm là 3 giờ. Từ 12 giờ đêm đến 6 giờ sáng là 6 giờ. Tất cả: 3 + 6 = 9 giờ.\nLưu ý: 3 giờ là lấy 9 − 6; 15 giờ là cộng 9 + 6; 6 giờ là giờ thức dậy chứ không phải thời gian ngủ."
+        },
+        {
+          "id": "k07-b4-07",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào khoảng thời gian đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "front": { "text": "Từ 7 giờ đến 9 giờ" }, "back": { "text": "2 giờ" } },
+            { "front": { "text": "Từ 3 giờ đến 3 giờ 15 phút" }, "back": { "text": "15 phút" } },
+            { "front": { "text": "Từ 10 giờ 30 phút đến 11 giờ" }, "back": { "text": "30 phút" } },
+            { "front": { "text": "Từ 1 giờ đến 4 giờ" }, "back": { "text": "3 giờ" } },
+            { "front": { "text": "Từ 5 giờ 30 phút đến 6 giờ 30 phút" }, "back": { "text": "1 giờ" } }
+          ],
+          "method": "Lấy thời điểm sau trừ thời điểm trước.",
+          "explanation": "9 − 7 = 2 giờ; 3 giờ đến 3 giờ 15 phút là 15 phút; 10 giờ 30 phút đến 11 giờ là 30 phút; 4 − 1 = 3 giờ; 5 giờ 30 phút đến 6 giờ 30 phút là 1 giờ."
+        },
+        {
+          "id": "k07-b4-08",
+          "type": "order",
+          "prompt": "Xếp các hoạt động theo thời gian làm từ ngắn nhất đến dài nhất.",
+          "timeLimit": 50,
+          "items": [
+            { "text": "Rửa mặt: 5 phút" },
+            { "text": "Ăn sáng: 20 phút" },
+            { "text": "Đá bóng: 45 phút" },
+            { "text": "Học bài: 1 giờ" },
+            { "text": "Đi tham quan: 3 giờ" }
+          ],
+          "method": "Nhớ 1 giờ = 60 phút để so sánh giờ với phút.",
+          "explanation": "5 phút < 20 phút < 45 phút < 1 giờ (= 60 phút) < 3 giờ. Chú ý: 1 giờ dài hơn 45 phút dù số 1 nhỏ hơn số 45."
+        },
+        {
+          "id": "k07-b4-09",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Lan bắt đầu làm bài lúc 7 giờ 15 phút và làm trong 15 phút. Lan làm xong lúc 7 giờ [[30]] phút. Nếu Lan làm thêm 30 phút nữa thì lúc đó là [[8]] giờ.",
+          "choices": ["30", "8", "45", "7"],
+          "method": "Cộng số phút làm bài vào giờ bắt đầu; đủ 60 phút thì sang giờ mới.",
+          "explanation": "15 + 15 = 30, nên Lan làm xong lúc 7 giờ 30 phút. Thêm 30 phút: 30 + 30 = 60 phút = 1 giờ, nên là 8 giờ."
+        },
+        {
+          "id": "k07-b4-10",
+          "type": "pick_order",
+          "prompt": "Bin đá bóng từ 4 giờ đến 6 giờ chiều.\nChạm lần lượt các thẻ để ghép phép tính số giờ Bin đá bóng.",
+          "timeLimit": 45,
+          "items": ["6 giờ", "-", "4 giờ", "=", "2 giờ"],
+          "distractors": ["10 giờ"],
+          "method": "Lấy giờ kết thúc trừ giờ bắt đầu.",
+          "explanation": "Bin đá bóng trong 6 giờ − 4 giờ = 2 giờ. Thẻ 10 giờ là kết quả nếu cộng nhầm 6 + 4."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Câu đố IQ về đồng hồ",
+      "emoji": "🧠",
+      "description": "Những câu đố đồng hồ hóc búa đang chờ bé thông minh giải đấy!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k07-b5-01",
+          "type": "choice",
+          "prompt": "Các đồng hồ chỉ giờ theo một quy luật.\nĐồng hồ tiếp theo chỉ mấy giờ?",
+          "visual": { "emoji": "🕐 🕒 🕔 ❓" },
+          "options": [
+            { "emoji": "🕕", "text": "6 giờ" },
+            { "emoji": "🕖", "text": "7 giờ" },
+            { "emoji": "🕗", "text": "8 giờ" },
+            { "emoji": "🕘", "text": "9 giờ" }
+          ],
+          "answer": 1,
+          "method": "Đọc giờ từng đồng hồ rồi xem mỗi lần tăng thêm mấy giờ.",
+          "explanation": "Các đồng hồ chỉ 1 giờ, 3 giờ, 5 giờ – mỗi lần thêm 2 giờ. Tiếp theo là 5 + 2 = 7 giờ.\nLưu ý: 6 giờ là chỉ thêm 1 giờ; 8 giờ là thêm 3 giờ; 9 giờ là thêm 4 giờ – đều sai quy luật."
+        },
+        {
+          "id": "k07-b5-02",
+          "type": "input",
+          "prompt": "Đồng hồ nhà Bin chạy nhanh 15 phút.\nĐồng hồ đang chỉ 9 giờ 15 phút.\nGiờ đúng lúc này là mấy giờ?",
+          "answers": ["9"],
+          "unit": "giờ",
+          "method": "Đồng hồ chạy nhanh thì giờ thật sớm hơn giờ trên đồng hồ.",
+          "explanation": "Đồng hồ chạy nhanh 15 phút nên giờ thật bằng giờ trên đồng hồ lùi lại 15 phút: 9 giờ 15 phút lùi 15 phút là 9 giờ đúng."
+        },
+        {
+          "id": "k07-b5-03",
+          "type": "choice",
+          "prompt": "Vào lúc mấy giờ thì kim ngắn và kim dài cùng chỉ đúng vào số 12?",
+          "options": [
+            { "text": "6 giờ" },
+            { "text": "3 giờ" },
+            { "text": "9 giờ" },
+            { "text": "12 giờ" }
+          ],
+          "answer": 3,
+          "method": "Giờ đúng thì kim dài luôn chỉ số 12, chỉ cần kim ngắn cũng chỉ số 12.",
+          "explanation": "Kim dài chỉ số 12 và kim ngắn cũng chỉ số 12 là lúc 12 giờ, hai kim chồng lên nhau.\nLưu ý: lúc 6 giờ hai kim thẳng hàng nhưng ngược chiều; lúc 3 giờ và 9 giờ kim ngắn chỉ số 3 hoặc số 9."
+        },
+        {
+          "id": "k07-b5-04",
+          "type": "input",
+          "prompt": "Từ 1 giờ đến 4 giờ, kim dài quay được mấy vòng?",
+          "answers": ["3"],
+          "unit": "vòng",
+          "method": "Cứ mỗi 1 giờ trôi qua, kim dài quay đúng 1 vòng.",
+          "explanation": "Từ 1 giờ đến 4 giờ là 3 giờ. Mỗi giờ kim dài quay 1 vòng nên quay được 3 vòng."
+        },
+        {
+          "id": "k07-b5-05",
+          "type": "choice",
+          "prompt": "Bin nhìn đồng hồ treo tường qua gương.\nTrong gương, kim dài chỉ số 12, kim ngắn chỉ số 9.\nGiờ thật là mấy giờ?",
+          "options": [
+            { "text": "3 giờ" },
+            { "text": "9 giờ" },
+            { "text": "6 giờ" },
+            { "text": "12 giờ" }
+          ],
+          "answer": 0,
+          "method": "Gương làm đổi bên trái và bên phải; số 12 và số 6 vẫn ở nguyên chỗ.",
+          "explanation": "Trong gương, bên trái và bên phải đổi chỗ cho nhau: kim ngắn trông như chỉ số 9 (bên trái) thì thật ra đang chỉ số 3 (bên phải). Kim dài chỉ số 12 vẫn là số 12. Vậy giờ thật là 3 giờ.\nLưu ý: 9 giờ là đọc thẳng hình trong gương; 6 giờ là nghĩ gương lật cả trên dưới; 12 giờ là chỉ nhìn kim dài."
+        },
+        {
+          "id": "k07-b5-06",
+          "type": "match",
+          "prompt": "Nối mỗi cách tả hai kim với giờ đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "left": { "text": "Kim dài chỉ số 6, kim ngắn ở giữa số 12 và số 1" }, "right": { "text": "12 giờ 30 phút" } },
+            { "left": { "text": "Kim dài chỉ số 3, kim ngắn vừa qua số 2" }, "right": { "text": "2 giờ 15 phút" } },
+            { "left": { "text": "Kim dài chỉ số 6, kim ngắn đã qua số 4 nhưng chưa tới số 5" }, "right": { "text": "4 giờ 30 phút" } },
+            { "left": { "text": "Kim dài chỉ số 12, kim ngắn chỉ số 8" }, "right": { "text": "8 giờ" } }
+          ],
+          "method": "Kim dài cho biết số phút; kim ngắn chưa tới số nào thì giờ vẫn là số trước đó.",
+          "explanation": "Kim dài số 6 = 30 phút, kim ngắn giữa 12 và 1 → 12 giờ 30 phút. Kim dài số 3 = 15 phút, kim ngắn vừa qua số 2 → 2 giờ 15 phút. Kim dài số 6 = 30 phút, kim ngắn chưa tới số 5 nên giờ vẫn là 4 → 4 giờ 30 phút. Kim dài số 12, kim ngắn số 8 → 8 giờ."
+        },
+        {
+          "id": "k07-b5-07",
+          "type": "order",
+          "prompt": "Mỗi đồng hồ chỉ muộn hơn đồng hồ trước 1 giờ 30 phút.\nXếp các giờ theo thứ tự từ sớm đến muộn.",
+          "timeLimit": 50,
+          "items": [
+            { "text": "1 giờ 30 phút" },
+            { "text": "3 giờ" },
+            { "text": "4 giờ 30 phút" },
+            { "text": "6 giờ" }
+          ],
+          "method": "Bắt đầu từ giờ sớm nhất, mỗi lần thêm 1 giờ rồi thêm 30 phút để kiểm tra.",
+          "explanation": "1 giờ 30 phút thêm 1 giờ 30 phút là 3 giờ; 3 giờ thêm 1 giờ 30 phút là 4 giờ 30 phút; 4 giờ 30 phút thêm 1 giờ 30 phút là 6 giờ."
+        },
+        {
+          "id": "k07-b5-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các giờ mà kim ngắn KHÔNG chỉ đúng vào một số, mà nằm giữa hai số.",
+          "options": [
+            { "text": "4 giờ" },
+            { "text": "4 giờ 30 phút" },
+            { "text": "10 giờ 15 phút" },
+            { "text": "7 giờ" },
+            { "text": "11 giờ 30 phút" },
+            { "text": "12 giờ" }
+          ],
+          "answers": [1, 2, 4],
+          "method": "Chỉ vào lúc giờ đúng, kim ngắn mới chỉ đúng vào một số; còn lại kim ngắn đã nhích đi.",
+          "explanation": "Lúc 4 giờ 30 phút, 10 giờ 15 phút, 11 giờ 30 phút, kim ngắn đã nhích qua số giờ nên nằm giữa hai số.\nLưu ý: 4 giờ, 7 giờ, 12 giờ là giờ đúng, kim ngắn chỉ đúng vào số 4, số 7, số 12."
+        },
+        {
+          "id": "k07-b5-09",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Kim dài đi từ số 12 đến số 6 hết [[30]] phút. Kim ngắn đi từ số 12 đến số 6 hết [[6]] giờ.",
+          "choices": ["30", "6", "60", "3"],
+          "method": "Kim dài đi 1 vòng là 1 giờ; kim ngắn đi từ một số sang số kế tiếp là 1 giờ.",
+          "explanation": "Kim dài đi nửa vòng (từ số 12 đến số 6) là 30 phút. Kim ngắn đi từ số 12 đến số 6 qua 6 khoảng, mỗi khoảng 1 giờ, nên hết 6 giờ (ví dụ từ 12 giờ trưa đến 6 giờ chiều). Cùng một đoạn đường nhưng kim ngắn đi lâu hơn rất nhiều!"
+        },
+        {
+          "id": "k07-b5-10",
+          "type": "choice",
+          "prompt": "Đồng hồ nhà Na cứ đến giờ đúng thì đánh chuông: 1 giờ đánh 1 tiếng, 2 giờ đánh 2 tiếng…\nTính cả lúc 1 giờ, 2 giờ và 3 giờ, đồng hồ đánh tất cả bao nhiêu tiếng?",
+          "options": [
+            { "text": "3 tiếng" },
+            { "text": "4 tiếng" },
+            { "text": "6 tiếng" },
+            { "text": "5 tiếng" }
+          ],
+          "answer": 2,
+          "method": "Cộng số tiếng chuông của từng lần đánh.",
+          "explanation": "Lúc 1 giờ: 1 tiếng, 2 giờ: 2 tiếng, 3 giờ: 3 tiếng. Tất cả: 1 + 2 + 3 = 6 tiếng.\nLưu ý: 3 tiếng là chỉ tính lúc 3 giờ; 4 tiếng là quên lúc 2 giờ (1 + 3); 5 tiếng là quên lúc 1 giờ (2 + 3)."
+        }
+      ]
+    }
+  ]
+}

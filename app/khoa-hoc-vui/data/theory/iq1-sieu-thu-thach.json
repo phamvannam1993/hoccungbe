@@ -1,0 +1,150 @@
+{
+  "bai-1": {
+    "concept": "Quan sát là nhìn thật kỹ màu, hình dạng và số lượng. Đếm riêng từng loại để không bị sót.",
+    "examples": [
+      {
+        "prompt": "Có mấy con cá vàng 🐠?",
+        "visual": {
+          "emoji": "🐠🐟🐠🐠🐟🐠🐟"
+        },
+        "answer": "Chỉ đếm 🐠, bỏ qua 🐟. Có 4 con 🐠."
+      },
+      {
+        "prompt": "Có mấy hình tròn?",
+        "visual": {
+          "emoji": "🟢🟩🟢🟩🟢"
+        },
+        "answer": "Chỉ nhìn hình dạng, không nhìn màu. 🟢 là hình tròn, có 3 hình tròn."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ xem đề hỏi đếm loại nào.",
+      "Chạm ngón tay vào từng hình khi đếm.",
+      "Đếm riêng từng loại và nhớ số.",
+      "So sánh hoặc cộng, trừ theo câu hỏi."
+    ],
+    "tips": [
+      "Mắt nhìn, tay chỉ, miệng đếm!",
+      "Cùng màu chưa chắc cùng hình — nhìn cho kỹ nhé."
+    ]
+  },
+  "bai-2": {
+    "concept": "Quy luật là cách các hình hoặc các số lặp lại hay thay đổi đều đặn. Xem số sau hơn hay kém số trước bao nhiêu để tìm ra quy luật.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n40, 41, 43, ?",
+        "visual": {
+          "grid": [
+            [
+              "40",
+              "41",
+              "43",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Lần lượt cộng 1, rồi cộng 2, tiếp theo là cộng 3: 43 + 3 = 46."
+      },
+      {
+        "prompt": "Hình tiếp theo là gì?\n🟡🟡🟣🟡🟡🟣🟡 ?",
+        "answer": "Nhóm lặp lại là 🟡🟡🟣. Sau một 🟡 còn thêm một 🟡 nữa, nên hình tiếp theo là 🟡."
+      }
+    ],
+    "steps": [
+      "Tìm nhóm hình lặp lại hoặc so hai số đứng cạnh nhau.",
+      "Tính mỗi lần thêm hay bớt bao nhiêu.",
+      "Xem số thêm, bớt giữ nguyên hay thay đổi.",
+      "Thử quy luật với cả dãy rồi mới điền."
+    ],
+    "tips": [
+      "Đúng một chỗ chưa chắc — thử hết cả dãy!",
+      "Số thêm có thể tăng dần: thêm 1, thêm 2, thêm 3…"
+    ]
+  },
+  "bai-3": {
+    "concept": "Suy luận là dùng các gợi ý để loại bỏ cái sai, cái còn lại là đúng. Hãy làm với gợi ý chắc chắn trước.",
+    "examples": [
+      {
+        "prompt": "Tí, Tèo, Na mỗi bạn thích một quả: 🍎, 🍌, 🍇.\nTí thích 🍌. Na không thích 🍎.\nTèo thích quả gì?",
+        "answer": "Tí thích 🍌. Na không thích 🍎 nên Na thích 🍇, còn lại 🍎 là của Tèo."
+      },
+      {
+        "prompt": "Số bí mật lớn hơn 20 và bé hơn 23.\nĐó có thể là những số nào?",
+        "visual": {
+          "grid": [
+            [
+              "20",
+              "?",
+              "?",
+              "23"
+            ]
+          ]
+        },
+        "answer": "Đếm sau 20 và trước 23: 21, 22. Số 20 và 23 không được tính."
+      }
+    ],
+    "steps": [
+      "Đọc từng gợi ý một, thật chậm.",
+      "Bắt đầu từ gợi ý chắc chắn nhất.",
+      "Gạch bỏ những cái gợi ý nói \"không\".",
+      "Kiểm tra lại đáp án với tất cả gợi ý."
+    ],
+    "tips": [
+      "\"Lớn hơn 10\" thì không lấy chính số 10!",
+      "Loại hết cái sai, cái còn lại chính là đáp án!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Đọc kỹ đề để biết đã cho gì và hỏi gì. Thêm, gộp thì cộng; bớt, cho đi thì trừ.",
+    "examples": [
+      {
+        "prompt": "Hộp có 26 cái bánh. Mẹ lấy ra 4 cái,\nrồi bỏ vào thêm 2 cái.\nHộp có mấy cái bánh?",
+        "answer": "Làm từng bước: 26 − 4 = 22, rồi 22 + 2 = 24. Hộp có 24 cái bánh."
+      },
+      {
+        "prompt": "Có 54 con gà, 30 con vào chuồng.\nNgoài sân còn mấy con gà?",
+        "answer": "5 chục bớt 3 chục còn 2 chục, giữ nguyên 4 đơn vị. 54 − 30 = 24 con gà."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: đề cho biết gì, hỏi gì.",
+      "Tìm chữ gợi ý: thêm, gộp, cả hai, bớt, cho đi, còn lại.",
+      "Viết phép tính và làm từng bước một.",
+      "Tính hàng đơn vị trước, rồi đến hàng chục.",
+      "Kiểm tra kết quả có hợp lý không."
+    ],
+    "tips": [
+      "Thêm là cộng, bớt là trừ — nhớ ngay từ đầu!",
+      "Chục trừ chục, đơn vị trừ đơn vị — đừng trộn lẫn."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài tổng kết có đủ thứ bé đã học: số, phép tính, hình, đồng hồ và ngày trong tuần. Đọc kỹ từng câu và dùng đúng điều đã học.",
+    "examples": [
+      {
+        "prompt": "Đồng hồ chỉ mấy giờ?",
+        "visual": {
+          "clock": [
+            "4:00"
+          ]
+        },
+        "answer": "Kim dài chỉ số 12, kim ngắn chỉ số 4. Đồng hồ chỉ 4 giờ."
+      },
+      {
+        "prompt": "Chọn dấu đúng:\n36 … 63",
+        "answer": "36 có 3 chục, 63 có 6 chục. Vậy 36 < 63."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, xem câu hỏi về số, hình, giờ hay ngày.",
+      "Nhớ lại cách làm đã học ở bài đó.",
+      "Tính hàng đơn vị trước, rồi đến hàng chục.",
+      "Kiểm tra lại đáp án trước khi chọn."
+    ],
+    "tips": [
+      "Giờ đúng: kim dài chỉ số 12, kim ngắn chỉ giờ.",
+      "Tam giác lộn ngược 🔻 vẫn là tam giác!",
+      "Thứ Hai, thứ Ba… thứ Bảy, rồi đến Chủ nhật."
+    ]
+  }
+}

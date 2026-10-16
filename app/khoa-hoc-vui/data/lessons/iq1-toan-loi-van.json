@@ -1,0 +1,1212 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Bài toán thêm và bớt đồ vật",
+      "emoji": "🧸",
+      "description": "Thêm vào hay bớt đi? Bé đọc kỹ đề rồi giải nhé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k03-b1-01",
+          "type": "choice",
+          "prompt": "Lan có 5 cái kẹo. Mẹ cho thêm 3 cái.\nLan có tất cả mấy cái kẹo?",
+          "visual": {
+            "emoji": "🍬🍬🍬🍬🍬 ➕ 🍬🍬🍬"
+          },
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "9"
+            }
+          ],
+          "answer": 1,
+          "method": "\"Cho thêm\" là nhiều lên, ta làm phép cộng.",
+          "explanation": "5 + 3 = 8. Lan có 8 cái kẹo.\nLưu ý: 2 là trừ nhầm; 9 là đếm thừa 1."
+        },
+        {
+          "id": "l1k03-b1-02",
+          "type": "input",
+          "prompt": "Trên cành có 9 con chim. 4 con bay đi.\nTrên cành còn mấy con chim?",
+          "visual": {
+            "emoji": "🐦🐦🐦🐦🐦🐦🐦🐦🐦"
+          },
+          "answers": [
+            "5"
+          ],
+          "unit": "con",
+          "method": "\"Bay đi\" là ít đi, ta làm phép trừ.",
+          "explanation": "9 − 4 = 5. Trên cành còn 5 con chim."
+        },
+        {
+          "id": "l1k03-b1-03",
+          "type": "choice",
+          "prompt": "An có 4 viên bi. Bình cho An 5 viên bi.\nAn có mấy viên bi?",
+          "options": [
+            {
+              "text": "1"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "9"
+            }
+          ],
+          "answer": 2,
+          "method": "Ai nhận được bi? Người nhận thì có nhiều hơn.",
+          "explanation": "An được Bình cho thêm nên An có nhiều lên: 4 + 5 = 9 viên.\nLưu ý: thấy chữ \"cho\" là trừ thì bị bẫy (ra 1); 5 là số bi Bình cho."
+        },
+        {
+          "id": "l1k03-b1-04",
+          "type": "input",
+          "prompt": "Có 6 con vịt đang bơi.\nCần thêm mấy con nữa để đủ 10 con?",
+          "visual": {
+            "emoji": "🦆🦆🦆🦆🦆🦆"
+          },
+          "answers": [
+            "4"
+          ],
+          "unit": "con",
+          "method": "Đếm tiếp từ 6 đến 10, hoặc lấy 10 bớt 6.",
+          "explanation": "Đếm tiếp: 7, 8, 9, 10 là 4 con. Hoặc 10 − 6 = 4."
+        },
+        {
+          "id": "l1k03-b1-05",
+          "type": "choice",
+          "prompt": "Bé có 7 viên kẹo. Bé ăn hết cả 7 viên.\nBé còn mấy viên kẹo?",
+          "options": [
+            {
+              "text": "0"
+            },
+            {
+              "text": "7"
+            },
+            {
+              "text": "14"
+            }
+          ],
+          "answer": 0,
+          "method": "Ăn hết thì còn lại bao nhiêu?",
+          "explanation": "7 − 7 = 0. Bé không còn viên kẹo nào.\nLưu ý: 14 là cộng nhầm; 7 là quên rằng bé đã ăn hết."
+        },
+        {
+          "id": "l1k03-b1-06",
+          "type": "pick_order",
+          "prompt": "Bể có 6 🐟. Bố thả thêm 3 🐟.\nGhép phép tính, bắt đầu bằng số cá lúc đầu.",
+          "timeLimit": 45,
+          "items": [
+            "6",
+            "+",
+            "3",
+            "=",
+            "9"
+          ],
+          "distractors": [
+            "-"
+          ],
+          "method": "Thả thêm cá thì nhiều lên, ta làm phép cộng.",
+          "explanation": "6 + 3 = 9. Trong bể có 9 con cá. Thẻ \"-\" là bẫy vì cá được thả thêm."
+        },
+        {
+          "id": "l1k03-b1-07",
+          "type": "match",
+          "prompt": "Nối mỗi bài toán với số quả còn lại hoặc có tất cả.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 4 🍎, thêm 2 🍎"
+              },
+              "right": {
+                "text": "6 quả"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 9 🍐, ăn 1 🍐"
+              },
+              "right": {
+                "text": "8 quả"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 5 🍊, thêm 5 🍊"
+              },
+              "right": {
+                "text": "10 quả"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 7 🍌, cho bạn 4 🍌"
+              },
+              "right": {
+                "text": "3 quả"
+              }
+            }
+          ],
+          "method": "Thêm thì cộng, ăn hoặc cho đi thì trừ.",
+          "explanation": "4 + 2 = 6.\n9 − 1 = 8.\n5 + 5 = 10.\n7 − 4 = 3."
+        },
+        {
+          "id": "l1k03-b1-08",
+          "type": "fill_blank",
+          "prompt": "Có 8 bạn đang chơi. Thêm 2 bạn đến chơi.\nĐiền vào phép tính.",
+          "timeLimit": 40,
+          "sentence": "8 [[+]] 2 = [[10]]",
+          "choices": [
+            "+",
+            "10",
+            "−",
+            "6"
+          ],
+          "method": "Thêm bạn đến là nhiều lên.",
+          "explanation": "8 + 2 = 10. Có tất cả 10 bạn."
+        },
+        {
+          "id": "l1k03-b1-09",
+          "type": "match_multi",
+          "prompt": "Mỗi câu là thêm vào hay bớt đi? Nối vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Thêm vào (phép cộng)",
+              "emoji": "➕"
+            },
+            {
+              "text": "Bớt đi (phép trừ)",
+              "emoji": "➖"
+            }
+          ],
+          "items": [
+            {
+              "text": "Mẹ mua thêm 3 quả cam",
+              "group": 0
+            },
+            {
+              "text": "2 con chim bay đi",
+              "group": 1
+            },
+            {
+              "text": "Bé được tặng 1 con gấu",
+              "group": 0
+            },
+            {
+              "text": "Bé ăn mất 4 cái kẹo",
+              "group": 1
+            },
+            {
+              "text": "Bạn cho bé 2 viên bi",
+              "group": 0
+            },
+            {
+              "text": "Bé làm vỡ 1 cái cốc",
+              "group": 1
+            }
+          ],
+          "method": "Có nhiều lên là thêm, ít đi là bớt.",
+          "explanation": "Thêm vào: mua thêm, được tặng, bạn cho bé.\nBớt đi: bay đi, ăn mất, làm vỡ."
+        },
+        {
+          "id": "l1k03-b1-10",
+          "type": "order",
+          "prompt": "Xếp các bạn theo số bi từ ít đến nhiều.",
+          "timeLimit": 60,
+          "items": [
+            {
+              "text": "Chi: có 10 bi, cho bạn 5 bi"
+            },
+            {
+              "text": "Dũng: có 2 bi, được thêm 4 bi"
+            },
+            {
+              "text": "An: có 3 bi, được thêm 4 bi"
+            },
+            {
+              "text": "Bình: có 9 bi, mất 1 bi"
+            }
+          ],
+          "method": "Tính số bi của từng bạn trước, rồi mới xếp.",
+          "explanation": "Chi: 10 − 5 = 5. Dũng: 2 + 4 = 6. An: 3 + 4 = 7. Bình: 9 − 1 = 8.\nThứ tự từ ít đến nhiều: Chi, Dũng, An, Bình."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Bài toán nhiều hơn, ít hơn",
+      "emoji": "⚖️",
+      "description": "Ai nhiều hơn, ai ít hơn? Bé so sánh thật giỏi nhé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k03-b2-01",
+          "type": "choice",
+          "prompt": "Lan có 6 bông hoa. Mai có nhiều hơn Lan 2 bông.\nMai có mấy bông hoa?",
+          "options": [
+            {
+              "text": "4"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "6"
+            }
+          ],
+          "answer": 1,
+          "method": "\"Nhiều hơn\" thì lấy số của Lan cộng thêm.",
+          "explanation": "6 + 2 = 8. Mai có 8 bông hoa.\nLưu ý: 4 là trừ nhầm; 6 là số hoa của Lan."
+        },
+        {
+          "id": "l1k03-b2-02",
+          "type": "input",
+          "prompt": "Tổ Một có 9 bạn. Tổ Hai ít hơn tổ Một 3 bạn.\nTổ Hai có mấy bạn?",
+          "answers": [
+            "6"
+          ],
+          "unit": "bạn",
+          "method": "\"Ít hơn\" thì lấy số bạn tổ Một bớt đi.",
+          "explanation": "9 − 3 = 6. Tổ Hai có 6 bạn."
+        },
+        {
+          "id": "l1k03-b2-03",
+          "type": "multi_choice",
+          "prompt": "Nhìn hình. Chọn TẤT CẢ các câu đúng.",
+          "visual": {
+            "emoji": "🐶🐶🐶🐶🐶  🐱🐱🐱"
+          },
+          "options": [
+            {
+              "text": "Chó nhiều hơn mèo 2 con"
+            },
+            {
+              "text": "Mèo ít hơn chó 2 con"
+            },
+            {
+              "text": "Mèo nhiều hơn chó"
+            },
+            {
+              "text": "Chó nhiều hơn mèo 3 con"
+            },
+            {
+              "text": "Có tất cả 8 con"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "method": "Đếm số chó, số mèo rồi so sánh.",
+          "explanation": "Có 5 con chó, 3 con mèo. Chó nhiều hơn mèo 5 − 3 = 2 con, nên mèo ít hơn chó 2 con. Có tất cả 5 + 3 = 8 con.\nLưu ý: mèo không nhiều hơn chó; chó chỉ nhiều hơn mèo 2 con, không phải 3 con."
+        },
+        {
+          "id": "l1k03-b2-04",
+          "type": "choice",
+          "prompt": "Bình có 7 viên bi. Bình nhiều hơn An 2 viên.\nAn có mấy viên bi?",
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "7"
+            }
+          ],
+          "answer": 1,
+          "method": "Ai có nhiều hơn? Người còn lại thì có ít hơn.",
+          "explanation": "Bình nhiều hơn nên An ít hơn Bình 2 viên: 7 − 2 = 5 viên.\nLưu ý: 9 là thấy chữ \"nhiều hơn\" liền cộng; 7 là số bi của Bình."
+        },
+        {
+          "id": "l1k03-b2-05",
+          "type": "input",
+          "prompt": "Có 8 con thỏ và 5 củ cà rốt.\nSố thỏ nhiều hơn số cà rốt mấy?",
+          "visual": {
+            "emoji": "🐰🐰🐰🐰🐰🐰🐰🐰\n🥕🥕🥕🥕🥕"
+          },
+          "answers": [
+            "3"
+          ],
+          "method": "Ghép mỗi con thỏ với 1 củ cà rốt, đếm số thỏ còn thừa.",
+          "explanation": "8 − 5 = 3. Số thỏ nhiều hơn số cà rốt là 3."
+        },
+        {
+          "id": "l1k03-b2-06",
+          "type": "choice",
+          "prompt": "Hà có 9 cái nhãn vở, Lan có 6 cái.\nLan cần thêm mấy cái để bằng Hà?",
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "3"
+            }
+          ],
+          "answer": 2,
+          "method": "Lan ít hơn Hà mấy cái thì cần thêm bấy nhiêu cái.",
+          "explanation": "9 − 6 = 3. Lan ít hơn Hà 3 cái, nên Lan cần thêm 3 cái để bằng Hà.\nLưu ý: 9 là số nhãn của Hà; 6 là số nhãn Lan đang có."
+        },
+        {
+          "id": "l1k03-b2-07",
+          "type": "match",
+          "prompt": "Lan có 6 🌸. Nối mỗi câu với số hoa của Hà.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Hà nhiều hơn Lan 3 bông"
+              },
+              "right": {
+                "text": "9 bông"
+              }
+            },
+            {
+              "left": {
+                "text": "Hà ít hơn Lan 3 bông"
+              },
+              "right": {
+                "text": "3 bông"
+              }
+            },
+            {
+              "left": {
+                "text": "Hà nhiều hơn Lan 1 bông"
+              },
+              "right": {
+                "text": "7 bông"
+              }
+            },
+            {
+              "left": {
+                "text": "Hà ít hơn Lan 2 bông"
+              },
+              "right": {
+                "text": "4 bông"
+              }
+            }
+          ],
+          "method": "Nhiều hơn thì cộng thêm, ít hơn thì bớt đi từ 6.",
+          "explanation": "6 + 3 = 9.\n6 − 3 = 3.\n6 + 1 = 7.\n6 − 2 = 4."
+        },
+        {
+          "id": "l1k03-b2-08",
+          "type": "fill_blank",
+          "prompt": "Có 7 🐔 và 2 🦆. Điền số vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Gà và vịt có tất cả [[9]] con. Gà nhiều hơn vịt [[5]] con.",
+          "choices": [
+            "9",
+            "5",
+            "6",
+            "10"
+          ],
+          "method": "\"Tất cả\" là gộp lại; \"nhiều hơn mấy\" là lấy số lớn bớt số bé.",
+          "explanation": "7 + 2 = 9 con. 7 − 2 = 5 con.",
+          "visual": {
+            "emoji": "🐔🐔🐔🐔🐔🐔🐔 🦆🦆"
+          }
+        },
+        {
+          "id": "l1k03-b2-09",
+          "type": "order",
+          "prompt": "Nam có 5 cái kẹo. Xếp các bạn từ ít kẹo đến nhiều kẹo.",
+          "timeLimit": 60,
+          "items": [
+            {
+              "text": "Tú: ít hơn Nam 3 cái"
+            },
+            {
+              "text": "Nam: có 5 cái"
+            },
+            {
+              "text": "Hùng: nhiều hơn Nam 2 cái"
+            },
+            {
+              "text": "Minh: nhiều hơn Hùng 2 cái"
+            }
+          ],
+          "method": "Tính số kẹo của từng bạn trước. Minh so với Hùng, không phải với Nam.",
+          "explanation": "Tú: 5 − 3 = 2. Nam: 5. Hùng: 5 + 2 = 7. Minh: 7 + 2 = 9.\nTừ ít đến nhiều: Tú, Nam, Hùng, Minh."
+        },
+        {
+          "id": "l1k03-b2-10",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô, rồi chạm vào số bi đúng.",
+          "timeLimit": 60,
+          "pairs": [
+            {
+              "front": {
+                "text": "Tí có 5 bi. Tèo nhiều hơn Tí 4 bi. Tèo có?"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "Tí có 8 bi. Tèo ít hơn Tí 5 bi. Tèo có?"
+              },
+              "back": {
+                "text": "3"
+              }
+            },
+            {
+              "front": {
+                "text": "Tí có 7 bi, Tèo có 1 bi. Tí nhiều hơn Tèo mấy bi?"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "Tí có 10 bi. Tèo ít hơn Tí 2 bi. Tèo có?"
+              },
+              "back": {
+                "text": "8"
+              }
+            }
+          ],
+          "method": "Nhiều hơn thì cộng, ít hơn thì trừ, hỏi \"nhiều hơn mấy\" thì lấy số lớn trừ số bé.",
+          "explanation": "5 + 4 = 9.\n8 − 5 = 3.\n7 − 1 = 6.\n10 − 2 = 8."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Bài toán tìm số ban đầu",
+      "emoji": "🎁",
+      "description": "Lúc đầu có bao nhiêu nhỉ? Bé cùng quay ngược thời gian nhé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k03-b3-01",
+          "type": "input",
+          "prompt": "Bé ăn 3 cái bánh thì còn lại 5 cái.\nLúc đầu bé có mấy cái bánh?",
+          "answers": [
+            "8"
+          ],
+          "unit": "cái",
+          "method": "Gộp số bánh đã ăn với số bánh còn lại.",
+          "explanation": "5 + 3 = 8. Lúc đầu bé có 8 cái bánh. Thử lại: 8 − 3 = 5."
+        },
+        {
+          "id": "l1k03-b3-02",
+          "type": "choice",
+          "prompt": "Mẹ cho Hoa thêm 4 viên kẹo. Bây giờ Hoa có 9 viên.\nLúc đầu Hoa có mấy viên?",
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "5"
+            }
+          ],
+          "answer": 2,
+          "method": "Lấy số kẹo bây giờ bớt đi số kẹo mẹ cho.",
+          "explanation": "9 − 4 = 5. Lúc đầu Hoa có 5 viên. Thử lại: 5 + 4 = 9.\nLưu ý: 13 là cộng nhầm; 4 là số kẹo mẹ cho."
+        },
+        {
+          "id": "l1k03-b3-03",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô, rồi chạm vào số lúc đầu.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "front": {
+                "text": "Bay đi 2 con chim, còn 7 con"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "Thêm 3 quả cam, được 10 quả"
+              },
+              "back": {
+                "text": "7"
+              }
+            },
+            {
+              "front": {
+                "text": "Ăn 4 quả táo, còn 4 quả"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "Cho bạn 1 viên bi, còn 5 viên"
+              },
+              "back": {
+                "text": "6"
+              }
+            }
+          ],
+          "method": "Bớt đi thì lúc đầu nhiều hơn: cộng lại. Thêm vào thì lúc đầu ít hơn: trừ đi.",
+          "explanation": "2 + 7 = 9 con chim.\n10 − 3 = 7 quả cam.\n4 + 4 = 8 quả táo.\n1 + 5 = 6 viên bi."
+        },
+        {
+          "id": "l1k03-b3-04",
+          "type": "choice",
+          "prompt": "Bé cho bạn 2 cái kẹo, rồi mẹ cho bé 2 cái kẹo.\nBây giờ bé có 6 cái. Lúc đầu bé có mấy cái?",
+          "options": [
+            {
+              "text": "10"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "2"
+            }
+          ],
+          "answer": 1,
+          "method": "Bớt 2 rồi lại thêm 2 thì số kẹo có thay đổi không?",
+          "explanation": "Cho đi 2 cái rồi được thêm 2 cái thì số kẹo như cũ. Lúc đầu bé có 6 cái.\nLưu ý: 10 là cộng cả hai lần 2; 2 là số kẹo cho đi."
+        },
+        {
+          "id": "l1k03-b3-05",
+          "type": "input",
+          "prompt": "Mẹ hái thêm 10 quả cam thì giỏ có 15 quả.\nLúc đầu giỏ có mấy quả cam?",
+          "answers": [
+            "5"
+          ],
+          "unit": "quả",
+          "method": "Lấy số cam bây giờ bớt đi số cam mẹ hái thêm.",
+          "explanation": "15 − 10 = 5. Lúc đầu giỏ có 5 quả. Thử lại: 5 + 10 = 15."
+        },
+        {
+          "id": "l1k03-b3-06",
+          "type": "choice",
+          "prompt": "Đàn vịt có 3 con xuống ao, trên bờ còn 4 con.\nLúc đầu đàn vịt có mấy con?",
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "1"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 0,
+          "method": "Gộp số vịt dưới ao với số vịt trên bờ.",
+          "explanation": "3 + 4 = 7. Lúc đầu đàn vịt có 7 con.\nLưu ý: 1 là trừ nhầm 4 − 3; 4 là số vịt trên bờ."
+        },
+        {
+          "id": "l1k03-b3-07",
+          "type": "fill_blank",
+          "prompt": "Bé mua thêm 3 cái bút thì có 8 cái bút.\nĐiền vào phép tính tìm số bút lúc đầu.",
+          "timeLimit": 40,
+          "sentence": "8 [[−]] 3 = [[5]]",
+          "choices": [
+            "−",
+            "5",
+            "+",
+            "11"
+          ],
+          "method": "Đi ngược lại: mua thêm thì lúc đầu ít hơn bây giờ.",
+          "explanation": "8 − 3 = 5. Lúc đầu bé có 5 cái bút. Thử lại: 5 + 3 = 8."
+        },
+        {
+          "id": "l1k03-b3-08",
+          "type": "pick_order",
+          "prompt": "Có một số 🎈. Bay mất 4 🎈, còn 3 🎈.\nGhép phép tính tìm số bóng lúc đầu, bắt đầu bằng số bóng còn lại.",
+          "timeLimit": 45,
+          "items": [
+            "3",
+            "+",
+            "4",
+            "=",
+            "7"
+          ],
+          "distractors": [
+            "-"
+          ],
+          "method": "Bóng bay mất thì lúc đầu nhiều hơn: gộp số còn lại với số bay mất.",
+          "explanation": "3 + 4 = 7. Lúc đầu có 7 quả bóng. Thẻ \"-\" là bẫy: đề hỏi số bóng lúc đầu nên phải gộp lại, không trừ."
+        },
+        {
+          "id": "l1k03-b3-09",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi câu ở trên với số lúc đầu ở dưới.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Ăn 2, còn 8"
+              },
+              "right": {
+                "text": "10"
+              }
+            },
+            {
+              "left": {
+                "text": "Thêm 5, được 9"
+              },
+              "right": {
+                "text": "4"
+              }
+            },
+            {
+              "left": {
+                "text": "Cho 3, còn 3"
+              },
+              "right": {
+                "text": "6"
+              }
+            },
+            {
+              "left": {
+                "text": "Thêm 1, được 2"
+              },
+              "right": {
+                "text": "1"
+              }
+            }
+          ],
+          "method": "Bớt đi thì cộng lại; thêm vào thì trừ đi.",
+          "explanation": "8 + 2 = 10.\n9 − 5 = 4.\n3 + 3 = 6.\n2 − 1 = 1."
+        },
+        {
+          "id": "l1k03-b3-10",
+          "type": "order",
+          "prompt": "Tìm số bi lúc đầu của mỗi bạn, rồi xếp từ ít đến nhiều.",
+          "timeLimit": 60,
+          "items": [
+            {
+              "text": "Tí: cho 1 bi, còn 2 bi"
+            },
+            {
+              "text": "Na: được thêm 2 bi, có 7 bi"
+            },
+            {
+              "text": "Bin: mất 4 bi, còn 4 bi"
+            },
+            {
+              "text": "Mít: được thêm 10 bi, có 19 bi"
+            }
+          ],
+          "method": "Tính số bi lúc đầu của từng bạn rồi mới xếp.",
+          "explanation": "Tí: 2 + 1 = 3. Na: 7 − 2 = 5. Bin: 4 + 4 = 8. Mít: 19 − 10 = 9.\nTừ ít đến nhiều: Tí, Na, Bin, Mít."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Bài toán hai bước đơn giản",
+      "emoji": "🪜",
+      "description": "Giải từng bước một, bé sẽ thấy dễ ơi là dễ!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k03-b4-01",
+          "type": "choice",
+          "prompt": "Có 7 quả bóng. Vỡ 2 quả, rồi mua thêm 3 quả.\nBây giờ có mấy quả bóng?",
+          "options": [
+            {
+              "text": "8"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "12"
+            }
+          ],
+          "answer": 0,
+          "method": "Làm từng bước: bớt số bóng vỡ trước, rồi thêm số bóng mua.",
+          "explanation": "7 − 2 = 5, rồi 5 + 3 = 8. Có 8 quả bóng.\nLưu ý: 2 là trừ cả hai lần; 12 là cộng cả hai lần."
+        },
+        {
+          "id": "l1k03-b4-02",
+          "type": "pick_order",
+          "prompt": "Xe buýt có 5 người. Lên thêm 4 người, rồi xuống 2 người.\nGhép phép tính theo đúng thứ tự câu chuyện.",
+          "timeLimit": 50,
+          "items": [
+            "5",
+            "+",
+            "4",
+            "-",
+            "2",
+            "=",
+            "7"
+          ],
+          "distractors": [
+            "11"
+          ],
+          "method": "Lên xe thì cộng, xuống xe thì trừ.",
+          "explanation": "5 + 4 − 2 = 7. Trên xe còn 7 người. Thẻ 11 là kết quả nếu cộng cả hai lần."
+        },
+        {
+          "id": "l1k03-b4-03",
+          "type": "match_vertical",
+          "prompt": "Mỗi ô trên là chuyện về số kẹo.\nNối với số kẹo cuối cùng ở dưới.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 6, thêm 3, bớt 4"
+              },
+              "right": {
+                "text": "5"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 10, bớt 5, thêm 2"
+              },
+              "right": {
+                "text": "7"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 2, thêm 2, thêm 5"
+              },
+              "right": {
+                "text": "9"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 8, bớt 3, bớt 5"
+              },
+              "right": {
+                "text": "0"
+              }
+            }
+          ],
+          "method": "Thêm thì cộng, bớt thì trừ, làm lần lượt từ trái sang phải.",
+          "explanation": "6 + 3 − 4 = 5.\n10 − 5 + 2 = 7.\n2 + 2 + 5 = 9.\n8 − 3 − 5 = 0."
+        },
+        {
+          "id": "l1k03-b4-04",
+          "type": "input",
+          "prompt": "Lớp có 5 bạn nam và 4 bạn nữ. 2 bạn về trước.\nLớp còn mấy bạn?",
+          "answers": [
+            "7"
+          ],
+          "unit": "bạn",
+          "method": "Tìm cả lớp có mấy bạn trước, rồi bớt số bạn về trước.",
+          "explanation": "5 + 4 = 9 bạn. 9 − 2 = 7 bạn."
+        },
+        {
+          "id": "l1k03-b4-05",
+          "type": "choice",
+          "prompt": "Hộp có 9 cái bút. Bé lấy ra 3 cái, rồi lấy thêm 3 cái nữa.\nHộp còn mấy cái bút?",
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "3"
+            }
+          ],
+          "answer": 2,
+          "method": "\"Lấy thêm\" ra khỏi hộp thì hộp ít đi hay nhiều lên?",
+          "explanation": "Lấy ra 2 lần: 9 − 3 = 6, 6 − 3 = 3. Hộp còn 3 cái.\nLưu ý: 6 là chỉ trừ một lần; 15 là thấy chữ \"thêm\" liền cộng."
+        },
+        {
+          "id": "l1k03-b4-06",
+          "type": "choice",
+          "prompt": "Mẹ mua 10 quả trứng. Mẹ làm bánh hết 4 quả, rồi luộc 2 quả.\nCòn mấy quả trứng?",
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "8"
+            }
+          ],
+          "answer": 1,
+          "method": "Làm bánh và luộc đều dùng hết trứng, nên trừ cả hai lần.",
+          "explanation": "10 − 4 = 6, 6 − 2 = 4. Còn 4 quả.\nLưu ý: 6 là quên trừ trứng luộc; 8 là chỉ trừ 2 quả luộc."
+        },
+        {
+          "id": "l1k03-b4-07",
+          "type": "fill_blank",
+          "prompt": "Có 3 🐤, thêm 4 🐤, rồi thêm 2 🐤.\nĐiền số theo từng bước.",
+          "timeLimit": 40,
+          "sentence": "Bước 1: 3 + 4 = [[7]]. Bước 2: 7 + 2 = [[9]].",
+          "choices": [
+            "7",
+            "9",
+            "5",
+            "8"
+          ],
+          "method": "Làm lần lượt: cộng 3 với 4 trước.",
+          "explanation": "3 + 4 = 7, 7 + 2 = 9. Có 9 chú gà con."
+        },
+        {
+          "id": "l1k03-b4-08",
+          "type": "multi_choice",
+          "prompt": "Có 10 con chim. 3 con bay đi, rồi 2 con bay về.\nChọn TẤT CẢ câu đúng.",
+          "options": [
+            {
+              "text": "Sau khi 3 con bay đi, còn 7 con"
+            },
+            {
+              "text": "Bây giờ có 9 con"
+            },
+            {
+              "text": "Bây giờ có 5 con"
+            },
+            {
+              "text": "Bây giờ có 15 con"
+            },
+            {
+              "text": "Có thể tính: 10 − 3 + 2"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "method": "Bay đi thì trừ, bay về thì cộng.",
+          "explanation": "10 − 3 = 7, 7 + 2 = 9. Bây giờ có 9 con.\nLưu ý: 5 là trừ cả hai lần; 15 là cộng cả hai lần."
+        },
+        {
+          "id": "l1k03-b4-09",
+          "type": "match_multi",
+          "prompt": "Cuối cùng số kẹo nhiều hơn hay ít hơn lúc đầu? Nối vào đúng nhóm.",
+          "timeLimit": 60,
+          "groups": [
+            {
+              "text": "Nhiều hơn lúc đầu",
+              "emoji": "📈"
+            },
+            {
+              "text": "Ít hơn lúc đầu",
+              "emoji": "📉"
+            }
+          ],
+          "items": [
+            {
+              "text": "Có 5 kẹo, thêm 3, bớt 1",
+              "group": 0
+            },
+            {
+              "text": "Có 8 kẹo, bớt 4, thêm 2",
+              "group": 1
+            },
+            {
+              "text": "Có 2 kẹo, thêm 6, bớt 5",
+              "group": 0
+            },
+            {
+              "text": "Có 9 kẹo, thêm 1, bớt 6",
+              "group": 1
+            },
+            {
+              "text": "Có 6 kẹo, bớt 2, thêm 5",
+              "group": 0
+            },
+            {
+              "text": "Có 7 kẹo, thêm 2, bớt 5",
+              "group": 1
+            }
+          ],
+          "method": "Tính số kẹo cuối cùng rồi so với lúc đầu.",
+          "explanation": "Nhiều hơn: 5 + 3 − 1 = 7; 2 + 6 − 5 = 3; 6 − 2 + 5 = 9.\nÍt hơn: 8 − 4 + 2 = 6; 9 + 1 − 6 = 4; 7 + 2 − 5 = 4."
+        },
+        {
+          "id": "l1k03-b4-10",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô, rồi chạm vào số ếch còn trên lá sen.",
+          "timeLimit": 60,
+          "pairs": [
+            {
+              "front": {
+                "text": "Có 2 🐸, thêm 3, thêm 4"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "Có 10 🐸, nhảy đi 5, nhảy đi 5"
+              },
+              "back": {
+                "text": "0"
+              }
+            },
+            {
+              "front": {
+                "text": "Có 6 🐸, thêm 2, nhảy đi 7"
+              },
+              "back": {
+                "text": "1"
+              }
+            },
+            {
+              "front": {
+                "text": "Có 9 🐸, nhảy đi 3, thêm 1"
+              },
+              "back": {
+                "text": "7"
+              }
+            }
+          ],
+          "method": "Thêm thì cộng, nhảy đi thì trừ, làm lần lượt từng bước.",
+          "explanation": "2 + 3 + 4 = 9.\n10 − 5 − 5 = 0.\n6 + 2 − 7 = 1.\n9 − 3 + 1 = 7."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài toán có dữ kiện gây nhiễu",
+      "emoji": "🧐",
+      "description": "Đề có số thừa để đánh lừa, bé tinh mắt tìm ra nhé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k03-b5-01",
+          "type": "choice",
+          "prompt": "Nhà Lan có 3 con mèo và 2 con chó.\nMèo đẻ thêm 4 mèo con. Nhà Lan có mấy con mèo?",
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "7"
+            },
+            {
+              "text": "5"
+            }
+          ],
+          "answer": 1,
+          "method": "Đề chỉ hỏi về mèo, số chó không cần dùng.",
+          "explanation": "3 + 4 = 7. Nhà Lan có 7 con mèo.\nLưu ý: 9 là cộng cả số chó; 5 là lấy 3 mèo + 2 chó."
+        },
+        {
+          "id": "l1k03-b5-02",
+          "type": "input",
+          "prompt": "Bé 6 tuổi. Bé có 8 cái bút, cho bạn 3 cái.\nBé còn mấy cái bút?",
+          "answers": [
+            "5"
+          ],
+          "unit": "cái",
+          "method": "Tuổi của bé không liên quan đến số bút.",
+          "explanation": "8 − 3 = 5. Bé còn 5 cái bút. Số 6 tuổi là dữ kiện gây nhiễu."
+        },
+        {
+          "id": "l1k03-b5-03",
+          "type": "multi_choice",
+          "prompt": "Sân có 2 cái chuồng, 5 con gà, 4 con vịt.\n3 con gà nữa chạy tới. Sân có mấy con gà?\nChọn TẤT CẢ số cần dùng để giải.",
+          "options": [
+            {
+              "text": "2 cái chuồng"
+            },
+            {
+              "text": "5 con gà"
+            },
+            {
+              "text": "4 con vịt"
+            },
+            {
+              "text": "3 con gà chạy tới"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "Đề hỏi về gà, chỉ chọn những gì nói về gà.",
+          "explanation": "Chỉ cần 5 con gà và 3 con gà chạy tới: 5 + 3 = 8 con gà.\nLưu ý: số chuồng và số vịt không dùng đến."
+        },
+        {
+          "id": "l1k03-b5-04",
+          "type": "choice",
+          "prompt": "Bé có 5 quả bóng đỏ và 3 quả bóng xanh.\nBé làm vỡ 1 quả bóng đỏ. Bé còn mấy quả bóng đỏ?",
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 2,
+          "method": "Đề chỉ hỏi bóng đỏ, số bóng xanh không cần dùng.",
+          "explanation": "5 − 1 = 4. Bé còn 4 quả bóng đỏ.\nLưu ý: 7 là tính cả bóng xanh (5 + 3 − 1); 8 là tổng số bóng lúc đầu."
+        },
+        {
+          "id": "l1k03-b5-05",
+          "type": "input",
+          "prompt": "Hôm nay là thứ Hai. Lan có 10 cái kẹo, Lan ăn 4 cái.\nLan còn mấy cái kẹo?",
+          "answers": [
+            "6"
+          ],
+          "unit": "cái",
+          "method": "\"Thứ Hai\" không liên quan đến số kẹo.",
+          "explanation": "10 − 4 = 6. Lan còn 6 cái kẹo. \"Thứ Hai\" là dữ kiện gây nhiễu."
+        },
+        {
+          "id": "l1k03-b5-06",
+          "type": "choice",
+          "prompt": "Xe có 4 bánh. Trên xe có 3 bạn, 2 bạn nữa lên xe.\nTrên xe có mấy bạn?",
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "7"
+            }
+          ],
+          "answer": 1,
+          "method": "Đề hỏi số bạn, số bánh xe không cần dùng.",
+          "explanation": "3 + 2 = 5. Trên xe có 5 bạn.\nLưu ý: 9 là cộng cả 4 bánh xe; 7 là lấy 3 bạn cộng 4 bánh xe."
+        },
+        {
+          "id": "l1k03-b5-07",
+          "type": "fill_blank",
+          "prompt": "Hà có 6 bông hoa và 2 con búp bê. Hà hái thêm 3 bông hoa.\nĐiền phép tính tìm số hoa.",
+          "timeLimit": 40,
+          "sentence": "6 + [[3]] = [[9]] bông hoa",
+          "choices": [
+            "3",
+            "9",
+            "2",
+            "8"
+          ],
+          "method": "Chỉ dùng những số nói về hoa.",
+          "explanation": "6 + 3 = 9. Hà có 9 bông hoa.\nLưu ý: 2 con búp bê là dữ kiện gây nhiễu, không phải hoa; 6 + 2 = 8 là cộng nhầm số búp bê."
+        },
+        {
+          "id": "l1k03-b5-08",
+          "type": "match_multi",
+          "prompt": "Bé 7 tuổi, có 8 quả táo và 2 quả lê. Bé ăn 3 quả táo, 1 quả lê.\nHỏi còn mấy quả táo? Nối mỗi ô vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Cần dùng",
+              "emoji": "✅"
+            },
+            {
+              "text": "Gây nhiễu",
+              "emoji": "❌"
+            }
+          ],
+          "items": [
+            {
+              "text": "7 tuổi",
+              "group": 1
+            },
+            {
+              "text": "8 quả táo",
+              "group": 0
+            },
+            {
+              "text": "2 quả lê",
+              "group": 1
+            },
+            {
+              "text": "Ăn 3 quả táo",
+              "group": 0
+            },
+            {
+              "text": "Ăn 1 quả lê",
+              "group": 1
+            }
+          ],
+          "method": "Đề hỏi về táo, chỉ giữ lại những gì nói về táo.",
+          "explanation": "Cần dùng: 8 quả táo và ăn 3 quả táo (8 − 3 = 5 quả táo).\nGây nhiễu: tuổi của bé và số lê."
+        },
+        {
+          "id": "l1k03-b5-09",
+          "type": "match",
+          "prompt": "Lớp có 5 bạn nam, 3 bạn nữ và 1 cô giáo.\nNối mỗi câu hỏi với đáp số đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Có mấy bạn nam và nữ?"
+              },
+              "right": {
+                "text": "8"
+              }
+            },
+            {
+              "left": {
+                "text": "Nam nhiều hơn nữ mấy bạn?"
+              },
+              "right": {
+                "text": "2"
+              }
+            },
+            {
+              "left": {
+                "text": "Có mấy cô giáo?"
+              },
+              "right": {
+                "text": "1"
+              }
+            },
+            {
+              "left": {
+                "text": "Có tất cả mấy người?"
+              },
+              "right": {
+                "text": "9"
+              }
+            }
+          ],
+          "method": "Đọc kỹ từng câu hỏi để chọn đúng số cần dùng.",
+          "explanation": "Bạn nam và nữ: 5 + 3 = 8.\nNam nhiều hơn nữ: 5 − 3 = 2.\nCô giáo: 1.\nTất cả: 5 + 3 + 1 = 9."
+        },
+        {
+          "id": "l1k03-b5-10",
+          "type": "pick_order",
+          "prompt": "Ao có 8 🐟 và 3 🐸. 5 🐟 bơi đi.\nGhép phép tính tìm số cá còn lại, bắt đầu bằng số cá lúc đầu.",
+          "timeLimit": 45,
+          "items": [
+            "8",
+            "-",
+            "5",
+            "=",
+            "3"
+          ],
+          "distractors": [
+            "+"
+          ],
+          "method": "Số ếch không cần dùng. Cá bơi đi thì trừ.",
+          "explanation": "8 − 5 = 3. Còn 3 con cá. Số 3 con ếch chỉ là dữ kiện gây nhiễu, tình cờ bằng đáp số."
+        }
+      ]
+    }
+  ]
+}

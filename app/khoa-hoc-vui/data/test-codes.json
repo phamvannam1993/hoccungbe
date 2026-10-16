@@ -1,0 +1,16 @@
+{
+  "_ghi_chu": "Mã thử để test mở khóa. Chỉ có hiệu lực khi chạy dev, hoặc khi đặt KHV_ALLOW_TEST_CODES=1.",
+  "codes": {
+    "TEST-L2ALL": "L2ALL",
+    "TEST-K01": "L2K01",
+    "TEST-K02": "L2K02",
+    "TEST-K06": "L2K06",
+    "TEST-K12": "L2K12",
+    "TEST-L1ALL": "L1ALL",
+    "TEST-L1K01": "L1K01",
+    "TEST-L1K06": "L1K06",
+    "TEST-L3ALL": "L3ALL",
+    "TEST-L3K01": "L3K01",
+    "TEST-L3K06": "L3K06"
+  }
+}

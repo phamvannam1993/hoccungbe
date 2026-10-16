@@ -1,0 +1,157 @@
+{
+  "bai-1": {
+    "concept": "Tiền Việt Nam có các tờ 1 000, 2 000, 5 000, 10 000, 20 000, 50 000, 100 000 đồng. Muốn biết có bao nhiêu tiền, bé cộng giá trị các tờ lại; đọc theo \"nghìn\" sẽ dễ tính hơn.",
+    "examples": [
+      {
+        "prompt": "Bé có 1 tờ 20 000 đồng, 1 tờ 5 000 đồng và 1 tờ 2 000 đồng.\nBé có tất cả bao nhiêu tiền?",
+        "visual": {
+          "money": [
+            20000,
+            5000,
+            2000
+          ]
+        },
+        "answer": "Đọc theo nghìn: 20 + 5 + 2 = 27 (nghìn). Bé có 27 000 đồng."
+      },
+      {
+        "prompt": "4 tờ 2 000 đồng bằng bao nhiêu tiền?",
+        "visual": {
+          "money": [
+            2000,
+            2000,
+            2000,
+            2000
+          ]
+        },
+        "answer": "Đếm cách 2: 2, 4, 6, 8 (nghìn), hay 2 000 × 4 = 8 000. Vậy 4 tờ 2 000 đồng là 8 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đọc giá trị từng tờ tiền theo nghìn.",
+      "Đếm thêm (cách 2, cách 5…) hoặc nhân nếu có nhiều tờ giống nhau.",
+      "Cộng tất cả lại, rồi thêm chữ \"nghìn\" (ba chữ số 0).",
+      "Kiểm tra: đúng số tờ và đúng tổng tiền đề hỏi chưa?"
+    ],
+    "tips": [
+      "Cộng giá trị, đừng đếm số tờ: 3 tờ 2 000 đồng không phải 3 000 đồng!",
+      "Đừng viết ghép hai số: 50 000 và 2 000 là 52 000, không phải 502 000."
+    ]
+  },
+  "bai-2": {
+    "concept": "Khi đưa tiền nhiều hơn giá món hàng, cô bán hàng sẽ trả lại tiền thừa. Tiền trả lại = tiền đã đưa − giá món hàng.",
+    "examples": [
+      {
+        "prompt": "Bé mua cây kem giá 13 000 đồng và đưa tờ 20 000 đồng.\nBé được trả lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "🍦",
+          "money": [
+            20000
+          ]
+        },
+        "answer": "20 − 13 = 7 (nghìn). Bé được trả lại 7 000 đồng."
+      },
+      {
+        "prompt": "Bé mua 2 quả táo, mỗi quả 5 000 đồng.\nBé đưa tờ 20 000 đồng. Bé được trả lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "🍎🍎"
+        },
+        "answer": "Tiền 2 quả táo: 5 000 × 2 = 10 000 đồng. Trả lại: 20 000 − 10 000 = 10 000 đồng."
+      }
+    ],
+    "steps": [
+      "Tìm tổng giá các món đã mua.",
+      "Tìm số tiền đã đưa cho cô bán hàng.",
+      "Lấy tiền đã đưa trừ tổng giá các món.",
+      "Thử lại: giá món hàng cộng tiền trả lại phải bằng tiền đã đưa."
+    ],
+    "tips": [
+      "Tiền thừa thì TRỪ, không cộng!",
+      "Đã được trả lại tiền thì món hàng phải rẻ hơn số tiền đã đưa.",
+      "Mua 2, 3 món thì nhớ tính đủ tất cả các món."
+    ]
+  },
+  "bai-3": {
+    "concept": "Trả vừa đúng là đưa số tiền bằng đúng giá món hàng: không thiếu, không thừa. Bé ghép các tờ tiền sao cho cộng lại bằng giá.",
+    "examples": [
+      {
+        "prompt": "Quyển truyện giá 16 000 đồng.\nBé trả vừa đúng bằng ÍT tờ tiền nhất. Đó là những tờ nào?",
+        "visual": {
+          "emoji": "📕 💵"
+        },
+        "answer": "Lấy tờ 10 000 đồng, còn thiếu 6 000 đồng; lấy tờ 5 000 đồng, còn thiếu 1 000 đồng; lấy tờ 1 000 đồng. Vậy 10 000 + 5 000 + 1 000 = 16 000 đồng, dùng 3 tờ."
+      },
+      {
+        "prompt": "Cái mũ giá 25 000 đồng.\nBé đưa 1 tờ 20 000 đồng và 1 tờ 10 000 đồng.\nBé đưa thiếu, vừa đủ hay thừa?",
+        "answer": "20 000 + 10 000 = 30 000 đồng, nhiều hơn 25 000 đồng. Vậy bé đưa thừa (thừa 5 000 đồng)."
+      }
+    ],
+    "steps": [
+      "Đọc giá món hàng.",
+      "Chọn tờ lớn nhất không vượt quá giá.",
+      "Tính phần còn thiếu, rồi chọn tiếp tờ phù hợp.",
+      "Cộng lại để kiểm tra: bằng giá là vừa đúng, nhỏ hơn là thiếu, lớn hơn là thừa."
+    ],
+    "tips": [
+      "Nhiều tờ chưa chắc nhiều tiền – hãy cộng giá trị!",
+      "Bằng nhau mới là vừa đúng; lớn hơn là thừa, nhỏ hơn là thiếu."
+    ]
+  },
+  "bai-4": {
+    "concept": "Món có giá nhỏ hơn thì rẻ hơn, giá lớn hơn thì đắt hơn. Muốn biết đắt hơn hay rẻ hơn bao nhiêu, lấy giá lớn trừ giá nhỏ.",
+    "examples": [
+      {
+        "prompt": "Táo giá 6 000 đồng, cam giá 9 000 đồng, chuối giá 4 000 đồng.\nMón nào đắt nhất? Đắt hơn món rẻ nhất bao nhiêu?",
+        "visual": {
+          "emoji": "🍎 🍊 🍌"
+        },
+        "answer": "So sánh: 4 000 < 6 000 < 9 000, nên cam đắt nhất, chuối rẻ nhất. Cam đắt hơn chuối: 9 000 − 4 000 = 5 000 đồng."
+      },
+      {
+        "prompt": "Cây bút giá 7 000 đồng.\nCục tẩy rẻ hơn cây bút 4 000 đồng.\nCục tẩy giá bao nhiêu?",
+        "answer": "\"Rẻ hơn\" nên lấy giá bút trừ đi: 7 000 − 4 000 = 3 000 đồng. Cục tẩy giá 3 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đọc giá từng món, đọc theo nghìn cho dễ.",
+      "Tính tổng tiền trước nếu mua nhiều món cùng giá.",
+      "So sánh các số để tìm món rẻ hơn, đắt hơn.",
+      "Lấy số lớn trừ số nhỏ khi hỏi hơn kém bao nhiêu."
+    ],
+    "tips": [
+      "Món nào \"rẻ hơn\" thì lấy giá món kia trừ đi; món nào \"đắt hơn\" thì cộng thêm.",
+      "Bằng giá không phải là đắt hơn hay rẻ hơn!",
+      "So giá 1 cái với 1 cái, đừng so 2 cái với 1 cái."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài toán mua bán nhiều bước cần làm lần lượt: tính tiền các món đã mua trước, rồi mới tính tiền còn lại hoặc tiền được trả lại.",
+    "examples": [
+      {
+        "prompt": "Bé có 30 000 đồng. Bé mua quả bóng giá 12 000 đồng\nvà hộp bút màu giá 10 000 đồng.\nBé còn lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "⚽ 🖍️"
+        },
+        "answer": "Đã tiêu: 12 000 + 10 000 = 22 000 đồng. Còn lại: 30 000 − 22 000 = 8 000 đồng."
+      },
+      {
+        "prompt": "Mẹ mua 4 cái bánh mì, mỗi cái 5 000 đồng.\nMẹ đưa tờ 50 000 đồng. Mẹ được trả lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "🥖🥖🥖🥖"
+        },
+        "answer": "Tiền bánh mì: 5 000 × 4 = 20 000 đồng. Trả lại: 50 000 − 20 000 = 30 000 đồng."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: bé có bao nhiêu tiền, mua những món gì.",
+      "Tính tiền từng loại món; nhiều món cùng giá thì nhân.",
+      "Cộng tiền các món để được số tiền đã tiêu.",
+      "Lấy tiền có trừ tiền đã tiêu; được cho thêm thì cộng vào.",
+      "Đọc lại câu hỏi: hỏi tiền còn lại hay tiền đã tiêu?"
+    ],
+    "tips": [
+      "Đi từng bước một, bước sau dùng kết quả của bước trước.",
+      "Mua 3 cái thì tính đủ 3 cái, đừng quên món nào!",
+      "Có quà tặng thì nhớ cộng thêm phần được tặng."
+    ]
+  }
+}

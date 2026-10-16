@@ -1,0 +1,144 @@
+{
+  "bai-1": {
+    "concept": "Bài toán nhiều bước có số chưa biết ẩn ở giữa. Bé tìm từng số một như leo cầu thang: \"nhiều hơn\" thì cộng, \"ít hơn\" thì trừ, rồi dùng kết quả đó cho bước tiếp theo.",
+    "examples": [
+      {
+        "prompt": "Tủ sách có 46 quyển truyện tranh. Số truyện cổ tích ít hơn truyện tranh 17 quyển.\nHỏi tủ có tất cả bao nhiêu quyển truyện?",
+        "answer": "Bước 1 – Truyện cổ tích: 46 − 17 = 29 (quyển). Bước 2 – Tất cả: 46 + 29 = 75 (quyển)."
+      },
+      {
+        "prompt": "Hùng có 20 000 đồng. Hùng mua kẹo hết 5 000 đồng, mua bánh hết nhiều hơn mua kẹo 3 000 đồng.\nHùng còn lại bao nhiêu tiền?",
+        "visual": {
+          "emoji": "💵🍬🍪"
+        },
+        "answer": "Tiền bánh: 5 000 + 3 000 = 8 000 (đồng). Đã tiêu: 5 000 + 8 000 = 13 000 (đồng). Còn lại: 20 000 − 13 000 = 7 000 (đồng)."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề và gạch chân câu hỏi.",
+      "Tìm số chưa biết đầu tiên: nhiều hơn thì cộng, ít hơn thì trừ.",
+      "Dùng kết quả vừa tìm để làm bước tiếp theo.",
+      "Đọc lại câu hỏi, xem đã trả lời đúng chưa và ghi đơn vị."
+    ],
+    "tips": [
+      "Nhiều hơn → cộng, ít hơn → trừ.",
+      "Tìm xong một bạn chưa phải là xong bài: đọc lại câu hỏi nhé!",
+      "Đừng cộng hết hay trừ hết các số trong đề một lượt."
+    ]
+  },
+  "bai-2": {
+    "concept": "Gấp một số lên nhiều lần thì làm phép nhân, giảm một số đi nhiều lần thì làm phép chia. Còn \"thêm\" là cộng, \"bớt\" là trừ — bé đừng nhầm nhé!",
+    "examples": [
+      {
+        "prompt": "Hộp có 6 cây bút chì. Số bút màu gấp 3 lần số bút chì.\nHỏi hộp có tất cả bao nhiêu cây bút?",
+        "visual": {
+          "emoji": "✏️✏️✏️✏️✏️✏️"
+        },
+        "answer": "Số bút màu: 6 × 3 = 18 (cây). Tất cả: 6 + 18 = 24 (cây)."
+      },
+      {
+        "prompt": "Sợi dây đỏ dài 56 cm. Sợi dây xanh bằng sợi dây đỏ giảm đi 7 lần.\nSợi dây đỏ dài hơn sợi dây xanh bao nhiêu xăng-ti-mét?",
+        "answer": "Dây xanh: 56 : 7 = 8 (cm). Dây đỏ dài hơn: 56 − 8 = 48 (cm)."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, tìm chữ \"gấp lên\" hay \"giảm đi\" mấy lần.",
+      "Gấp lên thì nhân, giảm đi thì chia.",
+      "Dùng kết quả để làm tiếp bước còn lại nếu có.",
+      "Đọc lại câu hỏi: hỏi tất cả, hỏi hơn bao nhiêu hay hỏi một số?"
+    ],
+    "tips": [
+      "Gấp lên là nhân, giảm đi là chia; thêm là cộng, bớt là trừ.",
+      "Hỏi \"hơn bao nhiêu\" thì nhớ trừ thêm một bước nữa."
+    ]
+  },
+  "bai-3": {
+    "concept": "Khi chia đều, có lúc chia hết, có lúc còn thừa gọi là số dư. Số dư luôn bé hơn số chia. Đọc kỹ câu hỏi để biết phần dư cần thêm một nhóm hay bỏ đi.",
+    "examples": [
+      {
+        "prompt": "Có 17 cái kẹo xếp vào các túi, mỗi túi 5 cái.\nXếp được mấy túi, còn thừa mấy cái?",
+        "visual": {
+          "emoji": "🍬🍬🍬🍬🍬 🍬🍬🍬🍬🍬 🍬🍬🍬🍬🍬 🍬🍬"
+        },
+        "answer": "17 : 5 = 3 (dư 2), vì 5 × 3 = 15 và 17 − 15 = 2. Xếp được 3 túi, còn thừa 2 cái kẹo."
+      },
+      {
+        "prompt": "Có 25 người đi cáp treo, mỗi ca-bin chở được 3 người.\nCần ít nhất bao nhiêu ca-bin để chở hết mọi người?",
+        "answer": "25 : 3 = 8 (dư 1). 8 ca-bin chở được 24 người, còn 1 người cần thêm 1 ca-bin nữa. Vậy cần ít nhất 9 ca-bin."
+      }
+    ],
+    "steps": [
+      "Làm phép chia, tìm thương và số dư.",
+      "Kiểm tra số dư phải bé hơn số chia.",
+      "Hỏi \"ít nhất để chở hết\" thì thêm 1 nhóm cho phần dư.",
+      "Hỏi \"nhiều nhất làm được\" thì bỏ phần dư, giữ nguyên thương.",
+      "Thử lại: số chia × thương + số dư = số bị chia."
+    ],
+    "tips": [
+      "Số dư luôn bé hơn số chia!",
+      "Chở người thì không bỏ ai lại — thêm xe; may áo mà thiếu vải — không thêm áo.",
+      "Một tuần có 7 ngày: cứ 7 ngày lại quay về thứ cũ."
+    ]
+  },
+  "bai-4": {
+    "concept": "Số chưa biết đang trốn trong phép tính. Bé dùng phép tính ngược để tìm: cộng ngược lại là trừ, nhân ngược lại là chia. Bài nhiều bước thì đi ngược từ kết quả cuối lên.",
+    "examples": [
+      {
+        "prompt": "Tìm số ?:\n? × 7 = 63\n? − 48 = 25",
+        "answer": "? là thừa số: 63 : 7 = 9. ? là số bị trừ: 25 + 48 = 73. Thử lại: 9 × 7 = 63 và 73 − 48 = 25."
+      },
+      {
+        "prompt": "Bé nghĩ một số. Lấy số đó nhân 4 rồi trừ 7 thì được 29.\nSố bé nghĩ là số nào?",
+        "visual": {
+          "grid": [
+            [
+              "?",
+              "× 4",
+              "− 7",
+              "29"
+            ]
+          ]
+        },
+        "answer": "Đi ngược: trước khi trừ 7 là 29 + 7 = 36, trước khi nhân 4 là 36 : 4 = 9. Thử lại: 9 × 4 − 7 = 29. Số bé nghĩ là 9."
+      }
+    ],
+    "steps": [
+      "Xác định ? là số hạng, số bị trừ, số trừ, thừa số, số bị chia hay số chia.",
+      "Chọn phép tính đúng cho thành phần đó; tìm số trừ, số chia thì vẫn làm trừ, chia.",
+      "Bài nhiều bước: đi ngược từ kết quả cuối lên từng bước.",
+      "Thay số vừa tìm vào đề để thử lại."
+    ],
+    "tips": [
+      "Tìm số bị trừ thì cộng, tìm số bị chia thì nhân; còn tìm số trừ, số chia thì vẫn trừ, vẫn chia!",
+      "Chia có dư: số bị chia = số chia × thương + số dư.",
+      "Số dư lớn nhất bằng số chia bớt đi 1."
+    ]
+  },
+  "bai-5": {
+    "concept": "Có đề toán cho thêm những số không cần dùng, gọi là dữ kiện thừa. Có đề lại thiếu một số cần thiết, gọi là thiếu dữ kiện, nên chưa giải được. Bé đọc câu hỏi trước để biết cần những số nào.",
+    "examples": [
+      {
+        "prompt": "Bạn Linh 8 tuổi, có 3 hộp bi, mỗi hộp 7 viên. Nhà Linh cách trường 2 km.\nHỏi Linh có bao nhiêu viên bi?",
+        "visual": {
+          "emoji": "📦📦📦"
+        },
+        "answer": "Chỉ cần số hộp và số bi mỗi hộp: 7 × 3 = 21 (viên). Tuổi của Linh (8 tuổi) và quãng đường (2 km) là dữ kiện thừa."
+      },
+      {
+        "prompt": "Cô chia đều số vở cho 5 bạn.\nHỏi mỗi bạn được mấy quyển vở?\nĐề còn thiếu điều gì?",
+        "answer": "Muốn chia đều phải biết có tất cả bao nhiêu quyển vở. Đề chưa cho số vở nên thiếu dữ kiện, chưa giải được."
+      }
+    ],
+    "steps": [
+      "Đọc câu hỏi trước: bài hỏi gì?",
+      "Tìm những số cần dùng để trả lời câu hỏi.",
+      "Gạch bỏ các số thừa, không liên quan đến câu hỏi.",
+      "Nếu thiếu số cần thiết, nói rõ đề thiếu điều gì.",
+      "Tính rồi ghi đơn vị cho đúng."
+    ],
+    "tips": [
+      "Không phải số nào trong đề cũng cần dùng!",
+      "Hỏi về bút thì chỉ lấy các số nói về bút."
+    ]
+  }
+}

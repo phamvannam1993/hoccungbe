@@ -1,0 +1,1212 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Ai cao hơn, ai thấp hơn?",
+      "emoji": "📏",
+      "description": "So sánh chiều cao qua từng gợi ý để tìm ra bạn cao nhất, thấp nhất nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k05-b1-01",
+          "type": "choice",
+          "prompt": "An cao hơn Bình. Bình cao hơn Chi.\nAi thấp nhất?",
+          "options": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Bình"
+            },
+            {
+              "text": "Chi"
+            }
+          ],
+          "answer": 2,
+          "method": "Xếp ba bạn thành một hàng từ cao xuống thấp theo từng gợi ý.",
+          "explanation": "An cao hơn Bình, Bình cao hơn Chi nên thứ tự từ cao đến thấp là An, Bình, Chi. Chi thấp nhất.\nLưu ý: An cao nhất; Bình đứng giữa vì vẫn cao hơn Chi."
+        },
+        {
+          "id": "k05-b1-02",
+          "type": "choice",
+          "prompt": "Mai cao hơn Lan. Hoa thấp hơn Lan.\nAi cao nhất?",
+          "options": [
+            {
+              "text": "Lan"
+            },
+            {
+              "text": "Mai"
+            },
+            {
+              "text": "Hoa"
+            }
+          ],
+          "answer": 1,
+          "method": "\"Hoa thấp hơn Lan\" cũng có nghĩa là \"Lan cao hơn Hoa\". Đổi về cùng một kiểu rồi so sánh.",
+          "explanation": "Mai cao hơn Lan, Lan cao hơn Hoa. Thứ tự từ cao đến thấp: Mai, Lan, Hoa. Mai cao nhất.\nLưu ý: Lan chỉ cao hơn Hoa nhưng thấp hơn Mai; Hoa là bạn thấp nhất — chữ \"thấp hơn\" dễ làm bé chọn nhầm."
+        },
+        {
+          "id": "k05-b1-03",
+          "type": "input",
+          "prompt": "Nam cao 120 cm. Minh cao hơn Nam 5 cm.\nMinh cao bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "125"
+          ],
+          "unit": "cm",
+          "method": "\"Cao hơn\" thì lấy chiều cao của Nam cộng thêm.",
+          "explanation": "Minh cao: 120 + 5 = 125 (cm)."
+        },
+        {
+          "id": "k05-b1-04",
+          "type": "input",
+          "prompt": "Tí cao 118 cm. Tèo thấp hơn Tí 6 cm. Bin cao hơn Tèo 3 cm.\nBin cao bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "115"
+          ],
+          "unit": "cm",
+          "method": "Tìm chiều cao của Tèo trước, rồi mới tính chiều cao của Bin.",
+          "explanation": "Tèo cao: 118 − 6 = 112 (cm).\nBin cao: 112 + 3 = 115 (cm)."
+        },
+        {
+          "id": "k05-b1-05",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bi cao hơn Na. Su thấp hơn Na. Tom cao hơn Bi.\nXếp các bạn theo thứ tự từ THẤP đến CAO.",
+          "items": [
+            {
+              "text": "Su"
+            },
+            {
+              "text": "Na"
+            },
+            {
+              "text": "Bi"
+            },
+            {
+              "text": "Tom"
+            }
+          ],
+          "method": "Tìm bạn thấp nhất trước, rồi lần lượt tìm bạn cao hơn một bậc.",
+          "explanation": "Su thấp hơn Na, Na thấp hơn Bi, Bi thấp hơn Tom. Thứ tự từ thấp đến cao: Su, Na, Bi, Tom."
+        },
+        {
+          "id": "k05-b1-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi câu bên trái với câu có cùng ý nghĩa bên phải.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hà cao hơn Mi"
+              },
+              "right": {
+                "text": "Mi thấp hơn Hà"
+              }
+            },
+            {
+              "left": {
+                "text": "Mi cao hơn Hà"
+              },
+              "right": {
+                "text": "Hà thấp hơn Mi"
+              }
+            },
+            {
+              "left": {
+                "text": "Khoa thấp hơn Long"
+              },
+              "right": {
+                "text": "Long cao hơn Khoa"
+              }
+            },
+            {
+              "left": {
+                "text": "Tú cao bằng Vy"
+              },
+              "right": {
+                "text": "Vy cao bằng Tú"
+              }
+            }
+          ],
+          "method": "Đổi chỗ hai bạn thì phải đổi \"cao hơn\" thành \"thấp hơn\" và ngược lại; \"cao bằng\" thì giữ nguyên.",
+          "explanation": "Hà cao hơn Mi nghĩa là Mi thấp hơn Hà. Mi cao hơn Hà nghĩa là Hà thấp hơn Mi. Khoa thấp hơn Long nghĩa là Long cao hơn Khoa. Tú cao bằng Vy nghĩa là Vy cao bằng Tú."
+        },
+        {
+          "id": "k05-b1-07",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Bống cao 115 cm.\nXếp mỗi bạn vào đúng nhóm: cao hơn Bống hay thấp hơn Bống?",
+          "groups": [
+            {
+              "emoji": "⬆️",
+              "text": "Cao hơn Bống"
+            },
+            {
+              "emoji": "⬇️",
+              "text": "Thấp hơn Bống"
+            }
+          ],
+          "items": [
+            {
+              "text": "Cún: 120 cm",
+              "group": 0
+            },
+            {
+              "text": "Mít: 109 cm",
+              "group": 1
+            },
+            {
+              "text": "Na: 1 m 2 dm",
+              "group": 0
+            },
+            {
+              "text": "Bin: 98 cm",
+              "group": 1
+            },
+            {
+              "text": "Tôm: 117 cm",
+              "group": 0
+            },
+            {
+              "text": "Su: 1 m",
+              "group": 1
+            }
+          ],
+          "method": "Đổi hết về xăng-ti-mét: 1 m = 100 cm, 1 dm = 10 cm. Rồi so với 115 cm.",
+          "explanation": "Cao hơn 115 cm: Cún 120 cm, Na 1 m 2 dm = 120 cm, Tôm 117 cm.\nThấp hơn 115 cm: Mít 109 cm, Bin 98 cm, Su 1 m = 100 cm."
+        },
+        {
+          "id": "k05-b1-08",
+          "type": "multi_choice",
+          "prompt": "Lan cao 125 cm, Huệ cao 118 cm, Cúc cao 130 cm, Đào cao 121 cm.\nChọn TẤT CẢ các bạn cao hơn Đào.",
+          "options": [
+            {
+              "text": "Lan"
+            },
+            {
+              "text": "Huệ"
+            },
+            {
+              "text": "Cúc"
+            },
+            {
+              "text": "Đào"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "So chiều cao của từng bạn với 121 cm.",
+          "explanation": "125 > 121 và 130 > 121 nên Lan và Cúc cao hơn Đào.\nLưu ý: Huệ 118 cm thấp hơn Đào; Đào không thể cao hơn chính mình."
+        },
+        {
+          "id": "k05-b1-09",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Bố cao hơn mẹ. Mẹ cao hơn bé.\nChọn từ đúng điền vào chỗ trống.",
+          "sentence": "Bố [[cao hơn]] bé, còn bé [[thấp hơn]] bố.",
+          "choices": [
+            "cao hơn",
+            "thấp hơn",
+            "cao bằng"
+          ],
+          "method": "Xếp ba người theo thứ tự cao đến thấp rồi so sánh bố với bé.",
+          "explanation": "Thứ tự từ cao đến thấp: bố, mẹ, bé. Vậy bố cao hơn bé, và bé thấp hơn bố."
+        },
+        {
+          "id": "k05-b1-10",
+          "type": "choice",
+          "prompt": "Mẹ cao 160 cm, bé cao 110 cm.\nBé đứng lên một cái ghế cao 40 cm.\nLúc này, tính từ mặt đất, ai cao hơn?",
+          "options": [
+            {
+              "text": "Mẹ"
+            },
+            {
+              "text": "Bé"
+            },
+            {
+              "text": "Bằng nhau"
+            }
+          ],
+          "answer": 0,
+          "method": "Cộng chiều cao của bé với chiều cao cái ghế rồi so với mẹ.",
+          "explanation": "Bé đứng trên ghế cao: 110 + 40 = 150 (cm). 150 cm < 160 cm nên mẹ vẫn cao hơn.\nLưu ý: chọn \"Bé\" là bị bẫy vì nghĩ đứng lên ghế là cao hơn; \"Bằng nhau\" là tính nhầm 110 + 40 = 160."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Sắp xếp thứ tự theo điều kiện",
+      "emoji": "🚶",
+      "description": "Đọc từng điều kiện để xếp hàng đúng vị trí cho các bạn nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k05-b2-01",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn thú xếp hàng:\n• Gà đứng đầu hàng.\n• Mèo đứng trước Chó.\n• Thỏ đứng sau Chó.\nXếp các bạn từ ĐẦU hàng đến CUỐI hàng.",
+          "items": [
+            {
+              "emoji": "🐔",
+              "text": "Gà"
+            },
+            {
+              "emoji": "🐱",
+              "text": "Mèo"
+            },
+            {
+              "emoji": "🐶",
+              "text": "Chó"
+            },
+            {
+              "emoji": "🐰",
+              "text": "Thỏ"
+            }
+          ],
+          "method": "Đặt bạn đứng đầu trước, rồi xếp những bạn còn lại theo gợi ý trước – sau.",
+          "explanation": "Gà đứng đầu. Mèo trước Chó, Thỏ sau Chó nên ba bạn còn lại là Mèo, Chó, Thỏ. Hàng là: Gà, Mèo, Chó, Thỏ."
+        },
+        {
+          "id": "k05-b2-02",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Ba bạn Na, Tý, Bi chạy thi.\nBi về đích sau Tý. Na về đích trước Tý.\nChạm tên các bạn theo thứ tự về đích, từ người về NHẤT.",
+          "items": [
+            "Na",
+            "Tý",
+            "Bi"
+          ],
+          "distractors": [],
+          "method": "Tý đứng ở đâu so với hai bạn kia? Bạn đó đứng giữa.",
+          "explanation": "Na về trước Tý, Bi về sau Tý nên Tý về nhì. Thứ tự về đích: Na nhất, Tý nhì, Bi ba."
+        },
+        {
+          "id": "k05-b2-03",
+          "type": "choice",
+          "prompt": "5 bạn xếp thành một hàng dọc.\nLan đứng thứ 2 tính từ đầu hàng.\nHỏi Lan đứng thứ mấy tính từ cuối hàng?",
+          "options": [
+            {
+              "text": "Thứ 3"
+            },
+            {
+              "text": "Thứ 4"
+            },
+            {
+              "text": "Thứ 2"
+            },
+            {
+              "text": "Thứ 5"
+            }
+          ],
+          "answer": 1,
+          "method": "Vẽ 5 chấm tròn thành hàng, tô chấm thứ 2 rồi đếm ngược từ cuối lên.",
+          "explanation": "Trước Lan có 1 bạn, sau Lan có 5 − 2 = 3 bạn. Đếm từ cuối: 3 bạn rồi đến Lan, nên Lan đứng thứ 4.\nLưu ý: \"Thứ 3\" là chỉ đếm số bạn đứng sau Lan; \"Thứ 2\" là quên đổi chiều đếm; \"Thứ 5\" là vị trí bạn đầu hàng."
+        },
+        {
+          "id": "k05-b2-04",
+          "type": "choice",
+          "prompt": "Bốn bạn ngồi thành một hàng ngang.\n• Lan ngồi ngay bên phải Mai.\n• Hoa ngồi ngay bên trái Mai.\n• Cúc ngồi ở đầu bên phải.\nAi ngồi ở đầu bên TRÁI?",
+          "options": [
+            {
+              "text": "Mai"
+            },
+            {
+              "text": "Lan"
+            },
+            {
+              "text": "Hoa"
+            },
+            {
+              "text": "Cúc"
+            }
+          ],
+          "answer": 2,
+          "method": "Ghép Hoa – Mai – Lan thành một cụm liền nhau trước, rồi đặt Cúc vào.",
+          "explanation": "Hoa ngay bên trái Mai, Lan ngay bên phải Mai nên có cụm: Hoa, Mai, Lan. Cúc ở đầu bên phải. Hàng từ trái sang phải: Hoa, Mai, Lan, Cúc. Hoa ngồi đầu bên trái.\nLưu ý: Mai ngồi giữa cụm nên không ở đầu; Lan ở thứ ba; Cúc ở đầu bên phải, không phải bên trái."
+        },
+        {
+          "id": "k05-b2-05",
+          "type": "input",
+          "prompt": "Một hàng dọc có 9 bạn.\nTú đứng ở chính giữa hàng.\nHỏi Tú đứng thứ mấy tính từ đầu hàng?",
+          "answers": [
+            "5"
+          ],
+          "method": "Đứng chính giữa thì số bạn đứng trước Tú bằng số bạn đứng sau Tú.",
+          "explanation": "Bỏ Tú ra còn 9 − 1 = 8 bạn, chia đều hai bên: trước Tú 4 bạn, sau Tú 4 bạn. Vậy Tú đứng thứ 5 tính từ đầu hàng."
+        },
+        {
+          "id": "k05-b2-06",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Năm bạn chạy thi:\n• Na về đích sau Mai.\n• Tí về đích sau Na.\n• Bin về đích ngay sau Tí.\n• Su về đích cuối cùng.\nXếp các bạn từ người về NHẤT đến người về CUỐI.",
+          "items": [
+            {
+              "text": "Mai"
+            },
+            {
+              "text": "Na"
+            },
+            {
+              "text": "Tí"
+            },
+            {
+              "text": "Bin"
+            },
+            {
+              "text": "Su"
+            }
+          ],
+          "method": "Đặt Su ở cuối trước, rồi xếp chuỗi Mai → Na → Tí → Bin vào các chỗ còn lại.",
+          "explanation": "Su về cuối (thứ 5). Mai trước Na, Na trước Tí, Bin ngay sau Tí, nên 4 chỗ đầu là Mai, Na, Tí, Bin.\nThứ tự: Mai, Na, Tí, Bin, Su."
+        },
+        {
+          "id": "k05-b2-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Ba bạn Hà, Linh, Vy xếp một hàng dọc.\n• Linh không đứng đầu, cũng không đứng cuối.\n• Vy đứng trước Hà.\nNối mỗi bạn với vị trí của bạn ấy.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Vy"
+              },
+              "right": {
+                "text": "Đứng thứ nhất"
+              }
+            },
+            {
+              "left": {
+                "text": "Linh"
+              },
+              "right": {
+                "text": "Đứng thứ hai"
+              }
+            },
+            {
+              "left": {
+                "text": "Hà"
+              },
+              "right": {
+                "text": "Đứng thứ ba"
+              }
+            }
+          ],
+          "method": "Linh không ở đầu, không ở cuối thì Linh ở đâu?",
+          "explanation": "Linh không đứng đầu, không đứng cuối nên Linh đứng thứ hai. Còn chỗ thứ nhất và thứ ba; Vy đứng trước Hà nên Vy thứ nhất, Hà thứ ba."
+        },
+        {
+          "id": "k05-b2-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Giá sách có 3 ngăn: trên cùng, ở giữa, dưới cùng.\n• Sách Truyện ở ngăn dưới cùng.\n• Sách Toán ở ngăn cao hơn sách Tiếng Việt.\nChọn từ đúng điền vào chỗ trống.",
+          "sentence": "Ngăn trên cùng là sách [[Toán]], ngăn ở giữa là sách [[Tiếng Việt]].",
+          "choices": [
+            "Toán",
+            "Tiếng Việt",
+            "Truyện"
+          ],
+          "method": "Ngăn dưới cùng đã có chủ; hai loại sách còn lại xếp theo gợi ý cao – thấp.",
+          "explanation": "Truyện ở dưới cùng. Còn ngăn trên cùng và ngăn giữa cho Toán và Tiếng Việt; Toán cao hơn Tiếng Việt nên Toán ở trên cùng, Tiếng Việt ở giữa."
+        },
+        {
+          "id": "k05-b2-09",
+          "type": "choice",
+          "prompt": "Các bạn xếp một hàng dọc.\nĐứng trước Nam có 3 bạn, đứng sau Nam có 4 bạn.\nHỏi hàng có tất cả bao nhiêu bạn?",
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 1,
+          "method": "Đừng quên đếm cả Nam!",
+          "explanation": "Trước Nam 3 bạn, sau Nam 4 bạn, cộng thêm chính Nam: 3 + 4 + 1 = 8 bạn.\nLưu ý: 7 là quên đếm Nam; 9 là đếm Nam hai lần; 4 là chỉ đếm số bạn đứng sau Nam."
+        },
+        {
+          "id": "k05-b2-10",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Bốn hộp quà Đỏ, Xanh, Vàng, Tím xếp thành hàng ngang.\n• Hộp Tím ở ngoài cùng bên trái.\n• Hộp Đỏ ở ngay bên phải hộp Vàng.\n• Hộp Xanh không nằm cạnh hộp Tím.\nChạm tên các hộp theo thứ tự từ TRÁI sang PHẢI.",
+          "items": [
+            "Tím",
+            "Vàng",
+            "Đỏ",
+            "Xanh"
+          ],
+          "distractors": [],
+          "method": "Đặt Tím trước. Xanh không được đứng ngay cạnh Tím, vậy Xanh phải ở đâu?",
+          "explanation": "Tím ở chỗ 1. Xanh không cạnh Tím nên không ở chỗ 2. Vàng và Đỏ phải liền nhau (Vàng bên trái Đỏ) nên Vàng ở chỗ 2, Đỏ chỗ 3, Xanh chỗ 4.\nThứ tự: Tím, Vàng, Đỏ, Xanh."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Đúng hay sai?",
+      "emoji": "✅",
+      "description": "Bé làm thám tử nhỏ, kiểm tra xem câu nào đúng, câu nào sai nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k05-b3-01",
+          "type": "choice",
+          "prompt": "Câu nào ĐÚNG?",
+          "options": [
+            {
+              "text": "Mọi con chim đều biết bay"
+            },
+            {
+              "text": "2 × 5 = 12"
+            },
+            {
+              "text": "15 + 5 = 20"
+            },
+            {
+              "text": "1 m = 10 cm"
+            }
+          ],
+          "answer": 2,
+          "method": "Kiểm tra từng câu; chỉ cần tìm được một ví dụ ngược lại là câu đó sai.",
+          "explanation": "15 + 5 = 20 là câu đúng.\nLưu ý: chim cánh cụt và đà điểu là chim nhưng không biết bay; 2 × 5 = 10 chứ không phải 12; 1 m = 100 cm, còn 1 dm mới bằng 10 cm."
+        },
+        {
+          "id": "k05-b3-02",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Xếp mỗi câu vào đúng nhóm: Đúng hay Sai?",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Đúng"
+            },
+            {
+              "emoji": "❌",
+              "text": "Sai"
+            }
+          ],
+          "items": [
+            {
+              "text": "5 × 2 = 10",
+              "group": 0
+            },
+            {
+              "text": "1 dm = 10 cm",
+              "group": 0
+            },
+            {
+              "text": "Hình tam giác có 4 cạnh",
+              "group": 1
+            },
+            {
+              "text": "35 > 53",
+              "group": 1
+            },
+            {
+              "text": "Một ngày có 24 giờ",
+              "group": 0
+            },
+            {
+              "text": "2 × 4 = 6",
+              "group": 1
+            }
+          ],
+          "method": "Tính lại từng phép tính và nhớ lại kiến thức đã học.",
+          "explanation": "Đúng: 5 × 2 = 10; 1 dm = 10 cm; một ngày có 24 giờ.\nSai: tam giác chỉ có 3 cạnh; 35 < 53; 2 × 4 = 8."
+        },
+        {
+          "id": "k05-b3-03",
+          "type": "multi_choice",
+          "prompt": "Tất cả các bạn lớp 2A đều đội mũ vàng. Bin học lớp 2A.\nChọn TẤT CẢ các câu chắc chắn ĐÚNG.",
+          "options": [
+            {
+              "text": "Bin đội mũ vàng"
+            },
+            {
+              "text": "Ai đội mũ vàng cũng học lớp 2A"
+            },
+            {
+              "text": "Bin không đội mũ vàng"
+            },
+            {
+              "text": "Bạn nào học lớp 2A cũng đội mũ vàng"
+            }
+          ],
+          "answers": [
+            0,
+            3
+          ],
+          "method": "Chỉ chọn điều mà đề bài nói chắc chắn, đừng tự đoán thêm.",
+          "explanation": "Đề nói mọi bạn lớp 2A đều đội mũ vàng, Bin học lớp 2A nên Bin đội mũ vàng.\nLưu ý: bạn lớp khác cũng có thể đội mũ vàng nên \"Ai đội mũ vàng cũng học lớp 2A\" chưa chắc đúng; \"Bin không đội mũ vàng\" thì sai."
+        },
+        {
+          "id": "k05-b3-04",
+          "type": "choice",
+          "prompt": "Bin nói: \"Nếu hôm qua là thứ Hai thì ngày mai là thứ Tư.\"\nBin nói đúng hay sai?",
+          "options": [
+            {
+              "text": "Đúng"
+            },
+            {
+              "text": "Sai"
+            },
+            {
+              "text": "Không biết được"
+            }
+          ],
+          "answer": 0,
+          "method": "Từ hôm qua, tìm hôm nay trước rồi mới tìm ngày mai.",
+          "explanation": "Hôm qua là thứ Hai thì hôm nay là thứ Ba, ngày mai là thứ Tư. Bin nói đúng.\nLưu ý: chọn \"Sai\" là vì nghĩ ngày mai ngay sau thứ Hai là thứ Ba (quên mất hôm nay); \"Không biết được\" là sai vì đề đã cho đủ thông tin."
+        },
+        {
+          "id": "k05-b3-05",
+          "type": "input",
+          "prompt": "Đọc 5 câu sau:\n• 2 × 5 = 10\n• 5 × 5 = 20\n• 1 m = 100 cm\n• 45 < 54\n• 2 × 9 = 19\nCó mấy câu SAI?",
+          "answers": [
+            "2"
+          ],
+          "unit": "câu",
+          "method": "Tính lại từng phép tính, đánh dấu câu sai, rồi đếm.",
+          "explanation": "Đúng: 2 × 5 = 10; 1 m = 100 cm; 45 < 54.\nSai: 5 × 5 = 25 chứ không phải 20; 2 × 9 = 18 chứ không phải 19.\nCó 2 câu sai."
+        },
+        {
+          "id": "k05-b3-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Mỗi câu bên trái đều SAI. Nối mỗi câu với cách sửa cho đúng ở bên phải.",
+          "pairs": [
+            {
+              "left": {
+                "text": "2 × 6 = 10"
+              },
+              "right": {
+                "text": "2 × 6 = 12"
+              }
+            },
+            {
+              "left": {
+                "text": "1 dm = 100 cm"
+              },
+              "right": {
+                "text": "1 dm = 10 cm"
+              }
+            },
+            {
+              "left": {
+                "text": "Hình vuông có 3 góc"
+              },
+              "right": {
+                "text": "Hình vuông có 4 góc"
+              }
+            },
+            {
+              "left": {
+                "text": "5 × 4 = 25"
+              },
+              "right": {
+                "text": "5 × 4 = 20"
+              }
+            }
+          ],
+          "method": "Tìm chỗ sai trong từng câu, câu sửa phải nói về đúng điều đó.",
+          "explanation": "2 × 6 = 12. 1 dm = 10 cm (còn 1 m mới bằng 100 cm). Hình vuông có 4 góc. 5 × 4 = 20 (5 × 5 mới bằng 25)."
+        },
+        {
+          "id": "k05-b3-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Câu \"5 × 4 = 15\" là câu SAI.\nChọn số đúng điền vào chỗ trống để các câu sau đều ĐÚNG.",
+          "sentence": "5 × [[3]] = 15, 2 × [[7]] = 14, 1 m = [[100]] cm.",
+          "choices": [
+            "3",
+            "7",
+            "100",
+            "10",
+            "4"
+          ],
+          "method": "Nhẩm bảng nhân 5, bảng nhân 2, và nhớ đổi mét ra xăng-ti-mét.",
+          "explanation": "5 × 3 = 15; 2 × 7 = 14; 1 m = 100 cm.\n(4 là số làm câu \"5 × 4 = 15\" sai; 10 là số xăng-ti-mét của 1 dm.)"
+        },
+        {
+          "id": "k05-b3-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các câu ĐÚNG.",
+          "options": [
+            {
+              "text": "Một tuần có 8 ngày"
+            },
+            {
+              "text": "Số bé nhất có hai chữ số là 10"
+            },
+            {
+              "text": "Số liền sau của 99 là 98"
+            },
+            {
+              "text": "1 giờ = 60 phút"
+            },
+            {
+              "text": "Số lớn nhất có ba chữ số là 999"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            4
+          ],
+          "method": "Kiểm tra từng câu thật cẩn thận, chú ý chữ \"liền sau\", \"bé nhất\", \"lớn nhất\".",
+          "explanation": "Đúng: số bé nhất có hai chữ số là 10; 1 giờ = 60 phút; số lớn nhất có ba chữ số là 999.\nLưu ý: một tuần chỉ có 7 ngày; số liền sau của 99 là 100 (98 là số liền trước)."
+        },
+        {
+          "id": "k05-b3-09",
+          "type": "choice",
+          "prompt": "Cứ trời mưa là sân trường bị ướt.\nLúc này sân trường khô ráo.\nCâu nào chắc chắn SAI?",
+          "options": [
+            {
+              "text": "Lúc này trời không mưa"
+            },
+            {
+              "text": "Sân trường lúc này không bị ướt"
+            },
+            {
+              "text": "Lúc này trời đang mưa"
+            }
+          ],
+          "answer": 2,
+          "method": "Nếu lúc này trời đang mưa thì sân trường phải thế nào?",
+          "explanation": "Nếu trời đang mưa thì sân phải ướt. Nhưng sân đang khô, nên chắc chắn lúc này trời không mưa. Câu \"Lúc này trời đang mưa\" chắc chắn sai.\nLưu ý: \"Lúc này trời không mưa\" là câu đúng; \"Sân trường không bị ướt\" cũng đúng vì đề nói sân khô ráo."
+        },
+        {
+          "id": "k05-b3-10",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Câu \"Một giờ có 30 phút\" là câu SAI.\nChạm lần lượt các thẻ để ghép thành câu ĐÚNG.",
+          "items": [
+            "Một",
+            "giờ",
+            "có",
+            "60",
+            "phút"
+          ],
+          "distractors": [
+            "30"
+          ],
+          "method": "Một giờ có bao nhiêu phút? Thẻ nào là thẻ làm câu bị sai?",
+          "explanation": "Câu đúng là: \"Một giờ có 60 phút\". Thẻ 30 là thẻ nhiễu (30 phút chỉ là nửa giờ)."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Suy luận từ nhiều gợi ý",
+      "emoji": "🕵️",
+      "description": "Ghép từng gợi ý lại với nhau để tìm ra câu trả lời bí mật!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "k05-b4-01",
+          "type": "choice",
+          "prompt": "An, Bình, Chi mỗi bạn nuôi một con vật khác nhau: chó, mèo, thỏ.\n• Bình nuôi mèo.\n• An không nuôi chó.\nAi nuôi chó?",
+          "options": [
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "An"
+            },
+            {
+              "text": "Bình"
+            }
+          ],
+          "answer": 0,
+          "method": "Gạch bỏ những gì đã biết chắc, xem còn lại con vật nào cho ai.",
+          "explanation": "Bình nuôi mèo. An không nuôi chó nên An nuôi thỏ. Còn lại Chi nuôi chó.\nLưu ý: Bình đã nuôi mèo; An nuôi thỏ — chọn An là đọc sót chữ \"không\"."
+        },
+        {
+          "id": "k05-b4-02",
+          "type": "input",
+          "prompt": "Em là một số bí mật:\n• Em có hai chữ số, chữ số hàng chục là 3.\n• Em có trong bảng nhân 5.\n• Em lớn hơn 32.\nEm là số nào?",
+          "answers": [
+            "35"
+          ],
+          "method": "Liệt kê các số trong bảng nhân 5 có hàng chục là 3, rồi loại số không lớn hơn 32.",
+          "explanation": "Các số trong bảng nhân 5 có hàng chục là 3: 30 và 35. Chỉ 35 lớn hơn 32. Số bí mật là 35."
+        },
+        {
+          "id": "k05-b4-03",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Hoa, Mai, Lan mặc áo ba màu khác nhau: đỏ, xanh, vàng.\n• Hoa không mặc áo đỏ, cũng không mặc áo xanh.\n• Mai không mặc áo đỏ.\nNối mỗi bạn với màu áo của bạn ấy.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hoa"
+              },
+              "right": {
+                "emoji": "🟡",
+                "text": "Áo vàng"
+              }
+            },
+            {
+              "left": {
+                "text": "Mai"
+              },
+              "right": {
+                "emoji": "🔵",
+                "text": "Áo xanh"
+              }
+            },
+            {
+              "left": {
+                "text": "Lan"
+              },
+              "right": {
+                "emoji": "🔴",
+                "text": "Áo đỏ"
+              }
+            }
+          ],
+          "method": "Bắt đầu từ bạn có nhiều gợi ý nhất (Hoa).",
+          "explanation": "Hoa không mặc đỏ, không mặc xanh nên Hoa mặc vàng. Mai không mặc đỏ, vàng đã là của Hoa nên Mai mặc xanh. Lan mặc áo đỏ."
+        },
+        {
+          "id": "k05-b4-04",
+          "type": "input",
+          "prompt": "Em là một số bí mật có hai chữ số:\n• Chữ số hàng chục bằng chữ số hàng đơn vị cộng với chính nó.\n• Cộng hai chữ số của em được 9.\nEm là số nào?",
+          "answers": [
+            "63"
+          ],
+          "method": "Thử lần lượt: hàng đơn vị 1, 2, 3, 4 thì hàng chục là mấy? Tổng có bằng 9 không?",
+          "explanation": "Hàng đơn vị 1 → hàng chục 1 + 1 = 2 → số 21, tổng 3.\nHàng đơn vị 2 → hàng chục 2 + 2 = 4 → số 42, tổng 6.\nHàng đơn vị 3 → hàng chục 3 + 3 = 6 → số 63, tổng 9 ✓.\nHàng đơn vị 4 → hàng chục 4 + 4 = 8 → số 84, tổng 12.\nSố bí mật là 63."
+        },
+        {
+          "id": "k05-b4-05",
+          "type": "choice",
+          "prompt": "Bốn cái hộp xếp thành hàng: Đỏ – Xanh – Vàng – Tím.\nMột viên bi nằm trong một hộp.\n• Bi không ở hộp nằm ở hai đầu hàng.\n• Bi không ở hộp nằm ngay cạnh hộp Đỏ.\nBi ở hộp nào?",
+          "options": [
+            {
+              "text": "Tím"
+            },
+            {
+              "text": "Vàng"
+            },
+            {
+              "text": "Xanh"
+            },
+            {
+              "text": "Đỏ"
+            }
+          ],
+          "answer": 1,
+          "method": "Gạch bỏ lần lượt từng hộp theo mỗi gợi ý.",
+          "explanation": "Hai đầu hàng là Đỏ và Tím → gạch. Hộp ngay cạnh Đỏ là Xanh → gạch. Còn lại hộp Vàng.\nLưu ý: Tím và Đỏ ở hai đầu hàng; Xanh nằm ngay cạnh Đỏ — chọn Xanh là quên gợi ý thứ hai."
+        },
+        {
+          "id": "k05-b4-06",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Ba bạn Minh, Dũng, Hùng ở tầng 1, tầng 2, tầng 3 của một tòa nhà, mỗi bạn một tầng.\n• Hùng ở cao hơn Dũng.\n• Dũng không ở tầng 1.\nChọn số đúng điền vào chỗ trống.",
+          "sentence": "Minh ở tầng [[1]], Dũng ở tầng [[2]], Hùng ở tầng [[3]].",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "method": "Dũng không ở tầng 1, mà vẫn phải có Hùng ở cao hơn Dũng. Vậy Dũng ở tầng mấy?",
+          "explanation": "Dũng không ở tầng 1. Nếu Dũng ở tầng 3 thì không ai cao hơn Dũng được. Vậy Dũng ở tầng 2, Hùng ở tầng 3, Minh ở tầng 1."
+        },
+        {
+          "id": "k05-b4-07",
+          "type": "multi_choice",
+          "prompt": "Con vật bí mật có 4 chân và không có sừng.\nChọn TẤT CẢ các con vật CÓ THỂ là con vật bí mật.",
+          "options": [
+            {
+              "text": "🐃 Con trâu"
+            },
+            {
+              "text": "🐱 Con mèo"
+            },
+            {
+              "text": "🐔 Con gà"
+            },
+            {
+              "text": "🐶 Con chó"
+            },
+            {
+              "text": "🐐 Con dê"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "Loại con vật không đủ 4 chân trước, rồi loại con vật có sừng.",
+          "explanation": "Mèo và chó đều có 4 chân và không có sừng.\nLưu ý: trâu và dê có 4 chân nhưng có sừng; gà chỉ có 2 chân."
+        },
+        {
+          "id": "k05-b4-08",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô gợi ý bên trái, rồi chạm vào số bí mật đúng ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số liền sau của 49"
+              },
+              "back": {
+                "text": "50"
+              }
+            },
+            {
+              "front": {
+                "text": "Số tròn chục nằm giữa 35 và 45"
+              },
+              "back": {
+                "text": "40"
+              }
+            },
+            {
+              "front": {
+                "text": "Đếm thêm 2: 12, 14, 16, ?"
+              },
+              "back": {
+                "text": "18"
+              }
+            },
+            {
+              "front": {
+                "text": "Số liền trước của 100"
+              },
+              "back": {
+                "text": "99"
+              }
+            },
+            {
+              "front": {
+                "text": "Số có hai chữ số giống nhau, cộng lại được 8"
+              },
+              "back": {
+                "text": "44"
+              }
+            }
+          ],
+          "method": "Đọc kỹ từng chữ: liền sau, liền trước, tròn chục, đếm thêm, giống nhau.",
+          "explanation": "Liền sau 49 là 50. Số tròn chục giữa 35 và 45 là 40. Đếm thêm 2 sau 16 là 18. Số liền trước của 100 là 99. Hai chữ số giống nhau cộng được 8: 4 + 4 = 8, là số 44."
+        },
+        {
+          "id": "k05-b4-09",
+          "type": "choice",
+          "prompt": "Một trong ba bạn An, Bình, Chi đã ăn vụng chiếc bánh.\n• An nói: \"Không phải tớ.\"\n• Bình nói: \"Là An.\"\n• Chi nói: \"Là Bình.\"\nChỉ có đúng 1 bạn nói dối. Ai đã ăn bánh?",
+          "options": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Bình"
+            },
+            {
+              "text": "Chi"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử lần lượt từng bạn là người ăn bánh, rồi đếm xem có mấy bạn nói dối.",
+          "explanation": "Nếu An ăn: An nói dối, Chi cũng nói dối → 2 bạn nói dối, loại.\nNếu Bình ăn: chỉ Bình nói dối, An và Chi nói thật → đúng 1 bạn nói dối ✓.\nNếu Chi ăn: Bình và Chi đều nói dối → loại.\nVậy Bình ăn bánh.\nLưu ý: chọn An là tin ngay lời Bình; chọn Chi là đoán theo người nói cuối."
+        },
+        {
+          "id": "k05-b4-10",
+          "type": "input",
+          "prompt": "Lan, Hà, Mai có 3, 5 và 7 cái kẹo (mỗi bạn một số khác nhau).\n• Lan có nhiều kẹo hơn Hà.\n• Hà không phải bạn có ít kẹo nhất.\nHỏi Lan có bao nhiêu cái kẹo?",
+          "answers": [
+            "7"
+          ],
+          "unit": "cái",
+          "method": "Hà không ít nhất mà vẫn có người nhiều hơn Hà. Vậy Hà có mấy cái?",
+          "explanation": "Hà không ít nhất nên Hà có 5 hoặc 7. Lan nhiều hơn Hà, nên Hà không thể có 7. Vậy Hà có 5, Lan có 7, Mai có 3."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Tìm thông tin còn thiếu",
+      "emoji": "🔎",
+      "description": "Đề bài còn thiếu gì? Bé tìm mảnh ghép còn thiếu để giải được bài nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k05-b5-01",
+          "type": "choice",
+          "prompt": "Mẹ mua 3 quả cam và một ít quả táo.\nHỏi mẹ mua tất cả bao nhiêu quả?\nCần biết thêm điều gì thì mới giải được bài này?",
+          "options": [
+            {
+              "text": "Giá tiền một quả cam"
+            },
+            {
+              "text": "Số quả táo mẹ mua"
+            },
+            {
+              "text": "Mẹ mua ở chợ nào"
+            },
+            {
+              "text": "Quả táo màu gì"
+            }
+          ],
+          "answer": 1,
+          "method": "Muốn tính tổng số quả thì cần biết số quả của từng loại.",
+          "explanation": "Đã biết 3 quả cam, còn thiếu số quả táo. Biết số táo thì cộng với 3 là ra.\nLưu ý: giá tiền, nơi mua và màu quả không giúp tính được số quả."
+        },
+        {
+          "id": "k05-b5-02",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào số còn thiếu (dấu ?) ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "? + 8 = 15"
+              },
+              "back": {
+                "text": "7"
+              }
+            },
+            {
+              "front": {
+                "text": "20 − ? = 12"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "2 × ? = 18"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "5 × ? = 30"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "? − 9 = 11"
+              },
+              "back": {
+                "text": "20"
+              }
+            }
+          ],
+          "method": "Dùng phép tính ngược lại: thiếu số hạng thì lấy tổng trừ; thiếu số bị trừ thì lấy hiệu cộng số trừ.",
+          "explanation": "15 − 8 = 7; 20 − 12 = 8; 2 × 9 = 18; 5 × 6 = 30; 11 + 9 = 20."
+        },
+        {
+          "id": "k05-b5-03",
+          "type": "input",
+          "prompt": "Bình có 12 viên bi. An có nhiều hơn Bình 5 viên bi. Cường có ít hơn An 3 viên bi.\nHỏi Cường có bao nhiêu viên bi?",
+          "answers": [
+            "14"
+          ],
+          "unit": "viên",
+          "method": "Thông tin còn thiếu là số bi của An — tìm số bi của An trước.",
+          "explanation": "An có: 12 + 5 = 17 (viên).\nCường có: 17 − 3 = 14 (viên)."
+        },
+        {
+          "id": "k05-b5-04",
+          "type": "multi_choice",
+          "prompt": "Bài toán: \"Một sợi dây dài 1 m. Bé cắt đi một đoạn. Hỏi sợi dây còn lại dài bao nhiêu xăng-ti-mét?\"\nChọn TẤT CẢ các thông tin mà CHỈ CẦN BIẾT THÊM một trong số đó là giải được bài.",
+          "options": [
+            {
+              "text": "Sợi dây màu gì"
+            },
+            {
+              "text": "Đoạn cắt đi dài 30 cm"
+            },
+            {
+              "text": "Bé cắt bằng kéo hay bằng dao"
+            },
+            {
+              "text": "Đoạn cắt đi dài bằng đúng một nửa sợi dây"
+            },
+            {
+              "text": "Bé cắt lúc mấy giờ"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "Muốn biết phần còn lại thì phải biết phần cắt đi dài bao nhiêu.",
+          "explanation": "Biết đoạn cắt đi dài 30 cm: 100 − 30 = 70 (cm). Biết đoạn cắt đi bằng một nửa sợi dây: còn lại cũng một nửa, tức 50 cm.\nLưu ý: màu dây, dụng cụ cắt và giờ cắt không giúp tính được độ dài."
+        },
+        {
+          "id": "k05-b5-05",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Chọn số đúng điền vào chỗ trống.",
+          "sentence": "An có 15 viên bi. An cho Bình [[6]] viên thì An còn 9 viên. Sau đó mẹ cho An thêm [[4]] viên nên An có 13 viên.",
+          "choices": [
+            "6",
+            "4",
+            "24",
+            "22"
+          ],
+          "method": "Bớt đi bao nhiêu để từ 15 còn 9? Thêm bao nhiêu để từ 9 thành 13?",
+          "explanation": "15 − 6 = 9 nên An cho Bình 6 viên.\n9 + 4 = 13 nên mẹ cho thêm 4 viên.\n(24 = 15 + 9 và 22 = 9 + 13 là cộng nhầm.)"
+        },
+        {
+          "id": "k05-b5-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Mỗi bài toán bên trái còn thiếu một thông tin. Nối bài toán với thông tin còn thiếu ở bên phải.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hà cao hơn Mai 5 cm. Hỏi Hà cao bao nhiêu?"
+              },
+              "right": {
+                "text": "Chiều cao của Mai"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 10 cái kẹo chia đều. Hỏi mỗi bạn được mấy cái?"
+              },
+              "right": {
+                "text": "Số bạn được chia kẹo"
+              }
+            },
+            {
+              "left": {
+                "text": "Bé đi từ nhà đến trường mất 15 phút. Hỏi bé đến trường lúc mấy giờ?"
+              },
+              "right": {
+                "text": "Giờ bé bắt đầu đi"
+              }
+            },
+            {
+              "left": {
+                "text": "Hỏi mua 2 quyển vở hết bao nhiêu tiền?"
+              },
+              "right": {
+                "text": "Giá tiền 1 quyển vở"
+              }
+            }
+          ],
+          "method": "Hỏi mình: để tính được câu hỏi, cần những số nào? Số nào đề chưa cho?",
+          "explanation": "Muốn biết Hà cao bao nhiêu phải biết Mai cao bao nhiêu. Chia đều kẹo phải biết có mấy bạn. Biết giờ đến trường phải biết giờ xuất phát. Tính tiền 2 quyển vở phải biết giá 1 quyển."
+        },
+        {
+          "id": "k05-b5-07",
+          "type": "choice",
+          "prompt": "Đề toán: \"Nhà Lan nuôi gà và vịt, có tất cả 15 con. Hỏi có bao nhiêu con vịt?\"\nBiết thêm thông tin nào thì giải được bài?",
+          "options": [
+            {
+              "text": "Gà và vịt đều có 2 chân"
+            },
+            {
+              "text": "Đàn gà vịt có tất cả 30 cái chân"
+            },
+            {
+              "text": "Có 8 con gà"
+            },
+            {
+              "text": "Vịt biết bơi còn gà thì không"
+            }
+          ],
+          "answer": 2,
+          "method": "Thông tin cần thêm phải giúp tách được số gà và số vịt.",
+          "explanation": "Biết có 8 con gà thì số vịt là: 15 − 8 = 7 (con).\nLưu ý: gà và vịt đều có 2 chân, nên dù gà nhiều hay vịt nhiều thì 15 con vẫn luôn có 30 cái chân — biết \"30 cái chân\" không tách được gà với vịt, đây là bẫy; chuyện biết bơi không cho ta con số nào."
+        },
+        {
+          "id": "k05-b5-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bài toán: \"Nam có 8 viên bi. Minh có nhiều hơn Nam 4 viên. Hỏi cả hai bạn có bao nhiêu viên bi?\"\nXếp các bước giải theo thứ tự từ TRƯỚC đến SAU.",
+          "items": [
+            {
+              "text": "Đọc đề, tìm điều đã biết và điều cần tìm"
+            },
+            {
+              "text": "Tìm số bi của Minh: 8 + 4 = 12"
+            },
+            {
+              "text": "Tính số bi cả hai bạn: 8 + 12 = 20"
+            },
+            {
+              "text": "Trả lời: Cả hai bạn có 20 viên bi"
+            }
+          ],
+          "method": "Thông tin còn thiếu là số bi của Minh — phải tìm nó trước khi tính cả hai.",
+          "explanation": "Đọc đề trước. Chưa biết số bi của Minh nên tìm: 8 + 4 = 12. Rồi tính cả hai: 8 + 12 = 20. Cuối cùng ghi câu trả lời."
+        },
+        {
+          "id": "k05-b5-09",
+          "type": "input",
+          "prompt": "Bao gạo nặng 25 kg. Bao ngô nặng 20 kg.\nBao ngô nặng hơn bao đỗ 3 kg.\nHỏi bao đỗ nặng bao nhiêu ki-lô-gam?",
+          "answers": [
+            "17"
+          ],
+          "unit": "kg",
+          "method": "Chọn đúng thông tin cần dùng: bao đỗ được so sánh với bao nào?",
+          "explanation": "Bao ngô nặng hơn bao đỗ 3 kg, nghĩa là bao đỗ nhẹ hơn bao ngô 3 kg.\nBao đỗ nặng: 20 − 3 = 17 (kg).\n(Số 25 kg của bao gạo là thông tin thừa, không cần dùng.)"
+        },
+        {
+          "id": "k05-b5-10",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Xếp mỗi bài toán vào đúng nhóm: đủ thông tin để giải, hay còn thiếu thông tin?",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Đủ thông tin"
+            },
+            {
+              "emoji": "❓",
+              "text": "Còn thiếu thông tin"
+            }
+          ],
+          "items": [
+            {
+              "text": "Có 5 con gà và 3 con vịt. Có tất cả mấy con?",
+              "group": 0
+            },
+            {
+              "text": "Lan có một ít kẹo, Lan ăn 2 cái. Lan còn mấy cái?",
+              "group": 1
+            },
+            {
+              "text": "Mỗi túi có 5 quả cam, có 2 túi. Có mấy quả cam?",
+              "group": 0
+            },
+            {
+              "text": "Cây cao hơn ngôi nhà 2 m. Cây cao bao nhiêu mét?",
+              "group": 1
+            },
+            {
+              "text": "Hôm nay là thứ Sáu. Ngày mai là thứ mấy?",
+              "group": 0
+            },
+            {
+              "text": "Bố mua vài quả bưởi, mỗi quả nặng 1 kg. Số bưởi nặng mấy ki-lô-gam?",
+              "group": 1
+            }
+          ],
+          "method": "Thử giải từng bài: nếu thiếu một con số để tính thì bài đó còn thiếu thông tin.",
+          "explanation": "Đủ thông tin: 5 + 3 = 8 con; 5 × 2 = 10 quả; ngày mai là thứ Bảy.\nCòn thiếu: không biết Lan có mấy kẹo lúc đầu; không biết ngôi nhà cao bao nhiêu; không biết bố mua mấy quả bưởi."
+        }
+      ]
+    }
+  ]
+}

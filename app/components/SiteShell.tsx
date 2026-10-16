@@ -19,7 +19,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // trang duyệt bình thường → vẫn cần header/footer.
   const isWorksheet =
     segments[0] === 'phieu-bai-tap' && segments.length >= 2 && segments[1] !== 'lop';
-  if (isAdmin || isWorksheet) return <>{children}</>;
+  // Khu bán khóa học /khoa-hoc-vui có giao diện riêng, không dùng header/footer chung.
+  const isStandaloneShop = segments[0] === 'khoa-hoc-vui';
+  if (isAdmin || isWorksheet || isStandaloneShop) return <>{children}</>;
   return (
     <>
       <SiteHeader />

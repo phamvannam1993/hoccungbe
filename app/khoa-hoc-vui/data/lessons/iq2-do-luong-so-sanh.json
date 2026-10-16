@@ -1,0 +1,711 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Đo độ dài và đọc thước kẻ",
+      "emoji": "📏",
+      "description": "Cầm thước kẻ lên và cùng đo mọi thứ quanh mình thật chính xác nhé bé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k09-b1-01",
+          "type": "choice",
+          "prompt": "Một chiếc bút chì đặt trên thước kẻ, từ vạch 3 đến vạch 11 (đơn vị cm).\nBút chì dài bao nhiêu?",
+          "visual": { "emoji": "📏 ✏️" },
+          "options": [
+            { "text": "11 cm" },
+            { "text": "14 cm" },
+            { "text": "8 cm" },
+            { "text": "3 cm" }
+          ],
+          "answer": 2,
+          "method": "Khi vật không bắt đầu từ vạch 0, lấy vạch cuối trừ vạch đầu.",
+          "explanation": "Độ dài bút chì là 11 − 3 = 8 cm.\nLưu ý: 11 cm là chỉ đọc vạch cuối mà quên bút không bắt đầu từ 0; 14 cm là cộng nhầm 11 + 3; 3 cm chỉ là vạch bắt đầu."
+        },
+        {
+          "id": "k09-b1-02",
+          "type": "input",
+          "prompt": "Một sợi dây đặt trên thước kẻ, từ vạch 5 đến vạch 20.\nSợi dây dài bao nhiêu xăng-ti-mét?",
+          "answers": ["15"],
+          "unit": "cm",
+          "method": "Lấy vạch cuối trừ vạch đầu.",
+          "explanation": "20 − 5 = 15. Sợi dây dài 15 cm."
+        },
+        {
+          "id": "k09-b1-03",
+          "type": "choice",
+          "prompt": "Chiếc bút chì của bé dài khoảng bao nhiêu?",
+          "visual": { "emoji": "✏️" },
+          "options": [
+            { "text": "15 m" },
+            { "text": "15 cm" },
+            { "text": "15 km" },
+            { "text": "15 dm" }
+          ],
+          "answer": 1,
+          "method": "Hình dung độ dài của 1 cm, 1 dm, 1 m, 1 km rồi so với chiếc bút chì.",
+          "explanation": "Bút chì dài khoảng một gang tay, tức khoảng 15 cm.\nLưu ý: 15 m dài hơn cả lớp học; 15 km là cả một quãng đường dài; 15 dm = 150 cm, còn cao hơn cả bé – đều không hợp lý."
+        },
+        {
+          "id": "k09-b1-04",
+          "type": "input",
+          "prompt": "Một băng giấy dài 1 dm. Bé cắt đi 4 cm.\nBăng giấy còn lại dài bao nhiêu xăng-ti-mét?",
+          "answers": ["6"],
+          "unit": "cm",
+          "method": "Đổi 1 dm ra xăng-ti-mét trước rồi mới trừ.",
+          "explanation": "1 dm = 10 cm. Còn lại 10 − 4 = 6 cm."
+        },
+        {
+          "id": "k09-b1-05",
+          "type": "order",
+          "prompt": "Xếp các độ dài theo thứ tự từ ngắn đến dài.",
+          "timeLimit": 50,
+          "items": [
+            { "text": "8 cm" },
+            { "text": "1 dm" },
+            { "text": "15 cm" },
+            { "text": "2 dm" },
+            { "text": "1 m" }
+          ],
+          "method": "Đổi tất cả ra xăng-ti-mét để so sánh cho dễ.",
+          "explanation": "1 dm = 10 cm, 2 dm = 20 cm, 1 m = 100 cm. Ta có 8 cm < 10 cm < 15 cm < 20 cm < 100 cm."
+        },
+        {
+          "id": "k09-b1-06",
+          "type": "match",
+          "prompt": "Nối mỗi đồ vật với độ dài phù hợp nhất.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "emoji": "📏", "text": "Chiếc thước kẻ của bé" }, "right": { "text": "20 cm" } },
+            { "left": { "emoji": "🚪", "text": "Chiều cao cánh cửa" }, "right": { "text": "2 m" } },
+            { "left": { "emoji": "🛣️", "text": "Quãng đường từ nhà lên thị trấn" }, "right": { "text": "3 km" } },
+            { "left": { "emoji": "🐞", "text": "Con bọ rùa" }, "right": { "text": "1 cm" } }
+          ],
+          "method": "Vật nhỏ, cầm tay dùng cm, vật cao hơn người dùng m, quãng đường xa dùng km.",
+          "explanation": "Thước kẻ của bé dài khoảng 20 cm; cánh cửa cao khoảng 2 m; quãng đường đến thị trấn khoảng 3 km; con bọ rùa rất nhỏ, chỉ dài khoảng 1 cm."
+        },
+        {
+          "id": "k09-b1-07",
+          "type": "reveal_match",
+          "prompt": "Mỗi ô là một vật đặt trên thước kẻ. Lật ô rồi chạm vào độ dài đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "front": { "text": "Từ vạch 2 đến vạch 9" }, "back": { "text": "7 cm" } },
+            { "front": { "text": "Từ vạch 0 đến vạch 6" }, "back": { "text": "6 cm" } },
+            { "front": { "text": "Từ vạch 4 đến vạch 12" }, "back": { "text": "8 cm" } },
+            { "front": { "text": "Từ vạch 10 đến vạch 15" }, "back": { "text": "5 cm" } },
+            { "front": { "text": "Từ vạch 1 đến vạch 10" }, "back": { "text": "9 cm" } }
+          ],
+          "method": "Vạch cuối trừ vạch đầu.",
+          "explanation": "9 − 2 = 7; 6 − 0 = 6; 12 − 4 = 8; 15 − 10 = 5; 10 − 1 = 9 (đơn vị cm)."
+        },
+        {
+          "id": "k09-b1-08",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 40,
+          "sentence": "1 m = [[10]] dm = [[100]] cm.",
+          "choices": ["10", "100", "1000", "1"],
+          "method": "Nhớ: 1 m = 10 dm và 1 dm = 10 cm.",
+          "explanation": "1 m = 10 dm. Mỗi dm là 10 cm nên 10 dm = 100 cm. Vậy 1 m = 10 dm = 100 cm."
+        },
+        {
+          "id": "k09-b1-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các độ dài dài hơn 1 dm.",
+          "options": [
+            { "text": "12 cm" },
+            { "text": "9 cm" },
+            { "text": "2 dm" },
+            { "text": "10 cm" },
+            { "text": "5 dm" },
+            { "text": "1 m" }
+          ],
+          "answers": [0, 2, 4, 5],
+          "method": "Đổi 1 dm = 10 cm rồi so sánh từng độ dài với 10 cm.",
+          "explanation": "12 cm > 10 cm; 2 dm = 20 cm > 10 cm; 5 dm = 50 cm > 10 cm; 1 m = 100 cm > 10 cm.\nLưu ý: 9 cm ngắn hơn 1 dm; 10 cm bằng đúng 1 dm chứ không dài hơn; 5 dm tuy số 5 nhỏ hơn số 9 nhưng 5 dm = 50 cm nên dài hơn 1 dm."
+        },
+        {
+          "id": "k09-b1-10",
+          "type": "choice",
+          "prompt": "Một chú sâu bò trên thước kẻ từ vạch 2 đến vạch 7, rồi bò tiếp thêm 3 cm nữa.\nChú sâu dừng lại ở vạch số mấy?",
+          "visual": { "emoji": "🐛 📏" },
+          "options": [
+            { "text": "Vạch 12" },
+            { "text": "Vạch 5" },
+            { "text": "Vạch 9" },
+            { "text": "Vạch 10" }
+          ],
+          "answer": 3,
+          "method": "Chú sâu đang ở vạch 7, bò tiếp 3 cm thì vạch tăng thêm 3.",
+          "explanation": "Chú sâu đang ở vạch 7, bò thêm 3 cm nên dừng ở vạch 7 + 3 = 10.\nLưu ý: vạch 12 là cộng nhầm 2 + 7 + 3; vạch 5 là lấy 2 + 3 (quên đoạn đã bò); vạch 9 là cộng nhầm 2 + 7."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "So sánh khối lượng",
+      "emoji": "⚖️",
+      "description": "Vật nào nặng hơn, vật nào nhẹ hơn? Cùng nhìn cân và đoán nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k09-b2-01",
+          "type": "choice",
+          "prompt": "Cân thăng bằng: một bên là quả dưa hấu, bên kia là quả cân 2 kg và quả cân 1 kg.\nQuả dưa hấu nặng bao nhiêu?",
+          "visual": { "emoji": "🍉 ⚖️" },
+          "options": [
+            { "text": "2 kg" },
+            { "text": "1 kg" },
+            { "text": "3 kg" },
+            { "text": "21 kg" }
+          ],
+          "answer": 2,
+          "method": "Cân thăng bằng thì hai bên nặng bằng nhau.",
+          "explanation": "Bên quả cân nặng 2 + 1 = 3 kg. Cân thăng bằng nên quả dưa hấu nặng 3 kg.\nLưu ý: 2 kg hay 1 kg là chỉ tính một quả cân; 21 kg là viết ghép hai số."
+        },
+        {
+          "id": "k09-b2-02",
+          "type": "input",
+          "prompt": "Bao gạo nặng 10 kg, bao đường nặng 4 kg.\nBao gạo nặng hơn bao đường bao nhiêu ki-lô-gam?",
+          "answers": ["6"],
+          "unit": "kg",
+          "method": "\"Nặng hơn bao nhiêu\" thì lấy số lớn trừ số bé.",
+          "explanation": "10 − 4 = 6. Bao gạo nặng hơn bao đường 6 kg."
+        },
+        {
+          "id": "k09-b2-03",
+          "type": "match_multi",
+          "prompt": "Nối mỗi đồ vật vào đúng nhóm: nặng hơn 1 kg hay nhẹ hơn 1 kg?",
+          "timeLimit": 50,
+          "groups": [
+            { "text": "Nặng hơn 1 kg", "emoji": "🐘" },
+            { "text": "Nhẹ hơn 1 kg", "emoji": "🍃" }
+          ],
+          "items": [
+            { "text": "Quả dưa hấu to", "group": 0 },
+            { "text": "Cái bút chì", "group": 1 },
+            { "text": "Chiếc lá", "group": 1 },
+            { "text": "Bao gạo", "group": 0 },
+            { "text": "Quả trứng gà", "group": 1 },
+            { "text": "Cái ti vi", "group": 0 }
+          ],
+          "method": "Tưởng tượng cầm 1 túi đường 1 kg trên tay rồi so sánh với từng đồ vật.",
+          "explanation": "Quả dưa hấu to, bao gạo, cái ti vi đều nặng hơn 1 kg. Cái bút chì, chiếc lá, quả trứng gà đều nhẹ hơn 1 kg."
+        },
+        {
+          "id": "k09-b2-04",
+          "type": "choice",
+          "prompt": "An nặng hơn Bình. Bình nặng hơn Chi.\nBạn nào nhẹ nhất?",
+          "options": [
+            { "text": "An" },
+            { "text": "Bình" },
+            { "text": "Chi" },
+            { "text": "Không biết được" }
+          ],
+          "answer": 2,
+          "method": "Xếp ba bạn từ nặng đến nhẹ theo từng câu đã cho.",
+          "explanation": "An nặng hơn Bình, Bình lại nặng hơn Chi, nên thứ tự từ nặng đến nhẹ là An, Bình, Chi. Chi nhẹ nhất.\nLưu ý: An là bạn nặng nhất; Bình nhẹ hơn An nhưng vẫn nặng hơn Chi; \"Không biết được\" sai vì hai câu đã đủ để so sánh cả ba bạn."
+        },
+        {
+          "id": "k09-b2-05",
+          "type": "input",
+          "prompt": "Bao gạo nặng 25 kg.\nMẹ lấy ra 2 lần, mỗi lần 5 kg.\nBao gạo còn lại bao nhiêu ki-lô-gam?",
+          "answers": ["15"],
+          "unit": "kg",
+          "method": "Tính số gạo đã lấy ra trong cả 2 lần, rồi mới trừ.",
+          "explanation": "Hai lần lấy ra: 5 × 2 = 10 kg. Còn lại: 25 − 10 = 15 kg."
+        },
+        {
+          "id": "k09-b2-06",
+          "type": "choice",
+          "prompt": "Cân thăng bằng.\nĐĩa bên trái có quả bí và quả cân 1 kg. Đĩa bên phải có quả cân 5 kg.\nQuả bí nặng bao nhiêu?",
+          "visual": { "emoji": "🎃 ⚖️" },
+          "options": [
+            { "text": "6 kg" },
+            { "text": "5 kg" },
+            { "text": "4 kg" },
+            { "text": "1 kg" }
+          ],
+          "answer": 2,
+          "method": "Cân thăng bằng: quả bí cộng 1 kg bằng 5 kg.",
+          "explanation": "Quả bí + 1 kg = 5 kg, nên quả bí nặng 5 − 1 = 4 kg.\nLưu ý: 6 kg là cộng nhầm 5 + 1; 5 kg là quên quả cân 1 kg nằm cùng đĩa với quả bí; 1 kg chỉ là quả cân nhỏ."
+        },
+        {
+          "id": "k09-b2-07",
+          "type": "order",
+          "prompt": "Xếp các nhóm đồ vật theo thứ tự từ nhẹ đến nặng.",
+          "timeLimit": 55,
+          "items": [
+            { "text": "2 túi muối, mỗi túi 1 kg" },
+            { "text": "Túi bột 3 kg" },
+            { "text": "2 quả dưa, mỗi quả 2 kg" },
+            { "text": "Quả bí 5 kg" },
+            { "text": "3 túi đậu, mỗi túi 2 kg" }
+          ],
+          "method": "Tính cả nhóm nặng bao nhiêu ki-lô-gam rồi mới so sánh.",
+          "explanation": "2 túi muối: 2 kg; túi bột: 3 kg; 2 quả dưa: 2 × 2 = 4 kg; quả bí: 5 kg; 3 túi đậu: 2 × 3 = 6 kg. Ta có 2 kg < 3 kg < 4 kg < 5 kg < 6 kg."
+        },
+        {
+          "id": "k09-b2-08",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Bao gạo nặng 10 kg, bao ngô nặng 7 kg. Bao gạo nặng hơn bao ngô [[3]] kg. Cả hai bao nặng [[17]] kg.",
+          "choices": ["3", "17", "70", "13"],
+          "method": "\"Nặng hơn bao nhiêu\" thì trừ; \"cả hai\" thì cộng.",
+          "explanation": "10 − 7 = 3 kg. 10 + 7 = 17 kg."
+        },
+        {
+          "id": "k09-b2-09",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào kết quả đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "front": { "text": "5 kg + 2 kg" }, "back": { "text": "7 kg" } },
+            { "front": { "text": "9 kg − 4 kg" }, "back": { "text": "5 kg" } },
+            { "front": { "text": "2 kg × 5" }, "back": { "text": "10 kg" } },
+            { "front": { "text": "15 kg + 5 kg" }, "back": { "text": "20 kg" } },
+            { "front": { "text": "12 kg − 9 kg" }, "back": { "text": "3 kg" } }
+          ],
+          "method": "Tính như với số bình thường rồi viết thêm đơn vị kg.",
+          "explanation": "5 + 2 = 7; 9 − 4 = 5; 2 × 5 = 10; 15 + 5 = 20; 12 − 9 = 3 (đơn vị kg)."
+        },
+        {
+          "id": "k09-b2-10",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các vật nặng hơn 3 kg.",
+          "options": [
+            { "text": "Quả bưởi 1 kg" },
+            { "text": "Con mèo 4 kg" },
+            { "text": "Túi gạo 5 kg" },
+            { "text": "Túi cam 3 kg" },
+            { "text": "2 túi đường, mỗi túi 2 kg" },
+            { "text": "Cặp sách 2 kg" }
+          ],
+          "answers": [1, 2, 4],
+          "method": "So sánh từng vật với 3 kg; nhóm nhiều túi thì tính tổng trước.",
+          "explanation": "Con mèo 4 kg, túi gạo 5 kg và 2 túi đường (2 + 2 = 4 kg) đều nặng hơn 3 kg.\nLưu ý: túi cam nặng đúng 3 kg là bằng chứ không nặng hơn; quả bưởi 1 kg và cặp sách 2 kg nhẹ hơn 3 kg; 2 túi đường thì phải tính cả hai túi, không chỉ nhìn số 2."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Đong và so sánh dung tích",
+      "emoji": "🥛",
+      "description": "Bé cùng đong nước bằng ca, bằng can và tính số lít thật giỏi nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k09-b3-01",
+          "type": "choice",
+          "prompt": "Can to có 5 lít nước. Bé rót sang can nhỏ 2 lít.\nCan to còn lại bao nhiêu lít nước?",
+          "options": [
+            { "text": "3 lít" },
+            { "text": "7 lít" },
+            { "text": "2 lít" },
+            { "text": "10 lít" }
+          ],
+          "answer": 0,
+          "method": "Rót bớt ra thì can to ít đi, ta làm phép trừ.",
+          "explanation": "5 − 2 = 3 lít.\nLưu ý: 7 lít là cộng nhầm; 2 lít là số nước ở can nhỏ; 10 lít là nhân nhầm 5 × 2."
+        },
+        {
+          "id": "k09-b3-02",
+          "type": "input",
+          "prompt": "Mỗi ca đựng được 2 lít nước. Bé đổ 5 ca nước đầy vào xô.\nTrong xô có bao nhiêu lít nước?",
+          "answers": ["10"],
+          "unit": "lít",
+          "method": "2 lít được lấy 5 lần.",
+          "explanation": "2 × 5 = 10. Trong xô có 10 lít nước."
+        },
+        {
+          "id": "k09-b3-03",
+          "type": "pick_order",
+          "prompt": "Bình có 10 lít nước, mẹ rót ra 4 lít.\nChạm lần lượt các thẻ để ghép phép tính số nước còn lại.",
+          "timeLimit": 45,
+          "items": ["10 lít", "-", "4 lít", "=", "6 lít"],
+          "distractors": ["14 lít"],
+          "method": "Rót ra thì nước trong bình ít đi, ta làm phép trừ.",
+          "explanation": "10 lít − 4 lít = 6 lít. Thẻ 14 lít là kết quả nếu cộng nhầm."
+        },
+        {
+          "id": "k09-b3-04",
+          "type": "choice",
+          "prompt": "Can A có 9 lít nước, can B có 5 lít nước.\nPhải rót từ can A sang can B bao nhiêu lít để hai can có số nước bằng nhau?",
+          "options": [
+            { "text": "4 lít" },
+            { "text": "2 lít" },
+            { "text": "7 lít" },
+            { "text": "14 lít" }
+          ],
+          "answer": 1,
+          "method": "Tính tổng số nước, chia đều cho hai can, rồi xem can A phải bớt đi bao nhiêu.",
+          "explanation": "Tổng cộng 9 + 5 = 14 lít, chia đều mỗi can 14 : 2 = 7 lít. Can A từ 9 lít còn 7 lít nên phải rót sang 9 − 7 = 2 lít. Kiểm tra: can B có 5 + 2 = 7 lít. Đúng!\nLưu ý: 4 lít là số lít chênh lệch – rót 4 lít thì can A còn 5 lít, can B lại có 9 lít; 7 lít là số nước mỗi can sau khi rót; 14 lít là tổng số nước."
+        },
+        {
+          "id": "k09-b3-05",
+          "type": "input",
+          "prompt": "Bình có 12 lít nước.\nMẹ rót đầy 3 chai, mỗi chai 2 lít.\nTrong bình còn lại bao nhiêu lít nước?",
+          "answers": ["6"],
+          "unit": "lít",
+          "method": "Tính số nước đã rót vào 3 chai rồi mới trừ.",
+          "explanation": "3 chai: 2 × 3 = 6 lít. Còn lại: 12 − 6 = 6 lít."
+        },
+        {
+          "id": "k09-b3-06",
+          "type": "match",
+          "prompt": "Nối mỗi ô với số lít nước tương ứng.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "text": "5 ca, mỗi ca 1 lít" }, "right": { "text": "5 lít" } },
+            { "left": { "text": "Can 10 lít, đã dùng 2 lít" }, "right": { "text": "8 lít" } },
+            { "left": { "text": "2 can, mỗi can 5 lít" }, "right": { "text": "10 lít" } },
+            { "left": { "text": "Xô 4 lít và chậu 5 lít" }, "right": { "text": "9 lít" } }
+          ],
+          "method": "Mỗi ô cần một phép tính: nhân, trừ hoặc cộng.",
+          "explanation": "1 + 1 + 1 + 1 + 1 = 5 lít; 10 − 2 = 8 lít; 5 × 2 = 10 lít; 4 + 5 = 9 lít."
+        },
+        {
+          "id": "k09-b3-07",
+          "type": "order",
+          "prompt": "Xếp các bình theo thứ tự từ ít nước đến nhiều nước.",
+          "timeLimit": 55,
+          "items": [
+            { "text": "Bình A: 3 lít" },
+            { "text": "Bình B: đổ vào 2 ca, mỗi ca 2 lít" },
+            { "text": "Bình C: có 10 lít, đổ bớt 5 lít" },
+            { "text": "Bình D: 3 lít và thêm 4 lít" }
+          ],
+          "method": "Tính số lít của từng bình trước rồi mới so sánh.",
+          "explanation": "Bình A: 3 lít; bình B: 2 × 2 = 4 lít; bình C: 10 − 5 = 5 lít; bình D: 3 + 4 = 7 lít. Ta có 3 < 4 < 5 < 7."
+        },
+        {
+          "id": "k09-b3-08",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Thùng có 20 lít nước. Bé rót ra 3 can, mỗi can 5 lít. Bé đã rót ra [[15]] lít, trong thùng còn [[5]] lít.",
+          "choices": ["15", "5", "8", "25"],
+          "method": "Tính số nước rót ra bằng phép nhân, rồi lấy số nước ban đầu trừ đi.",
+          "explanation": "Rót ra: 5 × 3 = 15 lít. Còn lại: 20 − 15 = 5 lít."
+        },
+        {
+          "id": "k09-b3-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các cách đong được đúng 6 lít nước.",
+          "options": [
+            { "text": "2 ca, mỗi ca 2 lít" },
+            { "text": "3 ca, mỗi ca 2 lít" },
+            { "text": "1 can 5 lít và 1 ca 2 lít" },
+            { "text": "1 can 5 lít và 1 chai 1 lít" },
+            { "text": "6 chai, mỗi chai 1 lít" }
+          ],
+          "answers": [1, 3, 4],
+          "method": "Tính tổng số lít của từng cách rồi so với 6 lít.",
+          "explanation": "2 × 3 = 6 lít; 5 + 1 = 6 lít; 1 + 1 + 1 + 1 + 1 + 1 = 6 lít.\nLưu ý: 2 ca 2 lít chỉ được 4 lít (thiếu); 1 can 5 lít và 1 ca 2 lít được 7 lít (thừa)."
+        },
+        {
+          "id": "k09-b3-10",
+          "type": "choice",
+          "prompt": "Bé có 1 can 5 lít và 1 ca 2 lít (không có vạch chia), cạnh một vòi nước.\nLàm cách nào để lấy được đúng 3 lít nước?",
+          "options": [
+            { "text": "Đổ đầy ca 2 lần rồi đổ hết vào can" },
+            { "text": "Đổ đầy can, rót sang ca 2 lần (mỗi lần ca đầy thì đổ ca đi), phần còn lại trong can" },
+            { "text": "Đổ đầy can, rót sang ca cho đến khi ca đầy, phần còn lại trong can" },
+            { "text": "Đổ đầy ca, đổ đầy can rồi cộng lại" }
+          ],
+          "answer": 2,
+          "method": "Thử tính số nước còn lại sau mỗi lần rót của từng cách.",
+          "explanation": "Đổ đầy can được 5 lít, rót sang ca cho đầy ca thì mất 2 lít, trong can còn 5 − 2 = 3 lít.\nLưu ý: đổ đầy ca 2 lần được 2 + 2 = 4 lít; rót sang ca 2 lần thì can chỉ còn 5 − 2 − 2 = 1 lít; đổ đầy cả ca và can được 2 + 5 = 7 lít."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Đổi đơn vị đo quen thuộc",
+      "emoji": "🔁",
+      "description": "Bé tập đổi cm, dm, m, km qua lại thật nhanh nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k09-b4-01",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "3 dm = [[30]] cm; 2 m = [[20]] dm; 4 m = [[400]] cm.",
+          "choices": ["30", "20", "400", "300", "40"],
+          "method": "Nhớ: 1 dm = 10 cm, 1 m = 10 dm, 1 m = 100 cm.",
+          "explanation": "3 dm = 10 cm + 10 cm + 10 cm = 30 cm; 2 m = 10 dm + 10 dm = 20 dm; 4 m = 100 cm + 100 cm + 100 cm + 100 cm = 400 cm."
+        },
+        {
+          "id": "k09-b4-02",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi số đo ở trên với số đo bằng nó ở dưới.",
+          "timeLimit": 40,
+          "pairs": [
+            { "left": { "text": "1 m" }, "right": { "text": "100 cm" } },
+            { "left": { "text": "1 dm" }, "right": { "text": "10 cm" } },
+            { "left": { "text": "2 m" }, "right": { "text": "20 dm" } },
+            { "left": { "text": "1 km" }, "right": { "text": "1000 m" } }
+          ],
+          "method": "Nhớ lại bảng đơn vị đo độ dài đã học.",
+          "explanation": "1 m = 100 cm; 1 dm = 10 cm; 2 m = 10 dm + 10 dm = 20 dm; 1 km = 1000 m."
+        },
+        {
+          "id": "k09-b4-03",
+          "type": "input",
+          "prompt": "40 cm bằng bao nhiêu đề-xi-mét?",
+          "answers": ["4"],
+          "unit": "dm",
+          "method": "Cứ 10 cm là 1 dm, đếm xem 40 cm có mấy lần 10 cm.",
+          "explanation": "40 cm = 10 cm + 10 cm + 10 cm + 10 cm, tức 4 lần 10 cm. Vậy 40 cm = 4 dm."
+        },
+        {
+          "id": "k09-b4-04",
+          "type": "choice",
+          "prompt": "Độ dài nào dưới đây bằng 1 m?",
+          "options": [
+            { "text": "10 cm" },
+            { "text": "100 dm" },
+            { "text": "10 dm" },
+            { "text": "1 dm" }
+          ],
+          "answer": 2,
+          "method": "Nhớ: 1 m = 10 dm = 100 cm.",
+          "explanation": "1 m = 10 dm.\nLưu ý: 10 cm và 1 dm bằng nhau, đều ngắn hơn 1 m rất nhiều; 100 dm dài hơn 1 m rất nhiều (chỉ cần 10 dm là đã bằng 1 m). Các số 10 và 100 đều có mặt, nhưng phải đi với đúng đơn vị."
+        },
+        {
+          "id": "k09-b4-05",
+          "type": "input",
+          "prompt": "500 cm bằng bao nhiêu mét?",
+          "answers": ["5"],
+          "unit": "m",
+          "method": "Cứ 100 cm là 1 m, đếm xem 500 cm có mấy lần 100 cm.",
+          "explanation": "Đếm cách 100: 100, 200, 300, 400, 500 – là 5 lần 100 cm. Mỗi 100 cm là 1 m, nên 500 cm = 5 m."
+        },
+        {
+          "id": "k09-b4-06",
+          "type": "choice",
+          "prompt": "Chọn dấu đúng để điền vào chỗ chấm:\n1 m … 90 cm",
+          "options": [
+            { "text": ">" },
+            { "text": "<" },
+            { "text": "=" }
+          ],
+          "answer": 0,
+          "method": "Đổi 1 m ra xăng-ti-mét rồi mới so sánh.",
+          "explanation": "1 m = 100 cm, mà 100 cm > 90 cm, nên 1 m > 90 cm.\nLưu ý: chọn \"<\" là chỉ nhìn số 1 với số 90 mà quên đơn vị; chọn \"=\" sai vì 90 cm còn thiếu 10 cm mới bằng 1 m."
+        },
+        {
+          "id": "k09-b4-07",
+          "type": "match",
+          "prompt": "Nối hai số đo bằng nhau.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "text": "5 dm" }, "right": { "text": "50 cm" } },
+            { "left": { "text": "3 m" }, "right": { "text": "300 cm" } },
+            { "left": { "text": "7 m" }, "right": { "text": "70 dm" } },
+            { "left": { "text": "60 cm" }, "right": { "text": "6 dm" } }
+          ],
+          "method": "Nhớ: 1 m = 10 dm = 100 cm và 1 dm = 10 cm.",
+          "explanation": "5 dm = 50 cm; 3 m = 300 cm (vì 1 m = 100 cm); 7 m = 70 dm (vì 1 m = 10 dm); 60 cm = 6 dm (vì 10 cm = 1 dm)."
+        },
+        {
+          "id": "k09-b4-08",
+          "type": "order",
+          "prompt": "Xếp các độ dài theo thứ tự từ ngắn đến dài.",
+          "timeLimit": 55,
+          "items": [
+            { "text": "40 cm" },
+            { "text": "5 dm" },
+            { "text": "70 cm" },
+            { "text": "9 dm" },
+            { "text": "1 m" }
+          ],
+          "method": "Đổi tất cả ra xăng-ti-mét: 1 dm = 10 cm, 1 m = 100 cm.",
+          "explanation": "40 cm; 5 dm = 50 cm; 70 cm; 9 dm = 90 cm; 1 m = 100 cm. Ta có 40 cm < 50 cm < 70 cm < 90 cm < 100 cm. Chú ý: 9 dm ngắn hơn 1 m dù số 9 lớn hơn số 1."
+        },
+        {
+          "id": "k09-b4-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các số đo bằng 2 m.",
+          "options": [
+            { "text": "20 cm" },
+            { "text": "20 dm" },
+            { "text": "200 cm" },
+            { "text": "200 dm" },
+            { "text": "2 dm" }
+          ],
+          "answers": [1, 2],
+          "method": "Nhớ 1 m = 10 dm = 100 cm, rồi đổi 2 m ra đề-xi-mét và xăng-ti-mét.",
+          "explanation": "2 m = 10 dm + 10 dm = 20 dm, và 2 m = 100 cm + 100 cm = 200 cm.\nLưu ý: 20 cm và 2 dm chỉ bằng nhau và đều quá ngắn; 200 dm dài hơn 2 m rất nhiều (20 dm đã bằng 2 m)."
+        },
+        {
+          "id": "k09-b4-10",
+          "type": "match_multi",
+          "prompt": "Nối mỗi số đo vào đúng nhóm: bằng, ngắn hơn hay dài hơn 1 m?",
+          "timeLimit": 60,
+          "groups": [
+            { "text": "Bằng 1 m", "emoji": "🎯" },
+            { "text": "Ngắn hơn 1 m", "emoji": "⬇️" },
+            { "text": "Dài hơn 1 m", "emoji": "⬆️" }
+          ],
+          "items": [
+            { "text": "10 dm", "group": 0 },
+            { "text": "90 cm", "group": 1 },
+            { "text": "2 m", "group": 2 },
+            { "text": "100 cm", "group": 0 },
+            { "text": "5 dm", "group": 1 },
+            { "text": "12 dm", "group": 2 },
+            { "text": "110 cm", "group": 2 }
+          ],
+          "method": "Nhớ: 1 m = 10 dm = 100 cm.",
+          "explanation": "Bằng 1 m: 10 dm, 100 cm. Ngắn hơn: 90 cm, 5 dm (= 50 cm). Dài hơn: 2 m, 12 dm (= 120 cm), 110 cm."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài toán đo lường thực tế",
+      "emoji": "🏃",
+      "description": "Dùng những gì đã học để giải các bài toán đo lường trong cuộc sống nhé bé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "k09-b5-01",
+          "type": "choice",
+          "prompt": "Bin đi từ nhà đến cổng trường hết 300 m, rồi đi tiếp 200 m nữa thì đến nhà bác.\nBin đã đi tất cả bao nhiêu mét?",
+          "options": [
+            { "text": "5 km" },
+            { "text": "100 m" },
+            { "text": "50 m" },
+            { "text": "500 m" }
+          ],
+          "answer": 3,
+          "method": "Đi tiếp thì cộng hai quãng đường lại.",
+          "explanation": "300 m + 200 m = 500 m.\nLưu ý: 100 m là trừ nhầm 300 − 200; 50 m là viết thiếu một chữ số 0; 5 km sai đơn vị vì 5 km dài hơn 500 m rất nhiều."
+        },
+        {
+          "id": "k09-b5-02",
+          "type": "input",
+          "prompt": "Tấm vải dài 1 m. Mẹ cắt đi 3 dm để may khăn.\nTấm vải còn lại dài bao nhiêu đề-xi-mét?",
+          "answers": ["7"],
+          "unit": "dm",
+          "method": "Đổi 1 m ra đề-xi-mét trước rồi mới trừ.",
+          "explanation": "1 m = 10 dm. Còn lại 10 − 3 = 7 dm."
+        },
+        {
+          "id": "k09-b5-03",
+          "type": "choice",
+          "prompt": "Mỗi bước nhảy của chú ếch dài 5 dm. Chú ếch nhảy 4 bước.\nChú ếch đã nhảy được bao xa?",
+          "visual": { "emoji": "🐸 🐸 🐸 🐸" },
+          "options": [
+            { "text": "20 m" },
+            { "text": "2 m" },
+            { "text": "9 dm" },
+            { "text": "20 cm" }
+          ],
+          "answer": 1,
+          "method": "Tính 5 dm lấy 4 lần, rồi đổi ra mét.",
+          "explanation": "5 × 4 = 20 dm. Vì 10 dm = 1 m nên 20 dm = 2 m.\nLưu ý: 20 m và 20 cm là giữ số 20 nhưng đổi sai đơn vị; 9 dm là cộng nhầm 5 + 4."
+        },
+        {
+          "id": "k09-b5-04",
+          "type": "input",
+          "prompt": "Một sợi dây dài 1 m. Bé cắt thành các đoạn, mỗi đoạn dài 2 dm.\nBé cắt được bao nhiêu đoạn?",
+          "answers": ["5"],
+          "unit": "đoạn",
+          "method": "Đổi 1 m ra đề-xi-mét, rồi xem có mấy lần 2 dm.",
+          "explanation": "1 m = 10 dm. 10 : 2 = 5, nên cắt được 5 đoạn."
+        },
+        {
+          "id": "k09-b5-05",
+          "type": "choice",
+          "prompt": "Một con kiến bò từ điểm A đến điểm B dài 8 cm, rồi bò ngược trở lại điểm A.\nCon kiến đã bò tất cả bao nhiêu xăng-ti-mét?",
+          "visual": { "emoji": "🐜" },
+          "options": [
+            { "text": "8 cm" },
+            { "text": "16 cm" },
+            { "text": "0 cm" },
+            { "text": "4 cm" }
+          ],
+          "answer": 1,
+          "method": "Đi rồi quay về thì phải tính cả hai lượt.",
+          "explanation": "Lượt đi 8 cm, lượt về 8 cm: 8 + 8 = 16 cm.\nLưu ý: 8 cm mới chỉ là lượt đi; 0 cm là khoảng cách từ chỗ dừng đến điểm A, không phải quãng đường đã bò; 4 cm là chia đôi nhầm."
+        },
+        {
+          "id": "k09-b5-06",
+          "type": "match_multi",
+          "prompt": "Nên dùng đơn vị nào để đo? Nối mỗi thứ vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            { "text": "Xăng-ti-mét (cm)", "emoji": "📏" },
+            { "text": "Mét (m)", "emoji": "🏠" },
+            { "text": "Ki-lô-mét (km)", "emoji": "🛣️" }
+          ],
+          "items": [
+            { "text": "Chiều dài quyển sách", "group": 0 },
+            { "text": "Chiều dài lớp học", "group": 1 },
+            { "text": "Quãng đường từ tỉnh này sang tỉnh khác", "group": 2 },
+            { "text": "Chiều dài cục tẩy", "group": 0 },
+            { "text": "Chiều cao cột cờ", "group": 1 },
+            { "text": "Quãng đường máy bay bay", "group": 2 }
+          ],
+          "method": "Vật cầm tay dùng cm, nhà cửa và cây cối dùng m, đường đi xa dùng km.",
+          "explanation": "Quyển sách, cục tẩy nhỏ, cầm được trên tay → cm. Lớp học, cột cờ to hơn người → m. Đường từ tỉnh này sang tỉnh khác, đường máy bay bay rất xa → km."
+        },
+        {
+          "id": "k09-b5-07",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Dây đỏ dài 3 dm, dây xanh dài 25 cm. Dây đỏ dài hơn dây xanh [[5]] cm. Nối hai dây lại (không tính chỗ buộc) được [[55]] cm.",
+          "choices": ["5", "55", "22", "28"],
+          "method": "Đổi 3 dm ra xăng-ti-mét trước rồi mới trừ hoặc cộng.",
+          "explanation": "3 dm = 30 cm. Dây đỏ dài hơn: 30 − 25 = 5 cm. Nối lại: 30 + 25 = 55 cm."
+        },
+        {
+          "id": "k09-b5-08",
+          "type": "pick_order",
+          "prompt": "Mỗi đoạn ống nước dài 5 m. Bố nối 3 đoạn ống liền nhau (không tính chỗ nối).\nChạm lần lượt các thẻ để ghép phép tính độ dài cả ống (viết độ dài một đoạn trước).",
+          "timeLimit": 45,
+          "items": ["5 m", "×", "3", "=", "15 m"],
+          "distractors": ["8 m"],
+          "method": "3 đoạn, mỗi đoạn 5 m thì lấy 5 m nhân 3.",
+          "explanation": "5 m × 3 = 15 m. Thẻ 8 m là kết quả nếu cộng nhầm 5 + 3."
+        },
+        {
+          "id": "k09-b5-09",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào độ dài đúng.",
+          "timeLimit": 55,
+          "pairs": [
+            { "front": { "text": "2 bước chân, mỗi bước 5 dm" }, "back": { "text": "1 m" } },
+            { "front": { "text": "Thước 1 m cắt bớt 20 cm" }, "back": { "text": "80 cm" } },
+            { "front": { "text": "3 đoạn dây, mỗi đoạn 5 cm" }, "back": { "text": "15 cm" } },
+            { "front": { "text": "Đi 400 m rồi đi tiếp 600 m" }, "back": { "text": "1 km" } },
+            { "front": { "text": "3 gang tay, mỗi gang 1 dm" }, "back": { "text": "3 dm" } }
+          ],
+          "method": "Tính từng ô, nhớ đổi đơn vị: 10 dm = 1 m, 1 m = 100 cm, 1000 m = 1 km.",
+          "explanation": "5 × 2 = 10 dm = 1 m; 100 cm − 20 cm = 80 cm; 5 × 3 = 15 cm; 400 + 600 = 1000 m = 1 km; 1 + 1 + 1 = 3 dm."
+        },
+        {
+          "id": "k09-b5-10",
+          "type": "choice",
+          "prompt": "Một chú ốc sên leo lên cây cột cao 5 m.\nBan ngày ốc leo lên được 3 m, ban đêm ốc tụt xuống 2 m.\nĐến ngày thứ mấy thì ốc lên tới đỉnh cột?",
+          "visual": { "emoji": "🐌" },
+          "options": [
+            { "text": "Ngày thứ 5" },
+            { "text": "Ngày thứ 2" },
+            { "text": "Ngày thứ 3" },
+            { "text": "Ngày thứ 4" }
+          ],
+          "answer": 2,
+          "method": "Theo dõi từng ngày, từng đêm; khi đã tới đỉnh thì ốc không tụt nữa.",
+          "explanation": "Ngày 1: leo lên 3 m, đêm tụt còn 1 m. Ngày 2: lên 1 + 3 = 4 m, đêm tụt còn 2 m. Ngày 3: lên 2 + 3 = 5 m – tới đỉnh!\nLưu ý: ngày thứ 5 là tưởng mỗi ngày chỉ lên 1 m (3 − 2) mà quên rằng ngày cuối ốc tới đỉnh luôn; ngày thứ 2 thì ốc mới lên được 4 m; ngày thứ 4 là đếm thừa một ngày."
+        }
+      ]
+    }
+  ]
+}

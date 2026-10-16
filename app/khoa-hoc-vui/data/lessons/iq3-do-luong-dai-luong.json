@@ -1,0 +1,1302 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Đo và so sánh độ dài",
+      "emoji": "📏",
+      "description": "Bé ước lượng, đổi đơn vị rồi so sánh xem cái nào dài hơn, dài hơn bao nhiêu nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k09-b1-01",
+          "type": "choice",
+          "prompt": "Cái bút chì dài 1 dm 4 cm.\nCái thước kẻ dài 16 cm.\nCái nào dài hơn và dài hơn bao nhiêu?",
+          "options": [
+            {
+              "text": "Bút chì dài hơn 2 cm"
+            },
+            {
+              "text": "Thước kẻ dài hơn 11 cm"
+            },
+            {
+              "text": "Thước kẻ dài hơn 2 cm"
+            },
+            {
+              "text": "Hai cái dài bằng nhau"
+            }
+          ],
+          "answer": 2,
+          "method": "Đổi 1 dm 4 cm ra xăng-ti-mét rồi mới so sánh với 16 cm.",
+          "explanation": "1 dm 4 cm = 10 cm + 4 cm = 14 cm. 16 cm > 14 cm nên thước kẻ dài hơn: 16 − 14 = 2 cm.\nLưu ý: \"bút chì dài hơn\" là đúng số nhưng sai bên; \"dài hơn 11 cm\" là lấy 1 + 4 = 5 rồi 16 − 5 = 11, quên đổi 1 dm = 10 cm; \"bằng nhau\" là đoán chứ chưa đổi."
+        },
+        {
+          "id": "l3k09-b1-02",
+          "type": "input",
+          "prompt": "Sợi dây dài 1 m. Bé cắt đi 35 cm.\nSợi dây còn lại dài bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "65"
+          ],
+          "unit": "cm",
+          "method": "Đổi 1 m ra xăng-ti-mét rồi trừ.",
+          "explanation": "1 m = 100 cm. 100 − 35 = 65 cm."
+        },
+        {
+          "id": "l3k09-b1-03",
+          "type": "choice",
+          "prompt": "Độ dài nào dài nhất?",
+          "options": [
+            {
+              "text": "1 m 5 cm"
+            },
+            {
+              "text": "120 mm"
+            },
+            {
+              "text": "11 dm"
+            },
+            {
+              "text": "108 cm"
+            }
+          ],
+          "answer": 2,
+          "method": "Đổi tất cả về xăng-ti-mét rồi so sánh.",
+          "explanation": "1 m 5 cm = 105 cm; 120 mm = 12 cm; 11 dm = 110 cm; 108 cm. Lớn nhất là 110 cm, tức 11 dm.\nLưu ý: 120 mm có số to nhất nhưng chỉ dài 12 cm; 1 m 5 cm dễ nhầm thành 150 cm; 108 cm gần đúng nhưng vẫn ngắn hơn 110 cm."
+        },
+        {
+          "id": "l3k09-b1-04",
+          "type": "input",
+          "prompt": "Đoạn thẳng AB dài 6 cm. Đoạn thẳng CD dài gấp 3 lần AB.\nĐoạn CD dài hơn đoạn AB bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "12"
+          ],
+          "unit": "cm",
+          "method": "Tìm độ dài CD trước, rồi mới tìm phần dài hơn.",
+          "explanation": "CD = 6 × 3 = 18 cm. CD dài hơn AB: 18 − 6 = 12 cm. Bẫy: 18 cm là độ dài của CD, chưa phải phần dài hơn."
+        },
+        {
+          "id": "l3k09-b1-05",
+          "type": "choice",
+          "prompt": "Quyển sách Toán 3 của bé dài khoảng bao nhiêu?",
+          "options": [
+            {
+              "text": "26 mm"
+            },
+            {
+              "text": "26 cm"
+            },
+            {
+              "text": "26 dm"
+            },
+            {
+              "text": "26 m"
+            }
+          ],
+          "answer": 1,
+          "method": "Tưởng tượng gang tay của bé dài khoảng 1 dm rưỡi, rồi so với quyển sách.",
+          "explanation": "Quyển sách dài hơn một gang tay một chút, khoảng 26 cm.\nLưu ý: 26 mm chỉ dài bằng đốt ngón tay; 26 dm = 260 cm, cao hơn cả cửa ra vào; 26 m dài như cả dãy phòng học."
+        },
+        {
+          "id": "l3k09-b1-06",
+          "type": "match",
+          "prompt": "Nối mỗi đồ vật với độ dài phù hợp nhất.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🚪",
+                "text": "Chiều cao cửa ra vào"
+              },
+              "right": {
+                "text": "2 m"
+              }
+            },
+            {
+              "left": {
+                "emoji": "📒",
+                "text": "Bề dày quyển vở"
+              },
+              "right": {
+                "text": "5 mm"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🦶",
+                "text": "Chiều dài bàn chân bé"
+              },
+              "right": {
+                "text": "2 dm"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🛣️",
+                "text": "Quãng đường từ nhà đến chợ"
+              },
+              "right": {
+                "text": "2 km"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🧽",
+                "text": "Chiều dài cục tẩy"
+              },
+              "right": {
+                "text": "4 cm"
+              }
+            }
+          ],
+          "method": "Nhớ cảm giác: 1 mm rất mỏng, 1 cm bằng đốt ngón tay, 1 m khoảng một sải tay, 1 km là đi bộ khá xa.",
+          "explanation": "Cửa cao khoảng 2 m; quyển vở dày khoảng 5 mm; bàn chân bé dài khoảng 2 dm = 20 cm; từ nhà đến chợ khoảng 2 km; cục tẩy dài khoảng 4 cm."
+        },
+        {
+          "id": "l3k09-b1-07",
+          "type": "order",
+          "prompt": "Xếp các độ dài theo thứ tự từ ngắn đến dài.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "45 mm"
+            },
+            {
+              "text": "5 cm"
+            },
+            {
+              "text": "1 dm 2 cm"
+            },
+            {
+              "text": "15 cm"
+            },
+            {
+              "text": "2 dm"
+            }
+          ],
+          "method": "Đổi tất cả về mi-li-mét hoặc xăng-ti-mét rồi so sánh.",
+          "explanation": "45 mm; 5 cm = 50 mm; 1 dm 2 cm = 12 cm = 120 mm; 15 cm = 150 mm; 2 dm = 200 mm. Thứ tự: 45 mm < 5 cm < 1 dm 2 cm < 15 cm < 2 dm."
+        },
+        {
+          "id": "l3k09-b1-08",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào độ dài bằng nó.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "front": {
+                "text": "3 dm"
+              },
+              "back": {
+                "text": "30 cm"
+              }
+            },
+            {
+              "front": {
+                "text": "2 m"
+              },
+              "back": {
+                "text": "200 cm"
+              }
+            },
+            {
+              "front": {
+                "text": "5 cm"
+              },
+              "back": {
+                "text": "50 mm"
+              }
+            },
+            {
+              "front": {
+                "text": "1 m 20 cm"
+              },
+              "back": {
+                "text": "120 cm"
+              }
+            },
+            {
+              "front": {
+                "text": "4 dm 5 cm"
+              },
+              "back": {
+                "text": "45 cm"
+              }
+            }
+          ],
+          "method": "Nhớ: 1 m = 100 cm, 1 dm = 10 cm, 1 cm = 10 mm.",
+          "explanation": "3 dm = 30 cm; 2 m = 200 cm; 5 cm = 50 mm; 1 m 20 cm = 100 + 20 = 120 cm; 4 dm 5 cm = 40 + 5 = 45 cm."
+        },
+        {
+          "id": "l3k09-b1-09",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 40,
+          "sentence": "Băng giấy xanh dài 25 cm, băng giấy đỏ dài 3 dm. Băng giấy [[đỏ]] dài hơn, và dài hơn [[5]] cm.",
+          "choices": [
+            "đỏ",
+            "xanh",
+            "5",
+            "22"
+          ],
+          "method": "Đổi 3 dm ra xăng-ti-mét trước khi so sánh.",
+          "explanation": "3 dm = 30 cm. 30 cm > 25 cm nên băng giấy đỏ dài hơn: 30 − 25 = 5 cm. Bẫy: \"xanh\" là thấy 25 lớn hơn 3; 22 là lấy 25 − 3 mà quên đổi đơn vị."
+        },
+        {
+          "id": "l3k09-b1-10",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các độ dài bằng 1 m.",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "100 cm"
+            },
+            {
+              "text": "10 dm"
+            },
+            {
+              "text": "1 000 mm"
+            },
+            {
+              "text": "100 mm"
+            },
+            {
+              "text": "10 cm"
+            },
+            {
+              "text": "5 dm 5 cm"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            2
+          ],
+          "method": "Đổi từng độ dài về xăng-ti-mét rồi so với 100 cm.",
+          "explanation": "100 cm ✓; 10 dm = 100 cm ✓; 1 000 mm = 100 cm ✓.\nLưu ý: 100 mm chỉ bằng 10 cm = 1 dm; 10 cm cũng chỉ bằng 1 dm; 5 dm 5 cm = 50 cm + 5 cm = 55 cm, chưa đủ 1 m (bẫy: tưởng \"5 với 5\" là 10 dm)."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đổi đơn vị mm, cm, dm, m",
+      "emoji": "🔁",
+      "description": "Bé luyện đổi qua lại giữa mi-li-mét, xăng-ti-mét, đề-xi-mét và mét thật nhuần nhuyễn nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k09-b2-01",
+          "type": "input",
+          "prompt": "4 m 7 cm = ? cm",
+          "answers": [
+            "407"
+          ],
+          "unit": "cm",
+          "method": "Đổi 4 m ra xăng-ti-mét rồi cộng thêm 7 cm.",
+          "explanation": "4 m = 400 cm. 400 + 7 = 407 cm. Bẫy: viết 47 cm là quên rằng 4 m là 400 cm."
+        },
+        {
+          "id": "l3k09-b2-02",
+          "type": "choice",
+          "prompt": "3 dm 5 mm = ? mm",
+          "options": [
+            {
+              "text": "35 mm"
+            },
+            {
+              "text": "305 mm"
+            },
+            {
+              "text": "350 mm"
+            },
+            {
+              "text": "3 005 mm"
+            }
+          ],
+          "answer": 1,
+          "method": "1 dm = 10 cm = 100 mm.",
+          "explanation": "3 dm = 300 mm. 300 + 5 = 305 mm.\nLưu ý: 35 mm là ghép hai số mà không đổi; 350 mm là nhầm 5 mm thành 5 cm; 3 005 mm là nhầm 1 dm = 1 000 mm."
+        },
+        {
+          "id": "l3k09-b2-03",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi độ dài ở trên với độ dài bằng nó ở dưới.",
+          "timeLimit": 45,
+          "pairs": [
+            {
+              "left": {
+                "text": "2 m"
+              },
+              "right": {
+                "text": "20 dm"
+              }
+            },
+            {
+              "left": {
+                "text": "2 dm"
+              },
+              "right": {
+                "text": "20 cm"
+              }
+            },
+            {
+              "left": {
+                "text": "2 cm"
+              },
+              "right": {
+                "text": "20 mm"
+              }
+            },
+            {
+              "left": {
+                "text": "2 m 2 dm"
+              },
+              "right": {
+                "text": "22 dm"
+              }
+            }
+          ],
+          "method": "Hai đơn vị liền nhau (m – dm – cm – mm) gấp kém nhau 10 lần.",
+          "explanation": "2 m = 20 dm; 2 dm = 20 cm; 2 cm = 20 mm; 2 m 2 dm = 20 dm + 2 dm = 22 dm."
+        },
+        {
+          "id": "l3k09-b2-04",
+          "type": "choice",
+          "prompt": "5 m 6 dm = ? dm",
+          "options": [
+            {
+              "text": "56 dm"
+            },
+            {
+              "text": "506 dm"
+            },
+            {
+              "text": "11 dm"
+            },
+            {
+              "text": "560 dm"
+            }
+          ],
+          "answer": 0,
+          "method": "1 m = 10 dm.",
+          "explanation": "5 m = 50 dm. 50 + 6 = 56 dm.\nLưu ý: 506 dm là đổi như thể 1 m = 100 dm; 11 dm là cộng 5 + 6 mà không đổi; 560 dm là nhầm vì 5 m 6 dm = 560 cm chứ không phải 560 dm."
+        },
+        {
+          "id": "l3k09-b2-05",
+          "type": "input",
+          "prompt": "1 m 8 mm = ? mm",
+          "answers": [
+            "1008"
+          ],
+          "unit": "mm",
+          "method": "1 m = 100 cm = 1 000 mm.",
+          "explanation": "1 m = 1 000 mm. 1 000 + 8 = 1 008 mm. Bẫy: 18 mm là ghép số; 108 mm là nhầm 1 m = 100 mm."
+        },
+        {
+          "id": "l3k09-b2-06",
+          "type": "order",
+          "prompt": "Xếp các độ dài theo thứ tự từ ngắn đến dài.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "9 cm"
+            },
+            {
+              "text": "95 mm"
+            },
+            {
+              "text": "1 dm"
+            },
+            {
+              "text": "1 dm 2 mm"
+            },
+            {
+              "text": "12 cm"
+            }
+          ],
+          "method": "Đổi tất cả về mi-li-mét rồi so sánh.",
+          "explanation": "9 cm = 90 mm; 95 mm; 1 dm = 100 mm; 1 dm 2 mm = 102 mm; 12 cm = 120 mm. Thứ tự: 90 < 95 < 100 < 102 < 120 (mm). Bẫy: 1 dm 2 mm không bằng 12 cm."
+        },
+        {
+          "id": "l3k09-b2-07",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "2 m 5 cm = [[205]] cm; 3 dm 8 cm = [[38]] cm; 6 cm 4 mm = [[64]] mm.",
+          "choices": [
+            "205",
+            "38",
+            "64",
+            "25",
+            "380"
+          ],
+          "method": "Đổi đơn vị lớn ra đơn vị nhỏ trước rồi cộng phần lẻ.",
+          "explanation": "2 m = 200 cm, 200 + 5 = 205 cm. 3 dm = 30 cm, 30 + 8 = 38 cm. 6 cm = 60 mm, 60 + 4 = 64 mm. Bẫy: 25 là viết liền 2 và 5 quên 2 m = 200 cm; 380 là nhầm 3 dm = 300 cm."
+        },
+        {
+          "id": "l3k09-b2-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các độ dài bằng 50 cm.",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "5 dm"
+            },
+            {
+              "text": "50 mm"
+            },
+            {
+              "text": "500 mm"
+            },
+            {
+              "text": "5 m"
+            },
+            {
+              "text": "4 dm 5 cm"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "Đổi từng độ dài về xăng-ti-mét rồi so với 50 cm.",
+          "explanation": "5 dm = 50 cm ✓; 500 mm = 50 cm ✓.\nLưu ý: 50 mm chỉ bằng 5 cm; 5 m = 500 cm, dài gấp 10 lần; 4 dm 5 cm = 40 cm + 5 cm = 45 cm, còn thiếu 5 cm (bẫy: cộng 4 + 5 = 9 rồi tưởng gần bằng 5 dm)."
+        },
+        {
+          "id": "l3k09-b2-09",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào độ dài bằng nó.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "front": {
+                "text": "300 cm"
+              },
+              "back": {
+                "text": "3 m"
+              }
+            },
+            {
+              "front": {
+                "text": "70 mm"
+              },
+              "back": {
+                "text": "7 cm"
+              }
+            },
+            {
+              "front": {
+                "text": "60 cm"
+              },
+              "back": {
+                "text": "6 dm"
+              }
+            },
+            {
+              "front": {
+                "text": "4 000 mm"
+              },
+              "back": {
+                "text": "4 m"
+              }
+            },
+            {
+              "front": {
+                "text": "1 m 5 dm"
+              },
+              "back": {
+                "text": "15 dm"
+              }
+            }
+          ],
+          "method": "Đổi từ đơn vị nhỏ ra đơn vị lớn: 100 cm = 1 m, 10 mm = 1 cm, 10 cm = 1 dm, 1 000 mm = 1 m.",
+          "explanation": "300 cm = 3 m; 70 mm = 7 cm; 60 cm = 6 dm; 4 000 mm = 4 m; 1 m 5 dm = 10 dm + 5 dm = 15 dm."
+        },
+        {
+          "id": "l3k09-b2-10",
+          "type": "choice",
+          "prompt": "Chọn dấu đúng: 3 m 5 cm … 350 cm",
+          "options": [
+            {
+              "text": "<"
+            },
+            {
+              "text": ">"
+            },
+            {
+              "text": "="
+            }
+          ],
+          "answer": 0,
+          "method": "Đổi 3 m 5 cm ra xăng-ti-mét rồi so sánh.",
+          "explanation": "3 m 5 cm = 300 cm + 5 cm = 305 cm. 305 cm < 350 cm nên chọn dấu <.\nLưu ý: dấu = là nhầm 3 m 5 cm thành 350 cm (viết liền 3 và 5 rồi thêm 0); dấu > là thấy đơn vị m to hơn cm nên tưởng bên trái lớn hơn."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Khối lượng và cân đĩa",
+      "emoji": "⚖️",
+      "description": "Nhìn cân đĩa thăng bằng, bé suy ra đồ vật nặng bao nhiêu gam, bao nhiêu ki-lô-gam nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k09-b3-01",
+          "type": "choice",
+          "prompt": "Cân đĩa thăng bằng.\nĐĩa bên trái có một quả bưởi.\nĐĩa bên phải có quả cân 1 kg và quả cân 200 g.\nQuả bưởi nặng bao nhiêu?",
+          "options": [
+            {
+              "text": "201 g"
+            },
+            {
+              "text": "800 g"
+            },
+            {
+              "text": "1 200 g"
+            }
+          ],
+          "answer": 2,
+          "method": "Cân thăng bằng thì hai đĩa nặng bằng nhau; đổi 1 kg ra gam rồi cộng.",
+          "explanation": "1 kg = 1 000 g. Đĩa phải nặng 1 000 + 200 = 1 200 g, nên quả bưởi nặng 1 200 g.\nLưu ý: 201 g là cộng 1 + 200 mà quên đổi 1 kg = 1 000 g; 800 g là trừ thay vì cộng."
+        },
+        {
+          "id": "l3k09-b3-02",
+          "type": "input",
+          "prompt": "Cân đĩa thăng bằng.\nĐĩa bên trái có quả dưa và quả cân 500 g.\nĐĩa bên phải có quả cân 2 kg.\nQuả dưa nặng bao nhiêu gam?",
+          "answers": [
+            "1500"
+          ],
+          "unit": "g",
+          "method": "Quả dưa cùng 500 g bằng 2 kg — vậy bỏ 500 g ra khỏi 2 kg.",
+          "explanation": "2 kg = 2 000 g. Quả dưa + 500 g = 2 000 g, nên quả dưa nặng 2 000 − 500 = 1 500 g. Bẫy: 2 500 g là cộng nhầm vì không để ý quả cân 500 g nằm cùng đĩa với quả dưa."
+        },
+        {
+          "id": "l3k09-b3-03",
+          "type": "match_multi",
+          "prompt": "Nối mỗi khối lượng vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Nhẹ hơn 1 kg",
+              "emoji": "🪶"
+            },
+            {
+              "text": "Đúng 1 kg",
+              "emoji": "🎯"
+            },
+            {
+              "text": "Nặng hơn 1 kg",
+              "emoji": "🏋️"
+            }
+          ],
+          "items": [
+            {
+              "text": "999 g",
+              "group": 0
+            },
+            {
+              "text": "500 g + 500 g",
+              "group": 1
+            },
+            {
+              "text": "1 kg 5 g",
+              "group": 2
+            },
+            {
+              "text": "1 000 g",
+              "group": 1
+            },
+            {
+              "text": "800 g + 300 g",
+              "group": 2
+            },
+            {
+              "text": "600 g + 300 g",
+              "group": 0
+            }
+          ],
+          "method": "Đổi 1 kg = 1 000 g, tính từng ô ra gam rồi so sánh với 1 000 g.",
+          "explanation": "999 g < 1 000 g; 500 + 500 = 1 000 g; 1 kg 5 g = 1 005 g > 1 000 g; 1 000 g = 1 kg; 800 + 300 = 1 100 g > 1 000 g; 600 + 300 = 900 g < 1 000 g."
+        },
+        {
+          "id": "l3k09-b3-04",
+          "type": "choice",
+          "prompt": "Cân đĩa thăng bằng.\nĐĩa bên trái có 2 quả táo như nhau và quả cân 100 g.\nĐĩa bên phải có quả cân 500 g.\nMỗi quả táo nặng bao nhiêu?",
+          "options": [
+            {
+              "text": "250 g"
+            },
+            {
+              "text": "300 g"
+            },
+            {
+              "text": "200 g"
+            },
+            {
+              "text": "400 g"
+            }
+          ],
+          "answer": 2,
+          "method": "Bỏ quả cân 100 g ra trước để biết 2 quả táo nặng bao nhiêu, rồi chia đôi.",
+          "explanation": "2 quả táo + 100 g = 500 g, nên 2 quả táo nặng 500 − 100 = 400 g. Mỗi quả: 400 : 2 = 200 g.\nLưu ý: 250 g là quên quả cân 100 g (lấy 500 : 2); 300 g là cộng 100 g thay vì trừ ((500 + 100) : 2); 400 g là khối lượng của cả 2 quả, quên chia 2."
+        },
+        {
+          "id": "l3k09-b3-05",
+          "type": "input",
+          "prompt": "Cân đĩa thăng bằng.\nĐĩa bên trái có 3 gói đường như nhau.\nĐĩa bên phải có quả cân 1 kg và quả cân 200 g.\nMỗi gói đường nặng bao nhiêu gam?",
+          "answers": [
+            "400"
+          ],
+          "unit": "g",
+          "method": "Tính khối lượng đĩa phải ra gam, rồi chia đều cho 3 gói.",
+          "explanation": "1 kg = 1 000 g. Đĩa phải: 1 000 + 200 = 1 200 g. Mỗi gói: 1 200 : 3 = 400 g. Bẫy: 67 g là lấy 201 : 3 vì quên đổi 1 kg = 1 000 g."
+        },
+        {
+          "id": "l3k09-b3-06",
+          "type": "order",
+          "prompt": "Xếp các khối lượng theo thứ tự từ nhẹ đến nặng.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "950 g"
+            },
+            {
+              "text": "1 kg"
+            },
+            {
+              "text": "1 kg 20 g"
+            },
+            {
+              "text": "1 200 g"
+            },
+            {
+              "text": "2 kg"
+            }
+          ],
+          "method": "Đổi tất cả về gam: 1 kg = 1 000 g.",
+          "explanation": "950 g; 1 kg = 1 000 g; 1 kg 20 g = 1 020 g; 1 200 g; 2 kg = 2 000 g. Bẫy: 1 kg 20 g không phải 1 200 g."
+        },
+        {
+          "id": "l3k09-b3-07",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "Túi gạo nặng 5 kg. Mẹ đã nấu hết 1 kg 500 g. Túi gạo còn lại [[3]] kg [[500]] g.",
+          "choices": [
+            "3",
+            "500",
+            "4",
+            "5"
+          ],
+          "method": "Đổi ra gam cho dễ trừ: 5 kg = 5 000 g.",
+          "explanation": "5 000 g − 1 500 g = 3 500 g = 3 kg 500 g. Bẫy: 4 kg 500 g là lấy 5 − 1 = 4 rồi giữ nguyên 500 g, quên rằng phải mượn 1 kg để trừ 500 g."
+        },
+        {
+          "id": "l3k09-b3-08",
+          "type": "match",
+          "prompt": "Nối mỗi vật với khối lượng phù hợp nhất.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "text": "Một cây bút chì"
+              },
+              "right": {
+                "text": "10 g"
+              }
+            },
+            {
+              "left": {
+                "text": "Một quả cam"
+              },
+              "right": {
+                "text": "200 g"
+              }
+            },
+            {
+              "left": {
+                "text": "Một quả dưa hấu"
+              },
+              "right": {
+                "text": "3 kg"
+              }
+            },
+            {
+              "left": {
+                "text": "Một bạn học sinh lớp 3"
+              },
+              "right": {
+                "text": "28 kg"
+              }
+            }
+          ],
+          "method": "Nhớ: 1 kg = 1 000 g; vật nhỏ, nhẹ thì tính bằng gam, vật to, nặng thì tính bằng ki-lô-gam.",
+          "explanation": "Bút chì rất nhẹ, khoảng 10 g. Quả cam khoảng 200 g. Quả dưa hấu khoảng 3 kg. Bạn học sinh lớp 3 nặng khoảng 28 kg."
+        },
+        {
+          "id": "l3k09-b3-09",
+          "type": "pick_order",
+          "prompt": "Cân đĩa thăng bằng: đĩa bên trái có 4 quả cam như nhau, đĩa bên phải có quả cân 1 kg.\nChạm lần lượt các thẻ để ghép phép tính tìm khối lượng một quả cam.",
+          "timeLimit": 45,
+          "items": [
+            "1 000 g",
+            ":",
+            "4",
+            "=",
+            "250 g"
+          ],
+          "distractors": [
+            "4 000 g"
+          ],
+          "method": "Đổi 1 kg ra gam rồi chia đều cho 4 quả.",
+          "explanation": "1 kg = 1 000 g. 1 000 : 4 = 250 g. Thẻ 4 000 g là nhân thay vì chia."
+        },
+        {
+          "id": "l3k09-b3-10",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các khối lượng NẶNG HƠN 2 kg.",
+          "timeLimit": 35,
+          "options": [
+            {
+              "text": "2 100 g"
+            },
+            {
+              "text": "1 kg 900 g"
+            },
+            {
+              "text": "2 kg 5 g"
+            },
+            {
+              "text": "205 g"
+            },
+            {
+              "text": "3 kg − 500 g"
+            },
+            {
+              "text": "1 999 g"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Đổi tất cả về gam rồi so với 2 000 g.",
+          "explanation": "2 100 g > 2 000 g ✓; 2 kg 5 g = 2 005 g ✓; 3 kg − 500 g = 3 000 − 500 = 2 500 g ✓.\nLưu ý: 1 kg 900 g = 1 900 g, nhẹ hơn; 205 g dễ đọc nhầm thành 2 kg 5 g; 1 999 g chỉ kém 2 kg đúng 1 g nhưng vẫn nhẹ hơn."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Dung tích và lít nước",
+      "emoji": "🥛",
+      "description": "Rót nước, chia chai, đổi lít ra mi-li-lít — bé cùng làm nhà khoa học nhí nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k09-b4-01",
+          "type": "choice",
+          "prompt": "Bình có 2 l nước.\nMẹ rót ra đầy 3 cốc, mỗi cốc 250 ml.\nTrong bình còn lại bao nhiêu nước?",
+          "options": [
+            {
+              "text": "1 750 ml"
+            },
+            {
+              "text": "750 ml"
+            },
+            {
+              "text": "1 250 ml"
+            },
+            {
+              "text": "2 750 ml"
+            }
+          ],
+          "answer": 2,
+          "method": "Đổi 2 l ra mi-li-lít, tính lượng nước đã rót ra rồi trừ.",
+          "explanation": "2 l = 2 000 ml. Rót ra: 250 × 3 = 750 ml. Còn lại: 2 000 − 750 = 1 250 ml.\nLưu ý: 1 750 ml là chỉ trừ 1 cốc; 750 ml là lượng nước đã rót ra; 2 750 ml là cộng thay vì trừ."
+        },
+        {
+          "id": "l3k09-b4-02",
+          "type": "input",
+          "prompt": "Can có 5 l nước.\nRót hết vào các chai, mỗi chai 500 ml.\nRót được bao nhiêu chai đầy?",
+          "answers": [
+            "10"
+          ],
+          "unit": "chai",
+          "method": "Đổi 5 l ra mi-li-lít rồi xem chứa được mấy lần 500 ml.",
+          "explanation": "1 l = 1 000 ml = 2 chai 500 ml. 5 l thì được 2 × 5 = 10 chai."
+        },
+        {
+          "id": "l3k09-b4-03",
+          "type": "order",
+          "prompt": "Xếp các lượng nước theo thứ tự từ ít đến nhiều.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "450 ml"
+            },
+            {
+              "text": "1 l"
+            },
+            {
+              "text": "1 l 50 ml"
+            },
+            {
+              "text": "1 500 ml"
+            },
+            {
+              "text": "2 l"
+            }
+          ],
+          "method": "Đổi tất cả về mi-li-lít: 1 l = 1 000 ml.",
+          "explanation": "450 ml; 1 l = 1 000 ml; 1 l 50 ml = 1 050 ml; 1 500 ml; 2 l = 2 000 ml. Thứ tự: 450 < 1 000 < 1 050 < 1 500 < 2 000 (ml). Bẫy: 1 l 50 ml không phải 1 500 ml."
+        },
+        {
+          "id": "l3k09-b4-04",
+          "type": "input",
+          "prompt": "Mỗi ngày bé uống 4 cốc nước, mỗi cốc 250 ml.\nMỗi ngày bé uống bao nhiêu lít nước?",
+          "answers": [
+            "1"
+          ],
+          "unit": "l",
+          "method": "Tính số mi-li-lít trước rồi đổi ra lít.",
+          "explanation": "250 × 4 = 1 000 ml = 1 l. Bẫy: 1 000 là số mi-li-lít, đề hỏi số lít."
+        },
+        {
+          "id": "l3k09-b4-05",
+          "type": "choice",
+          "prompt": "Thùng A có 15 l nước, thùng B có 9 l nước.\nPhải rót từ thùng A sang thùng B bao nhiêu lít để hai thùng có lượng nước bằng nhau?",
+          "options": [
+            {
+              "text": "6 l"
+            },
+            {
+              "text": "3 l"
+            },
+            {
+              "text": "12 l"
+            },
+            {
+              "text": "24 l"
+            }
+          ],
+          "answer": 1,
+          "method": "Rót sang thì thùng A bớt đi, thùng B thêm vào cùng một lượng.",
+          "explanation": "Tổng: 15 + 9 = 24 l, bằng nhau thì mỗi thùng 24 : 2 = 12 l. Thùng A phải rót đi 15 − 12 = 3 l (thùng B nhận thêm 3 l: 9 + 3 = 12 l).\nLưu ý: 6 l là chỉ lấy hiệu 15 − 9 — rót 6 l thì A còn 9 l, B thành 15 l, vẫn chưa bằng; 12 l là lượng nước mỗi thùng lúc sau; 24 l là tổng."
+        },
+        {
+          "id": "l3k09-b4-06",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào lượng nước bằng nó.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "front": {
+                "text": "3 l"
+              },
+              "back": {
+                "text": "3 000 ml"
+              }
+            },
+            {
+              "front": {
+                "text": "1 l 300 ml"
+              },
+              "back": {
+                "text": "1 300 ml"
+              }
+            },
+            {
+              "front": {
+                "text": "5 cốc, mỗi cốc 200 ml"
+              },
+              "back": {
+                "text": "1 l"
+              }
+            },
+            {
+              "front": {
+                "text": "2 l 50 ml"
+              },
+              "back": {
+                "text": "2 050 ml"
+              }
+            },
+            {
+              "front": {
+                "text": "Nửa lít"
+              },
+              "back": {
+                "text": "500 ml"
+              }
+            }
+          ],
+          "method": "1 l = 1 000 ml.",
+          "explanation": "3 l = 3 000 ml; 1 l 300 ml = 1 000 + 300 = 1 300 ml; 200 × 5 = 1 000 ml = 1 l; 2 l 50 ml = 2 000 + 50 = 2 050 ml; nửa lít = 1 000 : 2 = 500 ml."
+        },
+        {
+          "id": "l3k09-b4-07",
+          "type": "match_multi",
+          "prompt": "Nối mỗi lượng nước vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Ít hơn 1 l",
+              "emoji": "🥤"
+            },
+            {
+              "text": "Đúng 1 l",
+              "emoji": "🎯"
+            },
+            {
+              "text": "Nhiều hơn 1 l",
+              "emoji": "🪣"
+            }
+          ],
+          "items": [
+            {
+              "text": "2 chai, mỗi chai 500 ml",
+              "group": 1
+            },
+            {
+              "text": "3 cốc, mỗi cốc 300 ml",
+              "group": 0
+            },
+            {
+              "text": "2 chai, mỗi chai 600 ml",
+              "group": 2
+            },
+            {
+              "text": "999 ml",
+              "group": 0
+            },
+            {
+              "text": "8 cốc, mỗi cốc 125 ml",
+              "group": 1
+            },
+            {
+              "text": "1 l 1 ml",
+              "group": 2
+            }
+          ],
+          "method": "Tính từng ô ra mi-li-lít rồi so với 1 000 ml.",
+          "explanation": "500 × 2 = 1 000 ml → đúng 1 l. 300 × 3 = 900 ml → ít hơn. 600 × 2 = 1 200 ml → nhiều hơn. 999 ml → ít hơn. 125 × 8 = 1 000 ml → đúng 1 l. 1 l 1 ml = 1 001 ml → nhiều hơn."
+        },
+        {
+          "id": "l3k09-b4-08",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "Can 10 l đang có 6 l dầu. Cần đổ thêm [[4]] l nữa thì đầy can. Nếu dùng chai 2 l để đổ thì cần [[2]] chai.",
+          "choices": [
+            "4",
+            "2",
+            "16",
+            "3"
+          ],
+          "method": "Tìm phần còn thiếu, rồi xem phần đó bằng mấy chai 2 l.",
+          "explanation": "10 − 6 = 4 l. 4 : 2 = 2 chai. Bẫy: 16 là cộng 10 + 6; 3 là lấy 6 : 2 (số chai ứng với lượng dầu đã có)."
+        },
+        {
+          "id": "l3k09-b4-09",
+          "type": "pick_order",
+          "prompt": "Rót đều 12 l sữa vào 4 bình.\nChạm lần lượt các thẻ để ghép phép tính số lít sữa mỗi bình.",
+          "timeLimit": 45,
+          "items": [
+            "12 l",
+            ":",
+            "4",
+            "=",
+            "3 l"
+          ],
+          "distractors": [
+            "8 l",
+            "48 l"
+          ],
+          "method": "Chia đều thì dùng phép chia.",
+          "explanation": "12 : 4 = 3 l. Thẻ 8 l là lấy 12 − 4; thẻ 48 l là lấy 12 × 4."
+        },
+        {
+          "id": "l3k09-b4-10",
+          "type": "choice",
+          "prompt": "Lượng nước nào nhiều nhất?",
+          "options": [
+            {
+              "text": "1 l 100 ml"
+            },
+            {
+              "text": "1 080 ml"
+            },
+            {
+              "text": "1 l 8 ml"
+            },
+            {
+              "text": "1 099 ml"
+            }
+          ],
+          "answer": 0,
+          "method": "Đổi tất cả về mi-li-lít rồi so sánh.",
+          "explanation": "1 l 100 ml = 1 100 ml; 1 080 ml; 1 l 8 ml = 1 008 ml; 1 099 ml. Nhiều nhất là 1 100 ml.\nLưu ý: 1 099 ml có nhiều chữ số 9 nhưng vẫn ít hơn 1 100 ml đúng 1 ml; 1 l 8 ml dễ nhầm thành 1 080 ml hay 1 800 ml nhưng thật ra chỉ là 1 008 ml."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài toán đo lường nhiều bước",
+      "emoji": "🧠",
+      "description": "Cắt dây, chia đường, rót dầu — bé giải các bài đo lường nhiều bước thật tài nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k09-b5-01",
+          "type": "choice",
+          "prompt": "Sợi dây dài 3 m.\nCắt thành các đoạn dài 40 cm.\nCắt được nhiều nhất bao nhiêu đoạn, và thừa bao nhiêu?",
+          "options": [
+            {
+              "text": "7 đoạn, thừa 2 cm"
+            },
+            {
+              "text": "8 đoạn, không thừa"
+            },
+            {
+              "text": "7 đoạn, thừa 20 cm"
+            }
+          ],
+          "answer": 2,
+          "method": "Đổi 3 m ra xăng-ti-mét, rồi thử nhân 40 cm với số đoạn xem được nhiều nhất bao nhiêu đoạn.",
+          "explanation": "3 m = 300 cm. Thử: 40 × 7 = 280 cm (vẫn đủ dây), 40 × 8 = 320 cm (quá 300 cm). Vậy cắt được nhiều nhất 7 đoạn, thừa 300 − 280 = 20 cm.\nLưu ý: \"thừa 2 cm\" là tính 30 dm : 4 dm = 7 dư 2 nhưng quên số dư là 2 dm = 20 cm; \"8 đoạn\" cần 40 × 8 = 320 cm, dài hơn sợi dây."
+        },
+        {
+          "id": "l3k09-b5-02",
+          "type": "multi_choice",
+          "prompt": "Cửa hàng có các túi đường loại 200 g, 300 g và 500 g.\nChọn TẤT CẢ các cách lấy được đúng 1 kg đường.",
+          "timeLimit": 35,
+          "options": [
+            {
+              "text": "2 túi 500 g"
+            },
+            {
+              "text": "1 túi 500 g, 1 túi 300 g và 1 túi 200 g"
+            },
+            {
+              "text": "5 túi 200 g"
+            },
+            {
+              "text": "3 túi 300 g"
+            },
+            {
+              "text": "2 túi 300 g và 1 túi 200 g"
+            },
+            {
+              "text": "2 túi 200 g và 2 túi 300 g"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "method": "1 kg = 1 000 g; tính tổng khối lượng mỗi cách.",
+          "explanation": "500 × 2 = 1 000 g ✓; 500 + 300 + 200 = 1 000 g ✓; 200 × 5 = 1 000 g ✓; 200 × 2 + 300 × 2 = 400 + 600 = 1 000 g ✓.\nLưu ý: 300 × 3 = 900 g, còn thiếu 100 g; 300 × 2 + 200 = 800 g, còn thiếu 200 g."
+        },
+        {
+          "id": "l3k09-b5-03",
+          "type": "input",
+          "prompt": "Thùng có 18 l dầu.\nRót sang 4 can, mỗi can 3 l.\nSau đó đổ thêm vào thùng 5 l dầu.\nTrong thùng có bao nhiêu lít dầu?",
+          "answers": [
+            "11"
+          ],
+          "unit": "l",
+          "method": "Tính lượng dầu đã rót ra, trừ đi, rồi cộng phần đổ thêm.",
+          "explanation": "Rót ra: 3 × 4 = 12 l. Còn: 18 − 12 = 6 l. Đổ thêm 5 l: 6 + 5 = 11 l."
+        },
+        {
+          "id": "l3k09-b5-04",
+          "type": "input",
+          "prompt": "Nối hai đoạn dây dài 1 m 20 cm và 85 cm, chỗ nút buộc mất 5 cm.\nSợi dây sau khi nối dài bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "200"
+          ],
+          "unit": "cm",
+          "method": "Đổi ra xăng-ti-mét, cộng hai đoạn rồi trừ phần mất ở nút buộc.",
+          "explanation": "1 m 20 cm = 120 cm. 120 + 85 = 205 cm. Trừ phần nút buộc: 205 − 5 = 200 cm (tức 2 m). Bẫy: 210 cm là cộng thêm 5 cm thay vì trừ."
+        },
+        {
+          "id": "l3k09-b5-05",
+          "type": "choice",
+          "prompt": "Bao gạo nặng 30 kg.\nNgười ta lấy ra 3 lần, mỗi lần 4 kg.\nSố gạo còn lại chia đều vào 3 thùng. Mỗi thùng có bao nhiêu ki-lô-gam gạo?",
+          "options": [
+            {
+              "text": "18 kg"
+            },
+            {
+              "text": "6 kg"
+            },
+            {
+              "text": "10 kg"
+            },
+            {
+              "text": "12 kg"
+            }
+          ],
+          "answer": 1,
+          "method": "Bước 1: số gạo lấy ra. Bước 2: số gạo còn lại. Bước 3: chia đều cho 3 thùng.",
+          "explanation": "Lấy ra: 4 × 3 = 12 kg. Còn lại: 30 − 12 = 18 kg. Mỗi thùng: 18 : 3 = 6 kg.\nLưu ý: 18 kg là số gạo còn lại, chưa chia; 10 kg là lấy 30 : 3, quên phần đã lấy ra; 12 kg là số gạo lấy ra."
+        },
+        {
+          "id": "l3k09-b5-06",
+          "type": "order",
+          "prompt": "Xếp các quãng đường theo thứ tự từ ngắn đến dài.",
+          "timeLimit": 60,
+          "items": [
+            {
+              "text": "1 km bớt đi 600 m"
+            },
+            {
+              "text": "3 vòng sân, mỗi vòng 150 m"
+            },
+            {
+              "text": "2 lần, mỗi lần 240 m"
+            },
+            {
+              "text": "1 km giảm đi 2 lần"
+            },
+            {
+              "text": "6 đoạn, mỗi đoạn 85 m"
+            }
+          ],
+          "method": "Tính từng quãng đường ra mét (1 km = 1 000 m) rồi so sánh.",
+          "explanation": "1 000 − 600 = 400 m; 150 × 3 = 450 m; 240 × 2 = 480 m; 1 000 : 2 = 500 m; 85 × 6 = 510 m. Thứ tự: 400 < 450 < 480 < 500 < 510 (m)."
+        },
+        {
+          "id": "l3k09-b5-07",
+          "type": "match",
+          "prompt": "Nối mỗi ô ở bên trái với kết quả đúng ở bên phải.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Cắt 2 m dây thành các đoạn 25 cm"
+              },
+              "right": {
+                "text": "8 đoạn"
+              }
+            },
+            {
+              "left": {
+                "text": "Rót 3 l nước vào các cốc 500 ml"
+              },
+              "right": {
+                "text": "6 cốc"
+              }
+            },
+            {
+              "left": {
+                "text": "Chia 1 kg kẹo vào các túi 200 g"
+              },
+              "right": {
+                "text": "5 túi"
+              }
+            },
+            {
+              "left": {
+                "text": "Cắt 1 m 40 cm dây thành các đoạn 20 cm"
+              },
+              "right": {
+                "text": "7 đoạn"
+              }
+            }
+          ],
+          "method": "Đổi về cùng đơn vị nhỏ, rồi thử xem bao nhiêu phần nhỏ thì vừa đủ (dùng phép nhân để thử).",
+          "explanation": "2 m = 200 cm; 25 × 8 = 200 nên được 8 đoạn. 3 l = 3 000 ml; mỗi lít rót được 2 cốc 500 ml nên 3 l được 2 × 3 = 6 cốc. 1 kg = 1 000 g; 200 × 5 = 1 000 nên được 5 túi. 1 m 40 cm = 140 cm = 14 dm, mỗi đoạn 20 cm = 2 dm; 14 : 2 = 7 đoạn."
+        },
+        {
+          "id": "l3k09-b5-08",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 50,
+          "sentence": "Mảnh vườn hình chữ nhật dài 8 m, rộng 5 m. Chu vi mảnh vườn là [[26]] m. Rào xung quanh vườn nhưng chừa 2 m làm cửa thì cần [[24]] m hàng rào.",
+          "choices": [
+            "26",
+            "24",
+            "40",
+            "13"
+          ],
+          "method": "Chu vi hình chữ nhật = (dài + rộng) × 2; rồi bớt phần làm cửa.",
+          "explanation": "Chu vi: (8 + 5) × 2 = 26 m. Hàng rào: 26 − 2 = 24 m. Bẫy: 40 là lấy 8 × 5, nhân dài với rộng — đó không phải chu vi; 13 là 8 + 5, quên nhân 2."
+        },
+        {
+          "id": "l3k09-b5-09",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào khối lượng đúng.",
+          "timeLimit": 60,
+          "pairs": [
+            {
+              "front": {
+                "text": "3 túi, mỗi túi 400 g"
+              },
+              "back": {
+                "text": "1 kg 200 g"
+              }
+            },
+            {
+              "front": {
+                "text": "2 kg bớt đi 3 lần, mỗi lần 500 g"
+              },
+              "back": {
+                "text": "500 g"
+              }
+            },
+            {
+              "front": {
+                "text": "5 hộp, mỗi hộp 200 g"
+              },
+              "back": {
+                "text": "1 kg"
+              }
+            },
+            {
+              "front": {
+                "text": "1 kg và 2 túi, mỗi túi 150 g"
+              },
+              "back": {
+                "text": "1 kg 300 g"
+              }
+            },
+            {
+              "front": {
+                "text": "4 gói, mỗi gói 250 g, và thêm 500 g"
+              },
+              "back": {
+                "text": "1 kg 500 g"
+              }
+            }
+          ],
+          "method": "Tính ra gam rồi đổi: 1 000 g = 1 kg.",
+          "explanation": "400 × 3 = 1 200 g = 1 kg 200 g. 2 000 − 500 × 3 = 2 000 − 1 500 = 500 g. 200 × 5 = 1 000 g = 1 kg. 1 000 + 150 × 2 = 1 300 g = 1 kg 300 g. 250 × 4 + 500 = 1 500 g = 1 kg 500 g."
+        },
+        {
+          "id": "l3k09-b5-10",
+          "type": "choice",
+          "prompt": "Bể có 50 l nước.\nMỗi ngày dùng hết 8 l, nhưng cũng được bơm thêm 3 l.\nSau 4 ngày, bể còn bao nhiêu lít nước?",
+          "options": [
+            {
+              "text": "18 l"
+            },
+            {
+              "text": "45 l"
+            },
+            {
+              "text": "62 l"
+            },
+            {
+              "text": "30 l"
+            }
+          ],
+          "answer": 3,
+          "method": "Mỗi ngày bể thực sự bớt đi bao nhiêu lít? Rồi nhân với 4 ngày.",
+          "explanation": "Mỗi ngày bể bớt 8 − 3 = 5 l. 4 ngày bớt 5 × 4 = 20 l. Còn: 50 − 20 = 30 l.\nLưu ý: 18 l là quên phần bơm thêm (50 − 32); 45 l là chỉ tính 1 ngày; 62 l là chỉ cộng phần bơm thêm (50 + 12) mà quên trừ phần đã dùng."
+        }
+      ]
+    }
+  ]
+}

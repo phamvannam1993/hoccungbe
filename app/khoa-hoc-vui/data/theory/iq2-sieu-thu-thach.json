@@ -1,0 +1,162 @@
+{
+  "bai-1": {
+    "concept": "Quy luật là cách các số nối tiếp nhau. Bé tìm khoảng cách giữa hai số liền nhau: có thể đều nhau, tăng dần, hoặc xen kẽ hai bước lặp lại.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo: 2, 3, 5, 8, 12, ?",
+        "visual": {
+          "emoji": "2 ➡️ 3 ➡️ 5 ➡️ 8 ➡️ 12 ➡️ ❓"
+        },
+        "answer": "Khoảng cách: +1, +2, +3, +4, vậy tiếp theo là +5. Số tiếp theo: 12 + 5 = 17."
+      },
+      {
+        "prompt": "Dãy số theo quy luật \"cộng 3, rồi bớt 1\" lặp lại:\n4, 7, 6, 9, 8, ?",
+        "answer": "4 + 3 = 7, 7 − 1 = 6, 6 + 3 = 9, 9 − 1 = 8. Bước tiếp theo là cộng 3: 8 + 3 = 11."
+      }
+    ],
+    "steps": [
+      "Tìm khoảng cách giữa từng cặp số liền nhau.",
+      "Xem khoảng cách đều, tăng dần hay xen kẽ.",
+      "Áp dụng quy luật để tìm số tiếp theo.",
+      "Kiểm tra quy luật đúng với cả dãy."
+    ],
+    "tips": [
+      "Khoảng cách tăng dần thì bước sau phải tăng tiếp, đừng giữ nguyên!",
+      "Dãy xen kẽ: đánh dấu bước nào cộng, bước nào bớt."
+    ]
+  },
+  "bai-2": {
+    "concept": "Bài logic có nhiều điều kiện: bé dùng từng điều kiện để loại trừ. Kẻ bảng, ô không thể thì đánh ✖, ô chắc chắn thì đánh ✔. Mỗi hàng, mỗi cột chỉ có một ✔.",
+    "examples": [
+      {
+        "prompt": "Na, Bi, Tú mỗi bạn ăn 1 quả khác nhau: táo, cam, chuối.\n• Na không ăn táo, cũng không ăn cam.\n• Bi không ăn táo.\nBi ăn quả gì?",
+        "visual": {
+          "grid": [
+            [
+              "",
+              "Táo",
+              "Cam",
+              "Chuối"
+            ],
+            [
+              "Na",
+              "✖",
+              "✖",
+              ""
+            ],
+            [
+              "Bi",
+              "✖",
+              "?",
+              ""
+            ],
+            [
+              "Tú",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        "answer": "Na không ăn táo, cam → Na ăn chuối. Bi không ăn táo, chuối đã của Na → ô ? là ✔: Bi ăn cam. Còn lại Tú ăn táo."
+      },
+      {
+        "prompt": "Số bí mật lớn hơn 10 và bé hơn 20, có trong bảng nhân 2.\nTổng hai chữ số của nó bằng 7. Đó là số nào?",
+        "answer": "Các số từ 11 đến 19 có trong bảng nhân 2: 12, 14, 16, 18. Chỉ có 16 có 1 + 6 = 7. Số bí mật là 16."
+      }
+    ],
+    "steps": [
+      "Kẻ bảng: tên các bạn một bên, đồ vật một bên.",
+      "Đánh ✖ theo từng điều kiện \"không\".",
+      "Tìm hàng chỉ còn một ô, đánh ✔ vào đó.",
+      "Gạch ô ✔ đó khỏi các bạn khác, lặp lại.",
+      "Kiểm tra đáp án với mọi điều kiện."
+    ],
+    "tips": [
+      "Mỗi điều kiện là một manh mối, đừng bỏ sót cái nào!",
+      "Câu đố \"chỉ một câu đúng\": thử lần lượt từng trường hợp rồi đếm số câu đúng."
+    ]
+  },
+  "bai-3": {
+    "concept": "Đếm hình phải đếm từ hình nhỏ đến hình lớn: hình 1 phần, hình ghép 2 phần, rồi hình to nhất. Độ dài đường gấp khúc bằng tổng độ dài các đoạn, nhớ đổi về cùng đơn vị.",
+    "examples": [
+      {
+        "prompt": "Một băng giấy chia thành 4 ô vuông bằng nhau xếp thành một hàng.\nCó tất cả bao nhiêu hình chữ nhật (kể cả hình vuông)?",
+        "visual": {
+          "emoji": "⬜⬜⬜⬜"
+        },
+        "answer": "Hình 1 ô: 4. Hình 2 ô liền nhau: 3. Hình 3 ô: 2. Hình 4 ô: 1. Tất cả: 4 + 3 + 2 + 1 = 10 hình."
+      },
+      {
+        "prompt": "Đường gấp khúc gồm 3 đoạn: 1 dm, 4 cm và 6 cm.\nĐường gấp khúc dài bao nhiêu xăng-ti-mét?",
+        "answer": "1 dm = 10 cm. Độ dài: 10 + 4 + 6 = 20 cm (bằng 2 dm)."
+      }
+    ],
+    "steps": [
+      "Đánh số từng phần nhỏ trong hình.",
+      "Đếm hình 1 phần, rồi hình ghép 2 phần, 3 phần…",
+      "Đếm thêm hình to nhất bao cả hình.",
+      "Đổi đơn vị trước khi cộng độ dài."
+    ],
+    "tips": [
+      "Đếm từ bé đến to, hình lớn đừng bỏ qua!",
+      "Thấy dm lẫn cm: đổi 1 dm = 10 cm rồi mới cộng."
+    ]
+  },
+  "bai-4": {
+    "concept": "Bài toán có lời văn nhiều bước: bé tóm tắt đề, đổi đơn vị nếu cần, rồi tính lần lượt từng bước. Khi đề hỏi \"lúc đầu\", bé làm ngược lại từ cuối: thêm thì trừ, bớt thì cộng.",
+    "examples": [
+      {
+        "prompt": "Bé có một số kẹo. Bé cho bạn 5 cái, rồi được mẹ cho 7 cái thì có 20 cái.\nLúc đầu bé có bao nhiêu cái kẹo?",
+        "visual": {
+          "emoji": "❓ ➖5 ➕7 = 20 🍬"
+        },
+        "answer": "Làm ngược: trước khi mẹ cho: 20 − 7 = 13 cái. Trước khi cho bạn: 13 + 5 = 18 cái. Lúc đầu bé có 18 cái kẹo."
+      },
+      {
+        "prompt": "Bi nhiều hơn Tú 10 viên bi. Bi cho Tú 3 viên.\nBây giờ Bi nhiều hơn Tú mấy viên?",
+        "answer": "Bi bớt 3 viên: còn hơn 10 − 3 = 7 viên. Tú thêm 3 viên: Bi còn hơn 7 − 3 = 4 viên."
+      }
+    ],
+    "steps": [
+      "Tóm tắt đề: ai có bao nhiêu, ai hơn ai.",
+      "Đổi các số đo về cùng đơn vị.",
+      "Tính lần lượt từng bước theo thứ tự.",
+      "Làm ngược từ cuối nếu đề hỏi lúc đầu.",
+      "Thử lại kết quả với đề bài."
+    ],
+    "tips": [
+      "Làm ngược thì đổi dấu: thêm thành trừ, bớt thành cộng.",
+      "Cho bạn 2 viên: mình bớt 2, bạn thêm 2, khoảng cách bớt 2 + 2 = 4 viên!"
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài tổng kết ôn lại nhiều kiến thức: thứ trong tuần, tiền, đồng hồ, bảng nhân chia 2 và 5. Một tuần có 7 ngày, cứ 7 ngày lại về đúng thứ cũ. Một ngày có 24 giờ, qua 12 giờ đêm là sang ngày hôm sau.",
+    "examples": [
+      {
+        "prompt": "Hôm nay là thứ Sáu.\n10 ngày nữa là thứ mấy?",
+        "answer": "7 ngày nữa lại là thứ Sáu. Thêm 3 ngày: thứ Bảy, Chủ nhật, thứ Hai. Vậy 10 ngày nữa là thứ Hai."
+      },
+      {
+        "prompt": "Bé đi ngủ lúc 8 giờ tối, thức dậy lúc 6 giờ sáng hôm sau.\nBé ngủ bao nhiêu giờ?",
+        "visual": {
+          "clock": [
+            "8:00",
+            "6:00"
+          ]
+        },
+        "answer": "Từ 8 giờ tối đến 12 giờ đêm: 4 giờ. Từ 12 giờ đêm đến 6 giờ sáng: 6 giờ. Tất cả: 4 + 6 = 10 giờ."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ, xem câu hỏi thuộc phần kiến thức nào.",
+      "Tách bài thành từng bước nhỏ.",
+      "Tính từng bước bằng bảng nhân chia 2, 5 hoặc cộng trừ.",
+      "Kiểm tra lại đáp án và đơn vị."
+    ],
+    "tips": [
+      "Đếm thứ: cứ bỏ bớt 7 ngày, rồi chỉ đếm số ngày còn lại.",
+      "Ngủ qua đêm: tách hai đoạn trước và sau 12 giờ đêm."
+    ]
+  }
+}

@@ -1,0 +1,1222 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Bài toán nhiều hơn, ít hơn nhiều bước",
+      "emoji": "🪜",
+      "description": "Giải toán từng bước như leo cầu thang, bé đừng bỏ sót bậc nào nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k03-b1-01",
+          "type": "choice",
+          "prompt": "Lan có 35 nhãn vở. Hoa có nhiều hơn Lan 18 nhãn vở.\nHỏi cả hai bạn có bao nhiêu nhãn vở?",
+          "options": [
+            {
+              "text": "53"
+            },
+            {
+              "text": "52"
+            },
+            {
+              "text": "70"
+            },
+            {
+              "text": "88"
+            }
+          ],
+          "answer": 3,
+          "method": "Bước 1: tìm số nhãn vở của Hoa. Bước 2: tìm số nhãn vở của cả hai bạn.",
+          "explanation": "Hoa có: 35 + 18 = 53 (nhãn vở). Cả hai bạn có: 35 + 53 = 88 (nhãn vở).\nLưu ý: 53 chỉ là số nhãn vở của Hoa (mới làm một bước); 52 là hiểu nhầm \"nhiều hơn\" thành phép trừ (35 − 18 = 17, rồi 35 + 17 = 52); 70 là quên phần hơn 18 (35 + 35)."
+        },
+        {
+          "id": "l3k03-b1-02",
+          "type": "input",
+          "prompt": "Thùng thứ nhất có 125 l dầu. Thùng thứ hai ít hơn thùng thứ nhất 38 l.\nThùng thứ ba nhiều hơn thùng thứ hai 20 l.\nThùng thứ ba có bao nhiêu lít dầu?",
+          "answers": [
+            "107"
+          ],
+          "unit": "l",
+          "method": "Tìm thùng thứ hai trước, rồi mới tìm thùng thứ ba.",
+          "explanation": "Thùng thứ hai: 125 − 38 = 87 (l). Thùng thứ ba: 87 + 20 = 107 (l)."
+        },
+        {
+          "id": "l3k03-b1-03",
+          "type": "choice",
+          "prompt": "Buổi sáng cửa hàng bán 240 kg gạo. Buổi chiều bán ít hơn buổi sáng 65 kg.\nCả ngày cửa hàng bán bao nhiêu ki-lô-gam gạo?",
+          "options": [
+            {
+              "text": "175 kg"
+            },
+            {
+              "text": "415 kg"
+            },
+            {
+              "text": "545 kg"
+            },
+            {
+              "text": "305 kg"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm số gạo bán buổi chiều trước, rồi cộng với buổi sáng.",
+          "explanation": "Buổi chiều bán: 240 − 65 = 175 (kg). Cả ngày bán: 240 + 175 = 415 (kg).\nLưu ý: 175 kg chỉ là số gạo buổi chiều; 305 kg là hiểu nhầm \"ít hơn\" thành cộng (240 + 65); 545 kg là lấy 305 + 240 sau khi đã nhầm."
+        },
+        {
+          "id": "l3k03-b1-04",
+          "type": "input",
+          "prompt": "Mai có 50 000 đồng. Mai mua bút hết 12 000 đồng, mua vở hết nhiều hơn mua bút 6 000 đồng.\nMai còn lại bao nhiêu tiền?",
+          "answers": [
+            "20000",
+            "20.000"
+          ],
+          "unit": "đồng",
+          "method": "Tìm tiền mua vở, rồi tổng tiền đã tiêu, cuối cùng là số tiền còn lại.",
+          "explanation": "Tiền mua vở: 12 000 + 6 000 = 18 000 (đồng). Đã tiêu: 12 000 + 18 000 = 30 000 (đồng). Còn lại: 50 000 − 30 000 = 20 000 (đồng)."
+        },
+        {
+          "id": "l3k03-b1-05",
+          "type": "choice",
+          "prompt": "Anh cao 135 cm. Em thấp hơn anh 28 cm. Bố cao hơn em 65 cm.\nBố cao bao nhiêu xăng-ti-mét?",
+          "options": [
+            {
+              "text": "107 cm"
+            },
+            {
+              "text": "228 cm"
+            },
+            {
+              "text": "172 cm"
+            },
+            {
+              "text": "42 cm"
+            }
+          ],
+          "answer": 2,
+          "method": "Bố được so sánh với em, không phải với anh. Hãy tìm chiều cao của em trước.",
+          "explanation": "Em cao: 135 − 28 = 107 (cm). Bố cao: 107 + 65 = 172 (cm).\nLưu ý: 107 cm là chiều cao của em; 228 cm là cộng hết các số (135 + 28 + 65); 42 cm là trừ hết các số (135 − 28 − 65)."
+        },
+        {
+          "id": "l3k03-b1-06",
+          "type": "fill_blank",
+          "prompt": "Tổ Một trồng được 46 cây. Tổ Hai trồng nhiều hơn tổ Một 15 cây. Tổ Ba trồng ít hơn tổ Hai 9 cây.\nĐiền số thích hợp.",
+          "sentence": "Tổ Hai trồng [[61]] cây, tổ Ba trồng [[52]] cây, cả ba tổ trồng [[159]] cây.",
+          "choices": [
+            "61",
+            "52",
+            "159",
+            "31",
+            "70"
+          ],
+          "timeLimit": 55,
+          "method": "Tổ Ba so sánh với tổ Hai, nên phải tìm tổ Hai trước.",
+          "explanation": "Tổ Hai: 46 + 15 = 61 (cây). Tổ Ba: 61 − 9 = 52 (cây). Cả ba tổ: 46 + 61 + 52 = 159 (cây).\nLưu ý: 31 là trừ nhầm 46 − 15; 70 là cộng nhầm 61 + 9."
+        },
+        {
+          "id": "l3k03-b1-07",
+          "type": "order",
+          "prompt": "Nam có 42 viên bi. Bình có nhiều hơn Nam 9 viên. Hùng có ít hơn Bình 15 viên. Tú có nhiều hơn Hùng 20 viên.\nXếp các bạn theo số bi từ ít đến nhiều.",
+          "items": [
+            {
+              "text": "Hùng"
+            },
+            {
+              "text": "Nam"
+            },
+            {
+              "text": "Bình"
+            },
+            {
+              "text": "Tú"
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Tính số bi của từng bạn theo đúng thứ tự đề cho: Bình, rồi Hùng, rồi Tú.",
+          "explanation": "Bình: 42 + 9 = 51 viên. Hùng: 51 − 15 = 36 viên. Tú: 36 + 20 = 56 viên. Từ ít đến nhiều: Hùng (36), Nam (42), Bình (51), Tú (56)."
+        },
+        {
+          "id": "l3k03-b1-08",
+          "type": "match",
+          "prompt": "Nối mỗi câu với số đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Số nhiều hơn 45 là 18 đơn vị"
+              },
+              "right": {
+                "text": "63"
+              }
+            },
+            {
+              "left": {
+                "text": "Số ít hơn 90 là 36 đơn vị"
+              },
+              "right": {
+                "text": "54"
+              }
+            },
+            {
+              "left": {
+                "text": "Lấy 25 thêm 25 rồi bớt 8"
+              },
+              "right": {
+                "text": "42"
+              }
+            },
+            {
+              "left": {
+                "text": "Lấy 100 bớt 45 rồi thêm 20"
+              },
+              "right": {
+                "text": "75"
+              }
+            }
+          ],
+          "timeLimit": 55,
+          "method": "\"Nhiều hơn\" thì cộng, \"ít hơn\" thì trừ; câu có hai bước thì làm lần lượt từ trái sang phải.",
+          "explanation": "45 + 18 = 63; 90 − 36 = 54; 25 + 25 − 8 = 42; 100 − 45 + 20 = 75."
+        },
+        {
+          "id": "l3k03-b1-09",
+          "type": "pick_order",
+          "prompt": "Cửa hàng có 96 quả trứng. Buổi sáng bán 25 quả, buổi chiều bán nhiều hơn buổi sáng 13 quả.\nChạm lần lượt: số trứng bán buổi chiều, số trứng bán cả ngày, số trứng còn lại.",
+          "items": [
+            "38",
+            "63",
+            "33"
+          ],
+          "distractors": [
+            "12",
+            "58"
+          ],
+          "timeLimit": 50,
+          "method": "Làm từng bước: buổi chiều → cả ngày → còn lại.",
+          "explanation": "Buổi chiều bán: 25 + 13 = 38 (quả). Cả ngày bán: 25 + 38 = 63 (quả). Còn lại: 96 − 63 = 33 (quả).\nLưu ý: 12 là trừ nhầm 25 − 13; 58 là chỉ trừ số trứng buổi chiều (96 − 38)."
+        },
+        {
+          "id": "l3k03-b1-10",
+          "type": "multi_choice",
+          "prompt": "Bao A nặng 45 kg. Bao B nặng hơn bao A 12 kg. Bao C nhẹ hơn bao B 20 kg.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Bao B nặng 57 kg"
+            },
+            {
+              "text": "Bao C nặng 37 kg"
+            },
+            {
+              "text": "Bao C nặng hơn bao A"
+            },
+            {
+              "text": "Bao A nặng hơn bao C 8 kg"
+            },
+            {
+              "text": "Cả ba bao nặng 149 kg"
+            },
+            {
+              "text": "Bao B nặng nhất"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3,
+            5
+          ],
+          "method": "Tính cân nặng từng bao trước rồi kiểm tra từng câu.",
+          "explanation": "Bao B: 45 + 12 = 57 kg. Bao C: 57 − 20 = 37 kg. Bao A hơn bao C: 45 − 37 = 8 kg. Bao B nặng nhất (57 kg).\nLưu ý: Bao C (37 kg) nhẹ hơn bao A (45 kg) nên câu \"Bao C nặng hơn bao A\" sai; cả ba bao nặng 45 + 57 + 37 = 139 kg chứ không phải 149 kg."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Bài toán gấp lên và giảm đi một số lần",
+      "emoji": "🔁",
+      "description": "Gấp lên là nhân, giảm đi là chia, bé nhớ chưa nào?",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k03-b2-01",
+          "type": "choice",
+          "prompt": "Mẹ có 8 quả cam. Số quýt gấp 4 lần số cam.\nMẹ có tất cả bao nhiêu quả cam và quýt?",
+          "options": [
+            {
+              "text": "32 quả"
+            },
+            {
+              "text": "12 quả"
+            },
+            {
+              "text": "40 quả"
+            },
+            {
+              "text": "36 quả"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm số quýt trước (gấp lên 4 lần là nhân 4), rồi cộng với số cam.",
+          "explanation": "Số quýt: 8 × 4 = 32 (quả). Tất cả: 8 + 32 = 40 (quả).\nLưu ý: 32 quả chỉ là số quýt; 12 quả là nhầm \"gấp 4 lần\" thành \"thêm 4\" (8 + 4); 36 quả là cộng nhầm 32 + 4."
+        },
+        {
+          "id": "l3k03-b2-02",
+          "type": "input",
+          "prompt": "Đoạn dây đỏ dài 72 cm. Đoạn dây xanh bằng đoạn dây đỏ giảm đi 4 lần.\nĐoạn dây vàng dài gấp 3 lần đoạn dây xanh.\nĐoạn dây vàng dài bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "54"
+          ],
+          "unit": "cm",
+          "method": "Giảm đi 4 lần là chia 4, gấp lên 3 lần là nhân 3.",
+          "explanation": "Dây xanh: 72 : 4 = 18 (cm). Dây vàng: 18 × 3 = 54 (cm)."
+        },
+        {
+          "id": "l3k03-b2-03",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào kết quả đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "6 gấp lên 7 lần"
+              },
+              "back": {
+                "text": "42"
+              }
+            },
+            {
+              "front": {
+                "text": "48 giảm đi 6 lần"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "9 gấp lên 5 lần"
+              },
+              "back": {
+                "text": "45"
+              }
+            },
+            {
+              "front": {
+                "text": "63 giảm đi 7 lần"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "36 giảm đi 4 lần rồi gấp lên 3 lần"
+              },
+              "back": {
+                "text": "27"
+              }
+            }
+          ],
+          "timeLimit": 55,
+          "method": "Gấp lên một số lần thì nhân, giảm đi một số lần thì chia.",
+          "explanation": "6 × 7 = 42; 48 : 6 = 8; 9 × 5 = 45; 63 : 7 = 9; 36 : 4 = 9, rồi 9 × 3 = 27."
+        },
+        {
+          "id": "l3k03-b2-04",
+          "type": "choice",
+          "prompt": "Năm nay con 7 tuổi, tuổi bố gấp 5 lần tuổi con.\nHỏi bố hơn con bao nhiêu tuổi?",
+          "options": [
+            {
+              "text": "35 tuổi"
+            },
+            {
+              "text": "42 tuổi"
+            },
+            {
+              "text": "28 tuổi"
+            },
+            {
+              "text": "12 tuổi"
+            }
+          ],
+          "answer": 2,
+          "method": "Bước 1: tìm tuổi bố. Bước 2: đọc kỹ câu hỏi là hỏi \"hơn bao nhiêu\".",
+          "explanation": "Tuổi bố: 7 × 5 = 35 (tuổi). Bố hơn con: 35 − 7 = 28 (tuổi).\nLưu ý: 35 tuổi là tuổi bố, chưa trả lời câu hỏi; 42 tuổi là cộng tuổi hai bố con; 12 tuổi là hiểu nhầm \"gấp 5 lần\" thành \"thêm 5\" (7 + 5)."
+        },
+        {
+          "id": "l3k03-b2-05",
+          "type": "input",
+          "prompt": "Bao gạo nặng 84 kg. Bao ngô có cân nặng bằng cân nặng bao gạo giảm đi 3 lần.\nCả hai bao nặng bao nhiêu ki-lô-gam?",
+          "answers": [
+            "112"
+          ],
+          "unit": "kg",
+          "method": "Giảm đi 3 lần là chia 3. Tìm bao ngô trước rồi cộng với bao gạo.",
+          "explanation": "Bao ngô nặng: 84 : 3 = 28 (kg). Cả hai bao: 84 + 28 = 112 (kg)."
+        },
+        {
+          "id": "l3k03-b2-06",
+          "type": "fill_blank",
+          "prompt": "Lan có 6 bông hoa. Mai có số hoa gấp 3 lần của Lan. Hồng có số hoa bằng số hoa của Mai giảm đi 2 lần.\nĐiền số thích hợp.",
+          "sentence": "Mai có [[18]] bông hoa, Hồng có [[9]] bông hoa.",
+          "choices": [
+            "18",
+            "9",
+            "3",
+            "36"
+          ],
+          "timeLimit": 45,
+          "method": "Hồng so sánh với Mai, không phải với Lan. Tìm số hoa của Mai trước.",
+          "explanation": "Mai: 6 × 3 = 18 (bông). Hồng: 18 : 2 = 9 (bông).\nLưu ý: 3 là lấy nhầm số hoa của Lan chia 2; 36 là nhầm \"giảm đi 2 lần\" thành \"gấp lên 2 lần\"."
+        },
+        {
+          "id": "l3k03-b2-07",
+          "type": "match",
+          "prompt": "Nối mỗi câu với kết quả đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Gấp 7 kg lên 4 lần"
+              },
+              "right": {
+                "text": "28 kg"
+              }
+            },
+            {
+              "left": {
+                "text": "Giảm 42 l đi 6 lần"
+              },
+              "right": {
+                "text": "7 l"
+              }
+            },
+            {
+              "left": {
+                "text": "Gấp 15 cm lên 3 lần"
+              },
+              "right": {
+                "text": "45 cm"
+              }
+            },
+            {
+              "left": {
+                "text": "Giảm 80 m đi 4 lần"
+              },
+              "right": {
+                "text": "20 m"
+              }
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Gấp lên thì nhân, giảm đi thì chia. Kết quả giữ nguyên đơn vị.",
+          "explanation": "7 × 4 = 28 (kg); 42 : 6 = 7 (l); 15 × 3 = 45 (cm); 80 : 4 = 20 (m)."
+        },
+        {
+          "id": "l3k03-b2-08",
+          "type": "order",
+          "prompt": "Thùng A có 12 l nước. Thùng B có số nước gấp 3 lần thùng A. Thùng C có số nước bằng thùng B giảm đi 4 lần. Thùng D có số nước gấp đôi thùng C.\nXếp các thùng theo số nước từ ít đến nhiều.",
+          "items": [
+            {
+              "text": "Thùng C"
+            },
+            {
+              "text": "Thùng A"
+            },
+            {
+              "text": "Thùng D"
+            },
+            {
+              "text": "Thùng B"
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Tính lần lượt theo thứ tự đề cho: B, rồi C, rồi D.",
+          "explanation": "Thùng B: 12 × 3 = 36 (l). Thùng C: 36 : 4 = 9 (l). Thùng D: 9 × 2 = 18 (l). Từ ít đến nhiều: C (9 l), A (12 l), D (18 l), B (36 l)."
+        },
+        {
+          "id": "l3k03-b2-09",
+          "type": "multi_choice",
+          "prompt": "Nhà Lan nuôi 9 con gà. Số vịt gấp 4 lần số gà. Số ngỗng bằng số vịt giảm đi 6 lần.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Có 36 con vịt"
+            },
+            {
+              "text": "Có 13 con vịt"
+            },
+            {
+              "text": "Có 6 con ngỗng"
+            },
+            {
+              "text": "Số vịt nhiều hơn số gà 27 con"
+            },
+            {
+              "text": "Có tất cả 50 con"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "timeLimit": 55,
+          "method": "Tính số vịt, số ngỗng trước rồi kiểm tra từng câu.",
+          "explanation": "Vịt: 9 × 4 = 36 (con). Ngỗng: 36 : 6 = 6 (con). Vịt hơn gà: 36 − 9 = 27 (con).\nLưu ý: 13 con vịt là nhầm \"gấp 4 lần\" thành \"thêm 4\"; tất cả có 9 + 36 + 6 = 51 con chứ không phải 50 con."
+        },
+        {
+          "id": "l3k03-b2-10",
+          "type": "choice",
+          "prompt": "Một số gấp lên 6 lần thì được 54.\nHỏi số đó giảm đi 3 lần thì được bao nhiêu?",
+          "options": [
+            {
+              "text": "18"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "324"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm số ban đầu trước (lấy 54 chia 6), rồi mới giảm đi 3 lần.",
+          "explanation": "Số đó là: 54 : 6 = 9. Giảm đi 3 lần: 9 : 3 = 3.\nLưu ý: 18 là lấy nhầm 54 : 3; 9 chỉ là số ban đầu, chưa giảm; 324 là nhân nhầm 54 × 6."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Bài toán chia đều và chia có dư đơn giản",
+      "emoji": "🍪",
+      "description": "Chia bánh cho thật đều, còn dư bao nhiêu thì tính sao đây?",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k03-b3-01",
+          "type": "choice",
+          "prompt": "Có 30 học sinh đi thuyền, mỗi thuyền chở được 4 bạn.\nCần ít nhất bao nhiêu thuyền để chở hết các bạn?",
+          "options": [
+            {
+              "text": "7 thuyền"
+            },
+            {
+              "text": "8 thuyền"
+            },
+            {
+              "text": "6 thuyền"
+            },
+            {
+              "text": "9 thuyền"
+            }
+          ],
+          "answer": 1,
+          "method": "Chia 30 cho 4. Nếu còn dư, các bạn còn lại vẫn cần thêm một thuyền.",
+          "explanation": "30 : 4 = 7 (dư 2). 7 thuyền chở được 28 bạn, còn 2 bạn cần thêm 1 thuyền nữa. Vậy cần ít nhất 7 + 1 = 8 thuyền.\nLưu ý: 7 thuyền là quên 2 bạn còn dư; 6 thuyền chỉ chở được 24 bạn; 9 thuyền thì thừa, không phải ít nhất."
+        },
+        {
+          "id": "l3k03-b3-02",
+          "type": "input",
+          "prompt": "Có 47 cái bánh xếp vào các hộp, mỗi hộp 6 cái.\nXếp được nhiều hộp nhất thì còn thừa bao nhiêu cái bánh?",
+          "answers": [
+            "5"
+          ],
+          "unit": "cái",
+          "method": "Tìm số lớn nhất trong bảng nhân 6 không vượt quá 47.",
+          "explanation": "47 : 6 = 7 (dư 5), vì 6 × 7 = 42 và 47 − 42 = 5. Xếp được 7 hộp, còn thừa 5 cái bánh."
+        },
+        {
+          "id": "l3k03-b3-03",
+          "type": "match_multi",
+          "prompt": "Nối mỗi phép chia vào đúng nhóm.",
+          "groups": [
+            {
+              "text": "Phép chia hết",
+              "emoji": "✅"
+            },
+            {
+              "text": "Phép chia có dư",
+              "emoji": "🍬"
+            }
+          ],
+          "items": [
+            {
+              "text": "35 : 5",
+              "group": 0
+            },
+            {
+              "text": "38 : 5",
+              "group": 1
+            },
+            {
+              "text": "42 : 6",
+              "group": 0
+            },
+            {
+              "text": "50 : 7",
+              "group": 1
+            },
+            {
+              "text": "64 : 8",
+              "group": 0
+            },
+            {
+              "text": "29 : 3",
+              "group": 1
+            }
+          ],
+          "timeLimit": 55,
+          "method": "Số bị chia có nằm trong bảng nhân của số chia không?",
+          "explanation": "35 : 5 = 7, 42 : 6 = 7, 64 : 8 = 8 là phép chia hết. 38 : 5 = 7 (dư 3), 50 : 7 = 7 (dư 1), 29 : 3 = 9 (dư 2) là phép chia có dư."
+        },
+        {
+          "id": "l3k03-b3-04",
+          "type": "input",
+          "prompt": "Có 58 quyển vở chia đều cho 7 bạn.\nMỗi bạn được nhiều nhất bao nhiêu quyển vở?",
+          "answers": [
+            "8"
+          ],
+          "unit": "quyển",
+          "method": "Tìm số lớn nhất trong bảng nhân 7 không vượt quá 58.",
+          "explanation": "58 : 7 = 8 (dư 2), vì 7 × 8 = 56 và 58 − 56 = 2. Mỗi bạn được 8 quyển, còn thừa 2 quyển."
+        },
+        {
+          "id": "l3k03-b3-05",
+          "type": "choice",
+          "prompt": "May mỗi bộ quần áo cần 3 m vải.\nCó 50 m vải thì may được nhiều nhất bao nhiêu bộ?",
+          "options": [
+            {
+              "text": "17 bộ"
+            },
+            {
+              "text": "16 bộ"
+            },
+            {
+              "text": "15 bộ"
+            },
+            {
+              "text": "18 bộ"
+            }
+          ],
+          "answer": 1,
+          "method": "Chia 50 cho 3. Phần vải dư có đủ may thêm một bộ không?",
+          "explanation": "50 : 3 = 16 (dư 2). May được 16 bộ, còn thừa 2 m vải, không đủ may thêm bộ nữa.\nLưu ý: 17 bộ là bẫy \"thêm 1\" như bài chở thuyền, nhưng 2 m vải không may được một bộ; 15 bộ chỉ dùng 45 m, vẫn còn đủ may thêm; 18 bộ cần tới 54 m."
+        },
+        {
+          "id": "l3k03-b3-06",
+          "type": "fill_blank",
+          "prompt": "Chia đều 45 cái kẹo cho 6 bạn.\nĐiền số thích hợp.",
+          "sentence": "Mỗi bạn được [[7]] cái kẹo, còn thừa [[3]] cái kẹo.",
+          "choices": [
+            "7",
+            "3",
+            "8"
+          ],
+          "timeLimit": 45,
+          "method": "Tìm số lớn nhất trong bảng nhân 6 không vượt quá 45.",
+          "explanation": "6 × 7 = 42 ≤ 45, 6 × 8 = 48 > 45. Nên 45 : 6 = 7 (dư 3).\nLưu ý: 8 là bẫy: 6 × 8 = 48 vượt quá 45 kẹo."
+        },
+        {
+          "id": "l3k03-b3-07",
+          "type": "match",
+          "prompt": "Nối mỗi phép chia với kết quả đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "29 : 4"
+              },
+              "right": {
+                "text": "7 (dư 1)"
+              }
+            },
+            {
+              "left": {
+                "text": "33 : 5"
+              },
+              "right": {
+                "text": "6 (dư 3)"
+              }
+            },
+            {
+              "left": {
+                "text": "52 : 6"
+              },
+              "right": {
+                "text": "8 (dư 4)"
+              }
+            },
+            {
+              "left": {
+                "text": "40 : 9"
+              },
+              "right": {
+                "text": "4 (dư 4)"
+              }
+            }
+          ],
+          "timeLimit": 55,
+          "method": "Tìm thương lớn nhất sao cho tích không vượt số bị chia; số dư phải bé hơn số chia.",
+          "explanation": "29 = 4 × 7 + 1; 33 = 5 × 6 + 3; 52 = 6 × 8 + 4; 40 = 9 × 4 + 4."
+        },
+        {
+          "id": "l3k03-b3-08",
+          "type": "pick_order",
+          "prompt": "Có 38 quả cam xếp vào các túi, mỗi túi 5 quả.\nChạm lần lượt các thẻ để viết phép chia tìm số túi và số cam thừa.",
+          "items": [
+            "38",
+            ":",
+            "5",
+            "=",
+            "7",
+            "(dư 3)"
+          ],
+          "distractors": [
+            "8",
+            "(dư 8)"
+          ],
+          "timeLimit": 50,
+          "method": "Số dư luôn bé hơn số chia.",
+          "explanation": "38 : 5 = 7 (dư 3) vì 5 × 7 = 35 và 38 − 35 = 3. Xếp được 7 túi, thừa 3 quả.\nLưu ý: 8 là sai vì 5 × 8 = 40 > 38; \"dư 8\" là sai vì số dư phải bé hơn số chia 5."
+        },
+        {
+          "id": "l3k03-b3-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các phép chia có số dư là 2.",
+          "options": [
+            {
+              "text": "26 : 4"
+            },
+            {
+              "text": "35 : 6"
+            },
+            {
+              "text": "17 : 3"
+            },
+            {
+              "text": "41 : 8"
+            },
+            {
+              "text": "58 : 7"
+            },
+            {
+              "text": "23 : 5"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "timeLimit": 55,
+          "method": "Thực hiện từng phép chia, chú ý tìm đúng số dư.",
+          "explanation": "26 : 4 = 6 (dư 2); 17 : 3 = 5 (dư 2); 58 : 7 = 8 (dư 2).\nLưu ý: 35 : 6 = 5 (dư 5); 41 : 8 = 5 (dư 1); 23 : 5 = 4 (dư 3)."
+        },
+        {
+          "id": "l3k03-b3-10",
+          "type": "choice",
+          "prompt": "Hôm nay là thứ Hai.\nHỏi 30 ngày nữa là thứ mấy?",
+          "options": [
+            {
+              "text": "Thứ Hai"
+            },
+            {
+              "text": "Thứ Ba"
+            },
+            {
+              "text": "Thứ Tư"
+            },
+            {
+              "text": "Thứ Năm"
+            }
+          ],
+          "answer": 2,
+          "method": "Một tuần có 7 ngày. Chia 30 cho 7, số dư cho biết phải đếm thêm mấy ngày.",
+          "explanation": "30 : 7 = 4 (dư 2). Sau 4 tuần (28 ngày) lại là thứ Hai, thêm 2 ngày nữa là thứ Tư.\nLưu ý: Thứ Hai là quên 2 ngày dư (đó là 28 ngày nữa); Thứ Ba là đếm thêm 1 ngày; Thứ Năm là đếm thừa 1 ngày."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Bài toán tìm thành phần chưa biết",
+      "emoji": "❓",
+      "description": "Một số đang trốn trong phép tính, bé hãy tìm ra nó nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k03-b4-01",
+          "type": "choice",
+          "prompt": "Mẹ chia đều số trứng vào 4 hộp, mỗi hộp 9 quả thì còn thừa 3 quả.\nMẹ có bao nhiêu quả trứng?",
+          "options": [
+            {
+              "text": "36 quả"
+            },
+            {
+              "text": "33 quả"
+            },
+            {
+              "text": "13 quả"
+            },
+            {
+              "text": "39 quả"
+            }
+          ],
+          "answer": 3,
+          "method": "Số trứng = số trứng trong các hộp + số trứng còn thừa.",
+          "explanation": "Trong 4 hộp có: 9 × 4 = 36 (quả). Mẹ có: 36 + 3 = 39 (quả).\nLưu ý: 36 quả là quên 3 quả còn thừa; 33 quả là trừ nhầm 3; 13 quả là cộng nhầm 4 + 9."
+        },
+        {
+          "id": "l3k03-b4-02",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Một số nhân với 8 được 56, số đó là [[7]].\nMột số chia cho 5 được 9, số đó là [[45]].",
+          "choices": [
+            "7",
+            "45",
+            "64",
+            "14"
+          ],
+          "timeLimit": 45,
+          "method": "Muốn tìm thừa số chưa biết thì lấy tích chia cho thừa số kia; muốn tìm số bị chia thì lấy thương nhân với số chia.",
+          "explanation": "56 : 8 = 7, thử lại 7 × 8 = 56. 9 × 5 = 45, thử lại 45 : 5 = 9.\nLưu ý: 64 là cộng nhầm 56 + 8; 14 là cộng nhầm 9 + 5."
+        },
+        {
+          "id": "l3k03-b4-03",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi phép tính ở trên với số thay cho dấu ? ở dưới.",
+          "pairs": [
+            {
+              "left": {
+                "text": "? + 125 = 300"
+              },
+              "right": {
+                "text": "175"
+              }
+            },
+            {
+              "left": {
+                "text": "? − 48 = 52"
+              },
+              "right": {
+                "text": "100"
+              }
+            },
+            {
+              "left": {
+                "text": "? × 6 = 54"
+              },
+              "right": {
+                "text": "9"
+              }
+            },
+            {
+              "left": {
+                "text": "72 : ? = 9"
+              },
+              "right": {
+                "text": "8"
+              }
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Dùng phép tính ngược lại để tìm số chưa biết rồi thử lại.",
+          "explanation": "300 − 125 = 175; 52 + 48 = 100; 54 : 6 = 9; 72 : 9 = 8."
+        },
+        {
+          "id": "l3k03-b4-04",
+          "type": "input",
+          "prompt": "Bình có một số viên bi. Bình cho em 15 viên, rồi được bạn cho thêm 8 viên thì có 40 viên.\nLúc đầu Bình có bao nhiêu viên bi?",
+          "answers": [
+            "47"
+          ],
+          "unit": "viên",
+          "method": "Đi ngược từ cuối lên: bớt đi số bi được cho thêm, rồi cộng lại số bi đã cho em.",
+          "explanation": "Trước khi được bạn cho: 40 − 8 = 32 (viên). Trước khi cho em: 32 + 15 = 47 (viên). Thử lại: 47 − 15 + 8 = 40."
+        },
+        {
+          "id": "l3k03-b4-05",
+          "type": "choice",
+          "prompt": "Một cửa hàng bán đi 256 kg gạo thì còn lại 138 kg.\nLúc đầu cửa hàng có bao nhiêu ki-lô-gam gạo?",
+          "options": [
+            {
+              "text": "118 kg"
+            },
+            {
+              "text": "384 kg"
+            },
+            {
+              "text": "394 kg"
+            },
+            {
+              "text": "294 kg"
+            }
+          ],
+          "answer": 2,
+          "method": "Số gạo lúc đầu = số gạo đã bán + số gạo còn lại.",
+          "explanation": "Lúc đầu có: 256 + 138 = 394 (kg).\nLưu ý: 118 kg là trừ nhầm 256 − 138; 384 kg là quên nhớ 1 từ hàng đơn vị (6 + 8 = 14); 294 kg là cộng sai hàng trăm."
+        },
+        {
+          "id": "l3k03-b4-06",
+          "type": "match_multi",
+          "prompt": "Nối mỗi phép tính vào đúng cách tìm số ?.",
+          "groups": [
+            {
+              "text": "Tích : thừa số kia",
+              "emoji": "✖️"
+            },
+            {
+              "text": "Thương × số chia",
+              "emoji": "➗"
+            },
+            {
+              "text": "Hiệu + số trừ",
+              "emoji": "➖"
+            }
+          ],
+          "items": [
+            {
+              "text": "? × 4 = 28",
+              "group": 0
+            },
+            {
+              "text": "? : 3 = 9",
+              "group": 1
+            },
+            {
+              "text": "? − 17 = 25",
+              "group": 2
+            },
+            {
+              "text": "6 × ? = 42",
+              "group": 0
+            },
+            {
+              "text": "? : 5 = 6",
+              "group": 1
+            },
+            {
+              "text": "? − 40 = 15",
+              "group": 2
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Xem số ? là thừa số, số bị chia hay số bị trừ.",
+          "explanation": "? × 4 = 28 và 6 × ? = 42: ? là thừa số → 28 : 4 = 7, 42 : 6 = 7. ? : 3 = 9 và ? : 5 = 6: ? là số bị chia → 9 × 3 = 27, 6 × 5 = 30. ? − 17 = 25 và ? − 40 = 15: ? là số bị trừ → 25 + 17 = 42, 15 + 40 = 55."
+        },
+        {
+          "id": "l3k03-b4-07",
+          "type": "order",
+          "prompt": "Tìm số ? trong mỗi phép tính rồi xếp các phép tính theo số ? từ bé đến lớn.",
+          "items": [
+            {
+              "text": "56 : ? = 7"
+            },
+            {
+              "text": "? × 5 = 45"
+            },
+            {
+              "text": "? : 4 = 3"
+            },
+            {
+              "text": "? − 8 = 7"
+            },
+            {
+              "text": "? + 26 = 46"
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Dùng phép tính ngược để tìm từng số ?, rồi so sánh.",
+          "explanation": "56 : 7 = 8; 45 : 5 = 9; 3 × 4 = 12; 7 + 8 = 15; 46 − 26 = 20. Thứ tự: 8, 9, 12, 15, 20."
+        },
+        {
+          "id": "l3k03-b4-08",
+          "type": "pick_order",
+          "prompt": "Bé nghĩ ra một số. Lấy số đó trừ 5, rồi nhân 3, rồi cộng 12 thì được 45.\nTìm ngược từ cuối lên: chạm lần lượt kết quả từng bước, số cuối cùng là số bé nghĩ.",
+          "items": [
+            "33",
+            "11",
+            "16"
+          ],
+          "distractors": [
+            "57",
+            "99"
+          ],
+          "timeLimit": 55,
+          "method": "Làm ngược lại từng bước: cộng 12 thì trừ 12, nhân 3 thì chia 3, trừ 5 thì cộng 5.",
+          "explanation": "45 − 12 = 33; 33 : 3 = 11; 11 + 5 = 16. Thử lại: 16 − 5 = 11, 11 × 3 = 33, 33 + 12 = 45.\nLưu ý: 57 là cộng nhầm 45 + 12; 99 là nhân nhầm 33 × 3 thay vì chia."
+        },
+        {
+          "id": "l3k03-b4-09",
+          "type": "input",
+          "prompt": "Một phép chia có số chia là 6, thương là 9 và số dư là số dư lớn nhất có thể.\nSố bị chia là bao nhiêu?",
+          "answers": [
+            "59"
+          ],
+          "method": "Số dư luôn bé hơn số chia. Số dư lớn nhất khi chia cho 6 là mấy?",
+          "explanation": "Số dư lớn nhất khi chia cho 6 là 5. Số bị chia: 6 × 9 + 5 = 54 + 5 = 59. Thử lại: 59 : 6 = 9 (dư 5)."
+        },
+        {
+          "id": "l3k03-b4-10",
+          "type": "choice",
+          "prompt": "Thêm 25 vào một số rồi gấp lên 3 lần thì được 90.\nSố đó là số nào?",
+          "options": [
+            {
+              "text": "5"
+            },
+            {
+              "text": "55"
+            },
+            {
+              "text": "65"
+            },
+            {
+              "text": "345"
+            }
+          ],
+          "answer": 0,
+          "method": "Làm ngược từ cuối: 90 giảm đi 3 lần, rồi bớt 25.",
+          "explanation": "90 : 3 = 30; 30 − 25 = 5. Thử lại: (5 + 25) × 3 = 30 × 3 = 90.\nLưu ý: 55 là cộng 25 thay vì trừ (30 + 25); 65 là chỉ lấy 90 − 25 mà bỏ qua bước gấp 3 lần; 345 là làm xuôi (90 + 25) × 3."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài toán có dữ kiện thừa hoặc thiếu",
+      "emoji": "🧐",
+      "description": "Đọc thật kỹ để biết số nào cần dùng, số nào chỉ để đánh lừa!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k03-b5-01",
+          "type": "choice",
+          "prompt": "Lớp 3B có 32 học sinh, trong đó có 15 bạn nữ. Cô giáo mua 5 hộp bút, mỗi hộp có 10 chiếc.\nHỏi cô giáo mua bao nhiêu chiếc bút?",
+          "options": [
+            {
+              "text": "50 chiếc"
+            },
+            {
+              "text": "47 chiếc"
+            },
+            {
+              "text": "82 chiếc"
+            },
+            {
+              "text": "160 chiếc"
+            }
+          ],
+          "answer": 0,
+          "method": "Đọc kỹ câu hỏi: chỉ cần những số nói về bút.",
+          "explanation": "Số bút: 10 × 5 = 50 (chiếc). Số học sinh (32) và số bạn nữ (15) là dữ kiện thừa.\nLưu ý: 47 là cộng nhầm 32 + 15; 82 là cộng nhầm 32 + 50; 160 là nhân nhầm 32 × 5."
+        },
+        {
+          "id": "l3k03-b5-02",
+          "type": "multi_choice",
+          "prompt": "Bác Tư có 3 thửa ruộng. Thửa thứ nhất thu được 125 kg thóc, thửa thứ hai thu được 140 kg thóc. Bác nuôi 12 con gà và đã làm ruộng 20 năm.\nHỏi hai thửa đầu thu được bao nhiêu ki-lô-gam thóc?\nChọn TẤT CẢ các dữ kiện THỪA (không cần dùng).",
+          "options": [
+            {
+              "text": "125 kg thóc"
+            },
+            {
+              "text": "140 kg thóc"
+            },
+            {
+              "text": "3 thửa ruộng"
+            },
+            {
+              "text": "12 con gà"
+            },
+            {
+              "text": "20 năm"
+            }
+          ],
+          "answers": [
+            2,
+            3,
+            4
+          ],
+          "method": "Viết phép tính trả lời câu hỏi trước, số nào không có trong phép tính là thừa.",
+          "explanation": "Phép tính cần: 125 + 140 = 265 (kg). Chỉ cần 125 kg và 140 kg. Các dữ kiện \"3 thửa ruộng\", \"12 con gà\", \"20 năm\" đều thừa.\nLưu ý: 125 kg và 140 kg là dữ kiện cần thiết, bỏ đi thì không tính được."
+        },
+        {
+          "id": "l3k03-b5-03",
+          "type": "choice",
+          "prompt": "Bài toán nào THIẾU dữ kiện nên không giải được?",
+          "options": [
+            {
+              "text": "Có 24 cái bút chia đều cho 4 bạn. Mỗi bạn được mấy cái?"
+            },
+            {
+              "text": "Mỗi túi có 6 quả táo. Hỏi có tất cả bao nhiêu quả táo?"
+            },
+            {
+              "text": "Lan có 20 nhãn vở, cho bạn 5 nhãn vở. Lan còn mấy nhãn vở?"
+            },
+            {
+              "text": "Một tuần có 7 ngày. 3 tuần có bao nhiêu ngày?"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử giải từng bài, bài nào không viết được phép tính là bài thiếu dữ kiện.",
+          "explanation": "Bài về túi táo không cho biết có mấy túi nên không tính được tổng số táo.\nLưu ý: Bài bút: 24 : 4 = 6 cái; bài nhãn vở: 20 − 5 = 15 nhãn vở; bài tuần: 7 × 3 = 21 ngày. Ba bài này đều đủ dữ kiện."
+        },
+        {
+          "id": "l3k03-b5-04",
+          "type": "input",
+          "prompt": "Nhà Nam có 4 người. Mẹ mua 3 chục quả trứng, mỗi quả giá 3 000 đồng. Cả nhà đã ăn hết 12 quả.\nHỏi còn lại bao nhiêu quả trứng?",
+          "answers": [
+            "18"
+          ],
+          "unit": "quả",
+          "method": "Chỉ dùng những số nói về số quả trứng. Đổi 3 chục ra số quả.",
+          "explanation": "3 chục quả = 30 quả. Còn lại: 30 − 12 = 18 (quả). Số người (4) và giá tiền (3 000 đồng) là dữ kiện thừa."
+        },
+        {
+          "id": "l3k03-b5-05",
+          "type": "choice",
+          "prompt": "Một hình chữ nhật có chiều dài 8 cm.\nHỏi diện tích hình chữ nhật đó?\nCần biết thêm điều gì mới tính được?",
+          "options": [
+            {
+              "text": "Chiều dài tính bằng mi-li-mét"
+            },
+            {
+              "text": "Hình có mấy góc vuông"
+            },
+            {
+              "text": "Chiều rộng của hình"
+            },
+            {
+              "text": "Hình được tô màu gì"
+            }
+          ],
+          "answer": 2,
+          "method": "Nhớ công thức: diện tích hình chữ nhật = chiều dài × chiều rộng.",
+          "explanation": "Muốn tính diện tích phải có chiều dài và chiều rộng. Đề mới cho chiều dài 8 cm nên còn thiếu chiều rộng.\nLưu ý: Đổi chiều dài ra mi-li-mét cũng không giúp tìm được chiều rộng; hình chữ nhật nào cũng có 4 góc vuông; màu sắc không liên quan đến diện tích."
+        },
+        {
+          "id": "l3k03-b5-06",
+          "type": "match_multi",
+          "prompt": "Bài toán: Một xe tải chở 5 bao gạo, mỗi bao nặng 50 kg. Xe đi quãng đường 30 km, bác tài xế 45 tuổi, xe có 4 bánh.\nHỏi xe chở bao nhiêu ki-lô-gam gạo?\nNối mỗi dữ kiện vào đúng nhóm.",
+          "groups": [
+            {
+              "text": "Cần dùng",
+              "emoji": "✅"
+            },
+            {
+              "text": "Thừa",
+              "emoji": "🗑️"
+            }
+          ],
+          "items": [
+            {
+              "text": "5 bao gạo",
+              "group": 0
+            },
+            {
+              "text": "30 km",
+              "group": 1
+            },
+            {
+              "text": "Mỗi bao 50 kg",
+              "group": 0
+            },
+            {
+              "text": "45 tuổi",
+              "group": 1
+            },
+            {
+              "text": "4 bánh xe",
+              "group": 1
+            }
+          ],
+          "timeLimit": 55,
+          "method": "Viết phép tính trả lời câu hỏi trước; số nào không có trong phép tính là thừa.",
+          "explanation": "Phép tính: 50 × 5 = 250 (kg). Chỉ cần \"5 bao gạo\" và \"mỗi bao 50 kg\". Quãng đường 30 km, tuổi bác tài 45 và 4 bánh xe là dữ kiện thừa."
+        },
+        {
+          "id": "l3k03-b5-07",
+          "type": "fill_blank",
+          "prompt": "Bài toán: Một cuộn dây dài 64 m. Người ta cắt đi 8 đoạn, mỗi đoạn dài 5 m. Cuộn dây có 2 đầu sơn màu đỏ.\nHỏi cuộn dây còn lại bao nhiêu mét?\nĐiền số thích hợp.",
+          "sentence": "Dữ kiện thừa là số [[2]]. Đã cắt đi [[40]] m, cuộn dây còn lại [[24]] m.",
+          "choices": [
+            "2",
+            "40",
+            "24",
+            "13",
+            "51"
+          ],
+          "timeLimit": 55,
+          "method": "Tìm số mét đã cắt trước (8 đoạn, mỗi đoạn 5 m), rồi lấy cả cuộn trừ đi.",
+          "explanation": "Đã cắt: 5 × 8 = 40 (m). Còn lại: 64 − 40 = 24 (m). Số 2 (đầu sơn đỏ) không dùng đến nên là dữ kiện thừa.\nLưu ý: 13 là cộng nhầm 8 + 5; 51 là lấy nhầm 64 − 13."
+        },
+        {
+          "id": "l3k03-b5-08",
+          "type": "pick_order",
+          "prompt": "Hộp bánh có 6 hàng, mỗi hàng 4 cái, hộp giá 45 000 đồng. Bé ăn 3 cái rồi chia đều số bánh còn lại cho 7 bạn.\nChạm lần lượt: số bánh cả hộp, số bánh còn lại, số bánh mỗi bạn được.",
+          "items": [
+            "24",
+            "21",
+            "3"
+          ],
+          "distractors": [
+            "27",
+            "45 000"
+          ],
+          "timeLimit": 55,
+          "method": "Giá tiền của hộp bánh có cần cho câu hỏi không?",
+          "explanation": "Cả hộp: 4 × 6 = 24 (cái). Còn lại: 24 − 3 = 21 (cái). Mỗi bạn: 21 : 7 = 3 (cái).\nLưu ý: 27 là cộng nhầm 24 + 3; 45 000 đồng là dữ kiện thừa, không dùng để tính số bánh."
+        },
+        {
+          "id": "l3k03-b5-09",
+          "type": "input",
+          "prompt": "Đoàn tham quan đi 7 xe, mỗi xe chở 9 người. Đoàn xuất phát lúc 6 giờ sáng, quãng đường dài 85 km.\nHỏi đoàn có bao nhiêu người?",
+          "answers": [
+            "63"
+          ],
+          "unit": "người",
+          "method": "Gạch bỏ những số không nói về số người.",
+          "explanation": "Số người: 9 × 7 = 63 (người). Giờ xuất phát (6 giờ) và quãng đường (85 km) là dữ kiện thừa."
+        },
+        {
+          "id": "l3k03-b5-10",
+          "type": "match",
+          "prompt": "Mỗi bài toán dưới đây THIẾU một dữ kiện. Nối bài toán với dữ kiện còn thiếu.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 24 quả cam chia đều vào các đĩa. Mỗi đĩa có mấy quả?"
+              },
+              "right": {
+                "text": "Số đĩa"
+              }
+            },
+            {
+              "left": {
+                "text": "An có 15 viên bi, được bạn cho thêm một số bi. An có mấy viên?"
+              },
+              "right": {
+                "text": "Số bi được cho thêm"
+              }
+            },
+            {
+              "left": {
+                "text": "Tính chu vi một hình vuông."
+              },
+              "right": {
+                "text": "Độ dài cạnh"
+              }
+            },
+            {
+              "left": {
+                "text": "Mẹ mua 3 kg thịt. Mẹ trả hết bao nhiêu tiền?"
+              },
+              "right": {
+                "text": "Giá tiền 1 kg thịt"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Thử viết phép tính cho từng bài, chỗ nào chưa có số chính là dữ kiện còn thiếu.",
+          "explanation": "Bài cam: 24 : (số đĩa) → thiếu số đĩa. Bài bi: 15 + (số bi được cho) → thiếu số bi được cho thêm. Bài hình vuông: (cạnh) × 4 → thiếu độ dài cạnh. Bài thịt: (giá 1 kg) × 3 → thiếu giá tiền 1 kg thịt."
+        }
+      ]
+    }
+  ]
+}

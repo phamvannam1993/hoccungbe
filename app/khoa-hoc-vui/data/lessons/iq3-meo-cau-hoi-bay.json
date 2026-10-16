@@ -1,0 +1,1442 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Câu đố đếm người và đồ vật",
+      "emoji": "👪",
+      "description": "Đếm người, đếm đồ tưởng dễ mà nhiều bẫy lắm — bé đọc kỹ từng chữ nhé!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "l3k06-b1-01",
+          "question": "Hai người bố và hai người con đi câu cá.\nMỗi người câu được đúng 1 con, cả nhóm câu được 3 con cá.\nNhóm đi câu có mấy người?",
+          "options": [
+            "4",
+            "3",
+            "2",
+            "5"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Một người có thể vừa là bố, vừa là con được không?",
+          "explanation": "Nhóm gồm ông, bố và cháu. Ông và bố là 2 người bố; bố và cháu là 2 người con. Chỉ có 3 người nên câu được 3 con cá.\nLưu ý: 4 là cộng vội 2 + 2; 2 và 5 không khớp với 3 con cá, mỗi người 1 con."
+        },
+        {
+          "id": "l3k06-b1-02",
+          "type": "input",
+          "prompt": "Căn phòng có 4 góc. Mỗi góc có 1 con mèo. Trước mỗi con mèo có 3 con mèo.\nTrong phòng có tất cả bao nhiêu con mèo?",
+          "answers": [
+            "4"
+          ],
+          "unit": "con",
+          "method": "Mỗi con mèo nhìn thấy những con mèo nào? Có thêm con mèo mới nào không?",
+          "explanation": "Mỗi con mèo nhìn thấy 3 con mèo ở 3 góc còn lại. Không có con mèo nào thêm vào, nên chỉ có 4 con.\n(Bẫy: 4 × 3 = 12 hay 4 + 12 = 16 là đếm lặp lại cùng những con mèo đó.)"
+        },
+        {
+          "id": "l3k06-b1-03",
+          "question": "Tí đứng ở giữa hàng. Trước Tí có 5 bạn, sau Tí có 5 bạn.\nHàng có bao nhiêu bạn?",
+          "options": [
+            "10",
+            "12",
+            "11",
+            "9"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đừng quên đếm chính bạn Tí.",
+          "explanation": "5 bạn trước + Tí + 5 bạn sau: 5 + 1 + 5 = 11 bạn.\nLưu ý: 10 là quên đếm Tí; 12 là đếm Tí hai lần; 9 là trừ nhầm."
+        },
+        {
+          "id": "l3k06-b1-04",
+          "question": "An là con trai và có 3 chị gái.\nMỗi chị gái của An đều chỉ có 1 em trai.\nBố mẹ An có tất cả bao nhiêu người con?",
+          "options": [
+            "4",
+            "6",
+            "7",
+            "3"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Em trai của các chị gái là ai?",
+          "explanation": "Em trai duy nhất của cả 3 chị chính là An. Nhà có 3 chị gái + An = 4 người con.\nLưu ý: 6 là nghĩ mỗi chị có 1 em trai riêng (3 + 3); 7 là cộng thêm cả An vào 6; 3 là quên đếm An."
+        },
+        {
+          "id": "l3k06-b1-05",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi câu đố mẹo với câu trả lời đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 6 quả cam, bạn lấy đi 2 quả. Bạn có mấy quả?"
+              },
+              "right": {
+                "text": "2 quả"
+              }
+            },
+            {
+              "left": {
+                "text": "Viết các số từ 1 đến 20: chữ số 2 xuất hiện mấy lần?"
+              },
+              "right": {
+                "text": "3 lần"
+              }
+            },
+            {
+              "left": {
+                "text": "5 đôi đũa có mấy chiếc đũa?"
+              },
+              "right": {
+                "text": "10 chiếc"
+              }
+            },
+            {
+              "left": {
+                "text": "Ông, bố và con đi chơi: có mấy người bố?"
+              },
+              "right": {
+                "text": "2 người"
+              }
+            }
+          ],
+          "method": "Đọc kỹ câu hỏi đang hỏi gì, đừng tính vội.",
+          "explanation": "Bạn lấy 2 quả thì bạn có 2 quả (4 quả là số cam còn lại). Chữ số 2 có ở 2, 12, 20: 3 lần. 5 đôi đũa = 5 × 2 = 10 chiếc. Ông là bố của bố, bố là bố của con: 2 người bố."
+        },
+        {
+          "id": "l3k06-b1-06",
+          "type": "multi_choice",
+          "prompt": "Nhà Mai có ông, bà, bố, mẹ, Mai và em trai của Mai.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Nhà Mai có 6 người"
+            },
+            {
+              "text": "Nhà Mai có 2 người là bố"
+            },
+            {
+              "text": "Nhà Mai có 3 người là mẹ"
+            },
+            {
+              "text": "Ông bà có 2 người cháu"
+            },
+            {
+              "text": "Nhà Mai có 4 người là nữ"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Một người có thể có nhiều vai: ông vừa là ông, vừa là bố của bố Mai.",
+          "explanation": "Có 6 người. Ông là bố của bố Mai, bố là bố của Mai: 2 người là bố. Mai và em trai là 2 cháu của ông bà.\nLưu ý: chỉ có bà và mẹ là mẹ (2 người, không phải 3); người nữ là bà, mẹ, Mai (3 người, không phải 4)."
+        },
+        {
+          "id": "l3k06-b1-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Đọc kỹ: hàng thẳng có cây ở cả hai đầu, còn hàng rào khép kín thì không có đầu.",
+          "sentence": "Trồng cây thành hàng thẳng, hai đầu đều có cây, có 5 khoảng cách thì có [[6]] cây. Hàng rào hình vòng tròn có 5 khoảng cách thì có [[5]] cái cọc.",
+          "choices": [
+            "6",
+            "5",
+            "4",
+            "10"
+          ],
+          "method": "Vẽ nháp: đánh dấu chấm là cây, gạch là khoảng cách.",
+          "explanation": "Hàng thẳng: số cây = số khoảng + 1 = 5 + 1 = 6. Vòng khép kín: cọc cuối trùng cọc đầu nên số cọc = số khoảng = 5."
+        },
+        {
+          "id": "l3k06-b1-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Xếp các nhóm con vật theo SỐ CHÂN từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "emoji": "🐶",
+              "text": "1 con chó"
+            },
+            {
+              "emoji": "🐔",
+              "text": "3 con gà"
+            },
+            {
+              "emoji": "🐱",
+              "text": "2 con mèo"
+            },
+            {
+              "emoji": "🦆",
+              "text": "5 con vịt"
+            }
+          ],
+          "method": "Đếm số chân, không phải số con: gà, vịt 2 chân; chó, mèo 4 chân.",
+          "explanation": "1 con chó: 4 chân; 3 con gà: 3 × 2 = 6 chân; 2 con mèo: 2 × 4 = 8 chân; 5 con vịt: 5 × 2 = 10 chân.\n4 < 6 < 8 < 10."
+        },
+        {
+          "id": "l3k06-b1-09",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Lật từng ô rồi chạm số đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số bánh của 2 xe đạp"
+              },
+              "back": {
+                "text": "4"
+              }
+            },
+            {
+              "front": {
+                "text": "Số mắt của 3 bạn"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "Số chân của 2 con chó"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "Số ngón tay của 1 bạn"
+              },
+              "back": {
+                "text": "10"
+              }
+            }
+          ],
+          "method": "Nghĩ xem mỗi thứ có mấy cái, rồi nhân với số lượng.",
+          "explanation": "Xe đạp 2 bánh: 2 × 2 = 4. Mỗi bạn 2 mắt: 3 × 2 = 6. Chó 4 chân: 2 × 4 = 8. Hai bàn tay có 10 ngón."
+        },
+        {
+          "id": "l3k06-b1-10",
+          "question": "Trong sân có 3 con gà và 2 con chó.\nBé Na cũng đang đứng trong sân.\nTrong sân có tất cả bao nhiêu cái chân?",
+          "options": [
+            "14",
+            "10",
+            "12",
+            "16"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đếm chân gà, chân chó, và đừng quên bé Na.",
+          "explanation": "Gà: 3 × 2 = 6 chân. Chó: 2 × 4 = 8 chân. Bé Na: 2 chân. 6 + 8 + 2 = 16 chân.\nLưu ý: 14 là quên chân bé Na; 10 là tính mỗi con 2 chân (5 × 2); 12 là tính chó cũng 2 chân rồi cộng chân bé Na."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Câu đố số liền trước, số liền sau",
+      "emoji": "🔢",
+      "description": "Thêm 1, bớt 1 thôi mà cũng có bẫy — bé thử xem nào!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "l3k06-b2-01",
+          "question": "Số liền sau của số lớn nhất có 3 chữ số là số nào?",
+          "options": [
+            "998",
+            "1 000",
+            "1 001",
+            "100"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Tìm số lớn nhất có 3 chữ số trước, rồi thêm 1.",
+          "explanation": "Số lớn nhất có 3 chữ số là 999. Số liền sau: 999 + 1 = 1 000.\nLưu ý: 998 là số liền trước của 999; 1 001 là cộng thêm 2; 100 là số bé nhất có 3 chữ số."
+        },
+        {
+          "id": "l3k06-b2-02",
+          "type": "input",
+          "prompt": "Số liền trước của số bé nhất có 4 chữ số là số nào?",
+          "answers": [
+            "999"
+          ],
+          "method": "Số bé nhất có 4 chữ số là số nào? Bớt đi 1.",
+          "explanation": "Số bé nhất có 4 chữ số là 1 000. Số liền trước: 1 000 − 1 = 999.\n(Bẫy: 1 001 là số liền SAU; 9 999 là số LỚN nhất có 4 chữ số.)"
+        },
+        {
+          "id": "l3k06-b2-03",
+          "type": "match_vertical",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi ô ở trên với số đúng ở dưới.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Liền sau 99"
+              },
+              "right": {
+                "text": "100"
+              }
+            },
+            {
+              "left": {
+                "text": "Liền trước 100"
+              },
+              "right": {
+                "text": "99"
+              }
+            },
+            {
+              "left": {
+                "text": "Liền sau 909"
+              },
+              "right": {
+                "text": "910"
+              }
+            },
+            {
+              "left": {
+                "text": "Liền trước 1 000"
+              },
+              "right": {
+                "text": "999"
+              }
+            }
+          ],
+          "method": "Liền sau: thêm 1. Liền trước: bớt 1. Chú ý khi phải nhớ sang hàng chục.",
+          "explanation": "99 + 1 = 100; 100 − 1 = 99; 909 + 1 = 910 (không phải 1 000 hay 990); 1 000 − 1 = 999."
+        },
+        {
+          "id": "l3k06-b2-04",
+          "question": "Số liền trước của số liền sau của 500\nlà số nào?",
+          "options": [
+            "499",
+            "501",
+            "500",
+            "502"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Làm từng bước: tìm số liền sau của 500 trước, rồi mới tìm số liền trước của số đó.",
+          "explanation": "Số liền sau của 500 là 501. Số liền trước của 501 là 500. Thêm 1 rồi bớt 1 thì lại về số cũ.\nLưu ý: 499 là chỉ tìm số liền trước của 500; 501 là chỉ tìm số liền sau; 502 là cộng thêm 2."
+        },
+        {
+          "id": "l3k06-b2-05",
+          "type": "input",
+          "prompt": "Ba số liền nhau có tổng bằng 60.\nSố lớn nhất trong ba số đó là số nào?",
+          "answers": [
+            "21"
+          ],
+          "method": "Thử ba số liền nhau ở quanh số 20 (vì 20 + 20 + 20 = 60).",
+          "explanation": "Ba số liền nhau 19, 20, 21: số bé kém 20 là 1, số lớn hơn 20 là 1, bù cho nhau. 19 + 20 + 21 = 60 ✔.\nSố lớn nhất là 21.\n(Bẫy: 20 là số ở giữa chứ không phải số lớn nhất.)"
+        },
+        {
+          "id": "l3k06-b2-06",
+          "question": "Số liền sau của số lớn nhất\ncó 2 chữ số KHÁC NHAU là số nào?",
+          "options": [
+            "100",
+            "99",
+            "98",
+            "97"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Tìm số lớn nhất có 2 chữ số khác nhau trước. 99 có hai chữ số giống nhau!",
+          "explanation": "99 có hai chữ số giống nhau nên bị loại. Số lớn nhất có 2 chữ số khác nhau là 98. Số liền sau của 98 là 99.\nLưu ý: 100 là số liền sau của 99 (quên điều kiện khác nhau); 98 là chính số lớn nhất có 2 chữ số khác nhau, chưa tìm số liền sau; 97 là số liền trước của 98."
+        },
+        {
+          "id": "l3k06-b2-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Cẩn thận khi phải nhớ sang hàng trăm và hàng nghìn. Điền số đúng.",
+          "sentence": "Số liền sau của 2 099 là [[2 100]]. Số liền trước của 3 000 là [[2 999]].",
+          "choices": [
+            "2 100",
+            "2 999",
+            "2 010",
+            "3 999",
+            "2 909"
+          ],
+          "method": "Liền sau: thêm 1. Liền trước: bớt 1.",
+          "explanation": "2 099 + 1 = 2 100 (9 đơn vị thêm 1 thành chục, 9 chục thêm 1 thành trăm). 3 000 − 1 = 2 999.\n2 010 là chỉ nhớ sang hàng chục; 3 999 là quên bớt ở hàng nghìn; 2 909 là viết sai chữ số hàng chục."
+        },
+        {
+          "id": "l3k06-b2-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Tìm số theo từng ô, rồi xếp các ô theo số tìm được từ BÉ đến LỚN.",
+          "items": [
+            {
+              "text": "Số liền sau của 589"
+            },
+            {
+              "text": "Số liền trước của 600"
+            },
+            {
+              "text": "Số liền sau của 599"
+            },
+            {
+              "text": "Số liền sau của 600"
+            },
+            {
+              "text": "Số liền trước của 610"
+            }
+          ],
+          "method": "Tìm đúng từng số trước, rồi mới so sánh.",
+          "explanation": "Liền sau 589: 590. Liền trước 600: 599. Liền sau 599: 600. Liền sau 600: 601. Liền trước 610: 609.\n590 < 599 < 600 < 601 < 609."
+        },
+        {
+          "id": "l3k06-b2-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các cặp số LIỀN NHAU (hai số chỉ hơn kém nhau 1).",
+          "options": [
+            {
+              "text": "199 và 200"
+            },
+            {
+              "text": "459 và 460"
+            },
+            {
+              "text": "990 và 1 000"
+            },
+            {
+              "text": "1 009 và 1 100"
+            },
+            {
+              "text": "2 999 và 3 000"
+            },
+            {
+              "text": "101 và 110"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "method": "Lấy số bé cộng thêm 1, xem có ra số lớn không.",
+          "explanation": "199 + 1 = 200; 459 + 1 = 460; 2 999 + 1 = 3 000 → các cặp liền nhau.\nLưu ý: 990 + 1 = 991 chứ không phải 1 000 (hơn kém 10); 1 009 + 1 = 1 010 chứ không phải 1 100; 101 và 110 hơn kém nhau 9."
+        },
+        {
+          "id": "l3k06-b2-10",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Lật từng ô rồi chạm số đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Liền trước 2 000"
+              },
+              "back": {
+                "text": "1 999"
+              }
+            },
+            {
+              "front": {
+                "text": "Liền sau 1 999"
+              },
+              "back": {
+                "text": "2 000"
+              }
+            },
+            {
+              "front": {
+                "text": "Liền sau 4 909"
+              },
+              "back": {
+                "text": "4 910"
+              }
+            },
+            {
+              "front": {
+                "text": "Liền trước 7 100"
+              },
+              "back": {
+                "text": "7 099"
+              }
+            },
+            {
+              "front": {
+                "text": "Liền sau 9 998"
+              },
+              "back": {
+                "text": "9 999"
+              }
+            }
+          ],
+          "method": "Liền sau: thêm 1. Liền trước: bớt 1. Chú ý chỗ phải nhớ hoặc mượn.",
+          "explanation": "2 000 − 1 = 1 999; 1 999 + 1 = 2 000; 4 909 + 1 = 4 910; 7 100 − 1 = 7 099; 9 998 + 1 = 9 999."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Bài toán đánh lừa về thời gian",
+      "emoji": "⏰",
+      "description": "Giờ, phút, thứ, ngày — bé tính thật cẩn thận kẻo bị lừa nha!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "l3k06-b3-01",
+          "question": "Bây giờ là 8 giờ 45 phút.\n30 phút nữa là mấy giờ?",
+          "options": [
+            "8 giờ 75 phút",
+            "9 giờ 15 phút",
+            "9 giờ 45 phút",
+            "8 giờ 15 phút"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Nhớ: 60 phút = 1 giờ.",
+          "explanation": "8 giờ 45 phút + 15 phút = 9 giờ; thêm 15 phút nữa là 9 giờ 15 phút.\nLưu ý: \"8 giờ 75 phút\" là quên đổi 60 phút thành 1 giờ; 9 giờ 45 phút là cộng thêm cả 1 giờ; 8 giờ 15 phút là trừ thay vì cộng."
+        },
+        {
+          "id": "l3k06-b3-02",
+          "question": "Hôm nay là thứ Hai.\n10 ngày nữa là thứ mấy?",
+          "options": [
+            "Thứ Tư",
+            "Thứ Sáu",
+            "Thứ Năm",
+            "Thứ Hai"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Sau 7 ngày lại đúng thứ Hai, rồi đếm tiếp phần còn lại.",
+          "explanation": "Sau 7 ngày là thứ Hai. Còn 10 − 7 = 3 ngày: thứ Ba, thứ Tư, thứ Năm. Đáp án: thứ Năm.\nLưu ý: thứ Tư là chỉ đếm thêm 2 ngày; thứ Sáu là đếm thừa 1 ngày; thứ Hai là kết quả của 7 ngày chứ không phải 10."
+        },
+        {
+          "id": "l3k06-b3-03",
+          "type": "input",
+          "prompt": "Lan đi ngủ lúc 9 giờ tối và thức dậy lúc 6 giờ sáng hôm sau.\nLan đã ngủ bao nhiêu giờ?",
+          "answers": [
+            "9"
+          ],
+          "unit": "giờ",
+          "method": "Đếm từ 9 giờ tối đến 12 giờ đêm, rồi từ 12 giờ đêm đến 6 giờ sáng.",
+          "explanation": "9 giờ tối → 12 giờ đêm: 3 giờ. 12 giờ đêm → 6 giờ sáng: 6 giờ. 3 + 6 = 9 giờ.\n(Bẫy: 9 − 6 = 3 giờ là quên rằng giờ tối và giờ sáng khác ngày.)"
+        },
+        {
+          "id": "l3k06-b3-04",
+          "question": "Trong một năm,\ncó bao nhiêu tháng có NGÀY 28?",
+          "options": [
+            "1",
+            "12",
+            "11",
+            "7"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đọc kỹ: đề hỏi tháng nào có ngày 28, chứ không hỏi tháng nào chỉ có 28 ngày.",
+          "explanation": "Tháng nào cũng có ít nhất 28 ngày, nên cả 12 tháng đều có ngày 28.\nLưu ý: 1 là chỉ nghĩ tới tháng Hai; 11 là bỏ tháng Hai ra; 7 là số tháng có 31 ngày."
+        },
+        {
+          "id": "l3k06-b3-05",
+          "type": "input",
+          "prompt": "Một chiếc đồng hồ cứ mỗi giờ lại chạy nhanh 2 phút.\nLúc 8 giờ sáng, đồng hồ được chỉnh đúng giờ.\nĐến 12 giờ trưa cùng ngày, đồng hồ chạy nhanh bao nhiêu phút?",
+          "answers": [
+            "8"
+          ],
+          "unit": "phút",
+          "method": "Từ 8 giờ sáng đến 12 giờ trưa là mấy giờ?",
+          "explanation": "Từ 8 giờ đến 12 giờ là 4 giờ. Mỗi giờ nhanh 2 phút: 4 × 2 = 8 phút.\n(Bẫy: 2 phút là chỉ tính 1 giờ; 24 phút là lấy 12 × 2, đếm từ 0 giờ.)"
+        },
+        {
+          "id": "l3k06-b3-06",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Đọc thật chậm từng cụm từ rồi điền vào chỗ trống.",
+          "sentence": "Ngày mai của hôm qua là [[hôm nay]]. Hôm qua của ngày kia là [[ngày mai]].",
+          "choices": [
+            "hôm nay",
+            "ngày mai",
+            "hôm qua",
+            "ngày kia"
+          ],
+          "method": "Đi từng bước: hôm qua là lùi 1 ngày, ngày mai là tiến 1 ngày, ngày kia là tiến 2 ngày.",
+          "explanation": "Hôm qua lùi 1 ngày, rồi ngày mai tiến 1 ngày → quay về hôm nay.\nNgày kia tiến 2 ngày, rồi hôm qua lùi 1 ngày → còn tiến 1 ngày, đó là ngày mai."
+        },
+        {
+          "id": "l3k06-b3-07",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Xếp các khoảng thời gian từ NGẮN NHẤT đến DÀI NHẤT.",
+          "items": [
+            {
+              "text": "45 phút"
+            },
+            {
+              "text": "1 giờ"
+            },
+            {
+              "text": "75 phút"
+            },
+            {
+              "text": "1 giờ 20 phút"
+            },
+            {
+              "text": "1 giờ rưỡi"
+            }
+          ],
+          "method": "Đổi hết ra phút: 1 giờ = 60 phút, nửa giờ = 30 phút.",
+          "explanation": "45 phút; 1 giờ = 60 phút; 75 phút; 1 giờ 20 phút = 80 phút; 1 giờ rưỡi = 90 phút.\n45 < 60 < 75 < 80 < 90."
+        },
+        {
+          "id": "l3k06-b3-08",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi hoạt động với giờ kết thúc.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Bắt đầu học lúc 7 giờ 50 phút, học 40 phút"
+              },
+              "right": {
+                "text": "8 giờ 30 phút"
+              }
+            },
+            {
+              "left": {
+                "text": "Bắt đầu chơi lúc 9 giờ 35 phút, chơi 25 phút"
+              },
+              "right": {
+                "text": "10 giờ"
+              }
+            },
+            {
+              "left": {
+                "text": "Bắt đầu đi lúc 10 giờ 45 phút, đi 30 phút"
+              },
+              "right": {
+                "text": "11 giờ 15 phút"
+              }
+            },
+            {
+              "left": {
+                "text": "Bắt đầu ngủ lúc 2 giờ 20 phút chiều, ngủ 55 phút"
+              },
+              "right": {
+                "text": "3 giờ 15 phút chiều"
+              }
+            }
+          ],
+          "method": "Cộng phút cho đủ 60 phút thành 1 giờ trước, phần còn lại cộng tiếp.",
+          "explanation": "7 giờ 50 + 10 phút = 8 giờ, thêm 30 phút: 8 giờ 30 phút.\n9 giờ 35 + 25 phút = 10 giờ.\n10 giờ 45 + 15 phút = 11 giờ, thêm 15 phút: 11 giờ 15 phút.\n2 giờ 20 + 40 phút = 3 giờ, thêm 15 phút: 3 giờ 15 phút chiều."
+        },
+        {
+          "id": "l3k06-b3-09",
+          "type": "multi_choice",
+          "prompt": "Hôm nay là thứ Bảy.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Ngày mai là Chủ nhật"
+            },
+            {
+              "text": "Hôm qua là thứ Năm"
+            },
+            {
+              "text": "Hôm kia là thứ Năm"
+            },
+            {
+              "text": "7 ngày nữa là thứ Sáu"
+            },
+            {
+              "text": "3 ngày nữa là thứ Ba"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Viết các thứ trong tuần thành vòng: … thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật, thứ Hai, thứ Ba …",
+          "explanation": "Ngày mai: Chủ nhật. Hôm kia (lùi 2 ngày): thứ Năm. 3 ngày nữa: Chủ nhật, thứ Hai, thứ Ba.\nLưu ý: hôm qua là thứ Sáu chứ không phải thứ Năm; 7 ngày nữa lại đúng thứ Bảy."
+        },
+        {
+          "id": "l3k06-b3-10",
+          "question": "Bé Na được nghỉ từ ngày 5\nđến hết ngày 9 tháng 6.\nNa được nghỉ bao nhiêu ngày?",
+          "options": [
+            "4",
+            "5",
+            "9",
+            "14"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đếm cả ngày đầu và ngày cuối: 5, 6, 7, 8, 9.",
+          "explanation": "Các ngày nghỉ: 5, 6, 7, 8, 9 → 5 ngày (9 − 5 + 1 = 5).\nLưu ý: 4 là lấy 9 − 5 mà quên tính ngày đầu tiên; 9 là ngày cuối cùng chứ không phải số ngày; 14 là cộng 5 + 9."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Câu đố chia nhóm và xếp hàng",
+      "emoji": "🚌",
+      "description": "Chia nhóm, xếp hàng có dư, có khoảng cách — bé nghĩ kỹ rồi hãy trả lời!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "l3k06-b4-01",
+          "question": "Lớp có 30 bạn đi tham quan. Mỗi xe chở được nhiều nhất 7 bạn.\nCần ít nhất bao nhiêu xe để chở hết các bạn?",
+          "options": [
+            "5",
+            "4",
+            "6",
+            "3"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Chia 30 cho 7, rồi xem số bạn dư có cần thêm xe không.",
+          "explanation": "30 : 7 = 4 (dư 2). 4 xe chở 28 bạn, còn 2 bạn cần thêm 1 xe nữa: 4 + 1 = 5 xe.\nLưu ý: 4 là bỏ quên 2 bạn dư; 6 là thừa xe; 3 là chia nhầm."
+        },
+        {
+          "id": "l3k06-b4-02",
+          "type": "input",
+          "prompt": "16 bạn đứng thành một hàng dọc, hai bạn đứng cạnh nhau cách nhau 1 m.\nTừ bạn đầu hàng đến bạn cuối hàng dài bao nhiêu mét?",
+          "answers": [
+            "15"
+          ],
+          "unit": "m",
+          "method": "16 bạn thì có bao nhiêu khoảng cách giữa các bạn?",
+          "explanation": "Số khoảng cách ít hơn số bạn 1: 16 − 1 = 15 khoảng. Mỗi khoảng 1 m nên dài 15 m.\n(Bẫy: 16 m là đếm số bạn thay vì số khoảng cách.)"
+        },
+        {
+          "id": "l3k06-b4-03",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Hàng có 4 bạn. Na đứng đầu hàng. Bi đứng ngay sau Na. Cốm đứng cuối hàng. Dưa đứng giữa Bi và Cốm.\nChạm tên các bạn theo thứ tự từ ĐẦU hàng đến CUỐI hàng.",
+          "items": [
+            "Na",
+            "Bi",
+            "Dưa",
+            "Cốm"
+          ],
+          "distractors": [
+            "Mít"
+          ],
+          "method": "Đặt bạn đầu hàng và cuối hàng trước, rồi điền các bạn ở giữa.",
+          "explanation": "Na đầu hàng, Bi ngay sau Na, Cốm cuối hàng, Dưa ở giữa Bi và Cốm: Na → Bi → Dưa → Cốm. Mít không có trong đề nên là thẻ nhiễu."
+        },
+        {
+          "id": "l3k06-b4-04",
+          "question": "Cưa một khúc gỗ thành 5 đoạn.\nMỗi lần cưa mất 3 phút.\nCưa xong hết bao nhiêu phút?",
+          "options": [
+            "15 phút",
+            "9 phút",
+            "12 phút",
+            "8 phút"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Cưa thành 5 đoạn thì cần cưa mấy lần?",
+          "explanation": "Cưa 1 lần được 2 đoạn, nên 5 đoạn chỉ cần 5 − 1 = 4 lần cưa. 4 × 3 = 12 phút.\nLưu ý: 15 phút là đếm 5 lần cưa; 9 phút là đếm thiếu còn 3 lần; 8 phút là cộng 5 + 3."
+        },
+        {
+          "id": "l3k06-b4-05",
+          "type": "input",
+          "prompt": "Một con đường thẳng dài 30 m. Trồng cây ở cả hai đầu đường, cứ 5 m trồng một cây.\nTrồng được tất cả bao nhiêu cây?",
+          "answers": [
+            "7"
+          ],
+          "unit": "cây",
+          "method": "Đếm số khoảng 5 m trước, rồi nhớ hai đầu đều có cây.",
+          "explanation": "Số khoảng: 30 : 5 = 6 khoảng. Hai đầu đều có cây nên số cây nhiều hơn số khoảng 1: 6 + 1 = 7 cây.\n(Bẫy: 6 là quên cây ở một đầu đường.)"
+        },
+        {
+          "id": "l3k06-b4-06",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Xếp mỗi trường hợp vào nhóm \"Chia vừa hết\" hoặc \"Còn dư\".",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Chia vừa hết"
+            },
+            {
+              "emoji": "➕",
+              "text": "Còn dư"
+            }
+          ],
+          "items": [
+            {
+              "text": "24 bạn xếp thành các hàng 6 bạn",
+              "group": 0
+            },
+            {
+              "text": "30 bạn xếp thành các hàng 4 bạn",
+              "group": 1
+            },
+            {
+              "text": "35 bạn chia thành các nhóm 5 bạn",
+              "group": 0
+            },
+            {
+              "text": "27 bạn chia thành các nhóm 6 bạn",
+              "group": 1
+            },
+            {
+              "text": "42 bạn xếp thành các hàng 7 bạn",
+              "group": 0
+            },
+            {
+              "text": "50 bạn chia thành các nhóm 9 bạn",
+              "group": 1
+            }
+          ],
+          "method": "Làm phép chia, xem có dư hay không.",
+          "explanation": "Vừa hết: 24 : 6 = 4; 35 : 5 = 7; 42 : 7 = 6.\nCòn dư: 30 : 4 = 7 dư 2; 27 : 6 = 4 dư 3; 50 : 9 = 5 dư 5."
+        },
+        {
+          "id": "l3k06-b4-07",
+          "question": "20 bạn đứng thành một vòng tròn,\nhai bạn đứng cạnh nhau cách nhau 2 m.\nVòng tròn dài bao nhiêu mét?",
+          "options": [
+            "38 m",
+            "42 m",
+            "20 m",
+            "40 m"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Vòng tròn khép kín: số khoảng cách bằng số bạn.",
+          "explanation": "Đứng thành vòng tròn thì có 20 khoảng cách (bằng số bạn). 20 × 2 = 40 m.\nLưu ý: 38 m là tính như hàng thẳng (19 khoảng); 42 m là đếm thừa 1 khoảng; 20 m là chỉ đếm số bạn."
+        },
+        {
+          "id": "l3k06-b4-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Lớp có 31 bạn, mỗi bàn ngồi nhiều nhất 4 bạn. Điền số đúng.",
+          "sentence": "Cần ít nhất [[8]] cái bàn. Bàn cuối cùng chỉ có [[3]] bạn ngồi.",
+          "choices": [
+            "8",
+            "3",
+            "7",
+            "4"
+          ],
+          "method": "Chia 31 cho 4, số bạn dư vẫn cần thêm một bàn.",
+          "explanation": "31 : 4 = 7 (dư 3). 7 bàn ngồi đủ 4 bạn, còn 3 bạn ngồi thêm 1 bàn: 7 + 1 = 8 bàn, bàn cuối có 3 bạn.\n7 là quên 3 bạn dư."
+        },
+        {
+          "id": "l3k06-b4-09",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Lật từng ô rồi chạm số khoảng cách giữa các cây.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Hàng thẳng có 6 cây"
+              },
+              "back": {
+                "text": "5 khoảng"
+              }
+            },
+            {
+              "front": {
+                "text": "Vòng tròn có 6 cây"
+              },
+              "back": {
+                "text": "6 khoảng"
+              }
+            },
+            {
+              "front": {
+                "text": "Hàng thẳng có 10 cây"
+              },
+              "back": {
+                "text": "9 khoảng"
+              }
+            },
+            {
+              "front": {
+                "text": "Vòng tròn có 8 cây"
+              },
+              "back": {
+                "text": "8 khoảng"
+              }
+            }
+          ],
+          "method": "Hàng thẳng: số khoảng ít hơn số cây 1. Vòng tròn: số khoảng bằng số cây.",
+          "explanation": "Hàng thẳng 6 cây: 6 − 1 = 5 khoảng. Vòng tròn 6 cây: 6 khoảng. Hàng thẳng 10 cây: 10 − 1 = 9 khoảng. Vòng tròn 8 cây: 8 khoảng."
+        },
+        {
+          "id": "l3k06-b4-10",
+          "question": "Một chiếc thuyền chở nhiều nhất 5 người,\nkể cả bác lái thuyền. Có 20 khách sang sông.\nThuyền phải chở ít nhất mấy chuyến?",
+          "options": [
+            "4",
+            "5",
+            "6",
+            "3"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Mỗi chuyến bác lái thuyền luôn ngồi trên thuyền, vậy mỗi chuyến chở được mấy khách?",
+          "explanation": "Mỗi chuyến có bác lái nên chỉ chở được 5 − 1 = 4 khách. 20 : 4 = 5 chuyến.\nLưu ý: 4 là lấy 20 : 5, quên chỗ của bác lái thuyền; 6 là thừa chuyến; 3 là chia sai."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "10 câu hỏi IQ tưởng dễ mà khó",
+      "emoji": "💡",
+      "description": "10 câu hỏi nhìn thì dễ ợt mà khó không tưởng — bé dám thử không?",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "ngan-viral5-l3-01",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Đo bằng thước kẻ",
+          "question": "Đặt cây bút trên thước, đầu bút ở vạch 2 cm\nvà đuôi bút ở vạch 15 cm.\nHỏi cây bút dài mấy xăng-ti-mét?",
+          "options": [
+            "15 cm",
+            "13 cm",
+            "17 cm",
+            "2 cm"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Lấy vạch cuối trừ vạch đầu, vì bút không bắt đầu từ vạch 0.",
+          "explanation": "Cây bút dài 15 trừ 2 bằng 13 cm. Lưu ý: 15 cm là bẫy do đọc luôn vạch cuối như khi đặt bút từ vạch 0, 2 cm là vạch đầu, còn 17 cm là khi cộng hai vạch."
+        },
+        {
+          "id": "ngan-viral5-l3-02",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Sang ngày đầu tháng sau",
+          "question": "Tháng 4 có 30 ngày và ngày 30 tháng 4 là thứ Năm.\nHỏi ngày 1 tháng 5 là thứ mấy?",
+          "options": [
+            "Thứ Năm",
+            "Thứ Bảy",
+            "Thứ Tư",
+            "Thứ Sáu"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Ngày 1 tháng sau là ngày đứng ngay sau ngày cuối tháng này.",
+          "explanation": "Ngày 30 tháng 4 là thứ Năm, mà ngày 1 tháng 5 ngay sau đó nên là thứ Sáu. Lưu ý: thứ Năm là ngày cuối tháng 4, thứ Tư là ngày 29 tháng 4, còn thứ Bảy là ngày 2 tháng 5."
+        },
+        {
+          "id": "ngan-viral5-l3-03",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Dãy số gấp đôi",
+          "question": "Cho dãy số: 2 ; 4 ; 8 ; 16 ; ...\nHỏi số tiếp theo là số nào?",
+          "options": [
+            "32",
+            "18",
+            "20",
+            "24"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Xem mỗi số so với số đứng trước nó thì gấp lên mấy lần.",
+          "explanation": "Mỗi số đều gấp đôi số đứng trước, nên số tiếp theo là 16 nhân 2 bằng 32. Lưu ý: 18 là khi cộng thêm 2, 20 là khi cộng thêm 4, còn 24 là khi cộng thêm 8, cả ba đều hiểu nhầm quy luật thành phép cộng."
+        },
+        {
+          "id": "ngan-viral5-l3-04",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Số giờ ngủ trong tuần",
+          "question": "Mỗi ngày Lan ngủ 9 tiếng.\nHỏi một tuần Lan ngủ bao nhiêu tiếng?",
+          "options": [
+            "16 tiếng",
+            "70 tiếng",
+            "63 tiếng",
+            "72 tiếng"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Một tuần có 7 ngày nên lấy 9 nhân 7.",
+          "explanation": "Một tuần Lan ngủ 9 nhân 7 bằng 63 tiếng. Lưu ý: 16 tiếng là khi cộng 9 với 7, 72 tiếng là tích của 9 với 8, còn 70 tiếng là khi nhân 10 với 7."
+        },
+        {
+          "id": "ngan-viral5-l3-05",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Dãy số cách đều 3",
+          "question": "Cho dãy số: 2 ; 5 ; 8 ; 11 ; ...\nHỏi số tiếp theo là số nào?",
+          "options": [
+            "12",
+            "14",
+            "13",
+            "22"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Tính khoảng cách giữa hai số liền nhau trong dãy.",
+          "explanation": "Mỗi số hơn số trước 3 đơn vị, nên số tiếp theo là 11 cộng 3 bằng 14. Lưu ý: 12 là khi cộng thêm 1, 13 là khi cộng thêm 2, còn 22 là khi nhân đôi số 11."
+        },
+        {
+          "id": "ngan-viral5-l3-06",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Thời gian đọc sách",
+          "question": "Lan đọc sách từ 7 giờ 15 phút đến 8 giờ.\nHỏi Lan đọc trong bao lâu?",
+          "options": [
+            "1 giờ 15 phút",
+            "15 phút",
+            "30 phút",
+            "45 phút"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đếm từ 7 giờ 15 phút cho tới khi tròn 8 giờ.",
+          "explanation": "Từ 7 giờ 15 phút tới 8 giờ còn thiếu 45 phút nữa mới đủ 60 phút, nên Lan đọc 45 phút. Lưu ý: 15 phút là phần đã trôi qua của giờ thứ bảy, 1 giờ 15 phút là khi cộng thay vì trừ, còn 30 phút là nửa giờ."
+        },
+        {
+          "id": "ngan-viral5-l3-07",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Chu vi tam giác đều",
+          "question": "Một hình tam giác có ba cạnh bằng nhau,\nmỗi cạnh 9 cm. Tính chu vi hình đó.",
+          "options": [
+            "18 cm",
+            "12 cm",
+            "27 cm",
+            "81 cm"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Chu vi bằng tổng ba cạnh, mà ba cạnh bằng nhau nên lấy cạnh nhân 3.",
+          "explanation": "Chu vi là 9 nhân 3 bằng 27 cm. Lưu ý: 18 cm là tổng của hai cạnh, 12 cm là khi cộng 9 với 3, còn 81 cm là tích của 9 với 9."
+        },
+        {
+          "id": "ngan-viral5-l3-08",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Tìm thừa số",
+          "question": "Số nào nhân với 4 thì được 36?",
+          "options": [
+            "9",
+            "32",
+            "40",
+            "144"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Muốn tìm thừa số chưa biết ta lấy tích chia cho thừa số đã biết.",
+          "explanation": "Số cần tìm là 36 chia 4 bằng 9. Thử lại: 9 nhân 4 bằng 36. Lưu ý: 32 là hiệu của 36 và 4, 40 là tổng của chúng, còn 144 là tích của 36 với 4."
+        },
+        {
+          "id": "ngan-viral5-l3-09",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - So sánh hai nhóm bạn",
+          "question": "Lớp 3A có 12 bạn thích bóng đá\nvà 8 bạn thích cầu lông.\nHỏi số bạn thích bóng đá nhiều hơn mấy bạn?",
+          "options": [
+            "20 bạn",
+            "8 bạn",
+            "12 bạn",
+            "4 bạn"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Muốn biết nhiều hơn bao nhiêu thì làm phép trừ.",
+          "explanation": "Số bạn thích bóng đá nhiều hơn 12 trừ 8 bằng 4 bạn. Lưu ý: 20 bạn là tổng hai nhóm, 12 bạn và 8 bạn là số bạn của từng nhóm."
+        },
+        {
+          "id": "ngan-viral5-l3-10",
+          "subject": "THỬ THÁCH IQ|LỚP 3",
+          "lesson": "Ngắn mà hóc - Bảng nhân 7",
+          "question": "Tính:\n6 × 7",
+          "options": [
+            "42",
+            "13",
+            "49",
+            "35"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Nhớ bảng nhân 7, hoặc lấy 7 nhân 5 rồi cộng thêm 7.",
+          "explanation": "Lấy 7 nhân 5 bằng 35, cộng thêm 7 nữa được 42. Lưu ý: 13 là khi cộng 6 với 7, 49 là tích của 7 với 7, còn 35 là tích của 7 với 5."
+        }
+      ]
+    }
+  ]
+}

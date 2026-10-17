@@ -22,8 +22,8 @@ type Nhom = {
   emoji: string;
   mau: string;
   /**
-   * Vài việc chính của lứa tuổi này — bốn chứ không phải mười, để bé bấm được
-   * ngay: ba mục học theo bài, cộng một công cụ để bé tự thao tác.
+   * Vài việc chính của lứa tuổi này — bốn hoặc năm chứ không phải mười, để bé bấm
+   * được ngay: các mục học theo bài, cộng một công cụ để bé tự thao tác.
    */
   viec: { href: string; emoji: string; ten: string; mo: string }[];
 };
@@ -55,9 +55,15 @@ const NHOM: Nhom[] = [
       { href: `/khoa-hoc/toan-lop-${g}`, emoji: '🔢', ten: `Toán lớp ${g}`, mo: 'Học theo bài, có bài tập' },
       { href: `/khoa-hoc/tieng-viet-lop-${g}`, emoji: '📖', ten: `Tiếng Việt lớp ${g}`, mo: 'Đọc, viết, chính tả' },
       { href: '/luyen-nghe', emoji: '🎧', ten: 'Tiếng Anh', mo: 'Nghe và học từ vựng' },
-      // Việc thứ tư: công cụ Toán hợp nhất với lứa tuổi này. Ba việc đầu là
-      // học theo bài, mục này là chỗ bé tự thao tác — hai kiểu khác nhau nên
-      // để cạnh nhau thay vì thay thế.
+      // Toán IQ CHỈ có lớp 1, 2, 3 (12 khóa mỗi lớp). Lớp 4–5 mà vẫn để mục này
+      // thì bấm vào rơi về lớp 1 — trang cửa hàng không có lớp ấy nên nó tự lùi
+      // về lớp đầu tiên, không báo gì cả. Thà không hiện còn hơn hiện rồi dẫn sai.
+      ...(g <= 3
+        ? [{ href: `/khoa-hoc-iq?lop=lop-${g}`, emoji: '🧠', ten: `Toán IQ lớp ${g}`, mo: '12 khóa thử thách tư duy' }]
+        : []),
+      // Việc cuối: công cụ Toán hợp nhất với lứa tuổi này. Các việc trên là học
+      // theo bài, mục này là chỗ bé tự thao tác — hai kiểu khác nhau nên để cạnh
+      // nhau thay vì thay thế.
       congCuChoLop(g),
     ],
   })),

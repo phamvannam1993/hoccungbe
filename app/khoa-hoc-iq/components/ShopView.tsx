@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element -- ảnh giao diện tĩnh, nhỏ */
 import Link from 'next/link';
+import { Home } from 'lucide-react';
 import type { Combo, Course, Grade } from '../lib/types';
 import { img } from '../lib/assets';
 import { withClocks } from './Clock';
@@ -33,6 +34,22 @@ export function ShopHeader({ title, backHref, children }: { title: string; backH
         )}
         <p className="min-w-0 flex-1 truncate text-base font-extrabold sm:text-lg">{title}</p>
         {children}
+        {/* Đường VỀ TRANG CHỦ.
+            Khu Toán IQ cố ý không dùng header của trang chính (xem layout.tsx), mà
+            nút mũi tên ở đây chỉ lùi trong khu: bài → danh sách bài → cửa hàng, rồi
+            hết. Ở cửa hàng thì icon bên trái còn trỏ về chính nó. Nghĩa là vào khu
+            này xong không có đường ra, phải sửa thanh địa chỉ hoặc bấm nút lùi của
+            trình duyệt.
+            Chữ "Trang chủ" ẩn dưới 640px cho đỡ chật, nhưng nút thì luôn còn. */}
+        <Link
+          href="/"
+          aria-label="Về trang chủ Bé Hay Học"
+          title="Về trang chủ"
+          className="flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-white/15 px-2.5 text-sm font-extrabold transition hover:bg-white/25 sm:px-3"
+        >
+          <Home size={18} aria-hidden />
+          <span className="hidden sm:inline">Trang chủ</span>
+        </Link>
         <div
           className="relative hidden h-[42px] w-[96px] shrink-0 items-center bg-contain bg-no-repeat pl-7 sm:flex"
           style={{ backgroundImage: `url(${img('bg_coin.png')})` }}

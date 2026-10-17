@@ -1,0 +1,1259 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Bài toán chia nhóm học sinh",
+      "emoji": "👫",
+      "description": "Chia nhóm, chia xe, chia lều — bé tính sao cho không bạn nào bị bỏ lại nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k11-b1-01",
+          "type": "choice",
+          "prompt": "Lớp 3A có 34 học sinh đi cắm trại.\nMỗi lều ngủ được 4 bạn.\nCần ít nhất bao nhiêu lều để bạn nào cũng có chỗ ngủ?",
+          "options": [
+            {
+              "text": "8 lều"
+            },
+            {
+              "text": "9 lều"
+            },
+            {
+              "text": "10 lều"
+            },
+            {
+              "text": "7 lều"
+            }
+          ],
+          "answer": 1,
+          "method": "Làm phép chia có dư; nếu còn dư bạn nào thì cần thêm một lều nữa.",
+          "explanation": "34 : 4 = 8 (dư 2). 8 lều mới đủ cho 32 bạn, còn 2 bạn cần thêm 1 lều: 8 + 1 = 9 lều.\nLưu ý: 8 lều là quên 2 bạn còn dư; 10 lều là thừa; 7 lều là chia sai."
+        },
+        {
+          "id": "l3k11-b1-02",
+          "type": "input",
+          "prompt": "Có 30 bạn chia thành các nhóm, mỗi nhóm 6 bạn.\nMỗi nhóm bầu 1 bạn làm nhóm trưởng.\nCó bao nhiêu bạn KHÔNG phải nhóm trưởng?",
+          "answers": [
+            "25"
+          ],
+          "unit": "bạn",
+          "method": "Tìm số nhóm trước — số nhóm cũng là số nhóm trưởng.",
+          "explanation": "30 : 6 = 5 nhóm → có 5 nhóm trưởng. Số bạn không phải nhóm trưởng: 30 − 5 = 25 bạn.\nLưu ý: 24 là lấy 30 − 6 (nhầm số bạn một nhóm với số nhóm); 5 là số nhóm trưởng."
+        },
+        {
+          "id": "l3k11-b1-03",
+          "type": "input",
+          "prompt": "Cô có 50 quyển vở, chia đều cho 8 nhóm, mỗi nhóm được nhiều nhất có thể.\nCô còn thừa bao nhiêu quyển vở?",
+          "answers": [
+            "2"
+          ],
+          "unit": "quyển",
+          "method": "Tìm số lớn nhất trong bảng nhân 8 mà không vượt quá 50.",
+          "explanation": "50 : 8 = 6 (dư 2), vì 8 × 6 = 48 và 50 − 48 = 2. Cô còn thừa 2 quyển.\nLưu ý: 6 là số vở mỗi nhóm nhận được, không phải số vở thừa."
+        },
+        {
+          "id": "l3k11-b1-04",
+          "type": "choice",
+          "prompt": "32 bạn xếp thành các hàng, mỗi hàng 4 bạn.\nSau đó cứ 2 hàng ghép lại thành 1 đội.\nCó bao nhiêu đội?",
+          "options": [
+            {
+              "text": "8 đội"
+            },
+            {
+              "text": "16 đội"
+            },
+            {
+              "text": "4 đội"
+            },
+            {
+              "text": "2 đội"
+            }
+          ],
+          "answer": 2,
+          "method": "Làm từng bước: tìm số hàng, rồi tìm số đội.",
+          "explanation": "Số hàng: 32 : 4 = 8 hàng. Số đội: 8 : 2 = 4 đội.\nLưu ý: 8 đội là quên bước ghép 2 hàng; 16 đội là lấy 32 : 2; 2 đội là lấy 8 : 4."
+        },
+        {
+          "id": "l3k11-b1-05",
+          "type": "multi_choice",
+          "prompt": "Lớp có 24 bạn.\nChọn TẤT CẢ cách chia lớp thành các nhóm bằng nhau mà không thừa bạn nào.",
+          "options": [
+            {
+              "text": "Mỗi nhóm 3 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 5 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 6 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 7 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 8 bạn"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Thử chia 24 cho từng số, xem phép chia có dư hay không.",
+          "explanation": "24 : 3 = 8, 24 : 6 = 4, 24 : 8 = 3 → chia hết.\nLưu ý: 24 : 5 = 4 (dư 4) và 24 : 7 = 3 (dư 3) → còn thừa bạn nên không chọn."
+        },
+        {
+          "id": "l3k11-b1-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Mỗi nhóm có 7 bạn.\nNối số học sinh với số nhóm chia được.",
+          "pairs": [
+            {
+              "left": {
+                "text": "21 bạn"
+              },
+              "right": {
+                "text": "3 nhóm"
+              }
+            },
+            {
+              "left": {
+                "text": "35 bạn"
+              },
+              "right": {
+                "text": "5 nhóm"
+              }
+            },
+            {
+              "left": {
+                "text": "56 bạn"
+              },
+              "right": {
+                "text": "8 nhóm"
+              }
+            },
+            {
+              "left": {
+                "text": "63 bạn"
+              },
+              "right": {
+                "text": "9 nhóm"
+              }
+            }
+          ],
+          "method": "Dùng bảng chia 7.",
+          "explanation": "21 : 7 = 3, 35 : 7 = 5, 56 : 7 = 8, 63 : 7 = 9."
+        },
+        {
+          "id": "l3k11-b1-07",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Mỗi nhóm có 5 bạn.\nKéo mỗi số học sinh vào đúng ô: chia vừa hết hay còn thừa bạn.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Chia vừa hết"
+            },
+            {
+              "emoji": "➕",
+              "text": "Còn thừa bạn"
+            }
+          ],
+          "items": [
+            {
+              "text": "35",
+              "group": 0
+            },
+            {
+              "text": "42",
+              "group": 1
+            },
+            {
+              "text": "40",
+              "group": 0
+            },
+            {
+              "text": "27",
+              "group": 1
+            },
+            {
+              "text": "45",
+              "group": 0
+            },
+            {
+              "text": "53",
+              "group": 1
+            }
+          ],
+          "method": "Thử chia từng số cho 5 (dùng bảng chia 5), xem có dư hay không.",
+          "explanation": "35 : 5 = 7, 40 : 5 = 8, 45 : 5 = 9 → chia vừa hết.\n42 : 5 = 8 (dư 2), 27 : 5 = 5 (dư 2), 53 : 5 = 10 (dư 3) → còn thừa bạn."
+        },
+        {
+          "id": "l3k11-b1-08",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Có 29 bạn đi tham quan, mỗi xe chở 8 bạn. Ta có 29 : 8 = [[3]] (dư [[5]]). Vậy cần ít nhất [[4]] xe.",
+          "choices": [
+            "3",
+            "5",
+            "4",
+            "2"
+          ],
+          "method": "Còn dư bạn nào thì phải thêm một xe nữa.",
+          "explanation": "8 × 3 = 24, 29 − 24 = 5 → 29 : 8 = 3 (dư 5). 3 xe chở 24 bạn, 5 bạn còn lại cần thêm 1 xe: 3 + 1 = 4 xe.\nLưu ý: 2 là số gây nhiễu, không phải thương hay số dư."
+        },
+        {
+          "id": "l3k11-b1-09",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Lớp có 36 bạn. Cô thử các cách chia nhóm dưới đây.\nKéo để xếp các cách theo SỐ NHÓM từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "Mỗi nhóm 9 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 6 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 4 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 3 bạn"
+            },
+            {
+              "text": "Mỗi nhóm 2 bạn"
+            }
+          ],
+          "method": "Tính số nhóm của từng cách; nhóm càng đông thì số nhóm càng ít.",
+          "explanation": "36 : 9 = 4 nhóm, 36 : 6 = 6 nhóm, 36 : 4 = 9 nhóm, 36 : 3 = 12 nhóm, 36 : 2 = 18 nhóm."
+        },
+        {
+          "id": "l3k11-b1-10",
+          "type": "pick_order",
+          "timeLimit": 50,
+          "prompt": "Có 6 nhóm, mỗi nhóm 4 bạn. Sau đó có thêm 3 bạn đến.\nChạm các thẻ để ghép phép tính tìm số bạn tất cả (bắt đầu bằng số nhóm, kết quả ở cuối).",
+          "items": [
+            "6",
+            "×",
+            "4",
+            "+",
+            "3",
+            "=",
+            "27"
+          ],
+          "distractors": [
+            "21"
+          ],
+          "method": "Tìm số bạn trong 6 nhóm trước, rồi cộng thêm số bạn đến sau.",
+          "explanation": "6 × 4 = 24 bạn, thêm 3 bạn: 24 + 3 = 27 bạn. Phép tính: 6 × 4 + 3 = 27.\nLưu ý: 21 là lấy 24 − 3 — sai vì có thêm bạn thì phải cộng."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Bài toán xếp hàng và thứ tự",
+      "emoji": "🚶",
+      "description": "Đứng thứ mấy từ đầu, thứ mấy từ cuối? Cùng bé suy luận nào!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k11-b2-01",
+          "type": "choice",
+          "prompt": "Trong một hàng, Nam đứng thứ 5 tính từ đầu hàng và thứ 8 tính từ cuối hàng.\nHàng có bao nhiêu bạn?",
+          "options": [
+            {
+              "text": "13 bạn"
+            },
+            {
+              "text": "11 bạn"
+            },
+            {
+              "text": "12 bạn"
+            },
+            {
+              "text": "3 bạn"
+            }
+          ],
+          "answer": 2,
+          "method": "Vẽ hàng ra giấy: Nam được đếm cả khi tính từ đầu lẫn khi tính từ cuối.",
+          "explanation": "Trước Nam có 4 bạn, sau Nam có 7 bạn. Cả hàng: 4 + 1 + 7 = 12 bạn.\nLưu ý: 13 bạn là cộng 5 + 8 — đếm Nam hai lần; 11 bạn là bớt quá nhiều; 3 bạn là lấy 8 − 5."
+        },
+        {
+          "id": "l3k11-b2-02",
+          "type": "input",
+          "prompt": "Có 20 bạn xếp một hàng dọc.\nLan đứng thứ 7 tính từ đầu hàng.\nHỏi Lan đứng thứ mấy tính từ cuối hàng?",
+          "answers": [
+            "14"
+          ],
+          "method": "Đếm xem sau Lan còn bao nhiêu bạn.",
+          "explanation": "Sau Lan có 20 − 7 = 13 bạn. Tính từ cuối, Lan đứng thứ 13 + 1 = 14.\nLưu ý: 13 là quên tính chính Lan."
+        },
+        {
+          "id": "l3k11-b2-03",
+          "type": "match_vertical",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn An, Bình, Chi, Dũng xếp một hàng dọc.\n• Chi đứng đầu hàng.\n• Bình đứng cuối hàng.\n• Dũng đứng ngay trước An.\nNối mỗi bạn với vị trí của bạn ấy.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An"
+              },
+              "right": {
+                "text": "Thứ 3"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình"
+              },
+              "right": {
+                "text": "Thứ 4"
+              }
+            },
+            {
+              "left": {
+                "text": "Chi"
+              },
+              "right": {
+                "text": "Thứ 1"
+              }
+            },
+            {
+              "left": {
+                "text": "Dũng"
+              },
+              "right": {
+                "text": "Thứ 2"
+              }
+            }
+          ],
+          "method": "Xếp hai bạn biết chắc vị trí trước, rồi xét hai chỗ còn lại.",
+          "explanation": "Chi thứ 1, Bình thứ 4. Còn chỗ thứ 2 và thứ 3; Dũng đứng ngay trước An nên Dũng thứ 2, An thứ 3."
+        },
+        {
+          "id": "l3k11-b2-04",
+          "type": "choice",
+          "prompt": "Hàng có 18 bạn. Tú đứng thứ 6 tính từ đầu hàng.\nCó bao nhiêu bạn đứng SAU Tú?",
+          "options": [
+            {
+              "text": "12 bạn"
+            },
+            {
+              "text": "13 bạn"
+            },
+            {
+              "text": "11 bạn"
+            },
+            {
+              "text": "6 bạn"
+            }
+          ],
+          "answer": 0,
+          "method": "Lấy tổng số bạn bớt đi các bạn từ đầu hàng đến Tú.",
+          "explanation": "Từ đầu hàng đến Tú có 6 bạn (tính cả Tú). Sau Tú: 18 − 6 = 12 bạn.\nLưu ý: 13 bạn là vị trí của Tú tính từ cuối hàng; 11 bạn là bớt thêm 1; 6 bạn là vị trí của Tú."
+        },
+        {
+          "id": "l3k11-b2-05",
+          "type": "input",
+          "prompt": "Hàng có 25 bạn. An đứng thứ 10 tính từ đầu hàng, Bình đứng thứ 10 tính từ cuối hàng.\nGiữa An và Bình có bao nhiêu bạn?",
+          "timeLimit": 30,
+          "answers": [
+            "5"
+          ],
+          "unit": "bạn",
+          "method": "Đổi vị trí của Bình sang \"tính từ đầu hàng\" trước.",
+          "explanation": "Bình đứng thứ 25 − 10 + 1 = 16 tính từ đầu hàng. Giữa vị trí 10 và 16 là các vị trí 11, 12, 13, 14, 15 → 5 bạn.\nLưu ý: 6 là lấy 16 − 10, tính cả Bình; 0 là nghĩ hai bạn đứng cùng chỗ."
+        },
+        {
+          "id": "l3k11-b2-06",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn Hà, Lan, Minh, Tú chạy thi.\n• Minh về đích cuối cùng.\n• Hà về trước Lan.\n• Tú về ngay sau Lan.\nKéo tên các bạn theo thứ tự về đích từ ĐẦU TIÊN đến CUỐI CÙNG.",
+          "items": [
+            {
+              "text": "Hà"
+            },
+            {
+              "text": "Lan"
+            },
+            {
+              "text": "Tú"
+            },
+            {
+              "text": "Minh"
+            }
+          ],
+          "method": "Đặt Minh ở cuối trước, rồi xếp ba bạn còn lại.",
+          "explanation": "Minh thứ 4. Ba chỗ đầu cho Hà, Lan, Tú: Hà trước Lan, Tú ngay sau Lan → Hà thứ 1, Lan thứ 2, Tú thứ 3."
+        },
+        {
+          "id": "l3k11-b2-07",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Cô xếp 30 bạn thành 5 hàng, mỗi hàng 6 bạn, đánh số từ 1 đến 30: hàng 1 gồm số 1 đến 6, hàng 2 gồm số 7 đến 12… Bạn số 20 đứng ở hàng thứ [[4]], là bạn thứ [[2]] trong hàng đó.",
+          "choices": [
+            "4",
+            "2",
+            "3",
+            "5"
+          ],
+          "method": "Hàng 3 kết thúc ở số 18 — xem số 20 vượt qua bao nhiêu.",
+          "explanation": "Hàng 1: 1–6, hàng 2: 7–12, hàng 3: 13–18, hàng 4: 19–24. Số 20 ở hàng 4, là bạn thứ 2 (sau số 19).\nLưu ý: 3 là lấy 20 : 6 = 3 (dư 2) rồi quên rằng còn dư nghĩa là sang hàng tiếp theo; 5 là số hàng của cả lớp."
+        },
+        {
+          "id": "l3k11-b2-08",
+          "type": "choice",
+          "prompt": "12 bạn đứng thành một hàng thẳng, hai bạn cạnh nhau cách nhau 1 m.\nTừ bạn đầu hàng đến bạn cuối hàng dài bao nhiêu mét?",
+          "options": [
+            {
+              "text": "12 m"
+            },
+            {
+              "text": "11 m"
+            },
+            {
+              "text": "13 m"
+            },
+            {
+              "text": "24 m"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm số khoảng cách giữa các bạn, không phải số bạn.",
+          "explanation": "12 bạn tạo thành 12 − 1 = 11 khoảng cách, mỗi khoảng 1 m → 11 m.\nLưu ý: 12 m là nhầm số bạn với số khoảng cách; 13 m là cộng thêm 1; 24 m là nhân 12 × 2."
+        },
+        {
+          "id": "l3k11-b2-09",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Hàng có 15 bạn.\nNối vị trí tính từ ĐẦU hàng với vị trí tính từ CUỐI hàng của cùng một bạn.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Thứ 1 từ đầu"
+              },
+              "right": {
+                "text": "Thứ 15 từ cuối"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 4 từ đầu"
+              },
+              "right": {
+                "text": "Thứ 12 từ cuối"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 8 từ đầu"
+              },
+              "right": {
+                "text": "Thứ 8 từ cuối"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 13 từ đầu"
+              },
+              "right": {
+                "text": "Thứ 3 từ cuối"
+              }
+            }
+          ],
+          "method": "Vị trí từ đầu cộng vị trí từ cuối luôn bằng số bạn cộng 1.",
+          "explanation": "15 + 1 = 16. Thứ 1 ↔ 16 − 1 = 15; thứ 4 ↔ 12; thứ 8 ↔ 8 (bạn đứng chính giữa); thứ 13 ↔ 3."
+        },
+        {
+          "id": "l3k11-b2-10",
+          "type": "input",
+          "prompt": "Hùng đứng thứ 4 tính từ đầu hàng.\nSố bạn đứng sau Hùng gấp 3 lần số bạn đứng trước Hùng.\nHàng có bao nhiêu bạn?",
+          "timeLimit": 30,
+          "answers": [
+            "13"
+          ],
+          "unit": "bạn",
+          "method": "Đếm số bạn đứng TRƯỚC Hùng trước đã.",
+          "explanation": "Trước Hùng có 3 bạn. Sau Hùng: 3 × 3 = 9 bạn. Cả hàng: 3 + 1 + 9 = 13 bạn.\nLưu ý: 12 là quên tính Hùng; 17 là nhầm \"thứ 4\" thành \"có 4 bạn đứng trước\" (4 + 1 + 12)."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Bài toán quãng đường đơn giản",
+      "emoji": "🛣️",
+      "description": "Đi bao xa, còn bao xa? Bé cùng tính quãng đường nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k11-b3-01",
+          "type": "choice",
+          "prompt": "Nhà Minh cách trường 850 m.\nMỗi ngày Minh đi từ nhà đến trường rồi lại đi về nhà.\nMỗi ngày Minh đi tất cả bao nhiêu mét?",
+          "options": [
+            {
+              "text": "850 m"
+            },
+            {
+              "text": "1 600 m"
+            },
+            {
+              "text": "3 400 m"
+            },
+            {
+              "text": "1 700 m"
+            }
+          ],
+          "answer": 3,
+          "method": "Đi và về là hai lần quãng đường.",
+          "explanation": "850 + 850 = 1 700 m (hay 850 × 2 = 1 700 m).\nLưu ý: 850 m là chỉ tính chiều đi; 1 600 m là cộng quên nhớ; 3 400 m là tính 4 lần quãng đường."
+        },
+        {
+          "id": "l3k11-b3-02",
+          "type": "input",
+          "prompt": "Quãng đường từ A đến B dài 2 km.\nBạn Huy đã đi được 1 km 300 m.\nHuy còn phải đi bao nhiêu mét nữa?",
+          "answers": [
+            "700"
+          ],
+          "unit": "m",
+          "method": "Đổi hết ra mét rồi làm phép trừ.",
+          "explanation": "2 km = 2 000 m; 1 km 300 m = 1 300 m. Còn phải đi: 2 000 − 1 300 = 700 m.\nLưu ý: 1 700 là lấy 2 000 − 300, quên trừ 1 km."
+        },
+        {
+          "id": "l3k11-b3-03",
+          "type": "fill_blank",
+          "timeLimit": 45,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Từ nhà đến công viên dài 500 m, từ công viên đến thư viện dài 700 m. Đi từ nhà qua công viên đến thư viện dài [[1 200]] m. Đi đến thư viện rồi quay về nhà theo đường cũ thì đi tất cả [[2 400]] m.",
+          "choices": [
+            "1 200",
+            "2 400",
+            "1 100",
+            "1 700"
+          ],
+          "method": "Cộng hai chặng đường; đi rồi về thì gấp đôi.",
+          "explanation": "500 + 700 = 1 200 m. Đi rồi về: 1 200 × 2 = 2 400 m.\nLưu ý: 1 100 là cộng sai; 1 700 là cộng 1 200 + 500, chỉ tính thêm một chặng."
+        },
+        {
+          "id": "l3k11-b3-04",
+          "type": "choice",
+          "prompt": "Trồng cây ở một bên đường dài 40 m, hai cây liền nhau cách nhau 5 m, cả hai đầu đường đều trồng cây.\nCần bao nhiêu cây?",
+          "options": [
+            {
+              "text": "8 cây"
+            },
+            {
+              "text": "10 cây"
+            },
+            {
+              "text": "9 cây"
+            },
+            {
+              "text": "7 cây"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm số khoảng cách trước; số cây nhiều hơn số khoảng 1 khi trồng cả hai đầu.",
+          "explanation": "Số khoảng: 40 : 5 = 8 khoảng. Trồng cả hai đầu nên số cây: 8 + 1 = 9 cây.\nLưu ý: 8 cây là quên cây ở đầu đường; 10 cây là cộng thêm 2; 7 cây là bớt đi 1."
+        },
+        {
+          "id": "l3k11-b3-05",
+          "type": "input",
+          "prompt": "Ốc sên bò lên một cái cột cao 10 m.\nBan ngày ốc bò lên được 3 m, ban đêm lại tụt xuống 2 m.\nĐến ngày thứ mấy thì ốc sên lên tới đỉnh cột?",
+          "timeLimit": 30,
+          "answers": [
+            "8"
+          ],
+          "method": "Theo dõi từng ngày; nhớ là khi đã tới đỉnh vào ban ngày thì ốc không tụt nữa.",
+          "explanation": "Mỗi ngày đêm ốc lên được 3 − 2 = 1 m. Sau 7 ngày đêm ốc ở độ cao 7 m. Ban ngày thứ 8 ốc bò thêm 3 m: 7 + 3 = 10 m → tới đỉnh.\nLưu ý: 10 là lấy 10 : 1, quên rằng ngày cuối ốc bò lên tới đỉnh luôn trước khi kịp tụt xuống."
+        },
+        {
+          "id": "l3k11-b3-06",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi bài toán với quãng đường đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Đi 3 vòng sân, mỗi vòng 200 m"
+              },
+              "right": {
+                "text": "600 m"
+              }
+            },
+            {
+              "left": {
+                "text": "Đi 500 m rồi đi thêm 450 m"
+              },
+              "right": {
+                "text": "950 m"
+              }
+            },
+            {
+              "left": {
+                "text": "Đường dài 1 km, đã đi 350 m. Còn lại?"
+              },
+              "right": {
+                "text": "650 m"
+              }
+            },
+            {
+              "left": {
+                "text": "Đi rồi về, mỗi chiều 400 m"
+              },
+              "right": {
+                "text": "800 m"
+              }
+            }
+          ],
+          "method": "Đọc kỹ: gấp lên, cộng thêm hay trừ đi; nhớ 1 km = 1 000 m.",
+          "explanation": "200 × 3 = 600 m; 500 + 450 = 950 m; 1 000 − 350 = 650 m; 400 × 2 = 800 m."
+        },
+        {
+          "id": "l3k11-b3-07",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Kéo để xếp các quãng đường từ NGẮN đến DÀI.",
+          "items": [
+            {
+              "text": "980 m"
+            },
+            {
+              "text": "1 km 5 m"
+            },
+            {
+              "text": "1 050 m"
+            },
+            {
+              "text": "1 km 500 m"
+            },
+            {
+              "text": "2 km"
+            }
+          ],
+          "method": "Đổi hết ra mét rồi so sánh.",
+          "explanation": "980 m; 1 km 5 m = 1 005 m; 1 050 m; 1 km 500 m = 1 500 m; 2 km = 2 000 m. Thứ tự: 980 < 1 005 < 1 050 < 1 500 < 2 000."
+        },
+        {
+          "id": "l3k11-b3-08",
+          "type": "choice",
+          "prompt": "Nhà An, trường học và nhà Bình nằm trên một con đường thẳng, trường ở GIỮA hai nhà.\nNhà An cách trường 700 m, nhà An cách nhà Bình 1 km.\nNhà Bình cách trường bao nhiêu mét?",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "300 m"
+            },
+            {
+              "text": "1 700 m"
+            },
+            {
+              "text": "700 m"
+            },
+            {
+              "text": "1 000 m"
+            }
+          ],
+          "answer": 0,
+          "method": "Vẽ một đoạn thẳng: nhà An – trường – nhà Bình.",
+          "explanation": "Đoạn nhà An – nhà Bình dài 1 km = 1 000 m, gồm hai phần: 700 m và phần từ trường đến nhà Bình. Nhà Bình cách trường: 1 000 − 700 = 300 m.\nLưu ý: 1 700 m là cộng — sai vì trường nằm giữa; 700 m là khoảng cách từ nhà An; 1 000 m là khoảng cách giữa hai nhà."
+        },
+        {
+          "id": "l3k11-b3-09",
+          "type": "pick_order",
+          "timeLimit": 50,
+          "prompt": "Một vòng sân dài 150 m. Bé chạy 4 vòng rồi đi bộ thêm 80 m.\nChạm các thẻ để ghép phép tính số mét bé đi (bắt đầu bằng độ dài một vòng sân).",
+          "items": [
+            "150",
+            "×",
+            "4",
+            "+",
+            "80",
+            "=",
+            "680"
+          ],
+          "distractors": [
+            "600"
+          ],
+          "method": "Tính quãng đường chạy 4 vòng trước, rồi cộng thêm đoạn đi bộ.",
+          "explanation": "Chạy 4 vòng: 150 × 4 = 600 m. Thêm 80 m: 600 + 80 = 680 m. Phép tính: 150 × 4 + 80 = 680.\nLưu ý: 600 là quãng đường chạy, chưa cộng đoạn đi bộ."
+        },
+        {
+          "id": "l3k11-b3-10",
+          "type": "input",
+          "prompt": "Từ nhà đến trường dài 1 200 m.\nBé đi được nửa đường thì quay về nhà lấy vở, rồi đi đến trường.\nHôm đó bé đi tất cả bao nhiêu mét?",
+          "timeLimit": 30,
+          "answers": [
+            "2400",
+            "2 400"
+          ],
+          "unit": "m",
+          "method": "Vẽ sơ đồ: đoạn đi nửa đường, đoạn quay về, rồi cả quãng đến trường.",
+          "explanation": "Nửa đường: 1 200 : 2 = 600 m. Đi 600 m, quay về 600 m, rồi đi cả 1 200 m: 600 + 600 + 1 200 = 2 400 m.\nLưu ý: 1 800 là quên đoạn quay về nhà; 1 200 là chỉ tính quãng đến trường."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Bài toán về tuổi",
+      "emoji": "🎂",
+      "description": "Tuổi bố, tuổi mẹ, tuổi con — bé khám phá bí mật của những con số tuổi!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k11-b4-01",
+          "type": "choice",
+          "prompt": "Năm nay mẹ 36 tuổi, con 9 tuổi.\nSau 3 năm nữa, mẹ hơn con bao nhiêu tuổi?",
+          "options": [
+            {
+              "text": "30 tuổi"
+            },
+            {
+              "text": "27 tuổi"
+            },
+            {
+              "text": "33 tuổi"
+            },
+            {
+              "text": "24 tuổi"
+            }
+          ],
+          "answer": 1,
+          "method": "Mỗi năm mẹ và con đều thêm 1 tuổi.",
+          "explanation": "Năm nay mẹ hơn con: 36 − 9 = 27 tuổi. Hai người cùng thêm tuổi như nhau nên sau 3 năm, mẹ vẫn hơn con 27 tuổi.\nLưu ý: 30 tuổi là cộng thêm 3; 24 tuổi là trừ đi 3; 33 tuổi là cộng thêm 3 + 3."
+        },
+        {
+          "id": "l3k11-b4-02",
+          "type": "input",
+          "prompt": "Năm nay con 7 tuổi. Tuổi bố gấp 5 lần tuổi con.\nHỏi 4 năm nữa bố bao nhiêu tuổi?",
+          "answers": [
+            "39"
+          ],
+          "unit": "tuổi",
+          "method": "Tìm tuổi bố năm nay trước, rồi cộng thêm 4.",
+          "explanation": "Tuổi bố năm nay: 7 × 5 = 35 tuổi. 4 năm nữa: 35 + 4 = 39 tuổi.\nLưu ý: 55 là lấy (7 + 4) × 5 — sai vì \"gấp 5 lần\" là nói về năm nay; 35 là quên cộng thêm 4 năm."
+        },
+        {
+          "id": "l3k11-b4-03",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn Anh, Bảo, Chi, Dung.\n• Anh 9 tuổi.\n• Bảo hơn Anh 2 tuổi.\n• Chi kém Anh 1 tuổi.\n• Dung hơn Bảo 1 tuổi.\nKéo tên các bạn theo thứ tự từ ÍT tuổi đến NHIỀU tuổi.",
+          "items": [
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "Anh"
+            },
+            {
+              "text": "Bảo"
+            },
+            {
+              "text": "Dung"
+            }
+          ],
+          "method": "Tính tuổi từng bạn dựa vào tuổi của Anh.",
+          "explanation": "Anh 9 tuổi, Bảo 9 + 2 = 11 tuổi, Chi 9 − 1 = 8 tuổi, Dung 11 + 1 = 12 tuổi. Thứ tự: Chi (8), Anh (9), Bảo (11), Dung (12)."
+        },
+        {
+          "id": "l3k11-b4-04",
+          "type": "choice",
+          "prompt": "Năm nay con 6 tuổi, mẹ 30 tuổi.\nMấy năm TRƯỚC thì tuổi mẹ gấp 7 lần tuổi con?",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "1 năm"
+            },
+            {
+              "text": "2 năm"
+            },
+            {
+              "text": "3 năm"
+            },
+            {
+              "text": "4 năm"
+            }
+          ],
+          "answer": 1,
+          "method": "Lùi lại từng năm: mỗi năm trước, cả mẹ và con đều bớt 1 tuổi.",
+          "explanation": "1 năm trước: con 5, mẹ 29 (29 không gấp 7 lần 5). 2 năm trước: con 4, mẹ 28 = 4 × 7 ✓.\nLưu ý: 1 năm là chưa thử lại; 3 năm trước: con 3, mẹ 27 = 3 × 9; 4 năm trước: con 2, mẹ 26 = 2 × 13."
+        },
+        {
+          "id": "l3k11-b4-05",
+          "type": "input",
+          "prompt": "Hai năm trước, tổng số tuổi của hai chị em là 15 tuổi.\nNăm nay tổng số tuổi của hai chị em là bao nhiêu?",
+          "answers": [
+            "19"
+          ],
+          "unit": "tuổi",
+          "method": "Sau 2 năm, MỖI người đều thêm 2 tuổi.",
+          "explanation": "Chị thêm 2 tuổi, em thêm 2 tuổi, tổng thêm 2 + 2 = 4 tuổi: 15 + 4 = 19 tuổi.\nLưu ý: 17 là chỉ cộng 2 — quên rằng cả hai chị em đều lớn thêm."
+        },
+        {
+          "id": "l3k11-b4-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Năm nay An 8 tuổi.\nNối mỗi câu hỏi với số tuổi đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Tuổi An 5 năm nữa"
+              },
+              "right": {
+                "text": "13 tuổi"
+              }
+            },
+            {
+              "left": {
+                "text": "Tuổi An 3 năm trước"
+              },
+              "right": {
+                "text": "5 tuổi"
+              }
+            },
+            {
+              "left": {
+                "text": "Tuổi bố, gấp 4 lần tuổi An"
+              },
+              "right": {
+                "text": "32 tuổi"
+              }
+            },
+            {
+              "left": {
+                "text": "Tuổi chị, hơn An 3 tuổi"
+              },
+              "right": {
+                "text": "11 tuổi"
+              }
+            }
+          ],
+          "method": "\"Năm nữa\" thì cộng, \"năm trước\" thì trừ, \"gấp\" thì nhân.",
+          "explanation": "8 + 5 = 13; 8 − 3 = 5; 8 × 4 = 32; 8 + 3 = 11."
+        },
+        {
+          "id": "l3k11-b4-07",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Năm nay ông 63 tuổi, cháu 9 tuổi. Tuổi ông gấp [[7]] lần tuổi cháu. Ông hơn cháu [[54]] tuổi. Khi cháu 10 tuổi thì ông [[64]] tuổi.",
+          "choices": [
+            "7",
+            "54",
+            "64",
+            "70",
+            "6"
+          ],
+          "method": "Hiệu số tuổi không bao giờ thay đổi, nhưng số lần gấp thì có thay đổi.",
+          "explanation": "63 : 9 = 7 lần; 63 − 9 = 54 tuổi. Khi cháu 10 tuổi (1 năm sau), ông 63 + 1 = 64 tuổi.\nLưu ý: 70 là lấy 10 × 7 — sai vì sau 1 năm ông không còn gấp 7 lần tuổi cháu; 6 là chia sai."
+        },
+        {
+          "id": "l3k11-b4-08",
+          "type": "choice",
+          "prompt": "Mẹ sinh Lan khi mẹ 26 tuổi.\nNăm nay Lan 9 tuổi. Năm nay mẹ bao nhiêu tuổi?",
+          "options": [
+            {
+              "text": "17 tuổi"
+            },
+            {
+              "text": "26 tuổi"
+            },
+            {
+              "text": "36 tuổi"
+            },
+            {
+              "text": "35 tuổi"
+            }
+          ],
+          "answer": 3,
+          "method": "Khi Lan ra đời, mẹ hơn Lan 26 tuổi — và mãi mãi hơn Lan 26 tuổi.",
+          "explanation": "Mẹ hơn Lan 26 tuổi. Năm nay mẹ: 9 + 26 = 35 tuổi.\nLưu ý: 17 tuổi là lấy 26 − 9; 26 tuổi là tuổi mẹ lúc sinh Lan; 36 tuổi là cộng sai."
+        },
+        {
+          "id": "l3k11-b4-09",
+          "type": "multi_choice",
+          "timeLimit": 45,
+          "prompt": "Năm nay bố 36 tuổi, con 6 tuổi.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Bố hơn con 30 tuổi"
+            },
+            {
+              "text": "Tuổi bố gấp 6 lần tuổi con"
+            },
+            {
+              "text": "4 năm nữa, tuổi bố gấp 6 lần tuổi con"
+            },
+            {
+              "text": "4 năm nữa, bố vẫn hơn con 30 tuổi"
+            },
+            {
+              "text": "Năm ngoái, bố hơn con 31 tuổi"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Hiệu số tuổi không đổi theo thời gian; số lần gấp thì thay đổi.",
+          "explanation": "36 − 6 = 30; 36 : 6 = 6; hiệu 30 tuổi không đổi.\nLưu ý: 4 năm nữa bố 40, con 10 → chỉ gấp 4 lần; năm ngoái bố 35, con 5 → vẫn hơn 30 tuổi, không phải 31."
+        },
+        {
+          "id": "l3k11-b4-10",
+          "type": "input",
+          "prompt": "Năm nay em 5 tuổi, anh 11 tuổi.\nKhi em bằng tuổi anh bây giờ thì anh bao nhiêu tuổi?",
+          "answers": [
+            "17"
+          ],
+          "unit": "tuổi",
+          "method": "Tìm xem còn mấy năm nữa em mới được 11 tuổi.",
+          "explanation": "Em từ 5 lên 11 tuổi cần 11 − 5 = 6 năm. Lúc đó anh: 11 + 6 = 17 tuổi.\nLưu ý: 16 là lấy 11 + 5; 11 là tuổi anh bây giờ."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Giải quyết vấn đề bằng sơ đồ và bảng",
+      "emoji": "📊",
+      "description": "Vẽ sơ đồ, kẻ bảng giúp bé giải bài toán khó thật dễ dàng!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k11-b5-01",
+          "type": "choice",
+          "prompt": "Thùng có 48 l dầu.\nNgười ta lấy ra 1/4 số dầu trong thùng.\nThùng còn lại bao nhiêu lít dầu?",
+          "options": [
+            {
+              "text": "36 l"
+            },
+            {
+              "text": "12 l"
+            },
+            {
+              "text": "44 l"
+            },
+            {
+              "text": "24 l"
+            }
+          ],
+          "answer": 0,
+          "method": "Vẽ đoạn thẳng biểu thị 48 l, chia thành 4 phần bằng nhau; lấy ra 1 phần thì còn mấy phần?",
+          "explanation": "1/4 số dầu: 48 : 4 = 12 l. Thùng còn lại: 48 − 12 = 36 l (đúng bằng 3 phần: 12 × 3 = 36).\nLưu ý: 12 l là số dầu lấy ra, chưa trừ; 44 l là lấy 48 − 4 (nhầm \"1/4\" với \"4 l\"); 24 l là chia đôi, nhầm 1/4 với một nửa."
+        },
+        {
+          "id": "l3k11-b5-02",
+          "type": "input",
+          "prompt": "Ba tổ góp được tất cả 45 quyển sách. Bảng dưới cho biết số sách của từng tổ.\nTổ Hai góp được bao nhiêu quyển?",
+          "visual": {
+            "grid": [
+              [
+                "Tổ",
+                "Một",
+                "Hai",
+                "Ba"
+              ],
+              [
+                "Số sách",
+                "15",
+                "?",
+                "12"
+              ]
+            ]
+          },
+          "answers": [
+            "18"
+          ],
+          "unit": "quyển",
+          "method": "Lấy tổng số sách trừ đi số sách của các tổ đã biết.",
+          "explanation": "Tổ Một và tổ Ba: 15 + 12 = 27 quyển. Tổ Hai: 45 − 27 = 18 quyển.\nLưu ý: 30 là lấy 45 − 15, quên trừ tổ Ba; 33 là lấy 45 − 12, quên trừ tổ Một."
+        },
+        {
+          "id": "l3k11-b5-03",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Vẽ sơ đồ đoạn thẳng để giải.\nLật từng ô bài toán rồi chạm vào đáp số đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số bé 6, số lớn gấp 4 lần số bé. Tổng?"
+              },
+              "back": {
+                "text": "30"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn 35, gấp 5 lần số bé. Số bé?"
+              },
+              "back": {
+                "text": "7"
+              }
+            },
+            {
+              "front": {
+                "text": "1/3 của 27, rồi thêm 6"
+              },
+              "back": {
+                "text": "15"
+              }
+            },
+            {
+              "front": {
+                "text": "Số bé 8, số lớn hơn số bé 5. Tổng?"
+              },
+              "back": {
+                "text": "21"
+              }
+            }
+          ],
+          "method": "Vẽ đoạn thẳng cho số bé trước; \"gấp\" thì vẽ nhiều đoạn bằng nhau, \"hơn\" thì vẽ dài thêm một đoạn.",
+          "explanation": "Số bé 6, số lớn 6 × 4 = 24, tổng 6 + 24 = 30.\nSố bé: 35 : 5 = 7.\n1/3 của 27 là 27 : 3 = 9, thêm 6: 9 + 6 = 15.\nSố lớn 8 + 5 = 13, tổng 8 + 13 = 21."
+        },
+        {
+          "id": "l3k11-b5-04",
+          "type": "choice",
+          "prompt": "Có 8 con vịt. Số gà gấp 3 lần số vịt.\nSố gà nhiều hơn số vịt bao nhiêu con?",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "24 con"
+            },
+            {
+              "text": "16 con"
+            },
+            {
+              "text": "32 con"
+            },
+            {
+              "text": "5 con"
+            }
+          ],
+          "answer": 1,
+          "method": "Vẽ sơ đồ: vịt 1 đoạn, gà 3 đoạn như thế. Tìm số gà trước, rồi so với số vịt.",
+          "explanation": "Số gà: 8 × 3 = 24 con. Gà nhiều hơn vịt: 24 − 8 = 16 con (trên sơ đồ, gà hơn vịt 2 đoạn: 8 × 2 = 16).\nLưu ý: 24 con là số gà, chưa so với vịt; 32 con là tổng số gà và vịt; 5 con là lấy 8 − 3."
+        },
+        {
+          "id": "l3k11-b5-05",
+          "type": "input",
+          "prompt": "Ba lớp trồng được tất cả 70 cây. Lớp 3B trồng gấp đôi lớp 3A.\nLớp 3C trồng được bao nhiêu cây?",
+          "visual": {
+            "grid": [
+              [
+                "Lớp",
+                "3A",
+                "3B",
+                "3C"
+              ],
+              [
+                "Số cây",
+                "15",
+                "?",
+                "?"
+              ]
+            ]
+          },
+          "answers": [
+            "25"
+          ],
+          "unit": "cây",
+          "method": "Điền số cây của lớp 3B vào bảng trước.",
+          "explanation": "Lớp 3B: 15 × 2 = 30 cây. Lớp 3A và 3B: 15 + 30 = 45 cây. Lớp 3C: 70 − 45 = 25 cây.\nLưu ý: 40 là quên trừ lớp 3A (70 − 30); 55 là chỉ trừ lớp 3A."
+        },
+        {
+          "id": "l3k11-b5-06",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Bảng điểm của 5 bạn.\nKéo mỗi bạn vào đúng nhóm.",
+          "visual": {
+            "grid": [
+              [
+                "Bạn",
+                "Toán",
+                "Tiếng Việt"
+              ],
+              [
+                "An",
+                "9",
+                "7"
+              ],
+              [
+                "Bình",
+                "8",
+                "10"
+              ],
+              [
+                "Chi",
+                "10",
+                "9"
+              ],
+              [
+                "Dũng",
+                "6",
+                "8"
+              ],
+              [
+                "Hà",
+                "7",
+                "5"
+              ]
+            ]
+          },
+          "groups": [
+            {
+              "emoji": "🔢",
+              "text": "Điểm Toán cao hơn"
+            },
+            {
+              "emoji": "📖",
+              "text": "Điểm Tiếng Việt cao hơn"
+            }
+          ],
+          "items": [
+            {
+              "text": "An",
+              "group": 0
+            },
+            {
+              "text": "Bình",
+              "group": 1
+            },
+            {
+              "text": "Chi",
+              "group": 0
+            },
+            {
+              "text": "Dũng",
+              "group": 1
+            },
+            {
+              "text": "Hà",
+              "group": 0
+            }
+          ],
+          "method": "Đọc từng hàng của bảng, so sánh hai điểm của cùng một bạn.",
+          "explanation": "An 9 > 7, Chi 10 > 9, Hà 7 > 5 → Toán cao hơn.\nBình 8 < 10, Dũng 6 < 8 → Tiếng Việt cao hơn."
+        },
+        {
+          "id": "l3k11-b5-07",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bài toán: Mẹ có 40 quả cam. Mẹ biếu bà 1/4 số cam, số còn lại chia đều cho 3 con.\nKéo các bước giải theo đúng thứ tự.",
+          "items": [
+            {
+              "text": "Vẽ đoạn thẳng 40 quả, chia 4 phần bằng nhau"
+            },
+            {
+              "text": "Số cam biếu bà: 40 : 4 = 10"
+            },
+            {
+              "text": "Số cam còn lại: 40 − 10 = 30"
+            },
+            {
+              "text": "Mỗi con được: 30 : 3 = 10"
+            }
+          ],
+          "method": "Bước nào cần kết quả của bước trước thì xếp sau.",
+          "explanation": "Vẽ sơ đồ để thấy 1/4 → tính số cam biếu bà (10 quả) → tìm số cam còn lại (30 quả) → chia đều cho 3 con, mỗi con 10 quả. Thử lại: 10 + 10 × 3 = 40."
+        },
+        {
+          "id": "l3k11-b5-08",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Sợi dây dài 36 cm, cắt lấy 1/4 sợi dây làm đoạn ngắn, phần còn lại là đoạn dài. Vẽ sơ đồ: chia sợi dây thành [[4]] phần bằng nhau. Đoạn ngắn dài [[9]] cm. Đoạn dài gồm [[3]] phần, dài [[27]] cm.",
+          "choices": [
+            "4",
+            "9",
+            "3",
+            "27",
+            "12"
+          ],
+          "method": "1/4 sợi dây là chia sợi dây thành 4 phần bằng nhau và lấy 1 phần.",
+          "explanation": "Chia 36 cm thành 4 phần bằng nhau: mỗi phần 36 : 4 = 9 cm — đó là đoạn ngắn. Đoạn dài là 4 − 1 = 3 phần: 9 × 3 = 27 cm (hoặc 36 − 9 = 27). Thử lại: 9 + 27 = 36.\nLưu ý: 12 là lấy 36 : 3 — nhầm 1/4 với 1/3."
+        },
+        {
+          "id": "l3k11-b5-09",
+          "type": "choice",
+          "prompt": "Cửa hàng bán bánh trong ba ngày. Thứ Ba bán ít hơn thứ Tư 12 cái.\nCả ba ngày cửa hàng bán bao nhiêu cái bánh?",
+          "visual": {
+            "grid": [
+              [
+                "Ngày",
+                "Thứ Hai",
+                "Thứ Ba",
+                "Thứ Tư"
+              ],
+              [
+                "Số bánh",
+                "25",
+                "?",
+                "40"
+              ]
+            ]
+          },
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "93 cái"
+            },
+            {
+              "text": "117 cái"
+            },
+            {
+              "text": "65 cái"
+            },
+            {
+              "text": "28 cái"
+            }
+          ],
+          "answer": 0,
+          "method": "Tìm số bánh thứ Ba trước, rồi cộng cả ba ngày.",
+          "explanation": "Thứ Ba: 40 − 12 = 28 cái. Cả ba ngày: 25 + 28 + 40 = 93 cái.\nLưu ý: 117 cái là cộng 12 thay vì trừ (thứ Ba thành 52); 65 cái là quên thứ Ba; 28 cái là số bánh của riêng thứ Ba."
+        },
+        {
+          "id": "l3k11-b5-10",
+          "type": "match_vertical",
+          "timeLimit": 60,
+          "prompt": "Vẽ sơ đồ rồi nối mỗi bài toán với đáp số.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Bé 6, lớn gấp 3 lần. Số lớn?"
+              },
+              "right": {
+                "text": "18"
+              }
+            },
+            {
+              "left": {
+                "text": "Lớn 24, gấp 4 lần bé. Số bé?"
+              },
+              "right": {
+                "text": "6"
+              }
+            },
+            {
+              "left": {
+                "text": "1/5 của 45"
+              },
+              "right": {
+                "text": "9"
+              }
+            },
+            {
+              "left": {
+                "text": "Bé 7, lớn hơn bé 9. Tổng?"
+              },
+              "right": {
+                "text": "23"
+              }
+            }
+          ],
+          "method": "Vẽ sơ đồ: \"gấp\" thì nhân, \"số lớn gấp mấy lần số bé\" hay \"một phần mấy\" thì chia, \"hơn\" thì cộng.",
+          "explanation": "6 × 3 = 18. Số bé: 24 : 4 = 6. 1/5 của 45: 45 : 5 = 9. Số lớn 7 + 9 = 16, tổng 7 + 16 = 23."
+        }
+      ]
+    }
+  ]
+}

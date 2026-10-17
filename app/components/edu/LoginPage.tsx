@@ -5,6 +5,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch, AuthResponse } from '../../lib/api';
 
+/** Trang quay về sau khi đăng nhập (?next=/khoa-hoc-iq…); chỉ nhận đường dẫn trong site. */
+function nextPath() {
+  const next = new URLSearchParams(window.location.search).get('next') ?? '';
+  return /^\/(?!\/)[^\\]*$/.test(next) ? next : '/';
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -23,7 +29,7 @@ export default function LoginPage() {
       });
       localStorage.setItem('bhh_token', data.accessToken);
       localStorage.setItem('bhh_user', JSON.stringify(data.user));
-      router.push('/');
+      router.push(nextPath());
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Email hoặc mật khẩu không đúng');
     } finally {
@@ -81,7 +87,12 @@ export default function LoginPage() {
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700">Mật khẩu</label>
+                <div className="mb-2 flex items-center justify-between">
+                  <label className="block text-sm font-semibold text-slate-700">Mật khẩu</label>
+                  <Link href="/quen-mat-khau" className="text-xs font-semibold text-sky-600 hover:underline">
+                    Quên mật khẩu?
+                  </Link>
+                </div>
                 <input
                   type="password"
                   value={password}

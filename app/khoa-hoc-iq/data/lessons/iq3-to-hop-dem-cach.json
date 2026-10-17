@@ -1,0 +1,1327 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Lập số có hai và ba chữ số",
+      "emoji": "🔢",
+      "description": "Từ vài chữ số, bé lập được bao nhiêu số? Cùng đếm thật cẩn thận nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k10-b1-01",
+          "type": "choice",
+          "prompt": "Từ ba chữ số 1, 2, 3, lập được bao nhiêu số có hai chữ số KHÁC NHAU?",
+          "options": [
+            {
+              "text": "9 số"
+            },
+            {
+              "text": "6 số"
+            },
+            {
+              "text": "3 số"
+            },
+            {
+              "text": "5 số"
+            }
+          ],
+          "answer": 1,
+          "method": "Chọn chữ số hàng chục trước, rồi xem còn mấy cách chọn chữ số hàng đơn vị.",
+          "explanation": "Hàng chục là 1: 12, 13. Hàng chục là 2: 21, 23. Hàng chục là 3: 31, 32. Có tất cả 6 số.\nLưu ý: 9 số là tính cả 11, 22, 33 — sai vì hai chữ số phải khác nhau; 3 số chỉ đếm số chữ số; 5 số là liệt kê sót."
+        },
+        {
+          "id": "l3k10-b1-02",
+          "type": "input",
+          "prompt": "Từ ba chữ số 0, 1, 2, lập được bao nhiêu số có ba chữ số khác nhau?",
+          "answers": [
+            "4"
+          ],
+          "unit": "số",
+          "method": "Chữ số 0 không được đứng ở hàng trăm.",
+          "explanation": "Hàng trăm là 1: 102, 120. Hàng trăm là 2: 201, 210. Có tất cả 4 số.\nLưu ý: nếu đếm được 6 số là đã tính cả 012 và 021 — đó không phải số có ba chữ số."
+        },
+        {
+          "id": "l3k10-b1-03",
+          "type": "input",
+          "prompt": "Số lớn nhất có ba chữ số khác nhau lập từ các chữ số 4, 0, 9, 2 là số nào?",
+          "answers": [
+            "942"
+          ],
+          "method": "Đặt chữ số lớn nhất ở hàng trăm, lớn thứ hai ở hàng chục, lớn thứ ba ở hàng đơn vị.",
+          "explanation": "Xếp các chữ số từ lớn đến bé: 9, 4, 2, 0. Lấy ba chữ số lớn nhất: 942.\nLưu ý: 940 hay 920 đều bé hơn 942; 9420 là số có bốn chữ số."
+        },
+        {
+          "id": "l3k10-b1-04",
+          "type": "choice",
+          "prompt": "Số bé nhất có ba chữ số khác nhau lập từ các chữ số 5, 0, 8, 3 là:",
+          "options": [
+            {
+              "text": "035"
+            },
+            {
+              "text": "358"
+            },
+            {
+              "text": "305"
+            },
+            {
+              "text": "350"
+            }
+          ],
+          "answer": 2,
+          "method": "Hàng trăm phải là chữ số bé nhất KHÁC 0; chữ số 0 nên đặt ngay ở hàng chục.",
+          "explanation": "Hàng trăm bé nhất khác 0 là 3, hàng chục bé nhất là 0, hàng đơn vị bé nhất còn lại là 5: số 305.\nLưu ý: 035 không phải số có ba chữ số; 358 quên dùng chữ số 0; 350 lớn hơn 305 vì đặt 5 ở hàng chục."
+        },
+        {
+          "id": "l3k10-b1-05",
+          "type": "multi_choice",
+          "prompt": "Từ ba chữ số 1, 4, 6, bé lập các số có hai chữ số khác nhau.\nChọn TẤT CẢ các số bé lập được.",
+          "options": [
+            {
+              "text": "14"
+            },
+            {
+              "text": "44"
+            },
+            {
+              "text": "61"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "46"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Kiểm tra từng số: hai chữ số có khác nhau không, có nằm trong 1, 4, 6 không.",
+          "explanation": "Các số lập được: 14, 16, 41, 46, 61, 64. Trong các lựa chọn có 14, 61, 46.\nLưu ý: 44 sai vì hai chữ số giống nhau; 15 sai vì không có chữ số 5."
+        },
+        {
+          "id": "l3k10-b1-06",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Các số dưới đây được lập từ ba chữ số 2, 6, 9.\nKéo để xếp các số theo thứ tự từ BÉ đến LỚN.",
+          "items": [
+            {
+              "text": "269"
+            },
+            {
+              "text": "296"
+            },
+            {
+              "text": "629"
+            },
+            {
+              "text": "692"
+            },
+            {
+              "text": "926"
+            }
+          ],
+          "method": "So sánh hàng trăm trước; hàng trăm bằng nhau thì so sánh hàng chục.",
+          "explanation": "Hàng trăm 2: 269 < 296. Hàng trăm 6: 629 < 692. Hàng trăm 9: 926. Thứ tự: 269, 296, 629, 692, 926."
+        },
+        {
+          "id": "l3k10-b1-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi nhóm chữ số với số lượng số có hai chữ số khác nhau lập được từ nhóm đó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "1, 2"
+              },
+              "right": {
+                "text": "2 số"
+              }
+            },
+            {
+              "left": {
+                "text": "1, 2, 3"
+              },
+              "right": {
+                "text": "6 số"
+              }
+            },
+            {
+              "left": {
+                "text": "0, 1, 2"
+              },
+              "right": {
+                "text": "4 số"
+              }
+            },
+            {
+              "left": {
+                "text": "0, 5"
+              },
+              "right": {
+                "text": "1 số"
+              }
+            }
+          ],
+          "method": "Liệt kê theo chữ số hàng chục; nhớ chữ số 0 không đứng ở hàng chục.",
+          "explanation": "1, 2: 12, 21 → 2 số. 1, 2, 3: 12, 13, 21, 23, 31, 32 → 6 số. 0, 1, 2: 10, 12, 20, 21 → 4 số. 0, 5: chỉ có 50 → 1 số."
+        },
+        {
+          "id": "l3k10-b1-08",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Lập số có ba chữ số khác nhau từ 1, 3, 5. Có hàng trăm là 1 thì số bé hơn là [[135]], số lớn hơn là [[153]]. Hàng trăm là 3 hay 5 cũng có 2 số mỗi loại, nên lập được tất cả [[6]] số.",
+          "choices": [
+            "135",
+            "153",
+            "6",
+            "315",
+            "3"
+          ],
+          "method": "Cố định chữ số hàng trăm, rồi đổi chỗ hai chữ số còn lại.",
+          "explanation": "Hàng trăm 1: 135, 153. Hàng trăm 3: 315, 351. Hàng trăm 5: 513, 531. Có 2 + 2 + 2 = 6 số.\nLưu ý: 315 có hàng trăm là 3, không phải 1; 3 là số chữ số chứ không phải số lượng số lập được."
+        },
+        {
+          "id": "l3k10-b1-09",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Dùng các chữ số 3, 8, 5, 1, chạm các thẻ để ghép số LỚN NHẤT có ba chữ số khác nhau nhưng BÉ HƠN 800.",
+          "items": [
+            "5",
+            "8",
+            "3"
+          ],
+          "distractors": [
+            "1"
+          ],
+          "method": "Số bé hơn 800 thì chữ số hàng trăm phải bé hơn 8; chọn chữ số lớn nhất có thể cho từng hàng.",
+          "explanation": "Hàng trăm không được là 8 (số sẽ từ 800 trở lên), nên chọn 5 — chữ số lớn nhất còn lại. Hàng chục được dùng 8, hàng đơn vị chọn 3. Số cần tìm: 583.\nLưu ý: 853 lớn hơn 800 nên không được; 581 bé hơn 583 vì dùng 1 thay cho 3."
+        },
+        {
+          "id": "l3k10-b1-10",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô rồi chạm vào số đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số bé nhất có hai chữ số khác nhau"
+              },
+              "back": {
+                "text": "10"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn nhất có hai chữ số khác nhau"
+              },
+              "back": {
+                "text": "98"
+              }
+            },
+            {
+              "front": {
+                "text": "Số bé nhất có ba chữ số khác nhau"
+              },
+              "back": {
+                "text": "102"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn nhất có ba chữ số khác nhau"
+              },
+              "back": {
+                "text": "987"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn nhất có ba chữ số"
+              },
+              "back": {
+                "text": "999"
+              }
+            }
+          ],
+          "method": "\"Khác nhau\" nghĩa là không có hai chữ số nào giống nhau.",
+          "explanation": "Bé nhất hai chữ số khác nhau: 10. Lớn nhất hai chữ số khác nhau: 98 (không phải 99). Bé nhất ba chữ số khác nhau: 102 (không phải 100). Lớn nhất ba chữ số khác nhau: 987. Lớn nhất ba chữ số (được trùng): 999."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đếm các cách chọn đồ vật",
+      "emoji": "👕",
+      "description": "Chọn áo, chọn quần, chọn bút — bé đếm xem có bao nhiêu cách nào!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k10-b2-01",
+          "type": "choice",
+          "prompt": "Bé có 4 cái áo và 3 cái quần.\nMỗi bộ gồm 1 áo và 1 quần.\nBé mặc được bao nhiêu bộ khác nhau?",
+          "visual": {
+            "emoji": "👕👕👕👕 👖👖👖"
+          },
+          "options": [
+            {
+              "text": "7 bộ"
+            },
+            {
+              "text": "4 bộ"
+            },
+            {
+              "text": "12 bộ"
+            },
+            {
+              "text": "16 bộ"
+            }
+          ],
+          "answer": 2,
+          "method": "Mỗi cái áo ghép được với tất cả các quần.",
+          "explanation": "Mỗi áo ghép với 3 quần: 3 × 4 = 12 bộ.\nLưu ý: 7 bộ là cộng 4 + 3; 4 bộ chỉ đếm số áo; 16 bộ là nhân 4 × 4."
+        },
+        {
+          "id": "l3k10-b2-02",
+          "type": "input",
+          "prompt": "Có 5 bạn: An, Bình, Cúc, Dũng, Em.\nCô chọn 2 bạn đi thi kể chuyện.\nCô có bao nhiêu cách chọn?",
+          "answers": [
+            "10"
+          ],
+          "unit": "cách",
+          "method": "Ghép An với từng bạn, rồi Bình với các bạn sau Bình… An – Bình và Bình – An là một cách.",
+          "explanation": "An ghép với 4 bạn, Bình với 3 bạn (Cúc, Dũng, Em), Cúc với 2 bạn, Dũng với 1 bạn (Em): 4 + 3 + 2 + 1 = 10 cách.\nLưu ý: 20 cách là đếm An – Bình và Bình – An thành hai cách."
+        },
+        {
+          "id": "l3k10-b2-03",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Hộp bút có 1 bút đỏ, 1 bút xanh, 1 bút đen.\nBé lấy ra 2 cái bút.\nKéo mỗi cách lấy vào đúng nhóm.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Có thể xảy ra"
+            },
+            {
+              "emoji": "❌",
+              "text": "Không thể xảy ra"
+            }
+          ],
+          "items": [
+            {
+              "text": "Đỏ và xanh",
+              "group": 0
+            },
+            {
+              "text": "Đỏ và đỏ",
+              "group": 1
+            },
+            {
+              "text": "Xanh và đen",
+              "group": 0
+            },
+            {
+              "text": "Đen và tím",
+              "group": 1
+            },
+            {
+              "text": "Đỏ và đen",
+              "group": 0
+            },
+            {
+              "text": "Xanh và xanh",
+              "group": 1
+            }
+          ],
+          "method": "Hộp chỉ có 1 bút mỗi màu và không có bút tím.",
+          "explanation": "Lấy 2 bút từ đỏ, xanh, đen có 3 cách: đỏ – xanh, xanh – đen, đỏ – đen.\n\"Đỏ và đỏ\", \"Xanh và xanh\" không thể vì mỗi màu chỉ có 1 bút; \"Đen và tím\" không thể vì không có bút tím."
+        },
+        {
+          "id": "l3k10-b2-04",
+          "type": "choice",
+          "prompt": "Quán có 3 loại bánh và 4 loại nước.\nBé chỉ được chọn 1 món: hoặc 1 cái bánh, hoặc 1 cốc nước.\nBé có bao nhiêu cách chọn?",
+          "options": [
+            {
+              "text": "12 cách"
+            },
+            {
+              "text": "7 cách"
+            },
+            {
+              "text": "3 cách"
+            },
+            {
+              "text": "4 cách"
+            }
+          ],
+          "answer": 1,
+          "method": "Bé chỉ lấy MỘT món, không phải ghép bánh với nước.",
+          "explanation": "Chọn bánh có 3 cách, chọn nước có 4 cách. Vì chỉ lấy 1 món nên cộng lại: 3 + 4 = 7 cách.\nLưu ý: 12 cách là nhân 3 × 4 — chỉ đúng khi chọn cả bánh LẪN nước; 3 cách và 4 cách là quên một loại món."
+        },
+        {
+          "id": "l3k10-b2-05",
+          "type": "input",
+          "prompt": "Trên bàn có 4 quả: cam, táo, lê, xoài.\nBé chọn 3 quả khác nhau bỏ vào giỏ.\nBé có bao nhiêu cách chọn?",
+          "answers": [
+            "4"
+          ],
+          "unit": "cách",
+          "method": "Chọn 3 quả để lấy cũng giống như chọn 1 quả để lại.",
+          "explanation": "Mỗi cách chọn ứng với 1 quả bị để lại: để lại cam (táo, lê, xoài), để lại táo, để lại lê, để lại xoài → 4 cách.\nLưu ý: 24 là đếm cả thứ tự bỏ quả vào giỏ (4 × 3 × 2) — sai vì cùng 3 quả thì chỉ là một cách chọn; 3 là nhầm với số quả được chọn."
+        },
+        {
+          "id": "l3k10-b2-06",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Bữa sáng gồm 1 bánh mì (thịt, trứng hoặc pate) và 1 hộp sữa (sữa bò hoặc sữa đậu). Mỗi loại bánh mì đi với [[2]] loại sữa, nên có [[6]] cách chọn. Nếu có thêm sữa chua để chọn thay sữa thì có [[9]] cách.",
+          "choices": [
+            "2",
+            "6",
+            "9",
+            "5",
+            "8"
+          ],
+          "method": "Mỗi loại bánh mì ghép được với tất cả các loại đồ uống.",
+          "explanation": "Có 3 loại bánh mì, mỗi loại ghép với 2 loại sữa: 2 + 2 + 2 = 6 cách. Có thêm sữa chua thì mỗi bánh mì ghép với 3 thứ: 3 + 3 + 3 = 9 cách.\nLưu ý: 5 là cộng 3 + 2; 8 là cộng thêm 2 cách thay vì 3 cách."
+        },
+        {
+          "id": "l3k10-b2-07",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi tình huống với số cách chọn.",
+          "pairs": [
+            {
+              "left": {
+                "text": "2 áo, 5 quần — chọn 1 áo và 1 quần"
+              },
+              "right": {
+                "text": "10 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "Chọn 2 bạn trong 4 bạn"
+              },
+              "right": {
+                "text": "6 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "3 mũ, 3 khăn — chọn 1 mũ và 1 khăn"
+              },
+              "right": {
+                "text": "9 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "Chọn 1 cây bút trong 3 bút chì và 5 bút màu"
+              },
+              "right": {
+                "text": "8 cách"
+              }
+            }
+          ],
+          "method": "Chọn cả hai thứ thì ghép từng cái với nhau; chỉ chọn 1 cái thì cộng.",
+          "explanation": "2 áo × 5 quần: 5 + 5 = 10 cách. Chọn 2 trong 4 bạn A, B, C, D: AB, AC, AD, BC, BD, CD → 6 cách. 3 mũ × 3 khăn: 3 × 3 = 9 cách. Chọn 1 trong 3 + 5 = 8 cây bút → 8 cách."
+        },
+        {
+          "id": "l3k10-b2-08",
+          "type": "choice",
+          "prompt": "Có 4 lá cờ khác màu.\nBé chọn 2 lá cắm lên 2 cột: 1 lá ở cột TRÁI, 1 lá ở cột PHẢI.\nCó bao nhiêu cách cắm?",
+          "options": [
+            {
+              "text": "6 cách"
+            },
+            {
+              "text": "8 cách"
+            },
+            {
+              "text": "12 cách"
+            },
+            {
+              "text": "16 cách"
+            }
+          ],
+          "answer": 2,
+          "method": "Đổi chỗ hai lá cờ giữa cột trái và cột phải là một cách cắm khác.",
+          "explanation": "Cột trái có 4 cách chọn cờ, còn lại 3 lá cho cột phải: 3 + 3 + 3 + 3 = 12 cách.\nLưu ý: 6 cách là chỉ đếm chọn 2 lá, quên đổi chỗ trái – phải; 16 cách là cho một lá cờ cắm cả hai cột; 8 cách là nhân 4 × 2."
+        },
+        {
+          "id": "l3k10-b2-09",
+          "type": "multi_choice",
+          "timeLimit": 45,
+          "prompt": "Hộp có 4 viên kẹo: 1 kẹo cam, 1 kẹo dâu, 1 kẹo nho, 1 kẹo chanh.\nBé lấy ra 2 viên.\nChọn TẤT CẢ các cách lấy có kẹo dâu.",
+          "options": [
+            {
+              "text": "Dâu và cam"
+            },
+            {
+              "text": "Dâu và dâu"
+            },
+            {
+              "text": "Nho và chanh"
+            },
+            {
+              "text": "Dâu và chanh"
+            },
+            {
+              "text": "Dâu và nho"
+            },
+            {
+              "text": "Cam và nho"
+            }
+          ],
+          "answers": [
+            0,
+            3,
+            4
+          ],
+          "method": "Kẹo dâu đi cùng với một viên khác loại; hộp chỉ có 1 viên dâu.",
+          "explanation": "Dâu đi với cam, nho hoặc chanh → 3 cách: dâu – cam, dâu – chanh, dâu – nho.\nLưu ý: \"Dâu và dâu\" không thể vì chỉ có 1 kẹo dâu; \"Nho và chanh\", \"Cam và nho\" là cách lấy được nhưng không có kẹo dâu."
+        },
+        {
+          "id": "l3k10-b2-10",
+          "type": "input",
+          "prompt": "Bé có 3 tờ tiền: 1 000 đồng, 2 000 đồng và 5 000 đồng.\nBé lấy ra ít nhất 1 tờ.\nBé có thể có bao nhiêu SỐ TIỀN khác nhau?",
+          "answers": [
+            "7"
+          ],
+          "unit": "số tiền",
+          "method": "Lấy 1 tờ, lấy 2 tờ, lấy cả 3 tờ — liệt kê từng trường hợp rồi tính số tiền.",
+          "explanation": "1 tờ: 1 000, 2 000, 5 000. 2 tờ: 3 000, 6 000, 7 000. 3 tờ: 8 000. Bảy số tiền này khác nhau → 7 số tiền.\nLưu ý: 3 là chỉ đếm từng tờ; 6 là quên trường hợp lấy cả 3 tờ."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Sắp xếp vị trí các bạn",
+      "emoji": "🧍",
+      "description": "Các bạn đổi chỗ cho nhau thì có bao nhiêu cách xếp hàng?",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k10-b3-01",
+          "type": "choice",
+          "prompt": "Ba bạn Hoa, Lan, Mai đứng thành một hàng ngang để chụp ảnh.\nCó bao nhiêu cách xếp?",
+          "options": [
+            {
+              "text": "3 cách"
+            },
+            {
+              "text": "9 cách"
+            },
+            {
+              "text": "4 cách"
+            },
+            {
+              "text": "6 cách"
+            }
+          ],
+          "answer": 3,
+          "method": "Chọn bạn đứng đầu, rồi xem hai bạn còn lại đổi chỗ được mấy cách.",
+          "explanation": "Hoa đứng đầu: Hoa – Lan – Mai, Hoa – Mai – Lan. Lan đứng đầu: Lan – Hoa – Mai, Lan – Mai – Hoa. Mai đứng đầu: Mai – Hoa – Lan, Mai – Lan – Hoa. Có 6 cách.\nLưu ý: 3 cách chỉ đếm bạn đứng đầu; 9 cách là nhân 3 × 3; 4 cách là liệt kê thiếu."
+        },
+        {
+          "id": "l3k10-b3-02",
+          "type": "input",
+          "prompt": "Bốn bạn An, Bình, Cúc, Dũng xếp một hàng dọc.\nAn luôn đứng đầu hàng.\nCó bao nhiêu cách xếp?",
+          "answers": [
+            "6"
+          ],
+          "unit": "cách",
+          "method": "An đã cố định, chỉ cần xếp 3 bạn còn lại.",
+          "explanation": "Xếp Bình, Cúc, Dũng vào 3 chỗ sau An: B–C–D, B–D–C, C–B–D, C–D–B, D–B–C, D–C–B. Có 6 cách.\nLưu ý: 24 cách là số cách xếp cả 4 bạn khi không bắt buộc An đứng đầu."
+        },
+        {
+          "id": "l3k10-b3-03",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn Mai, Hoa, Cúc, Lan xếp một hàng dọc.\n• Mai đứng đầu hàng.\n• Hoa đứng ngay sau Mai.\n• Lan đứng cuối hàng.\nKéo tên các bạn theo thứ tự từ ĐẦU hàng đến CUỐI hàng.",
+          "items": [
+            {
+              "text": "Mai"
+            },
+            {
+              "text": "Hoa"
+            },
+            {
+              "text": "Cúc"
+            },
+            {
+              "text": "Lan"
+            }
+          ],
+          "method": "Đặt các bạn có vị trí chắc chắn trước, bạn còn lại vào chỗ trống.",
+          "explanation": "Mai thứ nhất, Hoa ngay sau là thứ hai, Lan thứ tư. Chỗ thứ ba còn lại là của Cúc: Mai, Hoa, Cúc, Lan."
+        },
+        {
+          "id": "l3k10-b3-04",
+          "type": "choice",
+          "prompt": "Ba bạn Hoa, Lan, Mai đứng thành một hàng ngang.\nHoa KHÔNG được đứng ở giữa.\nCó bao nhiêu cách xếp?",
+          "options": [
+            {
+              "text": "2 cách"
+            },
+            {
+              "text": "6 cách"
+            },
+            {
+              "text": "4 cách"
+            },
+            {
+              "text": "3 cách"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm tất cả các cách xếp, rồi bớt những cách Hoa đứng giữa.",
+          "explanation": "Ba bạn có 6 cách xếp. Hoa đứng giữa có 2 cách: Lan – Hoa – Mai, Mai – Hoa – Lan. Còn lại: 6 − 2 = 4 cách.\nLưu ý: 6 cách là quên điều kiện; 2 cách là số cách Hoa đứng giữa; 3 cách là đếm sót."
+        },
+        {
+          "id": "l3k10-b3-05",
+          "type": "input",
+          "prompt": "Bốn bạn An, Bình, Cúc, Dũng xếp một hàng ngang.\nAn và Bình phải đứng ở HAI ĐẦU hàng.\nCó bao nhiêu cách xếp?",
+          "answers": [
+            "4"
+          ],
+          "unit": "cách",
+          "method": "Xếp hai đầu hàng trước, rồi xếp hai bạn ở giữa.",
+          "explanation": "Hai đầu: An trái – Bình phải, hoặc Bình trái – An phải (2 cách). Mỗi cách đó, Cúc và Dũng ở giữa đổi chỗ được 2 cách: 2 + 2 = 4 cách.\nLưu ý: 2 là quên đổi chỗ Cúc và Dũng; 24 là bỏ qua điều kiện."
+        },
+        {
+          "id": "l3k10-b3-06",
+          "type": "multi_choice",
+          "timeLimit": 45,
+          "prompt": "Ba bạn Hoa, Lan, Mai xếp hàng ngang (từ trái sang phải).\n• Lan không đứng đầu hàng (bên trái).\n• Mai không đứng cuối hàng (bên phải).\nChọn TẤT CẢ các cách xếp đúng.",
+          "options": [
+            {
+              "text": "Hoa – Mai – Lan"
+            },
+            {
+              "text": "Hoa – Lan – Mai"
+            },
+            {
+              "text": "Mai – Hoa – Lan"
+            },
+            {
+              "text": "Lan – Mai – Hoa"
+            },
+            {
+              "text": "Mai – Lan – Hoa"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Kiểm tra từng cách: bạn đầu tiên có phải Lan không, bạn cuối cùng có phải Mai không.",
+          "explanation": "Hoa – Mai – Lan, Mai – Hoa – Lan, Mai – Lan – Hoa đều thỏa mãn cả hai điều kiện.\nLưu ý: Hoa – Lan – Mai sai vì Mai đứng cuối; Lan – Mai – Hoa sai vì Lan đứng đầu."
+        },
+        {
+          "id": "l3k10-b3-07",
+          "type": "match_vertical",
+          "timeLimit": 50,
+          "prompt": "Bốn bạn Tú, Hà, Kiên, Nga ngồi 4 ghế số 1, 2, 3, 4 (từ trái sang phải).\n• Kiên ngồi ghế số 3.\n• Nga ngồi ngay bên trái Kiên.\n• Hà không ngồi ghế số 1.\nNối mỗi bạn với ghế của bạn ấy.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Tú"
+              },
+              "right": {
+                "text": "Ghế 1"
+              }
+            },
+            {
+              "left": {
+                "text": "Nga"
+              },
+              "right": {
+                "text": "Ghế 2"
+              }
+            },
+            {
+              "left": {
+                "text": "Kiên"
+              },
+              "right": {
+                "text": "Ghế 3"
+              }
+            },
+            {
+              "left": {
+                "text": "Hà"
+              },
+              "right": {
+                "text": "Ghế 4"
+              }
+            }
+          ],
+          "method": "Đặt Kiên trước, rồi đến Nga, sau đó xét hai ghế còn lại.",
+          "explanation": "Kiên ghế 3, Nga ngay bên trái nên ghế 2. Còn ghế 1 và ghế 4; Hà không ngồi ghế 1 nên Hà ghế 4, Tú ghế 1."
+        },
+        {
+          "id": "l3k10-b3-08",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Xếp 3 bạn An, Bình, Cúc vào 3 ghế. Ghế thứ nhất có [[3]] cách chọn bạn ngồi, ghế thứ hai còn [[2]] cách, ghế thứ ba còn [[1]] cách. Vậy có tất cả [[6]] cách xếp.",
+          "choices": [
+            "3",
+            "2",
+            "1",
+            "6",
+            "9"
+          ],
+          "method": "Mỗi bạn đã ngồi rồi thì không chọn lại được nữa.",
+          "explanation": "Ghế 1: 3 bạn để chọn. Ghế 2: còn 2 bạn. Ghế 3: còn 1 bạn. Số cách: 3 × 2 × 1 = 6.\nLưu ý: 9 là nhân 3 × 3 — sai vì một bạn không ngồi hai ghế."
+        },
+        {
+          "id": "l3k10-b3-09",
+          "type": "choice",
+          "prompt": "Có 5 bạn. Cô chọn 1 bạn đứng ĐẦU hàng và 1 bạn khác đứng CUỐI hàng.\nCó bao nhiêu cách chọn?",
+          "options": [
+            {
+              "text": "10 cách"
+            },
+            {
+              "text": "20 cách"
+            },
+            {
+              "text": "25 cách"
+            },
+            {
+              "text": "9 cách"
+            }
+          ],
+          "answer": 1,
+          "method": "Đầu hàng và cuối hàng là hai vị trí khác nhau, đổi chỗ là cách khác.",
+          "explanation": "Đầu hàng có 5 cách chọn; mỗi cách đó còn 4 bạn cho cuối hàng: 5 × 4 = 20 cách.\nLưu ý: 10 cách là coi đầu – cuối đổi chỗ như nhau; 25 cách là cho một bạn đứng cả đầu lẫn cuối; 9 cách là cộng 5 + 4."
+        },
+        {
+          "id": "l3k10-b3-10",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô rồi chạm vào số cách xếp đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "2 bạn xếp hàng"
+              },
+              "back": {
+                "text": "2"
+              }
+            },
+            {
+              "front": {
+                "text": "3 bạn xếp hàng"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "4 bạn xếp hàng"
+              },
+              "back": {
+                "text": "24"
+              }
+            },
+            {
+              "front": {
+                "text": "Chọn 1 bạn đứng đầu trong 5 bạn"
+              },
+              "back": {
+                "text": "5"
+              }
+            },
+            {
+              "front": {
+                "text": "3 bạn xếp hàng, Lan không đứng đầu"
+              },
+              "back": {
+                "text": "4"
+              }
+            }
+          ],
+          "method": "Cố định bạn đứng đầu rồi đếm cách xếp các bạn còn lại.",
+          "explanation": "2 bạn: 2 cách. 3 bạn: 6 cách. 4 bạn: mỗi bạn đứng đầu thì 3 bạn kia có 6 cách → 4 × 6 = 24. Chọn đầu hàng trong 5 bạn: 5 cách. 3 bạn mà Lan không đứng đầu: 6 − 2 = 4 cách."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Đếm các đường đi trên sơ đồ đơn giản",
+      "emoji": "🗺️",
+      "description": "Cùng chú kiến tìm hết các con đường để đến nơi nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k10-b4-01",
+          "type": "choice",
+          "prompt": "Từ nhà đến trường có 3 con đường.\nTừ trường đến thư viện có 2 con đường.\nBé đi từ nhà đến thư viện, phải đi qua trường. Có bao nhiêu cách đi?",
+          "options": [
+            {
+              "text": "6 cách"
+            },
+            {
+              "text": "5 cách"
+            },
+            {
+              "text": "3 cách"
+            },
+            {
+              "text": "2 cách"
+            }
+          ],
+          "answer": 0,
+          "method": "Mỗi đường từ nhà đến trường đều nối tiếp được với mọi đường từ trường đến thư viện.",
+          "explanation": "Đường 1 đến trường rồi đi tiếp 2 cách, đường 2 cũng 2 cách, đường 3 cũng 2 cách: 2 + 2 + 2 = 6 cách.\nLưu ý: 5 cách là cộng 3 + 2; 3 cách và 2 cách chỉ đếm một chặng đường."
+        },
+        {
+          "id": "l3k10-b4-02",
+          "type": "input",
+          "prompt": "Từ A đến B có 2 cây cầu. Từ B đến C có 3 cây cầu.\nNgoài ra còn 1 con đường đi thẳng từ A đến C, không qua B.\nCó tất cả bao nhiêu cách đi từ A đến C?",
+          "answers": [
+            "7"
+          ],
+          "unit": "cách",
+          "method": "Chia làm hai trường hợp: đi qua B và không qua B, rồi cộng lại.",
+          "explanation": "Đi qua B: mỗi cầu từ A đến B nối với 3 cầu từ B đến C: 3 + 3 = 6 cách. Đi thẳng: 1 cách. Tất cả: 6 + 1 = 7 cách.\nLưu ý: 6 cách là quên đường đi thẳng; 5 cách là cộng 2 + 3."
+        },
+        {
+          "id": "l3k10-b4-03",
+          "type": "multi_choice",
+          "timeLimit": 50,
+          "prompt": "Chú kiến đi từ ô A đến ô B.\nMỗi bước chỉ được đi sang ô bên PHẢI hoặc ô ngay bên DƯỚI.\nChọn TẤT CẢ các đường đi đúng.",
+          "visual": {
+            "grid": [
+              [
+                "A",
+                "C",
+                "D"
+              ],
+              [
+                "E",
+                "G",
+                "B"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "A → C → G → B"
+            },
+            {
+              "text": "A → D → B"
+            },
+            {
+              "text": "A → E → G → B"
+            },
+            {
+              "text": "A → C → D → B"
+            },
+            {
+              "text": "A → E → C → D → B"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            3
+          ],
+          "method": "Từ A chỉ có thể sang C (phải) hoặc xuống E (dưới); thử lần lượt từng bước.",
+          "explanation": "Có đúng 3 đường đi: A → C → D → B, A → C → G → B, A → E → G → B.\nLưu ý: A → D → B sai vì nhảy qua ô C; A → E → C → D → B sai vì từ E lên C là đi ngược lên trên."
+        },
+        {
+          "id": "l3k10-b4-04",
+          "type": "choice",
+          "prompt": "Từ A đến B có 2 con đường, từ B đến C có 2 con đường.\nBé đi từ A đến C rồi quay về A, lúc đi và lúc về đều qua B (đường về có thể giống đường đi).\nCó bao nhiêu cách đi cả đi lẫn về?",
+          "timeLimit": 30,
+          "options": [
+            {
+              "text": "8 cách"
+            },
+            {
+              "text": "4 cách"
+            },
+            {
+              "text": "16 cách"
+            },
+            {
+              "text": "12 cách"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm số cách đi một chiều trước; mỗi cách đi ghép được với mọi cách về.",
+          "explanation": "Một chiều A → C: 2 × 2 = 4 cách. Chiều về cũng 4 cách. Mỗi cách đi ghép với 4 cách về: 4 × 4 = 16 cách.\nLưu ý: 8 cách là cộng 4 + 4; 4 cách là chỉ tính chiều đi; 12 cách là đếm sót."
+        },
+        {
+          "id": "l3k10-b4-05",
+          "type": "input",
+          "prompt": "Chú kiến đi từ ô A đến ô B.\nMỗi bước chỉ được sang ô bên PHẢI hoặc ô ngay bên DƯỚI.\nCó bao nhiêu đường đi?",
+          "visual": {
+            "grid": [
+              [
+                "A",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                "B"
+              ]
+            ]
+          },
+          "timeLimit": 30,
+          "answers": [
+            "6"
+          ],
+          "unit": "đường",
+          "method": "Ghi vào mỗi ô số đường đi đến ô đó: bằng số ở ô bên trái cộng số ở ô bên trên.",
+          "explanation": "Hàng trên và cột trái mỗi ô chỉ có 1 đường. Ô giữa: 1 + 1 = 2. Ô giữa hàng dưới: 1 + 2 = 3, ô giữa cột phải: 1 + 2 = 3. Ô B: 3 + 3 = 6 đường.\nLưu ý: 2 là chỉ đếm hai đường men theo mép ngoài; 4 là chỉ đếm các đường đi qua ô chính giữa."
+        },
+        {
+          "id": "l3k10-b4-06",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi sơ đồ với số cách đi từ A đến C.",
+          "pairs": [
+            {
+              "left": {
+                "text": "A→B: 2 đường, B→C: 2 đường"
+              },
+              "right": {
+                "text": "4 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "A→B: 3 đường, B→C: 3 đường"
+              },
+              "right": {
+                "text": "9 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "A→B: 2 đường, B→C: 5 đường"
+              },
+              "right": {
+                "text": "10 cách"
+              }
+            },
+            {
+              "left": {
+                "text": "A→B: 1 đường, B→C: 4 đường, thêm 1 đường thẳng A→C"
+              },
+              "right": {
+                "text": "5 cách"
+              }
+            }
+          ],
+          "method": "Đi qua B thì nhân số đường hai chặng; có đường thẳng thì cộng thêm.",
+          "explanation": "2 × 2 = 4; 3 × 3 = 9; 2 × 5 = 10; 1 × 4 + 1 = 5."
+        },
+        {
+          "id": "l3k10-b4-07",
+          "type": "fill_blank",
+          "timeLimit": 50,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Từ nhà đến chợ có 2 đường, từ chợ đến trường có 3 đường. Từ nhà đến công viên có 1 đường, từ công viên đến trường có 2 đường. Đi qua chợ có [[6]] cách, đi qua công viên có [[2]] cách. Vậy từ nhà đến trường có [[8]] cách.",
+          "choices": [
+            "6",
+            "2",
+            "8",
+            "5",
+            "3"
+          ],
+          "method": "Đếm riêng từng ngả đường rồi cộng lại.",
+          "explanation": "Qua chợ: 2 × 3 = 6 cách. Qua công viên: 1 × 2 = 2 cách. Tất cả: 6 + 2 = 8 cách.\nLưu ý: 5 là cộng 2 + 3; 3 là cộng 1 + 2."
+        },
+        {
+          "id": "l3k10-b4-08",
+          "type": "choice",
+          "prompt": "Chú kiến đi từ ô A đến ô B, mỗi bước sang ô bên PHẢI hoặc ô ngay bên DƯỚI.\nÔ có biển cấm 🚫 không đi qua được.\nCó bao nhiêu đường đi?",
+          "visual": {
+            "grid": [
+              [
+                "A",
+                "",
+                ""
+              ],
+              [
+                "",
+                "🚫",
+                ""
+              ],
+              [
+                "",
+                "",
+                "B"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "6 đường"
+            },
+            {
+              "text": "4 đường"
+            },
+            {
+              "text": "3 đường"
+            },
+            {
+              "text": "2 đường"
+            }
+          ],
+          "answer": 3,
+          "method": "Mọi đường không qua ô giữa đều phải men theo mép ngoài.",
+          "explanation": "Chỉ có 2 đường: sang phải 2 bước rồi xuống 2 bước, hoặc xuống 2 bước rồi sang phải 2 bước. 4 đường còn lại đều đi qua ô giữa có biển cấm.\nLưu ý: 6 đường là quên ô bị cấm; 4 đường là lấy 6 − 2; 3 đường là đếm sai."
+        },
+        {
+          "id": "l3k10-b4-09",
+          "type": "pick_order",
+          "timeLimit": 50,
+          "prompt": "Từ A đến B có 4 con đường, từ B đến C có 3 con đường.\nChạm các thẻ để ghép phép tính số cách đi từ A đến C qua B (bắt đầu bằng số đường từ A đến B).",
+          "items": [
+            "4",
+            "×",
+            "3",
+            "=",
+            "12"
+          ],
+          "distractors": [
+            "+",
+            "7"
+          ],
+          "method": "Mỗi đường A → B nối tiếp được với cả 3 đường B → C.",
+          "explanation": "Mỗi đường từ A đến B có 3 cách đi tiếp: 4 × 3 = 12 cách.\nLưu ý: thẻ \"+\" và \"7\" là bẫy 4 + 3 = 7."
+        },
+        {
+          "id": "l3k10-b4-10",
+          "type": "input",
+          "prompt": "Từ A đến B có 2 đường, từ B đến C có 2 đường, từ C đến D có 3 đường.\nĐi từ A đến D phải qua B rồi qua C.\nCó bao nhiêu cách đi?",
+          "answers": [
+            "12"
+          ],
+          "unit": "cách",
+          "method": "Tính số cách từ A đến C trước, rồi đi tiếp đến D.",
+          "explanation": "A → C: 2 × 2 = 4 cách. Mỗi cách đó có 3 đường đến D: 4 × 3 = 12 cách.\nLưu ý: 7 là cộng 2 + 2 + 3; 6 là quên chặng B → C."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Đếm cách bằng bảng và sơ đồ cây",
+      "emoji": "🌳",
+      "description": "Dùng bảng và sơ đồ cây để đếm không sót cách nào!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k10-b5-01",
+          "type": "fill_blank",
+          "timeLimit": 45,
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Có 2 cái mũ (đỏ, xanh) và 4 cái áo (trắng, vàng, hồng, tím). Vẽ sơ đồ cây: từ mũ đỏ tỏa ra [[4]] nhánh áo, từ mũ xanh cũng vậy. Vậy có tất cả [[8]] cách chọn 1 mũ và 1 áo.",
+          "choices": [
+            "4",
+            "8",
+            "6",
+            "2"
+          ],
+          "method": "Mỗi nhánh mũ tỏa ra số nhánh bằng số áo; đếm tất cả các nhánh cuối.",
+          "explanation": "Mũ đỏ có 4 nhánh áo, mũ xanh có 4 nhánh áo: 4 + 4 = 8 cách.\nLưu ý: 6 là cộng 2 + 4 — sai vì mỗi mũ đi được với cả 4 áo."
+        },
+        {
+          "id": "l3k10-b5-02",
+          "type": "input",
+          "prompt": "Bảng dưới đây ghép chữ số hàng chục (cột trái) với chữ số hàng đơn vị (hàng trên cùng) để lập số có hai chữ số.\nTrong các số ở bảng, có bao nhiêu số LỚN HƠN 20?",
+          "visual": {
+            "grid": [
+              [
+                "",
+                "0",
+                "5"
+              ],
+              [
+                "1",
+                "10",
+                "15"
+              ],
+              [
+                "2",
+                "20",
+                "25"
+              ],
+              [
+                "3",
+                "30",
+                "35"
+              ]
+            ]
+          },
+          "answers": [
+            "3"
+          ],
+          "unit": "số",
+          "method": "Đọc hết các số trong bảng rồi đếm những số lớn hơn 20 — chú ý số 20 có lớn hơn 20 không.",
+          "explanation": "Các số trong bảng: 10, 15, 20, 25, 30, 35. Số lớn hơn 20: 25, 30, 35 → 3 số.\nLưu ý: 4 là tính cả số 20 — sai vì 20 bằng 20, không lớn hơn 20."
+        },
+        {
+          "id": "l3k10-b5-03",
+          "type": "choice",
+          "prompt": "Nhà Bin đi chơi: chọn 1 ngày (thứ Bảy hoặc Chủ nhật), 1 buổi (sáng hoặc chiều) và 1 nơi (công viên, sở thú hoặc bảo tàng).\nCó bao nhiêu cách chọn?",
+          "options": [
+            {
+              "text": "7 cách"
+            },
+            {
+              "text": "6 cách"
+            },
+            {
+              "text": "12 cách"
+            },
+            {
+              "text": "10 cách"
+            }
+          ],
+          "answer": 2,
+          "method": "Vẽ sơ đồ cây: ngày → buổi → nơi, rồi đếm các nhánh cuối.",
+          "explanation": "Mỗi ngày có 2 buổi → 2 + 2 = 4 cách chọn ngày và buổi. Mỗi cách đó có 3 nơi → 3 + 3 + 3 + 3 = 12 cách.\nLưu ý: 7 cách là cộng 2 + 2 + 3; 6 cách là quên chọn ngày (chỉ 2 × 3); 10 cách là đếm sót nhánh."
+        },
+        {
+          "id": "l3k10-b5-04",
+          "type": "choice",
+          "prompt": "Lập số có hai chữ số: chữ số hàng chục chọn trong 1, 2, 3; chữ số hàng đơn vị chọn trong 4, 5.\nKẻ bảng để đếm. Có bao nhiêu số CHẴN (chia hết cho 2)?",
+          "options": [
+            {
+              "text": "6 số"
+            },
+            {
+              "text": "3 số"
+            },
+            {
+              "text": "2 số"
+            },
+            {
+              "text": "4 số"
+            }
+          ],
+          "answer": 1,
+          "method": "Kẻ bảng 3 hàng (hàng chục) và 2 cột (hàng đơn vị), rồi thử chia từng số cho 2.",
+          "explanation": "Bảng có 6 số: 14, 15, 24, 25, 34, 35. Thử chia cho 2: 14 : 2 = 7, 24 : 2 = 12, 34 : 2 = 17 — chia hết; 15, 25, 35 chia cho 2 đều dư 1. Có 3 số chẵn.\nLưu ý: 6 số là đếm tất cả; 2 số là nghĩ chỉ có 2 chữ số hàng đơn vị; 4 số là đếm sai."
+        },
+        {
+          "id": "l3k10-b5-05",
+          "type": "input",
+          "prompt": "Kem có 3 vị: dâu, sô-cô-la, va-ni. Kem được đựng trong ốc quế hoặc cốc giấy.\nRiêng kem va-ni chỉ còn ốc quế.\nBé có bao nhiêu cách chọn 1 cây kem?",
+          "answers": [
+            "5"
+          ],
+          "unit": "cách",
+          "method": "Vẽ sơ đồ cây: mỗi vị kem tỏa ra các nhánh đồ đựng, nhớ nhánh va-ni chỉ có 1.",
+          "explanation": "Dâu: 2 nhánh, sô-cô-la: 2 nhánh, va-ni: 1 nhánh. Tất cả: 2 + 2 + 1 = 5 cách.\nLưu ý: 6 là quên va-ni hết cốc giấy."
+        },
+        {
+          "id": "l3k10-b5-06",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Sơ đồ cây: chọn 1 món chính (cơm hoặc phở), rồi chọn 1 món tráng miệng (chè, kem hoặc sữa chua).\nKéo mỗi bữa ăn vào đúng nhánh.",
+          "groups": [
+            {
+              "emoji": "🍚",
+              "text": "Nhánh Cơm"
+            },
+            {
+              "emoji": "🍜",
+              "text": "Nhánh Phở"
+            },
+            {
+              "emoji": "❌",
+              "text": "Không có trong sơ đồ"
+            }
+          ],
+          "items": [
+            {
+              "text": "Cơm – chè",
+              "group": 0
+            },
+            {
+              "text": "Phở – kem",
+              "group": 1
+            },
+            {
+              "text": "Cơm – sữa chua",
+              "group": 0
+            },
+            {
+              "text": "Phở – chè",
+              "group": 1
+            },
+            {
+              "text": "Phở – bánh flan",
+              "group": 2
+            },
+            {
+              "text": "Cơm – phở",
+              "group": 2
+            }
+          ],
+          "method": "Mỗi bữa gồm đúng 1 món chính đứng trước và 1 món tráng miệng có trong danh sách.",
+          "explanation": "Nhánh Cơm: cơm – chè, cơm – sữa chua. Nhánh Phở: phở – kem, phở – chè.\n\"Phở – bánh flan\" không có vì bánh flan không có trong danh sách; \"Cơm – phở\" sai vì là hai món chính."
+        },
+        {
+          "id": "l3k10-b5-07",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô sơ đồ cây rồi chạm vào số nhánh cuối đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "2 nhánh, mỗi nhánh tỏa ra 3 nhánh"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "3 nhánh, mỗi nhánh tỏa ra 3 nhánh"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "4 nhánh, mỗi nhánh tỏa ra 2 nhánh"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "2 nhánh → mỗi nhánh 2 nhánh → mỗi nhánh 3 nhánh"
+              },
+              "back": {
+                "text": "12"
+              }
+            },
+            {
+              "front": {
+                "text": "5 nhánh, mỗi nhánh tỏa ra 1 nhánh"
+              },
+              "back": {
+                "text": "5"
+              }
+            }
+          ],
+          "method": "Số nhánh cuối = số nhánh đầu nhân với số nhánh tỏa ra ở mỗi tầng.",
+          "explanation": "2 × 3 = 6; 3 × 3 = 9; 4 × 2 = 8; 2 × 2 × 3 = 12; 5 × 1 = 5."
+        },
+        {
+          "id": "l3k10-b5-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Kéo để xếp các tình huống theo SỐ CÁCH CHỌN từ ÍT đến NHIỀU (mỗi lần chọn 1 thứ mỗi loại).",
+          "items": [
+            {
+              "text": "2 mũ, 2 áo"
+            },
+            {
+              "text": "1 mũ, 5 áo"
+            },
+            {
+              "text": "2 mũ, 3 áo"
+            },
+            {
+              "text": "3 mũ, 3 áo"
+            },
+            {
+              "text": "2 mũ, 3 áo, 2 quần"
+            }
+          ],
+          "method": "Tính số cách của từng tình huống bằng sơ đồ cây.",
+          "explanation": "2 × 2 = 4; 1 × 5 = 5; 2 × 3 = 6; 3 × 3 = 9; 2 × 3 × 2 = 12. Thứ tự: 4, 5, 6, 9, 12."
+        },
+        {
+          "id": "l3k10-b5-09",
+          "type": "input",
+          "prompt": "Túi thứ nhất có 3 thẻ số 1, 2, 3. Túi thứ hai cũng có 3 thẻ số 1, 2, 3.\nBé lấy mỗi túi 1 thẻ rồi cộng hai số. Kẻ bảng để đếm.\nCó bao nhiêu cách lấy được tổng bằng 4?",
+          "visual": {
+            "grid": [
+              [
+                "+",
+                "1",
+                "2",
+                "3"
+              ],
+              [
+                "1",
+                "",
+                "",
+                ""
+              ],
+              [
+                "2",
+                "",
+                "",
+                ""
+              ],
+              [
+                "3",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          "timeLimit": 30,
+          "answers": [
+            "3"
+          ],
+          "unit": "cách",
+          "method": "Điền hết bảng cộng: hàng là thẻ túi thứ nhất, cột là thẻ túi thứ hai.",
+          "explanation": "Tổng bằng 4 khi: túi 1 lấy 1 – túi 2 lấy 3, túi 1 lấy 2 – túi 2 lấy 2, túi 1 lấy 3 – túi 2 lấy 1 → 3 cách.\nLưu ý: 2 là coi \"1 và 3\" với \"3 và 1\" là một — sai vì hai thẻ ở hai túi khác nhau."
+        },
+        {
+          "id": "l3k10-b5-10",
+          "type": "choice",
+          "prompt": "Mã tủ gồm 1 chữ cái (A hoặc B) rồi đến 1 chữ số (1, 2 hoặc 3), ví dụ A1.\nCó bao nhiêu mã tủ KHÔNG có chữ số 2?",
+          "options": [
+            {
+              "text": "6 mã"
+            },
+            {
+              "text": "5 mã"
+            },
+            {
+              "text": "2 mã"
+            },
+            {
+              "text": "4 mã"
+            }
+          ],
+          "answer": 3,
+          "method": "Vẽ sơ đồ cây: mỗi chữ cái tỏa ra các chữ số, rồi bỏ nhánh có số 2.",
+          "explanation": "Tất cả có 2 × 3 = 6 mã: A1, A2, A3, B1, B2, B3. Bỏ A2 và B2, còn A1, A3, B1, B3 → 4 mã.\nLưu ý: 6 mã là đếm cả mã có số 2; 5 mã là chỉ bỏ 1 mã; 2 mã là chỉ đếm số chữ cái."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1379 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Tìm số còn thiếu trong dãy số",
+      "emoji": "🔢",
+      "description": "Cùng làm thám tử, tìm ra quy luật để điền số còn thiếu nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k01-b1-01",
+          "type": "choice",
+          "prompt": "Tìm số còn thiếu:\n2, 5, 8, 11, ?, 17",
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "14"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "16"
+            }
+          ],
+          "answer": 1,
+          "method": "Xem hai số đứng cạnh nhau hơn kém nhau bao nhiêu.",
+          "explanation": "Mỗi số hơn số đứng trước 3 đơn vị: 2, 5, 8, 11, 14, 17. Kiểm tra: 11 + 3 = 14 và 14 + 3 = 17.\nLưu ý: 13 là do chỉ cộng 2; 15 và 16 không khớp với số 17 ở cuối dãy."
+        },
+        {
+          "id": "k01-b1-02",
+          "type": "input",
+          "prompt": "Điền số tiếp theo:\n1, 2, 4, 7, 11, ?",
+          "answers": [
+            "16"
+          ],
+          "method": "Khoảng cách giữa hai số liền nhau không đứng yên mà lớn dần.",
+          "explanation": "Khoảng cách tăng dần: +1, +2, +3, +4, rồi +5. Vậy số tiếp theo là 11 + 5 = 16."
+        },
+        {
+          "id": "k01-b1-03",
+          "type": "choice",
+          "prompt": "Tìm số tiếp theo:\n3, 6, 12, 24, ?",
+          "options": [
+            {
+              "text": "30"
+            },
+            {
+              "text": "36"
+            },
+            {
+              "text": "48"
+            },
+            {
+              "text": "42"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử so sánh mỗi số với số đứng trước nó: số sau bằng số trước cộng với chính nó không?",
+          "explanation": "Mỗi số bằng số đứng trước cộng với chính nó: 3 + 3 = 6, 6 + 6 = 12, 12 + 12 = 24, nên số tiếp theo là 24 + 24 = 48.\nLưu ý: 30 là bẫy \"cộng thêm 6\"; 36 là bẫy \"cộng thêm 12\"; 42 không theo quy luật nào của dãy."
+        },
+        {
+          "id": "k01-b1-04",
+          "type": "input",
+          "prompt": "Quan sát bảng số. Mỗi hàng có cùng một quy luật.\nSố nào thay cho dấu ?",
+          "visual": {
+            "grid": [
+              [
+                "5",
+                "10",
+                "15"
+              ],
+              [
+                "4",
+                "8",
+                "12"
+              ],
+              [
+                "3",
+                "6",
+                "?"
+              ]
+            ]
+          },
+          "answers": [
+            "9"
+          ],
+          "method": "Xem trong mỗi hàng, số thứ hai và số thứ ba liên quan thế nào với số đầu tiên.",
+          "explanation": "Trong mỗi hàng, các số là đếm thêm số đầu tiên: 5, 10, 15 (thêm 5); 4, 8, 12 (thêm 4). Hàng cuối đếm thêm 3: 3, 6, 9. Vậy ? = 9."
+        },
+        {
+          "id": "k01-b1-05",
+          "type": "choice",
+          "prompt": "Quan sát bảng số. Số nào thay cho dấu ?",
+          "visual": {
+            "grid": [
+              [
+                "1",
+                "3",
+                "4"
+              ],
+              [
+                "2",
+                "5",
+                "7"
+              ],
+              [
+                "6",
+                "2",
+                "?"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "4"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "12"
+            },
+            {
+              "text": "8"
+            }
+          ],
+          "answer": 3,
+          "method": "Thử cộng hoặc trừ hai số đầu của mỗi hàng xem có ra số thứ ba không.",
+          "explanation": "Ở mỗi hàng, số thứ ba bằng tổng hai số đầu: 1 + 3 = 4, 2 + 5 = 7. Vậy hàng cuối: 6 + 2 = 8.\nLưu ý: 4 là do lấy 6 − 2 (trừ nhầm); 12 là do lấy 6 + 6 (cộng nhầm hai lần số 6); 9 là đoán theo cột nhưng các cột không có quy luật chung."
+        },
+        {
+          "id": "k01-b1-06",
+          "type": "fill_blank",
+          "prompt": "Điền số còn thiếu vào dãy số đếm thêm 5.",
+          "sentence": "15, 20, [[25]], 30, [[35]], 40",
+          "choices": [
+            "25",
+            "35",
+            "45",
+            "26"
+          ],
+          "timeLimit": 40,
+          "method": "Đếm thêm 5 bắt đầu từ 20.",
+          "explanation": "20 + 5 = 25, 30 + 5 = 35, 35 + 5 = 40. Dãy đầy đủ: 15, 20, 25, 30, 35, 40."
+        },
+        {
+          "id": "k01-b1-07",
+          "type": "order",
+          "prompt": "Xếp các số theo thứ tự từ bé đến lớn để được một dãy số cách đều.",
+          "items": [
+            {
+              "text": "12"
+            },
+            {
+              "text": "19"
+            },
+            {
+              "text": "26"
+            },
+            {
+              "text": "33"
+            },
+            {
+              "text": "40"
+            }
+          ],
+          "timeLimit": 45,
+          "method": "Tìm số bé nhất trước, rồi xem các số hơn kém nhau bao nhiêu.",
+          "explanation": "Thứ tự từ bé đến lớn: 12, 19, 26, 33, 40. Mỗi số hơn số trước 7 đơn vị nên đây là dãy cách đều."
+        },
+        {
+          "id": "k01-b1-08",
+          "type": "match",
+          "prompt": "Nối mỗi dãy số với số tiếp theo của dãy.",
+          "pairs": [
+            {
+              "left": {
+                "text": "10, 20, 30, …"
+              },
+              "right": {
+                "text": "40"
+              }
+            },
+            {
+              "left": {
+                "text": "50, 45, 40, …"
+              },
+              "right": {
+                "text": "35"
+              }
+            },
+            {
+              "left": {
+                "text": "1, 3, 5, …"
+              },
+              "right": {
+                "text": "7"
+              }
+            },
+            {
+              "left": {
+                "text": "100, 90, 80, …"
+              },
+              "right": {
+                "text": "70"
+              }
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Mỗi dãy có thể tăng dần hoặc giảm dần, hãy xem kỹ chiều của dãy.",
+          "explanation": "10, 20, 30 thêm 10 → 40. 50, 45, 40 bớt 5 → 35. 1, 3, 5 thêm 2 → 7. 100, 90, 80 bớt 10 → 70."
+        },
+        {
+          "id": "k01-b1-09",
+          "type": "pick_order",
+          "prompt": "Dãy số: 4, 8, 12, …\nChạm lần lượt 3 số tiếp theo của dãy.",
+          "items": [
+            "16",
+            "20",
+            "24"
+          ],
+          "distractors": [
+            "18",
+            "22"
+          ],
+          "timeLimit": 40,
+          "method": "Dãy đếm thêm một số giống nhau, hãy tìm số đó.",
+          "explanation": "Dãy đếm thêm 4: 12 + 4 = 16, 16 + 4 = 20, 20 + 4 = 24. Thẻ 18 và 22 là bẫy: đó là số có được khi chỉ đếm thêm 2 (16 + 2, 20 + 2), trong khi dãy đếm thêm 4."
+        },
+        {
+          "id": "k01-b1-10",
+          "type": "multi_choice",
+          "prompt": "Dãy số 1, 4, 7, 10, … cứ đếm thêm 3 mãi.\nChọn TẤT CẢ các số sẽ có mặt trong dãy.",
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "19"
+            },
+            {
+              "text": "22"
+            },
+            {
+              "text": "24"
+            },
+            {
+              "text": "28"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            3,
+            5
+          ],
+          "method": "Viết tiếp dãy bằng cách cộng 3 liên tục rồi so với từng số.",
+          "explanation": "Viết tiếp: 1, 4, 7, 10, 13, 16, 19, 22, 25, 28. Các số có trong dãy: 13, 19, 22, 28.\nLưu ý: 15 và 24 bị nhảy qua (dãy có 16 và 25 chứ không có 15, 24)."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Quy luật tăng giảm xen kẽ",
+      "emoji": "🎢",
+      "description": "Lên rồi xuống như tàu lượn, bé có tìm ra quy luật không?",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k01-b2-01",
+          "type": "choice",
+          "prompt": "Tìm số tiếp theo:\n10, 13, 11, 14, 12, 15, ?",
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "16"
+            },
+            {
+              "text": "18"
+            },
+            {
+              "text": "11"
+            }
+          ],
+          "answer": 0,
+          "method": "Dãy lúc tăng lúc giảm, hãy xem mỗi lần tăng bao nhiêu, giảm bao nhiêu.",
+          "explanation": "Quy luật: cộng 3 rồi trừ 2, lặp lại. 10 + 3 = 13, 13 − 2 = 11, 11 + 3 = 14, 14 − 2 = 12, 12 + 3 = 15, 15 − 2 = 13.\nLưu ý: 16 và 18 là do cứ tăng mãi; 11 là do trừ 4 thay vì trừ 2."
+        },
+        {
+          "id": "k01-b2-02",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô để xem dãy số, rồi chạm vào số tiếp theo của dãy đó.",
+          "pairs": [
+            {
+              "front": {
+                "text": "5, 9, 7, 11, 9, …"
+              },
+              "back": {
+                "text": "13"
+              }
+            },
+            {
+              "front": {
+                "text": "20, 18, 22, 20, 24, …"
+              },
+              "back": {
+                "text": "22"
+              }
+            },
+            {
+              "front": {
+                "text": "1, 6, 4, 9, 7, …"
+              },
+              "back": {
+                "text": "12"
+              }
+            },
+            {
+              "front": {
+                "text": "30, 25, 27, 22, 24, …"
+              },
+              "back": {
+                "text": "19"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Mỗi dãy xen kẽ một bước tăng và một bước giảm, hãy xem bước tiếp theo là tăng hay giảm.",
+          "explanation": "5, 9, 7, 11, 9: +4, −2 → 9 + 4 = 13. 20, 18, 22, 20, 24: −2, +4 → 24 − 2 = 22. 1, 6, 4, 9, 7: +5, −2 → 7 + 5 = 12. 30, 25, 27, 22, 24: −5, +2 → 24 − 5 = 19."
+        },
+        {
+          "id": "k01-b2-03",
+          "type": "input",
+          "prompt": "Tìm số tiếp theo:\n2, 12, 4, 14, 6, 16, ?",
+          "answers": [
+            "8"
+          ],
+          "method": "Thử tách thành hai dãy: các số ở vị trí thứ 1, 3, 5… và các số ở vị trí thứ 2, 4, 6…",
+          "explanation": "Các số ở vị trí 1, 3, 5 là 2, 4, 6 (thêm 2); các số ở vị trí 2, 4, 6 là 12, 14, 16. Số tiếp theo ở vị trí thứ 7 nên thuộc dãy 2, 4, 6 → 8. Cũng có thể thấy: +10, −8 xen kẽ, 16 − 8 = 8."
+        },
+        {
+          "id": "k01-b2-04",
+          "type": "choice",
+          "prompt": "Tìm số tiếp theo:\n50, 45, 47, 42, 44, 39, ?",
+          "options": [
+            {
+              "text": "37"
+            },
+            {
+              "text": "41"
+            },
+            {
+              "text": "34"
+            },
+            {
+              "text": "43"
+            }
+          ],
+          "answer": 1,
+          "method": "Dãy lúc giảm lúc tăng, hãy xem bước tiếp theo là giảm hay tăng.",
+          "explanation": "Quy luật: trừ 5 rồi cộng 2, lặp lại. 50 − 5 = 45, 45 + 2 = 47, 47 − 5 = 42, 42 + 2 = 44, 44 − 5 = 39, nên bước tiếp theo là cộng 2: 39 + 2 = 41.\nLưu ý: 34 là do tiếp tục trừ 5 (quên rằng đến lượt cộng); 37 là do trừ 2; 43 là do cộng 4."
+        },
+        {
+          "id": "k01-b2-05",
+          "type": "input",
+          "prompt": "Tìm số còn thiếu:\n3, 8, 6, 11, ?, 14, 12",
+          "answers": [
+            "9"
+          ],
+          "method": "Số còn thiếu nằm giữa 11 và 14, hãy tìm quy luật từ các số đầu.",
+          "explanation": "Quy luật: cộng 5 rồi trừ 2, lặp lại. 3 + 5 = 8, 8 − 2 = 6, 6 + 5 = 11, 11 − 2 = 9, 9 + 5 = 14, 14 − 2 = 12. Vậy số còn thiếu là 9."
+        },
+        {
+          "id": "k01-b2-06",
+          "type": "fill_blank",
+          "prompt": "Dãy số theo quy luật: cộng 4 rồi trừ 1, lặp lại.\nĐiền số còn thiếu.",
+          "sentence": "5, 9, [[8]], 12, [[11]], 15",
+          "choices": [
+            "8",
+            "11",
+            "13",
+            "10"
+          ],
+          "timeLimit": 45,
+          "method": "Làm lần lượt: cộng 4, trừ 1, cộng 4, trừ 1…",
+          "explanation": "5 + 4 = 9, 9 − 1 = 8, 8 + 4 = 12, 12 − 1 = 11, 11 + 4 = 15. Thẻ 13 là bẫy cộng 4 liền hai lần (9 + 4); thẻ 10 là bẫy trừ 2."
+        },
+        {
+          "id": "k01-b2-07",
+          "type": "match",
+          "prompt": "Nối mỗi dãy số với quy luật của nó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "4, 7, 5, 8, 6"
+              },
+              "right": {
+                "text": "+3, −2"
+              }
+            },
+            {
+              "left": {
+                "text": "4, 6, 5, 7, 6"
+              },
+              "right": {
+                "text": "+2, −1"
+              }
+            },
+            {
+              "left": {
+                "text": "9, 6, 8, 5, 7"
+              },
+              "right": {
+                "text": "−3, +2"
+              }
+            },
+            {
+              "left": {
+                "text": "9, 10, 7, 8, 5"
+              },
+              "right": {
+                "text": "+1, −3"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Xem bước đầu tiên là tăng hay giảm, rồi tính xem tăng, giảm bao nhiêu.",
+          "explanation": "4 → 7 (+3) → 5 (−2) → 8 → 6. 4 → 6 (+2) → 5 (−1) → 7 → 6. 9 → 6 (−3) → 8 (+2) → 5 → 7. 9 → 10 (+1) → 7 (−3) → 8 → 5."
+        },
+        {
+          "id": "k01-b2-08",
+          "type": "pick_order",
+          "prompt": "Dãy số tăng giảm xen kẽ:\n20, 26, 23, 29, 26, …\nChạm lần lượt 3 số tiếp theo của dãy.",
+          "items": [
+            "32",
+            "29",
+            "35"
+          ],
+          "distractors": [
+            "23",
+            "38"
+          ],
+          "timeLimit": 45,
+          "method": "Tìm xem dãy cộng bao nhiêu, trừ bao nhiêu, và bước tiếp theo là cộng hay trừ.",
+          "explanation": "Quy luật: cộng 6 rồi trừ 3. Sau 26 đến lượt cộng: 26 + 6 = 32, rồi 32 − 3 = 29, rồi 29 + 6 = 35. Thẻ 23 là bẫy trừ 3 ngay sau 26; thẻ 38 là bẫy cộng 6 liền hai lần."
+        },
+        {
+          "id": "k01-b2-09",
+          "type": "choice",
+          "prompt": "Ếch con đứng ở bậc 0 của cầu thang. Lượt thứ nhất ếch nhảy lên 3 bậc, lượt thứ hai tụt xuống 1 bậc, rồi cứ thế lặp lại.\nSau 6 lượt, ếch đứng ở bậc thứ mấy?",
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "12"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "18"
+            }
+          ],
+          "answer": 2,
+          "method": "Ghi lại chỗ ếch đứng sau từng lượt, hoặc xem mỗi cặp \"lên rồi xuống\" ếch lên được mấy bậc.",
+          "explanation": "Sau từng lượt: 3, 2, 5, 4, 7, 6. Cách khác: mỗi cặp hai lượt ếch lên được 3 − 1 = 2 bậc; 6 lượt là 3 cặp nên 2 + 2 + 2 = 6.\nLưu ý: 7 là chỗ ếch đứng sau 5 lượt (quên lượt tụt cuối); 12 là do nghĩ 6 lượt là 6 cặp; 18 là do quên các lượt tụt xuống (cộng 3 sáu lần: 3 + 3 + 3 + 3 + 3 + 3 = 18)."
+        },
+        {
+          "id": "k01-b2-10",
+          "type": "multi_choice",
+          "prompt": "Dãy số 10, 15, 13, 18, 16, … cứ cộng 5 rồi trừ 2 mãi.\nChọn TẤT CẢ các số sẽ có mặt trong dãy.",
+          "options": [
+            {
+              "text": "21"
+            },
+            {
+              "text": "20"
+            },
+            {
+              "text": "23"
+            },
+            {
+              "text": "24"
+            },
+            {
+              "text": "26"
+            },
+            {
+              "text": "25"
+            }
+          ],
+          "answers": [
+            0,
+            3,
+            5
+          ],
+          "method": "Viết tiếp dãy thật cẩn thận, lần lượt cộng 5 rồi trừ 2.",
+          "explanation": "Viết tiếp: 10, 15, 13, 18, 16, 21, 19, 24, 22, 27, 25, 30, 28… Các số có trong dãy: 21, 24, 25.\nLưu ý: 20 bị nhảy qua (19 → 24), 23 bị nhảy qua (22 → 27), 26 bị nhảy qua (25 → 30); sau đó dãy luôn lớn hơn các số này nên chúng không bao giờ xuất hiện."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Tìm hình tiếp theo trong dãy",
+      "emoji": "🔺",
+      "description": "Các hình xếp hàng theo một bí mật, bé hãy đoán hình tiếp theo nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k01-b3-01",
+          "type": "choice",
+          "prompt": "Hình tiếp theo là hình nào?",
+          "visual": {
+            "emoji": "⭐🌙⭐⭐🌙⭐⭐⭐🌙 ?"
+          },
+          "options": [
+            {
+              "emoji": "🌙"
+            },
+            {
+              "emoji": "☀️"
+            },
+            {
+              "emoji": "⭐"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm số ngôi sao đứng trước mỗi mặt trăng.",
+          "explanation": "Số ngôi sao tăng dần: 1 sao rồi trăng, 2 sao rồi trăng, 3 sao rồi trăng. Tiếp theo là nhóm 4 sao, nên hình tiếp theo là ngôi sao ⭐.\nLưu ý: mặt trăng 🌙 là bẫy vì nghĩ sao và trăng xen kẽ đều; mặt trời ☀️ không có trong dãy."
+        },
+        {
+          "id": "k01-b3-02",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi dãy hình với hình tiếp theo của dãy đó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "🔴🔵🔵🔴🔵🔵🔴"
+              },
+              "right": {
+                "emoji": "🔵"
+              }
+            },
+            {
+              "left": {
+                "text": "🐱🐶🐭🐱🐶"
+              },
+              "right": {
+                "emoji": "🐭"
+              }
+            },
+            {
+              "left": {
+                "text": "🌞🌞🌙🌞🌞"
+              },
+              "right": {
+                "emoji": "🌙"
+              }
+            }
+          ],
+          "timeLimit": 45,
+          "method": "Tìm nhóm hình lặp lại trong mỗi dãy.",
+          "explanation": "Nhóm tròn đỏ, tròn xanh, tròn xanh (🔴🔵🔵) lặp lại, sau tròn đỏ là tròn xanh 🔵. Nhóm Mèo, Chó, Chuột (🐱🐶🐭) lặp lại, sau Mèo, Chó là Chuột 🐭. Nhóm mặt trời, mặt trời, mặt trăng (🌞🌞🌙) lặp lại, sau hai mặt trời là mặt trăng 🌙."
+        },
+        {
+          "id": "k01-b3-03",
+          "type": "choice",
+          "prompt": "Dãy hình lặp lại mãi như sau. Hình thứ 10 là hình nào?",
+          "visual": {
+            "emoji": "🔺🟢🟢🔺🟢🟢🔺🟢🟢 …"
+          },
+          "options": [
+            {
+              "emoji": "🟢"
+            },
+            {
+              "emoji": "🔺"
+            },
+            {
+              "emoji": "🟦"
+            }
+          ],
+          "answer": 1,
+          "method": "Nhóm lặp lại có 3 hình, hãy xem hình tam giác 🔺 đứng ở những vị trí nào.",
+          "explanation": "Nhóm tam giác, tròn xanh, tròn xanh (🔺🟢🟢) có 3 hình. Tam giác 🔺 đứng ở vị trí 1, 4, 7, 10, … (cứ thêm 3). Vậy hình thứ 10 là tam giác 🔺.\nLưu ý: tròn xanh 🟢 là bẫy vì trên màn hình chỉ thấy 9 hình và hình thứ 9 là tròn xanh; hình vuông 🟦 không có trong dãy."
+        },
+        {
+          "id": "k01-b3-04",
+          "type": "input",
+          "prompt": "Dãy hình lặp lại mãi như sau.\nTrong 12 hình đầu tiên có bao nhiêu quả chuối?",
+          "visual": {
+            "emoji": "🍎🍌🍌🍇🍎🍌🍌🍇 …"
+          },
+          "answers": [
+            "6"
+          ],
+          "method": "Tìm nhóm hình lặp lại và đếm số quả chuối trong mỗi nhóm.",
+          "explanation": "Nhóm lặp lại là táo, chuối, chuối, nho (🍎🍌🍌🍇), gồm 4 hình và có 2 quả chuối. 12 hình là 3 nhóm (4 + 4 + 4 = 12), nên có 2 + 2 + 2 = 6 quả chuối."
+        },
+        {
+          "id": "k01-b3-05",
+          "type": "choice",
+          "prompt": "Các hình lớn dần theo quy luật:\nHình 1 có 1 ô, hình 2 có 3 ô, hình 3 có 5 ô.\nHình 5 có bao nhiêu ô vuông?",
+          "visual": {
+            "emoji": "🟦   🟦🟦🟦   🟦🟦🟦🟦🟦"
+          },
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "10"
+            },
+            {
+              "text": "9"
+            }
+          ],
+          "answer": 3,
+          "method": "Xem mỗi hình sau nhiều hơn hình trước mấy ô.",
+          "explanation": "Mỗi hình thêm 2 ô: hình 1 có 1 ô, hình 2 có 3 ô, hình 3 có 5 ô, hình 4 có 7 ô, hình 5 có 9 ô.\nLưu ý: 7 là số ô của hình 4 (dừng sớm một hình); 10 là do nghĩ hình 5 có 5 × 2 ô; 8 là do chỉ thêm 1 ô."
+        },
+        {
+          "id": "k01-b3-06",
+          "type": "pick_order",
+          "prompt": "Dãy hình lặp lại mãi như sau.\nChạm lần lượt 3 hình tiếp theo.",
+          "items": [
+            "🔴",
+            "🔵",
+            "🟡"
+          ],
+          "distractors": [
+            "🟢",
+            "🟣"
+          ],
+          "timeLimit": 40,
+          "method": "Tìm nhóm hình lặp lại, rồi xem hình cuối cùng đang đứng ở đâu trong nhóm.",
+          "explanation": "Nhóm lặp lại là đỏ, đỏ, xanh dương, vàng (🔴🔴🔵🟡), gồm 4 hình. Hình thứ 9 là hình đỏ đầu tiên của nhóm thứ ba, nên tiếp theo là đỏ 🔴, xanh dương 🔵, vàng 🟡. Thẻ xanh lá 🟢 và tím 🟣 không có trong dãy.",
+          "visual": {
+            "emoji": "🔴🔴🔵🟡🔴🔴🔵🟡🔴 …"
+          }
+        },
+        {
+          "id": "k01-b3-07",
+          "type": "choice",
+          "prompt": "Mũi tên quay theo chiều kim đồng hồ, mỗi lần quay sang hướng kế tiếp: lên, sang phải, xuống, sang trái.\nHình thứ 11 là hình nào?",
+          "visual": {
+            "emoji": "⬆️➡️⬇️⬅️⬆️➡️ …"
+          },
+          "options": [
+            {
+              "emoji": "⬅️"
+            },
+            {
+              "emoji": "⬇️"
+            },
+            {
+              "emoji": "⬆️"
+            },
+            {
+              "emoji": "➡️"
+            }
+          ],
+          "answer": 1,
+          "method": "Mũi tên quay đủ 4 lần thì về hướng cũ, hãy tìm những vị trí có cùng hướng.",
+          "explanation": "Nhóm lặp lại là lên, phải, xuống, trái (⬆️➡️⬇️⬅️), gồm 4 hình. Mũi tên chỉ xuống ⬇️ đứng ở vị trí 3, 7, 11, … (cứ thêm 4). Vậy hình thứ 11 là mũi tên chỉ xuống ⬇️.\nLưu ý: mũi tên chỉ sang trái ⬅️ là hình thứ 12 (đếm thừa 1); mũi tên chỉ sang phải ➡️ là hình thứ 10 (đếm thiếu 1); mũi tên chỉ lên ⬆️ là hình thứ 9."
+        },
+        {
+          "id": "k01-b3-08",
+          "type": "order",
+          "prompt": "Bạn Na xếp que tính thành hàng ô vuông: 1 ô vuông cần 4 que, mỗi lần ghép thêm 1 ô vuông vào hàng cần thêm 3 que.\nXếp các hình theo thứ tự từ ít ô đến nhiều ô.",
+          "items": [
+            {
+              "text": "1 ô vuông: 4 que"
+            },
+            {
+              "text": "2 ô vuông: 7 que"
+            },
+            {
+              "text": "3 ô vuông: 10 que"
+            },
+            {
+              "text": "4 ô vuông: 13 que"
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Bắt đầu từ hình có 1 ô vuông, mỗi hình sau thêm 1 ô và 3 que.",
+          "explanation": "1 ô: 4 que; 2 ô: 4 + 3 = 7 que; 3 ô: 7 + 3 = 10 que; 4 ô: 10 + 3 = 13 que. Ô ghép thêm dùng chung một cạnh với ô bên cạnh nên chỉ cần thêm 3 que, không phải 4."
+        },
+        {
+          "id": "k01-b3-09",
+          "type": "multi_choice",
+          "prompt": "Dãy hình cá, rùa, bạch tuộc, bạch tuộc lặp lại mãi như hình dưới.\nChọn TẤT CẢ các vị trí có con bạch tuộc 🐙.",
+          "visual": {
+            "emoji": "🐟🐢🐙🐙🐟🐢🐙🐙 …"
+          },
+          "options": [
+            {
+              "text": "Vị trí 9"
+            },
+            {
+              "text": "Vị trí 7"
+            },
+            {
+              "text": "Vị trí 12"
+            },
+            {
+              "text": "Vị trí 14"
+            },
+            {
+              "text": "Vị trí 10"
+            },
+            {
+              "text": "Vị trí 16"
+            }
+          ],
+          "answers": [
+            1,
+            2,
+            5
+          ],
+          "method": "Nhóm lặp lại có 4 hình; trong mỗi nhóm, bạch tuộc đứng ở chỗ thứ 3 và thứ 4.",
+          "explanation": "Mỗi nhóm 4 hình: cá 🐟 ở vị trí 1, 5, 9, 13; rùa 🐢 ở vị trí 2, 6, 10, 14; bạch tuộc 🐙 ở vị trí 3, 4, 7, 8, 11, 12, 15, 16. Vậy các vị trí có bạch tuộc: 7, 12, 16.\nLưu ý: vị trí 9 là cá; vị trí 10 và 14 là rùa."
+        },
+        {
+          "id": "k01-b3-10",
+          "type": "fill_blank",
+          "prompt": "Dãy hình lặp lại theo nhóm mặt trời 🌞, mưa 🌧️, cầu vồng 🌈.\nĐiền hình còn thiếu vào chỗ trống.",
+          "sentence": "🌞🌧️🌈🌞[[🌧️]]🌈[[🌞]]🌧️🌈",
+          "choices": [
+            "🌧️",
+            "🌞",
+            "❄️"
+          ],
+          "timeLimit": 40,
+          "method": "Đọc dãy theo từng nhóm 3 hình: mặt trời, rồi mưa, rồi cầu vồng.",
+          "explanation": "Dãy đầy đủ: 🌞🌧️🌈 🌞🌧️🌈 🌞🌧️🌈. Chỗ trống thứ nhất đứng sau mặt trời nên là mưa 🌧️; chỗ trống thứ hai mở đầu nhóm thứ ba nên là mặt trời 🌞. Thẻ bông tuyết ❄️ không có trong dãy."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Quy luật màu sắc và vị trí",
+      "emoji": "🎨",
+      "description": "Màu sắc và chỗ đứng cũng có quy luật đấy, bé quan sát thật kỹ nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k01-b4-01",
+          "type": "choice",
+          "prompt": "Mỗi hàng và mỗi cột đều có đủ 3 màu, không màu nào lặp lại.\nÔ có dấu ? là màu gì?",
+          "visual": {
+            "grid": [
+              [
+                "🔴",
+                "🟡",
+                "🔵"
+              ],
+              [
+                "🟡",
+                "🔵",
+                "🔴"
+              ],
+              [
+                "🔵",
+                "🔴",
+                "?"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🟡",
+              "text": "Vàng"
+            },
+            {
+              "emoji": "🔴",
+              "text": "Đỏ"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Xanh"
+            }
+          ],
+          "answer": 0,
+          "method": "Xem hàng cuối và cột cuối đã có những màu nào.",
+          "explanation": "Hàng cuối đã có xanh 🔵 và đỏ 🔴, còn thiếu vàng 🟡. Cột cuối có xanh 🔵 và đỏ 🔴, cũng thiếu vàng 🟡. Vậy ô ? màu vàng 🟡.\nLưu ý: đỏ và xanh đều đã có trong hàng cuối, chọn sẽ bị lặp màu."
+        },
+        {
+          "id": "k01-b4-02",
+          "type": "match_multi",
+          "prompt": "Dãy hạt đỏ, xanh lá, xanh dương cứ lặp lại mãi như hình dưới.\nNối mỗi hạt vào đúng màu của nó.",
+          "visual": {
+            "emoji": "🔴🟢🔵🔴🟢🔵 …"
+          },
+          "groups": [
+            {
+              "emoji": "🔴",
+              "text": "Đỏ"
+            },
+            {
+              "emoji": "🟢",
+              "text": "Xanh lá"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Xanh dương"
+            }
+          ],
+          "items": [
+            {
+              "text": "Hạt thứ 4",
+              "group": 0
+            },
+            {
+              "text": "Hạt thứ 5",
+              "group": 1
+            },
+            {
+              "text": "Hạt thứ 9",
+              "group": 2
+            },
+            {
+              "text": "Hạt thứ 7",
+              "group": 0
+            },
+            {
+              "text": "Hạt thứ 8",
+              "group": 1
+            },
+            {
+              "text": "Hạt thứ 12",
+              "group": 2
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Nhóm lặp có 3 hạt; hạt xanh dương luôn đứng ở vị trí 3, 6, 9, …",
+          "explanation": "Đỏ ở vị trí 1, 4, 7, 10; xanh lá ở 2, 5, 8, 11; xanh dương ở 3, 6, 9, 12. Vậy hạt 4, 7 đỏ; hạt 5, 8 xanh lá; hạt 9, 12 xanh dương."
+        },
+        {
+          "id": "k01-b4-03",
+          "type": "choice",
+          "prompt": "Một chú ong 🐝 đứng ở góc trên bên trái của tấm hình vuông. Mỗi bước, ong bay sang góc kế tiếp theo chiều kim đồng hồ.\nSau 6 bước, ong ở góc nào?",
+          "options": [
+            {
+              "text": "Góc trên bên trái"
+            },
+            {
+              "text": "Góc trên bên phải"
+            },
+            {
+              "text": "Góc dưới bên phải"
+            },
+            {
+              "text": "Góc dưới bên trái"
+            }
+          ],
+          "answer": 2,
+          "method": "Ong đi đủ 4 bước thì về chỗ cũ, hãy tính phần bước còn lại.",
+          "explanation": "Theo chiều kim đồng hồ: trên trái → trên phải → dưới phải → dưới trái → trên trái. Sau 4 bước ong về chỗ cũ, còn 2 bước nữa: trên phải, rồi dưới phải.\nLưu ý: \"Góc trên bên trái\" là bẫy khi nghĩ 6 bước là tròn một vòng (thật ra 4 bước mới đủ một vòng); \"Góc trên bên phải\" là chỗ ong đứng sau 5 bước (đếm thiếu 1 bước); \"Góc dưới bên trái\" là chỗ ong đứng sau 3 bước."
+        },
+        {
+          "id": "k01-b4-04",
+          "type": "input",
+          "prompt": "Dãy đèn trang trí có 18 bóng, màu lặp lại như sau.\nCó bao nhiêu bóng đèn màu đỏ?",
+          "visual": {
+            "emoji": "🔴🔴🟡🟢🔴🔴🟡🟢 …"
+          },
+          "answers": [
+            "10"
+          ],
+          "method": "Tìm nhóm màu lặp lại, đếm số bóng đỏ trong mỗi nhóm, và chú ý những bóng lẻ ra ở cuối.",
+          "explanation": "Nhóm lặp lại là đỏ, đỏ, vàng, xanh (🔴🔴🟡🟢), gồm 4 bóng và có 2 bóng đỏ. 18 bóng = 4 nhóm đủ (16 bóng) và thêm 2 bóng. 4 nhóm có 2 + 2 + 2 + 2 = 8 bóng đỏ; 2 bóng thêm ở cuối là bóng thứ 17, 18, đều màu đỏ. Vậy có 8 + 2 = 10 bóng đỏ."
+        },
+        {
+          "id": "k01-b4-05",
+          "type": "choice",
+          "prompt": "Mỗi hàng là hàng ngay trên nó dịch sang phải 1 ô (ô cuối cùng quay về đầu hàng).\nÔ có dấu ? là màu gì?",
+          "visual": {
+            "grid": [
+              [
+                "🟥",
+                "🟦",
+                "🟩",
+                "🟨"
+              ],
+              [
+                "🟨",
+                "🟥",
+                "🟦",
+                "🟩"
+              ],
+              [
+                "🟩",
+                "🟨",
+                "🟥",
+                "🟦"
+              ],
+              [
+                "🟦",
+                "🟩",
+                "?",
+                "🟥"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🟥",
+              "text": "Đỏ"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Xanh dương"
+            },
+            {
+              "emoji": "🟩",
+              "text": "Xanh lá"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Vàng"
+            }
+          ],
+          "answer": 3,
+          "method": "Lấy hàng thứ ba, dịch tất cả các ô sang phải 1 ô để được hàng thứ tư.",
+          "explanation": "Hàng 3 là xanh lá, vàng, đỏ, xanh dương (🟩🟨🟥🟦). Dịch sang phải 1 ô: xanh dương (ô cuối quay về đầu), xanh lá, vàng, đỏ. Vậy ô ? màu vàng 🟨. Kiểm tra: cột thứ ba đã có xanh lá, xanh dương, đỏ, còn thiếu vàng.\nLưu ý: đỏ 🟥 là bẫy chép ô ngay phía trên; xanh dương 🟦 và xanh lá 🟩 đã có trong hàng cuối nên chọn sẽ bị lặp màu."
+        },
+        {
+          "id": "k01-b4-06",
+          "type": "fill_blank",
+          "prompt": "Bé xâu vòng theo quy luật: 2 hạt đỏ, 1 hạt vàng, rồi lặp lại.\nĐiền vào chỗ trống.",
+          "sentence": "Trong 9 hạt đầu tiên có [[6]] hạt đỏ và [[3]] hạt vàng. Hạt thứ 10 màu [[đỏ]].",
+          "choices": [
+            "6",
+            "3",
+            "đỏ",
+            "vàng",
+            "4"
+          ],
+          "timeLimit": 45,
+          "method": "Mỗi nhóm 3 hạt gồm đỏ, đỏ, vàng; 9 hạt là mấy nhóm?",
+          "explanation": "9 hạt là 3 nhóm đỏ–đỏ–vàng, nên có 2 + 2 + 2 = 6 hạt đỏ và 3 hạt vàng. Hạt thứ 10 mở đầu nhóm thứ tư nên màu đỏ. Thẻ \"vàng\" là bẫy vì hạt thứ 9 màu vàng."
+        },
+        {
+          "id": "k01-b4-07",
+          "type": "match",
+          "prompt": "Bốn bạn đứng thành một hàng ngang. Bạn áo đỏ đứng đầu hàng. Bạn áo xanh đứng ngay sau bạn áo đỏ. Bạn áo vàng đứng cuối hàng. Bạn còn lại mặc áo tím.\nNối mỗi chỗ đứng với màu áo của bạn đứng ở đó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Đứng thứ nhất"
+              },
+              "right": {
+                "emoji": "🔴",
+                "text": "Áo đỏ"
+              }
+            },
+            {
+              "left": {
+                "text": "Đứng thứ hai"
+              },
+              "right": {
+                "emoji": "🔵",
+                "text": "Áo xanh"
+              }
+            },
+            {
+              "left": {
+                "text": "Đứng thứ ba"
+              },
+              "right": {
+                "emoji": "🟣",
+                "text": "Áo tím"
+              }
+            },
+            {
+              "left": {
+                "text": "Đứng thứ tư"
+              },
+              "right": {
+                "emoji": "🟡",
+                "text": "Áo vàng"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Xếp những bạn đã biết chỗ trước, bạn còn lại vào chỗ trống cuối cùng.",
+          "explanation": "Áo đỏ đứng đầu (thứ nhất), áo xanh ngay sau áo đỏ (thứ hai), áo vàng đứng cuối (thứ tư). Chỗ còn lại là thứ ba, dành cho bạn áo tím."
+        },
+        {
+          "id": "k01-b4-08",
+          "type": "order",
+          "prompt": "Có 4 cái hộp xếp thành một hàng. Hộp tím ở ngoài cùng bên trái. Hộp đỏ ở bên trái hộp xanh. Hộp vàng ở bên phải hộp xanh.\nXếp các hộp theo thứ tự từ trái sang phải.",
+          "items": [
+            {
+              "emoji": "🟪",
+              "text": "Hộp tím"
+            },
+            {
+              "emoji": "🟥",
+              "text": "Hộp đỏ"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hộp xanh"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Hộp vàng"
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Đặt hộp tím trước, rồi xếp ba hộp còn lại sao cho đúng cả hai điều kiện.",
+          "explanation": "Hộp tím ở chỗ thứ nhất. Ba chỗ còn lại: hộp đỏ phải ở bên trái hộp xanh, hộp vàng phải ở bên phải hộp xanh, nên thứ tự là đỏ, xanh, vàng. Hàng hộp: tím, đỏ, xanh, vàng."
+        },
+        {
+          "id": "k01-b4-09",
+          "type": "input",
+          "prompt": "Các ô trong bảng được đánh số từ 1 đến 9. Mèo 🐱 đang ở ô giữa (ô số 5).\nMèo đi lên 1 ô, rồi sang phải 1 ô, rồi đi xuống 2 ô.\nMèo đang ở ô số mấy?",
+          "visual": {
+            "grid": [
+              [
+                "1",
+                "2",
+                "3"
+              ],
+              [
+                "4",
+                "🐱",
+                "6"
+              ],
+              [
+                "7",
+                "8",
+                "9"
+              ]
+            ]
+          },
+          "answers": [
+            "9"
+          ],
+          "method": "Đi theo từng bước trên bảng, mỗi bước ghi lại số ô mèo đứng.",
+          "explanation": "Từ ô 5 đi lên 1 ô đến ô 2; sang phải 1 ô đến ô 3; đi xuống 2 ô: ô 6 rồi ô 9. Vậy mèo ở ô số 9."
+        },
+        {
+          "id": "k01-b4-10",
+          "type": "multi_choice",
+          "prompt": "Một bàn cờ 4 hàng, 4 cột được tô xen kẽ đen trắng giống bàn cờ vua. Ô ở góc trên bên trái màu đen.\nChọn TẤT CẢ các ô màu đen.",
+          "options": [
+            {
+              "text": "Góc trên bên phải"
+            },
+            {
+              "text": "Góc dưới bên phải"
+            },
+            {
+              "text": "Ô ở hàng 2, cột 2"
+            },
+            {
+              "text": "Góc dưới bên trái"
+            },
+            {
+              "text": "Ô ở hàng 3, cột 3"
+            },
+            {
+              "text": "Ô ở hàng 1, cột 2"
+            }
+          ],
+          "answers": [
+            1,
+            2,
+            4
+          ],
+          "method": "Hai ô cạnh nhau luôn khác màu; hãy tô thử hàng 1 rồi tô các hàng tiếp theo.",
+          "explanation": "Hàng 1: đen, trắng, đen, trắng; hàng 2: trắng, đen, trắng, đen; hàng 3: đen, trắng, đen, trắng; hàng 4: trắng, đen, trắng, đen. Các ô đen: góc dưới bên phải, hàng 2 cột 2, hàng 3 cột 3.\nLưu ý: nhiều bạn nghĩ cả 4 góc đều đen, nhưng mỗi hàng tô đen, trắng, đen, trắng nên ô thứ 4 (góc trên bên phải) màu trắng, và góc dưới bên trái cũng màu trắng vì hàng 4 bắt đầu bằng ô trắng; ô hàng 1 cột 2 nằm ngay cạnh ô đen ở góc nên màu trắng."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Quy luật kết hợp số và hình",
+      "emoji": "🧩",
+      "description": "Mỗi hình giấu một con số, bé hãy giải mã thật khéo nhé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "k01-b5-01",
+          "type": "choice",
+          "prompt": "Quả táo 🍎, quả chuối 🍌 và chùm nho 🍇 là các số bí mật.\n🍎 + 🍎 = 10\n🍎 + 🍌 = 8\n🍌 + 🍇 = 7\nVậy chùm nho 🍇 = ?",
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 3,
+          "method": "Tìm táo 🍎 trước, rồi tìm chuối 🍌, cuối cùng tìm nho 🍇.",
+          "explanation": "Táo + táo = 10 nên táo 🍎 = 5. 5 + chuối = 8 nên chuối 🍌 = 3. 3 + nho = 7 nên nho 🍇 = 4.\nLưu ý: 3 là giá trị của chuối; 5 là giá trị của táo; 2 là do lấy 10 − 8."
+        },
+        {
+          "id": "k01-b5-02",
+          "type": "fill_blank",
+          "prompt": "Biết tam giác 🔺 = 3 và hình vuông 🟦 = 4. Điền số vào chỗ trống.",
+          "sentence": "🔺 + 🔺 + 🟦 = [[10]]\n🟦 + 🟦 − 🔺 = [[5]]",
+          "choices": [
+            "10",
+            "5",
+            "11",
+            "7"
+          ],
+          "timeLimit": 40,
+          "method": "Thay mỗi hình bằng số của nó rồi tính từ trái sang phải.",
+          "explanation": "Tam giác + tam giác + hình vuông = 3 + 3 + 4 = 10. Hình vuông + hình vuông − tam giác = 4 + 4 − 3 = 5."
+        },
+        {
+          "id": "k01-b5-03",
+          "type": "input",
+          "prompt": "Mỗi loại quả (táo 🍎, chuối 🍌, nho 🍇) là một số. Số cuối mỗi hàng là tổng các quả trong hàng.\nSố nào thay cho dấu ?",
+          "visual": {
+            "grid": [
+              [
+                "🍎",
+                "🍎",
+                "🍎",
+                "15"
+              ],
+              [
+                "🍎",
+                "🍌",
+                "🍌",
+                "11"
+              ],
+              [
+                "🍌",
+                "🍌",
+                "🍇",
+                "10"
+              ],
+              [
+                "🍎",
+                "🍌",
+                "🍇",
+                "?"
+              ]
+            ]
+          },
+          "answers": [
+            "12"
+          ],
+          "method": "Hàng đầu chỉ có một loại quả, hãy bắt đầu từ đó.",
+          "explanation": "Hàng 1: táo + táo + táo = 15 nên táo 🍎 = 5. Hàng 2: 5 + chuối + chuối = 11 nên hai quả chuối là 6, chuối 🍌 = 3. Hàng 3: 3 + 3 + nho = 10 nên nho 🍇 = 4. Hàng 4: táo + chuối + nho = 5 + 3 + 4 = 12."
+        },
+        {
+          "id": "k01-b5-04",
+          "type": "choice",
+          "prompt": "Ngôi sao ⭐ và mặt trăng 🌙 là hai số bí mật.\n⭐ + ⭐ + ⭐ = 15\n⭐ − 🌙 = 2\nVậy 🌙 + 🌙 = ?",
+          "options": [
+            {
+              "text": "3"
+            },
+            {
+              "text": "10"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "7"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm ngôi sao trước, rồi tìm mặt trăng.",
+          "explanation": "Ba ngôi sao cộng lại bằng 15 nên ngôi sao ⭐ = 5 (vì 5 + 5 + 5 = 15). 5 − mặt trăng = 2 nên mặt trăng 🌙 = 3. Vậy hai mặt trăng: 3 + 3 = 6.\nLưu ý: 3 chỉ là một mặt trăng; 10 là hai ngôi sao; 7 là do lấy 5 + 2."
+        },
+        {
+          "id": "k01-b5-05",
+          "type": "input",
+          "prompt": "Mèo 🐱 và Chó 🐶 là hai số bí mật.\n🐱 + 🐱 = 🐶\n🐶 + 🐱 = 15\nVậy Chó 🐶 = ?",
+          "answers": [
+            "10"
+          ],
+          "method": "Thay Chó ở dòng thứ hai bằng Mèo + Mèo, xem 15 bằng mấy con Mèo.",
+          "explanation": "Vì Chó = Mèo + Mèo nên Chó + Mèo = Mèo + Mèo + Mèo = 15, suy ra Mèo 🐱 = 5. Vậy Chó 🐶 = 5 + 5 = 10. Thử lại: 10 + 5 = 15."
+        },
+        {
+          "id": "k01-b5-06",
+          "type": "match",
+          "prompt": "Biết dâu tây 🍓 = 2 và quả chanh 🍋 = 5.\nNối mỗi phép tính với kết quả đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "🍓 + 🍋"
+              },
+              "right": {
+                "text": "7"
+              }
+            },
+            {
+              "left": {
+                "text": "🍋 × 🍓"
+              },
+              "right": {
+                "text": "10"
+              }
+            },
+            {
+              "left": {
+                "text": "🍋 + 🍋 + 🍓"
+              },
+              "right": {
+                "text": "12"
+              }
+            },
+            {
+              "left": {
+                "text": "🍋 − 🍓"
+              },
+              "right": {
+                "text": "3"
+              }
+            },
+            {
+              "left": {
+                "text": "🍓 + 🍓 + 🍓"
+              },
+              "right": {
+                "text": "6"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Thay mỗi quả bằng số của nó rồi tính.",
+          "explanation": "Dâu + chanh = 2 + 5 = 7; chanh × dâu = 5 × 2 = 10; chanh + chanh + dâu = 5 + 5 + 2 = 12; chanh − dâu = 5 − 2 = 3; dâu + dâu + dâu = 2 + 2 + 2 = 6."
+        },
+        {
+          "id": "k01-b5-07",
+          "type": "pick_order",
+          "prompt": "Mỗi con cá 🐟 có giá trị là 5.\nChạm thẻ để viết phép nhân tính giá trị của 4 con cá 🐟🐟🐟🐟, bắt đầu bằng giá trị của một con cá.",
+          "items": [
+            "5",
+            "×",
+            "4",
+            "=",
+            "20"
+          ],
+          "distractors": [
+            "9",
+            "25"
+          ],
+          "timeLimit": 45,
+          "method": "Có 4 con cá, mỗi con là 5: 5 được lấy mấy lần?",
+          "explanation": "5 được lấy 4 lần: 5 × 4 = 20 (5 + 5 + 5 + 5 = 20). Thẻ 9 là bẫy lấy 5 + 4; thẻ 25 là bẫy đếm thành 5 con cá."
+        },
+        {
+          "id": "k01-b5-08",
+          "type": "choice",
+          "prompt": "Tam giác 🔺 và hình vuông 🟦 là hai số bí mật.\n🔺 + 🔺 + 🟦 = 11\n🔺 + 🟦 + 🟦 = 13\nVậy 🔺 + 🟦 = ?",
+          "options": [
+            {
+              "text": "5"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "11"
+            },
+            {
+              "text": "24"
+            }
+          ],
+          "answer": 1,
+          "method": "So sánh hai dòng: dòng thứ hai giống dòng thứ nhất nhưng đổi một tam giác thành một hình vuông.",
+          "explanation": "Đổi một tam giác thành một hình vuông thì tổng tăng từ 11 lên 13, nên hình vuông hơn tam giác 2 đơn vị. Thử tam giác = 3, hình vuông = 5: 3 + 3 + 5 = 11 và 3 + 5 + 5 = 13 — đúng. Vậy tam giác + hình vuông = 3 + 5 = 8.\nLưu ý: 5 chỉ là giá trị của hình vuông; 11 là tổng dòng thứ nhất; 24 là tổng cả hai dòng (gồm 3 tam giác và 3 hình vuông)."
+        },
+        {
+          "id": "k01-b5-09",
+          "type": "multi_choice",
+          "prompt": "Biết bóng đá ⚽ = 10 và bóng rổ 🏀 = 5. Mỗi nhóm có giá trị bằng tổng các quả bóng trong nhóm.\nChọn TẤT CẢ các nhóm có giá trị bằng 20.",
+          "options": [
+            {
+              "text": "⚽⚽"
+            },
+            {
+              "text": "⚽🏀🏀"
+            },
+            {
+              "text": "🏀🏀🏀"
+            },
+            {
+              "text": "🏀🏀🏀🏀"
+            },
+            {
+              "text": "⚽🏀"
+            },
+            {
+              "text": "⚽⚽🏀"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Đếm số quả mỗi loại trong nhóm rồi cộng giá trị lại.",
+          "explanation": "Hai bóng đá ⚽⚽ = 10 + 10 = 20; một bóng đá và hai bóng rổ ⚽🏀🏀 = 10 + 5 + 5 = 20; bốn bóng rổ 🏀🏀🏀🏀 = 5 + 5 + 5 + 5 = 20.\nLưu ý: ba bóng rổ = 15 và một bóng đá với một bóng rổ = 15 (thiếu 5); hai bóng đá với một bóng rổ = 25 (thừa 5)."
+        },
+        {
+          "id": "k01-b5-10",
+          "type": "match_multi",
+          "prompt": "Biết hình tròn xanh 🔵 = 2 và hình tròn cam 🟠 = 5. Mỗi nhóm hình có giá trị bằng tổng các hình.\nNối mỗi nhóm hình vào đúng ô kết quả.",
+          "groups": [
+            {
+              "text": "Bằng 9",
+              "emoji": "🎈"
+            },
+            {
+              "text": "Bằng 10",
+              "emoji": "🎁"
+            },
+            {
+              "text": "Bằng 12",
+              "emoji": "🎉"
+            }
+          ],
+          "items": [
+            {
+              "text": "🟠🟠",
+              "group": 1
+            },
+            {
+              "text": "🟠🔵🔵",
+              "group": 0
+            },
+            {
+              "text": "🟠🟠🔵",
+              "group": 2
+            },
+            {
+              "text": "🔵🔵🔵🔵🔵",
+              "group": 1
+            },
+            {
+              "text": "🔵🟠🔵",
+              "group": 0
+            },
+            {
+              "text": "🔵🔵🔵🔵🔵🔵",
+              "group": 2
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Đếm số hình cam và số hình xanh trong mỗi nhóm, rồi cộng: mỗi hình cam là 5, mỗi hình xanh là 2.",
+          "explanation": "Một cam và hai xanh (🟠🔵🔵 và 🔵🟠🔵) đều là 5 + 2 + 2 = 9. Hai cam 🟠🟠 = 5 + 5 = 10; năm xanh = 2 × 5 = 10. Hai cam và một xanh 🟠🟠🔵 = 5 + 5 + 2 = 12; sáu xanh = 2 × 6 = 12."
+        }
+      ]
+    }
+  ]
+}

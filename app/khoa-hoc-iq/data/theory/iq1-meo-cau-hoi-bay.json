@@ -1,0 +1,135 @@
+{
+  "bai-1": {
+    "concept": "Đọc kỹ con vật nào lên bờ, con nào xuống nước, và đề hỏi ở đâu. Có con vật chỉ sống dưới nước, không lên bờ được.",
+    "examples": [
+      {
+        "prompt": "Dưới ao có 5 con vịt 🦆.\n3 con lên bờ, rồi 2 con lại xuống ao.\nDưới ao bây giờ có mấy con vịt?",
+        "visual": {
+          "emoji": "🦆🦆🦆🦆🦆"
+        },
+        "answer": "5 − 3 = 2 con còn dưới ao. 2 con xuống lại: 2 + 2 = 4 con."
+      },
+      {
+        "prompt": "Dưới hồ có 5 con cá và 3 con ếch.\nCó mấy con vật CÓ THỂ nhảy lên bờ?",
+        "visual": {
+          "emoji": "🐟🐟🐟🐟🐟🐸🐸🐸"
+        },
+        "answer": "Cá chỉ sống dưới nước nên không lên bờ được. Chỉ có 3 con ếch lên bờ được."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ câu hỏi: hỏi trên bờ hay dưới nước.",
+      "Nghĩ xem con vật đó có lên bờ được không.",
+      "Bớt đi khi con vật rời chỗ, thêm vào khi con vật đến.",
+      "Kiểm tra lại số con lúc sau."
+    ],
+    "tips": [
+      "Cá không lên bờ chơi đâu nhé!",
+      "Vịt chỉ đổi chỗ thì tổng số vịt không đổi."
+    ]
+  },
+  "bai-2": {
+    "concept": "Đọc kỹ đề hỏi số còn lại, số lấy ra hay số của ai. Đồ vật chỉ đổi chỗ hoặc bị tắt thì vẫn còn đó.",
+    "examples": [
+      {
+        "prompt": "Đĩa có 8 quả dâu 🍓. Bé lấy ra 3 quả.\nHỏi ĐĨA còn mấy quả?",
+        "visual": {
+          "emoji": "🍓🍓🍓🍓🍓🍓🍓🍓"
+        },
+        "answer": "Đề hỏi số quả còn trong đĩa: 8 − 3 = 5 quả. Bé đang cầm 3 quả."
+      },
+      {
+        "prompt": "Trên cây có 6 bông hoa 🌸.\nBé ngắt 2 bông cắm vào lọ.\nTrên cây và trong lọ có tất cả mấy bông?",
+        "answer": "Hoa chỉ chuyển từ cây vào lọ, không mất bông nào. Vẫn có 6 bông hoa."
+      }
+    ],
+    "steps": [
+      "Đọc câu hỏi trước: hỏi của ai, ở đâu.",
+      "Tìm số đồ vật lúc đầu.",
+      "Bớt đi khi lấy ra, thêm vào khi bỏ lại.",
+      "Nghĩ xem đồ vật có thật sự mất đi không."
+    ],
+    "tips": [
+      "Hỏi “bé có” khác hỏi “đĩa còn”!",
+      "Lấy ra rồi bỏ lại thì số vẫn như cũ."
+    ]
+  },
+  "bai-3": {
+    "concept": "Khi đếm người trong nhà, nhớ đếm cả bạn được nhắc tên trong đề. Các chị em có thể có chung một anh trai.",
+    "examples": [
+      {
+        "prompt": "Na có 1 anh trai và 1 em gái.\nNhà Na có mấy người con?",
+        "visual": {
+          "emoji": "👦👧👧"
+        },
+        "answer": "Anh trai, em gái và chính Na. 1 + 1 + 1 = 3 người con."
+      },
+      {
+        "prompt": "Bin 5 tuổi, chị Bống 8 tuổi.\nKhi Bin 7 tuổi thì chị Bống mấy tuổi?",
+        "answer": "Bin thêm 2 tuổi thì chị Bống cũng thêm 2 tuổi. 8 + 2 = 10 tuổi."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ ai là anh, chị, em của ai.",
+      "Đếm cả bạn đó khi hỏi số người con; không đếm khi hỏi bạn có mấy anh chị em.",
+      "Nhớ người dùng chung chỉ đếm 1 lần.",
+      "Cộng hoặc bớt cho đúng, rồi kiểm tra lại."
+    ],
+    "tips": [
+      "Hỏi nhà có mấy con: đếm cả bạn. Hỏi bạn có mấy anh em: bớt bạn ra!",
+      "Mỗi năm, ai cũng thêm 1 tuổi như nhau."
+    ]
+  },
+  "bai-4": {
+    "concept": "Đổi chỗ là hai bạn đổi vị trí cho nhau, các bạn khác đứng yên. Muốn biết đứng thứ mấy, bé đếm lại từ đầu hàng.",
+    "examples": [
+      {
+        "prompt": "Hàng quả từ trái sang phải: dâu 🍓, lê 🍐, anh đào 🍒.\nĐổi chỗ dâu với anh đào.\nHàng mới thế nào?",
+        "visual": {
+          "emoji": "🍓🍐🍒"
+        },
+        "answer": "Dâu sang bên phải, anh đào sang bên trái, lê vẫn ở giữa. Hàng mới: anh đào 🍒, lê 🍐, dâu 🍓."
+      },
+      {
+        "prompt": "Bé đang chạy thứ 4.\nBé vượt qua bạn đang chạy thứ 3.\nBây giờ bé chạy thứ mấy?",
+        "answer": "Bé lấy chỗ của bạn thứ 3, bạn ấy lùi xuống thứ 4. Bé chạy thứ 3."
+      }
+    ],
+    "steps": [
+      "Tưởng tượng hàng lúc đầu.",
+      "Di chuyển từng bạn theo đúng lời đề.",
+      "Giữ nguyên các bạn không được nhắc đến.",
+      "Đếm lại vị trí từ đầu hàng."
+    ],
+    "tips": [
+      "Vượt ai thì đứng vào chỗ người đó!",
+      "Đếm từ đầu và từ cuối thì bé chỉ được đếm mình 1 lần."
+    ]
+  },
+  "bai-5": {
+    "concept": "Câu hỏi mẹo thường giấu bẫy trong chữ. Bé đọc chậm từng chữ, nghĩ về sự thật trước khi tính.",
+    "examples": [
+      {
+        "prompt": "Số bé nhất có HAI chữ số là số nào?",
+        "answer": "Các số có hai chữ số bắt đầu từ 10, 11, 12, … Số bé nhất là 10."
+      },
+      {
+        "prompt": "Có 4 cây 🌳 trồng thành 1 hàng.\nGiữa 2 cây cạnh nhau treo 1 đèn lồng 🏮.\nCó tất cả mấy đèn lồng?",
+        "visual": {
+          "emoji": "🌳 🌳 🌳 🌳"
+        },
+        "answer": "🌳🏮🌳🏮🌳🏮🌳: giữa 4 cây có 3 khoảng. Có 3 đèn lồng."
+      }
+    ],
+    "steps": [
+      "Đọc chậm từng chữ của câu hỏi.",
+      "Tìm chữ quan trọng như “ít nhất”, “một chữ số”, “bắt đầu bằng”.",
+      "Nghĩ về sự thật trước khi làm tính.",
+      "Vẽ hoặc đếm từng cái để kiểm tra."
+    ],
+    "tips": [
+      "Đọc chậm, nghĩ kỹ, không vội vàng!",
+      "Cây trồng thành 1 hàng thì số khoảng ít hơn số cây là 1."
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "bai-1": {
+    "concept": "Muốn so sánh độ dài, ta đổi về cùng một đơn vị rồi mới so. Nhớ: 1 cm = 10 mm, 1 dm = 10 cm, 1 m = 10 dm = 100 cm.",
+    "examples": [
+      {
+        "prompt": "Dải ruy băng đỏ dài 2 dm 3 cm.\nDải ruy băng xanh dài 27 cm.\nDải nào dài hơn và dài hơn bao nhiêu?",
+        "visual": {
+          "emoji": "🎀 📏"
+        },
+        "answer": "Đổi 2 dm 3 cm = 20 cm + 3 cm = 23 cm. 27 cm > 23 cm nên dải xanh dài hơn: 27 − 23 = 4 cm."
+      },
+      {
+        "prompt": "Chiếc bàn học của bé cao khoảng bao nhiêu: 7 cm, 7 dm hay 7 m?",
+        "answer": "7 cm chỉ bằng ngón tay, 7 m cao hơn cả ngôi nhà. Bàn học cao khoảng 7 dm, tức 70 cm."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ các số đo và đơn vị.",
+      "Đổi tất cả về cùng một đơn vị, thường là cm.",
+      "So sánh các số rồi tìm cái dài hơn.",
+      "Trừ hai số đo nếu đề hỏi dài hơn bao nhiêu."
+    ],
+    "tips": [
+      "Số to chưa chắc đã dài: 180 mm chỉ là 18 cm!",
+      "Ước lượng bằng đồ vật quen thuộc: 1 cm bằng đốt ngón tay, 1 m bằng một bước dài của người lớn."
+    ]
+  },
+  "bai-2": {
+    "concept": "Mỗi đơn vị đo độ dài gấp 10 lần đơn vị liền sau nó, theo thứ tự: mét, đề-xi-mét, xăng-ti-mét, mi-li-mét. Ngoài ra 1 m = 100 cm và 1 m = 1 000 mm.",
+    "examples": [
+      {
+        "prompt": "2 m 9 cm = ? cm",
+        "visual": {
+          "grid": [
+            [
+              "1 m",
+              "10 dm"
+            ],
+            [
+              "1 dm",
+              "10 cm"
+            ],
+            [
+              "1 cm",
+              "10 mm"
+            ],
+            [
+              "2 m 9 cm",
+              "?"
+            ]
+          ]
+        },
+        "answer": "2 m = 200 cm. 200 cm + 9 cm = 209 cm (không phải 29 cm)."
+      },
+      {
+        "prompt": "6 dm 4 mm = ? mm",
+        "answer": "1 dm = 100 mm nên 6 dm = 600 mm. 600 mm + 4 mm = 604 mm."
+      }
+    ],
+    "steps": [
+      "Xác định đơn vị lớn và đơn vị cần đổi sang.",
+      "Đổi phần đơn vị lớn sang đơn vị nhỏ.",
+      "Cộng thêm phần đơn vị nhỏ có sẵn.",
+      "So sánh thì đổi cả hai bên về cùng đơn vị trước."
+    ],
+    "tips": [
+      "Đừng viết liền hai số: 5 m 2 cm = 502 cm, không phải 52 hay 520 cm.",
+      "Đổi đơn vị lớn ra đơn vị nhỏ thì số đo to lên.",
+      "1 dm = 100 mm, không phải 1 000 mm."
+    ]
+  },
+  "bai-3": {
+    "concept": "Khi cân đĩa thăng bằng, hai đĩa nặng bằng nhau. Nhớ 1 kg = 1 000 g. Bên nào có cả vật và quả cân thì lấy tổng bên kia trừ quả cân để ra khối lượng vật.",
+    "examples": [
+      {
+        "prompt": "Cân đĩa thăng bằng.\nĐĩa trái có quả dứa và quả cân 200 g.\nĐĩa phải có quả cân 1 kg.\nQuả dứa nặng bao nhiêu gam?",
+        "visual": {
+          "emoji": "⚖️ 🍍"
+        },
+        "answer": "1 kg = 1 000 g. Dứa + 200 g = 1 000 g, nên dứa nặng 1 000 − 200 = 800 g."
+      },
+      {
+        "prompt": "Cân đĩa thăng bằng.\nĐĩa trái có 2 hộp bánh như nhau.\nĐĩa phải có quả cân 1 kg và quả cân 400 g.\nMỗi hộp bánh nặng bao nhiêu gam?",
+        "answer": "Bên phải nặng 1 000 + 400 = 1 400 g. Mỗi hộp: 1 400 : 2 = 700 g."
+      }
+    ],
+    "steps": [
+      "Đổi tất cả khối lượng về gam.",
+      "Cộng khối lượng mỗi đĩa, hai đĩa bằng nhau.",
+      "Bớt quả cân ở cùng đĩa với vật để còn lại khối lượng vật.",
+      "Chia đều nếu có nhiều vật như nhau."
+    ],
+    "tips": [
+      "1 kg 300 g là 1 300 g, không phải 301 g!",
+      "Quả cân nằm cùng đĩa với vật thì phải trừ, đừng cộng.",
+      "1 kg 800 g vẫn nhẹ hơn 2 kg — đổi ra gam rồi so."
+    ]
+  },
+  "bai-4": {
+    "concept": "Lít và mi-li-lít dùng để đo lượng nước. Nhớ 1 l = 1 000 ml. Rót ra thì lượng nước bớt đi, rót đều vào các chai thì dùng phép chia.",
+    "examples": [
+      {
+        "prompt": "Bình có 1 l sữa.\nBé rót ra 2 cốc, mỗi cốc 300 ml.\nTrong bình còn lại bao nhiêu mi-li-lít sữa?",
+        "visual": {
+          "emoji": "🥛🥛"
+        },
+        "answer": "1 l = 1 000 ml. Rót ra 300 × 2 = 600 ml. Còn lại 1 000 − 600 = 400 ml."
+      },
+      {
+        "prompt": "Thùng A có 14 l nước, thùng B có 6 l nước.\nRót từ A sang B bao nhiêu lít để hai thùng bằng nhau?",
+        "answer": "Hai thùng có 14 + 6 = 20 l, chia đều mỗi thùng 20 : 2 = 10 l. Thùng A phải rót đi 14 − 10 = 4 l."
+      }
+    ],
+    "steps": [
+      "Đổi lít ra mi-li-lít nếu đề có cả hai đơn vị.",
+      "Tính lượng nước rót ra hoặc thêm vào.",
+      "Trừ hoặc cộng để tìm lượng nước còn lại.",
+      "Chia nếu rót đều vào nhiều chai, cốc."
+    ],
+    "tips": [
+      "3 l 6 ml là 3 006 ml, không phải 3 060 ml!",
+      "Rót cho bằng nhau: không rót cả phần chênh lệch, chỉ rót một nửa phần đó."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài đo lường nhiều bước cần đổi về cùng đơn vị, rồi làm lần lượt từng bước: cộng, trừ, nhân, chia. Khi chia có dư, số dư cũng có đơn vị như số bị chia.",
+    "examples": [
+      {
+        "prompt": "Sợi dây dài 2 m.\nCắt thành các đoạn dài 3 dm.\nCắt được nhiều nhất bao nhiêu đoạn và thừa bao nhiêu?",
+        "visual": {
+          "emoji": "🧵✂️"
+        },
+        "answer": "2 m = 20 dm. 20 : 3 = 6 dư 2. Cắt được 6 đoạn, thừa 2 dm, tức 20 cm."
+      },
+      {
+        "prompt": "Bể có 40 l nước.\nMỗi ngày dùng hết 6 l nhưng được bơm thêm 2 l.\nSau 3 ngày, bể còn bao nhiêu lít?",
+        "answer": "Mỗi ngày bể bớt 6 − 2 = 4 l. Sau 3 ngày bớt 4 × 3 = 12 l. Bể còn 40 − 12 = 28 l."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, viết ra từng bước xảy ra.",
+      "Đổi các số đo về cùng một đơn vị.",
+      "Tính lần lượt từng bước theo đúng thứ tự.",
+      "Ghi đơn vị cho kết quả và cho cả số dư.",
+      "Thử lại bằng phép tính ngược."
+    ],
+    "tips": [
+      "Số dư phải bé hơn số chia, và nhớ ghi đơn vị cho số dư!",
+      "Vừa dùng vừa thêm thì tính phần bớt đi mỗi ngày trước.",
+      "Nối dây có nút buộc thì trừ phần bị mất ở nút."
+    ]
+  }
+}

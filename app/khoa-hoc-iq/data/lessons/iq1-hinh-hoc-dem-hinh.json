@@ -1,0 +1,1382 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Nhận biết hình vuông, tròn, tam giác, chữ nhật",
+      "emoji": "🔺",
+      "description": "Cùng bé gọi tên hình vuông, hình tròn, hình tam giác và hình chữ nhật quanh mình nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k04-b1-01",
+          "type": "choice",
+          "prompt": "Hình nào KHÔNG có góc nào?",
+          "options": [
+            {
+              "emoji": "🟥",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            },
+            {
+              "text": "Hình chữ nhật"
+            }
+          ],
+          "answer": 2,
+          "method": "Nhìn xem hình nào có đường viền cong, không có chỗ nhọn.",
+          "explanation": "Hình tròn có đường viền cong, không có góc nào.\nLưu ý: hình vuông và hình chữ nhật có 4 góc, hình tam giác có 3 góc."
+        },
+        {
+          "id": "l1k04-b1-02",
+          "type": "input",
+          "prompt": "Đếm xem có mấy hình tròn?\n(Hình tròn có thể có nhiều màu.)",
+          "visual": {
+            "emoji": "🔵🟦⚪🔺🔴🟥"
+          },
+          "answers": [
+            "3",
+            "ba"
+          ],
+          "unit": "hình",
+          "method": "Chỉ tay vào từng hình, chỉ đếm hình có viền cong tròn, không cần để ý màu.",
+          "explanation": "Các hình tròn là tròn xanh 🔵, tròn trắng ⚪ và tròn đỏ 🔴: có 3 hình tròn.\nLưu ý: vuông xanh 🟦 và vuông đỏ 🟥 là hình vuông, tam giác 🔺 cũng không đếm."
+        },
+        {
+          "id": "l1k04-b1-03",
+          "type": "match",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi hình với điều đúng về hình đó.",
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🔺",
+                "text": "Hình tam giác"
+              },
+              "right": {
+                "text": "Có 3 cạnh"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🟦",
+                "text": "Hình vuông"
+              },
+              "right": {
+                "text": "4 cạnh dài bằng nhau"
+              }
+            },
+            {
+              "left": {
+                "text": "Hình chữ nhật"
+              },
+              "right": {
+                "text": "2 cạnh dài, 2 cạnh ngắn"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🔵",
+                "text": "Hình tròn"
+              },
+              "right": {
+                "text": "Không có cạnh thẳng"
+              }
+            }
+          ],
+          "method": "Đếm số cạnh của từng hình và xem các cạnh có dài bằng nhau không.",
+          "explanation": "Tam giác có 3 cạnh. Hình vuông có 4 cạnh dài bằng nhau. Hình chữ nhật có 2 cạnh dài và 2 cạnh ngắn. Hình tròn không có cạnh thẳng."
+        },
+        {
+          "id": "l1k04-b1-04",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Xếp mỗi đồ vật vào đúng nhóm hình dạng của nó.",
+          "groups": [
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "text": "Hình chữ nhật"
+            }
+          ],
+          "items": [
+            {
+              "emoji": "🕒",
+              "text": "Mặt đồng hồ",
+              "group": 0
+            },
+            {
+              "emoji": "💿",
+              "text": "Đĩa nhạc",
+              "group": 0
+            },
+            {
+              "emoji": "⚠️",
+              "text": "Biển báo nguy hiểm",
+              "group": 1
+            },
+            {
+              "emoji": "📐",
+              "text": "Thước ê-ke",
+              "group": 1
+            },
+            {
+              "emoji": "📺",
+              "text": "Màn hình ti vi",
+              "group": 2
+            },
+            {
+              "emoji": "✉️",
+              "text": "Phong bì thư",
+              "group": 2
+            }
+          ],
+          "method": "Nhìn viền ngoài của đồ vật: cong tròn, có 3 góc hay có 4 góc?",
+          "explanation": "Mặt đồng hồ, đĩa nhạc: hình tròn. Biển báo nguy hiểm, thước ê-ke: hình tam giác. Màn hình ti vi, phong bì thư: hình chữ nhật."
+        },
+        {
+          "id": "l1k04-b1-05",
+          "type": "choice",
+          "prompt": "Hình nào có 4 cạnh dài BẰNG NHAU?",
+          "options": [
+            {
+              "text": "Hình chữ nhật"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            }
+          ],
+          "answer": 1,
+          "method": "Hình nào có 4 cạnh? Trong đó hình nào có 4 cạnh dài như nhau?",
+          "explanation": "Hình vuông có 4 cạnh dài bằng nhau.\nLưu ý: hình chữ nhật cũng có 4 cạnh nhưng có cạnh dài, cạnh ngắn; tam giác chỉ có 3 cạnh; hình tròn không có cạnh thẳng."
+        },
+        {
+          "id": "l1k04-b1-06",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Xếp theo số góc từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "🔵 Hình tròn"
+            },
+            {
+              "text": "🔺 Hình tam giác"
+            },
+            {
+              "text": "🟦 Hình vuông"
+            },
+            {
+              "text": "🔺🔺 Hai hình tam giác"
+            }
+          ],
+          "method": "Đếm số góc của từng thẻ trước rồi mới xếp.",
+          "explanation": "Hình tròn: 0 góc. Hình tam giác: 3 góc. Hình vuông: 4 góc. Hai hình tam giác: 3 + 3 = 6 góc."
+        },
+        {
+          "id": "l1k04-b1-07",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào tên hình đúng ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "emoji": "🍪",
+                "text": "Bánh quy"
+              },
+              "back": {
+                "text": "Hình tròn"
+              }
+            },
+            {
+              "front": {
+                "emoji": "🎲",
+                "text": "Mặt xúc xắc"
+              },
+              "back": {
+                "text": "Hình vuông"
+              }
+            },
+            {
+              "front": {
+                "emoji": "📐",
+                "text": "Thước ê-ke"
+              },
+              "back": {
+                "text": "Hình tam giác"
+              }
+            },
+            {
+              "front": {
+                "emoji": "🚪",
+                "text": "Cánh cửa"
+              },
+              "back": {
+                "text": "Hình chữ nhật"
+              }
+            }
+          ],
+          "method": "Nhớ lại hình dạng của đồ vật: tròn, có 3 góc, hay có 4 góc?",
+          "explanation": "Bánh quy: hình tròn. Mặt xúc xắc: hình vuông. Thước ê-ke: hình tam giác. Cánh cửa: hình chữ nhật."
+        },
+        {
+          "id": "l1k04-b1-08",
+          "type": "fill_blank",
+          "timeLimit": 30,
+          "prompt": "Chọn số đúng điền vào chỗ trống.",
+          "sentence": "Hình tam giác có [[3]] cạnh. Hình vuông có [[4]] góc.",
+          "choices": [
+            "3",
+            "4",
+            "5",
+            "2"
+          ],
+          "method": "Đếm cạnh của tam giác và góc của hình vuông.",
+          "explanation": "Hình tam giác có 3 cạnh. Hình vuông có 4 góc."
+        },
+        {
+          "id": "l1k04-b1-09",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các hình có 4 góc.",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "text": "Hình chữ nhật"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "Đếm góc của từng hình, chọn hình nào có đúng 4 góc.",
+          "explanation": "Hình vuông và hình chữ nhật đều có 4 góc.\nLưu ý: tam giác có 3 góc; hình tròn không có góc."
+        },
+        {
+          "id": "l1k04-b1-10",
+          "type": "input",
+          "prompt": "Có 1 hình vuông 🟦 và 1 hình tam giác 🔺.\nCả hai hình có tất cả bao nhiêu góc?",
+          "answers": [
+            "7"
+          ],
+          "unit": "góc",
+          "method": "Đếm góc của từng hình rồi cộng lại.",
+          "explanation": "Hình vuông có 4 góc, hình tam giác có 3 góc.\n4 + 3 = 7 góc."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đếm hình tam giác",
+      "emoji": "🔺",
+      "description": "Bé đếm thật cẩn thận xem có bao nhiêu hình tam giác nha!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k04-b2-01",
+          "type": "input",
+          "prompt": "Trong dãy có mấy hình tam giác 🔺 nào?",
+          "visual": {
+            "emoji": "🔺🔵🔺🟦🔺🔺🔵"
+          },
+          "answers": [
+            "4"
+          ],
+          "unit": "hình",
+          "method": "Chỉ tay vào từng hình từ trái sang phải, chỉ đếm hình tam giác 🔺.",
+          "explanation": "Có 4 hình tam giác ở vị trí thứ 1, 3, 5 và 6. Đáp án là 4."
+        },
+        {
+          "id": "l1k04-b2-02",
+          "type": "choice",
+          "prompt": "Kẻ 1 đường thẳng nối 2 góc đối nhau của hình vuông.\nTa được mấy hình tam giác?",
+          "options": [
+            {
+              "text": "1"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 1,
+          "method": "Tưởng tượng cắt tờ giấy vuông theo đường kẻ đó: được mấy mảnh?",
+          "explanation": "Đường kẻ nối 2 góc đối nhau chia hình vuông thành 2 hình tam giác.\nLưu ý: chỉ có 1 đường kẻ nên hình vuông chỉ chia thành 2 phần; 1 là quên đường kẻ, 3 và 4 là đếm thừa."
+        },
+        {
+          "id": "l1k04-b2-03",
+          "type": "match_vertical",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi dãy hình (ở trên) với số hình tam giác 🔺 trong dãy (ở dưới).",
+          "pairs": [
+            {
+              "left": {
+                "text": "🔺🔵🔺"
+              },
+              "right": {
+                "text": "2"
+              }
+            },
+            {
+              "left": {
+                "text": "🔺🔺🔺"
+              },
+              "right": {
+                "text": "3"
+              }
+            },
+            {
+              "left": {
+                "text": "🔵🔺🔵"
+              },
+              "right": {
+                "text": "1"
+              }
+            },
+            {
+              "left": {
+                "text": "🔺🔺🔵🔺🔺"
+              },
+              "right": {
+                "text": "4"
+              }
+            }
+          ],
+          "method": "Mỗi dãy, chỉ đếm hình tam giác 🔺, bỏ qua hình tròn 🔵.",
+          "explanation": "🔺🔵🔺: 2. 🔺🔺🔺: 3. 🔵🔺🔵: 1. 🔺🔺🔵🔺🔺: 4."
+        },
+        {
+          "id": "l1k04-b2-04",
+          "type": "choice",
+          "prompt": "Hình tam giác to 🔺 được kẻ 1 nét thẳng từ góc trên cùng xuống dưới đáy.\nCó tất cả bao nhiêu hình tam giác?",
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "1"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm 2 hình tam giác nhỏ, rồi nhớ đếm cả hình tam giác to bên ngoài.",
+          "explanation": "Nét kẻ chia hình thành 2 tam giác nhỏ. Thêm tam giác to bên ngoài: 2 + 1 = 3 hình tam giác.\nLưu ý: 2 là quên đếm tam giác to; 4 và 1 là đếm thừa hoặc thiếu."
+        },
+        {
+          "id": "l1k04-b2-05",
+          "type": "input",
+          "prompt": "Bé cắt 1 tờ giấy vuông theo đường nối 2 góc đối nhau, được 2 hình tam giác.\nBé cắt 3 tờ giấy như thế.\nBé có tất cả bao nhiêu hình tam giác?",
+          "answers": [
+            "6",
+            "sáu"
+          ],
+          "unit": "hình",
+          "method": "Mỗi tờ giấy cho 2 hình tam giác. Đếm thêm 2 cho từng tờ.",
+          "explanation": "Mỗi tờ được 2 hình tam giác. Đếm thêm 2: tờ thứ nhất 2, tờ thứ hai 4, tờ thứ ba 6.\n2 + 2 + 2 = 6 hình tam giác.\nLưu ý: 3 là số tờ giấy, không phải số hình tam giác; 5 là đếm thiếu 1 hình."
+        },
+        {
+          "id": "l1k04-b2-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các dãy có ĐÚNG 3 hình tam giác 🔺.",
+          "options": [
+            {
+              "text": "🔺🔵🔺🔺"
+            },
+            {
+              "text": "🔺🔺🟦🔵"
+            },
+            {
+              "text": "🔵🔺🔺🔺🟦"
+            },
+            {
+              "text": "🔺🔺🔺🔺"
+            },
+            {
+              "text": "🟦🔺🔵🔺🔵🔺"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Ở mỗi dãy, chỉ tay đếm riêng hình tam giác 🔺.",
+          "explanation": "Dãy 1 có 3 tam giác, dãy 3 có 3 tam giác, dãy 5 có 3 tam giác.\nLưu ý: dãy 2 chỉ có 2 tam giác; dãy 4 có 4 tam giác — nhiều hơn 3."
+        },
+        {
+          "id": "l1k04-b2-07",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Xếp các dãy theo số hình tam giác 🔺 từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "🔵🔺🔵"
+            },
+            {
+              "text": "🔺🟦🔺"
+            },
+            {
+              "text": "🔺🔺🔵🔺"
+            },
+            {
+              "text": "🔺🔺🔺🟦🔺🔺"
+            }
+          ],
+          "method": "Đếm số tam giác 🔺 của từng dãy trước, rồi mới xếp.",
+          "explanation": "🔵🔺🔵: 1 hình. 🔺🟦🔺: 2 hình. 🔺🔺🔵🔺: 3 hình. 🔺🔺🔺🟦🔺🔺: 5 hình."
+        },
+        {
+          "id": "l1k04-b2-08",
+          "type": "fill_blank",
+          "timeLimit": 35,
+          "prompt": "Hình 🔻 (nhọn hướng xuống) cũng là hình tam giác, chỉ là quay ngược đầu.\nNhìn dãy hình rồi chọn số đúng.",
+          "visual": {
+            "emoji": "🔺🔻🔺🔻🔺"
+          },
+          "sentence": "Có [[3]] tam giác nhọn hướng lên, [[2]] tam giác nhọn hướng xuống. Tất cả có [[5]] hình tam giác.",
+          "choices": [
+            "3",
+            "2",
+            "5",
+            "4"
+          ],
+          "method": "Đếm riêng tam giác hướng lên 🔺 và tam giác hướng xuống 🔻, rồi cộng lại.",
+          "explanation": "Tam giác hướng lên 🔺 ở vị trí 1, 3, 5: có 3 hình. Tam giác hướng xuống 🔻 ở vị trí 2, 4: có 2 hình. 3 + 2 = 5 hình tam giác."
+        },
+        {
+          "id": "l1k04-b2-09",
+          "type": "reveal_match",
+          "timeLimit": 55,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào số hình tam giác ở bên phải.\nNhớ đếm cả tam giác hướng lên 🔺 và tam giác ngược 🔻.",
+          "pairs": [
+            {
+              "front": {
+                "text": "🔺🔵🔻"
+              },
+              "back": {
+                "text": "2"
+              }
+            },
+            {
+              "front": {
+                "text": "🔵🟦🟥"
+              },
+              "back": {
+                "text": "0"
+              }
+            },
+            {
+              "front": {
+                "text": "🔻🔺🔻🔺🔻"
+              },
+              "back": {
+                "text": "5"
+              }
+            },
+            {
+              "front": {
+                "text": "🟦🔺🔵"
+              },
+              "back": {
+                "text": "1"
+              }
+            }
+          ],
+          "method": "Tam giác hướng xuống 🔻 là tam giác quay ngược đầu, nhớ đếm cả nó.",
+          "explanation": "🔺🔵🔻: 2 tam giác. 🔵🟦🟥: không có tam giác nào, 0. 🔻🔺🔻🔺🔻: 5 tam giác. 🟦🔺🔵: 1 tam giác."
+        },
+        {
+          "id": "l1k04-b2-10",
+          "type": "choice",
+          "prompt": "Bé xếp 2 hình tam giác bằng que tính.\nHai hình dính nhau, dùng CHUNG 1 que.\nBé cần mấy que tính?",
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "3"
+            }
+          ],
+          "answer": 1,
+          "method": "Mỗi tam giác cần 3 que. Que dùng chung chỉ tính 1 lần.",
+          "explanation": "Hai tam giác rời nhau cần 3 + 3 = 6 que. Dùng chung 1 que nên bớt 1: 6 − 1 = 5 que.\nLưu ý: 6 là quên que dùng chung; 4 và 3 không đủ que để xếp 2 tam giác."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Đếm hình vuông và hình chữ nhật",
+      "emoji": "🟦",
+      "description": "Có những hình vuông trốn kỹ lắm — bé tìm hết nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k04-b3-01",
+          "type": "input",
+          "prompt": "Hình vuông lớn ghép từ 4 ô vuông nhỏ như hình dưới.\nCó tất cả bao nhiêu hình vuông?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦"
+              ],
+              [
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "answers": [
+            "5"
+          ],
+          "unit": "hình vuông",
+          "method": "Đếm các ô nhỏ, rồi nhớ đếm cả hình vuông lớn bên ngoài.",
+          "explanation": "Có 4 hình vuông nhỏ và 1 hình vuông lớn.\n4 + 1 = 5 hình vuông."
+        },
+        {
+          "id": "l1k04-b3-02",
+          "type": "choice",
+          "prompt": "Hai ô vuông đặt sát nhau thành 1 hàng như hình dưới.\nCó mấy hình vuông?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "1"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "4"
+            }
+          ],
+          "answer": 1,
+          "method": "Hai ô ghép lại có còn là hình vuông không? Hãy xem cạnh dài và cạnh ngắn.",
+          "explanation": "Có 2 hình vuông nhỏ. Hai ô ghép lại thành hình chữ nhật (dài hơn rộng), không phải hình vuông.\nLưu ý: 3 là đếm nhầm cả hình ghép là hình vuông."
+        },
+        {
+          "id": "l1k04-b3-03",
+          "type": "fill_blank",
+          "timeLimit": 30,
+          "prompt": "Nhìn dãy hình rồi chọn số đúng.",
+          "visual": {
+            "emoji": "🟦🟥🟦⬜🟦🔺🟥"
+          },
+          "sentence": "Có [[3]] hình vuông xanh 🟦 và [[2]] hình vuông đỏ 🟥.",
+          "choices": [
+            "3",
+            "2",
+            "4",
+            "1"
+          ],
+          "method": "Đếm riêng từng màu, đừng đếm hình vuông trắng ⬜ và tam giác 🔺.",
+          "explanation": "Hình vuông xanh ở vị trí 1, 3, 5: có 3 hình. Hình vuông đỏ ở vị trí 2 và 7: có 2 hình."
+        },
+        {
+          "id": "l1k04-b3-04",
+          "type": "choice",
+          "prompt": "Một hình chữ nhật dài được kẻ 1 đường thẳng ở giữa,\nchia thành 2 hình chữ nhật nhỏ hơn.\nCó tất cả bao nhiêu hình chữ nhật?",
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "1"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm 2 hình nhỏ, rồi nhớ đếm cả hình to lúc đầu.",
+          "explanation": "Có 2 hình chữ nhật nhỏ và 1 hình chữ nhật to: 2 + 1 = 3 hình.\nLưu ý: 2 là quên hình to; 4 là đếm thừa; 1 là chỉ đếm hình to."
+        },
+        {
+          "id": "l1k04-b3-05",
+          "type": "input",
+          "prompt": "Hình vuông to gồm 4 ô vuông nhỏ như hình dưới.\nCó bao nhiêu hình chữ nhật ghép từ ĐÚNG 2 ô?",
+          "visual": {
+            "grid": [
+              [
+                "🟨",
+                "🟨"
+              ],
+              [
+                "🟨",
+                "🟨"
+              ]
+            ]
+          },
+          "answers": [
+            "4"
+          ],
+          "unit": "hình",
+          "method": "Đếm các cặp 2 ô nằm ngang, rồi các cặp 2 ô nằm dọc.",
+          "explanation": "Cặp nằm ngang: hàng trên 1, hàng dưới 1. Cặp nằm dọc: cột trái 1, cột phải 1.\n2 + 2 = 4 hình chữ nhật.\nLưu ý: nhiều bạn quên các cặp nằm dọc nên chỉ đếm được 2."
+        },
+        {
+          "id": "l1k04-b3-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các dãy có NHIỀU hình vuông hơn hình tròn.",
+          "options": [
+            {
+              "text": "🟦🔵🟦"
+            },
+            {
+              "text": "🔵🔵🟦"
+            },
+            {
+              "text": "🟦🟦🔵🔵"
+            },
+            {
+              "text": "🟦🟦🟦🔵"
+            },
+            {
+              "text": "🔵🟦🔵🟦🟦"
+            }
+          ],
+          "answers": [
+            0,
+            3,
+            4
+          ],
+          "method": "Mỗi dãy đếm số hình vuông và số hình tròn, rồi so sánh.",
+          "explanation": "🟦🔵🟦: 2 vuông > 1 tròn. 🟦🟦🟦🔵: 3 > 1. 🔵🟦🔵🟦🟦: 3 > 2.\nLưu ý: 🔵🔵🟦 có ít hình vuông hơn; 🟦🟦🔵🔵 có số hình bằng nhau, không nhiều hơn."
+        },
+        {
+          "id": "l1k04-b3-07",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Mỗi ô có mấy hình vuông (vuông xanh 🟦, vuông đỏ 🟥 đều là hình vuông)? Xếp vào đúng nhóm.",
+          "groups": [
+            {
+              "emoji": "1️⃣",
+              "text": "Có 1 hình vuông"
+            },
+            {
+              "emoji": "2️⃣",
+              "text": "Có 2 hình vuông"
+            }
+          ],
+          "items": [
+            {
+              "text": "🟦🔺🔵",
+              "group": 0
+            },
+            {
+              "text": "🟦🟥",
+              "group": 1
+            },
+            {
+              "text": "🔵🟥🔺",
+              "group": 0
+            },
+            {
+              "text": "🟥🔵🟦",
+              "group": 1
+            },
+            {
+              "text": "🔺🟦🔺",
+              "group": 0
+            },
+            {
+              "text": "🟥🔺🟥",
+              "group": 1
+            }
+          ],
+          "method": "Mỗi ô, chỉ đếm hình vuông xanh và đỏ, bỏ qua tam giác 🔺 và hình tròn 🔵.",
+          "explanation": "Có 1 hình vuông: 🟦🔺🔵, 🔵🟥🔺, 🔺🟦🔺.\nCó 2 hình vuông: 🟦🟥, 🟥🔵🟦, 🟥🔺🟥."
+        },
+        {
+          "id": "l1k04-b3-08",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Xếp theo số hình vuông đếm được từ ÍT đến NHIỀU\n(nhớ đếm cả hình vuông to).",
+          "items": [
+            {
+              "text": "1 ô vuông"
+            },
+            {
+              "text": "2 ô vuông xếp 1 hàng"
+            },
+            {
+              "text": "3 ô vuông xếp 1 hàng"
+            },
+            {
+              "text": "4 ô vuông xếp 2 hàng, mỗi hàng 2 ô"
+            }
+          ],
+          "method": "Ô xếp 1 hàng ghép lại thành hình chữ nhật, không thành hình vuông.",
+          "explanation": "1 ô: 1 hình vuông. 2 ô 1 hàng: 2 hình. 3 ô 1 hàng: 3 hình. 4 ô xếp 2 hàng: 4 ô nhỏ + 1 hình to = 5 hình vuông."
+        },
+        {
+          "id": "l1k04-b3-09",
+          "type": "reveal_match",
+          "timeLimit": 55,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào số hình vuông có trong ô đó.",
+          "pairs": [
+            {
+              "front": {
+                "text": "🟦🔵🟦🔺"
+              },
+              "back": {
+                "text": "2"
+              }
+            },
+            {
+              "front": {
+                "text": "🟥🟦🟨🟩"
+              },
+              "back": {
+                "text": "4"
+              }
+            },
+            {
+              "front": {
+                "text": "🔵🔺🔵"
+              },
+              "back": {
+                "text": "0"
+              }
+            },
+            {
+              "front": {
+                "text": "🟦🔺🔺"
+              },
+              "back": {
+                "text": "1"
+              }
+            },
+            {
+              "front": {
+                "text": "🟩🟩🟩🔵"
+              },
+              "back": {
+                "text": "3"
+              }
+            }
+          ],
+          "method": "Hình vuông có thể có nhiều màu: xanh, đỏ, vàng, xanh lá.",
+          "explanation": "🟦🔵🟦🔺: 2. 🟥🟦🟨🟩: 4. 🔵🔺🔵: 0. 🟦🔺🔺: 1. 🟩🟩🟩🔵: 3."
+        },
+        {
+          "id": "l1k04-b3-10",
+          "type": "choice",
+          "prompt": "Bảng có 2 hàng, mỗi hàng 3 ô vuông nhỏ như hình dưới.\nCó tất cả bao nhiêu hình vuông?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦",
+                "🟦"
+              ],
+              [
+                "🟦",
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "7"
+            },
+            {
+              "text": "8"
+            }
+          ],
+          "answer": 3,
+          "method": "Đếm ô nhỏ trước, rồi tìm các hình vuông to gồm 4 ô (2 hàng, 2 cột).",
+          "explanation": "Có 6 ô vuông nhỏ. Hình vuông to gồm 4 ô: 1 hình ở bên trái, 1 hình ở bên phải (dùng chung cột giữa).\n6 + 2 = 8 hình vuông.\nLưu ý: 6 là chỉ đếm ô nhỏ; 7 là chỉ thấy 1 hình vuông to; 9 là đếm cả bảng — nhưng bảng dài hơn rộng nên là hình chữ nhật."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Ghép hình từ các mảnh nhỏ",
+      "emoji": "🧩",
+      "description": "Ghép những mảnh nhỏ thành hình lớn thật vui!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k04-b4-01",
+          "type": "puzzle",
+          "timeLimit": 120,
+          "prompt": "Ghép 9 mảnh nhỏ lại thành bức tranh hoàn chỉnh nhé!",
+          "image": "/khoa-hoc-vui/images/tranh-ghep-hinh-9-manh.jpg",
+          "size": 3,
+          "method": "Tìm các mảnh ở góc tranh trước, rồi ghép dần vào giữa.",
+          "explanation": "Bức tranh có 3 hàng, mỗi hàng 3 mảnh: 3 + 3 + 3 = 9 mảnh ghép."
+        },
+        {
+          "id": "l1k04-b4-02",
+          "type": "choice",
+          "prompt": "Cắt hình vuông theo đường nối 2 góc đối nhau, được 2 mảnh tam giác.\nGhép 2 mảnh lại như cũ, ta được hình gì?",
+          "options": [
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            }
+          ],
+          "answer": 2,
+          "method": "Ghép lại như cũ thì được đúng hình lúc chưa cắt.",
+          "explanation": "Hai mảnh ghép lại như cũ thành hình vuông ban đầu.\nLưu ý: mỗi mảnh là tam giác, nhưng ghép lại thì không còn là tam giác; không có cạnh cong nên không thể là hình tròn."
+        },
+        {
+          "id": "l1k04-b4-03",
+          "type": "input",
+          "prompt": "Ghép 4 ô vuông nhỏ 🟦 được 1 hình vuông to.\nMuốn ghép 2 hình vuông to, cần mấy ô vuông nhỏ?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦"
+              ],
+              [
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "answers": [
+            "8"
+          ],
+          "unit": "ô",
+          "method": "Mỗi hình vuông to cần 4 ô. Hai hình thì cộng 2 lần.",
+          "explanation": "Mỗi hình vuông to cần 4 ô nhỏ. 4 + 4 = 8 ô."
+        },
+        {
+          "id": "l1k04-b4-04",
+          "type": "choice",
+          "prompt": "Cắt hình chữ nhật theo đường nối 2 góc đối nhau,\nta được 2 mảnh.\nMỗi mảnh là hình gì?",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "text": "Hình chữ nhật"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm xem mỗi mảnh còn mấy góc.",
+          "explanation": "Đường cắt chia hình chữ nhật thành 2 mảnh, mỗi mảnh có 3 góc, 3 cạnh: đó là hình tam giác.\nLưu ý: mảnh cắt ra không còn 4 góc nên không phải hình vuông hay hình chữ nhật; không có cạnh cong nên không phải hình tròn."
+        },
+        {
+          "id": "l1k04-b4-05",
+          "type": "input",
+          "prompt": "Bé ghép hình chữ nhật gồm 2 hàng,\nmỗi hàng 5 ô vuông nhỏ 🟦.\nBé cần tất cả bao nhiêu ô vuông?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦",
+                "🟦",
+                "🟦",
+                "🟦"
+              ],
+              [
+                "🟦",
+                "🟦",
+                "🟦",
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "answers": [
+            "10"
+          ],
+          "unit": "ô",
+          "method": "Đếm số ô của từng hàng rồi cộng lại.",
+          "explanation": "Mỗi hàng 5 ô, có 2 hàng: 5 + 5 = 10 ô vuông."
+        },
+        {
+          "id": "l1k04-b4-06",
+          "type": "match",
+          "timeLimit": 45,
+          "prompt": "Nối các mảnh ghép bên trái với hình ghép được bên phải.",
+          "pairs": [
+            {
+              "left": {
+                "text": "4 ô vuông 🟦, xếp 2 hàng, mỗi hàng 2 ô"
+              },
+              "right": {
+                "text": "Hình vuông to"
+              }
+            },
+            {
+              "left": {
+                "text": "2 ô vuông 🟦 xếp 1 hàng"
+              },
+              "right": {
+                "text": "Hình chữ nhật"
+              }
+            },
+            {
+              "left": {
+                "text": "2 mảnh cắt ra từ 1 hình tròn"
+              },
+              "right": {
+                "emoji": "🔵",
+                "text": "Hình tròn"
+              }
+            }
+          ],
+          "method": "Tưởng tượng đặt các mảnh sát nhau: hình mới dài hơn rộng hay đều các cạnh?",
+          "explanation": "4 ô xếp 2 hàng 2 ô thành hình vuông to. 2 ô xếp 1 hàng thành hình dài hơn rộng: hình chữ nhật. 2 mảnh cắt ra từ hình tròn ghép lại như cũ thành hình tròn."
+        },
+        {
+          "id": "l1k04-b4-07",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ cách ghép được HÌNH CHỮ NHẬT (dài hơn rộng).",
+          "options": [
+            {
+              "text": "2 ô vuông bằng nhau, đặt sát cạnh nhau"
+            },
+            {
+              "text": "3 ô vuông bằng nhau, xếp 1 hàng"
+            },
+            {
+              "text": "2 hình tròn"
+            },
+            {
+              "text": "2 mảnh tam giác cắt từ 1 hình chữ nhật, ghép lại như cũ"
+            },
+            {
+              "text": "1 hình tam giác và 1 hình tròn"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Hình ghép phải có 4 góc và dài hơn rộng.",
+          "explanation": "2 ô vuông hoặc 3 ô vuông xếp 1 hàng đều thành hình chữ nhật. 2 mảnh tam giác cắt từ hình chữ nhật ghép lại như cũ thì lại thành hình chữ nhật.\nLưu ý: hình tròn có viền cong nên không ghép thành hình chữ nhật được."
+        },
+        {
+          "id": "l1k04-b4-08",
+          "type": "fill_blank",
+          "timeLimit": 35,
+          "prompt": "Bức tranh ghép có 2 hàng, mỗi hàng 3 mảnh.\nBé đã ghép xong 4 mảnh.",
+          "sentence": "Bức tranh có [[6]] mảnh. Bé còn phải ghép [[2]] mảnh nữa.",
+          "choices": [
+            "6",
+            "2",
+            "4",
+            "5"
+          ],
+          "method": "Tính số mảnh cả tranh trước, rồi bớt số mảnh đã ghép.",
+          "explanation": "Cả tranh có 3 + 3 = 6 mảnh. Bé đã ghép 4 mảnh, còn 6 − 4 = 2 mảnh."
+        },
+        {
+          "id": "l1k04-b4-09",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Xếp các hình ghép theo số ô vuông nhỏ từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "1 hàng, 2 ô"
+            },
+            {
+              "text": "1 hàng, 3 ô"
+            },
+            {
+              "text": "2 hàng, mỗi hàng 2 ô"
+            },
+            {
+              "text": "2 hàng, mỗi hàng 3 ô"
+            }
+          ],
+          "method": "Tính số ô của từng hình rồi so sánh.",
+          "explanation": "1 hàng 2 ô: 2 ô. 1 hàng 3 ô: 3 ô. 2 hàng 2 ô: 2 + 2 = 4 ô. 2 hàng 3 ô: 3 + 3 = 6 ô."
+        },
+        {
+          "id": "l1k04-b4-10",
+          "type": "input",
+          "prompt": "Bé dùng 4 que tính xếp được 1 hình vuông.\nBé xếp thêm 1 hình vuông nữa dính sát bên cạnh, dùng chung 1 que.\nBé cần thêm mấy que tính?",
+          "answers": [
+            "3"
+          ],
+          "unit": "que",
+          "method": "Hình vuông mới có 4 cạnh, nhưng 1 cạnh đã có sẵn que.",
+          "explanation": "Hình vuông mới cần 4 que, nhưng dùng chung 1 que với hình cũ nên chỉ cần thêm 4 − 1 = 3 que.\nLưu ý: 4 là quên que dùng chung; 7 là tổng số que của cả hai hình."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Tìm hình còn thiếu và hình khác biệt",
+      "emoji": "🔍",
+      "description": "Bé làm thám tử tìm hình bị thiếu và hình không giống ai!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k04-b5-01",
+          "type": "choice",
+          "prompt": "Mỗi hàng đều có đủ tam giác 🔺, hình tròn 🔵, hình vuông 🟦.\nHình nào thay vào dấu ?",
+          "visual": {
+            "grid": [
+              [
+                "🔺",
+                "🔵",
+                "🟦"
+              ],
+              [
+                "🔵",
+                "🟦",
+                "🔺"
+              ],
+              [
+                "🟦",
+                "🔺",
+                "?"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🔺",
+              "text": "Tam giác"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Hình tròn"
+            }
+          ],
+          "answer": 2,
+          "method": "Xem hàng cuối đã có hình nào, còn thiếu hình nào.",
+          "explanation": "Hàng cuối đã có hình vuông 🟦 và tam giác 🔺, còn thiếu hình tròn 🔵. Cột cuối cũng đã có hình vuông và tam giác. Đáp án là hình tròn.\nLưu ý: chọn tam giác hay hình vuông thì hàng cuối bị trùng hình."
+        },
+        {
+          "id": "l1k04-b5-02",
+          "type": "choice",
+          "prompt": "Đồ vật nào có hình dạng KHÁC các đồ vật còn lại?",
+          "options": [
+            {
+              "emoji": "🍪",
+              "text": "Bánh quy"
+            },
+            {
+              "emoji": "🕒",
+              "text": "Mặt đồng hồ"
+            },
+            {
+              "emoji": "💿",
+              "text": "Đĩa nhạc"
+            },
+            {
+              "emoji": "📺",
+              "text": "Màn hình ti vi"
+            }
+          ],
+          "answer": 3,
+          "method": "Gọi tên hình dạng của từng đồ vật.",
+          "explanation": "Bánh quy, mặt đồng hồ, đĩa nhạc đều hình tròn. Màn hình ti vi là hình chữ nhật nên khác biệt."
+        },
+        {
+          "id": "l1k04-b5-03",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Dãy hình: 🔺🟦🔵🔺🟦🔵 …\nChạm lần lượt 3 hình tiếp theo của dãy.",
+          "items": [
+            "🔺",
+            "🟦",
+            "🔵"
+          ],
+          "distractors": [
+            "🟥"
+          ],
+          "method": "Tìm nhóm hình lặp đi lặp lại trong dãy.",
+          "explanation": "Dãy lặp lại nhóm 🔺🟦🔵. Ba hình tiếp theo là 🔺, 🟦, 🔵. Thẻ 🟥 là thẻ nhiễu."
+        },
+        {
+          "id": "l1k04-b5-04",
+          "type": "choice",
+          "prompt": "Hình nào KHÁC các hình còn lại?",
+          "options": [
+            {
+              "emoji": "🔴",
+              "text": "Tròn đỏ"
+            },
+            {
+              "emoji": "🔵",
+              "text": "Tròn xanh"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Vuông xanh"
+            },
+            {
+              "emoji": "🟡",
+              "text": "Tròn vàng"
+            }
+          ],
+          "answer": 2,
+          "method": "Xem hình dạng của từng hình: tròn hay vuông?",
+          "explanation": "Tròn đỏ 🔴, tròn xanh 🔵, tròn vàng 🟡 đều là hình tròn, chỉ vuông xanh 🟦 là hình vuông nên khác biệt.\nLưu ý: tròn xanh cùng màu xanh với vuông xanh nhưng vẫn là hình tròn như tròn đỏ và tròn vàng."
+        },
+        {
+          "id": "l1k04-b5-05",
+          "type": "input",
+          "prompt": "Dãy hình lặp lại: 🔺🟦🔺🟦🔺🟦 …\nHình thứ 7 có mấy cạnh?",
+          "answers": [
+            "3"
+          ],
+          "unit": "cạnh",
+          "method": "Tìm hình thứ 7 trước, rồi đếm cạnh của hình đó.",
+          "explanation": "Dãy lặp lại tam giác 🔺, hình vuông 🟦. Hình thứ 7 là tam giác 🔺 (giống hình thứ 1, 3, 5). Hình tam giác có 3 cạnh.\nLưu ý: 4 là nhầm hình thứ 7 là hình vuông."
+        },
+        {
+          "id": "l1k04-b5-06",
+          "type": "multi_choice",
+          "prompt": "Dãy hình: 🔺🔵🟦🔺🔵\nChọn TẤT CẢ các hình KHÔNG có trong dãy.",
+          "options": [
+            {
+              "emoji": "🔵",
+              "text": "Tròn xanh"
+            },
+            {
+              "emoji": "🟥",
+              "text": "Vuông đỏ"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Tam giác"
+            },
+            {
+              "emoji": "🟢",
+              "text": "Tròn xanh lá"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Vuông xanh"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "So từng hình bên dưới với dãy, xem cả hình dạng lẫn màu.",
+          "explanation": "Dãy chỉ có tam giác 🔺, tròn xanh 🔵, vuông xanh 🟦. Vuông đỏ 🟥 và tròn xanh lá 🟢 không có trong dãy.\nLưu ý: vuông đỏ cũng là hình vuông nhưng khác màu với vuông xanh; tròn xanh lá là hình tròn nhưng khác màu với tròn xanh."
+        },
+        {
+          "id": "l1k04-b5-07",
+          "type": "match_vertical",
+          "timeLimit": 50,
+          "prompt": "Mỗi dãy ở trên bị thiếu 1 hình ở dấu ?. Nối với hình đúng ở dưới.",
+          "pairs": [
+            {
+              "left": {
+                "text": "🔺🔵🔺🔵🔺 ?"
+              },
+              "right": {
+                "text": "🔵"
+              }
+            },
+            {
+              "left": {
+                "text": "🟦🟦🔺🟦🟦 ?"
+              },
+              "right": {
+                "text": "🔺"
+              }
+            },
+            {
+              "left": {
+                "text": "🔵🔺🟦🔵🔺 ?"
+              },
+              "right": {
+                "text": "🟦"
+              }
+            }
+          ],
+          "method": "Tìm nhóm hình lặp lại trong mỗi dãy.",
+          "explanation": "Dãy 1 lặp 🔺🔵 nên thiếu 🔵. Dãy 2 lặp 🟦🟦🔺 nên thiếu 🔺. Dãy 3 lặp 🔵🔺🟦 nên thiếu 🟦."
+        },
+        {
+          "id": "l1k04-b5-08",
+          "type": "reveal_match",
+          "timeLimit": 55,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào hình KHÁC BIỆT trong dãy đó.",
+          "pairs": [
+            {
+              "front": {
+                "text": "🔵🔵🔺🔵"
+              },
+              "back": {
+                "text": "🔺"
+              }
+            },
+            {
+              "front": {
+                "text": "🟦🔵🟦🟦"
+              },
+              "back": {
+                "text": "🔵"
+              }
+            },
+            {
+              "front": {
+                "text": "🔺🔺🔺🟦"
+              },
+              "back": {
+                "text": "🟦"
+              }
+            },
+            {
+              "front": {
+                "text": "🟥🟥🟥🔴"
+              },
+              "back": {
+                "text": "🔴"
+              }
+            }
+          ],
+          "method": "Tìm hình không giống 3 hình kia, nhìn kỹ cả hình dạng.",
+          "explanation": "🔵🔵🔺🔵: khác là 🔺. 🟦🔵🟦🟦: khác là 🔵. 🔺🔺🔺🟦: khác là 🟦. 🟥🟥🟥🔴: 🔴 là hình tròn, khác 3 hình vuông đỏ."
+        },
+        {
+          "id": "l1k04-b5-09",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Mỗi hàng, mỗi cột đều có đủ tam giác 🔺, hình vuông 🟦, hình tròn 🔵.\nChọn hình đúng cho 2 dấu ?.",
+          "visual": {
+            "grid": [
+              [
+                "🔺",
+                "🟦",
+                "🔵"
+              ],
+              [
+                "🟦",
+                "?",
+                "🔺"
+              ],
+              [
+                "🔵",
+                "🔺",
+                "?"
+              ]
+            ]
+          },
+          "sentence": "Dấu ? ở hàng giữa là [[🔵]], dấu ? ở hàng cuối là [[🟦]].",
+          "choices": [
+            "🔵",
+            "🟦",
+            "🔺",
+            "🟥"
+          ],
+          "method": "Xem mỗi hàng đã có hình nào, còn thiếu hình nào.",
+          "explanation": "Hàng giữa có hình vuông 🟦 và tam giác 🔺, thiếu hình tròn 🔵. Hàng cuối có hình tròn 🔵 và tam giác 🔺, thiếu hình vuông 🟦. Kiểm tra cột cũng đủ cả ba hình."
+        },
+        {
+          "id": "l1k04-b5-10",
+          "type": "choice",
+          "prompt": "Dãy nào KHÁC các dãy còn lại?",
+          "options": [
+            {
+              "text": "🟦🟦🟦"
+            },
+            {
+              "text": "🟥🟥🟥"
+            },
+            {
+              "text": "🟩🟩"
+            },
+            {
+              "text": "🟨🟨🟨"
+            }
+          ],
+          "answer": 2,
+          "method": "Các dãy đều là hình vuông, mỗi dãy một màu — hãy đếm số hình trong mỗi dãy.",
+          "explanation": "Các dãy kia đều có 3 hình vuông, chỉ dãy 🟩🟩 có 2 hình vuông nên khác biệt.\nLưu ý: dãy nào cũng là hình vuông và mỗi dãy một màu riêng, nên chỉ có số hình là khác."
+        }
+      ]
+    }
+  ]
+}

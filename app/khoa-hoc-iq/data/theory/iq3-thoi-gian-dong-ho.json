@@ -1,0 +1,167 @@
+{
+  "bai-1": {
+    "concept": "Kim ngắn là kim giờ, kim dài là kim phút. Kim phút chỉ vào số nào thì lấy số đó nhân 5 để được số phút (chỉ số 12 là 0 phút, tức giờ đúng), mỗi vạch nhỏ thêm 1 phút. Khi đã quá 30 phút, ta còn có thể đọc theo kiểu \"kém\": còn bao nhiêu phút nữa thì đến giờ sau.",
+    "examples": [
+      {
+        "prompt": "Kim giờ nằm giữa số 3 và số 4, kim phút chỉ số 8.\nĐồng hồ chỉ mấy giờ? Đọc theo kiểu \"kém\" thế nào?",
+        "visual": {
+          "clock": [
+            "3:40"
+          ]
+        },
+        "answer": "Kim giờ đã qua số 3, chưa tới số 4 nên là 3 giờ hơn. Kim phút chỉ số 8: 8 × 5 = 40 phút. Vậy là 3 giờ 40 phút. Còn 60 − 40 = 20 phút nữa đến 4 giờ, nên cũng đọc là 4 giờ kém 20 phút."
+      },
+      {
+        "prompt": "Kim giờ nằm giữa số 9 và số 10.\nKim phút chỉ vào vạch nhỏ thứ 4 sau số 6.\nĐồng hồ chỉ mấy giờ?",
+        "visual": {
+          "clock": [
+            "9:34"
+          ]
+        },
+        "answer": "Số 6 ứng với 6 × 5 = 30 phút, thêm 4 vạch nhỏ là 34 phút. Vậy đồng hồ chỉ 9 giờ 34 phút."
+      }
+    ],
+    "steps": [
+      "Nhìn kim giờ: lấy số kim vừa đi qua (giữa 12 và 1 là 12 giờ).",
+      "Nhân số kim phút chỉ với 5 để ra số phút.",
+      "Đếm thêm các vạch nhỏ, mỗi vạch là 1 phút.",
+      "Đổi sang kiểu \"kém\": lấy 60 trừ số phút, giờ tăng thêm 1."
+    ],
+    "tips": [
+      "Kim ngắn chỉ giờ, kim dài chỉ phút — đừng đọc ngược hai kim nhé!",
+      "Kim phút chỉ số 11 là 55 phút, không phải 11 phút: nhớ nhân 5.",
+      "\"8 giờ kém 5\" là 7 giờ 55 phút — kiểu \"kém\" luôn gọi tên giờ SAU."
+    ]
+  },
+  "bai-2": {
+    "concept": "Lúc kết thúc = lúc bắt đầu + thời gian làm việc. Lúc bắt đầu = lúc kết thúc − thời gian làm việc. Khi cộng số phút được 60 phút trở lên, ta đổi 60 phút thành 1 giờ.",
+    "examples": [
+      {
+        "prompt": "Bé tập bơi lúc 8 giờ 35 phút, tập trong 40 phút.\nBé tập xong lúc mấy giờ?",
+        "visual": {
+          "clock": [
+            "8:35",
+            "9:15"
+          ]
+        },
+        "answer": "35 + 40 = 75 phút. 75 phút = 1 giờ 15 phút, nên 8 giờ 75 phút chính là 9 giờ 15 phút. Bé tập xong lúc 9 giờ 15 phút."
+      },
+      {
+        "prompt": "Buổi biểu diễn kết thúc lúc 10 giờ 5 phút, kéo dài 30 phút.\nBuổi biểu diễn bắt đầu lúc mấy giờ?",
+        "visual": {
+          "clock": [
+            "9:35",
+            "10:05"
+          ]
+        },
+        "answer": "Lùi từ 10 giờ 5 phút về 10 giờ là 5 phút, lùi tiếp 25 phút nữa là 9 giờ 35 phút. Buổi biểu diễn bắt đầu lúc 9 giờ 35 phút."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề: tìm lúc bắt đầu, lúc kết thúc hay thời gian làm việc.",
+      "Đổi giờ dạng \"kém\" ra giờ hơn trước khi tính.",
+      "Cộng (hoặc trừ) riêng giờ với giờ, phút với phút.",
+      "Đổi 60 phút thành 1 giờ nếu số phút từ 60 trở lên.",
+      "Thử lại bằng cách đếm tiến hoặc đếm lùi trên đồng hồ."
+    ],
+    "tips": [
+      "Tìm lúc kết thúc thì đếm TIẾN, tìm lúc bắt đầu thì đếm LÙI.",
+      "Đủ 60 phút là thêm 1 giờ — đừng quên nhớ sang số giờ!",
+      "Mẹo nhanh: đếm phút đến giờ tròn trước, rồi đếm tiếp phần còn lại."
+    ]
+  },
+  "bai-3": {
+    "concept": "Kim phút quay đủ 1 vòng là 60 phút, tức 1 giờ; nửa vòng là 30 phút. Trong lúc đó kim giờ chỉ đi từ một số sang số liền sau. Kim giờ đi được mấy khoảng (từ số này sang số liền sau) thì đã trôi qua mấy giờ.",
+    "examples": [
+      {
+        "prompt": "Bây giờ là 4 giờ 10 phút.\nKim phút quay thêm nửa vòng.\nLúc đó là mấy giờ?",
+        "visual": {
+          "clock": [
+            "4:10",
+            "4:40"
+          ]
+        },
+        "answer": "Nửa vòng là 30 phút. 10 + 30 = 40, vậy lúc đó là 4 giờ 40 phút."
+      },
+      {
+        "prompt": "Kim phút quay được 4 vòng rưỡi.\nĐã trôi qua bao nhiêu phút?",
+        "answer": "4 vòng là 60 × 4 = 240 phút, nửa vòng là 30 phút. Tất cả là 240 + 30 = 270 phút."
+      }
+    ],
+    "steps": [
+      "Đổi số vòng kim phút ra phút: 1 vòng 60 phút, nửa vòng 30 phút.",
+      "Đếm số khoảng kim giờ đi qua để biết số giờ.",
+      "Cộng thêm thời gian vào giờ hiện tại, nhớ đổi 60 phút thành 1 giờ.",
+      "Kiểm tra vị trí hai kim có khớp với giờ vừa tìm không."
+    ],
+    "tips": [
+      "Kim phút chạy một vòng, kim giờ mới bước một số.",
+      "Chỉ lúc giờ đúng, kim giờ mới chỉ thẳng vào số; các lúc khác nó nằm giữa hai số.",
+      "Kim giờ đi từ số 11 qua số 12 đến số 2 là 3 giờ — đếm từng khoảng, đừng đếm số."
+    ]
+  },
+  "bai-4": {
+    "concept": "Một tuần có 7 ngày, nên cứ thêm 7 ngày thì lại gặp đúng thứ đó. Tháng 1, 3, 5, 7, 8, 10, 12 có 31 ngày; tháng 4, 6, 9, 11 có 30 ngày; tháng 2 có 28 hoặc 29 ngày.",
+    "examples": [
+      {
+        "prompt": "Ngày 3 tháng 4 là thứ Hai.\nNgày 19 tháng 4 cùng năm là thứ mấy?",
+        "visual": {
+          "emoji": "🗓️"
+        },
+        "answer": "Thêm 7 ngày: ngày 10 là thứ Hai, ngày 17 là thứ Hai. Ngày 19 sau ngày 17 hai ngày nên là thứ Tư."
+      },
+      {
+        "prompt": "Tháng 4 có 30 ngày.\nBé đi trại hè từ ngày 28 tháng 4 đến hết ngày 3 tháng 5 (tính cả hai ngày).\nBé đi trại bao nhiêu ngày?",
+        "answer": "Tháng 4: ngày 28, 29, 30 là 3 ngày. Tháng 5: ngày 1, 2, 3 là 3 ngày. Tất cả 3 + 3 = 6 ngày."
+      }
+    ],
+    "steps": [
+      "Ghi ra ngày và thứ đã biết trong đề.",
+      "Cộng hoặc trừ từng 7 ngày để đến gần ngày cần tìm.",
+      "Đếm tiếp từng ngày lẻ còn lại, tiến hoặc lùi.",
+      "Nhớ số ngày của tháng khi đếm sang tháng sau."
+    ],
+    "tips": [
+      "Nắm hai bàn tay lại: đốt nhô lên là tháng 31 ngày, chỗ lõm là tháng 30 ngày (trừ tháng 2).",
+      "Tính cả hai ngày đầu và cuối thì nhớ đếm đủ, đừng chỉ lấy hiệu!",
+      "Các ngày cùng thứ cách nhau 7 ngày — cứ cộng thêm 7 mỗi lần, đừng nhầm sang bảng nhân 7."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài toán thời gian nhiều bước gồm nhiều việc nối tiếp nhau. Ta cộng dồn thời gian của từng việc (kể cả lúc nghỉ) rồi tính từ lúc bắt đầu.",
+    "examples": [
+      {
+        "prompt": "Bé tập đàn 2 bài, mỗi bài 20 phút.\nGiữa hai bài nghỉ 5 phút.\nBé bắt đầu lúc 4 giờ 30 phút chiều. Bé tập xong lúc mấy giờ?",
+        "visual": {
+          "clock": [
+            "4:30",
+            "5:15"
+          ]
+        },
+        "answer": "2 bài có 1 lần nghỉ. Thời gian là 20 + 5 + 20 = 45 phút. 30 + 45 = 75 phút = 1 giờ 15 phút, nên bé tập xong lúc 5 giờ 15 phút chiều."
+      },
+      {
+        "prompt": "Bé xem liền 3 tập phim, mỗi tập 15 phút, bắt đầu lúc 7 giờ tối.\nBé xem xong lúc mấy giờ?",
+        "visual": {
+          "clock": [
+            "7:00",
+            "7:45"
+          ]
+        },
+        "answer": "Các tập dài như nhau nên dùng phép nhân: 15 × 3 = 45 phút. Bé xem xong lúc 7 giờ 45 phút tối."
+      }
+    ],
+    "steps": [
+      "Liệt kê từng việc theo thứ tự và thời gian của mỗi việc.",
+      "Đếm đúng số lần nghỉ giữa các việc.",
+      "Cộng dồn tất cả thời gian, việc giống nhau thì dùng phép nhân.",
+      "Cộng vào lúc bắt đầu, đổi 60 phút thành 1 giờ.",
+      "Kiểm tra lại xem có bỏ sót việc nào không."
+    ],
+    "tips": [
+      "Có 3 việc thì chỉ có 2 lần nghỉ ở giữa — nghỉ luôn ít hơn số việc 1 lần.",
+      "1 ngày có 24 giờ: từ 7 giờ tối hôm nay đến 7 giờ tối mai là 24 giờ.",
+      "Đồng hồ chạy nhanh mỗi giờ 3 phút thì sau 4 giờ nhanh 3 × 4 = 12 phút."
+    ]
+  }
+}

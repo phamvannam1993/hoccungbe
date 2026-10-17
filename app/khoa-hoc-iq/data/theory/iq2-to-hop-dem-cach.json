@@ -1,0 +1,242 @@
+{
+  "bai-1": {
+    "concept": "Muốn đếm số cách chọn, bé liệt kê lần lượt theo thứ tự để không sót cách nào. Ghép đồ hai loại: lấy từng món loại này ghép với từng món loại kia. Chọn 2 món trong một nhóm: \"táo với cam\" và \"cam với táo\" chỉ là một cách.",
+    "examples": [
+      {
+        "prompt": "Bé có 3 đôi dép (A, B, C) và 4 cái mũ (1, 2, 3, 4).\nMỗi lần đi chơi bé đội 1 mũ và đi 1 đôi dép.\nBé có bao nhiêu cách chọn?",
+        "visual": {
+          "grid": [
+            [
+              "",
+              "Mũ 1",
+              "Mũ 2",
+              "Mũ 3",
+              "Mũ 4"
+            ],
+            [
+              "Dép A",
+              "✔",
+              "✔",
+              "✔",
+              "✔"
+            ],
+            [
+              "Dép B",
+              "✔",
+              "✔",
+              "✔",
+              "✔"
+            ],
+            [
+              "Dép C",
+              "✔",
+              "✔",
+              "✔",
+              "✔"
+            ]
+          ]
+        },
+        "answer": "Lập bảng: mỗi hàng dép có 4 dấu ✔ (ghép với 4 mũ). Có 3 hàng nên 4 + 4 + 4 = 12 cách."
+      },
+      {
+        "prompt": "Đĩa có 4 quả: táo, cam, lê, nho (mỗi loại 1 quả).\nBé lấy 3 quả. Bé có bao nhiêu cách lấy?",
+        "visual": {
+          "emoji": "🍎🍊🍐🍇"
+        },
+        "answer": "Liệt kê theo thứ tự: táo – cam – lê, táo – cam – nho, táo – lê – nho, cam – lê – nho. Có 4 cách (mỗi cách chừa lại đúng 1 quả)."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: ghép hai loại đồ, hay chọn mấy món trong một nhóm.",
+      "Lấy món đầu tiên, ghép lần lượt với từng món ghép được với nó.",
+      "Chuyển sang món tiếp theo; nếu chọn trong một nhóm, chỉ ghép với món phía sau.",
+      "Đếm hoặc cộng các cách vừa liệt kê.",
+      "Kiểm tra không có cách nào bị đếm hai lần."
+    ],
+    "tips": [
+      "Áo đi với quần, đừng cộng vội: mỗi áo ghép với đủ các quần, nên cộng lặp lại số quần!",
+      "Đổi chỗ hai món trong cùng một cặp vẫn là một cách thôi nhé."
+    ]
+  },
+  "bai-2": {
+    "concept": "Số có hai chữ số gồm chữ số hàng chục và chữ số hàng đơn vị. Để lập đủ các số, bé chọn lần lượt từng chữ số cho hàng chục, rồi ghép với các chữ số hàng đơn vị. Chữ số 0 không được đứng ở hàng chục.",
+    "examples": [
+      {
+        "prompt": "Dùng các chữ số 0, 1, 7 lập số có hai chữ số khác nhau.\nLập được những số nào?",
+        "visual": {
+          "grid": [
+            [
+              "Hàng chục",
+              "Các số lập được"
+            ],
+            [
+              "0",
+              "không được"
+            ],
+            [
+              "1",
+              "10, 17"
+            ],
+            [
+              "7",
+              "70, 71"
+            ]
+          ]
+        },
+        "answer": "Hàng chục không thể là 0. Hàng chục 1: 10, 17. Hàng chục 7: 70, 71. Có 4 số."
+      },
+      {
+        "prompt": "Dùng các chữ số 3, 5, 8 lập số có hai chữ số khác nhau.\nSố lớn nhất và số bé nhất là số nào?",
+        "answer": "Lớn nhất: chữ số lớn nhất 8 ở hàng chục, tiếp theo 5 ở hàng đơn vị → 85. Bé nhất: 3 ở hàng chục, 5 ở hàng đơn vị → 35."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: chữ số được lặp lại hay phải khác nhau.",
+      "Viết lần lượt từng chữ số vào hàng chục, bỏ qua chữ số 0.",
+      "Ghép với từng chữ số hàng đơn vị theo thứ tự từ bé đến lớn.",
+      "Đếm các số lập được hoặc chọn số theo yêu cầu.",
+      "Kiểm tra lại điều kiện của đề với từng số."
+    ],
+    "tips": [
+      "Số 0 đứng đầu là \"số giả\": 05 không phải số có hai chữ số!",
+      "Muốn số lớn nhất: chữ số to nhất ngồi hàng chục."
+    ]
+  },
+  "bai-3": {
+    "concept": "Muốn đếm cách xếp hàng, bé chọn lần lượt bạn đứng chỗ thứ nhất, rồi xếp các bạn còn lại vào phía sau. Mỗi bạn chỉ đứng một chỗ. Nếu đề có điều kiện, bé gạch bỏ những cách không đúng.",
+    "examples": [
+      {
+        "prompt": "Mèo 🐱, Chó 🐶, Thỏ 🐰 xếp thành một hàng.\nMèo phải đứng trước Chó (không cần đứng sát).\nCó bao nhiêu cách xếp?",
+        "visual": {
+          "grid": [
+            [
+              "🐱",
+              "🐶",
+              "🐰",
+              "✔"
+            ],
+            [
+              "🐱",
+              "🐰",
+              "🐶",
+              "✔"
+            ],
+            [
+              "🐶",
+              "🐱",
+              "🐰",
+              "✖"
+            ],
+            [
+              "🐶",
+              "🐰",
+              "🐱",
+              "✖"
+            ],
+            [
+              "🐰",
+              "🐱",
+              "🐶",
+              "✔"
+            ],
+            [
+              "🐰",
+              "🐶",
+              "🐱",
+              "✖"
+            ]
+          ]
+        },
+        "answer": "Liệt kê đủ 6 cách theo con đứng đầu, rồi đánh ✔ cách có Mèo đứng trước Chó: có 3 cách."
+      },
+      {
+        "prompt": "Hà, Lan, Mai đứng thành hàng ngang.\nMai đứng giữa. Hà không đứng bên trái.\nXếp các bạn từ trái sang phải.",
+        "answer": "Mai ở giữa nên Hà và Lan đứng hai bên. Hà không đứng bên trái nên Hà đứng bên phải. Thứ tự: Lan, Mai, Hà."
+      }
+    ],
+    "steps": [
+      "Chọn bạn đứng đầu, viết lần lượt từng trường hợp.",
+      "Xếp các bạn còn lại vào phía sau, mỗi bạn một chỗ.",
+      "Gạch bỏ các cách không đúng điều kiện của đề.",
+      "Đếm các cách còn lại."
+    ],
+    "tips": [
+      "Mỗi bạn chỉ có một thân, không đứng được hai chỗ!",
+      "Hai ghế trái và phải: đổi chỗ hai bạn là thêm một cách mới."
+    ]
+  },
+  "bai-4": {
+    "concept": "Đi qua nhiều chặng: mỗi đường của chặng đầu lại có đủ các đường của chặng sau, nên bé cộng lặp lại. Nếu có thêm đường đi thẳng thì cộng thêm vào. Đi và về bằng đường khác thì mỗi lượt đi bớt đi một đường về.",
+    "examples": [
+      {
+        "prompt": "Từ nhà đến công viên có 4 con đường.\nTừ công viên đến hồ có 2 con đường.\nĐi từ nhà, qua công viên, đến hồ có bao nhiêu cách?",
+        "visual": {
+          "emoji": "🏠 ➡️ 🎡 ➡️ 🏞️"
+        },
+        "answer": "Mỗi đường đến công viên có 2 cách đi tiếp. Có 4 đường nên 2 + 2 + 2 + 2 = 8 cách."
+      },
+      {
+        "prompt": "Bạn rùa đi 2 bước sang phải ➡️ và 2 bước lên trên ⬆️, theo thứ tự nào cũng được.\nCó bao nhiêu cách đi?",
+        "visual": {
+          "emoji": "🐢 ➡️➡️⬆️⬆️"
+        },
+        "answer": "Liệt kê theo bước đầu tiên: phải – phải – lên – lên (➡️➡️⬆️⬆️), phải – lên – phải – lên (➡️⬆️➡️⬆️), phải – lên – lên – phải (➡️⬆️⬆️➡️), lên – phải – phải – lên (⬆️➡️➡️⬆️), lên – phải – lên – phải (⬆️➡️⬆️➡️), lên – lên – phải – phải (⬆️⬆️➡️➡️). Có 6 cách."
+      }
+    ],
+    "steps": [
+      "Vẽ sơ đồ các điểm và số đường giữa chúng.",
+      "Lấy từng đường của chặng đầu, đếm số cách đi tiếp.",
+      "Cộng các cách lại, thêm cả đường đi thẳng nếu có.",
+      "Kiểm tra điều kiện: về đường khác thì bớt đường cũ."
+    ],
+    "tips": [
+      "Hai chặng nối nhau thì cộng lặp lại, đừng cộng hai số với nhau!",
+      "Hai bước giống nhau đổi chỗ cho nhau vẫn là một cách."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bảng và sơ đồ cây giúp bé liệt kê đủ, không sót, không trùng. Bảng ghép: mỗi ô là một cách. Sơ đồ cây: mỗi nhánh cuối cùng là một cách.",
+    "examples": [
+      {
+        "prompt": "Lập số có hai chữ số: hàng chục là 3 hoặc 4, hàng đơn vị là 1 hoặc 6.\nSố nào thay cho dấu ? trong bảng? Có tất cả mấy số?",
+        "visual": {
+          "grid": [
+            [
+              "",
+              "1",
+              "6"
+            ],
+            [
+              "3",
+              "31",
+              "36"
+            ],
+            [
+              "4",
+              "41",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Ô ? nằm ở hàng chục 4, cột đơn vị 6 nên là 46. Bảng có 4 ô: 31, 36, 41, 46 → 4 số."
+      },
+      {
+        "prompt": "Bé chọn 1 mũ (đỏ hoặc xanh), 1 áo (trắng hoặc vàng) và 1 đôi giày (đen hoặc nâu).\nBé có bao nhiêu cách chọn?",
+        "visual": {
+          "emoji": "🧢🧢 👕👕 👟👟"
+        },
+        "answer": "Vẽ sơ đồ cây: mũ và áo có 2 + 2 = 4 cách. Mỗi cách đó tách ra 2 nhánh giày: 4 + 4 = 8 cách."
+      }
+    ],
+    "steps": [
+      "Kẻ bảng hoặc vẽ sơ đồ cây theo từng loại.",
+      "Đánh dấu ✔ vào ô hoặc nhánh được chọn, gạch chéo các ô bị cấm.",
+      "Đếm các ô có dấu ✔ hoặc các nhánh cuối cùng.",
+      "Kiểm tra lại xem có ô nào bị sót không."
+    ],
+    "tips": [
+      "Mỗi đôi bạn bắt tay một lần: A bắt tay B và B bắt tay A chỉ là một lần.",
+      "Gửi thiệp thì khác: A gửi B và B gửi A là hai tấm thiệp!"
+    ]
+  }
+}

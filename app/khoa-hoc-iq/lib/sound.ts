@@ -1,5 +1,7 @@
 'use client';
 
+import { preprocessTTS } from '../../components/edu/utils/ttsText';
+
 // Âm thanh lấy từ bộ app 3 Gốc (public/khoa-hoc-vui/audio) + đọc đề bằng /api/tts.
 //   tap      – chạm nút / chọn đáp án
 //   match    – ghép đúng một cặp (lật ô, ghép hình)
@@ -111,7 +113,16 @@ export function speak(text: string) {
   const chunks = splitForSpeech(text);
   const playAt = (i: number) => {
     if (token !== speechToken || i >= chunks.length) return;
-    voice = new Audio(`/api/tts?q=${encodeURIComponent(chunks[i])}`);
+    /* TIỀN XỬ LÝ TRƯỚC KHI TRA KHO — bắt buộc, không phải trang trí.
+     *
+     * `cacheKey` của kho giọng đọc tính từ chữ ĐÃ qua `preprocessTTS`. Trang này
+     * trước đây gửi chữ THÔ, nên mọi lượt tra đều trượt khi câu có số hay đơn vị:
+     * kho lưu "bảy xăng ti mét" còn trang hỏi "7 cm". Đo 17/10/2026 — sinh xong
+     * 1.682 đoạn mà không đoạn nào được dùng.
+     *
+     * Cắt mẩu TRƯỚC rồi mới tiền xử lý TỪNG MẨU: phép sinh audio cũng làm đúng thứ
+     * tự ấy, đổi thứ tự là khoá lại lệch. */
+    voice = new Audio(`/api/tts?q=${encodeURIComponent(preprocessTTS(chunks[i]))}`);
     voice.onended = () => playAt(i + 1);
     voice.onerror = () => playAt(i + 1);
     voice.play().catch(() => {});

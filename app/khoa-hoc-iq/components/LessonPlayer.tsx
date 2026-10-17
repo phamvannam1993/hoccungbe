@@ -10,7 +10,7 @@ import { saveStars } from '../lib/progress';
 import QuestionView, { QUESTION_TYPE_LABEL } from './questions/QuestionView';
 import { ShopHeader } from './ShopView';
 import { withClocks } from './Clock';
-import { questionSpeech } from '../lib/speech';
+import { questionSpeech, speechText } from '../lib/speech';
 import Visual from './Visual';
 import TheoryView, { theorySpeech } from './TheoryView';
 
@@ -443,6 +443,12 @@ export default function LessonPlayer({ courseSlug, courseTitle, subject, lesson,
             onClick={() => {
               pauseTimer();
               setShowHint(true);
+              /* ĐỌC GỢI Ý khi mở hộp — thầy chốt 17/10/2026.
+               *
+               * Qua `speechText()` y như đề bài, không đọc chuỗi thô: `cacheKey` của
+               * kho giọng đọc tính từ chuỗi đã biến đổi, đọc thô là tra trượt và rơi
+               * về giọng máy. Script sinh audio cũng dùng đúng hàm này. */
+              if (q.method) speak(speechText(q.method));
             }}
             aria-label="Gợi ý cách làm"
           >
@@ -471,7 +477,9 @@ export default function LessonPlayer({ courseSlug, courseTitle, subject, lesson,
             className="relative w-[min(92vw,560px)] bg-[length:100%_100%] bg-no-repeat px-8 py-10"
             style={{ backgroundImage: `url(${img('bg_read.png')})` }}
           >
-            <button type="button" onClick={() => resume(() => setShowHint(false))} className="absolute -right-3 -top-3" aria-label="Đóng">
+            {/* Đóng hộp thì NGẮT đọc ngay: bé bấm đóng rồi mà tiếng vẫn chạy tiếp là
+                lạc nhịp với câu hỏi đang hiện. */}
+            <button type="button" onClick={() => { stopSpeak(); resume(() => setShowHint(false)); }} className="absolute -right-3 -top-3" aria-label="Đóng">
               <img src={img('icon_close_menu.png')} alt="" className="h-10 w-10" />
             </button>
             <p className="text-center text-sm font-extrabold uppercase tracking-widest text-[#1d9bbd]">Gợi ý cách làm</p>

@@ -16,7 +16,21 @@ interface User {
   email: string;
   role: string;
   status: string;
+  createdAt?: string;
   lastLoginAt?: string;
+}
+
+/* Ngày giờ gọn: "17/10/2026 14:35".
+ *
+ * `toLocaleString('vi-VN')` không có tham số thì mỗi máy một kiểu — máy thì kèm giây,
+ * máy thì đảo ngày/tháng. Chỉ rõ từng phần để bảng nhìn đều nhau ở mọi máy. */
+function gio(s?: string | null): string {
+  if (!s) return '';
+  const d = new Date(s);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleString('vi-VN', {
+    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
 }
 
 interface ApiResponse {
@@ -78,7 +92,12 @@ export default function UsersPage() {
     u.email,
     <Badge key="role" label={u.role} variant={u.role === 'admin' ? 'purple' : 'blue'} />,
     statusBadge(u.status),
-    u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString('vi-VN') : '-',
+    <span key="created" className="whitespace-nowrap text-sm text-gray-600">{gio(u.createdAt) || '—'}</span>,
+    /* Chưa ai đăng nhập kể từ khi máy chủ bắt đầu ghi cột này, nên nói thẳng là
+       "chưa đăng nhập" thay vì một dấu gạch khó hiểu. */
+    <span key="login" className="whitespace-nowrap text-sm text-gray-600">
+      {gio(u.lastLoginAt) || <i className="text-gray-400">chưa đăng nhập</i>}
+    </span>,
     <div key="actions" className="flex items-center gap-2">
       <Link href={`/admin/users/${u.id}`} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg" title="Xem chi tiết">
         <Eye size={16} />
@@ -104,7 +123,7 @@ export default function UsersPage() {
       ) : (
         <>
           <DataTable
-            headers={['ID', 'Họ tên', 'Email', 'Vai trò', 'Trạng thái', 'Đăng nhập cuối', 'Thao tác']}
+            headers={['ID', 'Họ tên', 'Email', 'Vai trò', 'Trạng thái', 'Ngày tạo', 'Đăng nhập cuối', 'Thao tác']}
             rows={rows}
           />
           <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />

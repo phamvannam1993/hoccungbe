@@ -2,12 +2,45 @@ import { Fragment, type ReactNode } from 'react';
 import { emojiRegex } from '../lib/emoji';
 import { emojiImg } from '../lib/assets';
 
-/** Đồng hồ kim vẽ bằng SVG: đủ 12 số, vạch phút, kim giờ đặt đúng theo cả số phút. */
+/* Làm tròn toạ độ trước khi ghi vào SVG.
+ *
+ * `Math.sin`/`Math.cos` KHÔNG bắt buộc giống nhau từng bit giữa các máy JS. Node
+ * dựng trang ra `y1="33.730534276967994"`, Chrome tính lại thành `33.73053427696799`
+ * — React so thấy lệch và báo hydration mismatch, kèm câu "đừng dùng Math.random()"
+ * làm lạc hướng hẳn, vì đây không phải chuyện ngẫu nhiên.
+ *
+ * Ba chữ số sau dấu phẩy trên khung 100 đơn vị là 1/100.000 bề ngang đồng hồ: mắt
+ * không thấy được, mà hai bên thì ghi ra y hệt nhau. */
+const lam = (v: number) => Math.round(v * 1000) / 1000;
+
+/* Tả VỊ TRÍ HAI KIM, không nói ra giờ.
+ *
+ * `<title>` của SVG hiện lên khi rê chuột, và máy đọc màn hình đọc `aria-label`.
+ * Với câu "Đồng hồ chỉ mấy giờ?" thì nhãn "4 giờ 35 phút" chính là ĐÁP ÁN — rê
+ * chuột một cái là xong bài, còn bé dùng máy đọc thì được đọc thẳng đáp án.
+ *
+ * Tả vị trí kim thì đúng ở mọi chỗ dùng mà không lộ gì: bé vẫn phải tự đọc giờ,
+ * y như bé nhìn bằng mắt. */
+export function taKim(hour: number, minute: number): string {
+  const h = ((Math.trunc(hour) % 12) + 12) % 12 || 12;
+  const sau = h === 12 ? 1 : h + 1;
+  const ngan = minute === 0 ? `kim ngắn chỉ số ${h}` : `kim ngắn nằm giữa số ${h} và số ${sau}`;
+  const nam = minute / 5;
+  const dai = Number.isInteger(nam)
+    ? `kim dài chỉ số ${nam === 0 ? 12 : nam}`
+    : `kim dài chỉ vạch nhỏ thứ ${minute % 5} sau số ${Math.floor(nam) === 0 ? 12 : Math.floor(nam)}`;
+  return `Đồng hồ kim: ${ngan}, ${dai}`;
+}
+
+/** Đồng hồ kim vẽ bằng SVG: đủ 12 số, vạch phút, kim giờ đặt đúng theo cả số phút.
+ */
 export function Clock({ hour, minute = 0, size = 56 }: { hour: number; minute?: number; size?: number }) {
   const hourAngle = ((hour % 12) + minute / 60) * 30;
   const minuteAngle = minute * 6;
-  const showNumbers = size >= 44;
-  const label = `${hour} giờ${minute ? ` ${minute} phút` : ''}`;
+  /* Dưới cỡ này thì chữ số chỉ còn khoảng 5px — không đọc được mà vẫn làm bẩn mặt
+     đồng hồ. Bỏ số đi, chỉ để vạch giờ: nhỏ mà vẫn nhìn ra kim chỉ đâu. */
+  const showNumbers = size >= 56;
+  const label = taKim(hour, minute);
 
   return (
     <svg
@@ -19,20 +52,21 @@ export function Clock({ hour, minute = 0, size = 56 }: { hour: number; minute?: 
       className="inline-block shrink-0 align-middle drop-shadow-[0_2px_0_rgba(0,0,0,0.12)]"
     >
       <title>{label}</title>
-      <circle cx="50" cy="50" r="47" fill="#ffffff" stroke="#1093b7" strokeWidth="5" />
+      <circle cx="50" cy="50" r="45.5" fill="#ffffff" stroke="#1093b7" strokeWidth="5" />
+      <circle cx="50" cy="50" r="41" fill="none" stroke="#eef4f7" strokeWidth="1.2" />
       {Array.from({ length: 60 }, (_, i) => {
         const big = i % 5 === 0;
         const a = (i * 6 * Math.PI) / 180;
-        const r1 = big ? 37 : 40.5;
+        const r1 = big ? 37.5 : 40;
         return (
           <line
             key={i}
-            x1={50 + r1 * Math.sin(a)}
-            y1={50 - r1 * Math.cos(a)}
-            x2={50 + 43 * Math.sin(a)}
-            y2={50 - 43 * Math.cos(a)}
-            stroke={big ? '#1b1b1b' : '#9ca3af'}
-            strokeWidth={big ? 2.4 : 1}
+            x1={lam(50 + r1 * Math.sin(a))}
+            y1={lam(50 - r1 * Math.cos(a))}
+            x2={lam(50 + 42.2 * Math.sin(a))}
+            y2={lam(50 - 42.2 * Math.cos(a))}
+            stroke={big ? '#1b1b1b' : '#c3ccd4'}
+            strokeWidth={big ? 2.6 : 1}
             strokeLinecap="round"
           />
         );
@@ -44,12 +78,12 @@ export function Clock({ hour, minute = 0, size = 56 }: { hour: number; minute?: 
           return (
             <text
               key={n}
-              x={50 + 30 * Math.sin(a)}
-              y={50 - 30 * Math.cos(a)}
+              x={lam(50 + 30 * Math.sin(a))}
+              y={lam(50 - 30 * Math.cos(a))}
               textAnchor="middle"
               dominantBaseline="central"
-              fontSize="13"
-              fontWeight="900"
+              fontSize="10.5"
+              fontWeight="800"
               fill="#1b1b1b"
               fontFamily="var(--font-nunito), Nunito, sans-serif"
             >
@@ -57,12 +91,26 @@ export function Clock({ hour, minute = 0, size = 56 }: { hour: number; minute?: 
             </text>
           );
         })}
-      {/* kim giờ: ngắn, dày */}
-      <line x1="50" y1="50" x2="50" y2="30" stroke="#1b1b1b" strokeWidth="7" strokeLinecap="round" transform={`rotate(${hourAngle} 50 50)`} />
-      {/* kim phút: dài, mảnh */}
-      <line x1="50" y1="50" x2="50" y2="14" stroke="#e64a4a" strokeWidth="3" strokeLinecap="round" transform={`rotate(${minuteAngle} 50 50)`} />
-      <circle cx="50" cy="50" r="4" fill="#1b1b1b" />
-      <circle cx="50" cy="50" r="1.6" fill="#ffffff" />
+      {/* Kim vẽ bằng hình thon (gốc to, mũi nhỏ) chứ không phải đoạn thẳng dày đều:
+          đoạn thẳng dày 7 trông như cái que, và ở mũi kim khó thấy nó chỉ vào đâu. */}
+      <polygon
+        points="46.9,56 53.1,56 51.7,31 48.3,31"
+        fill="#1b1b1b"
+        stroke="#1b1b1b"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        transform={`rotate(${lam(hourAngle)} 50 50)`}
+      />
+      <polygon
+        points="48.3,57 51.7,57 50.9,15 49.1,15"
+        fill="#e64a4a"
+        stroke="#e64a4a"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        transform={`rotate(${lam(minuteAngle)} 50 50)`}
+      />
+      <circle cx="50" cy="50" r="3.8" fill="#1b1b1b" />
+      <circle cx="50" cy="50" r="1.5" fill="#ffffff" />
     </svg>
   );
 }

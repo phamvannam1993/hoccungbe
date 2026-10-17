@@ -11,6 +11,7 @@
           "id": "l3k07-b1-01",
           "type": "choice",
           "prompt": "Kim giờ nằm giữa số 4 và số 5.\nKim phút chỉ số 7.\nĐồng hồ chỉ mấy giờ?",
+          "visual": { "clock": ["4:35"] },
           "options": [
             {
               "text": "5 giờ 35 phút"
@@ -44,6 +45,7 @@
           "id": "l3k07-b1-03",
           "type": "choice",
           "prompt": "Kim giờ nằm giữa số 2 và số 3.\nKim phút chỉ vào vạch nhỏ thứ 3 sau số 8.\nĐồng hồ chỉ mấy giờ?",
+          "visual": { "clock": ["2:43"] },
           "options": [
             {
               "text": "3 giờ 43 phút"

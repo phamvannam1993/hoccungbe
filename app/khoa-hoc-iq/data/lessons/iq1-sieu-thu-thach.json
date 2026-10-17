@@ -1004,6 +1004,7 @@
           "id": "l1k12-b5-01",
           "type": "choice",
           "prompt": "Kim ngắn chỉ số 9, kim dài chỉ số 12.\nĐồng hồ chỉ mấy giờ?",
+          "visual": { "clock": ["9:00"] },
           "options": [
             {
               "text": "12 giờ"

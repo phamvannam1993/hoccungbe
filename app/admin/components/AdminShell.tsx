@@ -46,6 +46,7 @@ const navItems = [
   { href: '/admin/don-hang-iq', label: '🛒 Đơn hàng Toán IQ', icon: CreditCard },
   { href: '/admin/ma-kich-hoat', label: '🔑 Mã kích hoạt IQ', icon: CreditCard },
   { href: '/admin/audio-tu-vung', label: '🔊 Giọng đọc từ vựng', icon: Music },
+  { href: '/admin/audio-iq', label: '🔊 Giọng đọc toán IQ', icon: Music },
   { href: '/admin/quizzes', label: 'Câu hỏi', icon: HelpCircle },
   { href: '/admin/games', label: 'Trò chơi (Quiz)', icon: Gamepad2 },
   { href: '/admin/mini-games', label: 'Mini Game', icon: Gamepad2 },

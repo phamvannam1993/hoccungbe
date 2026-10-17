@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { getCurrentChildId, childStats, childStreak, childHistory, type HistoryItem } from '../../lib/childData';
+import { apiFetch } from '../../lib/api';
 
 type Tone = 'amber' | 'sky' | 'violet' | 'orange' | 'emerald' | 'rose';
-type Notif = { id: string; emoji: string; title: string; desc?: string; href: string; tone: Tone };
+type Notif = { id: string; emoji: string; title: string; desc?: string; href: string; tone: Tone; khi?: string; mayChuId?: number };
 
 const TONE: Record<Tone, string> = {
   amber: 'bg-amber-50 text-amber-600',
@@ -16,6 +17,52 @@ const TONE: Record<Tone, string> = {
   emerald: 'bg-emerald-50 text-emerald-600',
   rose: 'bg-rose-50 text-rose-600',
 };
+
+/* Thông báo do MÁY CHỦ gửi (bảng `notifications`): nhắc học, báo cáo, huy hiệu…
+ *
+ * Khác hẳn mấy mục bên dưới: những mục kia chuông tự suy ra từ dữ liệu học của bé
+ * ngay trong trình duyệt, còn đây là thứ người lớn chủ động gửi. Trước đây chuông
+ * không hề hỏi tới bảng này, nên thông báo gửi đi không ai nhìn thấy. */
+type MayChu = {
+  id: number;
+  type: string;
+  title: string;
+  body?: string | null;
+  data?: unknown;
+  readAt?: string | null;
+  createdAt: string;
+};
+
+const KIEU: Record<string, { emoji: string; tone: Tone }> = {
+  reminder: { emoji: '⏰', tone: 'sky' },
+  achievement: { emoji: '🏆', tone: 'violet' },
+  report: { emoji: '📊', tone: 'emerald' },
+  streak: { emoji: '🔥', tone: 'orange' },
+  certificate: { emoji: '🎖️', tone: 'amber' },
+  system: { emoji: '🔔', tone: 'rose' },
+};
+
+/** Đường dẫn kèm theo thông báo, nếu có. Không có thì về trang tổng quan. */
+function duongDan(data: unknown): string {
+  if (data && typeof data === 'object' && 'href' in data) {
+    const h = (data as { href?: unknown }).href;
+    if (typeof h === 'string' && h.startsWith('/')) return h;
+  }
+  return '/dashboard';
+}
+
+/** "3 phút trước", "2 giờ trước", "5 ngày trước". */
+function khiNao(iso: string): string {
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return '';
+  const phut = Math.floor((Date.now() - t) / 60000);
+  if (phut < 1) return 'vừa xong';
+  if (phut < 60) return `${phut} phút trước`;
+  const gio = Math.floor(phut / 60);
+  if (gio < 24) return `${gio} giờ trước`;
+  const ngay = Math.floor(gio / 24);
+  return ngay < 30 ? `${ngay} ngày trước` : new Date(t).toLocaleDateString('vi-VN');
+}
 
 const LEVEL_SIZE = 400;
 const WEEKLY_GOAL = 5;
@@ -90,22 +137,67 @@ export default function NotificationBell({ compact = false }: { compact?: boolea
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const [hasChild, setHasChild] = useState(false);
+  /* Hiện chuông khi CÓ BÉ hoặc ĐÃ ĐĂNG NHẬP.
+   *
+   * Bản trước chỉ xét `getCurrentChildId()`, nên phụ huynh đăng nhập mà chưa chọn
+   * hồ sơ bé thì chuông biến mất hoàn toàn — không phải chuông rỗng, mà là không
+   * có chuông. Thông báo của máy chủ gửi cho TÀI KHOẢN, không gửi cho hồ sơ bé,
+   * nên điều kiện cũ giấu mất đúng nhóm người cần đọc chúng. */
+  const [hienChuong, setHienChuong] = useState(false);
 
   useEffect(() => {
-    const id = getCurrentChildId();
-    if (!id) return;
-    setHasChild(true);
-    Promise.all([childStats(id), childStreak(id), childHistory(id, 500).catch(() => [])])
-      .then(([s, st, h]) => {
-        const built = buildNotifs(s, st, Array.isArray(h) ? h : []);
-        setNotifs(built);
-        let seen: string[] = [];
-        try { seen = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { seen = []; }
-        const seenSet = new Set(seen);
-        setUnread(built.filter((n) => !seenSet.has(n.id)).length);
-      })
-      .catch(() => {});
+    let huy = false;
+    const childId = getCurrentChildId();
+    const daDangNhap = (() => {
+      try { return !!localStorage.getItem('bhh_token'); } catch { return false; }
+    })();
+    if (!childId && !daDangNhap) return;
+
+    /* Mục tự suy từ dữ liệu của bé (chỉ khi đã chọn hồ sơ bé). */
+    const cuaBe: Promise<Notif[]> = childId
+      ? Promise.all([childStats(childId), childStreak(childId), childHistory(childId, 500).catch(() => [])])
+          .then(([s, st, h]) => buildNotifs(s, st, Array.isArray(h) ? h : []))
+          .catch(() => [])
+      : Promise.resolve([]);
+
+    /* Mục do máy chủ gửi (chỉ khi đã đăng nhập).
+     * Hỏng thì trả mảng rỗng chứ KHÔNG để vỡ cả chuông: mất thông báo máy chủ vẫn
+     * còn hơn mất luôn những mục tính được tại chỗ. */
+    const cuaMayChu: Promise<MayChu[]> = daDangNhap
+      ? apiFetch<MayChu[]>('/notifications/me').then((r) => (Array.isArray(r) ? r : [])).catch(() => [])
+      : Promise.resolve([]);
+
+    Promise.all([cuaBe, cuaMayChu]).then(([be, may]) => {
+      if (huy) return;
+      /* Bật hiển thị TRONG callback chứ không ngay trong thân effect: gọi setState
+         thẳng trong thân effect làm React dựng lại dây chuyền, và linter chặn. */
+      setHienChuong(true);
+      const tuMay: Notif[] = may.map((n) => {
+        const k = KIEU[n.type] ?? KIEU.system;
+        return {
+          id: `may-${n.id}`,
+          mayChuId: n.id,
+          emoji: k.emoji,
+          tone: k.tone,
+          title: n.title,
+          desc: n.body ?? undefined,
+          href: duongDan(n.data),
+          khi: khiNao(n.createdAt),
+        };
+      });
+      /* Thông báo máy chủ lên trước: đó là thứ người lớn chủ động gửi. */
+      const gop = [...tuMay, ...be];
+      setNotifs(gop);
+
+      let seen: string[] = [];
+      try { seen = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { seen = []; }
+      const daXem = new Set(seen);
+      const chuaDocMay = may.filter((n) => !n.readAt).length;
+      const chuaXemBe = be.filter((n) => !daXem.has(n.id)).length;
+      setUnread(chuaDocMay + chuaXemBe);
+    });
+
+    return () => { huy = true; };
   }, []);
 
   // Đóng khi bấm ra ngoài.
@@ -121,17 +213,21 @@ export default function NotificationBell({ compact = false }: { compact?: boolea
     const next = !open;
     setOpen(next);
     if (next && notifs.length) {
-      // Đánh dấu đã đọc.
+      /* Mục tính tại chỗ: đánh dấu đã xem trong máy này.
+         Mục của máy chủ: báo lên máy chủ, vì nó phải "đã đọc" ở mọi thiết bị. */
       try {
         const prev: string[] = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]');
-        const merged = Array.from(new Set([...prev, ...notifs.map((n) => n.id)]));
+        const merged = Array.from(new Set([...prev, ...notifs.filter((n) => !n.mayChuId).map((n) => n.id)]));
         localStorage.setItem(SEEN_KEY, JSON.stringify(merged.slice(-50)));
       } catch { /* ignore */ }
+      if (notifs.some((n) => n.mayChuId)) {
+        apiFetch('/notifications/me/read-all', { method: 'PATCH' }).catch(() => {});
+      }
       setUnread(0);
     }
   }
 
-  if (!hasChild) return null;
+  if (!hienChuong) return null;
 
   const size = compact ? 16 : 18;
   return (
@@ -170,6 +266,7 @@ export default function NotificationBell({ compact = false }: { compact?: boolea
                   <span className="min-w-0">
                     <span className="block text-sm font-bold text-slate-800">{n.title}</span>
                     {n.desc && <span className="block text-xs text-slate-500">{n.desc}</span>}
+                    {n.khi && <span className="mt-0.5 block text-[11px] font-medium text-slate-400">{n.khi}</span>}
                   </span>
                 </Link>
               ))

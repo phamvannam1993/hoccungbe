@@ -14,7 +14,8 @@ type Props = { grades: Grade[]; activeGrade: string; courses: ShopCourse[]; comb
 
 /** Thanh tiêu đề xanh giống Header.vue của app 3 Gốc. */
 export function ShopHeader({ title, backHref, children }: { title: string; backHref?: string; children?: React.ReactNode }) {
-  const { openActivate } = useShop();
+  /* Không còn nút "Nhập mã" ở đây. Đường vào ô nhập mã vẫn còn ở thẻ khoá học
+     (ShopView) và ở LessonMap, nên bỏ nút này không khoá mất tính năng. */
   const progress = useProgress();
   const totalStars = Object.values(progress).reduce((n, c) => n + Object.values(c).reduce((a, b) => a + b, 0), 0);
 
@@ -40,10 +41,6 @@ export function ShopHeader({ title, backHref, children }: { title: string; backH
           <img src={img('icon_point.png')} alt="" className="absolute -left-2 top-0 w-10" />
           <span className="w-full text-center text-lg font-extrabold text-[#ffa621]">{totalStars}</span>
         </div>
-        <button type="button" onClick={openActivate} className="flex shrink-0 items-center gap-1 rounded-full bg-white/15 py-1 pl-1 pr-3 text-sm font-extrabold hover:bg-white/25">
-          <img src={img('icon_store.png')} alt="" className="h-9 w-9" />
-          <span>Nhập mã</span>
-        </button>
       </div>
     </header>
   );

@@ -13,7 +13,8 @@ import NotificationBell from './NotificationBell';
 import HeaderStreak from './HeaderStreak';
 import StarWallet from './StarWallet';
 
-type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades' };
+/** `wideOnly`: chỉ hiện trên menu ngang từ 1280px (màn vừa không đủ chỗ; vẫn có trong menu mobile). */
+type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades'; wideOnly?: boolean };
 
 const GRADES = [1, 2, 3, 4, 5] as const;
 const SUBJECTS = [
@@ -22,7 +23,8 @@ const SUBJECTS = [
 ];
 
 const NAV_MENU: NavItem[] = [
-  { href: '/', label: 'Trang chủ' },
+  // Logo đã dẫn về trang chủ → ở màn 1024–1279px bỏ mục này để menu không chạm nút Đăng ký.
+  { href: '/', label: 'Trang chủ', wideOnly: true },
   { href: '/khoa-hoc', label: 'Lớp học', mega: 'grades' },
   {
     // Gom công cụ Toán vào một nhóm — danh sách lấy từ app/lib/congCuToan.ts
@@ -32,6 +34,17 @@ const NAV_MENU: NavItem[] = [
     children: [
       { href: '/hoc-toan', label: 'Tất cả công cụ Toán' },
       ...CONG_CU_TOAN.map((c) => ({ href: c.href, label: `${c.emoji} ${c.ten}` })),
+    ],
+  },
+  {
+    // Khu bán khóa Toán IQ (app/khoa-hoc-iq) — 12 khóa mỗi lớp, mở theo gói.
+    href: '/khoa-hoc-iq',
+    label: 'Toán IQ',
+    children: [
+      { href: '/khoa-hoc-iq', label: '🧠 Tất cả khóa Toán IQ' },
+      { href: '/khoa-hoc-iq?lop=lop-1', label: '1️⃣ Toán IQ lớp 1' },
+      { href: '/khoa-hoc-iq?lop=lop-2', label: '2️⃣ Toán IQ lớp 2' },
+      { href: '/khoa-hoc-iq?lop=lop-3', label: '3️⃣ Toán IQ lớp 3' },
     ],
   },
   { href: '/tro-choi', label: 'Game' },
@@ -193,7 +206,7 @@ export default function SiteHeader() {
               const isOpen = openMenu === item.href;
 
               return (
-                <div key={item.href} className="relative shrink-0">
+                <div key={item.href} className={`relative shrink-0 ${item.wideOnly ? 'hidden xl:block' : ''}`}>
                   <button
                     onClick={() => {
                       if (hasChildren) {

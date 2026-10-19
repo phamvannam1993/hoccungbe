@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { clearPendingInstall, INSTALL_EVENT, INSTALL_READY_EVENT, pendingInstall } from '../lib/pwa';
 
 type BIPEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
@@ -33,7 +34,9 @@ function isInAppBrowser(): boolean {
 
 export default function PWARegister() {
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
-  const [mode, setMode] = useState<'android' | 'ios' | null>(null);
+  // 'manual': trình duyệt chưa cho cài bằng 1 nút → hướng dẫn mở menu trình duyệt.
+  const [mode, setMode] = useState<'android' | 'ios' | 'manual' | null>(null);
+  const deferredRef = useRef<BIPEvent | null>(null);
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
@@ -66,15 +69,39 @@ export default function PWARegister() {
       }
     })();
 
-    // 2) Android/Chrome: bắt sự kiện cài để hiện nút "Cài ngay".
-    const onPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferred(e as BIPEvent);
+    // 2) Android/Chrome: sự kiện cài được bắt sớm ở <head> (layout.tsx) → lấy ra để hiện nút "Cài ngay".
+    const onPrompt = () => {
+      const ev = pendingInstall() as BIPEvent | null;
+      if (!ev) return;
+      setDeferred(ev);
+      deferredRef.current = ev;
       setMode('android');
       if (!dismissed) setHidden(false);
     };
-    window.addEventListener('beforeinstallprompt', onPrompt);
+    onPrompt(); // đã bắn trước khi component chạy
+    window.addEventListener(INSTALL_READY_EVENT, onPrompt);
     window.addEventListener('appinstalled', () => setHidden(true));
+
+    // 4) Bấm nút "Cài App" (FloatingActions): luôn hiện, kể cả khi trước đó đã tắt gợi ý.
+    const onInstallClick = () => {
+      const ev = deferredRef.current ?? (pendingInstall() as BIPEvent | null);
+      if (ev) {
+        // Chrome/Android/Edge/Samsung: mở thẳng hộp cài của trình duyệt.
+        setHidden(true);
+        ev.prompt()
+          .then(() => ev.userChoice)
+          .catch(() => {})
+          .finally(() => {
+            deferredRef.current = null;
+            clearPendingInstall();
+            setDeferred(null);
+          });
+        return;
+      }
+      setMode(isIOS() ? 'ios' : 'manual');
+      setHidden(false);
+    };
+    window.addEventListener(INSTALL_EVENT, onInstallClick);
 
     // 3) iOS: không có sự kiện → nếu chưa cài & chưa tắt, hiện hướng dẫn thủ công.
     if (!dismissed && isIOS() && !isStandalone()) {
@@ -84,11 +111,15 @@ export default function PWARegister() {
       }, 1200);
       return () => {
         clearTimeout(t);
-        window.removeEventListener('beforeinstallprompt', onPrompt);
+        window.removeEventListener(INSTALL_READY_EVENT, onPrompt);
+        window.removeEventListener(INSTALL_EVENT, onInstallClick);
       };
     }
 
-    return () => window.removeEventListener('beforeinstallprompt', onPrompt);
+    return () => {
+      window.removeEventListener(INSTALL_READY_EVENT, onPrompt);
+      window.removeEventListener(INSTALL_EVENT, onInstallClick);
+    };
   }, []);
 
   if (hidden || !mode) return null;
@@ -101,6 +132,7 @@ export default function PWARegister() {
     } catch {
       /* ignore */
     }
+    clearPendingInstall();
     setDeferred(null);
     setHidden(true);
   };
@@ -158,6 +190,30 @@ export default function PWARegister() {
               <b style={{ color: '#0f172a' }}>ở thanh Safari</b>, kéo xuống chọn <b style={{ color: '#0f172a' }}>“Thêm vào MH chính”</b>.
             </div>
           )}
+        </div>
+        <button
+          onClick={dismiss}
+          aria-label="Đóng"
+          style={{ flexShrink: 0, background: 'transparent', border: 'none', color: '#94a3b8', fontSize: 22, cursor: 'pointer', lineHeight: 1 }}
+        >
+          ×
+        </button>
+      </div>
+    );
+  }
+
+  // Trình duyệt chưa cho cài bằng 1 nút (Firefox, Safari trên máy tính, hoặc Chrome chưa sẵn sàng).
+  if (mode === 'manual') {
+    return (
+      <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" style={shell}>
+        <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên máy</div>
+          <div style={{ color: '#475569', fontSize: 12.5, lineHeight: 1.4 }}>
+            Mở menu trình duyệt <b style={{ color: '#0f172a' }}>⋮</b> →{' '}
+            <b style={{ color: '#0f172a' }}>“Cài đặt ứng dụng”</b> hoặc <b style={{ color: '#0f172a' }}>“Thêm vào màn hình chính”</b>. Dùng Chrome
+            để cài nhanh nhất.
+          </div>
         </div>
         <button
           onClick={dismiss}

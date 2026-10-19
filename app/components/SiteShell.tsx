@@ -4,6 +4,7 @@ import SiteHeader from './edu/SiteHeader';
 import Footer from './edu/Footer';
 import BottomNav from './edu/BottomNav';
 import Mascot from './edu/Mascot';
+import FloatingActions from './FloatingActions';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,7 +22,15 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     segments[0] === 'phieu-bai-tap' && segments.length >= 2 && segments[1] !== 'lop';
   // Khu bán khóa học /khoa-hoc-iq có giao diện riêng, không dùng header/footer chung.
   const isStandaloneShop = segments[0] === 'khoa-hoc-iq';
-  if (isAdmin || isWorksheet || isStandaloneShop) return <>{children}</>;
+  if (isAdmin || isWorksheet) return <>{children}</>;
+  // Khu Toán IQ: chỉ thêm cụm nút nổi ở trang bán / bản đồ khóa, ẩn khi đang làm bài (/khoa-hoc-iq/<khóa>/<bài>).
+  if (isStandaloneShop)
+    return (
+      <>
+        {children}
+        {segments.length < 3 && <FloatingActions />}
+      </>
+    );
   return (
     <>
       <SiteHeader />
@@ -32,6 +41,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       {!isQuizPlay && <Footer />}
       <BottomNav />
       {!isQuizPlay && <Mascot />}
+      {!isQuizPlay && <FloatingActions />}
     </>
   );
 }

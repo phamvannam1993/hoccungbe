@@ -36,7 +36,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
       unlocked={unlocked}
       expiresAt={expiresAt}
       needUnlock={needUnlock}
-      comboTitle={combos.find((c) => c.grade === course.grade)?.title}
+      combo={combos.find((c) => c.grade === course.grade)}
     />
   );
 }

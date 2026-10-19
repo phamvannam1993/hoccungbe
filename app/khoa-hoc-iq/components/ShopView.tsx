@@ -69,6 +69,9 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
   const totalLessons = courses.reduce((n, c) => n + c.lessonIds.length, 0);
   const gradeTitle = grades.find((g) => g.id === activeGrade)?.title ?? '';
   const ownedAll = courses.length > 0 && courses.every((c) => c.unlocked);
+  // Mua / gia hạn ở từng thẻ khóa = mua trọn lớp (giá thử nghiệm bằng 1 khóa).
+  const buyGrade = (prefix = '') =>
+    combo && openBuy({ title: `${prefix}${combo.title}`, price: combo.price, codePrefix: combo.codePrefix });
 
   return (
     <div className="min-h-screen bg-white pb-16">
@@ -206,7 +209,7 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                           Học đến {formatDate(c.expiresAt)}
                           <button
                             type="button"
-                            onClick={() => openBuy({ title: `Gia hạn khóa ${c.number} ${gradeTitle.toLowerCase()}: ${c.title}`, price: c.price, codePrefix: c.codePrefix })}
+                            onClick={() => buyGrade('Gia hạn ')}
                             className="ml-auto font-extrabold text-[#1d9bbd] underline"
                           >
                             Gia hạn
@@ -219,12 +222,12 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                     </>
                   ) : (
                     <>
+                      {/* Thử nghiệm giá: chỉ bán trọn lớp (cùng giá 1 khóa) — khóa lẻ không bán riêng nữa. */}
                       <p className="mt-2 flex items-baseline gap-2">
-                        <span className="text-base font-bold text-[#e34a4a]">
-                          {formatVnd(c.price).replace('đ', ' VNĐ')}
-                          <span className="text-xs text-slate-500"> / {ACCESS_LABEL}</span>
+                        <span className="text-xs font-bold text-slate-500">
+                          Trọn {combo ? 'lớp' : 'khóa'}{' '}
+                          <span className="text-base text-[#e34a4a]">{formatVnd(combo?.price ?? c.price).replace('đ', ' VNĐ')}</span> / {ACCESS_LABEL}
                         </span>
-                        {c.oldPrice && <span className="text-xs text-slate-400 line-through">{formatVnd(c.oldPrice)}</span>}
                         <Link href={href} className="ml-auto text-xs font-extrabold text-[#1d9bbd] underline">
                           Học thử bài 1
                         </Link>
@@ -232,10 +235,10 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                       <div className="mt-3 flex gap-2">
                         <button
                           type="button"
-                          onClick={() => openBuy({ title: `Khóa ${c.number} ${gradeTitle.toLowerCase()}: ${c.title}`, price: c.price, codePrefix: c.codePrefix })}
+                          onClick={() => buyGrade()}
                           className="khv-btn-buy flex-1"
                         >
-                          Mua ngay
+                          Mua trọn lớp
                         </button>
                         <button type="button" onClick={openActivate} className="khv-btn-active flex-1">
                           Kích hoạt

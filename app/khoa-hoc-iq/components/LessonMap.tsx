@@ -3,13 +3,13 @@
 /* eslint-disable @next/next/no-img-element -- ảnh giao diện tĩnh, nhỏ */
 import Link from 'next/link';
 import { useRef } from 'react';
-import type { Course, LessonSummary } from '../lib/types';
+import type { Combo, Course, LessonSummary } from '../lib/types';
 import { img } from '../lib/assets';
 import { useProgress } from '../lib/progress';
 import { ACCESS_LABEL, formatDate, formatVnd, useShop } from './ShopProvider';
 import { ShopHeader } from './ShopView';
 
-type Props = { course: Course; lessons: LessonSummary[]; unlocked: boolean; expiresAt: number | null; needUnlock: boolean; comboTitle?: string };
+type Props = { course: Course; lessons: LessonSummary[]; unlocked: boolean; expiresAt: number | null; needUnlock: boolean; combo?: Combo };
 
 // Bố cục bản đồ giống HomePage.vue của app 3 Gốc
 const GAP_X = 220;
@@ -24,7 +24,7 @@ function wave(a: { x: number; y: number }, b: { x: number; y: number }) {
   return `M${a.x},${a.y} C${a.x + dx * 0.33},${a.y + off} ${b.x - dx * 0.33},${b.y + off} ${b.x},${b.y}`;
 }
 
-export default function LessonMap({ course, lessons, unlocked, expiresAt, needUnlock, comboTitle }: Props) {
+export default function LessonMap({ course, lessons, unlocked, expiresAt, needUnlock, combo }: Props) {
   const { openBuy, openActivate } = useShop();
   const progress = useProgress()[course.slug] ?? {};
   const scroller = useRef<HTMLDivElement>(null);
@@ -38,7 +38,12 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
   const width = START_X * 2 + Math.max(0, lessons.length - 1) * GAP_X;
 
   const shopHref = `/khoa-hoc-iq?lop=${course.grade}`;
-  const buyCourse = () => openBuy({ title: `Khóa ${course.number} ${(course.subject.split('|')[1] ?? '').toLowerCase()}: ${course.title}`, price: course.price, codePrefix: course.codePrefix });
+  // Thử nghiệm giá: mở khóa = mua trọn lớp (cùng giá 1 khóa); không có gói lớp thì mua khóa lẻ.
+  const buyCourse = () =>
+    combo
+      ? openBuy({ title: combo.title, price: combo.price, codePrefix: combo.codePrefix })
+      : openBuy({ title: `Khóa ${course.number} ${(course.subject.split('|')[1] ?? '').toLowerCase()}: ${course.title}`, price: course.price, codePrefix: course.codePrefix });
+  const price = combo?.price ?? course.price;
   const scrollBy = (dx: number) => scroller.current?.scrollBy({ left: dx, behavior: 'smooth' });
 
   return (
@@ -205,21 +210,22 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
           ) : (
             <div className="mt-5">
               <p className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-[#e34a4a]">{formatVnd(course.price)}</span>
+                <span className="text-2xl font-black text-[#e34a4a]">{formatVnd(price)}</span>
                 <span className="text-sm font-bold text-slate-500">/ {ACCESS_LABEL}</span>
-                {course.oldPrice && <span className="text-slate-400 line-through">{formatVnd(course.oldPrice)}</span>}
+                {combo?.oldPrice && <span className="text-slate-400 line-through">{formatVnd(combo.oldPrice)}</span>}
               </p>
+              {combo && <p className="mt-1 text-sm font-bold text-[#1f7a93]">Mở trọn {combo.title.replace(/^Trọn bộ /, '')} — bé học được cả 12 khóa.</p>}
               <div className="mt-3 flex gap-2">
                 <button type="button" onClick={buyCourse} className="khv-btn-buy flex-1">
-                  Mua ngay
+                  {combo ? 'Mua trọn lớp' : 'Mua ngay'}
                 </button>
                 <button type="button" onClick={openActivate} className="khv-btn-active flex-1">
                   Kích hoạt
                 </button>
               </div>
-              {comboTitle && (
+              {combo && (
                 <Link href={shopHref} className="mt-3 block text-center text-sm font-bold text-[#1d9bbd] underline">
-                  Hoặc xem gói {comboTitle} →
+                  Xem 12 khóa trong gói →
                 </Link>
               )}
             </div>

@@ -23,12 +23,13 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // Khu bán khóa học /khoa-hoc-iq có giao diện riêng, không dùng header/footer chung.
   const isStandaloneShop = segments[0] === 'khoa-hoc-iq';
   if (isAdmin || isWorksheet) return <>{children}</>;
-  // Khu Toán IQ: chỉ thêm cụm nút nổi ở trang bán / bản đồ khóa, ẩn khi đang làm bài (/khoa-hoc-iq/<khóa>/<bài>).
+  // Khu Toán IQ: cụm nút nổi chỉ ở trang bán /khoa-hoc-iq — trang bản đồ khóa có cột mua bên phải (nút nổi
+  // sẽ che nút Mua / Kích hoạt), trang bài học cần trọn màn hình.
   if (isStandaloneShop)
     return (
       <>
         {children}
-        {segments.length < 3 && <FloatingActions />}
+        {segments.length === 1 && <FloatingActions />}
       </>
     );
   return (

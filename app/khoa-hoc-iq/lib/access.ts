@@ -166,6 +166,9 @@ export type Order = {
   adminNote: string | null;
   expiresAt: string | null;
   createdAt: string;
+  /** payOS: trang thanh toán và chuỗi VietQR (có khi đã cấu hình payOS). */
+  checkoutUrl?: string | null;
+  qrCode?: string | null;
 };
 
 /** Tên + giá gói theo bảng giá phía web (không tin số tiền từ trình duyệt). */

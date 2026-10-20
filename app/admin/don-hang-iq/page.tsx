@@ -20,6 +20,8 @@ type Order = {
   reviewedBy: string | null;
   reviewedAt: string | null;
   createdAt: string;
+  paidAt?: string | null;
+  payRef?: string | null;
 };
 type ListResult = { items: Order[]; total: number; page: number; limit: number; pending: number };
 
@@ -69,6 +71,23 @@ export default function IqOrdersAdminPage() {
   const [reload, setReload] = useState(0);
 
   const refresh = useCallback(() => setReload((n) => n + 1), []);
+  const [payos, setPayos] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    apiFetch<{ configured: boolean }>('/iq-orders/payos/status')
+      .then((r) => setPayos(r.configured))
+      .catch(() => setPayos(null));
+  }, []);
+
+  async function confirmWebhook() {
+    try {
+      const r = await apiFetch<{ ok: boolean; url: string; desc: string }>('/iq-orders/payos/confirm-webhook', { method: 'POST', body: '{}' });
+      if (r.ok) toast.success(`Đã đăng ký webhook: ${r.url}`);
+      else toast.error(`payOS từ chối: ${r.desc || 'kiểm tra lại khóa và URL'}`);
+    } catch (e) {
+      toast.error('Không đăng ký được: ' + errMsg(e));
+    }
+  }
 
   useEffect(() => {
     const params = new URLSearchParams({ page: String(page), limit: String(LIMIT) });
@@ -146,6 +165,22 @@ export default function IqOrdersAdminPage() {
         </p>
       </div>
 
+      <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+        <span className="font-bold text-slate-700">💳 payOS:</span>
+        {payos === null ? (
+          <span className="text-slate-400">không rõ (backend chưa có API payOS)</span>
+        ) : payos ? (
+          <span className="font-bold text-emerald-600">đã cấu hình — tiền về là đơn tự duyệt</span>
+        ) : (
+          <span className="text-amber-600">chưa cấu hình (thêm PAYOS_CLIENT_ID / PAYOS_API_KEY / PAYOS_CHECKSUM_KEY vào .env của api-hoccungbe)</span>
+        )}
+        {payos && (
+          <button onClick={confirmWebhook} className="ml-auto rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-900">
+            Đăng ký webhook với payOS
+          </button>
+        )}
+      </div>
+
       <div className="mb-4 flex flex-wrap items-center gap-2">
         {TABS.map((t) => (
           <button
@@ -219,6 +254,11 @@ export default function IqOrdersAdminPage() {
                     <td className="pr-3">
                       <span className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS[o.status].cls}`}>{STATUS[o.status].label}</span>
                       {o.status === 'approved' && <div className="mt-1 text-xs text-slate-500">Học đến {fmtDay(o.expiresAt)}</div>}
+                      {o.paidAt && (
+                        <div className="mt-1 text-xs font-bold text-emerald-600">
+                          💳 Đã thanh toán qua payOS{o.payRef ? ` · ${o.payRef}` : ''}
+                        </div>
+                      )}
                       {o.adminNote && <div className="mt-1 max-w-48 text-xs text-slate-500">{o.adminNote}</div>}
                       {o.reviewedBy && <div className="text-[11px] text-slate-400">{o.reviewedBy} · {fmtDate(o.reviewedAt)}</div>}
                     </td>

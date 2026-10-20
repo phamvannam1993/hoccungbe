@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import ShopProvider from './components/ShopProvider';
 import IconOverrides from './components/IconOverrides';
 import AccessSync from './components/AccessSync';
+import PaymentReturn from './components/PaymentReturn';
 import { getIconOverrides } from './lib/icons-server';
 import { shopInfo } from './lib/catalog';
 import './khoa-hoc-iq.css';
@@ -26,6 +27,7 @@ export default async function KhoaHocVuiLayout({ children }: { children: React.R
         <ShopProvider shop={shopInfo}>{children}</ShopProvider>
         <Suspense fallback={null}>
           <AccessSync />
+          <PaymentReturn />
         </Suspense>
       </IconOverrides>
     </div>

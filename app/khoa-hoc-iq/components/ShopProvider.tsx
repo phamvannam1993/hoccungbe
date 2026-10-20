@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { activateCode, checkOrder, createOrder, type ActivateState, type OrderState } from '../actions';
 import type { ShopInfo } from '../lib/types';
 import { img } from '../lib/assets';
+import PayosQR from './PayosQR';
 import { authHref, getAccountToken, getAccountUser } from '../lib/account';
 
 export type BuyTarget = { title: string; price: number; codePrefix: string };
@@ -70,6 +71,8 @@ function Modal({ onClose, children }: { onClose: () => void; children: React.Rea
 const transferNote = (code: string) => code.replace(/-/g, ' ');
 
 const POLL_MS = 10_000;
+/** Có payOS (tự xác nhận) → kiểm tra dày hơn để khóa mở ngay sau khi chuyển khoản. */
+const POLL_PAYOS_MS = 5_000;
 
 function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; target: BuyTarget; onClose: () => void; onActivate: () => void }) {
   const router = useRouter();
@@ -84,7 +87,12 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
     if (!token) return;
     let alive = true;
     createOrder(target.codePrefix, token)
-      .then((r) => alive && setState(r))
+      .then((r) => {
+        if (!alive) return;
+        setState(r);
+        // Có payOS → sang thẳng trang thanh toán payOS (thanh toán xong payOS đưa về site, PaymentReturn mở khóa).
+        if (r.ok && r.order.status === 'pending' && r.order.checkoutUrl) window.location.assign(r.order.checkoutUrl);
+      })
       .catch(() => alive && setState({ ok: false, message: 'Hệ thống đang bận, bố mẹ thử lại sau ít phút nhé.' }));
     return () => {
       alive = false;
@@ -109,7 +117,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           }
         })
         .catch(() => {});
-    }, POLL_MS);
+    }, order.qrCode || order.checkoutUrl ? POLL_PAYOS_MS : POLL_MS);
     return () => {
       alive = false;
       clearInterval(timer);
@@ -152,11 +160,19 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
     );
   }
 
-  if (!state) {
+  if (!state || (state.ok && state.order.status === 'pending' && state.order.checkoutUrl)) {
     return (
       <Modal onClose={onClose}>
         {header}
-        <p className="mt-6 text-center text-slate-500">Đang tạo đơn…</p>
+        <p className="mt-6 flex items-center justify-center gap-2 text-center font-bold text-slate-600">
+          <span className="khv-pulse inline-block h-2.5 w-2.5 rounded-full bg-sky-500" />
+          {state ? 'Đang chuyển sang trang thanh toán payOS…' : 'Đang tạo đơn…'}
+        </p>
+        {state?.ok && state.order.checkoutUrl && (
+          <a href={state.order.checkoutUrl} className="mt-4 block text-center text-sm font-bold text-sky-600 underline">
+            Không tự chuyển? Bấm vào đây
+          </a>
+        )}
       </Modal>
     );
   }
@@ -202,6 +218,40 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
   }
 
   const note = transferNote(order.code);
+
+  // payOS: QR + trang thanh toán; tiền về là khóa tự mở (không cần admin).
+  if (order.qrCode || order.checkoutUrl) {
+    return (
+      <Modal onClose={onClose}>
+        {header}
+        <div className="mt-4 flex flex-col items-center rounded-2xl bg-slate-50 p-4 text-center">
+          {order.qrCode && <PayosQR value={order.qrCode} size={200} />}
+          <p className="mt-3 text-sm font-bold text-slate-700">Quét mã bằng app ngân hàng bất kỳ — đã điền sẵn số tiền và nội dung.</p>
+          <p className="mt-1 text-xs text-slate-500">
+            Nội dung chuyển khoản: <b className="font-mono text-sky-700">{note}</b> (cũng là mã kích hoạt)
+          </p>
+          {order.checkoutUrl && (
+            <a href={order.checkoutUrl} target="_blank" rel="noopener noreferrer" className="khv-btn-active mt-4 block w-full px-4 text-center">
+              Mở trang thanh toán payOS
+            </a>
+          )}
+        </div>
+        <p className="mt-4 text-center text-sm text-slate-600">
+          Chuyển khoản xong, khóa học <b>tự mở trong vài giây</b> — học {ACCESS_LABEL} tính từ lúc kích hoạt. Không cần gửi ảnh chuyển khoản.
+        </p>
+        <p className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-amber-50 py-2 text-sm font-bold text-amber-700">
+          <span className="khv-pulse inline-block h-2 w-2 rounded-full bg-amber-500" /> Đang chờ thanh toán…
+        </p>
+        <p className="mt-3 text-center text-xs text-slate-400">
+          Cần hỗ trợ? Zalo{' '}
+          <a href={`https://zalo.me/${shop.zalo}`} target="_blank" rel="noreferrer" className="font-bold text-sky-600 underline">
+            {shop.zalo}
+          </a>
+        </p>
+      </Modal>
+    );
+  }
+
   const qr = `https://img.vietqr.io/image/${shop.bankId}-${shop.accountNumber}-compact2.png?amount=${order.amount}&addInfo=${encodeURIComponent(note)}&accountName=${encodeURIComponent(shop.accountName)}`;
 
   return (

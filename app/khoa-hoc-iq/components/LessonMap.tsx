@@ -200,6 +200,13 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
               <li key={h}>✅ {h}</li>
             ))}
           </ul>
+          {/* Phiếu bài tập in (PDF): đã mua in cả 5 bài; chưa mua in thử Bài 1. */}
+          <Link
+            href={`/khoa-hoc-iq/in/${course.slug}`}
+            className="mt-4 flex items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#1d9bbd] bg-[#e6f6fb] px-4 py-2.5 text-sm font-extrabold text-[#1f7a93] transition hover:bg-[#d3eef7]"
+          >
+            🖨 {unlocked ? 'In phiếu bài tập (PDF)' : 'In thử phiếu Bài 1 (PDF)'}
+          </Link>
           {unlocked ? (
             <div className="mt-5 rounded-2xl bg-[#e6f6fb] p-4 text-center font-bold text-[#1f7a93]">
               🎉 Bé học được khóa này{expiresAt ? ` đến hết ngày ${formatDate(expiresAt)}` : ''}

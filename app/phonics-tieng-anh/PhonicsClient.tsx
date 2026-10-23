@@ -3,7 +3,13 @@
 import { useEffect, useState } from 'react';
 import { PHONICS_GROUPS } from '../lib/phonics';
 import { ENGLISH_ALPHABET } from '../lib/englishAlphabet';
-import { speakEnThenVi, speakEnglish, soundOutWord, unlockAudio, stopSpeaking } from '../components/edu/utils/speech';
+import WordFamilyFlower from './WordFamilyFlower';
+import CvcCard from './CvcCard';
+import PhonicsPic, { PhonicsImagesProvider } from './PhonicsPic';
+import type { VocabFallback } from '../lib/phonicsWords';
+import PhonicsQuiz from './PhonicsQuiz';
+import DigraphCards from './DigraphCards';
+import { speakEnThenVi, speakEnglish, unlockAudio, stopSpeaking } from '../components/edu/utils/speech';
 
 const LETTER_COLORS = [
   { card: 'border-pink-200 bg-pink-50', big: 'text-pink-600', chip: 'bg-pink-100 text-pink-700' },
@@ -14,17 +20,18 @@ const LETTER_COLORS = [
   { card: 'border-orange-200 bg-orange-50', big: 'text-orange-600', chip: 'bg-orange-100 text-orange-700' },
 ];
 
-export default function PhonicsClient() {
-  const [view, setView] = useState<'letters' | 'blend'>('letters');
+export default function PhonicsClient({ imageFallback }: { imageFallback: VocabFallback }) {
+  const [view, setView] = useState<'letters' | 'blend' | 'family' | 'digraph'>('letters');
   const [gi, setGi] = useState(0);
   const group = PHONICS_GROUPS[gi];
 
   useEffect(() => () => stopSpeaking(), []);
 
   return (
+    <PhonicsImagesProvider fallback={imageFallback}>
     <div className="mt-6">
       {/* Chuyển chế độ: âm chữ cái ↔ ghép vần */}
-      <div className="inline-flex rounded-full bg-white p-1 shadow-sm ring-1 ring-slate-100">
+      <div className="inline-flex flex-wrap rounded-3xl bg-white p-1 shadow-sm ring-1 ring-slate-100">
         <button
           type="button"
           onClick={() => { unlockAudio(); setView('letters'); }}
@@ -39,9 +46,27 @@ export default function PhonicsClient() {
         >
           🧩 Ghép vần (CVC)
         </button>
+        <button
+          type="button"
+          onClick={() => { unlockAudio(); setView('family'); }}
+          className={`rounded-full px-5 py-2 text-sm font-black transition ${view === 'family' ? 'bg-gradient-to-r from-emerald-500 to-lime-500 text-white shadow' : 'text-slate-500 hover:text-slate-700'}`}
+        >
+          🌸 Họ từ (Word Family)
+        </button>
+        <button
+          type="button"
+          onClick={() => { unlockAudio(); setView('digraph'); }}
+          className={`rounded-full px-5 py-2 text-sm font-black transition ${view === 'digraph' ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow' : 'text-slate-500 hover:text-slate-700'}`}
+        >
+          🐳 Âm ghép & nhóm âm
+        </button>
       </div>
 
-      {view === 'letters' ? (
+      {view === 'digraph' ? (
+        <DigraphCards />
+      ) : view === 'family' ? (
+        <WordFamilyFlower />
+      ) : view === 'letters' ? (
         <>
           <div className="mt-3 rounded-2xl bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700">
             Mỗi chữ cái có một <b>âm</b> riêng khi đọc. Bấm chữ để nghe <b>âm + từ mẫu</b> (ví dụ B → /b/ như trong “ball”).
@@ -59,7 +84,7 @@ export default function PhonicsClient() {
                   >
                     <span className={`text-5xl font-black leading-none ${c.big}`}>{l.upper}{l.lower}</span>
                     <span className={`mt-1 rounded-full px-2.5 py-0.5 text-xs font-black ${c.chip}`}>âm {l.sound}</span>
-                    <span className="mt-1 text-3xl" aria-hidden>{l.emoji}</span>
+                    <span className="mt-1 text-3xl" aria-hidden><PhonicsPic word={l.word} emoji={l.emoji} /></span>
                     <span className="font-black text-slate-800">{l.word}</span>
                     <span className="text-sm font-semibold text-emerald-600">{l.vi}</span>
                   </button>
@@ -92,39 +117,30 @@ export default function PhonicsClient() {
           </div>
 
           <div className="mt-3 rounded-2xl bg-pink-50 px-4 py-2 text-sm font-semibold text-pink-700">
-            {group.label} · {group.sound} — bấm từ để nghe, bấm 🐢 để nghe <b>đánh vần chậm</b> rồi đọc thường.
+            {group.label} · {group.sound} · {group.words.length} từ — bấm <b>🔡 Đánh vần</b> để thấy từng âm tiếng Anh (/s/ – /ʌ/ – /n/) rồi ghép thành từ. Phiên
+            âm theo <b>giọng Anh-Mỹ</b>, giống giọng đọc.
           </div>
 
-          <ul className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {group.words.map((w) => (
-              <li key={w.word} className="flex flex-col gap-3 rounded-3xl border-2 border-sky-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                <button
-                  type="button"
-                  onClick={() => { unlockAudio(); speakEnThenVi(w.word, w.vi); }}
-                  className="flex flex-col items-center gap-1"
-                  aria-label={`Nghe từ ${w.word}`}
-                >
-                  <span className="text-5xl" aria-hidden>{w.emoji}</span>
-                  <span className="mt-1 flex gap-0.5 text-4xl font-black tracking-tight">
-                    {w.letters.map((ch, i) => (
-                      <span key={i} className={i === 1 ? 'text-pink-500' : 'text-slate-800'}>{ch}</span>
-                    ))}
-                  </span>
-                  <span className="text-sm font-semibold text-slate-400">{w.hint}</span>
-                  <span className="text-sm font-bold text-emerald-600">{w.vi}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { unlockAudio(); soundOutWord(w.word); }}
-                  className="mt-auto rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-3 py-1.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
-                >
-                  🐢 Đánh vần
-                </button>
-              </li>
+          <ul className="mt-5 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            {group.words.filter((w) => !w.adv).map((w) => (
+              <CvcCard key={w.word} w={w} />
             ))}
           </ul>
+
+          {/* Từ khó minh họa bằng hình (fed, got, but…): học sau, không vào quiz */}
+          <h3 className="mt-8 text-lg font-black text-slate-800">
+            🚀 Nâng cao <span className="text-sm font-bold text-slate-400">· {group.words.filter((w) => w.adv).length} từ khó vẽ thành hình — bé đọc theo âm là chính</span>
+          </h3>
+          <ul className="mt-3 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            {group.words.filter((w) => w.adv).map((w) => (
+              <CvcCard key={w.word} w={w} />
+            ))}
+          </ul>
+
+          <PhonicsQuiz key={group.slug} group={group} />
         </>
       )}
     </div>
+    </PhonicsImagesProvider>
   );
 }

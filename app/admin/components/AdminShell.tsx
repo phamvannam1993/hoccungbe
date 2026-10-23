@@ -41,6 +41,7 @@ const navItems = [
   { href: '/admin/categories', label: '🏷️ Danh Mục', icon: Tag },
   { href: '/admin/vocabulary', label: '🔤 Từ vựng tiếng Anh', icon: Languages },
   { href: '/admin/am-van', label: '🎡 Ảnh vòng tròn âm vần', icon: Languages },
+  { href: '/admin/phonics-images', label: '🔉 Ảnh Phonics', icon: ImageIcon },
   { href: '/admin/iq-icons', label: '🧠 Icon Toán IQ', icon: ImageIcon },
   { href: '/admin/iq-emoji', label: '🟥 Emoji Toán IQ', icon: ImageIcon },
   { href: '/admin/don-hang-iq', label: '🛒 Đơn hàng Toán IQ', icon: CreditCard },

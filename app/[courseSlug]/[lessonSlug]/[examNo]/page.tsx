@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ExamPage from '../../../components/edu/ExamPage';
+import PackUpsell from '../../../components/upsell/PackUpsell';
+import { hk1PackFor } from '../../../goi-tai-lieu/packs';
 import {
   SUBJECT_LABEL,
   courseLabel,
@@ -126,6 +128,11 @@ export default async function Page({ params }: Props) {
       </section>
 
       <ExamPage slug={r.slug} />
+      {r.group.semester === 1 && hk1PackFor(r.course.grade, r.course.subject) && (
+        <div className="mx-auto w-full max-w-3xl px-4 pt-6">
+          <PackUpsell slug={hk1PackFor(r.course.grade, r.course.subject)!.slug} spot="lam-de-thi" title={`Tải trọn bộ đề ôn thi HK1 lớp ${r.course.grade} để in`} />
+        </div>
+      )}
 
       <section className="mx-auto mt-6 w-full max-w-3xl px-4 pb-8 text-sm font-semibold">
         <Link href={`/${courseSlug}/${lessonSlug}`} className="text-sky-700 hover:underline">← Xem tất cả đề {r.group.short.toLowerCase()} {cLabel}</Link>

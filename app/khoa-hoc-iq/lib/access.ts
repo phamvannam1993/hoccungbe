@@ -16,6 +16,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { cookies } from 'next/headers';
 import testCodes from '../data/test-codes.json';
 import { comboForPrefix, courses, grades, slugsForPrefix } from './catalog';
+import { packForPrefix } from '../../goi-tai-lieu/packs';
 
 export const ACCESS_COOKIE = 'khv_access';
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -173,6 +174,8 @@ export type Order = {
 
 /** Tên + giá gói theo bảng giá phía web (không tin số tiền từ trình duyệt). */
 export function packageInfo(prefix: string): { title: string; price: number } | null {
+  const pack = packForPrefix(prefix);
+  if (pack) return { title: pack.title, price: pack.price };
   const hit = comboForPrefix(prefix);
   if (hit?.yearly) return { title: `${hit.combo.title} · gói 12 tháng`, price: hit.combo.yearlyPrice! };
   if (hit) return { title: hit.combo.title, price: hit.combo.price };

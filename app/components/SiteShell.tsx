@@ -20,9 +20,11 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   // trang duyệt bình thường → vẫn cần header/footer.
   const isWorksheet =
     segments[0] === 'phieu-bai-tap' && segments.length >= 2 && segments[1] !== 'lop';
+  // Bản in của gói tài liệu (/goi-tai-lieu/{gói}) cũng in ra giấy; trang danh sách gói vẫn có header/footer.
+  const isPackPrint = segments[0] === 'goi-tai-lieu' && segments.length >= 2;
   // Khu bán khóa học /khoa-hoc-iq có giao diện riêng, không dùng header/footer chung.
   const isStandaloneShop = segments[0] === 'khoa-hoc-iq';
-  if (isAdmin || isWorksheet) return <>{children}</>;
+  if (isAdmin || isWorksheet || isPackPrint) return <>{children}</>;
   // Khu Toán IQ: cụm nút nổi chỉ ở trang bán /khoa-hoc-iq — trang bản đồ khóa có cột mua bên phải (nút nổi
   // sẽ che nút Mua / Kích hoạt), trang bài học cần trọn màn hình.
   if (isStandaloneShop)

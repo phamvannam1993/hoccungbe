@@ -76,6 +76,7 @@ import th34 from '../data/theory/iq3-to-hop-dem-cach.json';
 import th35 from '../data/theory/iq3-giai-quyet-van-de.json';
 import th36 from '../data/theory/iq3-sieu-thu-thach.json';
 import type { Combo, Course, Grade, Lesson, LessonSummary, Question, ShopInfo, Theory, Tile } from './types';
+import { packForPrefix, packKey } from '../../goi-tai-lieu/packs';
 
 const LESSON_FILES: Record<string, unknown> = {
   // Lớp 1
@@ -313,6 +314,8 @@ export function comboForPrefix(prefix: string): { combo: Combo; yearly: boolean 
 
 /** Mã tiền tố → danh sách slug khóa được mở. */
 export function slugsForPrefix(prefix: string): string[] {
+  const pack = packForPrefix(prefix);
+  if (pack) return [packKey(pack.slug)];
   const combo = comboForPrefix(prefix)?.combo;
   if (combo) return getCoursesByGrade(combo.grade).map((c) => c.slug);
   const course = courses.find((c) => c.codePrefix === prefix);

@@ -299,9 +299,21 @@ export function summarizeLessons(course: Course, unlocked: boolean): LessonSumma
   });
 }
 
+/** Đuôi mã gói năm của combo ('L2ALL' → 'L2ALLY'), khớp planOf ở api-hoccungbe. */
+export const YEARLY_SUFFIX = 'Y';
+
+/** Combo theo mã gói tháng hoặc gói năm; `yearly` = mã gói năm. */
+export function comboForPrefix(prefix: string): { combo: Combo; yearly: boolean } | null {
+  for (const combo of combos) {
+    if (combo.codePrefix === prefix) return { combo, yearly: false };
+    if (combo.yearlyPrice && combo.codePrefix + YEARLY_SUFFIX === prefix) return { combo, yearly: true };
+  }
+  return null;
+}
+
 /** Mã tiền tố → danh sách slug khóa được mở. */
 export function slugsForPrefix(prefix: string): string[] {
-  const combo = combos.find((c) => c.codePrefix === prefix);
+  const combo = comboForPrefix(prefix)?.combo;
   if (combo) return getCoursesByGrade(combo.grade).map((c) => c.slug);
   const course = courses.find((c) => c.codePrefix === prefix);
   return course ? [course.slug] : [];

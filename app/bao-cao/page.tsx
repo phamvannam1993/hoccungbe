@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { KidShell, KidCrumb, KidHero } from '../components/seo/kid';
 import BaoCaoClient from './BaoCaoClient';
+import IqUpsell from '../components/upsell/IqUpsell';
 
 export const revalidate = 86400;
 
@@ -41,6 +42,12 @@ export default function Page() {
         }
       />
       <BaoCaoClient />
+      <IqUpsell
+        spot="bao-cao"
+        className="mt-6"
+        title="Muốn bé tiến bộ nhanh hơn ở môn Toán?"
+        body="Toán IQ trọn lớp có 12 khóa, 60 bài thử thách tư duy, tự chấm và giải thích từng bước."
+      />
     </KidShell>
   );
 }

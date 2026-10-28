@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import LessonPlayer from '../../components/LessonPlayer';
+import IqUpsell from '../../../components/upsell/IqUpsell';
 import { getUnlockedSlugs } from '../../lib/access';
 import { getCourse, getLessons, isFreeLesson } from '../../lib/catalog';
 
@@ -40,6 +41,17 @@ export default async function LessonPage({ params }: Props) {
       lessonNumber={index + 1}
       totalLessons={lessons.length}
       nextLesson={next ? { id: next.id, title: next.title, locked: !unlocked && !isFreeLesson(course, index + 1) } : null}
+      upsell={
+        unlocked ? undefined : (
+          <IqUpsell
+            spot="cuoi-bai-hoc"
+            href={`/khoa-hoc-iq/${slug}?mo-khoa=1`}
+            title={`Bé vừa xong bài ${index + 1}! Còn ${lessons.length - index - 1} bài của khóa này và 11 khóa nữa`}
+            body="Mở trọn lớp để bé học tiếp cả 60 bài thử thách, kèm phiếu bài tập in PDF có đáp án."
+            cta="Mở khóa"
+          />
+        )
+      }
     />
   );
 }

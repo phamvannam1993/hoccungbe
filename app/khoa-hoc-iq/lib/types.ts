@@ -166,6 +166,9 @@ export type Combo = {
   subtitle: string;
   price: number;
   oldPrice?: number;
+  /** Gói 12 tháng: mã gói = codePrefix + 'Y' (api-hoccungbe planOf). */
+  yearlyPrice?: number;
+  yearlyOldPrice?: number;
   codePrefix: string;
 };
 

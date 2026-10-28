@@ -22,6 +22,8 @@ type Props = {
   lessonNumber: number;
   totalLessons: number;
   nextLesson: { id: string; title: string; locked: boolean } | null;
+  /** Lời mời mở khóa hiện dưới bảng kết quả (chỉ truyền khi khóa chưa mở). */
+  upsell?: React.ReactNode;
 };
 
 type Result = 'correct' | 'wrong' | 'timeout';
@@ -38,7 +40,7 @@ function starsFor(correct: number, total: number) {
 
 const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
-export default function LessonPlayer({ courseSlug, courseTitle, subject, lesson, lessonNumber, totalLessons, nextLesson }: Props) {
+export default function LessonPlayer({ courseSlug, courseTitle, subject, lesson, lessonNumber, totalLessons, nextLesson, upsell }: Props) {
   const questions = lesson.questions;
   const total = questions.length;
   const mapHref = `/khoa-hoc-iq/${courseSlug}`;
@@ -341,6 +343,7 @@ export default function LessonPlayer({ courseSlug, courseTitle, subject, lesson,
               </div>
             </div>
           </div>
+          {upsell && <div className="mt-5">{upsell}</div>}
         </div>
       </div>
     );

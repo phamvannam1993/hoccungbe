@@ -32,25 +32,31 @@
       "grade": "lop-1",
       "title": "Trọn bộ 12 khóa Toán IQ lớp 1",
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
-      "price": 29000,
+      "price": 99000,
       "oldPrice": 348000,
-      "codePrefix": "L1ALL"
+      "codePrefix": "L1ALL",
+      "yearlyPrice": 399000,
+      "yearlyOldPrice": 1188000
     },
     {
       "grade": "lop-2",
       "title": "Trọn bộ 12 khóa Toán IQ lớp 2",
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
-      "price": 29000,
+      "price": 99000,
       "oldPrice": 348000,
-      "codePrefix": "L2ALL"
+      "codePrefix": "L2ALL",
+      "yearlyPrice": 399000,
+      "yearlyOldPrice": 1188000
     },
     {
       "grade": "lop-3",
       "title": "Trọn bộ 12 khóa Toán IQ lớp 3",
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
-      "price": 29000,
+      "price": 99000,
       "oldPrice": 348000,
-      "codePrefix": "L3ALL"
+      "codePrefix": "L3ALL",
+      "yearlyPrice": 399000,
+      "yearlyOldPrice": 1188000
     }
   ],
   "courses": [

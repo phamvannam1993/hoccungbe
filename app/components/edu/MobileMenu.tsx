@@ -20,7 +20,7 @@ const TILE: Record<string, { emoji: string; bg: string; label?: string }> = {
   '/thi-tai': { emoji: '🏆', bg: '#fef3c7' },
   '/de-thi': { emoji: '📝', bg: '#e0e7ff' },
   '/luyen-viet-chu-dep': { emoji: '✍️', bg: '#fef9c3' },
-  '/bai-viet': { emoji: '📰', bg: '#f1f5f9' },
+  '/gioi-thieu': { emoji: '🌈', bg: '#fce7f3' },
 };
 
 type Section = { id: string; emoji: string; label: string; links: { href: string; label: string }[] };

@@ -176,10 +176,10 @@ export default function SiteHeader({ menuOpen, onMenu }: { menuOpen: boolean; on
               );
             })}
 
-            {/* CTA Ủng hộ — nổi bật, tách khỏi các mục menu thường */}
+            {/* CTA Ủng hộ — nổi bật, tách khỏi các mục menu thường. Dưới 1400px đã có nút nổi Ủng hộ ở góc, ẩn ở đây để ví sao không đè lên. */}
             <Link
               href="/ung-ho"
-              className="ml-1 hidden shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-[12px] font-bold text-white shadow-sm transition-all duration-200 hover:brightness-105 xl:flex"
+              className="ml-1 hidden shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-[12px] font-bold text-white shadow-sm transition-all duration-200 hover:brightness-105 min-[1400px]:flex"
             >
               <Coffee size={15} />
               Ủng hộ
@@ -190,9 +190,9 @@ export default function SiteHeader({ menuOpen, onMenu }: { menuOpen: boolean; on
               người đã biết mình cần gì, khỏi phải lần theo menu. */}
           {/* Bề ngang CỐ ĐỊNH và shrink-0. Để nó co giãn thì khi menu dài, ô bị
               bóp còn mấy chục pixel — chỉ đọc được chữ "Tì" và cái kính lúp. */}
-          {/* Ô tìm kiếm chỉ hiện ở màn thật rộng (≥1536px). Từ khi menu có thêm
+          {/* Ô tìm kiếm chỉ hiện ở màn thật rộng (≥1680px; ở 1536px menu có Tập viết, Giới thiệu đè lên ô này). Từ khi menu có thêm
               nhóm "Toán", ở 1280px thanh menu chạm vào ô này và chữ đè lên nhau. */}
-          <form action="/tim-kiem" className="ml-auto hidden w-[190px] shrink-0 items-center gap-2 rounded-full bg-slate-100 px-3.5 py-2 2xl:flex">
+          <form action="/tim-kiem" className="ml-auto hidden w-[190px] shrink-0 items-center gap-2 rounded-full bg-slate-100 px-3.5 py-2 min-[1680px]:flex">
             <input name="q" placeholder="Tìm kiếm bài học…" aria-label="Tìm kiếm bài học"
               className="w-full min-w-0 bg-transparent text-sm font-medium text-slate-700 outline-none placeholder:text-slate-400" />
             <button type="submit" aria-label="Tìm" className="shrink-0 text-slate-500">🔍</button>
@@ -206,8 +206,11 @@ export default function SiteHeader({ menuOpen, onMenu }: { menuOpen: boolean; on
             trang và trong menu Hỗ trợ nên bỏ khỏi đây, không mất đường vào. */}
         <div className="hidden shrink-0 items-center lg:flex">
           <div className="flex items-center gap-2">
-            <HeaderStreak />
-            <StarWallet />
+            {/* 1024–1279px: thanh menu đã chiếm hết bề ngang, ví sao đè lên mục cuối → chỉ hiện từ 1280px. */}
+            <div className="hidden items-center gap-2 xl:flex">
+              <HeaderStreak />
+              <StarWallet />
+            </div>
             <NotificationBell />
             {(user || guestChild) ? (
               <div className="relative" ref={accountRef}>

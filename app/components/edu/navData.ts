@@ -19,7 +19,7 @@ export const SUBJECTS = [
 
 export const NAV_MENU: NavItem[] = [
   // Logo đã dẫn về trang chủ → ở màn 1024–1279px bỏ mục này để menu không chạm nút Đăng ký.
-  { href: '/', label: 'Trang chủ', wideOnly: true },
+  { href: '/', label: 'Trang chủ', wideOnly: 'xxl' },
   { href: '/khoa-hoc', label: 'Lớp học', mega: 'grades' },
   {
     // Gom công cụ Toán vào một nhóm — danh sách lấy từ app/lib/congCuToan.ts
@@ -69,10 +69,32 @@ export const NAV_MENU: NavItem[] = [
       { href: '/kham-pha', label: 'Đố vui khám phá' },
     ],
   },
-  { href: '/de-thi', label: 'Ôn thi' },
+  {
+    // Luyện đề và tài liệu in gom một nhóm: thêm Gói tài liệu thành mục cấp 1
+    // thì thanh menu tràn ở màn 1280px.
+    href: '/de-thi',
+    label: 'Ôn thi',
+    children: [
+      { href: '/de-thi', label: '📝 Đề thi có chấm điểm' },
+      { href: '/bai-tap', label: '✏️ Bài tập theo chủ đề' },
+      { href: '/phieu-bai-tap', label: '🖨️ Phiếu bài tập PDF' },
+      { href: '/goi-tai-lieu', label: '🎁 Gói tài liệu in' },
+    ],
+  },
   { href: '/luyen-viet-chu-dep', label: 'Tập viết', wideOnly: 'xxl' },
   // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
-  { href: '/bai-viet', label: 'Blog' },
+  {
+    // Thay ô Blog bằng nhóm Giới thiệu để trang /gioi-thieu hiện ở mọi bề ngang
+    // mà không thêm mục cấp 1 (thanh menu đã sát nút Đăng nhập ở 1280px).
+    href: '/gioi-thieu',
+    label: 'Giới thiệu',
+    children: [
+      { href: '/gioi-thieu', label: '🌈 Giới thiệu tính năng' },
+      { href: '/huong-dan', label: '🚀 Hướng dẫn bắt đầu' },
+      { href: '/bai-viet', label: '📰 Blog – Góc phụ huynh' },
+      { href: '/cau-hoi-thuong-gap', label: '❓ Câu hỏi thường gặp' },
+    ],
+  },
 ];
 
 // Khu vực phụ huynh — chỉ hiện khi đã đăng nhập (hoặc khách đã tạo bé).

@@ -1,13 +1,19 @@
 'use client';
 import { usePathname } from 'next/navigation';
+import { useCallback, useState } from 'react';
 import SiteHeader from './edu/SiteHeader';
 import Footer from './edu/Footer';
 import BottomNav from './edu/BottomNav';
+import MobileMenu from './edu/MobileMenu';
 import Mascot from './edu/Mascot';
 import FloatingActions from './FloatingActions';
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  // Trang Menu của điện thoại (nút ba gạch trên header). Ghi nhớ trang đã mở menu → sang trang khác là tự đóng.
+  const [menuAt, setMenuAt] = useState<string | null>(null);
+  const menuOpen = menuAt === pathname;
+  const closeMenu = useCallback(() => setMenuAt(null), []);
   const isAdmin = pathname.startsWith('/admin');
   // Quiz play pages: /[lessonSlug]/[exercise] — two segments, second is bai-tap-*
   const segments = pathname.split('/').filter(Boolean);
@@ -34,13 +40,14 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     );
   return (
     <>
-      <SiteHeader />
+      <SiteHeader menuOpen={menuOpen} onMenu={() => setMenuAt(menuOpen ? null : pathname)} />
       {/* pb-24 trên mobile để thanh điều hướng dưới không che nội dung.
           Trang làm bài tự chừa bên trong nền gradient của nó → tránh lòi nền teal của body. */}
       <main className={`min-h-screen ${isQuizPlay ? '' : 'pb-24 lg:pb-0'}`}>{children}</main>
       {/* Trang làm bài: bỏ footer để bé thấy trọn bài, không phải cuộn qua footer dài */}
       {!isQuizPlay && <Footer />}
       <BottomNav />
+      <MobileMenu open={menuOpen} onClose={closeMenu} />
       {!isQuizPlay && <Mascot />}
       {!isQuizPlay && <FloatingActions />}
     </>

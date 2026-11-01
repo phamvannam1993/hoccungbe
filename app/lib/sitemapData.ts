@@ -120,6 +120,7 @@ const STATIC_PATHS: [string, string][] = [
   ['/toan-tu-duy-lop-4', '2026-08-20'],
   ['/toan-tu-duy-lop-5', '2026-08-20'],
   ['/so-do-trang', '2026-08-20'],
+  ['/gioi-thieu', '2026-11-01'],
   ['/de-thi', '2026-06-24'],
   // /tai-lieu tạm bỏ khỏi sitemap (đang noindex tới khi có đủ tài liệu thực tế).
   ['/bai-viet', '2026-06-24'],

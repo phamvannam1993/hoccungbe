@@ -83,6 +83,11 @@ input, select, optgroup, textarea {
   0%, 100% { box-shadow: 0 0 20px rgba(255,217,61,0.6); }
   50% { box-shadow: 0 0 40px rgba(255,217,61,0.9); }
 }
+/* Trang Menu trên điện thoại (MobileMenu) trượt nhẹ lên khi mở */
+@keyframes menu-sheet-in {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 @keyframes pop-in {
   0% { transform: scale(0); opacity: 0; }
   50% { transform: scale(1.1); }

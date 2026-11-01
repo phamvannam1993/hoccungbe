@@ -68,7 +68,7 @@ export const PACKS: Pack[] = [
     kind: 'phonics',
     title: 'Trọn bộ card Phonics tiếng Anh',
     subtitle: `${PHONICS_COUNTS.cards} card + ${PHONICS_COUNTS.flowers} thẻ hoa in A4: bảng chữ cái, ghép vần CVC, họ từ, âm ghép`,
-    price: 99000,
+    price: 29000,
     oldPrice: 199000,
     emoji: '🔤',
     bullets: [
@@ -79,11 +79,11 @@ export const PACKS: Pack[] = [
       'In một lần cả bộ, có đường cắt, dùng 12 tháng',
     ],
   },
-  hk1(1, ['toan', 'tieng-viet', 'tieng-anh'], 99000, 199000),
-  hk1(2, ['toan', 'tieng-viet'], 79000, 149000),
-  hk1(3, ['toan', 'tieng-viet'], 79000, 149000),
-  hk1(4, ['toan'], 49000, 99000),
-  hk1(5, ['toan'], 49000, 99000),
+  hk1(1, ['toan', 'tieng-viet', 'tieng-anh'], 29000, 199000),
+  hk1(2, ['toan', 'tieng-viet'], 29000, 149000),
+  hk1(3, ['toan', 'tieng-viet'], 29000, 149000),
+  hk1(4, ['toan'], 29000, 99000),
+  hk1(5, ['toan'], 29000, 99000),
 ];
 
 /** Khóa quyền trong cookie khv_access. */

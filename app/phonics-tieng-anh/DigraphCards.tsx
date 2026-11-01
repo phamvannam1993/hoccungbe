@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { DIGRAPH_CATEGORIES, DIGRAPHS, type DigraphCategory } from '../lib/digraphs';
 import { speakEnThenVi, speakEnglish, speakEnglishSlow, speakSequence, stopSpeaking, unlockAudio } from '../components/edu/utils/speech';
 import WordCard, { BLUE, INK, PRINT_CSS, printOnly, type Segment } from './WordCard';
+import PackPrintLink from './PackPrintLink';
 
 // Tách từ để tô màu chữ ghép (vị trí xuất hiện đầu tiên, không phân biệt hoa thường: August).
-function split(word: string, letters: string): Segment[] {
+export function split(word: string, letters: string): Segment[] {
   const at = word.toLowerCase().indexOf(letters);
   if (at < 0) return [{ text: word, color: INK }];
   return [
@@ -216,13 +217,18 @@ export default function DigraphCards() {
       </ul>
 
       <div className="mt-5 text-center">
-        <button
-          type="button"
-          onClick={() => printOnly(gridRef.current)}
-          className="rounded-full bg-gradient-to-r from-violet-500 to-sky-500 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
-        >
-          🖨 In {dg.words.length} thẻ “{dg.letters}”
-        </button>
+        {/* Nhóm mẫu (wh) in miễn phí; nhóm khác in trong gói tải trọn bộ card. */}
+        {di === DEFAULT ? (
+          <button
+            type="button"
+            onClick={() => printOnly(gridRef.current)}
+            className="rounded-full bg-gradient-to-r from-violet-500 to-sky-500 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
+          >
+            🖨 In {dg.words.length} thẻ “{dg.letters}” (miễn phí)
+          </button>
+        ) : (
+          <PackPrintLink label={`In ${dg.words.length} thẻ “${dg.letters}”`} spot="phonics-am-ghep" />
+        )}
       </div>
     </>
   );

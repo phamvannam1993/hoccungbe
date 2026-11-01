@@ -34,7 +34,9 @@
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
       "price": 29000,
       "oldPrice": 348000,
-      "codePrefix": "L1ALL"
+      "codePrefix": "L1ALL",
+      "yearlyPrice": 99000,
+      "yearlyOldPrice": 348000
     },
     {
       "grade": "lop-2",
@@ -42,7 +44,9 @@
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
       "price": 29000,
       "oldPrice": 348000,
-      "codePrefix": "L2ALL"
+      "codePrefix": "L2ALL",
+      "yearlyPrice": 99000,
+      "yearlyOldPrice": 348000
     },
     {
       "grade": "lop-3",
@@ -50,7 +54,9 @@
       "subtitle": "12 khóa · 60 bài thử thách — tặng kèm phiếu bài tập in PDF có đáp án",
       "price": 29000,
       "oldPrice": 348000,
-      "codePrefix": "L3ALL"
+      "codePrefix": "L3ALL",
+      "yearlyPrice": 99000,
+      "yearlyOldPrice": 348000
     }
   ],
   "courses": [

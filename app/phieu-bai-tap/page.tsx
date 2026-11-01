@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { getCourseTopics, getPublishedCourses } from '../lib/topicSeo';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidPills, type Tone } from '../components/seo/kid';
@@ -56,6 +57,19 @@ export default async function Page() {
       <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Phiếu bài tập' }]} />
 
       <KidHero emoji="📄" eyebrow="Phiếu bài tập PDF" title="Phiếu bài tập tiểu học (PDF, có đáp án)" tone="blue" description={DESCRIPTION} />
+
+      <Link
+        href="/luyen-viet-chu-dep"
+        className="mt-5 flex items-center gap-3 rounded-3xl border-2 border-sky-100 bg-sky-50/70 px-5 py-4 transition hover:border-sky-200 hover:bg-sky-50"
+      >
+        <span className="text-3xl" aria-hidden>✍️</span>
+        <span className="min-w-0">
+          <span className="block font-black text-slate-800">Luyện viết chữ đẹp – vở tập viết ô li</span>
+          <span className="block text-sm font-semibold text-slate-500">
+            89 trang tập viết trên khung ô li 5mm: nét cơ bản, chữ cái, chữ số, vần, từ và câu ngắn
+          </span>
+        </span>
+      </Link>
 
       <div className="mt-6 space-y-6">
         {groups.map((g) => (

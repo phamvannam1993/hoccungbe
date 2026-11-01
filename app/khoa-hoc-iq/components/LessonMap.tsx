@@ -6,7 +6,8 @@ import { useRef } from 'react';
 import type { Combo, Course, LessonSummary } from '../lib/types';
 import { img } from '../lib/assets';
 import { useProgress } from '../lib/progress';
-import { ACCESS_LABEL, formatDate, formatVnd, useShop } from './ShopProvider';
+import { formatDate } from './ShopProvider';
+import PlanPicker from './PlanPicker';
 import { ShopHeader } from './ShopView';
 
 type Props = { course: Course; lessons: LessonSummary[]; unlocked: boolean; expiresAt: number | null; needUnlock: boolean; combo?: Combo };
@@ -25,7 +26,6 @@ function wave(a: { x: number; y: number }, b: { x: number; y: number }) {
 }
 
 export default function LessonMap({ course, lessons, unlocked, expiresAt, needUnlock, combo }: Props) {
-  const { openBuy, openActivate } = useShop();
   const progress = useProgress()[course.slug] ?? {};
   const scroller = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; left: number } | null>(null);
@@ -38,12 +38,8 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
   const width = START_X * 2 + Math.max(0, lessons.length - 1) * GAP_X;
 
   const shopHref = `/khoa-hoc-iq?lop=${course.grade}`;
-  // Thử nghiệm giá: mở khóa = mua trọn lớp (cùng giá 1 khóa); không có gói lớp thì mua khóa lẻ.
-  const buyCourse = () =>
-    combo
-      ? openBuy({ title: combo.title, price: combo.price, codePrefix: combo.codePrefix })
-      : openBuy({ title: `Khóa ${course.number} ${(course.subject.split('|')[1] ?? '').toLowerCase()}: ${course.title}`, price: course.price, codePrefix: course.codePrefix });
-  const price = combo?.price ?? course.price;
+  // Bấm bài bị khóa / "Mở khóa ngay" → cuộn tới bảng chọn gói.
+  const buyCourse = () => document.getElementById('mo-khoa')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   const scrollBy = (dx: number) => scroller.current?.scrollBy({ left: dx, behavior: 'smooth' });
 
   return (
@@ -190,7 +186,7 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
           </ol>
         </section>
 
-        <aside className="h-fit rounded-[24px] bg-white p-5 shadow">
+        <aside id="mo-khoa" className="h-fit scroll-mt-24 rounded-[24px] bg-white p-5 shadow">
           <div className="flex items-center gap-3">
             <img src={img('icon_question.png')} alt="" className="h-20" />
             <p className="text-slate-600">{course.subtitle}</p>
@@ -210,26 +206,15 @@ export default function LessonMap({ course, lessons, unlocked, expiresAt, needUn
           {unlocked ? (
             <div className="mt-5 rounded-2xl bg-[#e6f6fb] p-4 text-center font-bold text-[#1f7a93]">
               🎉 Bé học được khóa này{expiresAt ? ` đến hết ngày ${formatDate(expiresAt)}` : ''}
-              <button type="button" onClick={buyCourse} className="mt-2 block w-full text-sm font-extrabold text-[#1d9bbd] underline">
-                Gia hạn thêm {ACCESS_LABEL}
-              </button>
+              <details className="mt-2 text-left">
+                <summary className="cursor-pointer text-center text-sm font-extrabold text-[#1d9bbd] underline">Gia hạn</summary>
+                <PlanPicker combo={combo} course={course} list={`gia-han-${course.slug}`} className="mt-3" />
+              </details>
             </div>
           ) : (
             <div className="mt-5">
-              <p className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-[#e34a4a]">{formatVnd(price)}</span>
-                <span className="text-sm font-bold text-slate-500">/ {ACCESS_LABEL}</span>
-                {combo?.oldPrice && <span className="text-slate-400 line-through">{formatVnd(combo.oldPrice)}</span>}
-              </p>
-              {combo && <p className="mt-1 text-sm font-bold text-[#1f7a93]">Mở trọn {combo.title.replace(/^Trọn bộ /, '')} — bé học được cả 12 khóa.</p>}
-              <div className="mt-3 flex gap-2">
-                <button type="button" onClick={buyCourse} className="khv-btn-buy flex-1">
-                  {combo ? 'Mua trọn lớp' : 'Mua ngay'}
-                </button>
-                <button type="button" onClick={openActivate} className="khv-btn-active flex-1">
-                  Kích hoạt
-                </button>
-              </div>
+              {combo && <p className="mb-3 text-sm font-bold text-[#1f7a93]">Mở trọn {combo.title.replace(/^Trọn bộ /, '')} — bé học được cả 12 khóa.</p>}
+              <PlanPicker combo={combo} course={course} list={`mo-khoa-${course.slug}`} />
               {combo && (
                 <Link href={shopHref} className="mt-3 block text-center text-sm font-bold text-[#1d9bbd] underline">
                   Xem 12 khóa trong gói →

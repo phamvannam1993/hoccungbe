@@ -43,6 +43,7 @@ export type PageKey =
   | 'letter-tracing'
   | 'trace-sentence'
   | 'doc-van-ghep-chu'
+  | 'vietnamese-first-grade'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

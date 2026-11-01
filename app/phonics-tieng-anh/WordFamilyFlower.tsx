@@ -5,6 +5,7 @@ import { FAMILY_GROUPS, WORD_FAMILIES, type FamilyGroup } from '../lib/wordFamil
 import { speakEnThenVi, speakSequence, unlockAudio } from '../components/edu/utils/speech';
 import PhonicsPic from './PhonicsPic';
 import WordCard, { BLUE, PRINT_CSS, RED, printOnly } from './WordCard';
+import PackPrintLink from './PackPrintLink';
 
 const BG = '/assets/images/bg-card.webp'; // 1024×1536: bông hoa 5 cánh trống + nhụy vàng
 
@@ -42,15 +43,106 @@ const FIRST: Record<FamilyGroup, number> = Object.fromEntries(
   FAMILY_GROUPS.map((g) => [g.id, WORD_FAMILIES.findIndex((f) => f.group === g.id)]),
 ) as Record<FamilyGroup, number>;
 
+type Family = (typeof WORD_FAMILIES)[number];
+
+/**
+ * Thẻ hoa một họ từ (5 cánh = 5 từ, nhụy = vần). Dùng ở trang phonics (bấm nghe) và ở trang in
+ * trọn bộ của gói tải card (/goi-tai-lieu/the-phonics, không truyền onWord/onCenter).
+ */
+export function FlowerCard({
+  ref,
+  fam,
+  active = null,
+  onWord,
+  onCenter,
+}: {
+  ref?: React.Ref<HTMLDivElement>;
+  fam: Family;
+  active?: number | null;
+  onWord?: (i: number) => void;
+  onCenter?: () => void;
+}) {
+  const petals = fam.words.slice(0, 5);
+  return (
+    <div
+      ref={ref}
+      className="wf-card relative w-full max-w-[460px] overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-100"
+      style={{ aspectRatio: '2 / 3', containerType: 'inline-size' }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- ảnh nền cố định, cần in được */}
+      <img src={BG} alt="" className="absolute inset-0 h-full w-full object-cover" />
+
+      {PETALS.map((pos, i) => {
+        const w = petals[i];
+        if (!w) {
+          // Họ chỉ có 4 từ thông dụng → cánh trống để bé tự nghĩ thêm một từ.
+          return (
+            <span
+              key={`blank-${i}`}
+              className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[1.5cqw] text-center"
+              style={{ left: `${pos.x}%`, top: `${pos.y}%`, width: '30cqw' }}
+            >
+              <span className="font-black leading-none text-slate-300" style={{ fontSize: '9cqw' }}>
+                __<span className="text-red-300">{fam.rime}</span>
+              </span>
+              <span className="font-black leading-none text-pink-300" style={{ fontSize: '12cqw' }}>
+                ?
+              </span>
+              <span className="font-bold leading-tight text-pink-400" style={{ fontSize: '3.6cqw' }}>
+                Bé tìm thêm từ
+              </span>
+            </span>
+          );
+        }
+        return (
+          <button
+            key={w.word}
+            type="button"
+            onClick={() => onWord?.(i)}
+            className={`absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[1.5cqw] rounded-full transition active:scale-95 ${active === i ? 'scale-110' : 'hover:scale-105'}`}
+            style={{ left: `${pos.x}%`, top: `${pos.y}%`, width: '30cqw' }}
+            aria-label={`Nghe từ ${w.word} – ${w.vi}`}
+          >
+            <PetalWord word={w.word} rime={fam.rime} />
+            <span className="leading-none" style={{ fontSize: '14cqw' }} aria-hidden>
+              <PhonicsPic word={w.word} emoji={w.emoji} />
+            </span>
+          </button>
+        );
+      })}
+
+      <button
+        type="button"
+        onClick={onCenter}
+        className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-full transition hover:scale-105 active:scale-95"
+        style={{ left: `${CENTER.x}%`, top: `${CENTER.y}%`, width: '34cqw' }}
+        aria-label={`Nghe cả họ từ ${fam.rime}`}
+      >
+        <span
+          className="font-black leading-none text-red-600"
+          style={{ fontSize: fam.rime.length > 3 ? '11cqw' : fam.rime.length > 2 ? '14cqw' : '18cqw' }}
+        >
+          {fam.rime}
+        </span>
+        <span className="mt-[1cqw] font-black text-slate-900" style={{ fontSize: '5.5cqw' }}>
+          Family
+        </span>
+      </button>
+    </div>
+  );
+}
+
+/** Họ in thử miễn phí (-ed, như thẻ mẫu); họ khác in trong gói tải trọn bộ card. */
+const SAMPLE = WORD_FAMILIES.findIndex((f) => f.rime === 'ed');
+
 export default function WordFamilyFlower() {
-  const [fi, setFi] = useState(() => WORD_FAMILIES.findIndex((f) => f.rime === 'ed')); // như thẻ mẫu -ed
+  const [fi, setFi] = useState(SAMPLE); // như thẻ mẫu -ed
   const [active, setActive] = useState<number | null>(null);
   const flowerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLUListElement>(null);
   const fam = WORD_FAMILIES[fi];
   const group = FAMILY_GROUPS.find((g) => g.id === fam.group)!;
   const inGroup = WORD_FAMILIES.map((f, i) => ({ f, i })).filter(({ f }) => f.group === fam.group);
-  const petals = fam.words.slice(0, 5);
 
   const pick = (i: number) => {
     unlockAudio();
@@ -113,79 +205,25 @@ export default function WordFamilyFlower() {
       </div>
 
       <div className="mt-5 flex flex-col items-center gap-4">
-        <div
+        <FlowerCard
           ref={flowerRef}
-          className="wf-card relative w-full max-w-[460px] overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-100"
-          style={{ aspectRatio: '2 / 3', containerType: 'inline-size' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- ảnh nền cố định, cần in được */}
-          <img src={BG} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          fam={fam}
+          active={active}
+          onWord={(i) => { unlockAudio(); setActive(i); speakEnThenVi(fam.words[i].word, fam.words[i].vi); }}
+          onCenter={readAll}
+        />
 
-          {PETALS.map((pos, i) => {
-            const w = petals[i];
-            if (!w) {
-              // Họ chỉ có 4 từ thông dụng → cánh trống để bé tự nghĩ thêm một từ.
-              return (
-                <span
-                  key={`blank-${i}`}
-                  className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[1.5cqw] text-center"
-                  style={{ left: `${pos.x}%`, top: `${pos.y}%`, width: '30cqw' }}
-                >
-                  <span className="font-black leading-none text-slate-300" style={{ fontSize: '9cqw' }}>
-                    __<span className="text-red-300">{fam.rime}</span>
-                  </span>
-                  <span className="font-black leading-none text-pink-300" style={{ fontSize: '12cqw' }}>
-                    ?
-                  </span>
-                  <span className="font-bold leading-tight text-pink-400" style={{ fontSize: '3.6cqw' }}>
-                    Bé tìm thêm từ
-                  </span>
-                </span>
-              );
-            }
-            return (
-              <button
-                key={w.word}
-                type="button"
-                onClick={() => { unlockAudio(); setActive(i); speakEnThenVi(w.word, w.vi); }}
-                className={`absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[1.5cqw] rounded-full transition active:scale-95 ${active === i ? 'scale-110' : 'hover:scale-105'}`}
-                style={{ left: `${pos.x}%`, top: `${pos.y}%`, width: '30cqw' }}
-                aria-label={`Nghe từ ${w.word} – ${w.vi}`}
-              >
-                <PetalWord word={w.word} rime={fam.rime} />
-                <span className="leading-none" style={{ fontSize: '14cqw' }} aria-hidden>
-                  <PhonicsPic word={w.word} emoji={w.emoji} />
-                </span>
-              </button>
-            );
-          })}
-
+        {fi === SAMPLE ? (
           <button
             type="button"
-            onClick={readAll}
-            className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center rounded-full transition hover:scale-105 active:scale-95"
-            style={{ left: `${CENTER.x}%`, top: `${CENTER.y}%`, width: '34cqw' }}
-            aria-label={`Nghe cả họ từ ${fam.rime}`}
+            onClick={() => printOnly(flowerRef.current)}
+            className="rounded-full bg-gradient-to-r from-violet-500 to-sky-500 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
           >
-            <span
-              className="font-black leading-none text-red-600"
-              style={{ fontSize: fam.rime.length > 3 ? '11cqw' : fam.rime.length > 2 ? '14cqw' : '18cqw' }}
-            >
-              {fam.rime}
-            </span>
-            <span className="mt-[1cqw] font-black text-slate-900" style={{ fontSize: '5.5cqw' }}>
-              Family
-            </span>
+            🖨 In thẻ hoa họ -{fam.rime} (miễn phí)
           </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => printOnly(flowerRef.current)}
-          className="rounded-full bg-gradient-to-r from-violet-500 to-sky-500 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
-        >
-          🖨 In thẻ hoa họ -{fam.rime}
-        </button>
+        ) : (
+          <PackPrintLink label={`In thẻ hoa họ -${fam.rime}`} spot="phonics-ho-tu" />
+        )}
       </div>
 
       {/* Thẻ từ vựng từng từ: huy hiệu = âm đầu, chữ đầu xanh + vần đỏ */}
@@ -211,13 +249,17 @@ export default function WordFamilyFlower() {
         })}
       </ul>
       <div className="mt-5 text-center">
-        <button
-          type="button"
-          onClick={() => printOnly(cardsRef.current)}
-          className="rounded-full bg-gradient-to-r from-pink-500 to-orange-400 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
-        >
-          🖨 In {fam.words.length} thẻ từ -{fam.rime}
-        </button>
+        {fi === SAMPLE ? (
+          <button
+            type="button"
+            onClick={() => printOnly(cardsRef.current)}
+            className="rounded-full bg-gradient-to-r from-pink-500 to-orange-400 px-6 py-2.5 text-sm font-black text-white shadow transition hover:brightness-105 active:scale-95"
+          >
+            🖨 In {fam.words.length} thẻ từ -{fam.rime} (miễn phí)
+          </button>
+        ) : (
+          <PackPrintLink label={`In ${fam.words.length} thẻ từ -${fam.rime}`} spot="phonics-ho-tu" />
+        )}
       </div>
     </>
   );

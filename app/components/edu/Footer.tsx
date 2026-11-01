@@ -11,6 +11,7 @@ const quickLinks = [
   { label: 'Kho trò chơi giáo dục', href: '/tro-choi' },
   { label: 'Bài tập theo chủ đề', href: '/bai-tap' },
   { label: 'Phiếu bài tập PDF', href: '/phieu-bai-tap' },
+  { label: 'Luyện viết chữ đẹp', href: '/luyen-viet-chu-dep' },
   { label: 'Đề thi có chấm điểm', href: '/de-thi' },
   { label: 'Học đọc tiếng Việt', href: '/hoc-doc-tieng-viet' },
   { label: 'Chính tả tiếng Việt', href: '/chinh-ta-tieng-viet' },
@@ -52,6 +53,7 @@ const quickLinks = [
 const parentLinks = [
   { label: 'Góc phụ huynh', href: '/bai-viet' },
   { label: 'Công cụ miễn phí', href: '/cong-cu' },
+  { label: 'Gói tài liệu in', href: '/goi-tai-lieu' },
   { label: 'Giới thiệu tính năng', href: '/gioi-thieu' },
   { label: 'Cách bắt đầu', href: '/huong-dan' },
   { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ExamPage from '../../components/edu/ExamPage';
+import PackUpsell from '../../components/upsell/PackUpsell';
+import { hk1PackFor } from '../../goi-tai-lieu/packs';
 import { nestedExamPath } from '../../lib/examNav';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -113,6 +115,11 @@ export default async function Page({ params }: Props) {
       </section>
 
       <ExamPage slug={slug} />
+      {exam.semester === 1 && hk1PackFor(exam.grade, exam.subject) && (
+        <div className="mx-auto w-full max-w-3xl px-4 pt-6">
+          <PackUpsell slug={hk1PackFor(exam.grade, exam.subject)!.slug} spot="lam-de-thi" title={`Tải trọn bộ đề ôn thi HK1 lớp ${exam.grade} để in`} />
+        </div>
+      )}
     </>
   );
 }

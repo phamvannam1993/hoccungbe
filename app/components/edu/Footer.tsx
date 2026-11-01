@@ -52,6 +52,7 @@ const quickLinks = [
 const parentLinks = [
   { label: 'Góc phụ huynh', href: '/bai-viet' },
   { label: 'Công cụ miễn phí', href: '/cong-cu' },
+  { label: 'Giới thiệu tính năng', href: '/gioi-thieu' },
   { label: 'Cách bắt đầu', href: '/huong-dan' },
   { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
   { label: 'Hỗ trợ', href: '/ho-tro' },

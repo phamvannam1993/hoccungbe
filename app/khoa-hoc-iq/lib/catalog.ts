@@ -76,6 +76,7 @@ import th34 from '../data/theory/iq3-to-hop-dem-cach.json';
 import th35 from '../data/theory/iq3-giai-quyet-van-de.json';
 import th36 from '../data/theory/iq3-sieu-thu-thach.json';
 import type { Combo, Course, Grade, Lesson, LessonSummary, Question, ShopInfo, Theory, Tile } from './types';
+import { packForPrefix, packKey } from '../../goi-tai-lieu/packs';
 
 const LESSON_FILES: Record<string, unknown> = {
   // Lớp 1
@@ -299,9 +300,23 @@ export function summarizeLessons(course: Course, unlocked: boolean): LessonSumma
   });
 }
 
+/** Đuôi mã gói năm của combo ('L2ALL' → 'L2ALLY'), khớp planOf ở api-hoccungbe. */
+export const YEARLY_SUFFIX = 'Y';
+
+/** Combo theo mã gói tháng hoặc gói năm; `yearly` = mã gói năm. */
+export function comboForPrefix(prefix: string): { combo: Combo; yearly: boolean } | null {
+  for (const combo of combos) {
+    if (combo.codePrefix === prefix) return { combo, yearly: false };
+    if (combo.yearlyPrice && combo.codePrefix + YEARLY_SUFFIX === prefix) return { combo, yearly: true };
+  }
+  return null;
+}
+
 /** Mã tiền tố → danh sách slug khóa được mở. */
 export function slugsForPrefix(prefix: string): string[] {
-  const combo = combos.find((c) => c.codePrefix === prefix);
+  const pack = packForPrefix(prefix);
+  if (pack) return [packKey(pack.slug)];
+  const combo = comboForPrefix(prefix)?.combo;
   if (combo) return getCoursesByGrade(combo.grade).map((c) => c.slug);
   const course = courses.find((c) => c.codePrefix === prefix);
   return course ? [course.slug] : [];

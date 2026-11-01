@@ -8,6 +8,7 @@ import { img } from '../lib/assets';
 import { withClocks } from './Clock';
 import { useProgress } from '../lib/progress';
 import { ACCESS_LABEL, formatDate, formatVnd, useShop } from './ShopProvider';
+import PlanPicker from './PlanPicker';
 
 export type ShopCourse = Course & { unlocked: boolean; expiresAt: number | null; lessonIds: string[]; questionCount: number };
 
@@ -69,9 +70,9 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
   const totalLessons = courses.reduce((n, c) => n + c.lessonIds.length, 0);
   const gradeTitle = grades.find((g) => g.id === activeGrade)?.title ?? '';
   const ownedAll = courses.length > 0 && courses.every((c) => c.unlocked);
-  // Mua / gia hạn ở từng thẻ khóa = mua trọn lớp (giá thử nghiệm bằng 1 khóa).
-  const buyGrade = (prefix = '') =>
-    combo && openBuy({ title: `${prefix}${combo.title}`, price: combo.price, codePrefix: combo.codePrefix });
+  const buyCourse = (c: ShopCourse) =>
+    openBuy({ title: `Khóa ${c.number} ${gradeTitle.toLowerCase()}: ${c.title}`, price: c.price, codePrefix: c.codePrefix, months: 1 });
+  const toPlans = () => document.getElementById('chon-goi')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   return (
     <div className="min-h-screen bg-white pb-16">
@@ -122,25 +123,13 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
               <h2 className="text-xl font-black text-slate-800 sm:text-2xl">{combo.title}</h2>
               <p className="text-sm text-slate-600">{combo.subtitle}</p>
             </div>
-            <div className="text-center">
-              {combo.oldPrice && <p className="text-sm text-slate-400 line-through">{formatVnd(combo.oldPrice)}</p>}
-              <p className="text-3xl font-black text-[#e34a4a]">
-                {formatVnd(combo.price)}
-                <span className="text-sm font-bold text-slate-500"> / {ACCESS_LABEL}</span>
-              </p>
+            <div id="chon-goi" className="w-full sm:w-[340px]">
               {ownedAll ? (
-                <p className="mt-2 font-extrabold text-[#1f7a93]">
-                  ✅ Học được đến {formatDate(Math.min(...courses.map((c) => c.expiresAt ?? 0)))}
+                <p className="mb-3 text-center font-extrabold text-[#1f7a93]">
+                  ✅ Học được đến {formatDate(Math.min(...courses.map((c) => c.expiresAt ?? 0)))} · gia hạn:
                 </p>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => openBuy({ title: combo.title, price: combo.price, codePrefix: combo.codePrefix })}
-                  className="khv-btn-buy mt-2 px-8"
-                >
-                  Mua trọn bộ
-                </button>
-              )}
+              ) : null}
+              <PlanPicker combo={combo} list={`cua-hang-${activeGrade}`} />
             </div>
           </div>
         </section>
@@ -209,7 +198,7 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                           Học đến {formatDate(c.expiresAt)}
                           <button
                             type="button"
-                            onClick={() => buyGrade('Gia hạn ')}
+                            onClick={toPlans}
                             className="ml-auto font-extrabold text-[#1d9bbd] underline"
                           >
                             Gia hạn
@@ -222,11 +211,11 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                     </>
                   ) : (
                     <>
-                      {/* Thử nghiệm giá: chỉ bán trọn lớp (cùng giá 1 khóa) — khóa lẻ không bán riêng nữa. */}
+                      {/* Khóa lẻ 29k/tháng; trọn lớp (tháng / năm) ở bảng chọn gói phía trên. */}
                       <p className="mt-2 flex items-baseline gap-2">
                         <span className="text-xs font-bold text-slate-500">
-                          Trọn {combo ? 'lớp' : 'khóa'}{' '}
-                          <span className="text-base text-[#e34a4a]">{formatVnd(combo?.price ?? c.price).replace('đ', ' VNĐ')}</span> / {ACCESS_LABEL}
+                          Riêng khóa này{' '}
+                          <span className="text-base text-[#e34a4a]">{formatVnd(c.price).replace('đ', ' VNĐ')}</span> / {ACCESS_LABEL}
                         </span>
                         <Link href={href} className="ml-auto text-xs font-extrabold text-[#1d9bbd] underline">
                           Học thử bài 1
@@ -235,10 +224,10 @@ export default function ShopView({ grades, activeGrade, courses, combo, typeCoun
                       <div className="mt-3 flex gap-2">
                         <button
                           type="button"
-                          onClick={() => buyGrade()}
+                          onClick={() => buyCourse(c)}
                           className="khv-btn-buy flex-1"
                         >
-                          Mua trọn lớp
+                          Mua khóa này
                         </button>
                         <button type="button" onClick={openActivate} className="khv-btn-active flex-1">
                           Kích hoạt

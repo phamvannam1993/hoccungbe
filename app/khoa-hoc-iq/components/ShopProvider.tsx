@@ -7,8 +7,10 @@ import type { ShopInfo } from '../lib/types';
 import { img } from '../lib/assets';
 import PayosQR from './PayosQR';
 import { authHref, getAccountToken, getAccountUser } from '../lib/account';
+import { gaItem, trackBeginCheckout, trackPaymentInfo, trackPurchase } from '../../lib/analytics';
 
-export type BuyTarget = { title: string; price: number; codePrefix: string };
+/** months: thời hạn gói (1 = gói tháng, 12 = gói năm 'L2ALLY'). */
+export type BuyTarget = { title: string; price: number; codePrefix: string; months?: number };
 
 type ShopCtx = { openBuy: (t: BuyTarget) => void; openActivate: () => void };
 
@@ -18,8 +20,11 @@ export const useShop = () => useContext(Ctx);
 
 export const formatVnd = (n: number) => `${n.toLocaleString('vi-VN')}đ`;
 
-/** Thời hạn mỗi gói (khớp IQ_ACCESS_MONTHS ở api-hoccungbe). */
+/** Thời hạn gói thường (khớp IQ_ACCESS_MONTHS ở api-hoccungbe). */
 export const ACCESS_LABEL = '1 tháng';
+
+/** Nhãn thời hạn: gói năm (khớp planOf ở api-hoccungbe) / gói tháng. */
+export const accessLabel = (months = 1) => (months >= 12 ? '12 tháng' : ACCESS_LABEL);
 
 /** dd/mm/yyyy theo giờ Việt Nam (server và trình duyệt ra cùng một chuỗi). */
 export const formatDate = (ms: number) =>
@@ -28,9 +33,13 @@ export const formatDate = (ms: number) =>
 export default function ShopProvider({ shop, children }: { shop: ShopInfo; children: React.ReactNode }) {
   const [buy, setBuy] = useState<BuyTarget | null>(null);
   const [activate, setActivate] = useState(false);
+  const openBuy = (t: BuyTarget) => {
+    trackBeginCheckout(gaItem(t.codePrefix, t.title, t.price));
+    setBuy(t);
+  };
 
   return (
-    <Ctx.Provider value={{ openBuy: setBuy, openActivate: () => setActivate(true) }}>
+    <Ctx.Provider value={{ openBuy, openActivate: () => setActivate(true) }}>
       {children}
       {buy && (
         <BuyModal
@@ -81,6 +90,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
   const [state, setState] = useState<OrderState | null>(null);
   const [unlocked, setUnlocked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const label = accessLabel(target.months);
 
   // Bấm "Mua" → tạo (hoặc lấy lại) đơn chờ duyệt kèm mã kích hoạt.
   useEffect(() => {
@@ -90,6 +100,11 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
       .then((r) => {
         if (!alive) return;
         setState(r);
+        if (r.ok && r.order.status === 'pending') {
+          const item = gaItem(target.codePrefix, r.order.title, r.order.amount);
+          trackPaymentInfo(item, r.order.checkoutUrl || r.order.qrCode ? 'payos' : 'bank_transfer');
+        }
+        if (r.ok && r.order.status === 'approved') trackPurchase(r.order.code, gaItem(target.codePrefix, r.order.title, r.order.amount));
         // Có payOS → sang thẳng trang thanh toán payOS (thanh toán xong payOS đưa về site, PaymentReturn mở khóa).
         if (r.ok && r.order.status === 'pending' && r.order.checkoutUrl) window.location.assign(r.order.checkoutUrl);
       })
@@ -112,6 +127,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           if (!alive || !r.order || r.order.status === 'pending') return;
           setState({ ok: true, order: r.order });
           if (r.order.status === 'approved') {
+            trackPurchase(r.order.code, gaItem(r.order.prefix, r.order.title, r.order.amount));
             setUnlocked(true);
             router.refresh();
           }
@@ -137,7 +153,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
       <p className="mr-8 rounded-[30px] bg-[#1ea3cf] py-2 text-center text-sm font-extrabold text-white">MUA KHÓA HỌC</p>
       <h2 className="mt-4 text-xl font-black text-slate-800">{order?.title ?? target.title}</h2>
       <p className="text-2xl font-black text-[#e34a4a]">
-        {formatVnd(order?.amount ?? target.price)} <span className="text-base font-bold text-slate-500">/ {ACCESS_LABEL}</span>
+        {formatVnd(order?.amount ?? target.price)} <span className="text-base font-bold text-slate-500">/ {label}</span>
       </p>
     </>
   );
@@ -237,7 +253,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           )}
         </div>
         <p className="mt-4 text-center text-sm text-slate-600">
-          Chuyển khoản xong, khóa học <b>tự mở trong vài giây</b> — học {ACCESS_LABEL} tính từ lúc kích hoạt. Không cần gửi ảnh chuyển khoản.
+          Chuyển khoản xong, khóa học <b>tự mở trong vài giây</b> — học {label} tính từ lúc kích hoạt (còn hạn thì cộng nối tiếp). Không cần gửi ảnh chuyển khoản.
         </p>
         <p className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-amber-50 py-2 text-sm font-bold text-amber-700">
           <span className="khv-pulse inline-block h-2 w-2 rounded-full bg-amber-500" /> Đang chờ thanh toán…
@@ -287,7 +303,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           </div>
         </li>
         <li>
-          <b>Bước 2.</b> Chờ admin xác nhận tiền về. Duyệt xong mã được kích hoạt và khóa học <b>tự mở</b> trên tài khoản, học {ACCESS_LABEL} tính
+          <b>Bước 2.</b> Chờ admin xác nhận tiền về. Duyệt xong mã được kích hoạt và khóa học <b>tự mở</b> trên tài khoản, học {label} tính
           từ lúc kích hoạt. Cần nhanh hơn, bố mẹ gửi ảnh chuyển khoản qua Zalo{' '}
           <a href={`https://zalo.me/${shop.zalo}`} target="_blank" rel="noreferrer" className="font-bold text-sky-600 underline">
             {shop.zalo}
@@ -363,8 +379,7 @@ function ActivateModal({ onClose }: { onClose: () => void }) {
             {pending ? 'Đang kiểm tra…' : 'KÍCH HOẠT'}
           </button>
           <p className="mt-3 text-center text-xs text-slate-500">
-            Kích hoạt cho tài khoản <b>{user?.email ?? user?.fullName ?? 'đang đăng nhập'}</b>. Mỗi mã dùng cho 1 tài khoản, học được{' '}
-            {ACCESS_LABEL}.
+            Kích hoạt cho tài khoản <b>{user?.email ?? user?.fullName ?? 'đang đăng nhập'}</b>. Mỗi mã dùng cho 1 tài khoản, học được theo thời hạn của gói ({ACCESS_LABEL} hoặc 12 tháng).
           </p>
         </form>
       )}

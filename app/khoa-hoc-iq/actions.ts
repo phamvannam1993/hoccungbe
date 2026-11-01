@@ -16,6 +16,7 @@ import {
   writeAccessCookie,
 } from './lib/access';
 import { getCourse, slugsForPrefix } from './lib/catalog';
+import { packForPrefix } from '../goi-tai-lieu/packs';
 
 export type ActivateState = { ok: boolean; message: string; needLogin?: boolean } | null;
 
@@ -88,7 +89,8 @@ export async function activateCode(_prev: ActivateState, formData: FormData): Pr
 
   const slugs = slugsForPrefix(outcome.prefix);
   const names = slugs.map((s) => getCourse(s)?.title).filter(Boolean);
-  const label = names.length > 2 ? `trọn ${names.length} khóa` : names.join(', ');
+  const pack = packForPrefix(outcome.prefix);
+  const label = pack ? pack.title : names.length > 2 ? `trọn ${names.length} khóa` : names.join(', ');
   const until = fmtDate(Math.max(...slugs.map((s) => access[s] ?? outcome.expiresAt)));
   if (outcome.already) return { ok: true, message: `Mã này đã được kích hoạt cho tài khoản của bố mẹ từ trước: ${label}, học đến hết ngày ${until}.` };
   return { ok: true, message: `Kích hoạt thành công: ${label}. Bé học được đến hết ngày ${until}. Chúc bé học vui!` };

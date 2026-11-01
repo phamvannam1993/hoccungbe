@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { checkOrder, syncAccess } from '../actions';
 import { getAccountToken } from '../lib/account';
+import { gaItem, trackPurchase } from '../../lib/analytics';
 
 type Phase = 'checking' | 'done' | 'slow' | 'cancelled' | null;
 
@@ -29,6 +30,7 @@ export default function PaymentReturn() {
       const r = await checkOrder(code, token).catch(() => null);
       if (!alive) return;
       if (r?.order?.status === 'approved') {
+        trackPurchase(r.order.code, gaItem(r.order.prefix, r.order.title, r.order.amount));
         await syncAccess(token, true).catch(() => {});
         if (!alive) return;
         setPhase('done');

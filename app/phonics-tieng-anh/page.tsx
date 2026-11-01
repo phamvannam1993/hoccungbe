@@ -5,6 +5,7 @@ import { WORD_FAMILIES } from '../lib/wordFamilies';
 import { DIGRAPHS } from '../lib/digraphs';
 import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
 import PhonicsClient from './PhonicsClient';
+import PackUpsell from '../components/upsell/PackUpsell';
 import { VOCAB_TOPICS } from '../lib/vocab';
 import { buildVocabFallback } from '../lib/phonicsWords';
 
@@ -75,6 +76,7 @@ export default function Page() {
       />
 
       <PhonicsClient imageFallback={IMAGE_FALLBACK} />
+      <PackUpsell slug="the-phonics" spot="phonics" className="mt-8" title="Tải trọn bộ card Phonics để in cho bé" />
 
       <div className="mt-8">
         <KidCard emoji="👉" title="Lộ trình đọc tiếng Anh" tone="blue">

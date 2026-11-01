@@ -1,0 +1,1365 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Nhận diện và phân loại hình",
+      "emoji": "🔺",
+      "description": "Cùng bé gọi tên các hình, đếm cạnh, đếm góc và xếp hình vào đúng nhóm nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k04-b1-01",
+          "type": "choice",
+          "prompt": "Hình nào có đúng 3 cạnh và 3 góc?",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "⚪",
+              "text": "Hình tròn"
+            },
+            {
+              "text": "Hình chữ nhật"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm số cạnh của từng hình: hình nào có 3 cạnh thì cũng có 3 góc.",
+          "explanation": "Hình tam giác có 3 cạnh và 3 góc.\nLưu ý: hình vuông và hình chữ nhật đều có 4 cạnh, 4 góc; hình tròn không có cạnh thẳng và không có góc."
+        },
+        {
+          "id": "k04-b1-02",
+          "type": "input",
+          "prompt": "Bé có 1 hình tam giác và 1 hình vuông.\nHỏi cả hai hình có tất cả bao nhiêu cạnh?",
+          "answers": [
+            "7"
+          ],
+          "unit": "cạnh",
+          "method": "Nhớ số cạnh của mỗi hình rồi cộng lại.",
+          "explanation": "Hình tam giác có 3 cạnh, hình vuông có 4 cạnh.\n3 + 4 = 7 (cạnh)."
+        },
+        {
+          "id": "k04-b1-03",
+          "type": "choice",
+          "prompt": "Một tờ giấy hình vuông có 4 góc.\nBé cắt đi 1 góc bằng một nhát kéo thẳng (nhát cắt đi qua 2 cạnh kề nhau).\nPhần giấy còn lại có mấy góc?",
+          "options": [
+            {
+              "text": "3 góc"
+            },
+            {
+              "text": "4 góc"
+            },
+            {
+              "text": "5 góc"
+            },
+            {
+              "text": "6 góc"
+            }
+          ],
+          "answer": 2,
+          "method": "Cắt mất 1 góc cũ, nhưng ở hai đầu nhát cắt lại sinh ra góc mới. Thử vẽ ra giấy nhé!",
+          "explanation": "Mất 1 góc cũ, còn 3 góc cũ. Hai đầu nhát cắt tạo thêm 2 góc mới.\n3 + 2 = 5 góc.\nLưu ý: 3 góc là bẫy vì nghĩ \"bớt 1 góc\"; 4 góc là nghĩ hình không đổi; 6 góc là quên mất góc đã bị cắt đi."
+        },
+        {
+          "id": "k04-b1-04",
+          "type": "input",
+          "prompt": "Bé có 2 hình tam giác và 3 hình chữ nhật.\nHỏi tất cả các hình đó có bao nhiêu góc?",
+          "answers": [
+            "18"
+          ],
+          "unit": "góc",
+          "method": "Mỗi hình tam giác có 3 góc, mỗi hình chữ nhật có 4 góc. Cộng tất cả lại.",
+          "explanation": "2 hình tam giác: 3 + 3 = 6 góc.\n3 hình chữ nhật: 4 + 4 + 4 = 12 góc.\n6 + 12 = 18 góc."
+        },
+        {
+          "id": "k04-b1-05",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Xếp mỗi hình, mỗi đồ vật vào đúng nhóm theo hình dạng của nó.",
+          "groups": [
+            {
+              "emoji": "🔺",
+              "text": "Có 3 cạnh"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Có 4 cạnh"
+            },
+            {
+              "emoji": "⚪",
+              "text": "Không có cạnh thẳng"
+            }
+          ],
+          "items": [
+            {
+              "text": "Hình tam giác",
+              "group": 0
+            },
+            {
+              "text": "Lá cờ đuôi nheo hình tam giác",
+              "group": 0
+            },
+            {
+              "text": "Hình chữ nhật",
+              "group": 1
+            },
+            {
+              "text": "Khung cửa sổ hình vuông",
+              "group": 1
+            },
+            {
+              "text": "Hình tròn",
+              "group": 2
+            },
+            {
+              "text": "Mặt đồng hồ hình tròn",
+              "group": 2
+            }
+          ],
+          "method": "Nhìn đồ vật có dạng hình gì, rồi đếm số cạnh của hình đó.",
+          "explanation": "Hình tam giác và lá cờ tam giác có 3 cạnh. Hình chữ nhật và khung cửa sổ hình vuông có 4 cạnh. Hình tròn và mặt đồng hồ tròn không có cạnh thẳng."
+        },
+        {
+          "id": "k04-b1-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi hình với đặc điểm đúng của nó.",
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🔺",
+                "text": "Hình tam giác"
+              },
+              "right": {
+                "text": "Có 3 cạnh"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🟦",
+                "text": "Hình vuông"
+              },
+              "right": {
+                "text": "4 cạnh dài bằng nhau"
+              }
+            },
+            {
+              "left": {
+                "text": "Hình chữ nhật"
+              },
+              "right": {
+                "text": "2 cạnh dài, 2 cạnh ngắn"
+              }
+            },
+            {
+              "left": {
+                "emoji": "⚪",
+                "text": "Hình tròn"
+              },
+              "right": {
+                "text": "Không có góc"
+              }
+            }
+          ],
+          "method": "Nhớ lại mỗi hình có mấy cạnh, các cạnh có dài bằng nhau không.",
+          "explanation": "Tam giác có 3 cạnh. Hình vuông có 4 cạnh bằng nhau. Hình chữ nhật có 2 cạnh dài bằng nhau và 2 cạnh ngắn bằng nhau. Hình tròn không có góc."
+        },
+        {
+          "id": "k04-b1-07",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các hình có đúng 4 cạnh.",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "text": "Hình tứ giác"
+            },
+            {
+              "emoji": "⚪",
+              "text": "Hình tròn"
+            },
+            {
+              "text": "Hình chữ nhật"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Hình nào có 4 cạnh thì gọi chung là hình tứ giác. Đừng quên hình vuông và hình chữ nhật cũng có 4 cạnh!",
+          "explanation": "Hình vuông, hình tứ giác và hình chữ nhật đều có 4 cạnh.\nLưu ý: hình tam giác chỉ có 3 cạnh; hình tròn không có cạnh thẳng."
+        },
+        {
+          "id": "k04-b1-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Chọn số đúng điền vào chỗ trống.",
+          "sentence": "Hình tam giác có [[3]] cạnh, hình chữ nhật có [[4]] góc, còn hình tròn có [[0]] góc.",
+          "choices": [
+            "3",
+            "4",
+            "0",
+            "5",
+            "2"
+          ],
+          "method": "Tưởng tượng từng hình rồi đếm cạnh, đếm góc.",
+          "explanation": "Tam giác có 3 cạnh. Hình chữ nhật có 4 góc. Hình tròn là đường cong khép kín nên không có góc nào (0 góc)."
+        },
+        {
+          "id": "k04-b1-09",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào tổng số cạnh đúng ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "2 hình tam giác"
+              },
+              "back": {
+                "text": "6 cạnh"
+              }
+            },
+            {
+              "front": {
+                "text": "2 hình vuông"
+              },
+              "back": {
+                "text": "8 cạnh"
+              }
+            },
+            {
+              "front": {
+                "text": "1 tam giác và 2 hình vuông"
+              },
+              "back": {
+                "text": "11 cạnh"
+              }
+            },
+            {
+              "front": {
+                "text": "3 hình vuông"
+              },
+              "back": {
+                "text": "12 cạnh"
+              }
+            },
+            {
+              "front": {
+                "text": "5 hình tam giác"
+              },
+              "back": {
+                "text": "15 cạnh"
+              }
+            }
+          ],
+          "method": "Tam giác có 3 cạnh, hình vuông có 4 cạnh. Cộng số cạnh của từng hình lại.",
+          "explanation": "2 tam giác: 3 + 3 = 6. 2 hình vuông: 4 + 4 = 8. 1 tam giác và 2 hình vuông: 3 + 4 + 4 = 11. 3 hình vuông: 4 + 4 + 4 = 12. 5 tam giác: 3 + 3 + 3 + 3 + 3 = 15."
+        },
+        {
+          "id": "k04-b1-10",
+          "type": "choice",
+          "prompt": "Mặt bảng lớp em có 4 cạnh, 4 góc giống hệt góc của hình vuông,\nnhưng 4 cạnh KHÔNG dài bằng nhau.\nMặt bảng có dạng hình gì?",
+          "options": [
+            {
+              "text": "Hình chữ nhật"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "⚪",
+              "text": "Hình tròn"
+            }
+          ],
+          "answer": 0,
+          "method": "Hình nào có 4 góc giống góc hình vuông (như góc trang vở)? Trong đó hình nào có các cạnh không dài bằng nhau?",
+          "explanation": "Hình chữ nhật có 4 góc giống góc hình vuông, có 2 cạnh dài và 2 cạnh ngắn nên 4 cạnh không dài bằng nhau.\nLưu ý: hình vuông cũng có 4 góc như vậy nhưng 4 cạnh lại dài bằng nhau — đây là bẫy; tam giác chỉ có 3 cạnh; hình tròn không có cạnh và góc."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đếm hình tam giác",
+      "emoji": "📐",
+      "description": "Kẻ thêm một nét là có thêm nhiều tam giác — bé đếm thật kỹ nha!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k04-b2-01",
+          "type": "choice",
+          "prompt": "Vẽ một hình tam giác lớn.\nTừ đỉnh trên cùng, kẻ 1 đoạn thẳng xuống cạnh đáy (chia cạnh đáy làm 2 phần).\nHình vẽ có tất cả bao nhiêu hình tam giác?",
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "5"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm tam giác nhỏ trước, rồi đếm tam giác ghép từ các tam giác nhỏ.",
+          "explanation": "Có 2 tam giác nhỏ và 1 tam giác lớn (ghép cả 2 tam giác nhỏ).\n2 + 1 = 3 hình tam giác.\nLưu ý: 2 là quên tam giác lớn bên ngoài; 4 và 5 là đếm trùng hoặc đếm cả hình không phải tam giác."
+        },
+        {
+          "id": "k04-b2-02",
+          "type": "input",
+          "prompt": "Vẽ một hình tam giác lớn.\nTừ đỉnh trên cùng, kẻ 2 đoạn thẳng xuống cạnh đáy (chia cạnh đáy làm 3 phần).\nHình vẽ có tất cả bao nhiêu hình tam giác?",
+          "answers": [
+            "6"
+          ],
+          "unit": "hình",
+          "method": "Đếm tam giác làm từ 1 phần đáy, rồi 2 phần đáy liền nhau, rồi cả 3 phần.",
+          "explanation": "Cạnh đáy chia làm 3 phần. Tam giác đáy 1 phần: 3 hình. Đáy 2 phần liền nhau: 2 hình. Đáy 3 phần: 1 hình.\n3 + 2 + 1 = 6 hình tam giác."
+        },
+        {
+          "id": "k04-b2-03",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Từ đỉnh một hình tam giác, kẻ các đoạn thẳng xuống cạnh đáy.\nXếp các hình vẽ theo số tam giác từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "Không kẻ thêm đoạn nào"
+            },
+            {
+              "text": "Kẻ 1 đoạn thẳng"
+            },
+            {
+              "text": "Kẻ 2 đoạn thẳng"
+            },
+            {
+              "text": "Kẻ 3 đoạn thẳng"
+            }
+          ],
+          "method": "Kẻ càng nhiều đoạn thì cạnh đáy chia càng nhiều phần, số tam giác càng nhiều.",
+          "explanation": "Không kẻ: 1 tam giác. Kẻ 1 đoạn: 2 + 1 = 3. Kẻ 2 đoạn: 3 + 2 + 1 = 6. Kẻ 3 đoạn: 4 + 3 + 2 + 1 = 10."
+        },
+        {
+          "id": "k04-b2-04",
+          "type": "choice",
+          "prompt": "Vẽ một hình chữ nhật rồi kẻ 2 đoạn thẳng nối các góc đối diện (2 đoạn cắt nhau ở giữa).\nHình vẽ có tất cả bao nhiêu hình tam giác?",
+          "options": [
+            {
+              "text": "4"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "10"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm 4 tam giác nhỏ ở giữa trước, rồi tìm tam giác to ghép từ 2 tam giác nhỏ cạnh nhau.",
+          "explanation": "Hai đoạn thẳng cắt nhau ở giữa tạo ra 4 tam giác nhỏ.\nMỗi đoạn thẳng lại chia hình chữ nhật thành 2 tam giác to: 2 + 2 = 4 tam giác to.\n4 + 4 = 8 hình tam giác.\nLưu ý: 4 là chỉ đếm tam giác nhỏ; 6 là chỉ đếm 4 tam giác nhỏ và 2 tam giác to của một đoạn thẳng; 10 là đếm thừa cả những hình không phải tam giác."
+        },
+        {
+          "id": "k04-b2-05",
+          "type": "input",
+          "prompt": "Vẽ một hình tam giác lớn.\nTừ đỉnh trên cùng, kẻ 2 đoạn thẳng xuống cạnh đáy.\nSau đó kẻ thêm 1 đoạn thẳng nằm ngang, cắt qua cả 2 cạnh bên và 2 đoạn vừa kẻ.\nHình vẽ có tất cả bao nhiêu hình tam giác?",
+          "answers": [
+            "12"
+          ],
+          "unit": "hình",
+          "method": "Đoạn nằm ngang giống như một cạnh đáy mới. Đếm tam giác ứng với từng cạnh đáy rồi cộng lại.",
+          "explanation": "Với cạnh đáy dưới (chia làm 3 phần): 3 + 2 + 1 = 6 tam giác.\nVới đoạn nằm ngang (cũng chia làm 3 phần): 3 + 2 + 1 = 6 tam giác.\n6 + 6 = 12 hình tam giác."
+        },
+        {
+          "id": "k04-b2-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các hình vẽ có đúng 3 hình tam giác.",
+          "options": [
+            {
+              "text": "Hình tam giác, từ đỉnh kẻ 1 đoạn thẳng xuống cạnh đáy"
+            },
+            {
+              "text": "Hình vuông, kẻ 1 đoạn nối 2 góc đối diện"
+            },
+            {
+              "text": "Hình chữ nhật, từ điểm chính giữa cạnh trên kẻ 2 đoạn thẳng tới 2 góc dưới"
+            },
+            {
+              "text": "Hình vuông, kẻ 2 đoạn nối các góc đối diện"
+            },
+            {
+              "text": "Hình tam giác, kẻ 1 đoạn nối điểm giữa của 2 cạnh bên"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "Vẽ từng hình ra nháp rồi đếm: tam giác nhỏ trước, tam giác ghép sau.",
+          "explanation": "Tam giác kẻ 1 đoạn từ đỉnh: 2 tam giác nhỏ + 1 tam giác lớn = 3. Hình chữ nhật có 2 đoạn từ điểm giữa cạnh trên xuống 2 góc dưới: tạo đúng 3 tam giác (trái, giữa, phải).\nLưu ý: hình vuông kẻ 1 đoạn nối 2 góc đối diện chỉ có 2 tam giác; kẻ 2 đoạn nối các góc đối diện có tới 8 tam giác; tam giác kẻ đoạn nối điểm giữa 2 cạnh bên chỉ có 2 tam giác (tam giác nhỏ ở trên và tam giác lớn), phần dưới là hình 4 cạnh."
+        },
+        {
+          "id": "k04-b2-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi hình vẽ với số hình tam giác có trong hình đó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hình tam giác, không kẻ thêm gì"
+              },
+              "right": {
+                "text": "1 tam giác"
+              }
+            },
+            {
+              "left": {
+                "text": "Hình vuông, kẻ 1 đoạn nối 2 góc đối diện"
+              },
+              "right": {
+                "text": "2 tam giác"
+              }
+            },
+            {
+              "left": {
+                "text": "Tam giác, từ đỉnh kẻ 1 đoạn xuống đáy và 1 đoạn nằm ngang cắt ngang"
+              },
+              "right": {
+                "text": "6 tam giác"
+              }
+            },
+            {
+              "left": {
+                "text": "Tam giác, từ đỉnh kẻ 4 đoạn xuống đáy"
+              },
+              "right": {
+                "text": "15 tam giác"
+              }
+            }
+          ],
+          "method": "Mỗi cạnh đáy chia làm mấy phần thì cộng từ số đó lùi về 1: ví dụ 3 phần thì 3 + 2 + 1.",
+          "explanation": "Tam giác không kẻ: 1. Hình vuông kẻ 1 đoạn nối 2 góc đối diện: 2. Tam giác có 1 đoạn từ đỉnh và 1 đoạn ngang: phía trên đoạn ngang 2 + 1 = 3, phía dưới đáy 2 + 1 = 3, tất cả 6. Tam giác kẻ 4 đoạn từ đỉnh: đáy chia 5 phần, 5 + 4 + 3 + 2 + 1 = 15."
+        },
+        {
+          "id": "k04-b2-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Nối điểm giữa của 3 cạnh một hình tam giác lớn với nhau.\nChọn số đúng điền vào chỗ trống.",
+          "sentence": "Ta được [[4]] hình tam giác nhỏ. Tính cả hình tam giác lớn bên ngoài, hình vẽ có tất cả [[5]] hình tam giác.",
+          "choices": [
+            "4",
+            "5",
+            "3",
+            "6"
+          ],
+          "method": "Vẽ thử ra giấy: 3 tam giác nhỏ ở 3 góc và 1 tam giác nhỏ lộn ngược ở giữa.",
+          "explanation": "Có 3 tam giác nhỏ ở 3 góc và 1 tam giác nhỏ ở giữa: 4 tam giác nhỏ.\nThêm tam giác lớn bên ngoài: 4 + 1 = 5 hình tam giác."
+        },
+        {
+          "id": "k04-b2-09",
+          "type": "choice",
+          "prompt": "Ngôi sao 6 cánh ✡️ được vẽ bằng 2 hình tam giác lớn chồng lên nhau.\nHình ngôi sao có tất cả bao nhiêu hình tam giác?",
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "14"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm các tam giác nhỏ ở đầu mỗi cánh, rồi đừng quên 2 tam giác lớn đã vẽ ra ngôi sao.",
+          "explanation": "Mỗi cánh sao là 1 tam giác nhỏ: 6 tam giác. Cộng thêm 2 tam giác lớn: 6 + 2 = 8 hình tam giác.\nLưu ý: 6 là quên 2 tam giác lớn; 2 là chỉ đếm tam giác lớn; 14 là đếm thừa (phần ở giữa ngôi sao là hình 6 cạnh, không phải tam giác)."
+        },
+        {
+          "id": "k04-b2-10",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Xếp các hình vẽ theo số hình tam giác từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "Hình vuông, kẻ 1 đoạn nối 2 góc đối diện"
+            },
+            {
+              "text": "Tam giác, nối điểm giữa của 3 cạnh"
+            },
+            {
+              "text": "Tam giác, từ đỉnh kẻ 2 đoạn xuống đáy và thêm 1 đoạn nằm ngang"
+            },
+            {
+              "text": "Tam giác, từ đỉnh kẻ 4 đoạn xuống đáy"
+            }
+          ],
+          "method": "Đếm số tam giác của từng hình trước, rồi mới xếp.",
+          "explanation": "Hình vuông kẻ 1 đoạn nối 2 góc đối diện: 2. Nối điểm giữa 3 cạnh: 5. Kẻ 2 đoạn từ đỉnh và 1 đoạn ngang: 6 + 6 = 12. Kẻ 4 đoạn từ đỉnh: 5 + 4 + 3 + 2 + 1 = 15.\nThứ tự: 2, 5, 12, 15."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Đếm hình vuông và hình chữ nhật",
+      "emoji": "🟦",
+      "description": "Ô nhỏ ghép thành ô to — bé thử tài đếm hình vuông, hình chữ nhật nào!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k04-b3-01",
+          "type": "input",
+          "prompt": "Một hình vuông lớn được chia thành 4 ô vuông nhỏ bằng nhau (2 hàng, mỗi hàng 2 ô) như hình dưới.\nCó tất cả bao nhiêu hình vuông?",
+          "visual": {
+            "grid": [
+              [
+                "⬜",
+                "⬜"
+              ],
+              [
+                "⬜",
+                "⬜"
+              ]
+            ]
+          },
+          "answers": [
+            "5"
+          ],
+          "unit": "hình vuông",
+          "method": "Đếm các ô vuông nhỏ, rồi nhớ đếm cả hình vuông lớn bao bên ngoài.",
+          "explanation": "Có 4 hình vuông nhỏ và 1 hình vuông lớn (gồm cả 4 ô).\n4 + 1 = 5 hình vuông."
+        },
+        {
+          "id": "k04-b3-02",
+          "type": "choice",
+          "prompt": "Một hình chữ nhật được chia thành 3 ô vuông bằng nhau xếp thành 1 hàng như hình dưới.\nCó bao nhiêu hình chữ nhật KHÔNG phải là hình vuông?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "3"
+            }
+          ],
+          "answer": 3,
+          "method": "Hình chữ nhật không phải hình vuông phải gồm từ 2 ô liền nhau trở lên.",
+          "explanation": "Ghép 2 ô liền nhau: ô 1–2 và ô 2–3 → 2 hình. Ghép cả 3 ô: 1 hình.\n2 + 1 = 3 hình chữ nhật.\nLưu ý: 6 là đếm cả 3 ô vuông nhỏ; 2 là quên hình lớn gồm 3 ô; 4 là đếm thừa."
+        },
+        {
+          "id": "k04-b3-03",
+          "type": "match_vertical",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi hình (ở trên) với số hình vuông có trong hình đó (ở dưới).",
+          "pairs": [
+            {
+              "left": {
+                "text": "1 ô vuông"
+              },
+              "right": {
+                "text": "1"
+              }
+            },
+            {
+              "left": {
+                "text": "Hàng 3 ô"
+              },
+              "right": {
+                "text": "3"
+              }
+            },
+            {
+              "left": {
+                "text": "Lưới 2 hàng 2 cột"
+              },
+              "right": {
+                "text": "5"
+              }
+            },
+            {
+              "left": {
+                "text": "Lưới 3 hàng 3 cột"
+              },
+              "right": {
+                "text": "14"
+              }
+            }
+          ],
+          "method": "Đếm ô nhỏ trước, sau đó đếm hình vuông gồm 4 ô (2 hàng 2 cột), rồi hình vuông lớn nhất.",
+          "explanation": "1 ô: 1 hình vuông. Hàng 3 ô: chỉ có 3 ô vuông nhỏ (ghép 2 hay 3 ô liền nhau thì thành hình chữ nhật). Lưới 2 hàng 2 cột: 4 + 1 = 5. Lưới 3 hàng 3 cột: 9 ô nhỏ + 4 hình vuông gồm 4 ô + 1 hình lớn = 14."
+        },
+        {
+          "id": "k04-b3-04",
+          "type": "input",
+          "prompt": "Một hàng có 4 ô vuông bằng nhau xếp liền nhau như hình dưới.\nCó tất cả bao nhiêu hình vuông và hình chữ nhật?",
+          "visual": {
+            "grid": [
+              [
+                "🟦",
+                "🟦",
+                "🟦",
+                "🟦"
+              ]
+            ]
+          },
+          "answers": [
+            "10"
+          ],
+          "unit": "hình",
+          "method": "Đếm hình gồm 1 ô, rồi 2 ô liền nhau, 3 ô liền nhau, và cả 4 ô.",
+          "explanation": "Hình 1 ô: 4 (đều là hình vuông). Hình 2 ô liền nhau: 3. Hình 3 ô liền nhau: 2. Hình 4 ô: 1.\n4 + 3 + 2 + 1 = 10 hình."
+        },
+        {
+          "id": "k04-b3-05",
+          "type": "choice",
+          "prompt": "Một hình chữ nhật được chia thành 6 ô vuông bằng nhau: 2 hàng, mỗi hàng 3 ô như hình dưới.\nCó tất cả bao nhiêu hình VUÔNG?",
+          "visual": {
+            "grid": [
+              [
+                "⬜",
+                "⬜",
+                "⬜"
+              ],
+              [
+                "⬜",
+                "⬜",
+                "⬜"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "6"
+            },
+            {
+              "text": "7"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "18"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm ô vuông nhỏ, rồi tìm hình vuông to gồm 4 ô (2 hàng, mỗi hàng 2 ô).",
+          "explanation": "Có 6 hình vuông nhỏ. Hình vuông to gồm 4 ô (2 hàng, mỗi hàng 2 ô): bên trái 1 hình, bên phải 1 hình (chúng chồng lên nhau ở cột giữa) — 2 hình.\n6 + 2 = 8 hình vuông.\nLưu ý: 6 là quên hình vuông to; 7 là chỉ thấy 1 hình vuông to; 18 là đếm tất cả hình chữ nhật chứ không chỉ hình vuông."
+        },
+        {
+          "id": "k04-b3-06",
+          "type": "input",
+          "prompt": "Một hình vuông lớn được chia thành 4 ô vuông nhỏ (2 hàng, mỗi hàng 2 ô) như hình dưới.\nĐếm TẤT CẢ hình vuông và hình chữ nhật: có bao nhiêu hình?",
+          "visual": {
+            "grid": [
+              [
+                "🟨",
+                "🟨"
+              ],
+              [
+                "🟨",
+                "🟨"
+              ]
+            ]
+          },
+          "answers": [
+            "9"
+          ],
+          "unit": "hình",
+          "method": "Đếm hình 1 ô, hình 2 ô nằm ngang, hình 2 ô đứng dọc, rồi hình gồm cả 4 ô.",
+          "explanation": "Hình 1 ô: 4. Hình 2 ô nằm ngang: 2 (hàng trên, hàng dưới). Hình 2 ô đứng dọc: 2 (cột trái, cột phải). Hình 4 ô: 1.\n4 + 2 + 2 + 1 = 9 hình."
+        },
+        {
+          "id": "k04-b3-07",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Ghép các ô vuông bằng nhau lại. Xếp mỗi cách ghép vào đúng nhóm theo hình được tạo ra.",
+          "groups": [
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🚪",
+              "text": "Hình chữ nhật (không vuông)"
+            }
+          ],
+          "items": [
+            {
+              "text": "1 ô",
+              "group": 0
+            },
+            {
+              "text": "2 ô xếp thành 1 hàng",
+              "group": 1
+            },
+            {
+              "text": "4 ô: 2 hàng, mỗi hàng 2 ô",
+              "group": 0
+            },
+            {
+              "text": "3 ô xếp thành 1 hàng",
+              "group": 1
+            },
+            {
+              "text": "9 ô: 3 hàng, mỗi hàng 3 ô",
+              "group": 0
+            },
+            {
+              "text": "6 ô: 2 hàng, mỗi hàng 3 ô",
+              "group": 1
+            }
+          ],
+          "method": "Số hàng bằng số ô mỗi hàng thì được hình vuông; khác nhau thì được hình chữ nhật.",
+          "explanation": "Hình vuông: 1 ô; 2 hàng, mỗi hàng 2 ô; 3 hàng, mỗi hàng 3 ô (số hàng bằng số ô mỗi hàng).\nHình chữ nhật không vuông: 1 hàng 2 ô; 1 hàng 3 ô; 2 hàng, mỗi hàng 3 ô (chiều dài khác chiều rộng)."
+        },
+        {
+          "id": "k04-b3-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Một hình chữ nhật được chia thành 2 hàng, mỗi hàng 4 ô vuông như hình dưới.\nChọn số đúng điền vào chỗ trống.",
+          "visual": {
+            "grid": [
+              [
+                "⬜",
+                "⬜",
+                "⬜",
+                "⬜"
+              ],
+              [
+                "⬜",
+                "⬜",
+                "⬜",
+                "⬜"
+              ]
+            ]
+          },
+          "sentence": "Hình có [[8]] hình vuông nhỏ (1 ô) và [[3]] hình vuông to (gồm 4 ô: 2 hàng, mỗi hàng 2 ô).",
+          "choices": [
+            "8",
+            "3",
+            "4",
+            "6"
+          ],
+          "method": "Hình vuông to gồm 4 ô trượt dần từ trái sang phải được mấy vị trí?",
+          "explanation": "Hình vuông nhỏ: 4 + 4 = 8.\nHình vuông to gồm 4 ô: đặt ở cột 1–2, cột 2–3, cột 3–4 → 3 hình."
+        },
+        {
+          "id": "k04-b3-09",
+          "type": "choice",
+          "prompt": "Một tấm bìa hình vuông chia thành 3 hàng, mỗi hàng 3 ô. Bé khoét bỏ ô ở chính giữa như hình dưới.\nCó bao nhiêu hình vuông được ghép trọn vẹn từ các ô bìa CÒN LẠI?",
+          "visual": {
+            "grid": [
+              [
+                "⬜",
+                "⬜",
+                "⬜"
+              ],
+              [
+                "⬜",
+                "❌",
+                "⬜"
+              ],
+              [
+                "⬜",
+                "⬜",
+                "⬜"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "12"
+            }
+          ],
+          "answer": 1,
+          "method": "Mọi hình vuông to (gồm 4 ô hay gồm cả 9 ô) có chứa ô ở giữa không?",
+          "explanation": "Còn 8 ô vuông nhỏ. Mỗi hình vuông gồm 4 ô và hình vuông lớn gồm 9 ô đều chứa ô giữa đã bị khoét, nên không còn trọn vẹn.\nVậy chỉ có 8 hình vuông.\nLưu ý: 13 là lấy 14 − 1, nghĩ chỉ mất ô giữa; 9 là vẫn đếm hình vuông lớn bên ngoài; 12 là vẫn đếm 4 hình vuông gồm 4 ô."
+        },
+        {
+          "id": "k04-b3-10",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Mỗi ô bên trái là một hàng ô vuông xếp liền nhau.\nLật từng ô, rồi chạm vào số hình vuông và hình chữ nhật có trong hàng đó.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Hàng 1 ô"
+              },
+              "back": {
+                "text": "1"
+              }
+            },
+            {
+              "front": {
+                "text": "Hàng 2 ô"
+              },
+              "back": {
+                "text": "3"
+              }
+            },
+            {
+              "front": {
+                "text": "Hàng 3 ô"
+              },
+              "back": {
+                "text": "6"
+              }
+            },
+            {
+              "front": {
+                "text": "Hàng 5 ô"
+              },
+              "back": {
+                "text": "15"
+              }
+            },
+            {
+              "front": {
+                "text": "Hàng 6 ô"
+              },
+              "back": {
+                "text": "21"
+              }
+            }
+          ],
+          "method": "Hàng có bao nhiêu ô thì cộng từ số đó lùi dần về 1.",
+          "explanation": "Hàng 1 ô: 1. Hàng 2 ô: 2 + 1 = 3. Hàng 3 ô: 3 + 2 + 1 = 6. Hàng 5 ô: 5 + 4 + 3 + 2 + 1 = 15. Hàng 6 ô: 6 + 5 + 4 + 3 + 2 + 1 = 21."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Ghép hình và tách hình",
+      "emoji": "🧩",
+      "description": "Ghép các mảnh nhỏ thành hình lớn và tách hình lớn thành mảnh nhỏ thật vui!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k04-b4-01",
+          "type": "puzzle",
+          "timeLimit": 120,
+          "prompt": "Ghép 9 mảnh hình vuông nhỏ lại thành bức tranh hoàn chỉnh nhé!",
+          "image": "/khoa-hoc-vui/images/tranh-ghep-hinh-9-manh.jpg",
+          "size": 3,
+          "method": "Tìm các mảnh ở góc và mép trước, rồi ghép dần vào giữa.",
+          "explanation": "Bức tranh được chia thành 3 hàng, mỗi hàng 3 mảnh: 3 + 3 + 3 = 9 mảnh ghép."
+        },
+        {
+          "id": "k04-b4-02",
+          "type": "choice",
+          "prompt": "Ghép 2 hình vuông bằng nhau đặt sát cạnh nhau (cạnh trùng cạnh).\nBé được hình gì?",
+          "options": [
+            {
+              "text": "Hình vuông lớn hơn"
+            },
+            {
+              "text": "Hình chữ nhật"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            },
+            {
+              "emoji": "⚪",
+              "text": "Hình tròn"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử đặt 2 viên gạch vuông cạnh nhau: chiều dài và chiều rộng có bằng nhau không?",
+          "explanation": "Hình mới dài bằng 2 cạnh hình vuông nhưng rộng chỉ bằng 1 cạnh, nên là hình chữ nhật.\nLưu ý: muốn được hình vuông lớn phải ghép 4 hình vuông (2 hàng, mỗi hàng 2 ô); ghép hình vuông không tạo ra tam giác hay hình tròn."
+        },
+        {
+          "id": "k04-b4-03",
+          "type": "input",
+          "prompt": "Cần bao nhiêu hình vuông nhỏ có cạnh 1 cm để ghép thành 1 hình vuông lớn có cạnh 3 cm?",
+          "answers": [
+            "9"
+          ],
+          "unit": "hình",
+          "method": "Hình vuông lớn cạnh 3 cm sẽ có mấy hàng, mỗi hàng mấy ô nhỏ?",
+          "explanation": "Hình vuông cạnh 3 cm có 3 hàng, mỗi hàng 3 ô vuông nhỏ.\n3 + 3 + 3 = 9 hình vuông nhỏ."
+        },
+        {
+          "id": "k04-b4-04",
+          "type": "choice",
+          "prompt": "Bé muốn chia một tờ giấy hình chữ nhật thành 4 hình chữ nhật nhỏ.\nMỗi đường cắt là một đường thẳng chạy suốt từ mép này sang mép kia của tờ giấy.\nBé cần ÍT NHẤT mấy đường cắt?",
+          "options": [
+            {
+              "text": "4 đường"
+            },
+            {
+              "text": "3 đường"
+            },
+            {
+              "text": "2 đường"
+            },
+            {
+              "text": "1 đường"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử kẻ 1 đường dọc rồi 1 đường ngang cắt qua nhau xem được mấy mảnh.",
+          "explanation": "Kẻ 1 đường dọc ở giữa và 1 đường ngang ở giữa, hai đường cắt qua nhau, chia tờ giấy thành 4 hình chữ nhật nhỏ. Vậy ít nhất 2 đường cắt.\nLưu ý: 3 đường song song cũng chia được 4 mảnh nhưng chưa phải ít nhất; 4 đường là nhầm số đường cắt với số mảnh; 1 đường chỉ chia được 2 mảnh."
+        },
+        {
+          "id": "k04-b4-05",
+          "type": "input",
+          "prompt": "Bé dùng que tính xếp 2 hình vuông nằm cạnh nhau, chung nhau 1 cạnh (giống một hình chữ nhật chia đôi).\nMỗi cạnh là 1 que. Bé cần bao nhiêu que tính?",
+          "answers": [
+            "7"
+          ],
+          "unit": "que",
+          "method": "Cạnh ở giữa dùng chung cho cả 2 hình vuông, chỉ cần 1 que thôi.",
+          "explanation": "Hai hình vuông rời nhau cần 4 + 4 = 8 que. Vì chung nhau 1 cạnh nên bớt 1 que: 8 − 1 = 7 que."
+        },
+        {
+          "id": "k04-b4-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi cách ghép với hình bé ghép được.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hai nửa hình tròn bằng nhau"
+              },
+              "right": {
+                "text": "Hình tròn"
+              }
+            },
+            {
+              "left": {
+                "text": "3 hình vuông bằng nhau xếp thành 1 hàng"
+              },
+              "right": {
+                "text": "Hình chữ nhật"
+              }
+            },
+            {
+              "left": {
+                "text": "2 tam giác cắt ra từ 1 hình vuông theo đường nối 2 góc đối diện, ghép lại theo cạnh dài nhất"
+              },
+              "right": {
+                "text": "Hình vuông"
+              }
+            },
+            {
+              "left": {
+                "text": "1 hình vuông và 1 hình tam giác đặt lên trên làm mái"
+              },
+              "right": {
+                "text": "Hình ngôi nhà 🏠"
+              }
+            }
+          ],
+          "method": "Tưởng tượng đặt các mảnh sát vào nhau rồi nhìn đường viền bên ngoài.",
+          "explanation": "Hai nửa hình tròn ghép lại thành hình tròn. 3 hình vuông 1 hàng: chiều dài bằng 3 cạnh ô vuông, chiều rộng chỉ bằng 1 cạnh nên là hình chữ nhật. 2 tam giác cắt từ hình vuông ghép lại đúng thành hình vuông ban đầu. Hình vuông có mái tam giác giống ngôi nhà."
+        },
+        {
+          "id": "k04-b4-07",
+          "type": "multi_choice",
+          "prompt": "Cắt một tờ giấy hình chữ nhật bằng đúng 1 nhát kéo thẳng thành 2 mảnh.\nChọn TẤT CẢ các cặp mảnh bé CÓ THỂ nhận được.",
+          "options": [
+            {
+              "text": "2 hình tam giác"
+            },
+            {
+              "text": "2 hình tròn"
+            },
+            {
+              "text": "2 hình chữ nhật"
+            },
+            {
+              "text": "3 hình chữ nhật"
+            },
+            {
+              "text": "1 hình tam giác và 1 hình có 5 cạnh"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Thử cắt nối 2 góc đối diện, cắt dọc ở giữa, và cắt xéo qua một góc.",
+          "explanation": "Cắt nối 2 góc đối diện: 2 hình tam giác. Cắt dọc hoặc ngang: 2 hình chữ nhật. Cắt xéo qua một góc (nhát cắt đi qua 2 cạnh kề nhau): 1 tam giác nhỏ và 1 hình 5 cạnh.\nLưu ý: nhát cắt thẳng không thể tạo đường cong nên không có hình tròn; 1 nhát chỉ chia thành 2 mảnh nên không thể có 3 mảnh."
+        },
+        {
+          "id": "k04-b4-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Mỗi tấm hình được ghép từ các ô vuông nhỏ.\nXếp các tấm hình theo số ô vuông nhỏ từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "1 hàng 4 ô"
+            },
+            {
+              "text": "2 hàng, mỗi hàng 3 ô"
+            },
+            {
+              "text": "3 hàng, mỗi hàng 3 ô"
+            },
+            {
+              "text": "2 hàng, mỗi hàng 5 ô"
+            }
+          ],
+          "method": "Tính số ô của mỗi tấm: số ô một hàng được lấy bao nhiêu lần (số hàng).",
+          "explanation": "1 hàng 4 ô: 4 ô. 2 hàng, mỗi hàng 3 ô: 3 + 3 = 6 ô. 3 hàng, mỗi hàng 3 ô: 3 + 3 + 3 = 9 ô. 2 hàng, mỗi hàng 5 ô: 5 × 2 = 10 ô.\nThứ tự: 4, 6, 9, 10."
+        },
+        {
+          "id": "k04-b4-09",
+          "type": "choice",
+          "prompt": "Một hình chữ nhật ghép từ 6 ô vuông (2 hàng, mỗi hàng 3 ô).\nBé tách bỏ 1 ô ở góc trên bên phải.\nHình còn lại có mấy cạnh?",
+          "options": [
+            {
+              "text": "5 cạnh"
+            },
+            {
+              "text": "4 cạnh"
+            },
+            {
+              "text": "6 cạnh"
+            },
+            {
+              "text": "7 cạnh"
+            }
+          ],
+          "answer": 2,
+          "method": "Vẽ ra giấy rồi đi một vòng theo đường viền ngoài, mỗi lần đổi hướng là sang một cạnh mới.",
+          "explanation": "Hình còn lại giống chữ L. Đi quanh đường viền: cạnh đáy, cạnh phải, đoạn ngang chỗ khuyết, đoạn dọc chỗ khuyết, cạnh trên, cạnh trái — 6 cạnh.\nLưu ý: 4 cạnh là nghĩ hình vẫn là hình chữ nhật; 5 cạnh là nhầm với cắt xéo 1 góc bằng kéo; 7 cạnh là đếm thừa."
+        },
+        {
+          "id": "k04-b4-10",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô bên trái (cách tách hình), rồi chạm vào các mảnh bé nhận được ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Hình vuông cắt 1 nhát nối 2 góc đối diện"
+              },
+              "back": {
+                "text": "2 hình tam giác"
+              }
+            },
+            {
+              "front": {
+                "text": "Hình vuông cắt 2 nhát nối các góc đối diện"
+              },
+              "back": {
+                "text": "4 hình tam giác"
+              }
+            },
+            {
+              "front": {
+                "text": "Hình vuông cắt 1 nhát dọc chính giữa"
+              },
+              "back": {
+                "text": "2 hình chữ nhật"
+              }
+            },
+            {
+              "front": {
+                "text": "Hình vuông cắt 1 nhát dọc và 1 nhát ngang qua chính giữa"
+              },
+              "back": {
+                "text": "4 hình vuông nhỏ"
+              }
+            },
+            {
+              "front": {
+                "text": "Hình tròn cắt 1 nhát qua chính giữa"
+              },
+              "back": {
+                "text": "2 nửa hình tròn"
+              }
+            }
+          ],
+          "method": "Tưởng tượng đường cắt trên hình rồi nhìn hình dạng từng mảnh.",
+          "explanation": "1 nhát nối 2 góc đối diện chia hình vuông thành 2 tam giác; 2 nhát như vậy chia thành 4 tam giác. Cắt dọc chính giữa được 2 hình chữ nhật (dài bằng cạnh hình vuông, rộng chỉ bằng một nửa). Cắt dọc và ngang qua chính giữa được 4 hình vuông nhỏ. Hình tròn cắt qua chính giữa được 2 nửa hình tròn."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Tư duy đối xứng và xoay hình",
+      "emoji": "🔄",
+      "description": "Gấp đôi, soi gương, xoay vòng — bé khám phá hình biến đổi ra sao nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k04-b5-01",
+          "type": "choice",
+          "prompt": "Gấp đôi tờ giấy theo đường dọc ở chính giữa chữ cái.\nChữ cái nào có 2 nửa trùng khít lên nhau?",
+          "options": [
+            {
+              "text": "F"
+            },
+            {
+              "text": "G"
+            },
+            {
+              "text": "A"
+            },
+            {
+              "text": "R"
+            }
+          ],
+          "answer": 2,
+          "method": "Tưởng tượng một đường thẳng đứng chia đôi chữ: nửa trái có giống hệt nửa phải soi gương không?",
+          "explanation": "Chữ A có nửa trái và nửa phải giống nhau như soi gương nên gấp lại trùng khít.\nLưu ý: F, G, R chỉ có nét ở một bên nên gấp đôi không trùng nhau."
+        },
+        {
+          "id": "k04-b5-02",
+          "type": "input",
+          "prompt": "Kim phút đang chỉ vào số 12.\nQuay kim theo chiều kim đồng hồ đúng nửa vòng thì kim chỉ vào số mấy?",
+          "answers": [
+            "6"
+          ],
+          "method": "Mặt đồng hồ có 12 số; nửa vòng là đi qua một nửa số đó.",
+          "explanation": "Nửa vòng đồng hồ là đi qua 6 khoảng số: từ 12 đi tới 6. Kim chỉ vào số 6 (ứng với 30 phút)."
+        },
+        {
+          "id": "k04-b5-03",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Mỗi lần xoay, mũi tên quay theo chiều kim đồng hồ giống kim phút đi 15 phút (từ số 12 đến số 3).\nChọn mũi tên đúng điền vào chỗ trống.",
+          "sentence": "Mũi tên chỉ lên ⬆️ xoay 1 lần thành [[➡️]], xoay thêm 1 lần nữa thành [[⬇️]].",
+          "choices": [
+            "➡️",
+            "⬇️",
+            "⬅️",
+            "↗️"
+          ],
+          "method": "Chiều kim đồng hồ là chiều: trên → phải → dưới → trái.",
+          "explanation": "Quay như kim phút đi từ số 12 đến số 3: mũi tên chỉ lên ⬆️ thành mũi tên chỉ sang phải ➡️. Quay thêm một lần nữa (từ số 3 đến số 6): mũi tên chỉ sang phải ➡️ thành mũi tên chỉ xuống ⬇️."
+        },
+        {
+          "id": "k04-b5-04",
+          "type": "multi_choice",
+          "prompt": "Gấp đôi tờ giấy theo đường DỌC ở chính giữa chữ cái.\nChọn TẤT CẢ các chữ cái có 2 nửa trùng khít lên nhau.",
+          "options": [
+            {
+              "text": "H"
+            },
+            {
+              "text": "L"
+            },
+            {
+              "text": "T"
+            },
+            {
+              "text": "N"
+            },
+            {
+              "text": "O"
+            },
+            {
+              "text": "S"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Nửa trái của chữ có giống nửa phải soi gương không?",
+          "explanation": "H, T, O có nửa trái và nửa phải giống nhau như soi gương nên gấp dọc lại trùng khít.\nLưu ý: L chỉ có nét ngang về một bên; N và S nhìn cân đối nhưng là do xoay, gấp dọc thì hai nửa không trùng nhau."
+        },
+        {
+          "id": "k04-b5-05",
+          "type": "choice",
+          "prompt": "Bé nhìn một chiếc đồng hồ kim qua gương.\nTrong gương, kim phút chỉ số 12, kim giờ chỉ số 3.\nĐồng hồ thật đang chỉ mấy giờ?",
+          "options": [
+            {
+              "text": "3 giờ"
+            },
+            {
+              "text": "9 giờ"
+            },
+            {
+              "text": "6 giờ"
+            },
+            {
+              "text": "12 giờ"
+            }
+          ],
+          "answer": 1,
+          "method": "Gương đổi bên trái thành bên phải. Số 3 ở bên phải mặt đồng hồ, vậy trong gương nó hiện ở bên nào?",
+          "explanation": "Gương làm đổi bên trái – phải. Kim phút ở số 12 vẫn chỉ lên trên. Kim giờ trong gương chỉ số 3 (bên phải) thì kim thật chỉ sang bên trái, tức số 9. Đồng hồ thật chỉ 9 giờ.\nLưu ý: 3 giờ là quên gương làm đổi bên; 6 giờ và 12 giờ là nhầm gương làm đổi trên – dưới."
+        },
+        {
+          "id": "k04-b5-06",
+          "type": "input",
+          "prompt": "Kim phút đang chỉ vào số 3.\nQuay kim NGƯỢC chiều kim đồng hồ, lùi lại đúng 15 phút thì kim chỉ vào số mấy?",
+          "answers": [
+            "12"
+          ],
+          "method": "Ngược chiều kim đồng hồ là quay lùi: 3 → 2 → 1 → 12 …",
+          "explanation": "Kim phút đi 15 phút là đi qua 3 khoảng số (mỗi khoảng 5 phút). Quay ngược chiều từ số 3 lùi 3 khoảng: 2, 1, 12. Kim chỉ số 12.\n(Nếu quay xuôi chiều kim đồng hồ thì mới đến số 6 — đó là bẫy.)"
+        },
+        {
+          "id": "k04-b5-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Mỗi mũi tên bên trái xoay đúng NỬA VÒNG.\nNối mỗi mũi tên với mũi tên nó trở thành.",
+          "pairs": [
+            {
+              "left": {
+                "text": "⬆️ Mũi tên chỉ lên"
+              },
+              "right": {
+                "text": "⬇️ Mũi tên chỉ xuống"
+              }
+            },
+            {
+              "left": {
+                "text": "➡️ Mũi tên chỉ sang phải"
+              },
+              "right": {
+                "text": "⬅️ Mũi tên chỉ sang trái"
+              }
+            },
+            {
+              "left": {
+                "text": "↗️ Mũi tên chỉ chéo lên phải"
+              },
+              "right": {
+                "text": "↙️ Mũi tên chỉ chéo xuống trái"
+              }
+            },
+            {
+              "left": {
+                "text": "↖️ Mũi tên chỉ chéo lên trái"
+              },
+              "right": {
+                "text": "↘️ Mũi tên chỉ chéo xuống phải"
+              }
+            }
+          ],
+          "method": "Xoay nửa vòng thì mũi tên quay ngược hẳn lại hướng đối diện.",
+          "explanation": "Xoay nửa vòng, mũi tên chỉ sang hướng ngược lại: lên ↔ xuống, phải ↔ trái, chéo lên phải ↔ chéo xuống trái, chéo lên trái ↔ chéo xuống phải."
+        },
+        {
+          "id": "k04-b5-08",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Xếp mỗi hình vào đúng nhóm: gấp đôi được 2 nửa trùng khít, hay không?",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Gấp đôi trùng khít được"
+            },
+            {
+              "emoji": "❌",
+              "text": "Không gấp đôi trùng khít được"
+            }
+          ],
+          "items": [
+            {
+              "text": "🟦 Hình vuông",
+              "group": 0
+            },
+            {
+              "text": "⚪ Hình tròn",
+              "group": 0
+            },
+            {
+              "text": "❤️ Trái tim",
+              "group": 0
+            },
+            {
+              "text": "Chữ L",
+              "group": 1
+            },
+            {
+              "text": "Chữ Z",
+              "group": 1
+            },
+            {
+              "text": "Số 7",
+              "group": 1
+            }
+          ],
+          "method": "Tìm thử một đường thẳng chia hình thành 2 nửa giống hệt nhau như soi gương.",
+          "explanation": "Hình vuông, hình tròn, trái tim đều có đường gấp chia thành 2 nửa trùng khít.\nChữ L, chữ Z và số 7 gấp theo cách nào cũng không có 2 nửa trùng nhau."
+        },
+        {
+          "id": "k04-b5-09",
+          "type": "choice",
+          "prompt": "Viết chữ M in hoa lên tờ giấy, rồi xoay tờ giấy NỬA VÒNG (lộn ngược đầu).\nBé nhìn thấy chữ gì?",
+          "options": [
+            {
+              "text": "N"
+            },
+            {
+              "text": "W"
+            },
+            {
+              "text": "V"
+            },
+            {
+              "text": "M"
+            }
+          ],
+          "answer": 1,
+          "method": "Tưởng tượng 2 đỉnh nhọn ở dưới chữ M sẽ chạy lên trên.",
+          "explanation": "Xoay nửa vòng, phần trên của M xuống dưới và ngược lại, nên M trở thành chữ W.\nLưu ý: N xoay nửa vòng vẫn là N — dễ nhầm; V chỉ có 1 đỉnh nhọn; M là nghĩ chữ không thay đổi."
+        },
+        {
+          "id": "k04-b5-10",
+          "type": "input",
+          "prompt": "Bé viết số 86 lên tờ giấy, rồi xoay tờ giấy NỬA VÒNG (lộn ngược đầu).\nBé đọc được số nào?",
+          "answers": [
+            "98"
+          ],
+          "method": "Xoay nửa vòng thì chữ số bên phải chạy sang bên trái, và mỗi chữ số cũng bị lộn ngược.",
+          "explanation": "Chữ số 6 lộn ngược thành 9 và chạy sang bên trái; chữ số 8 lộn ngược vẫn là 8 và chạy sang bên phải. Bé đọc được số 98.\n(89 là quên đổi chỗ hai chữ số; 68 là quên lộn ngược số 6.)"
+        }
+      ]
+    }
+  ]
+}

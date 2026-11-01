@@ -1,0 +1,155 @@
+{
+  "bai-1": {
+    "concept": "Quy luật là khi các hình lặp lại theo một thứ tự. Bé tìm ra nhóm hình lặp lại thì biết hình tiếp theo là hình gì.",
+    "examples": [
+      {
+        "prompt": "Hình tiếp theo là hình nào?",
+        "visual": {
+          "emoji": "🟦 🟦 ⭐ 🟦 🟦 ⭐ 🟦 ❓"
+        },
+        "answer": "Nhóm lặp lại là 🟦 🟦 ⭐. Sau ⭐ mới có một 🟦, nên tiếp theo là 🟦."
+      },
+      {
+        "prompt": "Các con vật xếp hàng theo quy luật.\nCon vật thứ 7 là con gì?",
+        "visual": {
+          "emoji": "🐸 🐟 🐸 🐟 …"
+        },
+        "answer": "Đếm: 1 🐸, 2 🐟, 3 🐸, 4 🐟, 5 🐸, 6 🐟, 7 🐸. Con thứ 7 là con ếch."
+      }
+    ],
+    "steps": [
+      "Đọc to tên từng hình trong dãy.",
+      "Tìm nhóm hình lặp lại.",
+      "Đánh dấu chỗ nhóm bắt đầu lại.",
+      "Đếm tiếp theo nhóm để tìm hình cần điền.",
+      "Kiểm tra hình chọn có trong dãy không."
+    ],
+    "tips": [
+      "Hình vừa mới có chưa chắc đã đến lượt!",
+      "Hình không có trong dãy thì loại ngay."
+    ]
+  },
+  "bai-2": {
+    "concept": "Dãy hạt có các màu lặp lại theo từng nhóm. Bé tìm nhóm màu rồi đếm từng hạt để biết hạt nào màu gì.",
+    "examples": [
+      {
+        "prompt": "Hạt tiếp theo màu gì?",
+        "visual": {
+          "emoji": "🟠 🟢 🟢 🟠 🟢 🟢 🟠 ❓"
+        },
+        "answer": "Nhóm lặp lại là 🟠 🟢 🟢. Sau 🟠 là 🟢, nên hạt tiếp theo màu xanh lá 🟢."
+      },
+      {
+        "prompt": "Dãy hạt: 🔵 🟡 🔵 🟡 …\nHạt thứ 6 màu gì?",
+        "answer": "Đếm: 1 🔵, 2 🟡, 3 🔵, 4 🟡, 5 🔵, 6 🟡. Hạt thứ 6 màu vàng 🟡."
+      }
+    ],
+    "steps": [
+      "Gọi tên màu của từng hạt.",
+      "Tìm nhóm màu lặp lại.",
+      "Đếm xem một nhóm có mấy hạt.",
+      "Chỉ tay đếm tiếp từng hạt đến chỗ cần tìm."
+    ],
+    "tips": [
+      "Nhóm có 2 hạt đỏ thì đừng quên hạt đỏ thứ hai!",
+      "Chỉ tay vào từng hạt, đếm chậm mà chắc."
+    ]
+  },
+  "bai-3": {
+    "concept": "Trong dãy số có quy luật, các số thêm hoặc bớt theo một cách lặp lại. Bé xem hai số cạnh nhau hơn kém mấy để tìm số còn thiếu.",
+    "examples": [
+      {
+        "prompt": "Tìm số còn thiếu:\n4, 6, 8, ?, 12",
+        "visual": {
+          "grid": [
+            [
+              "4",
+              "6",
+              "8",
+              "?",
+              "12"
+            ]
+          ]
+        },
+        "answer": "Mỗi lần thêm 2: 4, 6, 8, 10, 12. Số còn thiếu là 10."
+      },
+      {
+        "prompt": "Tìm số còn thiếu:\n35, 30, 25, ?, 15",
+        "answer": "Mỗi lần bớt 5, đếm lùi: 35, 30, 25, 20, 15. Số còn thiếu là 20."
+      }
+    ],
+    "steps": [
+      "Nhìn hai số đứng cạnh nhau.",
+      "Tìm xem số sau thêm hay bớt mấy.",
+      "Kiểm tra quy luật với các số khác.",
+      "Đếm thêm hoặc đếm lùi để điền số."
+    ],
+    "tips": [
+      "Số lớn dần thì đếm thêm, số bé dần thì đếm lùi.",
+      "Điền xong, đọc lại cả dãy cho chắc.",
+      "Có dãy thêm 1, thêm 2 thay phiên nhau đấy!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Dãy tăng dần là số sau lớn hơn số trước. Dãy giảm dần là số sau bé hơn số trước.",
+    "examples": [
+      {
+        "prompt": "Dãy này tăng dần hay giảm dần?\nSố tiếp theo là số mấy?\n30, 33, 36, ?",
+        "visual": {
+          "grid": [
+            [
+              "30",
+              "33",
+              "36",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Số lớn dần nên dãy tăng dần, mỗi lần thêm 3. 36 + 3 = 39."
+      },
+      {
+        "prompt": "Số tiếp theo là số mấy?\n30, 29, 27, 24, ?",
+        "answer": "Lần lượt bớt 1, bớt 2, bớt 3, rồi bớt 4: 24 − 4 = 20."
+      }
+    ],
+    "steps": [
+      "So sánh số sau với số trước.",
+      "Nói dãy tăng dần hay giảm dần.",
+      "Tìm số được thêm hoặc bớt mỗi lần.",
+      "Làm tiếp đúng bước đó để tìm số sau."
+    ],
+    "tips": [
+      "Lớn dần là tăng, bé dần là giảm.",
+      "Có dãy mỗi lần thêm một số khác: thêm 1, thêm 2, thêm 3…"
+    ]
+  },
+  "bai-5": {
+    "concept": "Có dãy vừa có hình vừa có số, mỗi thứ theo một quy luật riêng. Bé xem riêng quy luật của hình và của số.",
+    "examples": [
+      {
+        "prompt": "Ô tiếp theo là ô nào?",
+        "visual": {
+          "emoji": "⭐2  🌙4  ⭐6  🌙8  ❓"
+        },
+        "answer": "Ngôi sao ⭐ và mặt trăng 🌙 thay phiên, số đếm thêm 2: 2, 4, 6, 8, 10. Tiếp theo là ngôi sao ⭐ 10."
+      },
+      {
+        "prompt": "Mỗi quả dâu 🍓 là 2, mỗi quả chanh 🍋 là 1.\n🍓 🍋 🍓 (dâu, chanh, dâu) là bao nhiêu?",
+        "visual": {
+          "emoji": "🍓 🍋 🍓"
+        },
+        "answer": "Thay mỗi hình bằng số của nó: 2 + 1 + 2 = 5."
+      }
+    ],
+    "steps": [
+      "Nhìn riêng các hình xem lặp lại thế nào.",
+      "Nhìn riêng các số xem thêm hay bớt mấy.",
+      "Ghép hình và số cho đúng lượt.",
+      "Kiểm tra lại cả hình lẫn số."
+    ],
+    "tips": [
+      "Hình đúng mà số sai thì vẫn sai!",
+      "Đề nói mỗi hình là một số thì hình giống nhau mang cùng số."
+    ]
+  }
+}

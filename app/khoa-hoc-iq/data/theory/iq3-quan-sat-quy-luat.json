@@ -1,0 +1,167 @@
+{
+  "bai-1": {
+    "concept": "Dãy số theo quy luật là các số được viết theo một cách lặp lại: cộng đều, trừ đều, khoảng cách tăng dần hoặc gấp lên cùng một số lần. Muốn tìm số còn thiếu, bé hãy xem hai số đứng cạnh nhau hơn kém nhau bao nhiêu.",
+    "examples": [
+      {
+        "prompt": "Tìm số còn thiếu:\n6, 13, 20, ?, 34",
+        "visual": {
+          "grid": [
+            [
+              "6",
+              "13",
+              "20",
+              "?",
+              "34"
+            ]
+          ]
+        },
+        "answer": "Mỗi số hơn số đứng trước 7 đơn vị: 20 + 7 = 27. Kiểm tra: 27 + 7 = 34. Số cần tìm là 27."
+      },
+      {
+        "prompt": "Tìm số tiếp theo:\n1, 2, 4, 7, 11, ?",
+        "answer": "Khoảng cách tăng dần: +1, +2, +3, +4, nên lần tiếp theo là +5. Vậy 11 + 5 = 16."
+      }
+    ],
+    "steps": [
+      "Tính khoảng cách giữa từng cặp số đứng cạnh nhau.",
+      "Tìm quy luật: cộng đều, trừ đều, khoảng cách tăng dần hay gấp lên mấy lần.",
+      "Dùng quy luật để tìm số còn thiếu.",
+      "Kiểm tra lại số vừa tìm với số đứng ngay sau nó (nếu có)."
+    ],
+    "tips": [
+      "Số đứng sau dấu ? là \"trọng tài\": số tìm được phải khớp với nó!",
+      "Khoảng cách tăng dần thì đừng cộng mãi một số như lần trước."
+    ]
+  },
+  "bai-2": {
+    "concept": "Dãy số cộng trừ xen kẽ đi lên rồi đi xuống như tàu lượn: một lần cộng, một lần trừ, cứ thế lặp lại. Bé cần nhớ số vừa rồi làm phép gì để làm phép còn lại.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n5, 11, 9, 15, 13, ?",
+        "visual": {
+          "emoji": "⬆️⬇️⬆️⬇️⬆️"
+        },
+        "answer": "Quy luật: cộng 6 rồi trừ 2. Số 13 có được nhờ trừ 2, nên tiếp theo phải cộng 6: 13 + 6 = 19."
+      },
+      {
+        "prompt": "Dãy số: 40, 34, 37, 31, 34, …\n(trừ 6 rồi cộng 3, lặp lại mãi)\nSố thứ 7 của dãy là số nào?",
+        "answer": "Viết tiếp: số thứ 6 là 34 − 6 = 28, số thứ 7 là 28 + 3 = 31. Vậy số thứ 7 là 31."
+      }
+    ],
+    "steps": [
+      "Tính khoảng cách giữa các số đứng cạnh nhau, ghi rõ cộng hay trừ.",
+      "Tìm cặp phép tính lặp lại, ví dụ cộng 6 rồi trừ 2.",
+      "Xem số cuối vừa làm phép gì, rồi làm phép còn lại.",
+      "Đếm vị trí cẩn thận khi đề hỏi số thứ mấy."
+    ],
+    "tips": [
+      "Cộng rồi trừ, trừ rồi cộng — đừng làm một phép hai lần liền!",
+      "Mẹo: cộng 6 rồi trừ 2 thì cứ sau hai bước, dãy lại tăng thêm 4."
+    ]
+  },
+  "bai-3": {
+    "concept": "Ở dãy nhân chia, mỗi số gấp lên hoặc giảm đi cùng một số lần so với số đứng trước. Gấp lên là nhân, giảm đi là chia.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n3, 12, 48, ?",
+        "visual": {
+          "grid": [
+            [
+              "3",
+              "12",
+              "48",
+              "?"
+            ]
+          ]
+        },
+        "answer": "3 × 4 = 12, 12 × 4 = 48: mỗi số gấp 4 lần số đứng trước. Vậy số tiếp theo là 48 × 4 = 192."
+      },
+      {
+        "prompt": "Tìm số tiếp theo:\n972, 324, 108, ?",
+        "answer": "972 : 3 = 324, 324 : 3 = 108: mỗi số giảm đi 3 lần. Vậy số tiếp theo là 108 : 3 = 36."
+      }
+    ],
+    "steps": [
+      "Nhìn dãy: số lớn lên rất nhanh hay bé đi rất nhanh?",
+      "Thử chia số lớn cho số bé ở hai số cạnh nhau để tìm số lần.",
+      "Kiểm tra mọi cặp số đều gấp hoặc giảm cùng số lần đó.",
+      "Nhân hoặc chia để tìm số còn thiếu, rồi thử lại với số sau."
+    ],
+    "tips": [
+      "Số lớn vọt lên thật nhanh thì nghĩ ngay tới phép nhân!",
+      "Gấp 2 lần khác cộng 2: 15 gấp 2 lần là 30, còn 15 + 2 chỉ là 17.",
+      "Nhân số có nhiều chữ số thì nhớ cộng số nhớ sang hàng bên trái."
+    ]
+  },
+  "bai-4": {
+    "concept": "Hình và màu xếp theo một nhóm lặp lại. Muốn biết hình ở vị trí thứ mấy, bé chia số vị trí cho số hình trong nhóm: số dư cho biết đó là hình thứ mấy của nhóm, dư 0 là hình cuối nhóm.",
+    "examples": [
+      {
+        "prompt": "Các hạt cườm được xâu lặp lại như hình.\nHạt thứ 17 màu gì?",
+        "visual": {
+          "emoji": "🟢🟡🔵🟢🟡🔵🟢🟡🔵"
+        },
+        "answer": "Mỗi nhóm có 3 hạt: xanh lá, vàng, xanh dương. 17 : 3 = 5 (dư 2), tức là sau 5 nhóm đủ còn 2 hạt: xanh lá, vàng. Vậy hạt thứ 17 màu vàng."
+      },
+      {
+        "prompt": "Bạn An xếp que tính thành các hình tam giác dính nhau thành một hàng:\n1 tam giác cần 3 que, 2 tam giác cần 5 que, 3 tam giác cần 7 que.\nXếp 5 tam giác cần bao nhiêu que?",
+        "visual": {
+          "emoji": "🔺 🔺🔺 🔺🔺🔺"
+        },
+        "answer": "Mỗi tam giác thêm vào chỉ cần thêm 2 que (vì dùng chung một cạnh). 7 + 2 = 9 que cho 4 tam giác, 9 + 2 = 11 que cho 5 tam giác."
+      }
+    ],
+    "steps": [
+      "Tìm nhóm lặp lại và đếm xem nhóm có mấy hình.",
+      "Chia số vị trí cho số hình trong nhóm.",
+      "Dùng số dư để tìm hình trong nhóm; dư 0 là hình cuối nhóm.",
+      "Với hình lớn dần, tìm xem mỗi lần thêm bao nhiêu rồi tính tiếp."
+    ],
+    "tips": [
+      "Chia hết, dư 0 — chọn hình CUỐI nhóm, đừng chọn hình đầu!",
+      "Que tính dính nhau thì có cạnh dùng chung, đừng đếm cạnh đó hai lần."
+    ]
+  },
+  "bai-5": {
+    "concept": "Có những quy luật gồm hai phép tính liền nhau, ví dụ \"nhân 2 rồi cộng 3\". Bé phải làm đủ cả hai bước và đúng thứ tự, vì đổi thứ tự thì kết quả sẽ khác.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n1, 5, 13, 29, ?",
+        "answer": "Mỗi số bằng số đứng trước nhân 2 rồi cộng 3: 1 × 2 + 3 = 5, 5 × 2 + 3 = 13, 13 × 2 + 3 = 29. Vậy số tiếp theo là 29 × 2 + 3 = 61."
+      },
+      {
+        "prompt": "Mỗi hàng có cùng một quy luật.\nSố nào thay cho dấu ?",
+        "visual": {
+          "grid": [
+            [
+              "2",
+              "4",
+              "7"
+            ],
+            [
+              "3",
+              "5",
+              "14"
+            ],
+            [
+              "6",
+              "4",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Số thứ ba bằng tích hai số đầu trừ đi 1: 2 × 4 − 1 = 7, 3 × 5 − 1 = 14. Hàng cuối: 6 × 4 − 1 = 23."
+      }
+    ],
+    "steps": [
+      "Thử các quy luật một bước trước: cộng đều, gấp đều.",
+      "Nếu chưa khớp, thử nhân lên rồi cộng hoặc trừ thêm một số.",
+      "Kiểm tra quy luật với TẤT CẢ các số hoặc các hàng.",
+      "Tính đúng thứ tự: xong bước một rồi mới làm bước hai."
+    ],
+    "tips": [
+      "Nhân 2 rồi cộng 1 khác hẳn cộng 1 rồi nhân 2!",
+      "Bẫy hay gặp nhất là quên bước thứ hai — nhớ làm đủ hai bước nhé."
+    ]
+  }
+}

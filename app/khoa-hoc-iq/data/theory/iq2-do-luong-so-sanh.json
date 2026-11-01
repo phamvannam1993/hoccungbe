@@ -1,0 +1,151 @@
+{
+  "bai-1": {
+    "concept": "Đo độ dài bằng thước kẻ, đơn vị thường dùng là xăng-ti-mét (cm). Nếu vật không bắt đầu từ vạch 0, lấy vạch cuối trừ vạch đầu. Nhớ 1 dm = 10 cm.",
+    "examples": [
+      {
+        "prompt": "Cây bút sáp đặt trên thước kẻ, từ vạch 6 đến vạch 10 (đơn vị cm).\nBút sáp dài bao nhiêu?",
+        "visual": {
+          "emoji": "📏 🖍️"
+        },
+        "answer": "Bút sáp không bắt đầu từ vạch 0, nên lấy 10 − 6 = 4. Bút sáp dài 4 cm."
+      },
+      {
+        "prompt": "Băng giấy dài 2 dm. Bé cắt đi 5 cm.\nBăng giấy còn lại dài bao nhiêu xăng-ti-mét?",
+        "answer": "Đổi 2 dm = 20 cm. Còn lại: 20 − 5 = 15 cm."
+      }
+    ],
+    "steps": [
+      "Tìm vạch đầu và vạch cuối của vật trên thước.",
+      "Lấy vạch cuối trừ vạch đầu để được độ dài.",
+      "Đổi về cùng đơn vị cm trước khi so sánh hay tính.",
+      "Ước lượng lại xem kết quả có hợp lý không."
+    ],
+    "tips": [
+      "Vật không nằm từ vạch 0 thì đừng đọc ngay vạch cuối!",
+      "1 dm = 10 cm, 1 m = 100 cm. Nhớ kỹ để đổi cho đúng.",
+      "Đồ vật cầm tay đo bằng xăng-ti-mét, nhà cửa đo bằng mét, quãng đường xa đo bằng ki-lô-mét."
+    ]
+  },
+  "bai-2": {
+    "concept": "Đơn vị đo khối lượng là ki-lô-gam, viết tắt là kg. Cân thăng bằng thì hai đĩa cân nặng bằng nhau.",
+    "examples": [
+      {
+        "prompt": "Cân thăng bằng: đĩa bên trái có túi cam,\nđĩa bên phải có quả cân 5 kg và quả cân 1 kg.\nTúi cam nặng bao nhiêu?",
+        "visual": {
+          "emoji": "🍊 ⚖️"
+        },
+        "answer": "Đĩa bên phải nặng 5 + 1 = 6 kg. Cân thăng bằng nên túi cam nặng 6 kg."
+      },
+      {
+        "prompt": "Cân thăng bằng: đĩa bên trái có con gà và quả cân 1 kg,\nđĩa bên phải có quả cân 3 kg.\nCon gà nặng bao nhiêu?",
+        "visual": {
+          "emoji": "🐔 ⚖️"
+        },
+        "answer": "Con gà cùng quả cân 1 kg nặng bằng 3 kg, nên con gà nặng 3 − 1 = 2 kg."
+      }
+    ],
+    "steps": [
+      "Xem mỗi đĩa cân có những gì.",
+      "Cộng các quả cân nằm cùng một đĩa.",
+      "Trừ bớt quả cân nằm cùng đĩa với đồ vật.",
+      "Cộng đủ các túi nếu có nhiều túi, rồi so sánh số kg như so sánh số."
+    ],
+    "tips": [
+      "Quả cân nằm cùng đĩa với đồ vật thì phải trừ ra!",
+      "Mèo nặng hơn thỏ, thỏ nặng hơn gà thì gà nhẹ nhất.",
+      "Nặng bằng nhau không phải là nặng hơn."
+    ]
+  },
+  "bai-3": {
+    "concept": "Đơn vị đo lượng nước (chất lỏng) là lít, viết tắt là l. Rót bớt ra thì trừ, đổ thêm vào thì cộng, nhiều ca bằng nhau thì nhân.",
+    "examples": [
+      {
+        "prompt": "Mỗi ca đựng được 2 lít nước.\nBé đổ 4 ca nước đầy vào thùng.\nTrong thùng có bao nhiêu lít nước?",
+        "visual": {
+          "emoji": "🥛🥛🥛🥛"
+        },
+        "answer": "2 × 4 = 8. Trong thùng có 8 lít nước."
+      },
+      {
+        "prompt": "Can A có 12 lít nước, can B có 6 lít nước.\nRót từ can A sang can B bao nhiêu lít để hai can bằng nhau?",
+        "answer": "Tất cả có 12 + 6 = 18 lít, chia đều mỗi can 18 : 2 = 9 lít. Can A rót sang 12 − 9 = 3 lít. Thử lại: can B có 6 + 3 = 9 lít. Đúng!"
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: nước được rót ra, đổ thêm hay chia đều?",
+      "Chọn phép tính: rót ra thì trừ, đổ thêm thì cộng, nhiều ca bằng nhau thì nhân.",
+      "Tính lượng nước rót ra trước, rồi mới tính phần còn lại.",
+      "Thử lại bằng cách tính ngược."
+    ],
+    "tips": [
+      "Muốn hai can bằng nhau, chỉ rót một nửa phần chênh lệch thôi!",
+      "Không có vạch chia thì đổ đầy can, đầy ca rồi rót qua lại để đong."
+    ]
+  },
+  "bai-4": {
+    "concept": "Nhớ: 1 dm = 10 cm; 1 m = 10 dm = 100 cm; 1 km = 1 000 m. Muốn so sánh hai số đo khác đơn vị, bé đổi về cùng một đơn vị trước.",
+    "examples": [
+      {
+        "prompt": "8 dm = … cm",
+        "visual": {
+          "grid": [
+            [
+              "1 dm",
+              "2 dm",
+              "3 dm",
+              "8 dm"
+            ],
+            [
+              "10 cm",
+              "20 cm",
+              "30 cm",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Mỗi đề-xi-mét là 10 cm. Đếm cách 10 tám lần: 10, 20, 30, 40, 50, 60, 70, 80. Vậy 8 dm = 80 cm."
+      },
+      {
+        "prompt": "Chọn dấu >, < hay = :\n3 m … 250 cm",
+        "answer": "Đổi 3 m = 300 cm. Vì 300 cm > 250 cm nên 3 m > 250 cm."
+      }
+    ],
+    "steps": [
+      "Nhìn đơn vị của từng số đo.",
+      "Đổi về cùng một đơn vị, thường là cm.",
+      "So sánh hoặc tính với các số đã đổi.",
+      "Ghi kết quả với đúng đơn vị."
+    ],
+    "tips": [
+      "Số to chưa chắc dài hơn: 8 dm vẫn ngắn hơn 1 m!",
+      "Các đơn vị từ lớn đến bé: ki-lô-mét, mét, đề-xi-mét, xăng-ti-mét. 1 m = 10 dm = 100 cm."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài toán đo lường thực tế dùng cộng, trừ, nhân, chia với các số đo. Bé đổi về cùng đơn vị trước khi tính và nhớ ghi đơn vị ở đáp số.",
+    "examples": [
+      {
+        "prompt": "Sợi dây dài 1 m. Mẹ cắt đi 40 cm.\nSợi dây còn lại dài bao nhiêu xăng-ti-mét?",
+        "answer": "Đổi 1 m = 100 cm. Còn lại: 100 − 40 = 60 cm."
+      },
+      {
+        "prompt": "Nhà Bin cách nhà bà 300 m.\nBin đi sang nhà bà rồi đi về nhà.\nBin đã đi tất cả bao nhiêu mét?",
+        "visual": {
+          "emoji": "🏠 🚶 🏡"
+        },
+        "answer": "Lượt đi 300 m, lượt về 300 m: 300 + 300 = 600 m."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, vẽ nhanh đường đi nếu cần.",
+      "Đổi các số đo về cùng một đơn vị.",
+      "Chọn phép tính: nối thêm thì cộng, cắt bớt thì trừ, nhiều đoạn bằng nhau thì nhân.",
+      "Ghi đáp số kèm đúng đơn vị và kiểm tra xem có hợp lý không."
+    ],
+    "tips": [
+      "Đi rồi về là đi hai lần quãng đường!",
+      "Cắt dây thành các đoạn bằng nhau thì dùng phép chia.",
+      "Câu đố leo lên rồi tụt xuống: đếm từng ngày, lên tới đỉnh là dừng ngay!"
+    ]
+  }
+}

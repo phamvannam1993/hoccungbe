@@ -1,0 +1,1397 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Đọc kỹ đề để tránh mắc bẫy",
+      "emoji": "👀",
+      "description": "Đề ngắn nhưng nhiều bẫy — bé đọc thật chậm, thật kỹ rồi mới trả lời nha!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "k06-b1-01",
+          "question": "Một nông trại có 15 con bò.\nTất cả, trừ 6 con, đều bị lạc mất.\nHỏi còn lại bao nhiêu con bò KHÔNG bị lạc?",
+          "options": [
+            "9",
+            "6",
+            "15",
+            "21"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đọc kỹ chữ \"tất cả, trừ 6 con\": những con nào không bị lạc?",
+          "explanation": "\"Tất cả trừ 6 con đều bị lạc\" nghĩa là chỉ 6 con không bị lạc. Đáp án là 6.\nLưu ý: 9 là lấy 15 − 6 (đó là số con bị lạc); 15 là số bò lúc đầu; 21 là cộng nhầm 15 + 6."
+        },
+        {
+          "id": "k06-b1-02",
+          "type": "input",
+          "prompt": "Bé có 10 cái kẹo. Bé ăn 3 cái, rồi cho bạn 2 cái.\nHỏi bé đã ĂN bao nhiêu cái kẹo?",
+          "answers": [
+            "3"
+          ],
+          "unit": "cái",
+          "method": "Đề hỏi số kẹo bé đã ăn, không hỏi số kẹo còn lại.",
+          "explanation": "Đề nói rõ bé ăn 3 cái. Đáp án là 3 cái (số còn lại 5 cái chỉ là bẫy)."
+        },
+        {
+          "id": "k06-b1-03",
+          "question": "Một sợi dây dài 10 m.\nMỗi lần cắt ra một đoạn dài 2 m.\nHỏi phải cắt mấy lần để được các đoạn 2 m?",
+          "options": [
+            "4",
+            "5",
+            "8",
+            "10"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Vẽ sợi dây chia thành các đoạn 2 m, rồi đếm số vết cắt.",
+          "explanation": "10 m chia thành 5 đoạn 2 m. Cắt 4 lần thì đoạn cuối cùng tự còn lại dài 2 m, không cần cắt nữa. Đáp án là 4 lần.\nLưu ý: 5 là số đoạn dây chứ không phải số lần cắt; 8 là lấy nhầm 10 − 2; 10 là số mét."
+        },
+        {
+          "id": "k06-b1-04",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Hôm nay là thứ Ba.\nChạm lần lượt các thẻ theo thứ tự: hôm qua, hôm nay, ngày mai, ngày kia.",
+          "items": [
+            "Thứ Hai",
+            "Thứ Ba",
+            "Thứ Tư",
+            "Thứ Năm"
+          ],
+          "distractors": [
+            "Chủ nhật"
+          ],
+          "method": "Hôm qua là trước hôm nay 1 ngày; ngày kia là sau hôm nay 2 ngày.",
+          "explanation": "Hôm qua: thứ Hai. Hôm nay: thứ Ba. Ngày mai: thứ Tư. Ngày kia: thứ Năm. Thẻ Chủ nhật là thẻ nhiễu."
+        },
+        {
+          "id": "k06-b1-05",
+          "type": "match",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi câu đố mẹo với câu trả lời đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "1 kg bông và 1 kg sắt: cái nào nặng hơn?"
+              },
+              "right": {
+                "text": "Nặng bằng nhau"
+              }
+            },
+            {
+              "left": {
+                "text": "Bố của An có 3 người con: Một, Hai và ai?"
+              },
+              "right": {
+                "text": "An"
+              }
+            },
+            {
+              "left": {
+                "text": "1 chục và 9 đơn vị: cái nào lớn hơn?"
+              },
+              "right": {
+                "text": "1 chục"
+              }
+            }
+          ],
+          "method": "Đọc kỹ từng chữ trong câu hỏi, đừng trả lời theo cảm giác.",
+          "explanation": "1 kg bông và 1 kg sắt đều nặng 1 kg nên bằng nhau. Bố của An có 3 con thì An chính là người con thứ ba. 1 chục = 10, lớn hơn 9."
+        },
+        {
+          "id": "k06-b1-06",
+          "type": "multi_choice",
+          "prompt": "Nhìn kỹ dấu phép tính!\nChọn TẤT CẢ các phép tính có kết quả bằng 10.",
+          "options": [
+            {
+              "text": "5 × 2"
+            },
+            {
+              "text": "5 + 2"
+            },
+            {
+              "text": "20 − 10"
+            },
+            {
+              "text": "2 × 4"
+            },
+            {
+              "text": "2 + 2 + 2 + 2 + 2"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Nhìn rõ dấu ×, +, − trong từng phép tính rồi mới tính.",
+          "explanation": "5 × 2 = 10; 20 − 10 = 10; 2 + 2 + 2 + 2 + 2 = 10.\nLưu ý: 5 + 2 = 7 (dấu cộng, không phải nhân); 2 × 4 = 8 (dấu nhân nhưng thừa số là 4, không phải 5)."
+        },
+        {
+          "id": "k06-b1-07",
+          "type": "fill_blank",
+          "timeLimit": 30,
+          "prompt": "Đọc kỹ chữ \"ít hơn\" rồi chọn số đúng.",
+          "sentence": "Lan có 8 quyển vở. Lan có ít hơn Hà 3 quyển. Vậy Hà có [[11]] quyển vở.",
+          "choices": [
+            "11",
+            "5",
+            "8",
+            "3"
+          ],
+          "method": "Lan ít hơn Hà, tức là Hà nhiều hơn Lan.",
+          "explanation": "Lan ít hơn Hà 3 quyển nghĩa là Hà nhiều hơn Lan 3 quyển: 8 + 3 = 11 (quyển). Chọn 5 là bị bẫy chữ \"ít hơn\"."
+        },
+        {
+          "id": "k06-b1-08",
+          "type": "order",
+          "timeLimit": 40,
+          "prompt": "Xếp các số theo thứ tự từ LỚN đến BÉ.",
+          "items": [
+            {
+              "text": "190"
+            },
+            {
+              "text": "119"
+            },
+            {
+              "text": "109"
+            },
+            {
+              "text": "91"
+            }
+          ],
+          "method": "So hàng trăm trước, rồi hàng chục, rồi hàng đơn vị. Chú ý chiều xếp là từ lớn đến bé!",
+          "explanation": "91 chỉ có hai chữ số nên bé nhất. Ba số còn lại có 1 trăm: so hàng chục 9 > 1 > 0. Thứ tự: 190, 119, 109, 91."
+        },
+        {
+          "id": "k06-b1-09",
+          "question": "Có 3 quả táo. Bé lấy đi 2 quả.\nHỏi BÉ có mấy quả táo?",
+          "options": [
+            "1",
+            "3",
+            "2",
+            "5"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đề hỏi số táo trong tay bé, không hỏi số táo còn lại.",
+          "explanation": "Bé lấy đi 2 quả nên bé đang có 2 quả táo.\nLưu ý: 1 là số táo còn lại (3 − 2); 3 là số táo lúc đầu; 5 là cộng nhầm 3 + 2."
+        },
+        {
+          "id": "k06-b1-10",
+          "type": "input",
+          "prompt": "Dưới ao có 8 con vịt. 3 con vịt lên bờ.\nHỏi có tất cả bao nhiêu con vịt (cả dưới ao và trên bờ)?",
+          "answers": [
+            "8"
+          ],
+          "unit": "con",
+          "method": "Vịt lên bờ chỉ đổi chỗ chứ không biến mất.",
+          "explanation": "Dưới ao còn 8 − 3 = 5 con, trên bờ 3 con. Tất cả: 5 + 3 = 8 con vịt — vẫn bằng lúc đầu."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đếm người, con vật và đồ vật",
+      "emoji": "🐔",
+      "description": "Đếm người, đếm chân, đếm đồ vật — coi chừng đếm thừa hay đếm sót nhé!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "k06-b2-01",
+          "question": "Nhà Tùng gồm bố, mẹ, hai anh em trai Tùng và Tú, cùng các chị gái của hai bạn.\nTùng có đúng 1 chị gái, Tú cũng có đúng 1 chị gái.\nHỏi nhà Tùng có mấy người?",
+          "options": [
+            "6",
+            "5",
+            "4",
+            "7"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Chị gái của Tùng có phải cũng là chị gái của Tú không?",
+          "explanation": "Hai anh em có chung 1 chị gái. Nhà có: bố, mẹ, Tùng, Tú và chị gái: 5 người.\nLưu ý: 6 là đếm 2 chị gái (mỗi bạn một chị); 4 là quên chị gái; 7 là đếm thừa."
+        },
+        {
+          "id": "k06-b2-02",
+          "type": "input",
+          "prompt": "Trong sân có 3 con gà và 2 con chó.\nHỏi có tất cả bao nhiêu cái chân?",
+          "visual": {
+            "emoji": "🐔🐔🐔 🐶🐶"
+          },
+          "answers": [
+            "14"
+          ],
+          "unit": "chân",
+          "method": "Mỗi con gà có 2 chân, mỗi con chó có 4 chân.",
+          "explanation": "3 con gà: 2 × 3 = 6 chân. 2 con chó: 4 + 4 = 8 chân.\n6 + 8 = 14 chân."
+        },
+        {
+          "id": "k06-b2-03",
+          "type": "match_multi",
+          "timeLimit": 45,
+          "prompt": "Xếp mỗi con vật vào đúng nhóm theo số chân.",
+          "groups": [
+            {
+              "text": "2 chân"
+            },
+            {
+              "text": "4 chân"
+            },
+            {
+              "text": "Không có chân"
+            }
+          ],
+          "items": [
+            {
+              "emoji": "🐔",
+              "text": "Con gà",
+              "group": 0
+            },
+            {
+              "emoji": "🦆",
+              "text": "Con vịt",
+              "group": 0
+            },
+            {
+              "emoji": "🐱",
+              "text": "Con mèo",
+              "group": 1
+            },
+            {
+              "emoji": "🐮",
+              "text": "Con bò",
+              "group": 1
+            },
+            {
+              "emoji": "🐟",
+              "text": "Con cá",
+              "group": 2
+            },
+            {
+              "emoji": "🐍",
+              "text": "Con rắn",
+              "group": 2
+            }
+          ],
+          "method": "Nhớ lại con vật đó đi bằng mấy chân, hay bơi, hay trườn.",
+          "explanation": "Gà, vịt có 2 chân. Mèo, bò có 4 chân. Cá bơi bằng vây, rắn trườn bằng thân nên không có chân."
+        },
+        {
+          "id": "k06-b2-04",
+          "question": "Hai người bố và hai người con cùng đi câu cá.\nMỗi người câu được đúng 1 con cá, nhưng cả nhóm chỉ có 3 con cá.\nHỏi có mấy người đi câu?",
+          "options": [
+            "4",
+            "3",
+            "2",
+            "5"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Một người có thể vừa là bố, vừa là con được không?",
+          "explanation": "Nhóm đi câu là ông, bố và cháu. Bố vừa là bố của cháu, vừa là con của ông. Vậy có 2 người bố (ông, bố) và 2 người con (bố, cháu) nhưng chỉ có 3 người, nên câu được 3 con cá.\nLưu ý: 4 là cộng 2 + 2, đếm bố hai lần; 2 và 5 là đếm sai."
+        },
+        {
+          "id": "k06-b2-05",
+          "type": "input",
+          "prompt": "Có 5 cây trồng thẳng một hàng.\nGiữa hai cây đứng cạnh nhau có 1 cái ghế đá.\nHỏi có bao nhiêu cái ghế đá?",
+          "answers": [
+            "4"
+          ],
+          "unit": "cái",
+          "method": "Vẽ 5 cây rồi đếm số khoảng trống giữa các cây.",
+          "explanation": "5 cây thẳng hàng có 4 khoảng ở giữa, mỗi khoảng 1 ghế. Vậy có 4 cái ghế đá (không phải 5)."
+        },
+        {
+          "id": "k06-b2-06",
+          "type": "match",
+          "timeLimit": 45,
+          "prompt": "Nối mỗi nhóm con vật với tổng số chân của nhóm đó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "🦆 2 con vịt"
+              },
+              "right": {
+                "text": "4 chân"
+              }
+            },
+            {
+              "left": {
+                "text": "🐶 1 con chó và 🐔 1 con gà"
+              },
+              "right": {
+                "text": "6 chân"
+              }
+            },
+            {
+              "left": {
+                "text": "🐱 3 con mèo"
+              },
+              "right": {
+                "text": "12 chân"
+              }
+            },
+            {
+              "left": {
+                "text": "🐟 2 con cá"
+              },
+              "right": {
+                "text": "0 chân"
+              }
+            }
+          ],
+          "method": "Gà, vịt có 2 chân; chó, mèo có 4 chân; cá không có chân.",
+          "explanation": "2 con vịt: 2 + 2 = 4 chân. 1 chó và 1 gà: 4 + 2 = 6 chân. 3 con mèo: 4 + 4 + 4 = 12 chân. Cá không có chân nên 2 con cá có 0 chân."
+        },
+        {
+          "id": "k06-b2-07",
+          "question": "Một căn phòng có 4 góc. Mỗi góc có 1 con mèo.\nTrước mặt mỗi con mèo có 3 con mèo.\nHỏi trong phòng có tất cả mấy con mèo?",
+          "options": [
+            "12",
+            "16",
+            "4",
+            "7"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "\"3 con mèo trước mặt\" có phải là 3 con mèo khác ở 3 góc còn lại không?",
+          "explanation": "Mỗi con mèo nhìn thấy 3 con mèo ở 3 góc còn lại. Không có thêm con mèo nào. Trong phòng có 4 con mèo.\nLưu ý: 12 là cộng 3 + 3 + 3 + 3 (đếm một con mèo nhiều lần); 16 là cộng thêm 4 + 12; 7 là cộng 4 + 3."
+        },
+        {
+          "id": "k06-b2-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các nhóm có đúng 8 cái chân.",
+          "options": [
+            {
+              "text": "3 con vịt"
+            },
+            {
+              "text": "4 con gà"
+            },
+            {
+              "text": "2 con mèo và 1 con gà"
+            },
+            {
+              "text": "2 con chó"
+            },
+            {
+              "text": "1 con chó và 2 con gà"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            4
+          ],
+          "method": "Tính số chân từng nhóm: gà, vịt 2 chân; chó, mèo 4 chân.",
+          "explanation": "4 con gà: 2 × 4 = 8. 2 con chó: 4 + 4 = 8. 1 con chó và 2 con gà: 4 + 2 + 2 = 8.\nLưu ý: 3 con vịt chỉ có 6 chân; 2 con mèo và 1 con gà có 4 + 4 + 2 = 10 chân."
+        },
+        {
+          "id": "k06-b2-09",
+          "question": "Trong chuồng có gà và thỏ.\nBé đếm được 5 cái đầu và 14 cái chân.\nHỏi trong chuồng có mấy con thỏ?",
+          "options": [
+            "2",
+            "3",
+            "5",
+            "4"
+          ],
+          "correct_index": 0,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Mỗi con có 1 đầu: có 5 con. Thử chia 5 con thành gà và thỏ rồi đếm chân.",
+          "explanation": "Có 5 con. Thử 3 gà và 2 thỏ: 2 + 2 + 2 + 4 + 4 = 14 chân ✓. Vậy có 2 con thỏ.\nLưu ý: 3 là số con gà, không phải số thỏ; 5 là tổng số con; 4 thỏ và 1 gà sẽ có 18 chân."
+        },
+        {
+          "id": "k06-b2-10",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Xếp các nhóm con vật theo số chân từ ÍT đến NHIỀU.",
+          "items": [
+            {
+              "text": "🐟 3 con cá"
+            },
+            {
+              "text": "🐔 2 con gà"
+            },
+            {
+              "text": "🐱 1 con mèo và 🦆 1 con vịt"
+            },
+            {
+              "text": "🐶 2 con chó và 🐔 1 con gà"
+            }
+          ],
+          "method": "Tính tổng số chân của từng nhóm trước, rồi mới xếp.",
+          "explanation": "3 con cá: 0 chân. 2 con gà: 4 chân. 1 mèo và 1 vịt: 4 + 2 = 6 chân. 2 chó và 1 gà: 4 + 4 + 2 = 10 chân.\nThứ tự: 0, 4, 6, 10."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Câu đố thêm bớt đánh lừa",
+      "emoji": "🚌",
+      "description": "Thêm vào, bớt đi, rồi lại thêm — bé tỉnh táo để không bị lừa nhé!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "k06-b3-01",
+          "question": "Xe buýt có 10 người.\nBến thứ nhất: 3 người xuống, 2 người lên.\nBến thứ hai: 4 người xuống, 1 người lên.\nHỏi xe buýt đã dừng ở mấy bến?",
+          "options": [
+            "6",
+            "2",
+            "4",
+            "8"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đọc kỹ câu hỏi cuối cùng: đề hỏi số người hay số bến?",
+          "explanation": "Xe dừng ở bến thứ nhất và bến thứ hai: 2 bến.\nLưu ý: 6 là số người còn trên xe (10 − 3 + 2 − 4 + 1 = 6) — bẫy vì đề không hỏi số người; 4 và 8 là tính nhầm."
+        },
+        {
+          "id": "k06-b3-02",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Lật từng ô bên trái, rồi chạm vào kết quả đúng ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "10 − 3 + 3"
+              },
+              "back": {
+                "text": "10"
+              }
+            },
+            {
+              "front": {
+                "text": "5 + 5 − 5"
+              },
+              "back": {
+                "text": "5"
+              }
+            },
+            {
+              "front": {
+                "text": "8 + 2 − 10"
+              },
+              "back": {
+                "text": "0"
+              }
+            },
+            {
+              "front": {
+                "text": "7 − 7 + 7"
+              },
+              "back": {
+                "text": "7"
+              }
+            },
+            {
+              "front": {
+                "text": "20 − 2 − 2"
+              },
+              "back": {
+                "text": "16"
+              }
+            }
+          ],
+          "method": "Thêm vào rồi bớt đi đúng số đó thì trở về như cũ.",
+          "explanation": "10 − 3 + 3 = 10; 5 + 5 − 5 = 5; 8 + 2 − 10 = 0; 7 − 7 + 7 = 7; 20 − 2 − 2 = 16."
+        },
+        {
+          "id": "k06-b3-03",
+          "type": "input",
+          "prompt": "Bé có 12 viên bi. Bé cho em 4 viên, rồi em trả lại bé 2 viên.\nHỏi bé còn mấy viên bi?",
+          "answers": [
+            "10"
+          ],
+          "unit": "viên",
+          "method": "Tính lần lượt: bớt đi số bi cho em, rồi thêm số bi em trả lại.",
+          "explanation": "12 − 4 = 8 (viên). 8 + 2 = 10 (viên). Bé còn 10 viên bi."
+        },
+        {
+          "id": "k06-b3-04",
+          "question": "Một lọ có 10 cái kẹo.\nBé lấy ra 3 cái, rồi bỏ lại vào lọ 1 cái.\nHỏi trong LỌ còn mấy cái kẹo?",
+          "options": [
+            "2",
+            "8",
+            "7",
+            "12"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đề hỏi số kẹo trong lọ, không hỏi số kẹo trong tay bé.",
+          "explanation": "Lấy ra 3 cái: 10 − 3 = 7. Bỏ lại 1 cái: 7 + 1 = 8. Trong lọ còn 8 cái kẹo.\nLưu ý: 2 là số kẹo bé còn cầm trong tay; 7 là quên cái kẹo bỏ lại; 12 là cộng nhầm 10 + 3 − 1."
+        },
+        {
+          "id": "k06-b3-05",
+          "type": "input",
+          "prompt": "Lúc đầu Nam có một số viên bi.\nNam cho Bảo 5 viên, rồi được mẹ cho thêm 3 viên. Lúc này Nam có 10 viên.\nHỏi LÚC ĐẦU Nam có mấy viên bi?",
+          "answers": [
+            "12"
+          ],
+          "unit": "viên",
+          "method": "Đi ngược lại từ cuối: bỏ số bi mẹ cho ra, rồi lấy lại số bi đã cho Bảo.",
+          "explanation": "Trước khi mẹ cho: 10 − 3 = 7 (viên).\nTrước khi cho Bảo: 7 + 5 = 12 (viên).\nLúc đầu Nam có 12 viên bi."
+        },
+        {
+          "id": "k06-b3-06",
+          "question": "Trên tàu có 20 người.\nĐến ga, 5 người xuống và 5 người khác lên tàu.\nHỏi lúc này trên tàu có bao nhiêu người?",
+          "options": [
+            "25 người",
+            "15 người",
+            "20 người",
+            "10 người"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Số người xuống và số người lên có bằng nhau không?",
+          "explanation": "Xuống 5 người, lên 5 người: 20 − 5 + 5 = 20. Trên tàu vẫn có 20 người.\nLưu ý: 25 là chỉ tính người lên; 15 là chỉ tính người xuống; 10 là trừ cả hai lần."
+        },
+        {
+          "id": "k06-b3-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Đọc thật kỹ rồi chọn số đúng điền vào chỗ trống.",
+          "sentence": "An và Bình có tất cả 20 viên bi. An cho Bình 4 viên thì hai bạn vẫn có tất cả [[20]] viên. Nếu An làm mất 4 viên thì hai bạn còn [[16]] viên.",
+          "choices": [
+            "20",
+            "16",
+            "24",
+            "12"
+          ],
+          "method": "Cho bạn thì bi chỉ đổi chủ; làm mất thì bi mới thật sự ít đi.",
+          "explanation": "An cho Bình 4 viên: bi vẫn ở trong tay hai bạn nên tổng vẫn là 20 viên.\nAn làm mất 4 viên: 20 − 4 = 16 (viên).\n(16 ở chỗ trống đầu là bẫy; 24 và 12 là tính nhầm.)"
+        },
+        {
+          "id": "k06-b3-08",
+          "type": "match_vertical",
+          "timeLimit": 45,
+          "prompt": "Một số bất kì được thêm, bớt như ở trên.\nNối với kết quả so với số lúc đầu (ở dưới).",
+          "pairs": [
+            {
+              "left": {
+                "text": "Thêm 5 rồi bớt 5"
+              },
+              "right": {
+                "text": "Không đổi"
+              }
+            },
+            {
+              "left": {
+                "text": "Thêm 5 rồi bớt 3"
+              },
+              "right": {
+                "text": "Nhiều hơn 2"
+              }
+            },
+            {
+              "left": {
+                "text": "Bớt 5 rồi thêm 3"
+              },
+              "right": {
+                "text": "Ít hơn 2"
+              }
+            },
+            {
+              "left": {
+                "text": "Thêm 3 rồi thêm 2"
+              },
+              "right": {
+                "text": "Nhiều hơn 5"
+              }
+            }
+          ],
+          "method": "Thêm bao nhiêu, bớt bao nhiêu: bên nào nhiều hơn và nhiều hơn mấy?",
+          "explanation": "Thêm 5 bớt 5: về như cũ. Thêm 5 bớt 3: còn thêm 2. Bớt 5 thêm 3: vẫn thiếu 2. Thêm 3 rồi thêm 2: thêm tất cả 5."
+        },
+        {
+          "id": "k06-b3-09",
+          "question": "Trên xe buýt có một số người.\nĐến bến, 4 người xuống và 6 người lên. Lúc này trên xe có 15 người.\nHỏi LÚC ĐẦU trên xe có mấy người?",
+          "options": [
+            "25",
+            "17",
+            "13",
+            "9"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Đi ngược lại: bỏ những người vừa lên ra, rồi đưa những người vừa xuống trở lại xe.",
+          "explanation": "Bỏ 6 người vừa lên: 15 − 6 = 9. Đưa 4 người vừa xuống trở lại: 9 + 4 = 13. Lúc đầu có 13 người.\nLưu ý: 17 là làm ngược (15 + 6 − 4); 25 là cộng hết 15 + 6 + 4; 9 là quên 4 người xuống xe."
+        },
+        {
+          "id": "k06-b3-10",
+          "type": "multi_choice",
+          "prompt": "Bé có 10 cái kẹo.\nChọn TẤT CẢ các cách làm mà cuối cùng bé VẪN CÓ đúng 10 cái kẹo.",
+          "options": [
+            {
+              "text": "Cho bạn 5 cái rồi bạn trả lại 4 cái"
+            },
+            {
+              "text": "Cho bạn 3 cái rồi được tặng 3 cái"
+            },
+            {
+              "text": "Mua thêm 1 cái rồi ăn 2 cái"
+            },
+            {
+              "text": "Ăn 2 cái rồi mua thêm 2 cái"
+            },
+            {
+              "text": "Được tặng 4 cái rồi cho đi 4 cái"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            4
+          ],
+          "method": "Bớt đi bao nhiêu thì phải thêm lại đúng bấy nhiêu mới trở về như cũ.",
+          "explanation": "Cho 3 – nhận 3, ăn 2 – mua 2, nhận 4 – cho 4: bớt và thêm bằng nhau nên vẫn 10 cái.\nLưu ý: cho 5 mà chỉ nhận lại 4 thì còn 9 cái; mua 1 mà ăn 2 thì còn 9 cái."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Bài toán thay đổi vị trí",
+      "emoji": "🚂",
+      "description": "Đếm từ trái sang hay từ phải sang? Bé tìm vị trí thật nhanh nào!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "k06-b4-01",
+          "question": "Các bạn xếp thành một hàng ngang.\nBin đứng thứ 3 tính từ trái sang và cũng đứng thứ 3 tính từ phải sang.\nHỏi hàng có mấy bạn?",
+          "options": [
+            "6",
+            "4",
+            "5",
+            "7"
+          ],
+          "correct_index": 2,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Vẽ Bin ở giữa: bên trái Bin có mấy bạn, bên phải Bin có mấy bạn?",
+          "explanation": "Bên trái Bin có 2 bạn, bên phải Bin có 2 bạn. Cả hàng: 2 + 1 + 2 = 5 bạn.\nLưu ý: 6 là lấy 3 + 3, đếm Bin hai lần; 4 là quên một bên; 7 là đếm thừa."
+        },
+        {
+          "id": "k06-b4-02",
+          "type": "input",
+          "prompt": "Đoàn tàu có 8 toa.\nToa của bé là toa thứ 3 tính từ đầu tàu.\nHỏi tính từ cuối tàu, đó là toa thứ mấy?",
+          "answers": [
+            "6"
+          ],
+          "method": "Đếm xem sau toa của bé còn mấy toa nữa.",
+          "explanation": "Sau toa của bé có 8 − 3 = 5 toa. Đếm từ cuối: 5 toa rồi đến toa của bé, nên là toa thứ 6."
+        },
+        {
+          "id": "k06-b4-03",
+          "type": "match_vertical",
+          "timeLimit": 45,
+          "prompt": "Một hàng ngang có 5 bạn.\nNối vị trí tính từ TRÁI (ở trên) với vị trí tính từ PHẢI (ở dưới) của cùng một bạn.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Thứ 1 từ trái"
+              },
+              "right": {
+                "text": "Thứ 5 từ phải"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 2 từ trái"
+              },
+              "right": {
+                "text": "Thứ 4 từ phải"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 3 từ trái"
+              },
+              "right": {
+                "text": "Thứ 3 từ phải"
+              }
+            },
+            {
+              "left": {
+                "text": "Thứ 4 từ trái"
+              },
+              "right": {
+                "text": "Thứ 2 từ phải"
+              }
+            }
+          ],
+          "method": "Hai vị trí của cùng một bạn cộng lại luôn bằng 5 + 1 = 6.",
+          "explanation": "Thứ 1 từ trái là thứ 5 từ phải; thứ 2 ↔ thứ 4; thứ 3 ↔ thứ 3; thứ 4 ↔ thứ 2."
+        },
+        {
+          "id": "k06-b4-04",
+          "question": "Trong cuộc thi chạy, bé vừa vượt qua bạn đang chạy thứ hai.\nHỏi lúc này bé đang chạy thứ mấy?",
+          "options": [
+            "Thứ nhất",
+            "Thứ hai",
+            "Thứ ba",
+            "Thứ tư"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Vượt qua bạn thứ hai thì bé đứng vào chỗ của ai?",
+          "explanation": "Bé vượt qua bạn thứ hai nghĩa là bé lấy chỗ của bạn ấy, còn bạn ấy lùi xuống thứ ba. Bé đang chạy thứ hai.\nLưu ý: \"Thứ nhất\" là bẫy hay gặp — muốn chạy thứ nhất phải vượt qua bạn đang dẫn đầu; \"Thứ ba\" là vị trí mới của bạn bị vượt."
+        },
+        {
+          "id": "k06-b4-05",
+          "type": "input",
+          "prompt": "Một hàng ngang có 10 bạn.\nHoa đứng thứ 4 tính từ trái sang.\nHoa đổi chỗ cho bạn đứng thứ 2 tính từ PHẢI sang.\nHỏi lúc này Hoa đứng thứ mấy tính từ TRÁI sang?",
+          "answers": [
+            "9"
+          ],
+          "method": "Bạn đứng thứ 2 từ phải sang thì đứng thứ mấy từ trái sang?",
+          "explanation": "Hàng có 10 bạn. Thứ 2 từ phải sang có 1 bạn ở bên phải, nên có 10 − 2 = 8 bạn ở bên trái. Vị trí đó là thứ 9 từ trái sang. Hoa đổi vào đó nên Hoa đứng thứ 9."
+        },
+        {
+          "id": "k06-b4-06",
+          "type": "order",
+          "timeLimit": 45,
+          "prompt": "Năm bạn đứng một hàng từ trái sang phải: An, Bình, Chi, Dũng, Em.\nBình và Dũng đổi chỗ cho nhau.\nXếp lại hàng MỚI từ TRÁI sang PHẢI.",
+          "items": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Dũng"
+            },
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "Bình"
+            },
+            {
+              "text": "Em"
+            }
+          ],
+          "method": "Chỉ hai bạn đổi chỗ; các bạn khác vẫn đứng yên.",
+          "explanation": "An, Chi, Em đứng yên ở chỗ 1, 3, 5. Bình (chỗ 2) và Dũng (chỗ 4) đổi chỗ.\nHàng mới: An, Dũng, Chi, Bình, Em."
+        },
+        {
+          "id": "k06-b4-07",
+          "question": "Một hàng ngang có 7 bạn.\nMai đứng ở chính giữa hàng.\nHỏi bên trái Mai có mấy bạn?",
+          "options": [
+            "4",
+            "3",
+            "6",
+            "2"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Bỏ Mai ra, số bạn còn lại chia đều hai bên.",
+          "explanation": "Bỏ Mai còn 7 − 1 = 6 bạn, chia đều hai bên: mỗi bên 3 bạn.\nLưu ý: 4 là vị trí của Mai (thứ 4), không phải số bạn bên trái; 6 là số bạn trừ Mai; 2 là đếm thiếu."
+        },
+        {
+          "id": "k06-b4-08",
+          "type": "pick_order",
+          "timeLimit": 40,
+          "prompt": "Bốn quyển sách xếp trên giá từ trái sang phải: Toán, Tiếng Việt, Mĩ thuật, Âm nhạc.\nBé chuyển quyển Toán sang tận cùng bên phải.\nChạm tên các quyển theo thứ tự MỚI từ trái sang phải.",
+          "items": [
+            "Tiếng Việt",
+            "Mĩ thuật",
+            "Âm nhạc",
+            "Toán"
+          ],
+          "distractors": [
+            "Tự nhiên"
+          ],
+          "method": "Lấy quyển Toán ra, các quyển còn lại dồn sang trái, rồi đặt Toán vào cuối.",
+          "explanation": "Lấy Toán ra còn: Tiếng Việt, Mĩ thuật, Âm nhạc. Đặt Toán ở tận cùng bên phải: Tiếng Việt, Mĩ thuật, Âm nhạc, Toán. Thẻ \"Tự nhiên\" là thẻ nhiễu."
+        },
+        {
+          "id": "k06-b4-09",
+          "question": "Bé đang xếp hàng: trước bé có 4 bạn, sau bé có 4 bạn.\nBé chuyển xuống đứng cuối hàng.\nHỏi lúc này trước bé có mấy bạn?",
+          "options": [
+            "4",
+            "8",
+            "9",
+            "5"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Tính cả hàng có mấy bạn trước. Đứng cuối hàng thì tất cả các bạn khác đều ở trước bé.",
+          "explanation": "Cả hàng: 4 + 1 + 4 = 9 bạn. Bé đứng cuối thì 8 bạn còn lại đều đứng trước bé.\nLưu ý: 4 là nghĩ vị trí không đổi; 9 là đếm cả bé; 5 là vị trí cũ của bé."
+        },
+        {
+          "id": "k06-b4-10",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Đoàn tàu có 10 toa.\nLật từng ô (vị trí tính từ ĐẦU tàu), rồi chạm vào vị trí của chính toa đó tính từ CUỐI tàu.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Toa thứ 1 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 10 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Toa thứ 3 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 8 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Toa thứ 5 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 6 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Toa thứ 7 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 4 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Toa thứ 9 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 2 từ cuối"
+              }
+            }
+          ],
+          "method": "Hai vị trí của cùng một toa cộng lại luôn bằng 10 + 1 = 11.",
+          "explanation": "Vị trí từ cuối = 11 − vị trí từ đầu: 11 − 1 = 10; 11 − 3 = 8; 11 − 5 = 6; 11 − 7 = 4; 11 − 9 = 2."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "10 câu đố IQ tưởng dễ mà khó",
+      "emoji": "🧠",
+      "description": "Những câu đố nhìn qua tưởng dễ — bé suy nghĩ thật kỹ mới trả lời nhé!",
+      "timeLimit": 15,
+      "questions": [
+        {
+          "id": "k06-b5-01",
+          "question": "3 con mèo bắt 3 con chuột hết 3 phút.\nHỏi 1 con mèo bắt 1 con chuột hết mấy phút?",
+          "options": [
+            "1 phút",
+            "9 phút",
+            "6 phút",
+            "3 phút"
+          ],
+          "correct_index": 3,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Ba con mèo cùng bắt một lúc, mỗi con bắt một con chuột.",
+          "explanation": "Ba con mèo bắt cùng lúc, mỗi con bắt 1 con chuột trong 3 phút. Vậy 1 con mèo bắt 1 con chuột cũng hết 3 phút.\nLưu ý: 1 phút là bẫy vì nghĩ ít mèo, ít chuột thì bắt nhanh hơn; 9 và 6 phút là cộng nhầm các số 3."
+        },
+        {
+          "id": "k06-b5-02",
+          "type": "input",
+          "prompt": "Một chú ốc sên bò lên một cái cột cao 5 m.\nBan ngày ốc bò lên 3 m, ban đêm ốc tụt xuống 2 m.\nHỏi đến ngày thứ mấy thì ốc lên tới đỉnh cột?",
+          "answers": [
+            "3"
+          ],
+          "method": "Tính từng ngày một; ngày nào ốc lên tới đỉnh thì không bị tụt nữa.",
+          "explanation": "Ngày 1 lên 3 m, đêm tụt còn 1 m. Ngày 2 lên 4 m, đêm tụt còn 2 m. Ngày 3 lên 2 + 3 = 5 m: tới đỉnh. Đáp án: ngày thứ 3."
+        },
+        {
+          "id": "k06-b5-03",
+          "question": "Số lớn nhất có hai chữ số KHÁC NHAU là số nào?",
+          "options": [
+            "99",
+            "98",
+            "90",
+            "89"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Hàng chục lấy chữ số lớn nhất, hàng đơn vị lấy chữ số lớn nhất còn lại.",
+          "explanation": "Hàng chục là 9, hàng đơn vị phải khác 9 nên lớn nhất là 8. Số đó là 98.\nLưu ý: 99 có hai chữ số giống nhau; 90 và 89 đều bé hơn 98."
+        },
+        {
+          "id": "k06-b5-04",
+          "question": "Trong một năm có 12 tháng.\nHỏi có bao nhiêu tháng có ngày 28?",
+          "options": [
+            "1",
+            "12",
+            "2",
+            "4"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Tháng nào cũng có ít nhất bao nhiêu ngày?",
+          "explanation": "Tháng ngắn nhất (tháng Hai) cũng có 28 ngày, nên tháng nào cũng có ngày 28. Có 12 tháng có ngày 28.\nLưu ý: 1 là bẫy vì nghĩ ngay tới tháng Hai có 28 ngày; đề hỏi tháng CÓ ngày 28, không hỏi tháng chỉ có 28 ngày."
+        },
+        {
+          "id": "k06-b5-05",
+          "type": "input",
+          "prompt": "Đi cầu thang từ tầng 1 lên tầng 2 hết 1 phút.\nĐi đều như vậy, từ tầng 1 lên tầng 5 hết mấy phút?",
+          "answers": [
+            "4"
+          ],
+          "unit": "phút",
+          "method": "Đếm số đoạn cầu thang phải đi, không phải số tầng.",
+          "explanation": "Từ tầng 1 lên tầng 5 phải đi 4 đoạn cầu thang: 1→2, 2→3, 3→4, 4→5. Mỗi đoạn 1 phút nên hết 4 phút (không phải 5 phút)."
+        },
+        {
+          "id": "k06-b5-06",
+          "question": "Luộc chín 1 quả trứng mất 5 phút.\nMẹ cho 3 quả trứng vào cùng một nồi để luộc cùng lúc.\nHỏi luộc chín 3 quả hết mấy phút?",
+          "options": [
+            "15 phút",
+            "5 phút",
+            "3 phút",
+            "8 phút"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Ba quả trứng nằm chung một nồi thì chín lần lượt hay chín cùng lúc?",
+          "explanation": "Ba quả trứng được luộc cùng lúc trong một nồi nên cùng chín sau 5 phút.\nLưu ý: 15 phút là nghĩ luộc từng quả một (5 + 5 + 5); 3 phút và 8 phút là lấy nhầm các số trong đề."
+        },
+        {
+          "id": "k06-b5-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Bé dùng que tính để xếp hình, mỗi cạnh là 1 que.\nChọn số đúng điền vào chỗ trống.",
+          "sentence": "Xếp 1 hình tam giác cần [[3]] que. Xếp 2 hình tam giác chung nhau 1 cạnh chỉ cần [[5]] que.",
+          "choices": [
+            "3",
+            "5",
+            "6",
+            "4"
+          ],
+          "method": "Cạnh dùng chung chỉ cần 1 que cho cả 2 hình.",
+          "explanation": "1 hình tam giác có 3 cạnh nên cần 3 que.\n2 tam giác rời nhau cần 3 + 3 = 6 que; chung nhau 1 cạnh thì bớt 1 que: 6 − 1 = 5 que. Chọn 6 là bị bẫy."
+        },
+        {
+          "id": "k06-b5-08",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi câu đố \"tưởng dễ\" với đáp án đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Viết các số từ 1 đến 20, có mấy chữ số 9?"
+              },
+              "right": {
+                "text": "2 chữ số 9"
+              }
+            },
+            {
+              "left": {
+                "text": "Gấp đôi tờ giấy 2 lần rồi mở ra, các nếp gấp chia tờ giấy thành mấy phần?"
+              },
+              "right": {
+                "text": "4 phần"
+              }
+            },
+            {
+              "left": {
+                "text": "Hàng rào dài 10 m, cứ 2 m cắm 1 cọc, cắm cả ở 2 đầu. Cần mấy cọc?"
+              },
+              "right": {
+                "text": "6 cọc"
+              }
+            },
+            {
+              "left": {
+                "text": "Đếm thêm 2 bắt đầu từ 1, không vượt quá 10. Đọc được mấy số?"
+              },
+              "right": {
+                "text": "5 số"
+              }
+            }
+          ],
+          "method": "Viết ra giấy hoặc vẽ thử, đừng trả lời theo cảm giác.",
+          "explanation": "Từ 1 đến 20 chỉ có số 9 và số 19 có chữ số 9: 2 chữ số 9. Gấp đôi 2 lần: 1 tờ → 2 phần → 4 phần. Hàng rào 10 m có 5 khoảng 2 m, nên cần 5 + 1 = 6 cọc. Đếm thêm 2 từ 1: 1, 3, 5, 7, 9 (đếm tiếp là 11, quá 10) — có 5 số."
+        },
+        {
+          "id": "k06-b5-09",
+          "question": "Một sợi dây được gấp đôi lại thì dài 5 dm.\nHỏi sợi dây khi duỗi thẳng ra dài bao nhiêu?",
+          "options": [
+            "5 dm",
+            "1 m",
+            "2 m",
+            "15 dm"
+          ],
+          "correct_index": 1,
+          "countdown": [
+            "15",
+            "14",
+            "13",
+            "12",
+            "11",
+            "10",
+            "9",
+            "8",
+            "7",
+            "6",
+            "5",
+            "4",
+            "3",
+            "2",
+            "1"
+          ],
+          "method": "Gấp đôi thì sợi dây ngắn đi còn một nửa. Nhớ đổi: 10 dm = 1 m.",
+          "explanation": "Duỗi ra, sợi dây gồm 2 đoạn, mỗi đoạn 5 dm: 5 + 5 = 10 (dm). 10 dm = 1 m.\nLưu ý: 5 dm là quên duỗi dây ra; 2 m (= 20 dm) là cộng thừa thành 4 đoạn 5 dm; 15 dm là cộng nhầm 5 + 10."
+        },
+        {
+          "id": "k06-b5-10",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Câu đố số \"tưởng dễ\"!\nLật từng ô bên trái, rồi chạm vào số đúng ở bên phải.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số bé nhất có hai chữ số giống nhau"
+              },
+              "back": {
+                "text": "11"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn nhất có hai chữ số giống nhau"
+              },
+              "back": {
+                "text": "99"
+              }
+            },
+            {
+              "front": {
+                "text": "Số tròn chục lớn nhất có hai chữ số"
+              },
+              "back": {
+                "text": "90"
+              }
+            },
+            {
+              "front": {
+                "text": "Số bé nhất có ba chữ số khác nhau"
+              },
+              "back": {
+                "text": "102"
+              }
+            },
+            {
+              "front": {
+                "text": "Số lớn nhất có ba chữ số khác nhau"
+              },
+              "back": {
+                "text": "987"
+              }
+            }
+          ],
+          "method": "Với chữ \"giống nhau\": hai chữ số phải như nhau. Với chữ \"khác nhau\": không được dùng một chữ số hai lần.",
+          "explanation": "Số bé nhất có hai chữ số giống nhau là 11 (10 có hai chữ số khác nhau). Số lớn nhất có hai chữ số giống nhau là 99. Số tròn chục lớn nhất có hai chữ số là 90. Số bé nhất có ba chữ số khác nhau là 102 (100 và 101 có chữ số lặp lại). Số lớn nhất có ba chữ số khác nhau là 987 (999 có các chữ số giống nhau)."
+        }
+      ]
+    }
+  ]
+}

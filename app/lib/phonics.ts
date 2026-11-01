@@ -1,92 +1,119 @@
 // Phonics — ghép vần đọc tiếng Anh cho bé, theo nhóm NGUYÊN ÂM NGẮN (CVC words).
 // CVC = phụ âm + nguyên âm + phụ âm (cat, dog, sun) — dạng từ đầu tiên trẻ tập đọc.
+// Chỉ nhận CVC THUẦN: 3 chữ = 3 âm. Từ có x (box, fox, six: x = /ks/ là 2 âm) không đưa vào đây —
+// fox/box/ox nằm ở Họ từ -ox. CCVC (frog, stop) và CVCC (milk, jump) để thành bài riêng sau.
 //
-// Phát âm dùng Web Speech (giọng bản ngữ). "Đánh vần" = đọc chậm rồi đọc thường để bé
-// nghe cách nối âm. hint = gợi ý âm kiểu Việt cho phụ huynh (cờ–a–tờ).
+// CHUẨN PHÁT ÂM: Anh-Mỹ (General American) — khớp giọng đọc của site (/api/tts giọng Mỹ).
+// Vì vậy o ngắn là /ɑ/ (hot, dog), e ngắn là /ɛ/. IPA từng âm sinh tự động từ 3 chữ (phonemes()).
+// "Đánh vần" = tách /s/ – /ʌ/ – /n/ rồi ghép /sʌn/. hint (sờ–â–nờ) CHỈ là gợi ý cho phụ huynh,
+// không phải phiên âm: đọc kiểu Việt dễ thêm âm "ờ" không có trong tiếng Anh.
+//
+// adv = mức NÂNG CAO: từ khó vẽ thành hình rõ nghĩa (fed, got, but…) → hiện ở mục riêng và không
+// dùng trong mini quiz (câu "chọn hình đúng" cần hình không thể nhầm).
 
 export type PhonicsWord = {
   word: string; // từ CVC
   letters: [string, string, string]; // 3 chữ
-  hint: string; // gợi ý đánh vần kiểu Việt
+  hint: string; // gợi ý đánh vần kiểu Việt cho phụ huynh (sinh tự động)
   vi: string;
   emoji: string;
+  adv?: boolean; // nâng cao — khó minh họa
 };
 
 export type PhonicsGroup = {
   slug: string;
   vowel: string; // chữ nguyên âm
-  sound: string; // âm IPA
+  sound: string; // âm IPA (Anh-Mỹ)
   label: string; // vd "Nguyên âm ngắn A"
   emoji: string;
   words: PhonicsWord[];
 };
 
+// Gợi ý âm kiểu Việt cho phụ huynh (u ngắn /ʌ/ gần "â").
+const VI_CONSONANT: Record<string, string> = {
+  b: 'bờ', c: 'cờ', d: 'đờ', f: 'phờ', g: 'gờ', h: 'hờ', j: 'giờ', k: 'kờ', l: 'lờ', m: 'mờ', n: 'nờ',
+  p: 'pờ', r: 'rờ', s: 'sờ', t: 'tờ', v: 'vờ', w: 'guờ', y: 'dờ', z: 'dờ',
+};
+const VI_VOWEL: Record<string, string> = { a: 'a', e: 'e', i: 'i', o: 'o', u: 'â' };
+
+function w(word: string, vi: string, emoji: string, adv = false): PhonicsWord {
+  const letters = word.split('') as [string, string, string];
+  const hint = letters.map((ch, i) => (i === 1 ? VI_VOWEL[ch] : VI_CONSONANT[ch]) ?? ch).join('–');
+  return { word, letters, hint, vi, emoji, ...(adv ? { adv: true } : {}) };
+}
+
 export const PHONICS_GROUPS: PhonicsGroup[] = [
   {
     slug: 'a', vowel: 'a', sound: '/æ/', label: 'Nguyên âm ngắn A', emoji: '🅰️',
     words: [
-      { word: 'cat', letters: ['c', 'a', 't'], hint: 'cờ–a–tờ', vi: 'con mèo', emoji: '🐱' },
-      { word: 'bat', letters: ['b', 'a', 't'], hint: 'bờ–a–tờ', vi: 'con dơi', emoji: '🦇' },
-      { word: 'hat', letters: ['h', 'a', 't'], hint: 'hờ–a–tờ', vi: 'cái mũ', emoji: '🎩' },
-      { word: 'map', letters: ['m', 'a', 'p'], hint: 'mờ–a–pờ', vi: 'bản đồ', emoji: '🗺️' },
-      { word: 'bag', letters: ['b', 'a', 'g'], hint: 'bờ–a–gờ', vi: 'cái túi', emoji: '🎒' },
-      { word: 'man', letters: ['m', 'a', 'n'], hint: 'mờ–a–nờ', vi: 'người đàn ông', emoji: '👨' },
-      { word: 'cap', letters: ['c', 'a', 'p'], hint: 'cờ–a–pờ', vi: 'mũ lưỡi trai', emoji: '🧢' },
-      { word: 'van', letters: ['v', 'a', 'n'], hint: 'vờ–a–nờ', vi: 'xe tải nhỏ', emoji: '🚐' },
+      w('cat', 'con mèo', '🐱'), w('bat', 'con dơi', '🦇'), w('hat', 'cái mũ', '🎩'), w('rat', 'con chuột', '🐀'),
+      w('bag', 'cái túi', '🎒'), w('tag', 'nhãn mác', '🏷️'), w('jam', 'mứt', '🫙'), w('ham', 'thịt giăm bông', '🍖'),
+      w('ram', 'cừu đực', '🐏'), w('fan', 'cái quạt', '🪭'), w('man', 'người đàn ông', '👨'), w('pan', 'cái chảo', '🍳'),
+      w('can', 'cái lon', '🥫'), w('van', 'xe tải nhỏ', '🚐'), w('map', 'bản đồ', '🗺️'), w('cap', 'mũ lưỡi trai', '🧢'),
+      w('tap', 'vòi nước', '🚰'), w('nap', 'giấc ngủ ngắn', '😴'), w('dad', 'bố', '👨‍👧'), w('sad', 'buồn', '😢'),
+      w('mat', 'tấm thảm', '🧘', true), w('sat', 'đã ngồi', '🪑', true), w('fat', 'béo', '🐷', true),
+      w('pat', 'vỗ nhẹ', '🫳', true), w('wag', 'vẫy đuôi', '🐕', true),
     ],
   },
   {
-    slug: 'e', vowel: 'e', sound: '/e/', label: 'Nguyên âm ngắn E', emoji: '🅴',
+    slug: 'e', vowel: 'e', sound: '/ɛ/', label: 'Nguyên âm ngắn E', emoji: '🅴',
     words: [
-      { word: 'bed', letters: ['b', 'e', 'd'], hint: 'bờ–e–đờ', vi: 'cái giường', emoji: '🛏️' },
-      { word: 'hen', letters: ['h', 'e', 'n'], hint: 'hờ–e–nờ', vi: 'gà mái', emoji: '🐔' },
-      { word: 'pen', letters: ['p', 'e', 'n'], hint: 'pờ–e–nờ', vi: 'cái bút', emoji: '🖊️' },
-      { word: 'net', letters: ['n', 'e', 't'], hint: 'nờ–e–tờ', vi: 'cái lưới', emoji: '🥅' },
-      { word: 'ten', letters: ['t', 'e', 'n'], hint: 'tờ–e–nờ', vi: 'số mười', emoji: '🔟' },
-      { word: 'red', letters: ['r', 'e', 'd'], hint: 'rờ–e–đờ', vi: 'màu đỏ', emoji: '🔴' },
-      { word: 'jet', letters: ['j', 'e', 't'], hint: 'giờ–e–tờ', vi: 'máy bay phản lực', emoji: '✈️' },
-      { word: 'web', letters: ['w', 'e', 'b'], hint: 'guờ–e–bờ', vi: 'mạng nhện', emoji: '🕸️' },
+      w('bed', 'cái giường', '🛏️'), w('red', 'màu đỏ', '🔴'), w('pen', 'cái bút', '🖊️'), w('hen', 'gà mái', '🐔'),
+      w('ten', 'số mười', '🔟'), w('men', 'những người đàn ông', '👬'), w('pet', 'thú cưng', '🐶'), w('wet', 'ướt', '💦'),
+      w('net', 'cái lưới', '🥅'), w('jet', 'máy bay phản lực', '✈️'), w('vet', 'bác sĩ thú y', '🩺'), w('leg', 'cái chân', '🦵'),
+      w('web', 'mạng nhện', '🕸️'), w('yes', 'vâng, có', '✅'),
+      w('fed', 'đã cho ăn', '🍼', true), w('led', 'đã dẫn đường', '🧭', true), w('den', 'hang thú', '🐻', true),
+      w('set', 'bộ (đồ)', '🧩', true), w('beg', 'năn nỉ', '🙏', true), w('peg', 'cái kẹp', '🧷', true),
+      w('get', 'nhận được', '🎁', true),
     ],
   },
   {
     slug: 'i', vowel: 'i', sound: '/ɪ/', label: 'Nguyên âm ngắn I', emoji: '🇮',
     words: [
-      { word: 'pig', letters: ['p', 'i', 'g'], hint: 'pờ–i–gờ', vi: 'con lợn', emoji: '🐷' },
-      { word: 'six', letters: ['s', 'i', 'x'], hint: 'sờ–i–xờ', vi: 'số sáu', emoji: '6️⃣' },
-      { word: 'sit', letters: ['s', 'i', 't'], hint: 'sờ–i–tờ', vi: 'ngồi', emoji: '🪑' },
-      { word: 'big', letters: ['b', 'i', 'g'], hint: 'bờ–i–gờ', vi: 'to lớn', emoji: '🐘' },
-      { word: 'lip', letters: ['l', 'i', 'p'], hint: 'lờ–i–pờ', vi: 'cái môi', emoji: '👄' },
-      { word: 'pin', letters: ['p', 'i', 'n'], hint: 'pờ–i–nờ', vi: 'ghim', emoji: '📌' },
-      { word: 'kid', letters: ['k', 'i', 'd'], hint: 'kờ–i–đờ', vi: 'đứa trẻ', emoji: '🧒' },
-      { word: 'fin', letters: ['f', 'i', 'n'], hint: 'phờ–i–nờ', vi: 'vây cá', emoji: '🐟' },
+      w('pig', 'con lợn', '🐷'), w('big', 'to lớn', '🐘'), w('dig', 'đào', '⛏️'), w('pin', 'cái ghim', '📌'),
+      w('bin', 'thùng rác', '🗑️'), w('fin', 'vây cá', '🐟'), w('win', 'chiến thắng', '🏆'), w('tin', 'hộp thiếc', '🥫'),
+      w('sit', 'ngồi', '🪑'), w('hit', 'đánh', '🏏'), w('kit', 'bộ dụng cụ', '🧰'), w('lip', 'đôi môi', '👄'),
+      w('zip', 'khóa kéo', '🤐'), w('lid', 'cái nắp', '🫙'), w('kid', 'đứa trẻ', '🧒'),
+      w('wig', 'bộ tóc giả', '💇', true), w('fit', 'khỏe mạnh', '💪', true), w('bit', 'một chút', '🤏', true),
+      w('dip', 'chấm (nước sốt)', '🥣', true), w('hip', 'cái hông', '💃', true), w('rib', 'xương sườn', '🍖', true),
     ],
   },
   {
-    slug: 'o', vowel: 'o', sound: '/ɒ/', label: 'Nguyên âm ngắn O', emoji: '🅾️',
+    slug: 'o', vowel: 'o', sound: '/ɑ/', label: 'Nguyên âm ngắn O', emoji: '🅾️',
     words: [
-      { word: 'dog', letters: ['d', 'o', 'g'], hint: 'đờ–o–gờ', vi: 'con chó', emoji: '🐶' },
-      { word: 'box', letters: ['b', 'o', 'x'], hint: 'bờ–o–xờ', vi: 'cái hộp', emoji: '📦' },
-      { word: 'fox', letters: ['f', 'o', 'x'], hint: 'phờ–o–xờ', vi: 'con cáo', emoji: '🦊' },
-      { word: 'pot', letters: ['p', 'o', 't'], hint: 'pờ–o–tờ', vi: 'cái nồi', emoji: '🍲' },
-      { word: 'hot', letters: ['h', 'o', 't'], hint: 'hờ–o–tờ', vi: 'nóng', emoji: '🔥' },
-      { word: 'top', letters: ['t', 'o', 'p'], hint: 'tờ–o–pờ', vi: 'con quay', emoji: '🔝' },
-      { word: 'mop', letters: ['m', 'o', 'p'], hint: 'mờ–o–pờ', vi: 'cây lau nhà', emoji: '🧹' },
-      { word: 'log', letters: ['l', 'o', 'g'], hint: 'lờ–o–gờ', vi: 'khúc gỗ', emoji: '🪵' },
+      w('dog', 'con chó', '🐶'), w('log', 'khúc gỗ', '🪵'), w('fog', 'sương mù', '🌫️'), w('hog', 'con lợn rừng', '🐗'),
+      w('jog', 'chạy bộ', '🏃'), w('hot', 'nóng', '🔥'), w('pot', 'cái nồi', '🍲'), w('dot', 'dấu chấm', '⚫'),
+      w('hop', 'nhảy lò cò', '🐇'), w('mop', 'cây lau nhà', '🧹'), w('pop', 'nổ bụp', '🎈'), w('cop', 'cảnh sát', '👮'),
+      w('rod', 'cần câu', '🎣'), w('job', 'công việc', '💼'), w('top', 'trên đỉnh', '🔝'),
+      w('cot', 'giường cũi', '👶', true), w('lot', 'nhiều', '🔢', true), w('got', 'đã có được', '🎁', true),
+      w('nod', 'gật đầu', '🙂‍↕️', true), w('sob', 'khóc nức nở', '😭', true),
     ],
   },
   {
     slug: 'u', vowel: 'u', sound: '/ʌ/', label: 'Nguyên âm ngắn U', emoji: '🆄',
     words: [
-      { word: 'sun', letters: ['s', 'u', 'n'], hint: 'sờ–â–nờ', vi: 'mặt trời', emoji: '☀️' },
-      { word: 'bus', letters: ['b', 'u', 's'], hint: 'bờ–â–sờ', vi: 'xe buýt', emoji: '🚌' },
-      { word: 'cup', letters: ['c', 'u', 'p'], hint: 'cờ–â–pờ', vi: 'cái cốc', emoji: '☕' },
-      { word: 'bug', letters: ['b', 'u', 'g'], hint: 'bờ–â–gờ', vi: 'con bọ', emoji: '🐛' },
-      { word: 'nut', letters: ['n', 'u', 't'], hint: 'nờ–â–tờ', vi: 'hạt', emoji: '🥜' },
-      { word: 'mug', letters: ['m', 'u', 'g'], hint: 'mờ–â–gờ', vi: 'cốc quai', emoji: '☕' },
-      { word: 'run', letters: ['r', 'u', 'n'], hint: 'rờ–â–nờ', vi: 'chạy', emoji: '🏃' },
-      { word: 'jug', letters: ['j', 'u', 'g'], hint: 'giờ–â–gờ', vi: 'bình rót', emoji: '🫗' },
+      w('sun', 'mặt trời', '☀️'), w('run', 'chạy', '🏃'), w('fun', 'vui vẻ', '🎉'), w('bun', 'bánh mì tròn', '🥯'),
+      w('bus', 'xe buýt', '🚌'), w('cup', 'cái cốc', '🥤'), w('pup', 'chó con', '🐕'), w('bug', 'con bọ', '🐛'),
+      w('hug', 'ôm', '🤗'), w('mug', 'cốc có quai', '☕'), w('jug', 'bình rót', '🫗'), w('bud', 'nụ hoa', '🌷'),
+      w('cut', 'cắt', '✂️'), w('hut', 'túp lều', '🛖'), w('nut', 'hạt', '🥜'), w('tub', 'bồn tắm', '🛁'),
+      w('cub', 'gấu con', '🐻'), w('sub', 'bánh mì kẹp', '🥪'),
+      w('rug', 'tấm thảm', '🧶', true), w('dug', 'đã đào', '⛏️', true), w('mud', 'bùn', '🟤', true),
+      w('but', 'nhưng', '🔀', true), w('rub', 'xoa, thoa', '🧴', true),
     ],
   },
 ];
+
+// Phụ âm → âm IPA (Anh-Mỹ). c/k cùng /k/, j = /dʒ/, y = /j/.
+const CONSONANT: Record<string, string> = {
+  b: 'b', c: 'k', d: 'd', f: 'f', g: 'g', h: 'h', j: 'dʒ', k: 'k', l: 'l', m: 'm', n: 'n',
+  p: 'p', r: 'r', s: 's', t: 't', v: 'v', w: 'w', y: 'j', z: 'z',
+};
+const SHORT_VOWEL: Record<string, string> = { a: 'æ', e: 'ɛ', i: 'ɪ', o: 'ɑ', u: 'ʌ' };
+
+/** Ba âm của từ CVC, vd sun → ['s', 'ʌ', 'n']. */
+export const phonemes = (w: PhonicsWord) => w.letters.map((ch, i) => (i === 1 ? SHORT_VOWEL[ch] : CONSONANT[ch]) ?? ch);
+
+/** Phiên âm cả từ, vd /sʌn/. */
+export const wordIpa = (w: PhonicsWord) => `/${phonemes(w).join('')}/`;
 
 export const totalPhonicsWords = () => PHONICS_GROUPS.reduce((n, g) => n + g.words.length, 0);

@@ -1,0 +1,147 @@
+{
+  "bai-1": {
+    "concept": "Đếm theo nhóm giúp bé đếm nhanh hơn. Bé có thể đếm thêm 2, đếm thêm 5 hoặc đếm thêm 10.",
+    "examples": [
+      {
+        "prompt": "Có tất cả mấy bông hoa?",
+        "visual": {
+          "emoji": "🌸🌸🌸🌸🌸 🌸🌸🌸"
+        },
+        "answer": "Nhóm đầu có 5 bông. Đếm tiếp: 6, 7, 8. Có tất cả 8 bông hoa."
+      },
+      {
+        "prompt": "Có 5 đôi giày.\nCó tất cả mấy chiếc giày?",
+        "visual": {
+          "emoji": "👟👟 👟👟 👟👟 👟👟 👟👟"
+        },
+        "answer": "Mỗi đôi có 2 chiếc, đếm thêm 2: 2, 4, 6, 8, 10. Có 10 chiếc giày."
+      }
+    ],
+    "steps": [
+      "Khoanh các vật thành nhóm bằng nhau.",
+      "Đếm thêm theo từng nhóm: 2, 5 hoặc 10.",
+      "Đếm tiếp các vật còn ở ngoài nhóm.",
+      "Đọc lại câu hỏi: hỏi số nhóm hay số vật?"
+    ],
+    "tips": [
+      "Số nhóm khác số vật, đọc kỹ câu hỏi nhé!",
+      "1 chục là 10, 2 chục là 20."
+    ]
+  },
+  "bai-2": {
+    "concept": "Số liền sau là số đứng ngay sau, hơn 1. Số liền trước là số đứng ngay trước, kém 1.",
+    "examples": [
+      {
+        "prompt": "Số liền trước và số liền sau của 60 là số nào?",
+        "visual": {
+          "grid": [
+            [
+              "?",
+              "60",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Đếm: 59, 60, 61. Số liền trước là 59, số liền sau là 61."
+      },
+      {
+        "prompt": "Số liền sau của 79 là số nào?",
+        "answer": "Đếm: 78, 79, 80. Số liền sau của 79 là 80."
+      }
+    ],
+    "steps": [
+      "Đếm từ số đã cho.",
+      "Đếm thêm 1 để tìm số liền sau.",
+      "Đếm lùi 1 để tìm số liền trước.",
+      "Cẩn thận khi đếm qua số tròn chục."
+    ],
+    "tips": [
+      "Sau là thêm 1, trước là bớt 1.",
+      "Sau 69 là 70, sau 89 là 90: sang chục mới!"
+    ]
+  },
+  "bai-3": {
+    "concept": "Đổi chỗ hai số trong phép cộng thì kết quả không đổi. Thêm một số rồi bớt đúng số đó thì về lại số cũ.",
+    "examples": [
+      {
+        "prompt": "Số nào thay cho dấu ?\n2 + 6 = 6 + ?",
+        "answer": "2 + 6 = 8 và 6 + 2 = 8. Vậy ? là 2."
+      },
+      {
+        "prompt": "Tính nhanh:\n4 + 5 − 5 = ?",
+        "visual": {
+          "emoji": "🍪🍪🍪🍪 ➕ 🍪🍪🍪🍪🍪 ➖ 🍪🍪🍪🍪🍪"
+        },
+        "answer": "Thêm 5 rồi bớt 5 thì về lại 4. Vậy kết quả là 4."
+      }
+    ],
+    "steps": [
+      "Đọc phép tính từ trái sang phải.",
+      "Tìm cặp số cộng lại bằng 10.",
+      "Xem có thêm rồi bớt cùng một số không.",
+      "Tính từng bước rồi thử lại."
+    ],
+    "tips": [
+      "Cặp bạn của 10: 1 và 9, 2 và 8, 3 và 7, 4 và 6, 5 và 5.",
+      "Kết quả giữa chừng chưa phải đáp số!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Số bí mật là số bé tìm ra từ các gợi ý. Bé làm phép tính ngược lại hoặc thử từng số rồi kiểm tra.",
+    "examples": [
+      {
+        "prompt": "Số bí mật thêm 4 thì được 17.\nSố bí mật là số mấy?",
+        "answer": "Làm ngược lại: 17 − 4 = 13. Thử lại: 13 + 4 = 17. Số bí mật là 13."
+      },
+      {
+        "prompt": "Số bí mật lớn hơn 18 và bé hơn 20.\nĐó là số nào?",
+        "visual": {
+          "grid": [
+            [
+              "18",
+              "?",
+              "20"
+            ]
+          ]
+        },
+        "answer": "Đếm: 18, 19, 20. Chỉ có 19 nằm giữa 18 và 20."
+      }
+    ],
+    "steps": [
+      "Đọc từng gợi ý về số bí mật.",
+      "Tìm ngược từ cuối lên: đề nói thêm thì trừ, nói bớt thì cộng.",
+      "Thử số tìm được với mọi gợi ý.",
+      "Loại các số không đúng gợi ý."
+    ],
+    "tips": [
+      "Tìm xong nhớ thử lại!",
+      "“Lớn hơn 16” thì không lấy chính số 16."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bé điền dấu + hoặc − để phép tính đúng. Kết quả lớn hơn số đầu thì thường là cộng, bé hơn thì thường là trừ.",
+    "examples": [
+      {
+        "prompt": "Điền dấu + hoặc −:\n6 ? 3 = 9",
+        "visual": {
+          "emoji": "🐟🐟🐟🐟🐟🐟 🐟🐟🐟"
+        },
+        "answer": "9 lớn hơn 6 nên thử dấu +: 6 + 3 = 9. Đúng rồi!"
+      },
+      {
+        "prompt": "5 ? 3 ? 2 = 6\nCần điền hai dấu nào?",
+        "answer": "Thử: 5 + 3 = 8, rồi 8 − 2 = 6. Vậy điền dấu + rồi dấu −."
+      }
+    ],
+    "steps": [
+      "So sánh kết quả với số đầu tiên.",
+      "Thử dấu + nếu kết quả lớn hơn, dấu − nếu bé hơn.",
+      "Thử từng cách khi có hai dấu.",
+      "Tính lại từ trái sang phải để kiểm tra."
+    ],
+    "tips": [
+      "Thử lại thì không sợ sai!",
+      "Dấu = không phải dấu phép tính."
+    ]
+  }
+}

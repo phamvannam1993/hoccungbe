@@ -1,0 +1,1298 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Suy luận thứ tự và vị trí",
+      "emoji": "🧭",
+      "description": "Ai đứng trước, ai đứng sau, ai cao nhất? Bé suy luận thật chắc chắn nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k05-b1-01",
+          "type": "choice",
+          "prompt": "An cao hơn Bình. Chi thấp hơn Bình. Dũng cao hơn An.\nAi thấp nhất?",
+          "options": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Dũng"
+            },
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "Bình"
+            }
+          ],
+          "answer": 2,
+          "method": "Xếp 4 bạn thành một hàng từ cao đến thấp theo từng gợi ý.",
+          "explanation": "Từ cao đến thấp: Dũng → An → Bình → Chi. Chi thấp nhất.\nLưu ý: Bình chỉ thấp hơn An nhưng vẫn cao hơn Chi; Dũng là người cao nhất; An đứng thứ hai."
+        },
+        {
+          "id": "l3k05-b1-02",
+          "type": "input",
+          "prompt": "Mai đứng thứ 7 tính từ đầu hàng và thứ 5 tính từ cuối hàng.\nHàng có bao nhiêu bạn?",
+          "answers": [
+            "11"
+          ],
+          "unit": "bạn",
+          "method": "Mai được đếm 2 lần: một lần từ đầu, một lần từ cuối.",
+          "explanation": "7 + 5 = 12, nhưng Mai bị đếm 2 lần nên bớt đi 1: 12 − 1 = 11 bạn.\n(Bẫy: trả lời 12 là đếm Mai hai lần.)"
+        },
+        {
+          "id": "l3k05-b1-03",
+          "type": "choice",
+          "prompt": "Trước Nam có 4 bạn, sau Nam có 6 bạn.\nTính từ CUỐI hàng, Nam đứng thứ mấy?",
+          "options": [
+            {
+              "text": "Thứ 6"
+            },
+            {
+              "text": "Thứ 5"
+            },
+            {
+              "text": "Thứ 11"
+            },
+            {
+              "text": "Thứ 7"
+            }
+          ],
+          "answer": 3,
+          "method": "Tính từ cuối hàng: đếm các bạn sau Nam rồi đến chính Nam.",
+          "explanation": "Sau Nam có 6 bạn, nên tính từ cuối Nam đứng thứ 6 + 1 = 7.\nLưu ý: thứ 6 là quên tính chính Nam; thứ 5 là vị trí của Nam tính từ ĐẦU hàng; 11 là số bạn cả hàng."
+        },
+        {
+          "id": "l3k05-b1-04",
+          "type": "input",
+          "prompt": "Năm bạn chạy thi. Hoa về trước Lan. Lan về trước Minh. Khang về sau Minh. Tú về đầu tiên.\nMinh về thứ mấy? (ghi số)",
+          "answers": [
+            "4"
+          ],
+          "method": "Tú đứng đầu, sau đó nối các bạn theo chuỗi \"về trước\".",
+          "explanation": "Thứ tự về đích: Tú (1) → Hoa (2) → Lan (3) → Minh (4) → Khang (5). Minh về thứ 4."
+        },
+        {
+          "id": "l3k05-b1-05",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Mèo nặng hơn Thỏ. Chó nặng hơn Mèo. Gà nhẹ hơn Thỏ.\nXếp các con vật từ NẶNG NHẤT đến NHẸ NHẤT.",
+          "items": [
+            {
+              "emoji": "🐶",
+              "text": "Chó"
+            },
+            {
+              "emoji": "🐱",
+              "text": "Mèo"
+            },
+            {
+              "emoji": "🐰",
+              "text": "Thỏ"
+            },
+            {
+              "emoji": "🐔",
+              "text": "Gà"
+            }
+          ],
+          "method": "Tìm con nặng hơn tất cả, rồi lần lượt các con tiếp theo.",
+          "explanation": "Chó nặng hơn Mèo, Mèo nặng hơn Thỏ, Thỏ nặng hơn Gà.\nThứ tự: Chó → Mèo → Thỏ → Gà."
+        },
+        {
+          "id": "l3k05-b1-06",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Ba bạn Bi, Na, Tôm ngồi thành một hàng ngang. Bi ngồi ở giữa. Na ngồi bên trái Bi.\nĐiền tên đúng vào chỗ trống.",
+          "sentence": "Bạn ngồi bên phải Bi là [[Tôm]]. Bạn ngồi ngoài cùng bên trái là [[Na]].",
+          "choices": [
+            "Tôm",
+            "Na",
+            "Bi"
+          ],
+          "method": "Vẽ 3 ô: trái – giữa – phải, điền Bi vào giữa trước.",
+          "explanation": "Thứ tự từ trái sang phải: Na – Bi – Tôm. Bên phải Bi là Tôm; ngoài cùng bên trái là Na."
+        },
+        {
+          "id": "l3k05-b1-07",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "An, Bình, Cường, Dũng ở trong một tòa nhà 4 tầng, mỗi bạn ở một tầng khác nhau.\nAn ở tầng cao nhất. Bình ở ngay dưới An. Cường không ở tầng 1.\nNối mỗi bạn với tầng bạn ở.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An"
+              },
+              "right": {
+                "text": "Tầng 4"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình"
+              },
+              "right": {
+                "text": "Tầng 3"
+              }
+            },
+            {
+              "left": {
+                "text": "Cường"
+              },
+              "right": {
+                "text": "Tầng 2"
+              }
+            },
+            {
+              "left": {
+                "text": "Dũng"
+              },
+              "right": {
+                "text": "Tầng 1"
+              }
+            }
+          ],
+          "method": "Điền chắc chắn trước (An, Bình), rồi loại trừ cho Cường và Dũng.",
+          "explanation": "An ở tầng cao nhất: tầng 4. Bình ngay dưới: tầng 3. Còn tầng 2 và tầng 1; Cường không ở tầng 1 nên ở tầng 2. Dũng ở tầng 1."
+        },
+        {
+          "id": "l3k05-b1-08",
+          "type": "multi_choice",
+          "prompt": "Một hàng có 9 bạn, Lan đứng chính giữa.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Trước Lan có 4 bạn"
+            },
+            {
+              "text": "Lan đứng thứ 5 tính từ đầu hàng"
+            },
+            {
+              "text": "Lan đứng thứ 4 tính từ cuối hàng"
+            },
+            {
+              "text": "Sau Lan có 5 bạn"
+            },
+            {
+              "text": "Lan đứng thứ 5 tính từ cuối hàng"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "method": "Bỏ Lan ra, 8 bạn còn lại chia đều hai bên.",
+          "explanation": "9 − 1 = 8 bạn chia đều: trước Lan 4 bạn, sau Lan 4 bạn. Vậy Lan đứng thứ 5 tính từ đầu và cũng thứ 5 tính từ cuối.\nLưu ý: \"thứ 4 từ cuối\" là quên tính chính Lan; \"sau Lan có 5 bạn\" là sai vì chỉ có 4."
+        },
+        {
+          "id": "l3k05-b1-09",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Bút đỏ dài hơn bút xanh. Bút vàng ngắn hơn bút xanh. Bút tím dài hơn bút đỏ.\nChạm lần lượt các bút từ DÀI NHẤT đến NGẮN NHẤT.",
+          "items": [
+            "Bút tím",
+            "Bút đỏ",
+            "Bút xanh",
+            "Bút vàng"
+          ],
+          "distractors": [
+            "Bút đen"
+          ],
+          "method": "Ghép các gợi ý thành một chuỗi dài → ngắn.",
+          "explanation": "Tím dài hơn đỏ, đỏ dài hơn xanh, xanh dài hơn vàng: Tím → Đỏ → Xanh → Vàng. Bút đen không có trong đề nên là thẻ nhiễu."
+        },
+        {
+          "id": "l3k05-b1-10",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Hàng có 10 bạn. Lật ô (vị trí tính từ ĐẦU hàng) rồi chạm vị trí của bạn đó tính từ CUỐI hàng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Thứ 1 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 10 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Thứ 3 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 8 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Thứ 4 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 7 từ cuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Thứ 6 từ đầu"
+              },
+              "back": {
+                "text": "Thứ 5 từ cuối"
+              }
+            }
+          ],
+          "method": "Vị trí từ cuối = số bạn cả hàng − vị trí từ đầu + 1.",
+          "explanation": "10 − 1 + 1 = 10; 10 − 3 + 1 = 8; 10 − 4 + 1 = 7; 10 − 6 + 1 = 5."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Ai nói đúng, ai nói sai?",
+      "emoji": "🤔",
+      "description": "Thử từng trường hợp như một thám tử nhí để tìm ra sự thật!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k05-b2-01",
+          "type": "choice",
+          "prompt": "Một trong ba bạn đã ăn vụng bánh.\nAn: \"Bình ăn.\" Bình: \"Tớ không ăn.\" Chi: \"Tớ không ăn.\"\nChỉ có ĐÚNG MỘT bạn nói thật. Ai ăn bánh?",
+          "options": [
+            {
+              "text": "An"
+            },
+            {
+              "text": "Bình"
+            },
+            {
+              "text": "Chi"
+            },
+            {
+              "text": "Không ai ăn"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử lần lượt từng bạn là người ăn, đếm xem có mấy câu nói đúng.",
+          "explanation": "Nếu Chi ăn: An nói sai, Bình nói đúng, Chi nói sai → đúng 1 câu đúng. Hợp lệ!\nLưu ý: nếu An ăn thì Bình và Chi đều nói đúng (2 câu); nếu Bình ăn thì An và Chi nói đúng (2 câu); đề nói có một bạn ăn nên không thể \"không ai ăn\"."
+        },
+        {
+          "id": "l3k05-b2-02",
+          "type": "match_multi",
+          "timeLimit": 50,
+          "prompt": "Biết rằng CHỈ có Lan ăn bánh.\nXếp mỗi câu nói vào nhóm Nói đúng hoặc Nói sai.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Nói đúng"
+            },
+            {
+              "emoji": "❌",
+              "text": "Nói sai"
+            }
+          ],
+          "items": [
+            {
+              "text": "Hà: \"Lan không ăn bánh.\"",
+              "group": 1
+            },
+            {
+              "text": "Lan: \"Tớ có ăn bánh.\"",
+              "group": 0
+            },
+            {
+              "text": "Mai: \"Hà ăn bánh.\"",
+              "group": 1
+            },
+            {
+              "text": "Tú: \"Mai không ăn bánh.\"",
+              "group": 0
+            },
+            {
+              "text": "Vy: \"Có 2 bạn ăn bánh.\"",
+              "group": 1
+            }
+          ],
+          "method": "So từng câu với sự thật: chỉ một mình Lan ăn bánh.",
+          "explanation": "Nói đúng: Lan (Lan có ăn), Tú (Mai không ăn).\nNói sai: Hà (Lan có ăn), Mai (Hà không ăn), Vy (chỉ có 1 bạn ăn)."
+        },
+        {
+          "id": "l3k05-b2-03",
+          "type": "choice",
+          "prompt": "Hai anh em: một người luôn nói thật, một người luôn nói dối.\nAnh nói: \"Em tớ luôn nói dối.\"\nEm nói: \"Cả hai chúng tớ đều nói thật.\"\nAi là người luôn nói thật?",
+          "options": [
+            {
+              "text": "Em"
+            },
+            {
+              "text": "Anh"
+            },
+            {
+              "text": "Cả hai"
+            },
+            {
+              "text": "Không biết được"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử giả sử Em nói thật xem có vô lí không.",
+          "explanation": "Nếu Em nói thật thì cả hai đều nói thật — trái với đề (có một người nói dối). Vậy Em nói dối, Anh nói thật. Câu của Anh \"Em tớ luôn nói dối\" cũng đúng, khớp hoàn toàn.\nLưu ý: \"Cả hai\" trái với đề; \"Không biết được\" sai vì thử là tìm ra ngay."
+        },
+        {
+          "id": "l3k05-b2-04",
+          "type": "choice",
+          "prompt": "Một trong bốn bạn đã làm vỡ cốc.\nTí: \"Na làm vỡ.\" Tèo: \"Không phải tớ.\"\nNa: \"Bin làm vỡ.\" Bin: \"Na nói sai.\"\nChỉ có ĐÚNG MỘT bạn nói dối. Ai làm vỡ cốc?",
+          "options": [
+            {
+              "text": "Tí"
+            },
+            {
+              "text": "Tèo"
+            },
+            {
+              "text": "Na"
+            },
+            {
+              "text": "Bin"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử lần lượt từng bạn là người làm vỡ, đếm xem có mấy bạn nói dối.",
+          "explanation": "Nếu Na làm vỡ: Tí đúng, Tèo đúng, Na sai, Bin đúng (vì Na nói sai thật) → đúng 1 bạn nói dối. Hợp lệ!\nLưu ý: nếu Tí làm vỡ thì Tí và Na nói dối (2 bạn); nếu Tèo làm vỡ thì Tí, Tèo, Na đều nói dối (3 bạn); nếu Bin làm vỡ thì Tí và Bin nói dối (2 bạn)."
+        },
+        {
+          "id": "l3k05-b2-05",
+          "type": "input",
+          "prompt": "Trong hộp có từ 10 đến 14 viên bi. Ba bạn đoán:\nHà: \"Số bi chia cho 2 không dư.\" Lan: \"Số bi lớn hơn 12.\" My: \"Số bi chia cho 5 không dư.\"\nChỉ có Lan nói đúng. Trong hộp có bao nhiêu viên bi?",
+          "answers": [
+            "13"
+          ],
+          "unit": "viên",
+          "method": "Hà nói sai thì số bi chia cho 2 có dư hay không dư? My nói sai nghĩa là gì?",
+          "explanation": "Lan nói đúng → số bi lớn hơn 12: chỉ có thể là 13 hoặc 14.\nHà nói sai → số bi chia cho 2 phải có dư: 14 : 2 = 7 (không dư) nên loại 14; 13 : 2 = 6 dư 1 ✔.\nMy nói sai → chia 5 có dư: 13 : 5 = 2 dư 3 ✔. Vậy có 13 viên bi.\n(Bẫy: 14 lớn hơn 12 nhưng chia hết cho 2, lúc đó Hà cũng nói đúng.)"
+        },
+        {
+          "id": "l3k05-b2-06",
+          "type": "multi_choice",
+          "prompt": "Bi là bạn LUÔN NÓI DỐI. Bi nói: \"Tớ có nhiều hơn 5 cái kẹo.\"\nChọn TẤT CẢ các số kẹo mà Bi có thể có.",
+          "options": [
+            {
+              "text": "3 cái"
+            },
+            {
+              "text": "5 cái"
+            },
+            {
+              "text": "6 cái"
+            },
+            {
+              "text": "4 cái"
+            },
+            {
+              "text": "8 cái"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Câu của Bi là sai, vậy điều ngược lại mới đúng: Bi KHÔNG có nhiều hơn 5 cái.",
+          "explanation": "Bi nói dối nên Bi có không nhiều hơn 5 cái kẹo, tức là 5 cái hoặc ít hơn: 3, 4, 5 đều được.\nLưu ý: 5 cái không \"nhiều hơn 5\" nên vẫn đúng — đây là bẫy dễ bỏ sót; 6 và 8 cái nhiều hơn 5 thì câu của Bi lại thành nói thật."
+        },
+        {
+          "id": "l3k05-b2-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Trên đảo, người Thật luôn nói thật, người Dối luôn nói dối.\nMít nói: \"Cả hai chúng tớ, Mít và Dưa, đều là người Dối.\"\nĐiền đúng vào chỗ trống.",
+          "sentence": "Mít là người [[Dối]], còn Dưa là người [[Thật]].",
+          "choices": [
+            "Dối",
+            "Thật",
+            "Không biết"
+          ],
+          "method": "Thử giả sử Mít là người Thật xem có vô lí không.",
+          "explanation": "Nếu Mít là người Thật thì câu nói phải đúng, tức là Mít là người Dối — vô lí. Vậy Mít là người Dối.\nCâu của Mít sai nên KHÔNG phải cả hai đều là người Dối → Dưa là người Thật."
+        },
+        {
+          "id": "l3k05-b2-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bo, Ki, Su chạy thi, không ai về cùng lúc.\nBo: \"Tớ về bét.\" Ki: \"Tớ về trước Bo.\" Su: \"Tớ không về nhất.\"\nBiết CHỈ có Bo nói sai. Xếp các bạn từ về NHẤT đến về BÉT.",
+          "items": [
+            {
+              "text": "Ki"
+            },
+            {
+              "text": "Bo"
+            },
+            {
+              "text": "Su"
+            }
+          ],
+          "method": "Bo nói sai nên Bo không về bét. Ki nói đúng nên Ki về trước Bo.",
+          "explanation": "Bo không về bét, mà Ki về trước Bo nên Bo không về nhất → Bo về thứ hai, Ki về nhất. Su về bét (đúng là Su không về nhất).\nThứ tự: Ki → Bo → Su."
+        },
+        {
+          "id": "l3k05-b2-09",
+          "type": "reveal_match",
+          "timeLimit": 50,
+          "prompt": "Na là bạn LUÔN NÓI DỐI. Lật từng câu Na nói, rồi chạm điều THẬT SỰ đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "\"Tớ có nuôi mèo.\""
+              },
+              "back": {
+                "text": "Na không nuôi mèo"
+              }
+            },
+            {
+              "front": {
+                "text": "\"Hôm nay trời mưa.\""
+              },
+              "back": {
+                "text": "Hôm nay trời không mưa"
+              }
+            },
+            {
+              "front": {
+                "text": "\"Tớ không thích kẹo.\""
+              },
+              "back": {
+                "text": "Na thích kẹo"
+              }
+            },
+            {
+              "front": {
+                "text": "\"Tớ cao hơn Bin.\""
+              },
+              "back": {
+                "text": "Na không cao hơn Bin"
+              }
+            }
+          ],
+          "method": "Câu nói dối thì điều ngược lại mới đúng. Cẩn thận: ngược với \"cao hơn\" là \"không cao hơn\".",
+          "explanation": "Na nói dối nên mỗi câu đều sai, điều đúng là phủ định của câu đó: không nuôi mèo; trời không mưa; Na thích kẹo; Na không cao hơn Bin (có thể thấp hơn hoặc cao bằng Bin, nên không nói chắc được là \"thấp hơn\")."
+        },
+        {
+          "id": "l3k05-b2-10",
+          "type": "input",
+          "prompt": "Na LUÔN NÓI DỐI. Na nói: \"Tớ có ít hơn 6 viên bi.\"\nMẹ biết chắc Na có ít hơn 7 viên bi.\nNa có bao nhiêu viên bi?",
+          "answers": [
+            "6"
+          ],
+          "unit": "viên",
+          "method": "Na nói dối thì Na có ít hơn 6 hay không ít hơn 6 viên?",
+          "explanation": "Câu của Na sai nên Na có KHÔNG ít hơn 6 viên, tức là 6 viên trở lên. Mẹ biết Na có ít hơn 7 viên. Vậy Na có đúng 6 viên.\n(Bẫy: 5 là tin lời Na; 7 là quên điều kiện \"ít hơn 7\".)"
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Tìm số hoặc đồ vật theo gợi ý",
+      "emoji": "🔍",
+      "description": "Mỗi gợi ý loại bớt một đáp án — gom đủ gợi ý là tìm ra bí mật!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k05-b3-01",
+          "type": "input",
+          "prompt": "Tớ là số có 2 chữ số. Chữ số hàng chục gấp 3 lần chữ số hàng đơn vị. Tổng hai chữ số bằng 12.\nTớ là số nào?",
+          "answers": [
+            "93"
+          ],
+          "method": "Thử các cặp chữ số mà hàng chục gấp 3 lần hàng đơn vị, rồi xem cặp nào có tổng bằng 12.",
+          "explanation": "Hàng chục gấp 3 lần hàng đơn vị: đơn vị 1 thì chục 3 (số 31); đơn vị 2 thì chục 6 (số 62); đơn vị 3 thì chục 9 (số 93). Đơn vị 4 thì chục là 12 — không được vì 12 không phải một chữ số.\nTổng hai chữ số: 3 + 1 = 4; 6 + 2 = 8; 9 + 3 = 12 ✔. Số đó là 93.\n(Bẫy: 39 là viết ngược hàng chục và hàng đơn vị.)"
+        },
+        {
+          "id": "l3k05-b3-02",
+          "type": "choice",
+          "prompt": "Tớ lớn hơn 40 và nhỏ hơn 50. Tớ chia cho 7 không dư. Tớ chia cho 2 cũng không dư.\nTớ là số nào?",
+          "options": [
+            {
+              "text": "48"
+            },
+            {
+              "text": "49"
+            },
+            {
+              "text": "42"
+            },
+            {
+              "text": "45"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm các số trong bảng nhân 7 nằm giữa 40 và 50, rồi thử chia cho 2.",
+          "explanation": "Trong bảng nhân 7, số lớn hơn 40 và nhỏ hơn 50 là 42 và 49. 42 : 2 = 21 (không dư); 49 : 2 = 24 dư 1. Vậy là 42.\nLưu ý: 48 chia hết cho 2 nhưng chia 7 có dư (48 : 7 = 6 dư 6); 49 chia hết cho 7 nhưng chia 2 có dư; 45 chia 7 có dư và chia 2 cũng có dư."
+        },
+        {
+          "id": "l3k05-b3-03",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các số thỏa mãn cả 3 gợi ý:\n• Là số có 3 chữ số\n• Tổng các chữ số bằng 5\n• Chia cho 2 không dư",
+          "options": [
+            {
+              "text": "104"
+            },
+            {
+              "text": "311"
+            },
+            {
+              "text": "230"
+            },
+            {
+              "text": "50"
+            },
+            {
+              "text": "122"
+            },
+            {
+              "text": "213"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Kiểm tra lần lượt từng gợi ý cho mỗi số; sai một gợi ý là loại.",
+          "explanation": "104: 1 + 0 + 4 = 5, 104 : 2 = 52 ✔. 230: 2 + 3 + 0 = 5, 230 : 2 = 115 ✔. 122: 1 + 2 + 2 = 5, 122 : 2 = 61 ✔.\nLưu ý: 311 có tổng 5 nhưng 311 : 2 = 155 dư 1; 50 có tổng 5, chia hết cho 2 nhưng chỉ có 2 chữ số; 213 có tổng 6 (và chia 2 còn dư 1)."
+        },
+        {
+          "id": "l3k05-b3-04",
+          "type": "choice",
+          "prompt": "Tớ là số có 3 chữ số. Chữ số hàng trăm là 4. Chữ số hàng đơn vị gấp đôi chữ số hàng trăm. Tổng ba chữ số bằng 15.\nTớ là số nào?",
+          "options": [
+            {
+              "text": "483"
+            },
+            {
+              "text": "438"
+            },
+            {
+              "text": "834"
+            },
+            {
+              "text": "448"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm hàng trăm, rồi hàng đơn vị, cuối cùng lấy tổng trừ đi để tìm hàng chục.",
+          "explanation": "Hàng trăm 4, hàng đơn vị 4 × 2 = 8. Hàng chục: 15 − 4 − 8 = 3. Số đó là 438.\nLưu ý: 483 là đổi chỗ hàng chục và hàng đơn vị; 834 là viết ngược cả số; 448 có tổng 4 + 4 + 8 = 16, không phải 15."
+        },
+        {
+          "id": "l3k05-b3-05",
+          "type": "input",
+          "prompt": "Tớ là số BÉ NHẤT có 2 chữ số mà tích hai chữ số bằng 12.\nTớ là số nào?",
+          "answers": [
+            "26"
+          ],
+          "method": "Liệt kê các cặp chữ số có tích bằng 12, rồi chọn số bé nhất.",
+          "explanation": "Các cặp chữ số có tích 12: 2 và 6, 3 và 4. Các số: 26, 62, 34, 43. Bé nhất là 26.\n(Bẫy: 34 là chỉ nghĩ tới cặp 3 và 4; 62 là viết ngược; số 1 và 12 không được vì 12 không phải một chữ số.)"
+        },
+        {
+          "id": "l3k05-b3-06",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Nối mỗi gợi ý với số đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Số có 2 chữ số mà tổng hai chữ số bằng 18"
+              },
+              "right": {
+                "text": "99"
+              }
+            },
+            {
+              "left": {
+                "text": "Số bé nhất có 3 chữ số mà tổng các chữ số bằng 2"
+              },
+              "right": {
+                "text": "101"
+              }
+            },
+            {
+              "left": {
+                "text": "Số tròn chục lớn nhất có 2 chữ số"
+              },
+              "right": {
+                "text": "90"
+              }
+            },
+            {
+              "left": {
+                "text": "Số bé nhất có 4 chữ số"
+              },
+              "right": {
+                "text": "1 000"
+              }
+            }
+          ],
+          "method": "Đọc kỹ từng chữ: lớn nhất hay bé nhất, mấy chữ số, tổng các chữ số bằng bao nhiêu.",
+          "explanation": "Tổng hai chữ số bằng 18 thì mỗi chữ số phải là 9: số 99. Số có 3 chữ số, tổng các chữ số bằng 2: 101, 110, 200 — bé nhất là 101. Số tròn chục lớn nhất có 2 chữ số: 90. Số bé nhất có 4 chữ số: 1 000."
+        },
+        {
+          "id": "l3k05-b3-07",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Số bí mật có 2 chữ số, chia cho 9 không dư, và chữ số hàng chục hơn chữ số hàng đơn vị 5.\nĐiền số đúng vào chỗ trống.",
+          "sentence": "Số bí mật là [[72]]. Tổng hai chữ số của nó bằng [[9]].",
+          "choices": [
+            "72",
+            "27",
+            "9",
+            "5"
+          ],
+          "method": "Liệt kê các số có 2 chữ số trong bảng nhân 9, rồi kiểm tra gợi ý về hàng chục.",
+          "explanation": "Các số có 2 chữ số chia hết cho 9: 18, 27, 36, 45, 54, 63, 72, 81, 90, 99. Chỉ có 72 có 7 − 2 = 5. Tổng hai chữ số: 7 + 2 = 9.\n27 là viết ngược — hàng chục lại kém hàng đơn vị 5."
+        },
+        {
+          "id": "l3k05-b3-08",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Tìm số theo từng gợi ý, rồi xếp các gợi ý theo số tìm được từ BÉ đến LỚN.",
+          "items": [
+            {
+              "text": "Số lớn nhất có 2 chữ số khác nhau"
+            },
+            {
+              "text": "Số bé nhất có 3 chữ số"
+            },
+            {
+              "text": "Số bé nhất có 3 chữ số khác nhau"
+            },
+            {
+              "text": "Số tròn chục bé nhất có 3 chữ số khác nhau"
+            },
+            {
+              "text": "Số bé nhất có 3 chữ số giống nhau mà tổng các chữ số lớn hơn 5"
+            }
+          ],
+          "method": "Tìm đúng từng số trước, rồi mới so sánh.",
+          "explanation": "Số lớn nhất có 2 chữ số khác nhau: 98. Số bé nhất có 3 chữ số: 100. Số bé nhất có 3 chữ số khác nhau: 102. Số tròn chục bé nhất có 3 chữ số khác nhau: 120. Số bé nhất có 3 chữ số giống nhau mà tổng các chữ số lớn hơn 5: 222 (111 có tổng 1 + 1 + 1 = 3, chưa lớn hơn 5; 222 có tổng 6).\n98 < 100 < 102 < 120 < 222."
+        },
+        {
+          "id": "l3k05-b3-09",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Dùng mỗi chữ số 7, 5, 2 đúng một lần để viết số LỚN NHẤT có 3 chữ số mà chia cho 2 CÒN DƯ.\nChạm lần lượt các chữ số từ hàng trăm đến hàng đơn vị.",
+          "items": [
+            "7",
+            "2",
+            "5"
+          ],
+          "distractors": [
+            "9"
+          ],
+          "method": "Viết các số từ lớn đến bé, thử chia từng số cho 2 cho đến khi gặp số chia còn dư.",
+          "explanation": "Các số từ lớn đến bé: 752, 725, 572, … 752 : 2 = 376 (không dư) → loại. 725 : 2 = 362 dư 1 ✔. Vậy số cần tìm là 725.\n(Bẫy: 752 là số lớn nhất nhưng chia hết cho 2. Số 9 không có trong đề nên là thẻ nhiễu.)"
+        },
+        {
+          "id": "l3k05-b3-10",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Gợi ý: Số bí mật chia cho 2 thì dư 1, và chia cho 3 thì cũng dư 1.\nXếp mỗi số vào đúng nhóm.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Đúng cả 2 gợi ý"
+            },
+            {
+              "emoji": "❌",
+              "text": "Không đúng"
+            }
+          ],
+          "items": [
+            {
+              "text": "7",
+              "group": 0
+            },
+            {
+              "text": "10",
+              "group": 1
+            },
+            {
+              "text": "13",
+              "group": 0
+            },
+            {
+              "text": "15",
+              "group": 1
+            },
+            {
+              "text": "19",
+              "group": 0
+            },
+            {
+              "text": "16",
+              "group": 1
+            },
+            {
+              "text": "21",
+              "group": 1
+            }
+          ],
+          "method": "Chia số đó cho 2 trước, rồi chia cho 3 xem dư mấy.",
+          "explanation": "Đúng cả 2 gợi ý: 7 (7 : 2 = 3 dư 1; 7 : 3 = 2 dư 1), 13 (13 : 2 = 6 dư 1; 13 : 3 = 4 dư 1), 19 (19 : 2 = 9 dư 1; 19 : 3 = 6 dư 1).\nKhông đúng: 10 và 16 chia 3 dư 1 nhưng chia hết cho 2; 15 và 21 chia 2 dư 1 nhưng chia hết cho 3."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Suy luận bằng bảng logic",
+      "emoji": "📋",
+      "description": "Kẻ bảng, đánh dấu ✅ ❌ — bài khó mấy cũng thành dễ!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k05-b4-01",
+          "type": "choice",
+          "prompt": "An, Bi, Na mỗi bạn nuôi một con vật khác nhau: chó, mèo, cá.\nAn không nuôi chó. Bi nuôi mèo.\nAn nuôi con gì?",
+          "visual": {
+            "grid": [
+              [
+                "",
+                "🐶",
+                "🐱",
+                "🐟"
+              ],
+              [
+                "An",
+                "❌",
+                "?",
+                "?"
+              ],
+              [
+                "Bi",
+                "",
+                "✅",
+                ""
+              ],
+              [
+                "Na",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          "options": [
+            {
+              "emoji": "🐶",
+              "text": "Chó"
+            },
+            {
+              "emoji": "🐱",
+              "text": "Mèo"
+            },
+            {
+              "emoji": "🐟",
+              "text": "Cá"
+            }
+          ],
+          "answer": 2,
+          "method": "Bi đã nuôi mèo thì cả cột mèo của các bạn khác là ❌.",
+          "explanation": "Bi nuôi mèo nên An không nuôi mèo. An cũng không nuôi chó. Vậy An nuôi cá, còn Na nuôi chó.\nLưu ý: chó bị loại vì đề nói An không nuôi chó; mèo đã là của Bi."
+        },
+        {
+          "id": "l3k05-b4-02",
+          "type": "match",
+          "timeLimit": 50,
+          "prompt": "Hà, Lan, Mai mỗi bạn thích một môn khác nhau: bơi, cờ vua, bóng đá.\nHà không thích bơi, cũng không thích cờ vua. Lan không thích bơi.\nNối mỗi bạn với môn bạn thích.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hà"
+              },
+              "right": {
+                "emoji": "⚽",
+                "text": "Bóng đá"
+              }
+            },
+            {
+              "left": {
+                "text": "Lan"
+              },
+              "right": {
+                "emoji": "♟️",
+                "text": "Cờ vua"
+              }
+            },
+            {
+              "left": {
+                "text": "Mai"
+              },
+              "right": {
+                "emoji": "🏊",
+                "text": "Bơi"
+              }
+            }
+          ],
+          "method": "Kẻ bảng 3 × 3, đánh ❌ theo gợi ý; hàng nào chỉ còn 1 ô thì ô đó là ✅.",
+          "explanation": "Hà không bơi, không cờ vua → Hà thích bóng đá. Lan không bơi, bóng đá đã của Hà → Lan thích cờ vua. Mai thích bơi."
+        },
+        {
+          "id": "l3k05-b4-03",
+          "type": "fill_blank",
+          "timeLimit": 45,
+          "prompt": "Tú, Huy, Vũ mặc 3 áo màu khác nhau: đỏ, xanh, vàng.\nTú không mặc áo đỏ. Huy không mặc áo đỏ, cũng không mặc áo xanh.\nĐiền màu áo đúng (ô \"?\" là ô cần suy ra).",
+          "visual": {
+            "grid": [
+              [
+                "",
+                "🔴",
+                "🔵",
+                "🟡"
+              ],
+              [
+                "Tú",
+                "❌",
+                "?",
+                "?"
+              ],
+              [
+                "Huy",
+                "❌",
+                "❌",
+                "?"
+              ],
+              [
+                "Vũ",
+                "?",
+                "?",
+                "?"
+              ]
+            ]
+          },
+          "sentence": "Huy mặc áo [[vàng]], Tú mặc áo [[xanh]], Vũ mặc áo [[đỏ]].",
+          "choices": [
+            "vàng",
+            "xanh",
+            "đỏ",
+            "tím"
+          ],
+          "method": "Bắt đầu từ hàng chỉ còn 1 ô trống (Huy).",
+          "explanation": "Huy không đỏ, không xanh → Huy mặc vàng. Tú không đỏ, vàng đã của Huy → Tú mặc xanh. Còn lại Vũ mặc đỏ. Màu tím không có trong đề."
+        },
+        {
+          "id": "l3k05-b4-04",
+          "type": "input",
+          "prompt": "Gia, Hưng, Khoa mặc 3 áo số 5, 7, 9 khác nhau.\nGia không mặc áo số 5, cũng không mặc áo số 9.\nSố áo của Hưng lớn hơn số áo của Khoa.\nHưng mặc áo số mấy?",
+          "answers": [
+            "9"
+          ],
+          "method": "Kẻ bảng 3 × 3, tìm số áo của Gia trước.",
+          "explanation": "Gia không mặc số 5 và số 9 → Gia mặc số 7. Còn số 5 và số 9 cho Hưng và Khoa; Hưng lớn hơn Khoa → Hưng số 9, Khoa số 5.\n(Bẫy: 7 là số áo của Gia.)"
+        },
+        {
+          "id": "l3k05-b4-05",
+          "type": "choice",
+          "prompt": "Hoa, Cúc, Đào mỗi bạn uống một thứ khác nhau: sữa, nước cam, trà.\nĐào uống sữa. Hoa không uống sữa. Cúc không uống trà.\nCúc uống gì?",
+          "options": [
+            {
+              "emoji": "🥛",
+              "text": "Sữa"
+            },
+            {
+              "emoji": "🍊",
+              "text": "Nước cam"
+            },
+            {
+              "emoji": "🍵",
+              "text": "Trà"
+            }
+          ],
+          "answer": 1,
+          "method": "Đào đã uống sữa thì Cúc còn lại hai thứ nào? Loại tiếp theo gợi ý.",
+          "explanation": "Đào uống sữa nên Cúc không uống sữa. Cúc cũng không uống trà → Cúc uống nước cam. Hoa uống trà.\nLưu ý: sữa đã là của Đào; trà bị loại vì đề nói Cúc không uống trà — trà là của Hoa."
+        },
+        {
+          "id": "l3k05-b4-06",
+          "type": "match_vertical",
+          "timeLimit": 55,
+          "prompt": "Kiên, Long, Minh, Nhi mỗi bạn học một môn năng khiếu khác nhau: hát, đàn, múa, vẽ.\nKiên học hát. Long không học múa, cũng không học vẽ. Minh không học vẽ.\nNối mỗi bạn với môn bạn học.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Kiên"
+              },
+              "right": {
+                "emoji": "🎤",
+                "text": "Hát"
+              }
+            },
+            {
+              "left": {
+                "text": "Long"
+              },
+              "right": {
+                "emoji": "🎹",
+                "text": "Đàn"
+              }
+            },
+            {
+              "left": {
+                "text": "Minh"
+              },
+              "right": {
+                "emoji": "💃",
+                "text": "Múa"
+              }
+            },
+            {
+              "left": {
+                "text": "Nhi"
+              },
+              "right": {
+                "emoji": "🎨",
+                "text": "Vẽ"
+              }
+            }
+          ],
+          "method": "Kẻ bảng 4 × 4. Môn nào đã có người học thì gạch cả cột môn đó cho các bạn khác.",
+          "explanation": "Kiên học hát. Long không múa, không vẽ, hát đã của Kiên → Long học đàn. Minh không vẽ, còn múa và vẽ → Minh học múa. Nhi học vẽ."
+        },
+        {
+          "id": "l3k05-b4-07",
+          "type": "multi_choice",
+          "prompt": "Ốc, Sò, Hến học ở 3 lớp khác nhau: 3A, 3B, 3C.\nHến không học lớp 3A, cũng không học lớp 3C.\nỐc là hàng xóm của bạn học lớp 3A.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Sò học lớp 3A"
+            },
+            {
+              "text": "Ốc học lớp 3A"
+            },
+            {
+              "text": "Ốc học lớp 3C"
+            },
+            {
+              "text": "Hến học lớp 3C"
+            },
+            {
+              "text": "Sò và Ốc là hàng xóm"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Ốc là hàng xóm của bạn lớp 3A, vậy Ốc có thể chính là bạn lớp 3A không?",
+          "explanation": "Hến không học 3A, không học 3C → Hến học 3B. Ốc là hàng xóm của bạn lớp 3A nên Ốc không học 3A → Ốc học 3C. Sò học 3A. Bạn lớp 3A là Sò, nên Sò và Ốc là hàng xóm.\nLưu ý: \"Ốc học 3A\" sai vì không ai là hàng xóm của chính mình; \"Hến học 3C\" trái với gợi ý thứ nhất."
+        },
+        {
+          "id": "l3k05-b4-08",
+          "type": "pick_order",
+          "timeLimit": 50,
+          "prompt": "Gấu, Thỏ, Sóc, Nai ngồi 4 ghế số 1, 2, 3, 4, mỗi bạn một ghế.\nSóc ngồi ghế số 3. Nai không ngồi ghế số 1 và ghế số 4. Gấu ngồi ghế có số lớn hơn ghế của Thỏ.\nChạm tên các bạn theo thứ tự từ ghế số 1 đến ghế số 4.",
+          "items": [
+            "Thỏ",
+            "Nai",
+            "Sóc",
+            "Gấu"
+          ],
+          "distractors": [
+            "Mèo"
+          ],
+          "method": "Điền Sóc trước, rồi Nai, cuối cùng so sánh Gấu với Thỏ.",
+          "explanation": "Sóc ghế 3. Nai không ngồi ghế 1, ghế 4, ghế 3 đã có Sóc → Nai ghế 2. Còn ghế 1 và 4: Gấu số lớn hơn Thỏ → Gấu ghế 4, Thỏ ghế 1.\nThứ tự: Thỏ → Nai → Sóc → Gấu. Mèo không có trong đề nên là thẻ nhiễu."
+        },
+        {
+          "id": "l3k05-b4-09",
+          "type": "reveal_match",
+          "timeLimit": 55,
+          "prompt": "Ân, Bảo, Cát, Đan mỗi bạn thích một loại quả khác nhau: táo, cam, nho, chuối.\nÂn thích cam. Bảo không thích táo, cũng không thích nho. Cát không thích táo.\nLật tên từng bạn rồi chạm loại quả bạn đó thích.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Ân"
+              },
+              "back": {
+                "emoji": "🍊",
+                "text": "Cam"
+              }
+            },
+            {
+              "front": {
+                "text": "Bảo"
+              },
+              "back": {
+                "emoji": "🍌",
+                "text": "Chuối"
+              }
+            },
+            {
+              "front": {
+                "text": "Cát"
+              },
+              "back": {
+                "emoji": "🍇",
+                "text": "Nho"
+              }
+            },
+            {
+              "front": {
+                "text": "Đan"
+              },
+              "back": {
+                "emoji": "🍎",
+                "text": "Táo"
+              }
+            }
+          ],
+          "method": "Kẻ bảng, điền Ân trước, rồi tìm bạn chỉ còn 1 ô trống.",
+          "explanation": "Ân thích cam. Bảo không táo, không nho, cam đã của Ân → Bảo thích chuối. Cát không táo, cam và chuối đã có người → Cát thích nho. Đan thích táo."
+        },
+        {
+          "id": "l3k05-b4-10",
+          "type": "choice",
+          "prompt": "Ba ngôi nhà xếp thành hàng từ trái sang phải: nhà đỏ, nhà xanh, nhà vàng.\nMèo, Chó, Gà mỗi con ở một nhà.\nMèo ở nhà nằm cạnh nhà vàng. Chó không ở nhà đỏ.\nGà ở nhà màu gì?",
+          "options": [
+            {
+              "emoji": "🟦",
+              "text": "Nhà xanh"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Nhà vàng"
+            },
+            {
+              "emoji": "🟥",
+              "text": "Nhà đỏ"
+            },
+            {
+              "emoji": "❓",
+              "text": "Không biết được"
+            }
+          ],
+          "answer": 2,
+          "method": "Nhà nào nằm ngay cạnh nhà vàng? Vẽ 3 ô nhà ra nháp.",
+          "explanation": "Chỉ có nhà xanh (ở giữa) nằm cạnh nhà vàng → Mèo ở nhà xanh. Chó không ở nhà đỏ → Chó ở nhà vàng. Gà ở nhà đỏ.\nLưu ý: nhà xanh là của Mèo; nhà vàng là của Chó; \"Không biết được\" sai vì các gợi ý đã đủ để tìm ra."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Giải câu đố nhiều điều kiện",
+      "emoji": "🧠",
+      "description": "Nhiều điều kiện cùng lúc — bé kiểm tra đủ từng điều kiện mới chốt nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "l3k05-b5-01",
+          "type": "input",
+          "prompt": "Tìm số lớn hơn 20 và nhỏ hơn 40, chia cho 5 dư 3, chia cho 4 không dư.",
+          "answers": [
+            "28"
+          ],
+          "method": "Liệt kê các số chia 5 dư 3 trong khoảng, rồi thử chia cho 4.",
+          "explanation": "Các số từ 21 đến 39 chia 5 dư 3: 23, 28, 33, 38. Trong đó chỉ 28 chia hết cho 4 (28 : 4 = 7). Đáp án 28."
+        },
+        {
+          "id": "l3k05-b5-02",
+          "type": "choice",
+          "prompt": "An, Bình, Chi có tất cả 15 viên bi. An nhiều hơn Bình 2 viên, Bình nhiều hơn Chi 2 viên.\nAn có bao nhiêu viên bi?",
+          "options": [
+            {
+              "text": "5"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "7"
+            }
+          ],
+          "answer": 3,
+          "method": "Thử số bi của Chi: 1, 2, 3, … rồi tính số bi của Bình, của An và cộng lại.",
+          "explanation": "Thử: Chi 1 viên → Bình 3, An 5, tổng 9 (chưa đủ). Chi 2 viên → Bình 4, An 6, tổng 12 (chưa đủ). Chi 3 viên → Bình 5, An 7, tổng 3 + 5 + 7 = 15 ✔.\nVậy An có 7 viên bi.\nLưu ý: 5 là lấy 15 : 3 (đó là số bi của Bình); 3 là số bi của Chi; 9 là lấy số bi của Bình cộng thêm 4."
+        },
+        {
+          "id": "l3k05-b5-03",
+          "type": "choice",
+          "prompt": "Có 3 hộp, chỉ 1 hộp có quà.\nHộp đỏ ghi: \"Quà ở hộp này.\"\nHộp xanh ghi: \"Quà không ở hộp này.\"\nHộp vàng ghi: \"Quà không ở hộp đỏ.\"\nChỉ có ĐÚNG MỘT dòng chữ là đúng. Quà ở hộp nào?",
+          "options": [
+            {
+              "emoji": "🟥",
+              "text": "Hộp đỏ"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hộp xanh"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Hộp vàng"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử đặt quà vào từng hộp, đếm xem có mấy dòng chữ đúng.",
+          "explanation": "Quà ở hộp xanh: dòng đỏ sai, dòng xanh sai, dòng vàng đúng → đúng 1 dòng. Hợp lệ!\nLưu ý: quà ở hộp đỏ thì dòng đỏ và dòng xanh đều đúng (2 dòng); quà ở hộp vàng thì dòng xanh và dòng vàng đều đúng (2 dòng)."
+        },
+        {
+          "id": "l3k05-b5-04",
+          "type": "input",
+          "prompt": "Tìm số có 2 chữ số, nhỏ hơn 30, chia cho 6 không dư và chia cho 8 cũng không dư.",
+          "answers": [
+            "24"
+          ],
+          "method": "Liệt kê các số trong bảng nhân 8 nhỏ hơn 30, rồi thử chia cho 6.",
+          "explanation": "Số có 2 chữ số trong bảng nhân 8, nhỏ hơn 30: 16, 24. 16 : 6 = 2 dư 4; 24 : 6 = 4. Đáp án 24.\n(Bẫy: 48 cũng chia hết cho 6 và 8 nhưng lớn hơn 30; 18 chia hết cho 6 nhưng chia 8 có dư.)"
+        },
+        {
+          "id": "l3k05-b5-05",
+          "type": "choice",
+          "prompt": "Có bao nhiêu số có 2 chữ số chia cho 2 CÒN DƯ và có tổng hai chữ số bằng 7?",
+          "options": [
+            {
+              "text": "7"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "2"
+            }
+          ],
+          "answer": 1,
+          "method": "Liệt kê hết các số có 2 chữ số có tổng bằng 7, rồi thử chia từng số cho 2.",
+          "explanation": "Các số có tổng hai chữ số bằng 7: 16, 25, 34, 43, 52, 61, 70. Chia cho 2 còn dư: 25 (12 dư 1), 43 (21 dư 1), 61 (30 dư 1) → 3 số.\nLưu ý: 7 là quên điều kiện chia 2 còn dư; 4 là đếm các số chia hết cho 2 (16, 34, 52, 70); 2 là liệt kê sót."
+        },
+        {
+          "id": "l3k05-b5-06",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Điều kiện: Lớn hơn 50; chia cho 9 không dư; chia cho 2 còn dư.\nXếp mỗi số vào đúng nhóm.",
+          "groups": [
+            {
+              "emoji": "✅",
+              "text": "Đủ cả 3 điều kiện"
+            },
+            {
+              "emoji": "❌",
+              "text": "Thiếu điều kiện"
+            }
+          ],
+          "items": [
+            {
+              "text": "63",
+              "group": 0
+            },
+            {
+              "text": "54",
+              "group": 1
+            },
+            {
+              "text": "81",
+              "group": 0
+            },
+            {
+              "text": "45",
+              "group": 1
+            },
+            {
+              "text": "99",
+              "group": 0
+            },
+            {
+              "text": "57",
+              "group": 1
+            },
+            {
+              "text": "72",
+              "group": 1
+            }
+          ],
+          "method": "Kiểm tra lần lượt từng điều kiện; sai một điều kiện là loại.",
+          "explanation": "Đủ cả 3 điều kiện: 63 (63 : 9 = 7; 63 : 2 = 31 dư 1), 81 (81 : 9 = 9; 81 : 2 = 40 dư 1), 99 (99 : 9 = 11; 99 : 2 = 49 dư 1), đều lớn hơn 50.\nThiếu: 54 và 72 chia hết cho 2; 45 nhỏ hơn 50; 57 chia 9 dư 3."
+        },
+        {
+          "id": "l3k05-b5-07",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Hộp B nặng 4 kg. Hộp A nặng hơn hộp B 3 kg. Hộp C nặng gấp đôi hộp B. Hộp D nhẹ hơn hộp A 2 kg.\nXếp các hộp từ NHẸ NHẤT đến NẶNG NHẤT.",
+          "items": [
+            {
+              "emoji": "📦",
+              "text": "Hộp B"
+            },
+            {
+              "emoji": "📦",
+              "text": "Hộp D"
+            },
+            {
+              "emoji": "📦",
+              "text": "Hộp A"
+            },
+            {
+              "emoji": "📦",
+              "text": "Hộp C"
+            }
+          ],
+          "method": "Tính cân nặng từng hộp theo thứ tự: B → A → C → D.",
+          "explanation": "B = 4 kg. A = 4 + 3 = 7 kg. C = 4 × 2 = 8 kg. D = 7 − 2 = 5 kg.\n4 < 5 < 7 < 8: B → D → A → C."
+        },
+        {
+          "id": "l3k05-b5-08",
+          "type": "fill_blank",
+          "timeLimit": 40,
+          "prompt": "Trong sân có gà và chó, tất cả 5 con và 14 cái chân.\nĐiền số đúng vào chỗ trống.",
+          "sentence": "Trong sân có [[3]] con gà và [[2]] con chó.",
+          "choices": [
+            "3",
+            "2",
+            "4",
+            "1"
+          ],
+          "method": "Thử lần lượt: có 1 con chó, 2 con chó, … rồi đếm tổng số chân.",
+          "explanation": "Thử: 1 con chó và 4 con gà: 4 + 4 × 2 = 4 + 8 = 12 chân (chưa đủ). 2 con chó và 3 con gà: 2 × 4 + 3 × 2 = 8 + 6 = 14 chân ✔.\nVậy có 3 con gà và 2 con chó."
+        },
+        {
+          "id": "l3k05-b5-09",
+          "type": "multi_choice",
+          "prompt": "Có nhiều tờ tiền 5 000 đồng, 10 000 đồng và 20 000 đồng.\nChọn TẤT CẢ các cách lấy ĐÚNG 3 tờ để được 30 000 đồng.",
+          "options": [
+            {
+              "text": "20 000 + 10 000"
+            },
+            {
+              "text": "10 000 + 10 000 + 10 000"
+            },
+            {
+              "text": "10 000 + 10 000 + 5 000"
+            },
+            {
+              "text": "5 000 + 5 000 + 10 000 + 10 000"
+            },
+            {
+              "text": "20 000 + 5 000 + 5 000"
+            }
+          ],
+          "answers": [
+            1,
+            4
+          ],
+          "method": "Kiểm tra 2 điều kiện: đúng 3 tờ và tổng đúng 30 000 đồng.",
+          "explanation": "10 000 + 10 000 + 10 000 = 30 000 (3 tờ) ✔. 20 000 + 5 000 + 5 000 = 30 000 (3 tờ) ✔.\nLưu ý: 20 000 + 10 000 đủ 30 000 đồng nhưng chỉ có 2 tờ; 5 000 + 5 000 + 10 000 + 10 000 đủ tiền nhưng có 4 tờ; 10 000 + 10 000 + 5 000 có 3 tờ nhưng chỉ được 25 000 đồng."
+        },
+        {
+          "id": "l3k05-b5-10",
+          "type": "input",
+          "prompt": "Tuổi bố gấp 4 lần tuổi Bi. Tổng số tuổi của hai bố con là 40.\nBố bao nhiêu tuổi?",
+          "answers": [
+            "32"
+          ],
+          "unit": "tuổi",
+          "method": "Thử các tuổi của Bi, nhân 4 ra tuổi bố, rồi cộng hai tuổi xem có bằng 40 không.",
+          "explanation": "Thử: Bi 6 tuổi → bố 24 tuổi, tổng 30. Bi 7 tuổi → bố 28 tuổi, tổng 35. Bi 8 tuổi → bố 8 × 4 = 32 tuổi, tổng 32 + 8 = 40 ✔.\nVậy bố 32 tuổi.\n(Bẫy: 10 là lấy 40 : 4 — nhưng 40 là tổng tuổi hai bố con, không phải tuổi bố; 8 là tuổi của Bi.)"
+        }
+      ]
+    }
+  ]
+}

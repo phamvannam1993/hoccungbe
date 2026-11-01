@@ -1,0 +1,144 @@
+{
+  "bai-1": {
+    "concept": "Một ngày có các buổi: sáng, trưa, chiều, tối. Các buổi nối tiếp nhau theo thứ tự đó.",
+    "examples": [
+      {
+        "prompt": "Ăn sáng xong, bé tưới cây ngay.\nLúc đó là buổi nào?",
+        "visual": {
+          "emoji": "🥣 🪴💧"
+        },
+        "answer": "Bé vừa ăn sáng xong nên vẫn là buổi sáng. Bé tưới cây vào buổi sáng."
+      },
+      {
+        "prompt": "Buổi nào đến ngay TRƯỚC buổi tối?",
+        "answer": "Sáng → trưa → chiều → tối. Trước buổi tối là buổi chiều."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ việc làm hoặc cảnh trong tranh.",
+      "Nhớ thứ tự: sáng, trưa, chiều, tối.",
+      "Tìm buổi hợp với việc làm hoặc cảnh đó.",
+      "Kiểm tra lại đề hỏi buổi trước hay buổi sau."
+    ],
+    "tips": [
+      "Sáng, trưa, chiều, tối — bé nhớ hoài không rối!",
+      "Đọc kỹ chữ “ngay trước”, “ngay sau” trong đề nhé."
+    ]
+  },
+  "bai-2": {
+    "concept": "Đồng hồ có kim ngắn chỉ giờ và kim dài chỉ phút. Khi kim dài chỉ số 12, kim ngắn chỉ số nào thì là mấy giờ đúng.",
+    "examples": [
+      {
+        "prompt": "Đồng hồ chỉ mấy giờ?",
+        "visual": {
+          "clock": [
+            "3:00"
+          ]
+        },
+        "answer": "Kim dài chỉ số 12, kim ngắn chỉ số 3. Đồng hồ chỉ 3 giờ."
+      },
+      {
+        "prompt": "Lúc 8 giờ, kim ngắn và kim dài chỉ số mấy?",
+        "visual": {
+          "clock": [
+            "8:00"
+          ]
+        },
+        "answer": "Kim ngắn chỉ số 8, kim dài chỉ số 12."
+      }
+    ],
+    "steps": [
+      "Tìm kim dài, xem có chỉ số 12 không.",
+      "Tìm kim ngắn, xem kim chỉ số mấy.",
+      "Đọc giờ theo số kim ngắn chỉ.",
+      "Kiểm tra lại: đừng đọc nhầm kim dài."
+    ],
+    "tips": [
+      "Kim ngắn chỉ giờ, kim dài đứng ở 12 là giờ đúng!",
+      "Kim dài chỉ số 12 chưa chắc là 12 giờ, phải xem kim ngắn!"
+    ]
+  },
+  "bai-3": {
+    "concept": "Mọi việc đều có việc làm trước và việc làm sau. Ta sắp xếp theo thứ tự xảy ra thật trong cuộc sống.",
+    "examples": [
+      {
+        "prompt": "Xếp từ TRƯỚC đến SAU:\nmặc quần áo, thức dậy, đi học.",
+        "visual": {
+          "emoji": "👕 🛏️ 🎒"
+        },
+        "answer": "Bé thức dậy, rồi mặc quần áo, rồi đi học."
+      },
+      {
+        "prompt": "Bé vẽ tranh: tô màu, vẽ hình.\nViệc nào làm TRƯỚC?",
+        "visual": {
+          "emoji": "🖍️ ✏️"
+        },
+        "answer": "Phải vẽ hình trước thì mới có chỗ để tô màu. Vẽ hình trước, tô màu sau."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ từng việc trong đề.",
+      "Hỏi mình: việc nào phải làm xong thì mới làm được việc kia?",
+      "Tìm việc đầu tiên, rồi việc tiếp theo.",
+      "Đọc lại cả dãy xem có hợp lý không."
+    ],
+    "tips": [
+      "Đi tất 🧦 trước, đi giày 👟 sau, chẳng ai làm ngược đâu!",
+      "Việc nào cần xong trước thì đứng trước: rót nước rồi mới uống!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Một tuần có 7 ngày: thứ Hai, thứ Ba, thứ Tư, thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật. Hôm qua là ngày liền trước hôm nay, ngày mai là ngày liền sau.",
+    "examples": [
+      {
+        "prompt": "Hôm nay là thứ Năm.\nNgày mai là thứ mấy?",
+        "visual": {
+          "emoji": "🗓️"
+        },
+        "answer": "Sau thứ Năm là thứ Sáu. Ngày mai là thứ Sáu."
+      },
+      {
+        "prompt": "Hôm nay là thứ Bảy.\nHôm qua là thứ mấy?",
+        "answer": "Trước thứ Bảy là thứ Sáu. Hôm qua là thứ Sáu."
+      }
+    ],
+    "steps": [
+      "Tìm xem đề cho biết hôm nay, hôm qua hay ngày mai.",
+      "Đọc các ngày trong tuần theo thứ tự.",
+      "Lùi 1 ngày để tìm hôm qua, tiến 1 ngày để tìm ngày mai.",
+      "Nhớ: sau Chủ nhật lại là thứ Hai."
+    ],
+    "tips": [
+      "Hôm qua lùi một bước, ngày mai tiến một bước!",
+      "Đề cho “hôm qua” thì phải tìm hôm nay trước đã."
+    ]
+  },
+  "bai-5": {
+    "concept": "Thêm giờ thì ta đếm tiến, bớt giờ thì ta đếm lùi. Ngày trong tuần cũng đếm lần lượt như vậy.",
+    "examples": [
+      {
+        "prompt": "Bây giờ là 4 giờ.\nThêm 3 giờ nữa là mấy giờ?",
+        "visual": {
+          "clock": [
+            "4:00"
+          ]
+        },
+        "answer": "Đếm tiến từ 4: 5, 6, 7. Hay 4 + 3 = 7, đó là 7 giờ."
+      },
+      {
+        "prompt": "Hôm nay là thứ Ba.\nCòn mấy ngày nữa đến thứ Năm?",
+        "answer": "Thứ Tư (1), thứ Năm (2). Còn 2 ngày nữa."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ xem đề hỏi giờ hay ngày.",
+      "Tìm giờ hoặc ngày bắt đầu.",
+      "Đếm tiến nếu là “nữa”, đếm lùi nếu là “trước đó”.",
+      "Đếm số bước bằng ngón tay rồi ghi kết quả."
+    ],
+    "tips": [
+      "“Nữa” là đếm tới, “trước đó” là đếm lùi!",
+      "Không đếm ngày hoặc giờ bắt đầu, đếm từ cái tiếp theo."
+    ]
+  }
+}

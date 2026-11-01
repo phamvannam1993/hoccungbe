@@ -180,7 +180,7 @@ export function speakViList(vis: string[]): void {
 // Phát NỐI TIẾP nhiều mẩu (hội thoại, bài hát). Mỗi mẩu {text, lang}.
 // Dùng chung _gen nên gọi mới (hoặc stopSpeaking) sẽ dừng chuỗi đang phát.
 export function speakSequence(
-  items: { text: string; lang: 'en' | 'vi' }[],
+  items: { text: string; lang: 'en' | 'vi'; speed?: number }[],
   onIndex?: (i: number) => void,
   onDone?: () => void,
 ): void {
@@ -194,7 +194,7 @@ export function speakSequence(
     const it = items[i++];
     if (!it || !it.text || !it.text.trim()) { step(); return; }
     onIndex?.(idx);
-    playSrc(ttsUrl(it.text, it.lang), step);
+    playSrc(ttsUrl(it.text, it.lang, it.speed), step); // speed<1 → mẩu này đọc chậm
   };
   step();
 }

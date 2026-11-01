@@ -1,0 +1,143 @@
+{
+  "bai-1": {
+    "concept": "Bài toán thêm bớt nhiều bước kể nhiều việc xảy ra nối tiếp nhau. \"Cho, bán, ăn, bay đi\" là bớt đi (trừ); \"mua thêm, được tặng, lên xe\" là thêm vào (cộng). Bé tính lần lượt theo đúng thứ tự trong đề.",
+    "examples": [
+      {
+        "prompt": "Hộp có 36 cái bút. Cô lấy ra 9 cái, rồi bỏ vào thêm 14 cái.\nHỏi hộp có bao nhiêu cái bút?",
+        "answer": "Lấy ra là bớt: 36 − 9 = 27 cái. Bỏ vào thêm là cộng: 27 + 14 = 41 cái bút."
+      },
+      {
+        "prompt": "Ao có 18 con vịt. 5 con lên bờ, rồi 7 con nữa lên bờ.\nHỏi dưới ao còn bao nhiêu con vịt?",
+        "visual": {
+          "emoji": "🦆🦆🦆🦆🦆🦆🦆🦆🦆 🦆🦆🦆🦆🦆🦆🦆🦆🦆"
+        },
+        "answer": "Cả hai lần đều lên bờ nên đều trừ: 18 − 5 = 13, 13 − 7 = 6 con vịt. Cách khác: 5 + 7 = 12, 18 − 12 = 6."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, gạch chân từng việc xảy ra.",
+      "Ghi + cho việc thêm vào, − cho việc bớt đi.",
+      "Tính lần lượt từng bước theo thứ tự trong đề.",
+      "Thử lại rồi ghi đáp số kèm đơn vị."
+    ],
+    "tips": [
+      "Đừng bỏ sót bước nào — đếm xem đề có mấy việc!",
+      "Bớt hai lần liền có thể bớt một lần bằng tổng hai số."
+    ]
+  },
+  "bai-2": {
+    "concept": "\"Nhiều hơn\" thì cộng thêm, \"ít hơn\" thì bớt đi — nhưng phải xem AI hơn AI. Nếu An nhiều hơn Bình 3 cái thì Bình ít hơn An 3 cái.",
+    "examples": [
+      {
+        "prompt": "Mèo câu được 14 con cá. Mèo câu được ít hơn Gấu 5 con.\nHỏi Gấu câu được bao nhiêu con cá?",
+        "answer": "Mèo ít hơn Gấu nghĩa là Gấu nhiều hơn Mèo 5 con: 14 + 5 = 19 con cá."
+      },
+      {
+        "prompt": "Chị có 16 cái kẹo, em có 10 cái kẹo.\nChị cho em mấy cái thì hai chị em có số kẹo bằng nhau?",
+        "visual": {
+          "grid": [
+            [
+              "Chị",
+              "🍬",
+              "16"
+            ],
+            [
+              "Em",
+              "🍬",
+              "10"
+            ]
+          ]
+        },
+        "answer": "Chị hơn em 16 − 10 = 6 cái. Chia đôi phần hơn: 6 : 2 = 3, nên chị cho em 3 cái. Khi đó chị còn 13, em có 13 — bằng nhau."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ xem ai được so với ai.",
+      "Tự hỏi: người cần tìm có nhiều hơn hay ít hơn?",
+      "Cộng nếu nhiều hơn, trừ nếu ít hơn.",
+      "Thêm một bước cộng nếu đề hỏi \"cả hai\"."
+    ],
+    "tips": [
+      "Thấy chữ \"nhiều hơn\" đừng vội cộng — xem ai nhiều hơn ai!",
+      "Muốn hai bạn bằng nhau thì chỉ cho một nửa số chênh lệch."
+    ]
+  },
+  "bai-3": {
+    "concept": "Chia đều là chia thành các phần bằng nhau, dùng phép chia. Có hai kiểu: biết số phần thì tìm mỗi phần mấy cái; biết mỗi nhóm mấy cái thì tìm được mấy nhóm.",
+    "examples": [
+      {
+        "prompt": "Có 10 cái bánh chia đều vào 2 hộp.\nMỗi hộp có mấy cái bánh?",
+        "visual": {
+          "emoji": "🍪🍪🍪🍪🍪 🍪🍪🍪🍪🍪"
+        },
+        "answer": "10 : 2 = 5 (vì 2 × 5 = 10). Mỗi hộp có 5 cái bánh."
+      },
+      {
+        "prompt": "Có 7 bạn đi xe đạp đôi, mỗi xe chở được nhiều nhất 2 bạn.\nCần ít nhất mấy xe?",
+        "answer": "Xếp đầy từng xe: 3 xe chở 6 bạn, còn 1 bạn cần thêm 1 xe nữa. Vậy cần ít nhất 4 xe."
+      }
+    ],
+    "steps": [
+      "Xem đề cho biết số phần hay số cái trong mỗi nhóm.",
+      "Viết phép chia: lấy tổng số chia cho số đó.",
+      "Dùng bảng nhân 2, bảng nhân 5 để tìm kết quả.",
+      "Thêm một nhóm nữa nếu còn người hoặc đồ vật chưa có chỗ."
+    ],
+    "tips": [
+      "Cắt dây thành mấy đoạn thì số lần cắt ít hơn số đoạn 1.",
+      "Đọc lại câu hỏi: đề hỏi mỗi phần mấy cái hay được mấy nhóm?"
+    ]
+  },
+  "bai-4": {
+    "concept": "Muốn tìm số lúc đầu, bé đi ngược từ cuối lên: đã bớt đi thì cộng lại, đã thêm vào thì bớt ra.",
+    "examples": [
+      {
+        "prompt": "Bé ăn 6 quả nho thì còn 15 quả.\nHỏi lúc đầu có bao nhiêu quả nho?",
+        "visual": {
+          "emoji": "🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇🍇"
+        },
+        "answer": "Lúc đầu nhiều hơn bây giờ: 15 + 6 = 21 quả nho. Thử lại: 21 − 6 = 15."
+      },
+      {
+        "prompt": "Một số cộng thêm 10 rồi trừ đi 4 thì được 26.\nSố đó là bao nhiêu?",
+        "answer": "Đi ngược: 26 + 4 = 30, rồi 30 − 10 = 20. Thử lại: 20 + 10 = 30, 30 − 4 = 26."
+      }
+    ],
+    "steps": [
+      "Tìm con số cuối cùng mà đề cho biết.",
+      "Đi ngược từ việc xảy ra sau cùng.",
+      "Đổi phép: bớt thành cộng, thêm thành trừ.",
+      "Thử lại bằng cách làm xuôi theo đề."
+    ],
+    "tips": [
+      "Thấy chữ \"cho\" hay \"bán\" đừng vội trừ — đi ngược thì phải cộng!",
+      "Chuyển 1 bạn từ tổ này sang tổ kia: tổ này bớt 1, tổ kia thêm 1."
+    ]
+  },
+  "bai-5": {
+    "concept": "Dữ kiện là những điều đề bài cho biết. Dữ kiện thừa là số không cần dùng; thiếu dữ kiện là chưa đủ số để tính. Bé đọc câu hỏi trước để biết cần những số nào.",
+    "examples": [
+      {
+        "prompt": "Vườn có 23 cây cam và 15 cây bưởi. Bác làm vườn 45 tuổi.\nHỏi vườn có tất cả bao nhiêu cây cam và cây bưởi?",
+        "answer": "Chỉ cần: 23 + 15 = 38 cây. Tuổi của bác làm vườn là dữ kiện thừa."
+      },
+      {
+        "prompt": "Hà có 9 quả bóng bay. Hà cho em vài quả.\nHỏi Hà còn mấy quả bóng bay?",
+        "visual": {
+          "emoji": "🎈🎈🎈🎈🎈🎈🎈🎈🎈"
+        },
+        "answer": "Không tính được vì đề không cho biết Hà cho em mấy quả (\"vài\" không phải con số). Đây là bài thiếu dữ kiện."
+      }
+    ],
+    "steps": [
+      "Đọc câu hỏi trước để biết cần tìm gì.",
+      "Gạch chân những số nói về điều được hỏi.",
+      "Gạch bỏ các dữ kiện thừa không dùng đến.",
+      "Kiểm tra đã đủ số chưa, rồi mới giải."
+    ],
+    "tips": [
+      "Số nào không nói về điều được hỏi thì để sang một bên!",
+      "\"Một ít\", \"vài\" không phải con số — thiếu dữ kiện rồi!"
+    ]
+  }
+}

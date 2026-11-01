@@ -5,6 +5,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch, AuthResponse } from '../../lib/api';
 
+/** Trang quay về sau khi đăng nhập (?next=/khoa-hoc-iq…); chỉ nhận đường dẫn trong site. */
+function nextPath() {
+  const next = new URLSearchParams(window.location.search).get('next') ?? '';
+  return /^\/(?!\/)[^\\]*$/.test(next) ? next : '/';
+}
+
 export default function RegisterPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState('');
@@ -24,7 +30,7 @@ export default function RegisterPage() {
       });
       localStorage.setItem('bhh_token', data.accessToken);
       localStorage.setItem('bhh_user', JSON.stringify(data.user));
-      router.push('/');
+      router.push(nextPath());
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Đăng ký thất bại');
     } finally {

@@ -1,0 +1,190 @@
+{
+  "bai-1": {
+    "concept": "Tìm quy luật là xem từ số này sang số sau người ta cộng, trừ, nhân hay chia bao nhiêu. Bước nhảy có thể đều nhau, tăng dần, hoặc gấp lên. Dãy hình lặp lại thì tìm nhóm lặp rồi dùng phép chia có dư.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo của dãy:\n2, 3, 5, 8, 12, ?",
+        "answer": "Bước nhảy là +1, +2, +3, +4, nên bước tiếp theo là +5: 12 + 5 = 17."
+      },
+      {
+        "prompt": "Các hạt xâu lặp lại: 🟡🟣🟣🟡🟣🟣…\nHạt thứ 20 có màu gì?",
+        "visual": {
+          "emoji": "🟡🟣🟣 🟡🟣🟣"
+        },
+        "answer": "Mỗi nhóm có 3 hạt. 20 : 3 = 6 (dư 2): hết 6 nhóm, hạt thứ 20 là hạt thứ 2 của nhóm mới, màu tím 🟣."
+      }
+    ],
+    "steps": [
+      "Tìm khoảng cách giữa hai số liền nhau.",
+      "Xem khoảng cách đều nhau, tăng dần hay gấp lên.",
+      "Thử quy luật với TẤT CẢ các số đã cho.",
+      "Dãy lặp: chia vị trí cho số hạt một nhóm, xem số dư.",
+      "Dùng quy luật để tìm số cần điền."
+    ],
+    "tips": [
+      "Thử cộng chưa ra thì thử nhân!",
+      "Dư 1 là hạt ĐẦU nhóm, không dư là hạt CUỐI nhóm.",
+      "Quy luật phải đúng với mọi số, không chỉ hai số đầu."
+    ]
+  },
+  "bai-2": {
+    "concept": "Bài nhiều điều kiện giống trò thám tử: đáp án phải thỏa mãn TẤT CẢ các điều kiện. Kiểm tra từng điều kiện một, sai một điều là loại ngay. Kẻ bảng đánh dấu ✔ và ✘ giúp bé không bị rối.",
+    "examples": [
+      {
+        "prompt": "Tìm số có hai chữ số bé hơn 30, biết:\n• Chia cho 4 dư 1.\n• Chia cho 3 không dư.",
+        "answer": "Liệt kê số có hai chữ số bé hơn 30 chia cho 4 dư 1: 13, 17, 21, 25, 29. Thử chia cho 3: chỉ có 21 : 3 = 7 không dư. Số cần tìm là 21."
+      },
+      {
+        "prompt": "Ba bạn Mi, Na, Tú mỗi bạn thích một loại quả khác nhau: cam, nho, dưa.\n• Mi không thích cam.\n• Na thích dưa.\nMỗi bạn thích quả gì?",
+        "visual": {
+          "grid": [
+            [
+              "",
+              "Cam",
+              "Nho",
+              "Dưa"
+            ],
+            [
+              "Mi",
+              "✘",
+              "?",
+              "?"
+            ],
+            [
+              "Na",
+              "?",
+              "?",
+              "✔"
+            ],
+            [
+              "Tú",
+              "?",
+              "?",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Na thích dưa nên Mi và Tú không thích dưa. Mi không thích cam nên Mi thích nho. Còn lại Tú thích cam."
+      }
+    ],
+    "steps": [
+      "Viết riêng ra từng điều kiện.",
+      "Bắt đầu từ điều kiện chắc chắn hoặc hẹp nhất.",
+      "Liệt kê các số hay người hợp điều kiện đó.",
+      "Kiểm tra lần lượt các điều kiện còn lại, loại cái sai.",
+      "Thử lại đáp án với tất cả điều kiện."
+    ],
+    "tips": [
+      "Sai một điều kiện là loại — không thương lượng!",
+      "Kẻ bảng ✔ ✘: mỗi hàng, mỗi cột chỉ có một dấu ✔.",
+      "Số chia hết cho 2 là số chẵn; chia cho 2 dư 1 là số lẻ."
+    ]
+  },
+  "bai-3": {
+    "concept": "Chu vi là tổng độ dài các cạnh bao quanh hình; diện tích là phần mặt của hình, đo bằng cm². Hình chữ nhật: chu vi = (dài + rộng) × 2, diện tích = dài × rộng. Hình vuông: chu vi = cạnh × 4, diện tích = cạnh × cạnh.",
+    "examples": [
+      {
+        "prompt": "Ghép 4 hình vuông cạnh 2 cm thành một hàng, được một hình chữ nhật.\nChu vi hình chữ nhật đó là bao nhiêu?",
+        "visual": {
+          "emoji": "🟦🟦🟦🟦"
+        },
+        "answer": "Chiều dài: 2 × 4 = 8 cm, chiều rộng: 2 cm. Chu vi: (8 + 2) × 2 = 20 cm. Không cộng chu vi 4 hình vuông, vì các cạnh ghép chung nằm bên trong."
+      },
+      {
+        "prompt": "Một hình vuông có chu vi 28 cm.\nDiện tích hình vuông đó là bao nhiêu?",
+        "answer": "Tìm cạnh trước: 28 : 4 = 7 cm. Diện tích: 7 × 7 = 49 cm²."
+      }
+    ],
+    "steps": [
+      "Vẽ hình ra giấy, ghi số đo từng cạnh.",
+      "Biết chu vi thì tìm cạnh trước: chia 4, hoặc lấy nửa chu vi.",
+      "Ghép hình thì bỏ các cạnh chung nằm bên trong.",
+      "Cắt bớt hình: lấy diện tích cả hình trừ phần bị cắt.",
+      "Ghi đúng đơn vị: cm cho chu vi, cm² cho diện tích."
+    ],
+    "tips": [
+      "Chu vi đi vòng quanh, diện tích phủ kín mặt!",
+      "Nửa chu vi = dài + rộng — nhớ chia đôi chu vi trước!",
+      "Cạnh ghép chung nằm bên trong, không tính vào chu vi."
+    ]
+  },
+  "bai-4": {
+    "concept": "Bài toán khó thường có hai, ba bước. Bé đọc kỹ từng chữ (\"còn\", \"gấp\", \"cách nhau\"), tìm điều trung gian cần tính trước rồi mới tính điều đề hỏi. Chưa thấy cách tính thì thử chọn từng số nhỏ rồi kiểm tra.",
+    "examples": [
+      {
+        "prompt": "Có 4 chiếc xe gồm xe đạp (2 bánh) và xe ba bánh.\nĐếm được tất cả 10 bánh xe.\nCó mấy chiếc xe ba bánh?",
+        "visual": {
+          "grid": [
+            [
+              "Xe ba bánh",
+              "Xe đạp",
+              "Số bánh xe"
+            ],
+            [
+              "1",
+              "3",
+              "3 + 6 = 9"
+            ],
+            [
+              "2",
+              "2",
+              "?"
+            ],
+            [
+              "3",
+              "1",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Thử lần lượt số xe ba bánh: 1 xe thì có 9 bánh, 2 xe thì có 10 bánh — đúng! Vậy có 2 xe ba bánh (và 2 xe đạp)."
+      },
+      {
+        "prompt": "Cưa một khúc gỗ dài 20 dm thành các đoạn, mỗi đoạn dài 4 dm.\nPhải cưa bao nhiêu lần?",
+        "answer": "20 : 4 = 5 đoạn. Lần cưa cuối tạo ra 2 đoạn, nên số lần cưa ít hơn số đoạn 1: 5 − 1 = 4 lần."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ, gạch chân điều đã cho và điều cần tìm.",
+      "Tìm điều trung gian cần tính trước.",
+      "Tính lần lượt từng bước, ghi rõ kết quả mỗi bước.",
+      "Bí cách tính thì thử chọn từng số nhỏ rồi kiểm tra.",
+      "Thử lại đáp số với đề bài."
+    ],
+    "tips": [
+      "Số đoạn khác số lần cắt, số tiếng chuông khác số khoảng!",
+      "Giá của 3 kg không phải giá của 1 kg — đọc kỹ từng chữ.",
+      "Hỏi \"trả lại\" thì lấy tiền đưa trừ tiền hàng."
+    ]
+  },
+  "bai-5": {
+    "concept": "Bài tổng kết ôn lại kiến thức lớp 3: tính giá trị biểu thức, chia có dư, đổi đơn vị, xem giờ và xem lịch. Nhớ thứ tự: trong ngoặc trước; nhân, chia trước, cộng, trừ sau; chỉ có nhân và chia thì làm từ trái sang phải.",
+    "examples": [
+      {
+        "prompt": "Tính giá trị biểu thức:\n(32 + 4) : 4 × 3",
+        "answer": "Trong ngoặc trước: 32 + 4 = 36. Rồi làm từ trái sang phải: 36 : 4 = 9, 9 × 3 = 27."
+      },
+      {
+        "prompt": "Bây giờ là 9 giờ 50 phút.\nSau 25 phút nữa là mấy giờ?",
+        "visual": {
+          "clock": [
+            "9:50"
+          ]
+        },
+        "answer": "Thêm 10 phút cho tròn 10 giờ, còn 25 − 10 = 15 phút nữa. Vậy là 10 giờ 15 phút."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, xem bài thuộc dạng nào.",
+      "Biểu thức: làm trong ngoặc, rồi nhân chia, rồi cộng trừ.",
+      "Chia có dư: số bị chia = thương × số chia + số dư.",
+      "Cộng phút: thêm cho tròn giờ trước, rồi thêm phần còn lại.",
+      "Đổi về cùng đơn vị rồi mới so sánh."
+    ],
+    "tips": [
+      "Ngoặc đi trước, nhân chia theo sau, cộng trừ về cuối!",
+      "60 phút là 1 giờ — không có \"9 giờ 75 phút\" đâu!",
+      "Số dư luôn bé hơn số chia."
+    ]
+  }
+}

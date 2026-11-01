@@ -1,0 +1,1072 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Buổi sáng, trưa, chiều, tối",
+      "emoji": "🌅",
+      "description": "Bé cùng tìm hiểu một ngày có những buổi nào nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k08-b1-01",
+          "type": "choice",
+          "prompt": "Mặt trăng và các ngôi sao\nhiện lên vào buổi nào?",
+          "visual": { "emoji": "🌙⭐⭐⭐" },
+          "options": [
+            { "emoji": "🌅", "text": "Buổi sáng" },
+            { "emoji": "☀️", "text": "Buổi trưa" },
+            { "emoji": "🌇", "text": "Buổi chiều" },
+            { "emoji": "🌃", "text": "Buổi tối" }
+          ],
+          "answer": 3,
+          "method": "Nghĩ xem lúc nào trời tối thì mới thấy trăng sao.",
+          "explanation": "Trăng sao hiện lên khi trời tối, đó là buổi tối.\nLưu ý: buổi sáng, trưa, chiều trời còn sáng nên khó thấy sao."
+        },
+        {
+          "id": "l1k08-b1-02",
+          "type": "choice",
+          "prompt": "Buổi nào đến ngay SAU buổi trưa?",
+          "options": [
+            { "emoji": "🌅", "text": "Buổi sáng" },
+            { "emoji": "🌇", "text": "Buổi chiều" },
+            { "emoji": "🌃", "text": "Buổi tối" }
+          ],
+          "answer": 1,
+          "method": "Nhớ thứ tự: sáng → trưa → chiều → tối.",
+          "explanation": "Sau buổi trưa là buổi chiều.\nLưu ý: buổi sáng đến TRƯỚC buổi trưa; buổi tối đến sau buổi chiều."
+        },
+        {
+          "id": "l1k08-b1-03",
+          "type": "input",
+          "prompt": "Sáng → trưa → chiều → tối.\nBuổi tối là buổi thứ mấy?",
+          "answers": ["4"],
+          "method": "Đếm lần lượt từ buổi sáng: 1, 2, 3…",
+          "explanation": "Sáng là 1, trưa là 2, chiều là 3, tối là 4. Buổi tối là buổi thứ 4."
+        },
+        {
+          "id": "l1k08-b1-04",
+          "type": "order",
+          "prompt": "Xếp các việc trong ngày từ SỚM đến MUỘN.",
+          "timeLimit": 50,
+          "items": [
+            { "emoji": "🪥", "text": "Đánh răng buổi sáng" },
+            { "emoji": "🍚", "text": "Ăn cơm trưa" },
+            { "emoji": "⚽", "text": "Đá bóng buổi chiều" },
+            { "emoji": "😴", "text": "Đi ngủ buổi tối" }
+          ],
+          "method": "Xem mỗi việc làm vào buổi nào, rồi xếp theo sáng → trưa → chiều → tối.",
+          "explanation": "Sáng: đánh răng. Trưa: ăn cơm trưa. Chiều: đá bóng. Tối: đi ngủ."
+        },
+        {
+          "id": "l1k08-b1-05",
+          "type": "match",
+          "prompt": "Nối mỗi cảnh với buổi đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "emoji": "🐓", "text": "Gà gáy, mặt trời mọc" }, "right": { "text": "Buổi sáng" } },
+            { "left": { "emoji": "🍚", "text": "Cả nhà ăn cơm trưa" }, "right": { "text": "Buổi trưa" } },
+            { "left": { "emoji": "🌇", "text": "Mặt trời lặn" }, "right": { "text": "Buổi chiều" } },
+            { "left": { "emoji": "🌙", "text": "Ngắm trăng sao" }, "right": { "text": "Buổi tối" } }
+          ],
+          "method": "Nhìn mặt trời: mọc là sáng, lặn là chiều, có trăng là tối.",
+          "explanation": "Mặt trời mọc: buổi sáng. Ăn cơm trưa: buổi trưa. Mặt trời lặn: buổi chiều. Trăng sao: buổi tối."
+        },
+        {
+          "id": "l1k08-b1-06",
+          "type": "match_multi",
+          "prompt": "Việc nào diễn ra ban ngày, việc nào ban đêm?",
+          "timeLimit": 50,
+          "groups": [
+            { "text": "Ban ngày", "emoji": "☀️" },
+            { "text": "Ban đêm", "emoji": "🌙" }
+          ],
+          "items": [
+            { "emoji": "🌞", "text": "Mặt trời chiếu sáng", "group": 0 },
+            { "emoji": "🦉", "text": "Cú mèo đi kiếm mồi", "group": 1 },
+            { "emoji": "🏫", "text": "Bé đi học", "group": 0 },
+            { "emoji": "⭐", "text": "Sao lấp lánh", "group": 1 },
+            { "emoji": "🛌", "text": "Cả nhà ngủ say", "group": 1 },
+            { "emoji": "🍱", "text": "Bé ăn trưa", "group": 0 }
+          ],
+          "method": "Trời sáng là ban ngày, trời tối là ban đêm.",
+          "explanation": "Ban ngày: mặt trời chiếu sáng, bé đi học, bé ăn trưa. Ban đêm: cú mèo đi kiếm mồi, sao lấp lánh, cả nhà ngủ say."
+        },
+        {
+          "id": "l1k08-b1-07",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ việc bé làm vào buổi sáng.",
+          "options": [
+            { "emoji": "🪥", "text": "Đánh răng, rửa mặt" },
+            { "emoji": "🥛", "text": "Ăn sáng" },
+            { "emoji": "😴", "text": "Đi ngủ" },
+            { "emoji": "🍲", "text": "Ăn cơm tối" },
+            { "emoji": "🎒", "text": "Đến trường" }
+          ],
+          "answers": [0, 1, 4],
+          "method": "Nghĩ lại từ lúc bé thức dậy đến lúc vào lớp.",
+          "explanation": "Buổi sáng bé đánh răng, rửa mặt, ăn sáng rồi đến trường.\nLưu ý: đi ngủ và ăn cơm tối là việc buổi tối."
+        },
+        {
+          "id": "l1k08-b1-08",
+          "type": "fill_blank",
+          "prompt": "Kéo thẻ đúng vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Sau buổi sáng là buổi [[trưa]].\nSau buổi chiều là buổi [[tối]].",
+          "choices": ["trưa", "tối", "sáng", "chiều"],
+          "method": "Nhớ thứ tự: sáng → trưa → chiều → tối.",
+          "explanation": "Sáng rồi đến trưa. Chiều rồi đến tối."
+        },
+        {
+          "id": "l1k08-b1-09",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào buổi đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            { "front": { "text": "Bé tập thể dục khi mặt trời vừa mọc" }, "back": { "text": "Buổi sáng" } },
+            { "front": { "text": "Mặt trời trên đỉnh đầu, nắng to" }, "back": { "text": "Buổi trưa" } },
+            { "front": { "text": "Tan học, mặt trời sắp lặn" }, "back": { "text": "Buổi chiều" } },
+            { "front": { "text": "Bật đèn, ăn cơm tối" }, "back": { "text": "Buổi tối" } }
+          ],
+          "method": "Tìm dấu hiệu về mặt trời hoặc bữa ăn trong mỗi ô.",
+          "explanation": "Mặt trời vừa mọc: sáng. Mặt trời trên đỉnh đầu: trưa. Mặt trời sắp lặn: chiều. Ăn cơm tối: tối."
+        },
+        {
+          "id": "l1k08-b1-10",
+          "type": "choice",
+          "prompt": "Bé ngủ trưa dậy, chơi một lúc,\nrồi mới ăn cơm tối.\nLúc bé chơi là buổi nào?",
+          "options": [
+            { "emoji": "🌅", "text": "Buổi sáng" },
+            { "emoji": "☀️", "text": "Buổi trưa" },
+            { "emoji": "🌇", "text": "Buổi chiều" },
+            { "emoji": "🌃", "text": "Buổi tối" }
+          ],
+          "answer": 2,
+          "method": "Tìm buổi nằm giữa buổi trưa và buổi tối.",
+          "explanation": "Sau buổi trưa và trước buổi tối là buổi chiều.\nLưu ý: buổi sáng đã qua rồi; buổi trưa là lúc ngủ; buổi tối là lúc ăn cơm tối."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Đọc giờ đúng trên đồng hồ",
+      "emoji": "🕐",
+      "description": "Bé nhìn kim đồng hồ và đọc giờ thật đúng nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k08-b2-01",
+          "type": "choice",
+          "prompt": "Đồng hồ chỉ mấy giờ?",
+          "visual": { "emoji": "🕘" },
+          "options": [
+            { "text": "9 giờ" },
+            { "text": "12 giờ" },
+            { "text": "3 giờ" },
+            { "text": "6 giờ" }
+          ],
+          "answer": 0,
+          "method": "Kim dài chỉ số 12. Xem kim ngắn chỉ số mấy.",
+          "explanation": "Kim ngắn chỉ số 9, kim dài chỉ số 12: đồng hồ chỉ 9 giờ.\nLưu ý: 12 giờ là đọc nhầm theo kim dài; 3 giờ và 6 giờ là đọc nhầm vị trí kim ngắn."
+        },
+        {
+          "id": "l1k08-b2-02",
+          "type": "match",
+          "prompt": "Nối mỗi đồng hồ với giờ đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            { "left": { "emoji": "🕒" }, "right": { "text": "3 giờ" } },
+            { "left": { "emoji": "🕖" }, "right": { "text": "7 giờ" } },
+            { "left": { "emoji": "🕙" }, "right": { "text": "10 giờ" } },
+            { "left": { "emoji": "🕛" }, "right": { "text": "12 giờ" } }
+          ],
+          "method": "Nhìn kim ngắn chỉ vào số nào.",
+          "explanation": "Kim ngắn chỉ 3: 3 giờ. Chỉ 7: 7 giờ. Chỉ 10: 10 giờ. Hai kim cùng chỉ 12: 12 giờ."
+        },
+        {
+          "id": "l1k08-b2-03",
+          "type": "input",
+          "prompt": "Kim ngắn chỉ số 5.\nKim dài chỉ số 12.\nĐồng hồ chỉ mấy giờ?",
+          "visual": { "emoji": "🕔" },
+          "answers": ["5"],
+          "unit": "giờ",
+          "method": "Khi kim dài chỉ số 12, kim ngắn chỉ số nào thì là bấy nhiêu giờ.",
+          "explanation": "Kim dài chỉ 12, kim ngắn chỉ 5: đồng hồ chỉ 5 giờ."
+        },
+        {
+          "id": "l1k08-b2-04",
+          "type": "choice",
+          "prompt": "Lúc 2 giờ, kim DÀI chỉ số mấy?",
+          "visual": {
+            "emoji": "🕑"
+          },
+          "options": [
+            {
+              "text": "2"
+            },
+            {
+              "text": "12"
+            },
+            {
+              "text": "6"
+            },
+            {
+              "text": "1"
+            }
+          ],
+          "answer": 1,
+          "method": "Lúc giờ đúng, kim dài luôn chỉ cùng một số.",
+          "explanation": "Lúc 2 giờ, kim ngắn chỉ số 2, kim dài chỉ số 12.\nLưu ý: số 2 là chỗ kim NGẮN chỉ; số 6 và 1 không đúng với giờ đúng."
+        },
+        {
+          "id": "l1k08-b2-05",
+          "type": "input",
+          "prompt": "Đồng hồ chỉ mấy giờ?",
+          "visual": {
+            "emoji": "🕚"
+          },
+          "answers": [
+            "11"
+          ],
+          "unit": "giờ",
+          "method": "Kim dài chỉ số 12. Xem kim ngắn chỉ số mấy.",
+          "explanation": "Kim ngắn chỉ số 11, kim dài chỉ số 12: đồng hồ chỉ 11 giờ."
+        },
+        {
+          "id": "l1k08-b2-06",
+          "type": "reveal_match",
+          "prompt": "Lật từng đồng hồ rồi chạm vào giờ đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "front": {
+                "emoji": "🕐"
+              },
+              "back": {
+                "text": "1 giờ"
+              }
+            },
+            {
+              "front": {
+                "emoji": "🕓"
+              },
+              "back": {
+                "text": "4 giờ"
+              }
+            },
+            {
+              "front": {
+                "emoji": "🕗"
+              },
+              "back": {
+                "text": "8 giờ"
+              }
+            },
+            {
+              "front": {
+                "emoji": "🕕"
+              },
+              "back": {
+                "text": "6 giờ"
+              }
+            }
+          ],
+          "method": "Nhìn kim ngắn chỉ vào số nào.",
+          "explanation": "Kim ngắn chỉ 1: 1 giờ. Chỉ 4: 4 giờ. Chỉ 8: 8 giờ. Chỉ 6: 6 giờ."
+        },
+        {
+          "id": "l1k08-b2-07",
+          "type": "fill_blank",
+          "prompt": "Kéo số đúng vào chỗ trống.",
+          "timeLimit": 45,
+          "visual": {
+            "emoji": "🕖"
+          },
+          "sentence": "Lúc 7 giờ, kim ngắn chỉ số [[7]],\nkim dài chỉ số [[12]].",
+          "choices": [
+            "7",
+            "12",
+            "6",
+            "1"
+          ],
+          "method": "Kim ngắn chỉ giờ, kim dài chỉ số 12 khi là giờ đúng.",
+          "explanation": "7 giờ: kim ngắn chỉ số 7, kim dài chỉ số 12."
+        },
+        {
+          "id": "l1k08-b2-08",
+          "type": "choice",
+          "prompt": "Lúc 12 giờ, hai kim đồng hồ thế nào?",
+          "visual": {
+            "emoji": "🕛"
+          },
+          "options": [
+            {
+              "text": "Kim ngắn chỉ 12, kim dài chỉ 6"
+            },
+            {
+              "text": "Kim ngắn chỉ 6, kim dài chỉ 12"
+            },
+            {
+              "text": "Hai kim cùng chỉ số 12"
+            }
+          ],
+          "answer": 2,
+          "method": "Kim ngắn chỉ số 12, còn kim dài lúc giờ đúng chỉ số mấy?",
+          "explanation": "Lúc 12 giờ, kim ngắn chỉ 12 và kim dài cũng chỉ 12, hai kim chồng lên nhau.\nLưu ý: kim ngắn chỉ 6 là 6 giờ; kim dài chỉ 6 thì không phải giờ đúng."
+        },
+        {
+          "id": "l1k08-b2-09",
+          "type": "match_vertical",
+          "prompt": "Nối đồng hồ ở trên với giờ ở dưới.",
+          "timeLimit": 45,
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🕑"
+              },
+              "right": {
+                "text": "2 giờ"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🕙"
+              },
+              "right": {
+                "text": "10 giờ"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🕒"
+              },
+              "right": {
+                "text": "3 giờ"
+              }
+            }
+          ],
+          "method": "Kim ngắn chỉ số nào thì là bấy nhiêu giờ.",
+          "explanation": "Kim ngắn chỉ 2: 2 giờ. Chỉ 10: 10 giờ. Chỉ 3: 3 giờ."
+        },
+        {
+          "id": "l1k08-b2-10",
+          "type": "choice",
+          "prompt": "Đồng hồ đang chỉ 4 giờ.\nMột giờ nữa, đồng hồ chỉ mấy giờ?",
+          "visual": {
+            "emoji": "🕓"
+          },
+          "options": [
+            {
+              "emoji": "🕔",
+              "text": "5 giờ"
+            },
+            {
+              "emoji": "🕒",
+              "text": "3 giờ"
+            },
+            {
+              "emoji": "🕕",
+              "text": "6 giờ"
+            }
+          ],
+          "answer": 0,
+          "method": "Thêm 1 giờ thì kim ngắn tiến lên 1 số.",
+          "explanation": "4 + 1 = 5. Một giờ nữa là 5 giờ.\nLưu ý: 3 giờ là lùi lại 1 giờ; 6 giờ là thêm 2 giờ."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Hoạt động trước và sau",
+      "emoji": "🔁",
+      "description": "Việc nào làm trước, việc nào làm sau? Bé thử xếp nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k08-b3-01",
+          "type": "order",
+          "prompt": "Xếp các bức tranh từ TRƯỚC đến SAU.",
+          "timeLimit": 50,
+          "items": [
+            { "emoji": "🌱", "text": "Gieo hạt, cây nảy mầm" },
+            { "emoji": "🌿", "text": "Cây mọc nhiều lá" },
+            { "emoji": "🌸", "text": "Cây ra hoa" },
+            { "emoji": "🍎", "text": "Cây có quả" }
+          ],
+          "method": "Cây phải lớn lên rồi mới ra hoa, có hoa rồi mới có quả.",
+          "explanation": "Hạt nảy mầm → cây mọc lá → cây ra hoa → hoa thành quả."
+        },
+        {
+          "id": "l1k08-b3-02",
+          "type": "choice",
+          "prompt": "Việc nào bé cần làm TRƯỚC khi ăn cơm?",
+          "options": [
+            { "emoji": "🍽️", "text": "Rửa bát" },
+            { "emoji": "😴", "text": "Đi ngủ" },
+            { "emoji": "🧼", "text": "Rửa tay" },
+            { "emoji": "🧹", "text": "Quét vụn cơm rơi" }
+          ],
+          "answer": 2,
+          "method": "Việc nào giúp tay sạch sẽ trước khi cầm đũa?",
+          "explanation": "Bé rửa tay trước khi ăn cơm cho sạch.\nLưu ý: rửa bát và quét vụn cơm là làm SAU khi ăn; đi ngủ không phải việc trước bữa ăn."
+        },
+        {
+          "id": "l1k08-b3-03",
+          "type": "pick_order",
+          "prompt": "Chạm lần lượt 3 việc buổi sáng\ntheo thứ tự trước → sau.",
+          "timeLimit": 45,
+          "items": ["🛏️ Thức dậy", "🥛 Ăn sáng", "🎒 Đi học"],
+          "distractors": ["😴 Đi ngủ"],
+          "method": "Việc nào phải làm đầu tiên khi mở mắt ra?",
+          "explanation": "Bé thức dậy, ăn sáng rồi đi học. Đi ngủ là việc buổi tối nên không chọn."
+        },
+        {
+          "id": "l1k08-b3-04",
+          "type": "choice",
+          "prompt": "Mẹ đi chợ mua trứng, về rán trứng,\nrồi cả nhà ăn cơm.\nViệc nào làm ĐẦU TIÊN?",
+          "options": [
+            {
+              "emoji": "🍳",
+              "text": "Rán trứng"
+            },
+            {
+              "emoji": "🛒",
+              "text": "Mua trứng"
+            },
+            {
+              "emoji": "🍚",
+              "text": "Ăn cơm"
+            }
+          ],
+          "answer": 1,
+          "method": "Muốn rán trứng thì phải có trứng trước.",
+          "explanation": "Phải mua trứng trước, rồi mới rán, rồi mới ăn.\nLưu ý: rán trứng là việc thứ hai; ăn cơm là việc cuối cùng."
+        },
+        {
+          "id": "l1k08-b3-05",
+          "type": "order",
+          "prompt": "Gà con lớn lên thế nào?\nXếp từ TRƯỚC đến SAU.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "emoji": "🥚",
+              "text": "Quả trứng"
+            },
+            {
+              "emoji": "🐣",
+              "text": "Gà con chui ra khỏi trứng"
+            },
+            {
+              "emoji": "🐤",
+              "text": "Gà con tập đi"
+            },
+            {
+              "emoji": "🐔",
+              "text": "Thành gà lớn"
+            }
+          ],
+          "method": "Gà con nở ra từ trứng, rồi lớn dần lên.",
+          "explanation": "Quả trứng → gà con nở ra → gà con tập đi → thành gà lớn."
+        },
+        {
+          "id": "l1k08-b3-06",
+          "type": "match",
+          "prompt": "Nối việc làm TRƯỚC với việc làm SAU.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🧦",
+                "text": "Đi tất"
+              },
+              "right": {
+                "emoji": "👟",
+                "text": "Đi giày"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🛁",
+                "text": "Tắm"
+              },
+              "right": {
+                "emoji": "👕",
+                "text": "Mặc quần áo sạch"
+              }
+            },
+            {
+              "left": {
+                "emoji": "✉️",
+                "text": "Viết thư"
+              },
+              "right": {
+                "emoji": "📮",
+                "text": "Bỏ thư vào hòm thư"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🍚",
+                "text": "Ăn cơm"
+              },
+              "right": {
+                "emoji": "🍽️",
+                "text": "Rửa bát"
+              }
+            }
+          ],
+          "method": "Nghĩ xem việc nào phải xong rồi mới làm được việc kia.",
+          "explanation": "Đi tất rồi mới đi giày. Tắm xong mặc quần áo sạch. Viết thư xong mới bỏ vào hòm thư. Ăn cơm xong mới rửa bát."
+        },
+        {
+          "id": "l1k08-b3-07",
+          "type": "input",
+          "prompt": "Bé làm 4 việc theo thứ tự:\nthức dậy, đánh răng, ăn sáng, đi học.\nĂn sáng là việc thứ mấy?",
+          "answers": [
+            "3"
+          ],
+          "method": "Đếm lần lượt từ việc đầu tiên: 1, 2, 3…",
+          "explanation": "Thức dậy là 1, đánh răng là 2, ăn sáng là 3. Ăn sáng là việc thứ 3."
+        },
+        {
+          "id": "l1k08-b3-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ việc làm SAU khi ăn cơm.",
+          "options": [
+            {
+              "emoji": "🥢",
+              "text": "Xếp bát đũa ra mâm"
+            },
+            {
+              "emoji": "🍽️",
+              "text": "Cất bát vào chậu"
+            },
+            {
+              "emoji": "🪥",
+              "text": "Súc miệng"
+            },
+            {
+              "emoji": "🛒",
+              "text": "Đi chợ mua thức ăn"
+            },
+            {
+              "emoji": "🧽",
+              "text": "Lau bàn ăn"
+            }
+          ],
+          "answers": [
+            1,
+            2,
+            4
+          ],
+          "method": "Ăn xong rồi thì phải dọn dẹp và giữ sạch răng miệng.",
+          "explanation": "Sau khi ăn: cất bát, súc miệng, lau bàn.\nLưu ý: xếp bát đũa ra mâm và đi chợ là việc làm TRƯỚC khi ăn."
+        },
+        {
+          "id": "l1k08-b3-09",
+          "type": "fill_blank",
+          "prompt": "Kéo thẻ đúng vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Bé mặc áo mưa [[trước]] khi ra ngoài trời mưa.\nMẹ phơi quần áo [[sau]] khi giặt xong.",
+          "choices": [
+            "trước",
+            "sau",
+            "giữa"
+          ],
+          "method": "Nghĩ xem việc nào phải làm xong trước.",
+          "explanation": "Phải mặc áo mưa trước rồi mới ra ngoài. Giặt xong rồi mới phơi, nên phơi là việc sau. Thẻ \"giữa\" không hợp câu nào."
+        },
+        {
+          "id": "l1k08-b3-10",
+          "type": "match_multi",
+          "prompt": "Việc nào làm trước khi đi ngủ,\nviệc nào làm sau khi thức dậy?",
+          "timeLimit": 50,
+          "groups": [
+            {
+              "text": "Trước khi đi ngủ",
+              "emoji": "🌙"
+            },
+            {
+              "text": "Sau khi thức dậy",
+              "emoji": "☀️"
+            }
+          ],
+          "items": [
+            {
+              "emoji": "📕",
+              "text": "Nghe mẹ kể chuyện",
+              "group": 0
+            },
+            {
+              "emoji": "🛏️",
+              "text": "Gấp chăn",
+              "group": 1
+            },
+            {
+              "emoji": "💡",
+              "text": "Tắt đèn",
+              "group": 0
+            },
+            {
+              "emoji": "🪟",
+              "text": "Mở cửa sổ đón nắng",
+              "group": 1
+            },
+            {
+              "emoji": "🧸",
+              "text": "Ôm gấu lên giường",
+              "group": 0
+            },
+            {
+              "emoji": "👕",
+              "text": "Mặc đồng phục đi học",
+              "group": 1
+            }
+          ],
+          "method": "Nghĩ lúc trời tối sắp ngủ và lúc trời sáng vừa dậy.",
+          "explanation": "Trước khi ngủ: nghe kể chuyện, tắt đèn, ôm gấu lên giường. Sau khi dậy: gấp chăn, mở cửa sổ, mặc đồng phục đi học."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Hôm qua, hôm nay, ngày mai",
+      "emoji": "📅",
+      "description": "Bé học cách nói hôm qua, hôm nay và ngày mai nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "l1k08-b4-01",
+          "type": "choice",
+          "prompt": "Hôm nay là thứ Ba.\nNgày mai là thứ mấy?",
+          "options": [
+            { "text": "Thứ Hai" },
+            { "text": "Thứ Tư" },
+            { "text": "Thứ Năm" },
+            { "text": "Thứ Ba" }
+          ],
+          "answer": 1,
+          "method": "Ngày mai là ngày ngay sau hôm nay.",
+          "explanation": "Sau thứ Ba là thứ Tư.\nLưu ý: thứ Hai là hôm qua; thứ Năm là ngày kia; thứ Ba là hôm nay."
+        },
+        {
+          "id": "l1k08-b4-02",
+          "type": "input",
+          "prompt": "Hôm qua là thứ Năm.\nHôm nay là thứ mấy? (Bé gõ số)",
+          "answers": ["6", "thứ 6", "sáu", "thứ sáu"],
+          "method": "Hôm nay là ngày ngay sau hôm qua.",
+          "explanation": "Sau thứ Năm là thứ Sáu. Hôm nay là thứ 6."
+        },
+        {
+          "id": "l1k08-b4-03",
+          "type": "fill_blank",
+          "prompt": "Hôm nay là thứ Hai.\nKéo thẻ đúng vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Hôm qua là [[Chủ nhật]].\nNgày mai là [[thứ Ba]].",
+          "choices": ["Chủ nhật", "thứ Ba", "thứ Bảy", "thứ Tư"],
+          "method": "Nhớ: … thứ Bảy, Chủ nhật, thứ Hai, thứ Ba …",
+          "explanation": "Trước thứ Hai là Chủ nhật, sau thứ Hai là thứ Ba."
+        },
+        {
+          "id": "l1k08-b4-04",
+          "type": "choice",
+          "prompt": "Ngày mai là thứ Bảy.\nHôm nay là thứ mấy?",
+          "options": [
+            {
+              "text": "Thứ Năm"
+            },
+            {
+              "text": "Chủ nhật"
+            },
+            {
+              "text": "Thứ Bảy"
+            },
+            {
+              "text": "Thứ Sáu"
+            }
+          ],
+          "answer": 3,
+          "method": "Hôm nay là ngày ngay trước ngày mai.",
+          "explanation": "Trước thứ Bảy là thứ Sáu. Hôm nay là thứ Sáu.\nLưu ý: thứ Năm là hôm qua; thứ Bảy là ngày mai; Chủ nhật là sau thứ Bảy."
+        },
+        {
+          "id": "l1k08-b4-05",
+          "type": "order",
+          "prompt": "Xếp các ngày trong tuần cho đúng thứ tự,\nbắt đầu từ thứ Năm.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "Thứ Năm"
+            },
+            {
+              "text": "Thứ Sáu"
+            },
+            {
+              "text": "Thứ Bảy"
+            },
+            {
+              "text": "Chủ nhật"
+            }
+          ],
+          "method": "Nhớ: thứ Hai, thứ Ba, thứ Tư, thứ Năm, thứ Sáu, thứ Bảy, Chủ nhật.",
+          "explanation": "Thứ Năm → thứ Sáu → thứ Bảy → Chủ nhật."
+        },
+        {
+          "id": "l1k08-b4-06",
+          "type": "input",
+          "prompt": "Hôm nay là Chủ nhật.\nNgày mai là thứ mấy? (Bé gõ số)",
+          "answers": [
+            "2",
+            "thứ 2",
+            "hai",
+            "thứ hai"
+          ],
+          "method": "Hết Chủ nhật thì bắt đầu một tuần mới.",
+          "explanation": "Sau Chủ nhật là thứ Hai. Ngày mai là thứ 2."
+        },
+        {
+          "id": "l1k08-b4-07",
+          "type": "match",
+          "prompt": "Hôm nay là thứ Tư. Nối cho đúng.",
+          "timeLimit": 45,
+          "pairs": [
+            {
+              "left": {
+                "emoji": "⬅️",
+                "text": "Hôm qua"
+              },
+              "right": {
+                "text": "Thứ Ba"
+              }
+            },
+            {
+              "left": {
+                "emoji": "📍",
+                "text": "Hôm nay"
+              },
+              "right": {
+                "text": "Thứ Tư"
+              }
+            },
+            {
+              "left": {
+                "emoji": "➡️",
+                "text": "Ngày mai"
+              },
+              "right": {
+                "text": "Thứ Năm"
+              }
+            }
+          ],
+          "method": "Hôm qua là ngày trước, ngày mai là ngày sau hôm nay.",
+          "explanation": "Hôm nay thứ Tư. Hôm qua là thứ Ba, ngày mai là thứ Năm."
+        },
+        {
+          "id": "l1k08-b4-08",
+          "type": "multi_choice",
+          "prompt": "Hôm nay là thứ Sáu.\nChọn TẤT CẢ câu đúng.",
+          "options": [
+            {
+              "text": "Ngày mai là Chủ nhật"
+            },
+            {
+              "text": "Hôm qua là thứ Năm"
+            },
+            {
+              "text": "Hôm qua là thứ Bảy"
+            },
+            {
+              "text": "Ngày mai là thứ Bảy"
+            }
+          ],
+          "answers": [
+            1,
+            3
+          ],
+          "method": "Ngày trước thứ Sáu là gì? Ngày sau thứ Sáu là gì?",
+          "explanation": "Hôm qua là thứ Năm, ngày mai là thứ Bảy.\nLưu ý: Chủ nhật là sau thứ Bảy; thứ Bảy là ngày mai, không phải hôm qua."
+        },
+        {
+          "id": "l1k08-b4-09",
+          "type": "choice",
+          "prompt": "Hôm qua là thứ Hai.\nNgày mai là thứ mấy?",
+          "options": [
+            {
+              "text": "Thứ Tư"
+            },
+            {
+              "text": "Thứ Ba"
+            },
+            {
+              "text": "Chủ nhật"
+            },
+            {
+              "text": "Thứ Hai"
+            }
+          ],
+          "answer": 0,
+          "method": "Tìm hôm nay trước, rồi mới tìm ngày mai.",
+          "explanation": "Hôm qua thứ Hai thì hôm nay thứ Ba, ngày mai là thứ Tư.\nLưu ý: thứ Ba là hôm nay; thứ Hai là hôm qua; Chủ nhật là trước thứ Hai."
+        },
+        {
+          "id": "l1k08-b4-10",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào ngày đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "front": {
+                "text": "Hôm nay thứ Hai. Ngày mai?"
+              },
+              "back": {
+                "text": "Thứ Ba"
+              }
+            },
+            {
+              "front": {
+                "text": "Hôm nay thứ Sáu. Hôm qua?"
+              },
+              "back": {
+                "text": "Thứ Năm"
+              }
+            },
+            {
+              "front": {
+                "text": "Hôm nay thứ Bảy. Ngày mai?"
+              },
+              "back": {
+                "text": "Chủ nhật"
+              }
+            },
+            {
+              "front": {
+                "text": "Hôm nay Chủ nhật. Hôm qua?"
+              },
+              "back": {
+                "text": "Thứ Bảy"
+              }
+            }
+          ],
+          "method": "Ngày mai: đếm tiến 1 ngày. Hôm qua: đếm lùi 1 ngày.",
+          "explanation": "Sau thứ Hai là thứ Ba. Trước thứ Sáu là thứ Năm. Sau thứ Bảy là Chủ nhật. Trước Chủ nhật là thứ Bảy."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Câu đố IQ về thời gian",
+      "emoji": "🧠",
+      "description": "Những câu đố vui về giờ và ngày cho bé thử tài!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "l1k08-b5-01",
+          "type": "choice",
+          "prompt": "Bây giờ là 3 giờ.\nThêm 2 giờ nữa là mấy giờ?",
+          "visual": { "emoji": "🕒" },
+          "options": [
+            { "emoji": "🕐", "text": "1 giờ" },
+            { "emoji": "🕓", "text": "4 giờ" },
+            { "emoji": "🕔", "text": "5 giờ" },
+            { "emoji": "🕑", "text": "2 giờ" }
+          ],
+          "answer": 2,
+          "method": "Đếm thêm từ 3: 4, 5.",
+          "explanation": "3 + 2 = 5. Thêm 2 giờ nữa là 5 giờ.\nLưu ý: 1 giờ là trừ nhầm; 4 giờ là mới thêm 1 giờ; 2 giờ là chỉ nhìn số 2."
+        },
+        {
+          "id": "l1k08-b5-02",
+          "type": "order",
+          "prompt": "Các đồng hồ đều chỉ giờ buổi sáng.\nXếp từ SỚM đến MUỘN.",
+          "timeLimit": 50,
+          "items": [
+            { "emoji": "🕕", "text": "6 giờ" },
+            { "emoji": "🕗", "text": "8 giờ" },
+            { "emoji": "🕙", "text": "10 giờ" },
+            { "emoji": "🕚", "text": "11 giờ" }
+          ],
+          "method": "Trong cùng buổi sáng, số giờ bé hơn là sớm hơn.",
+          "explanation": "6 giờ → 8 giờ → 10 giờ → 11 giờ."
+        },
+        {
+          "id": "l1k08-b5-03",
+          "type": "input",
+          "prompt": "Hôm nay là thứ Hai.\nCòn mấy ngày nữa thì đến thứ Sáu?",
+          "answers": ["4"],
+          "unit": "ngày",
+          "method": "Đếm từng ngày sau thứ Hai cho đến thứ Sáu.",
+          "explanation": "Thứ Ba (1), thứ Tư (2), thứ Năm (3), thứ Sáu (4). Còn 4 ngày nữa."
+        },
+        {
+          "id": "l1k08-b5-04",
+          "type": "choice",
+          "prompt": "Bé đến trường lúc 7 giờ,\nvề nhà lúc 11 giờ.\nBé ở trường mấy tiếng?",
+          "options": [
+            {
+              "text": "3 tiếng"
+            },
+            {
+              "text": "4 tiếng"
+            },
+            {
+              "text": "11 tiếng"
+            }
+          ],
+          "answer": 1,
+          "method": "Đếm từ 7 giờ đến 11 giờ: 8, 9, 10, 11.",
+          "explanation": "Đếm thêm từ 7 giờ: 8 giờ, 9 giờ, 10 giờ, 11 giờ — đếm được 4 lần, vậy bé ở trường 4 tiếng.\nLưu ý: 3 tiếng là đếm thiếu; 11 là giờ về nhà."
+        },
+        {
+          "id": "l1k08-b5-05",
+          "type": "input",
+          "prompt": "Bây giờ là 10 giờ.\n2 giờ trước đó là mấy giờ?",
+          "visual": {
+            "emoji": "🕙"
+          },
+          "answers": [
+            "8"
+          ],
+          "unit": "giờ",
+          "method": "\"Trước đó\" thì đếm lùi lại.",
+          "explanation": "Đếm lùi từ 10: 9, 8. 10 − 2 = 8. Đó là 8 giờ."
+        },
+        {
+          "id": "l1k08-b5-06",
+          "type": "multi_choice",
+          "prompt": "Các đồng hồ đều chỉ giờ buổi sáng.\nChọn TẤT CẢ giờ MUỘN hơn 8 giờ.",
+          "options": [
+            {
+              "emoji": "🕖",
+              "text": "7 giờ"
+            },
+            {
+              "emoji": "🕘",
+              "text": "9 giờ"
+            },
+            {
+              "emoji": "🕗",
+              "text": "8 giờ"
+            },
+            {
+              "emoji": "🕙",
+              "text": "10 giờ"
+            },
+            {
+              "emoji": "🕕",
+              "text": "6 giờ"
+            },
+            {
+              "emoji": "🕚",
+              "text": "11 giờ"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            5
+          ],
+          "method": "Trong cùng buổi sáng, số giờ lớn hơn là muộn hơn.",
+          "explanation": "9 giờ, 10 giờ, 11 giờ muộn hơn 8 giờ.\nLưu ý: 8 giờ là bằng, không muộn hơn; 7 giờ và 6 giờ sớm hơn."
+        },
+        {
+          "id": "l1k08-b5-07",
+          "type": "pick_order",
+          "prompt": "Bây giờ là 6 giờ.\nGhép phép tính: thêm 3 giờ nữa là mấy giờ?",
+          "timeLimit": 45,
+          "items": [
+            "6",
+            "+",
+            "3",
+            "=",
+            "9"
+          ],
+          "distractors": [
+            "−"
+          ],
+          "method": "Thêm giờ thì làm phép cộng.",
+          "explanation": "6 + 3 = 9. Thêm 3 giờ nữa là 9 giờ. Không dùng dấu − vì thời gian đi tiếp về sau."
+        },
+        {
+          "id": "l1k08-b5-08",
+          "type": "match_multi",
+          "prompt": "Trong một tuần (từ thứ Hai đến Chủ nhật),\nngày nào đến trước, ngày nào đến sau thứ Năm?",
+          "timeLimit": 50,
+          "groups": [
+            {
+              "text": "Trước thứ Năm",
+              "emoji": "⬅️"
+            },
+            {
+              "text": "Sau thứ Năm",
+              "emoji": "➡️"
+            }
+          ],
+          "items": [
+            {
+              "text": "Thứ Hai",
+              "group": 0
+            },
+            {
+              "text": "Thứ Bảy",
+              "group": 1
+            },
+            {
+              "text": "Thứ Tư",
+              "group": 0
+            },
+            {
+              "text": "Chủ nhật",
+              "group": 1
+            },
+            {
+              "text": "Thứ Ba",
+              "group": 0
+            },
+            {
+              "text": "Thứ Sáu",
+              "group": 1
+            }
+          ],
+          "method": "Đọc lần lượt: thứ Hai, Ba, Tư, Năm, Sáu, Bảy, Chủ nhật.",
+          "explanation": "Trước thứ Năm: thứ Hai, thứ Ba, thứ Tư. Sau thứ Năm: thứ Sáu, thứ Bảy, Chủ nhật."
+        },
+        {
+          "id": "l1k08-b5-09",
+          "type": "choice",
+          "prompt": "Một tuần có 7 ngày.\nHôm nay là thứ Hai.\nĐúng 7 ngày nữa là thứ mấy?",
+          "options": [
+            {
+              "text": "Thứ Ba"
+            },
+            {
+              "text": "Chủ nhật"
+            },
+            {
+              "text": "Thứ Hai"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm 7 ngày là đi hết một vòng tuần.",
+          "explanation": "Đếm 7 ngày: thứ Ba, Tư, Năm, Sáu, Bảy, Chủ nhật, thứ Hai. Lại là thứ Hai.\nLưu ý: Chủ nhật mới là 6 ngày nữa; thứ Ba là ngày mai."
+        },
+        {
+          "id": "l1k08-b5-10",
+          "type": "fill_blank",
+          "prompt": "Đồng hồ chỉ 5 giờ.\nKéo số đúng vào chỗ trống.",
+          "timeLimit": 45,
+          "visual": {
+            "emoji": "🕔"
+          },
+          "sentence": "1 giờ nữa là [[6]] giờ.\n1 giờ trước đó là [[4]] giờ.",
+          "choices": [
+            "6",
+            "4",
+            "5",
+            "7"
+          ],
+          "method": "\"Nữa\" thì đếm tiến, \"trước đó\" thì đếm lùi.",
+          "explanation": "5 + 1 = 6, nên 1 giờ nữa là 6 giờ. 5 − 1 = 4, nên 1 giờ trước là 4 giờ. 5 là giờ hiện tại, 7 là thêm 2 giờ."
+        }
+      ]
+    }
+  ]
+}

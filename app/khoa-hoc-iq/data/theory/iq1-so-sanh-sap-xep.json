@@ -1,0 +1,144 @@
+{
+  "bai-1": {
+    "concept": "Số nào đếm sau thì lớn hơn, đếm trước thì bé hơn. Ta so sánh bằng các dấu >, <, =, ví dụ: 5 > 3, 3 < 5, 4 = 4.",
+    "examples": [
+      {
+        "prompt": "Chọn dấu đúng:\n16 … 13",
+        "answer": "16 có 6 đơn vị, 13 có 3 đơn vị, cùng 1 chục. Vậy 16 > 13."
+      },
+      {
+        "prompt": "Số nào lớn hơn 17 nhưng bé hơn 19?",
+        "visual": {
+          "grid": [
+            [
+              "17",
+              "?",
+              "19"
+            ]
+          ]
+        },
+        "answer": "Đếm từ 17: 17, 18, 19. Số ở giữa là 18."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ hai số cần so sánh.",
+      "So sánh hàng chục trước, số nào nhiều chục hơn thì lớn hơn.",
+      "So sánh hàng đơn vị nếu hàng chục bằng nhau.",
+      "Chọn dấu: miệng dấu mở về phía số lớn hơn."
+    ],
+    "tips": [
+      "Dấu như miệng cá sấu 🐊, há to về phía số lớn!",
+      "“Lớn hơn 12” thì không tính số 12 nhé."
+    ]
+  },
+  "bai-2": {
+    "concept": "Xếp từ bé đến lớn là số bé nhất đứng đầu. Xếp từ lớn đến bé thì số lớn nhất đứng đầu.",
+    "examples": [
+      {
+        "prompt": "Xếp các số 11, 4, 19, 8 từ BÉ đến LỚN.",
+        "answer": "Tìm số bé nhất là 4, rồi 8, rồi 11, cuối cùng là 19. Ta có: 4, 8, 11, 19."
+      },
+      {
+        "prompt": "Xếp các số 7, 16, 2 từ LỚN đến BÉ.",
+        "answer": "Số lớn nhất là 16, rồi đến 7, bé nhất là 2. Ta có: 16, 7, 2."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề: xếp từ bé đến lớn hay từ lớn đến bé.",
+      "Tìm số bé nhất (hoặc lớn nhất) đặt đầu tiên.",
+      "Tìm tiếp số bé nhất (hoặc lớn nhất) trong các số còn lại.",
+      "Kiểm tra lại từng cặp số đứng cạnh nhau."
+    ],
+    "tips": [
+      "Từ bé đến lớn: như bậc thang đi lên. Từ lớn đến bé: như cầu trượt đi xuống!",
+      "Đọc to chữ BÉ hay LỚN đứng trước để khỏi xếp ngược."
+    ]
+  },
+  "bai-3": {
+    "concept": "Muốn biết nhóm nào nhiều hơn, ta đếm hai nhóm rồi so sánh. Nhiều hơn mấy thì lấy số lớn trừ số bé.",
+    "examples": [
+      {
+        "prompt": "Bóng đỏ nhiều hơn bóng xanh mấy quả?",
+        "visual": {
+          "emoji": "🔴🔴🔴🔴🔴🔴\n🔵🔵"
+        },
+        "answer": "Có 6 quả bóng đỏ và 2 quả bóng xanh. 6 − 2 = 4, bóng đỏ nhiều hơn 4 quả."
+      },
+      {
+        "prompt": "Nam có 5 cái kẹo.\nHà có nhiều hơn Nam 3 cái.\nHà có mấy cái kẹo?",
+        "answer": "Hà nhiều hơn nên lấy 5 + 3 = 8. Hà có 8 cái kẹo."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ câu hỏi: hỏi số hơn kém hay hỏi số của một bạn.",
+      "Đếm số đồ vật của từng nhóm.",
+      "Tìm nhóm nhiều hơn, nhóm ít hơn.",
+      "Hỏi hơn kém mấy: lấy số lớn trừ số bé."
+    ],
+    "tips": [
+      "Hỏi “nhiều hơn mấy” thì làm phép trừ, đừng cộng nhầm!",
+      "“Nhiều hơn 3 cái” thì cộng thêm 3, “ít hơn 3 cái” thì bớt đi 3."
+    ]
+  },
+  "bai-4": {
+    "concept": "Vật to, chắc thường nặng hơn vật nhỏ, nhẹ. Trên cái cân, bên nào thấp xuống là bên nặng hơn.",
+    "examples": [
+      {
+        "prompt": "Vật nào NHẸ hơn?",
+        "visual": {
+          "emoji": "🎈 🍉"
+        },
+        "answer": "Quả bóng bay rất nhẹ, bay lên được. Quả dưa hấu nặng hơn nhiều, nên quả bóng bay nhẹ hơn."
+      },
+      {
+        "prompt": "Con gà nặng hơn con chim.\nCon chó nặng hơn con gà.\nCon nào NẶNG nhất?",
+        "visual": {
+          "emoji": "🐕 🐔 🐦"
+        },
+        "answer": "Xếp từ nặng đến nhẹ: chó, gà, chim. Vậy con chó nặng nhất."
+      }
+    ],
+    "steps": [
+      "Nhìn kỹ từng vật hoặc con vật.",
+      "So sánh từng cặp: vật nào nặng hơn.",
+      "Xếp các vật thành hàng từ nặng đến nhẹ.",
+      "Đọc lại đề xem hỏi vật nặng nhất hay nhẹ nhất."
+    ],
+    "tips": [
+      "Cân ⚖️ hay bập bênh: bên nào chúi xuống thấp, bên đó nặng hơn!",
+      "To chưa chắc nặng: quả bóng bay to mà vẫn nhẹ tênh."
+    ]
+  },
+  "bai-5": {
+    "concept": "Có nhiều gợi ý thì đáp án phải đúng với TẤT CẢ gợi ý. Ta dùng từng gợi ý để loại bớt các số sai.",
+    "examples": [
+      {
+        "prompt": "Tớ lớn hơn 7.\nTớ bé hơn 9.\nTớ là số mấy?",
+        "visual": {
+          "grid": [
+            [
+              "7",
+              "?",
+              "9"
+            ]
+          ]
+        },
+        "answer": "Số lớn hơn 7 và bé hơn 9 chỉ có 8. Tớ là số 8."
+      },
+      {
+        "prompt": "Nga cao hơn Tú. Tú cao hơn Long.\nAi THẤP nhất?",
+        "answer": "Xếp từ cao đến thấp: Nga, Tú, Long. Vậy Long thấp nhất."
+      }
+    ],
+    "steps": [
+      "Đọc từng gợi ý một, thật chậm.",
+      "Viết ra các số hợp với gợi ý đầu tiên.",
+      "Gạch bỏ số không hợp với gợi ý tiếp theo.",
+      "Kiểm tra số còn lại với tất cả gợi ý."
+    ],
+    "tips": [
+      "Đề có hai chữ “vừa” thì số phải đúng cả hai điều mới được chọn.",
+      "“Bé hơn 16” thì số 16 không được tính nhé!"
+    ]
+  }
+}

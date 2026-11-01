@@ -1,0 +1,1276 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Thử thách quy luật nâng cao",
+      "emoji": "🧩",
+      "description": "Những dãy số bí ẩn đang chờ bé giải mã — sẵn sàng chưa nào?",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k12-b1-01",
+          "type": "choice",
+          "prompt": "Tìm số tiếp theo của dãy:\n1, 2, 4, 7, 11, ?",
+          "options": [
+            {
+              "text": "15"
+            },
+            {
+              "text": "16"
+            },
+            {
+              "text": "14"
+            },
+            {
+              "text": "18"
+            }
+          ],
+          "answer": 1,
+          "method": "Xem mỗi số hơn số đứng trước bao nhiêu.",
+          "explanation": "Khoảng cách tăng dần: +1, +2, +3, +4, rồi +5. Số tiếp theo: 11 + 5 = 16.\nLưu ý: 15 là cộng 4 (giữ nguyên khoảng cách cũ); 14 là cộng 3; 18 là cộng 7."
+        },
+        {
+          "id": "k12-b1-02",
+          "type": "input",
+          "prompt": "Dãy số theo quy luật \"nhân 2, rồi bớt 1\" lặp lại:\n3, 6, 5, 10, 9, 18, ?",
+          "answers": [
+            "17"
+          ],
+          "method": "Xem bước cuối cùng là \"nhân 2\" hay \"bớt 1\" để biết bước tiếp theo.",
+          "explanation": "3 × 2 = 6, 6 − 1 = 5, 5 × 2 = 10, 10 − 1 = 9, 9 × 2 = 18. Bước tiếp theo là bớt 1: 18 − 1 = 17."
+        },
+        {
+          "id": "k12-b1-03",
+          "type": "choice",
+          "prompt": "Tìm số thay cho dấu ? trong bảng.",
+          "visual": {
+            "grid": [
+              [
+                "2",
+                "4",
+                "6"
+              ],
+              [
+                "3",
+                "6",
+                "9"
+              ],
+              [
+                "5",
+                "10",
+                "?"
+              ]
+            ]
+          },
+          "options": [
+            {
+              "text": "20"
+            },
+            {
+              "text": "12"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "14"
+            }
+          ],
+          "answer": 2,
+          "method": "So sánh các số trong mỗi hàng với số đầu tiên của hàng đó.",
+          "explanation": "Mỗi hàng cộng đều số đầu tiên của hàng: 2, 4, 6 (cộng 2); 3, 6, 9 (cộng 3). Hàng cuối cộng 5: 5, 10, 15.\nLưu ý: 20 là cộng 10 vào 10; 12 và 14 là cộng thêm 2 và 4 vào 10 — không đúng quy luật."
+        },
+        {
+          "id": "k12-b1-04",
+          "type": "fill_blank",
+          "prompt": "Điền số còn thiếu vào dãy.",
+          "sentence": "Dãy số: 100, 95, 85, 70, [[50]], [[25]].",
+          "choices": [
+            "50",
+            "25",
+            "55",
+            "45"
+          ],
+          "method": "Tính xem mỗi lần dãy giảm đi bao nhiêu — số bị bớt có thay đổi không?",
+          "explanation": "Số bị bớt tăng dần: −5, −10, −15, −20, −25. Ta có 70 − 20 = 50 và 50 − 25 = 25."
+        },
+        {
+          "id": "k12-b1-05",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi dãy số với số tiếp theo của nó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "2, 4, 8, 16, ?"
+              },
+              "right": {
+                "text": "32"
+              }
+            },
+            {
+              "left": {
+                "text": "1, 3, 6, 10, ?"
+              },
+              "right": {
+                "text": "15"
+              }
+            },
+            {
+              "left": {
+                "text": "50, 45, 40, ?"
+              },
+              "right": {
+                "text": "35"
+              }
+            },
+            {
+              "left": {
+                "text": "1, 1, 2, 3, 5, ?"
+              },
+              "right": {
+                "text": "8"
+              }
+            }
+          ],
+          "method": "Mỗi dãy có một quy luật riêng: cộng với chính nó, cộng tăng dần, bớt đều, hoặc cộng hai số trước.",
+          "explanation": "2, 4, 8, 16: mỗi số bằng số trước cộng với chính nó → 16 + 16 = 32. 1, 3, 6, 10 cộng 2, 3, 4 → cộng 5 được 15. 50, 45, 40 bớt 5 → 35. 1, 1, 2, 3, 5: mỗi số bằng tổng hai số trước → 3 + 5 = 8."
+        },
+        {
+          "id": "k12-b1-06",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Dãy số bắt đầu từ 10, theo quy luật \"cộng 5, rồi bớt 2\" lặp lại.\nKéo các số để xếp đúng thứ tự trong dãy.",
+          "items": [
+            {
+              "text": "10"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "13"
+            },
+            {
+              "text": "18"
+            },
+            {
+              "text": "16"
+            }
+          ],
+          "method": "Bắt đầu từ 10, lần lượt cộng 5 rồi bớt 2.",
+          "explanation": "10 + 5 = 15, 15 − 2 = 13, 13 + 5 = 18, 18 − 2 = 16. Dãy: 10, 15, 13, 18, 16."
+        },
+        {
+          "id": "k12-b1-07",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô dãy số rồi chạm vào số tiếp theo đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "5, 10, 15, ?"
+              },
+              "back": {
+                "text": "20"
+              }
+            },
+            {
+              "front": {
+                "text": "40, 30, 20, ?"
+              },
+              "back": {
+                "text": "10"
+              }
+            },
+            {
+              "front": {
+                "text": "1, 2, 4, 8, ?"
+              },
+              "back": {
+                "text": "16"
+              }
+            },
+            {
+              "front": {
+                "text": "2, 5, 8, ?"
+              },
+              "back": {
+                "text": "11"
+              }
+            },
+            {
+              "front": {
+                "text": "9, 7, 5, ?"
+              },
+              "back": {
+                "text": "3"
+              }
+            }
+          ],
+          "method": "Tìm xem mỗi bước cộng hay trừ bao nhiêu, hoặc cộng với chính nó.",
+          "explanation": "5, 10, 15 cộng 5 → 20. 40, 30, 20 bớt 10 → 10. 1, 2, 4, 8: mỗi số cộng với chính nó → 8 + 8 = 16. 2, 5, 8 cộng 3 → 11. 9, 7, 5 bớt 2 → 3."
+        },
+        {
+          "id": "k12-b1-08",
+          "type": "input",
+          "prompt": "Một chuỗi hạt xâu theo quy luật lặp lại: 1 hạt đỏ, 2 hạt xanh.\nTrong 15 hạt đầu tiên có bao nhiêu hạt xanh?",
+          "visual": {
+            "emoji": "🔴🔵🔵 🔴🔵🔵 🔴🔵🔵 …"
+          },
+          "answers": [
+            "10"
+          ],
+          "unit": "hạt",
+          "method": "Mỗi nhóm lặp lại có 3 hạt — đếm xem 15 hạt có mấy nhóm như vậy.",
+          "explanation": "15 hạt gồm 5 nhóm (3 + 3 + 3 + 3 + 3 = 15). Mỗi nhóm có 2 hạt xanh: 2 × 5 = 10 hạt xanh."
+        },
+        {
+          "id": "k12-b1-09",
+          "type": "multi_choice",
+          "prompt": "Dãy số: 3, 7, 11, 15, … (mỗi số hơn số trước 4 đơn vị).\nChọn TẤT CẢ các số có trong dãy.",
+          "options": [
+            {
+              "text": "19"
+            },
+            {
+              "text": "21"
+            },
+            {
+              "text": "27"
+            },
+            {
+              "text": "30"
+            },
+            {
+              "text": "35"
+            },
+            {
+              "text": "43"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "method": "Viết tiếp dãy bằng cách cộng 4 liên tục đến khi vượt quá 43.",
+          "explanation": "Dãy tiếp tục: 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, … Có 19, 27, 35, 43.\nLưu ý: 21 và 30 bị \"nhảy qua\" (19 → 23 và 27 → 31) nên không có trong dãy."
+        },
+        {
+          "id": "k12-b1-10",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Dãy A: 2, 5, 8, 11, … (cộng 3)\nDãy B: 4, 9, 14, 19, … (cộng 5)\nKéo mỗi số vào dãy chứa nó.",
+          "groups": [
+            {
+              "emoji": "🅰️",
+              "text": "Dãy A (cộng 3)"
+            },
+            {
+              "emoji": "🅱️",
+              "text": "Dãy B (cộng 5)"
+            }
+          ],
+          "items": [
+            {
+              "text": "17",
+              "group": 0
+            },
+            {
+              "text": "24",
+              "group": 1
+            },
+            {
+              "text": "20",
+              "group": 0
+            },
+            {
+              "text": "34",
+              "group": 1
+            },
+            {
+              "text": "23",
+              "group": 0
+            },
+            {
+              "text": "39",
+              "group": 1
+            }
+          ],
+          "method": "Viết tiếp từng dãy đến khoảng 40 rồi tìm số.",
+          "explanation": "Dãy A: 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38 → có 17, 20, 23.\nDãy B: 4, 9, 14, 19, 24, 29, 34, 39 → có 24, 34, 39."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Thử thách logic nhiều điều kiện",
+      "emoji": "🕵️",
+      "description": "Đọc kỹ từng gợi ý để tìm ra đáp án như một thám tử nhí!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k12-b2-01",
+          "type": "choice",
+          "prompt": "An, Bình, Chi mỗi bạn nuôi 1 con vật khác nhau: chó, mèo, cá.\n• An không nuôi chó, cũng không nuôi mèo.\n• Bình không nuôi chó.\nChi nuôi con gì?",
+          "options": [
+            {
+              "emoji": "🐱",
+              "text": "Mèo"
+            },
+            {
+              "emoji": "🐟",
+              "text": "Cá"
+            },
+            {
+              "emoji": "🐶",
+              "text": "Chó"
+            }
+          ],
+          "answer": 2,
+          "method": "Tìm con vật của An trước, rồi đến Bình.",
+          "explanation": "An không nuôi chó, không nuôi mèo → An nuôi cá. Bình không nuôi chó, cá đã của An → Bình nuôi mèo. Còn lại Chi nuôi chó.\nLưu ý: mèo là của Bình, cá là của An nên không phải của Chi."
+        },
+        {
+          "id": "k12-b2-02",
+          "type": "match_vertical",
+          "timeLimit": 50,
+          "prompt": "Hoa, Lan, Mai mặc áo 3 màu khác nhau: đỏ, xanh lá, vàng.\n• Lan mặc áo cùng màu với lá cây.\n• Hoa không mặc áo đỏ.\nNối mỗi bạn với màu áo.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Hoa"
+              },
+              "right": {
+                "emoji": "🟡",
+                "text": "Vàng"
+              }
+            },
+            {
+              "left": {
+                "text": "Lan"
+              },
+              "right": {
+                "emoji": "🟢",
+                "text": "Xanh lá"
+              }
+            },
+            {
+              "left": {
+                "text": "Mai"
+              },
+              "right": {
+                "emoji": "🔴",
+                "text": "Đỏ"
+              }
+            }
+          ],
+          "method": "Xếp màu cho Lan trước vì gợi ý của Lan rõ nhất.",
+          "explanation": "Lá cây màu xanh → Lan mặc xanh lá. Hoa không mặc đỏ, xanh lá đã của Lan → Hoa mặc vàng. Mai mặc đỏ."
+        },
+        {
+          "id": "k12-b2-03",
+          "type": "input",
+          "prompt": "Tôi là một số có hai chữ số.\n• Chữ số hàng chục của tôi là 3.\n• Tôi KHÔNG phải số tròn chục.\n• Tôi có trong bảng nhân 5.\nTôi là số nào?",
+          "answers": [
+            "35"
+          ],
+          "method": "Liệt kê các số từ 30 đến 39 có trong bảng nhân 5, rồi bỏ số tròn chục.",
+          "explanation": "Các số từ 30 đến 39 có trong bảng nhân 5: 30 (5 × 6) và 35 (5 × 7). 30 là số tròn chục, nên tôi là 35."
+        },
+        {
+          "id": "k12-b2-04",
+          "type": "choice",
+          "prompt": "Tôi là một số có hai chữ số.\n• Tổng hai chữ số của tôi bằng 9.\n• Chữ số hàng chục hơn chữ số hàng đơn vị 5.\nTôi là số nào?",
+          "options": [
+            {
+              "text": "27"
+            },
+            {
+              "text": "63"
+            },
+            {
+              "text": "54"
+            },
+            {
+              "text": "72"
+            }
+          ],
+          "answer": 3,
+          "method": "Liệt kê các cặp chữ số có tổng bằng 9, rồi tìm cặp hơn kém nhau 5.",
+          "explanation": "Các số có tổng hai chữ số bằng 9: 18, 27, 36, 45, 54, 63, 72, 81, 90. Hàng chục hơn hàng đơn vị 5: 7 − 2 = 5 → số 72.\nLưu ý: 27 có hàng đơn vị hơn hàng chục (đảo ngược); 63 hơn kém 3; 54 hơn kém 1."
+        },
+        {
+          "id": "k12-b2-05",
+          "type": "input",
+          "prompt": "Tí, Tèo, Tũn có 4, 6 và 9 cái kẹo (mỗi bạn một số khác nhau).\n• Tũn có ít kẹo nhất.\n• Tí nhiều kẹo hơn Tèo.\nTí có mấy cái kẹo?",
+          "answers": [
+            "9"
+          ],
+          "unit": "cái",
+          "method": "Xếp kẹo cho Tũn trước, rồi so sánh Tí với Tèo.",
+          "explanation": "Tũn ít nhất → Tũn có 4 cái. Còn 6 và 9; Tí nhiều hơn Tèo → Tí 9 cái, Tèo 6 cái."
+        },
+        {
+          "id": "k12-b2-06",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "An, Bình, Chi, Dũng mỗi bạn thích một môn khác nhau: bơi, cờ vua, bóng đá, cầu lông.\n• Dũng thích bóng đá.\n• An không thích bơi, cũng không thích cờ vua.\n• Chi không thích bơi.\nNối mỗi bạn với môn bạn ấy thích.",
+          "pairs": [
+            {
+              "left": {
+                "text": "An"
+              },
+              "right": {
+                "text": "Cầu lông"
+              }
+            },
+            {
+              "left": {
+                "text": "Bình"
+              },
+              "right": {
+                "text": "Bơi"
+              }
+            },
+            {
+              "left": {
+                "text": "Chi"
+              },
+              "right": {
+                "text": "Cờ vua"
+              }
+            },
+            {
+              "left": {
+                "text": "Dũng"
+              },
+              "right": {
+                "text": "Bóng đá"
+              }
+            }
+          ],
+          "method": "Xếp môn cho Dũng trước, rồi đến An, rồi đến Chi.",
+          "explanation": "Dũng: bóng đá. An không bơi, không cờ vua, bóng đá đã của Dũng → An: cầu lông. Chi không bơi → Chi: cờ vua. Còn lại Bình: bơi."
+        },
+        {
+          "id": "k12-b2-07",
+          "type": "multi_choice",
+          "prompt": "Số bí mật lớn hơn 20 và bé hơn 40, có chữ số hàng đơn vị là 5 hoặc 7.\nChọn TẤT CẢ các số có thể là số bí mật.",
+          "options": [
+            {
+              "text": "25"
+            },
+            {
+              "text": "47"
+            },
+            {
+              "text": "35"
+            },
+            {
+              "text": "30"
+            },
+            {
+              "text": "27"
+            },
+            {
+              "text": "15"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Kiểm tra lần lượt từng điều kiện cho mỗi số.",
+          "explanation": "25, 35, 27 đều nằm giữa 20 và 40, có chữ số hàng đơn vị là 5 hoặc 7.\nLưu ý: 47 lớn hơn 40; 15 bé hơn 20; 30 có chữ số hàng đơn vị là 0."
+        },
+        {
+          "id": "k12-b2-08",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Năm bạn chạy thi:\n• Bi về đích cuối cùng.\n• Hà về sau Lan.\n• Tú về trước Lan nhưng về sau Vy.\nXếp các bạn theo thứ tự về đích từ ĐẦU TIÊN đến CUỐI CÙNG.",
+          "items": [
+            {
+              "text": "Vy"
+            },
+            {
+              "text": "Tú"
+            },
+            {
+              "text": "Lan"
+            },
+            {
+              "text": "Hà"
+            },
+            {
+              "text": "Bi"
+            }
+          ],
+          "method": "Ghép các gợi ý thành một chuỗi: ai trước, ai sau.",
+          "explanation": "Vy về trước Tú, Tú về trước Lan, Lan về trước Hà, Bi về cuối. Thứ tự: Vy, Tú, Lan, Hà, Bi."
+        },
+        {
+          "id": "k12-b2-09",
+          "type": "choice",
+          "prompt": "Có 3 hộp: Đỏ, Xanh, Vàng. Chỉ một hộp có quà.\n• Hộp Đỏ ghi: \"Quà ở hộp này.\"\n• Hộp Xanh ghi: \"Quà không ở hộp này.\"\n• Hộp Vàng ghi: \"Quà không ở hộp Đỏ.\"\nChỉ có ĐÚNG MỘT hộp ghi đúng. Quà ở hộp nào?",
+          "options": [
+            {
+              "emoji": "🟥",
+              "text": "Hộp Đỏ"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hộp Xanh"
+            },
+            {
+              "emoji": "🟨",
+              "text": "Hộp Vàng"
+            }
+          ],
+          "answer": 1,
+          "method": "Thử đặt quà vào từng hộp, rồi đếm xem có mấy hộp ghi đúng.",
+          "explanation": "Quà ở hộp Xanh: hộp Đỏ ghi sai, hộp Xanh ghi sai, hộp Vàng ghi đúng → đúng một hộp ghi đúng.\nLưu ý: nếu quà ở hộp Đỏ thì hộp Đỏ và hộp Xanh cùng ghi đúng (2 hộp); nếu quà ở hộp Vàng thì hộp Xanh và hộp Vàng cùng ghi đúng (2 hộp)."
+        },
+        {
+          "id": "k12-b2-10",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Mai, Lan, Cúc hái được 5, 8 và 10 bông hoa (mỗi bạn một số khác nhau). Lan hái nhiều hơn Mai nhưng ít hơn Cúc. Vậy Mai hái [[5]] bông, Lan hái [[8]] bông, Cúc hái [[10]] bông.",
+          "choices": [
+            "5",
+            "8",
+            "10",
+            "6"
+          ],
+          "method": "Lan đứng giữa Mai và Cúc — Lan có số bông ở giữa.",
+          "explanation": "Lan nhiều hơn Mai, ít hơn Cúc nên Mai ít nhất, Cúc nhiều nhất: Mai 5, Lan 8, Cúc 10."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Thử thách hình học tổng hợp",
+      "emoji": "🔺",
+      "description": "Hình vuông, tam giác, đường gấp khúc — bé quan sát thật tinh nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k12-b3-01",
+          "type": "choice",
+          "prompt": "Một hình vuông được kẻ cả 2 đường chéo.\nTrong hình có tất cả bao nhiêu hình tam giác?",
+          "visual": {
+            "emoji": "⬜ ✖️"
+          },
+          "options": [
+            {
+              "text": "4 hình"
+            },
+            {
+              "text": "6 hình"
+            },
+            {
+              "text": "8 hình"
+            },
+            {
+              "text": "10 hình"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm các tam giác nhỏ trước, rồi đếm các tam giác lớn ghép từ 2 tam giác nhỏ.",
+          "explanation": "Hai đường chéo chia hình vuông thành 4 tam giác nhỏ. Mỗi đường chéo lại chia hình vuông thành 2 tam giác lớn: 2 + 2 = 4 tam giác lớn. Tất cả: 4 + 4 = 8 hình.\nLưu ý: 4 hình là chỉ đếm tam giác nhỏ; 6 hình là đếm 4 tam giác nhỏ và chỉ 2 tam giác lớn của một đường chéo; 10 hình là đếm thừa."
+        },
+        {
+          "id": "k12-b3-02",
+          "type": "puzzle",
+          "timeLimit": 120,
+          "prompt": "Thử thách ghép hình: ghép các mảnh thành bức tranh hoàn chỉnh!",
+          "image": "/khoa-hoc-vui/images/tranh-ghep-hinh-9-manh.jpg",
+          "size": 3,
+          "method": "Ghép các mảnh góc và mép trước, rồi ghép phần giữa.",
+          "explanation": "Mảnh góc có hai cạnh thẳng ở mép tranh, mảnh mép có một cạnh thẳng — ghép chúng trước giúp bé dễ hoàn thành bức tranh."
+        },
+        {
+          "id": "k12-b3-03",
+          "type": "multi_choice",
+          "prompt": "Một đường gấp khúc gồm 3 đoạn dài 5 cm, 1 dm và 7 cm.\nChọn TẤT CẢ cách ghi đúng độ dài đường gấp khúc.",
+          "options": [
+            {
+              "text": "22 cm"
+            },
+            {
+              "text": "13 cm"
+            },
+            {
+              "text": "2 dm 2 cm"
+            },
+            {
+              "text": "22 dm"
+            },
+            {
+              "text": "220 cm"
+            }
+          ],
+          "answers": [
+            0,
+            2
+          ],
+          "method": "Đổi 1 dm ra xăng-ti-mét trước khi cộng.",
+          "explanation": "1 dm = 10 cm. Độ dài: 5 + 10 + 7 = 22 cm = 2 dm 2 cm.\nLưu ý: 13 cm là cộng 5 + 1 + 7, quên đổi đơn vị; 22 dm và 220 cm đều bằng 220 cm, dài hơn rất nhiều so với 22 cm."
+        },
+        {
+          "id": "k12-b3-04",
+          "type": "input",
+          "prompt": "Một hình chữ nhật được chia thành 3 ô vuông bằng nhau xếp thành một hàng.\nCó tất cả bao nhiêu hình chữ nhật (kể cả hình vuông)?",
+          "visual": {
+            "emoji": "⬜⬜⬜"
+          },
+          "answers": [
+            "6"
+          ],
+          "unit": "hình",
+          "method": "Đếm hình gồm 1 ô, rồi hình gồm 2 ô liền nhau, rồi hình gồm 3 ô.",
+          "explanation": "Hình 1 ô: 3 hình. Hình 2 ô liền nhau: 2 hình. Hình 3 ô: 1 hình. Tất cả: 3 + 2 + 1 = 6 hình."
+        },
+        {
+          "id": "k12-b3-05",
+          "type": "choice",
+          "prompt": "Một hình vuông có cạnh dài 5 cm.\nKiến bò từ một góc, đi hết các cạnh rồi quay về chỗ cũ.\nKiến bò được bao nhiêu xăng-ti-mét?",
+          "options": [
+            {
+              "text": "10 cm"
+            },
+            {
+              "text": "25 cm"
+            },
+            {
+              "text": "20 cm"
+            },
+            {
+              "text": "15 cm"
+            }
+          ],
+          "answer": 2,
+          "method": "Hình vuông có mấy cạnh, các cạnh dài bằng nhau không?",
+          "explanation": "Hình vuông có 4 cạnh bằng nhau, mỗi cạnh 5 cm: 5 × 4 = 20 cm.\nLưu ý: 15 cm là chỉ bò 3 cạnh, chưa về chỗ cũ; 10 cm là bò 2 cạnh; 25 cm là tính 5 cạnh."
+        },
+        {
+          "id": "k12-b3-06",
+          "type": "match_multi",
+          "timeLimit": 60,
+          "prompt": "Mặt chính của mỗi đồ vật có dạng hình gì?\nKéo mỗi đồ vật vào đúng nhóm.",
+          "groups": [
+            {
+              "emoji": "⚪",
+              "text": "Hình tròn"
+            },
+            {
+              "emoji": "🟦",
+              "text": "Hình vuông"
+            },
+            {
+              "emoji": "🔺",
+              "text": "Hình tam giác"
+            }
+          ],
+          "items": [
+            {
+              "text": "Mặt đồng hồ treo tường",
+              "group": 0
+            },
+            {
+              "text": "Mặt xúc xắc",
+              "group": 1
+            },
+            {
+              "text": "Chiếc bánh chưng",
+              "group": 1
+            },
+            {
+              "text": "Cái đĩa ăn cơm",
+              "group": 0
+            },
+            {
+              "text": "Cái ê-ke",
+              "group": 2
+            },
+            {
+              "text": "Khăn quàng đỏ",
+              "group": 2
+            }
+          ],
+          "method": "Nhìn hình dạng mặt đồ vật: có cạnh thẳng không, có mấy cạnh?",
+          "explanation": "Hình tròn: mặt đồng hồ, cái đĩa. Hình vuông: mặt xúc xắc, bánh chưng. Hình tam giác: ê-ke, khăn quàng đỏ."
+        },
+        {
+          "id": "k12-b3-07",
+          "type": "choice",
+          "prompt": "Một hình tam giác. Từ đỉnh trên cùng kẻ 2 đoạn thẳng xuống cạnh đáy, chia hình thành 3 tam giác nhỏ.\nCó tất cả bao nhiêu hình tam giác?",
+          "options": [
+            {
+              "text": "6 hình"
+            },
+            {
+              "text": "3 hình"
+            },
+            {
+              "text": "4 hình"
+            },
+            {
+              "text": "5 hình"
+            }
+          ],
+          "answer": 0,
+          "method": "Đếm tam giác gồm 1 phần, gồm 2 phần liền nhau, gồm 3 phần.",
+          "explanation": "Tam giác 1 phần: 3 hình. Tam giác ghép 2 phần liền nhau: 2 hình. Tam giác lớn: 1 hình. Tất cả: 3 + 2 + 1 = 6 hình.\nLưu ý: 3 hình là chỉ đếm tam giác nhỏ; 4 hình là quên tam giác ghép 2 phần; 5 hình là quên tam giác lớn hoặc sót một tam giác ghép."
+        },
+        {
+          "id": "k12-b3-08",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Xếp các đường gấp khúc theo độ dài từ NGẮN đến DÀI.",
+          "items": [
+            {
+              "text": "3 đoạn: 2 cm, 3 cm, 4 cm"
+            },
+            {
+              "text": "2 đoạn: 5 cm và 5 cm"
+            },
+            {
+              "text": "4 đoạn, mỗi đoạn 3 cm"
+            },
+            {
+              "text": "2 đoạn: 1 dm và 4 cm"
+            },
+            {
+              "text": "3 đoạn, mỗi đoạn 1 dm"
+            }
+          ],
+          "method": "Tính độ dài từng đường gấp khúc ra xăng-ti-mét (1 dm = 10 cm) rồi so sánh.",
+          "explanation": "2 + 3 + 4 = 9 cm; 5 + 5 = 10 cm; 3 + 3 + 3 + 3 = 12 cm; 10 + 4 = 14 cm; 10 + 10 + 10 = 30 cm. Thứ tự: 9 < 10 < 12 < 14 < 30."
+        },
+        {
+          "id": "k12-b3-09",
+          "type": "input",
+          "prompt": "Một hình vuông lớn được chia thành 4 ô vuông nhỏ bằng nhau (2 hàng, 2 cột).\nCó tất cả bao nhiêu hình vuông?",
+          "answers": [
+            "5"
+          ],
+          "unit": "hình",
+          "method": "Đừng quên hình vuông lớn bên ngoài.",
+          "explanation": "4 hình vuông nhỏ và 1 hình vuông lớn: 4 + 1 = 5 hình vuông."
+        },
+        {
+          "id": "k12-b3-10",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Dùng que tính dài bằng nhau, mỗi cạnh 1 que. Xếp 1 hình vuông cần 4 que. Xếp 2 hình vuông rời nhau cần [[8]] que. Xếp 2 hình vuông chung nhau 1 cạnh chỉ cần [[7]] que.",
+          "choices": [
+            "8",
+            "7",
+            "6",
+            "4"
+          ],
+          "method": "Hai hình vuông chung một cạnh thì que ở cạnh chung chỉ cần một que.",
+          "explanation": "Rời nhau: 4 + 4 = 8 que. Chung 1 cạnh: bớt đi 1 que, còn 8 − 1 = 7 que."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "Thử thách toán có lời văn",
+      "emoji": "📝",
+      "description": "Những bài toán có lời văn hóc búa dành cho bé thông minh!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k12-b4-01",
+          "type": "choice",
+          "prompt": "Lan có nhiều hơn Hà 8 viên bi.\nLan cho Hà 3 viên bi.\nBây giờ ai nhiều bi hơn, và nhiều hơn mấy viên?",
+          "options": [
+            {
+              "text": "Lan nhiều hơn 5 viên"
+            },
+            {
+              "text": "Lan nhiều hơn 2 viên"
+            },
+            {
+              "text": "Hà nhiều hơn 2 viên"
+            },
+            {
+              "text": "Hai bạn bằng nhau"
+            }
+          ],
+          "answer": 1,
+          "method": "Khi Lan cho đi 3 viên, Lan bớt 3 và Hà thêm 3 — khoảng cách thay đổi hai lần.",
+          "explanation": "Lan bớt 3 viên nên chỉ còn hơn Hà 8 − 3 = 5 viên; Hà lại thêm 3 viên nên Lan còn hơn 5 − 3 = 2 viên.\nLưu ý: \"Lan nhiều hơn 5 viên\" quên rằng Hà cũng được thêm 3 viên; \"Hà nhiều hơn\" và \"bằng nhau\" là sai vì 3 + 3 = 6 vẫn bé hơn 8."
+        },
+        {
+          "id": "k12-b4-02",
+          "type": "pick_order",
+          "timeLimit": 45,
+          "prompt": "Tổ Một có 15 bạn. Tổ Hai nhiều hơn tổ Một 4 bạn.\nChạm các thẻ để ghép phép tính tìm số bạn tổ Hai (bắt đầu bằng số bạn tổ Một, kết quả ở cuối).",
+          "items": [
+            "15",
+            "+",
+            "4",
+            "=",
+            "19"
+          ],
+          "distractors": [
+            "-",
+            "11"
+          ],
+          "method": "\"Nhiều hơn\" thì làm phép cộng.",
+          "explanation": "Tổ Hai nhiều hơn tổ Một 4 bạn: 15 + 4 = 19 bạn."
+        },
+        {
+          "id": "k12-b4-03",
+          "type": "input",
+          "prompt": "Một sợi dây dài 1 m. Bé cắt đi 2 dm, rồi cắt tiếp 35 cm.\nSợi dây còn lại dài bao nhiêu xăng-ti-mét?",
+          "answers": [
+            "45"
+          ],
+          "unit": "cm",
+          "method": "Đổi hết ra xăng-ti-mét: 1 m = 100 cm, 1 dm = 10 cm.",
+          "explanation": "1 m = 100 cm, 2 dm = 20 cm. Còn lại: 100 − 20 − 35 = 45 cm."
+        },
+        {
+          "id": "k12-b4-04",
+          "type": "choice",
+          "prompt": "Mẹ có một số quả trứng. Mẹ dùng 8 quả làm bánh, rồi mua thêm 10 quả thì có 25 quả.\nLúc đầu mẹ có bao nhiêu quả trứng?",
+          "options": [
+            {
+              "text": "7 quả"
+            },
+            {
+              "text": "27 quả"
+            },
+            {
+              "text": "43 quả"
+            },
+            {
+              "text": "23 quả"
+            }
+          ],
+          "answer": 3,
+          "method": "Tính ngược lại: bỏ 10 quả vừa mua, rồi trả lại 8 quả đã dùng.",
+          "explanation": "Trước khi mua thêm: 25 − 10 = 15 quả. Trước khi làm bánh: 15 + 8 = 23 quả.\nLưu ý: 7 quả là trừ cả 10 và 8; 43 quả là cộng cả 10 và 8; 27 quả là cộng 10 rồi trừ 8 — làm ngược chiều."
+        },
+        {
+          "id": "k12-b4-05",
+          "type": "input",
+          "prompt": "Thùng có 50 lít nước. Bác lấy ra 3 lần, mỗi lần 5 lít.\nTrong thùng còn lại bao nhiêu lít nước?",
+          "answers": [
+            "35"
+          ],
+          "unit": "lít",
+          "method": "Tính số nước đã lấy ra trước.",
+          "explanation": "Đã lấy ra: 5 × 3 = 15 lít. Còn lại: 50 − 15 = 35 lít."
+        },
+        {
+          "id": "k12-b4-06",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi bài toán với đáp án đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "5 túi, mỗi túi 2 kg gạo: tất cả"
+              },
+              "right": {
+                "text": "10 kg"
+              }
+            },
+            {
+              "left": {
+                "text": "20 kg gạo chia đều 5 túi: mỗi túi"
+              },
+              "right": {
+                "text": "4 kg"
+              }
+            },
+            {
+              "left": {
+                "text": "Bao 45 kg, bán đi 18 kg: còn lại"
+              },
+              "right": {
+                "text": "27 kg"
+              }
+            },
+            {
+              "left": {
+                "text": "Bao 35 kg và bao 28 kg: cả hai"
+              },
+              "right": {
+                "text": "63 kg"
+              }
+            }
+          ],
+          "method": "Đọc kỹ để chọn phép tính: nhân, chia, trừ hay cộng.",
+          "explanation": "2 × 5 = 10 kg; 20 : 5 = 4 kg; 45 − 18 = 27 kg; 35 + 28 = 63 kg."
+        },
+        {
+          "id": "k12-b4-07",
+          "type": "choice",
+          "prompt": "Nam cao 1 m 2 dm. Nam cao hơn em 25 cm.\nEm cao bao nhiêu xăng-ti-mét?",
+          "options": [
+            {
+              "text": "77 cm"
+            },
+            {
+              "text": "95 cm"
+            },
+            {
+              "text": "145 cm"
+            }
+          ],
+          "answer": 1,
+          "method": "Đổi chiều cao của Nam ra xăng-ti-mét trước: 1 m = 100 cm, 1 dm = 10 cm.",
+          "explanation": "1 m 2 dm = 100 + 20 = 120 cm. Em cao: 120 − 25 = 95 cm.\nLưu ý: 77 cm là đổi nhầm 1 m 2 dm thành 102 cm; 145 cm là cộng thay vì trừ (Nam cao hơn nên em thấp hơn)."
+        },
+        {
+          "id": "k12-b4-08",
+          "type": "order",
+          "timeLimit": 50,
+          "prompt": "Bao A nặng 25 kg. Bao B nặng hơn bao A 7 kg.\nBao C nhẹ hơn bao B 10 kg. Bao D nặng hơn bao C 15 kg.\nXếp các bao từ NHẸ đến NẶNG.",
+          "items": [
+            {
+              "text": "Bao C"
+            },
+            {
+              "text": "Bao A"
+            },
+            {
+              "text": "Bao B"
+            },
+            {
+              "text": "Bao D"
+            }
+          ],
+          "method": "Tính cân nặng từng bao theo thứ tự trong đề.",
+          "explanation": "A: 25 kg; B: 25 + 7 = 32 kg; C: 32 − 10 = 22 kg; D: 22 + 15 = 37 kg. Thứ tự: C (22), A (25), B (32), D (37)."
+        },
+        {
+          "id": "k12-b4-09",
+          "type": "multi_choice",
+          "prompt": "Lớp 2A có 32 bạn, trong đó có 15 bạn nữ.\nChọn TẤT CẢ các câu đúng.",
+          "options": [
+            {
+              "text": "Lớp có 17 bạn nam"
+            },
+            {
+              "text": "Số bạn nam nhiều hơn số bạn nữ 2 bạn"
+            },
+            {
+              "text": "Lớp có 47 bạn nam"
+            },
+            {
+              "text": "Số bạn nữ nhiều hơn số bạn nam"
+            },
+            {
+              "text": "Nếu có thêm 2 bạn nữ chuyển đến thì số bạn nữ bằng số bạn nam"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            4
+          ],
+          "method": "Tìm số bạn nam trước, rồi kiểm tra từng câu.",
+          "explanation": "Số bạn nam: 32 − 15 = 17 bạn. Nam hơn nữ 17 − 15 = 2 bạn. Thêm 2 bạn nữ: 15 + 2 = 17, bằng số bạn nam.\nLưu ý: 47 là cộng 32 + 15; nữ (15) ít hơn nam (17) nên câu \"nữ nhiều hơn nam\" sai."
+        },
+        {
+          "id": "k12-b4-10",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Cửa hàng có 64 kg đường. Buổi sáng bán 25 kg, buổi chiều bán ít hơn buổi sáng 7 kg. Buổi chiều bán [[18]] kg. Cửa hàng còn lại [[21]] kg đường.",
+          "choices": [
+            "18",
+            "21",
+            "32",
+            "39"
+          ],
+          "method": "Tìm số đường bán buổi chiều trước, rồi trừ cả hai buổi.",
+          "explanation": "Buổi chiều: 25 − 7 = 18 kg. Còn lại: 64 − 25 − 18 = 21 kg."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài kiểm tra IQ tổng kết",
+      "emoji": "🏆",
+      "description": "Bài kiểm tra cuối cùng — bé hãy thể hiện hết tài năng nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k12-b5-01",
+          "type": "choice",
+          "prompt": "Hôm nay là thứ Hai.\n9 ngày nữa là thứ mấy?",
+          "visual": {
+            "emoji": "🗓️"
+          },
+          "options": [
+            {
+              "text": "Thứ Năm"
+            },
+            {
+              "text": "Thứ Ba"
+            },
+            {
+              "text": "Thứ Hai"
+            },
+            {
+              "text": "Thứ Tư"
+            }
+          ],
+          "answer": 3,
+          "method": "Một tuần có 7 ngày: sau 7 ngày lại là thứ Hai, rồi đếm tiếp.",
+          "explanation": "7 ngày nữa lại là thứ Hai. Thêm 2 ngày: thứ Ba, thứ Tư. Vậy 9 ngày nữa là thứ Tư.\nLưu ý: thứ Hai là sau 7 ngày; thứ Ba là sau 8 ngày; thứ Năm là sau 10 ngày."
+        },
+        {
+          "id": "k12-b5-02",
+          "type": "input",
+          "prompt": "Bé có 2 tờ 5 nghìn đồng và 3 tờ 2 nghìn đồng.\nBé có tất cả bao nhiêu nghìn đồng?",
+          "visual": {
+            "money": [
+              5000,
+              5000,
+              2000,
+              2000,
+              2000
+            ]
+          },
+          "answers": [
+            "16"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Tính riêng tiền các tờ 5 nghìn và các tờ 2 nghìn rồi cộng lại.",
+          "explanation": "2 tờ 5 nghìn: 5 × 2 = 10 nghìn. 3 tờ 2 nghìn: 2 × 3 = 6 nghìn. Tất cả: 10 + 6 = 16 nghìn đồng."
+        },
+        {
+          "id": "k12-b5-03",
+          "type": "match",
+          "timeLimit": 60,
+          "prompt": "Nối mỗi câu đố với đáp án đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "5 × 4 − 2"
+              },
+              "right": {
+                "text": "18"
+              }
+            },
+            {
+              "left": {
+                "text": "Số lớn nhất có hai chữ số"
+              },
+              "right": {
+                "text": "99"
+              }
+            },
+            {
+              "left": {
+                "text": "Số bé nhất có ba chữ số"
+              },
+              "right": {
+                "text": "100"
+              }
+            },
+            {
+              "left": {
+                "text": "1 m = ? dm"
+              },
+              "right": {
+                "text": "10"
+              }
+            }
+          ],
+          "method": "Giải từng câu đố: tính phép nhân trước rồi trừ; nhớ 1 m = 10 dm.",
+          "explanation": "5 × 4 − 2 = 20 − 2 = 18. Số lớn nhất có hai chữ số là 99. Số bé nhất có ba chữ số là 100. 1 m = 10 dm."
+        },
+        {
+          "id": "k12-b5-04",
+          "type": "choice",
+          "prompt": "Bé đi ngủ lúc 9 giờ tối và thức dậy lúc 6 giờ sáng hôm sau.\nBé đã ngủ bao nhiêu giờ?",
+          "visual": {
+            "emoji": "🌙😴 ➡️ ☀️"
+          },
+          "options": [
+            {
+              "text": "15 giờ"
+            },
+            {
+              "text": "3 giờ"
+            },
+            {
+              "text": "9 giờ"
+            },
+            {
+              "text": "8 giờ"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm từ 9 giờ tối đến 12 giờ đêm, rồi đếm tiếp đến 6 giờ sáng.",
+          "explanation": "Từ 9 giờ tối đến 12 giờ đêm: 3 giờ. Từ 12 giờ đêm đến 6 giờ sáng: 6 giờ. Tất cả: 3 + 6 = 9 giờ.\nLưu ý: 3 giờ là lấy 9 − 6; 15 giờ là lấy 9 + 6; 8 giờ là đếm thiếu 1 giờ."
+        },
+        {
+          "id": "k12-b5-05",
+          "type": "input",
+          "prompt": "Tìm một số, biết rằng lấy số đó cộng với chính nó, rồi trừ đi 5 thì được 15.",
+          "answers": [
+            "10"
+          ],
+          "method": "Làm ngược lại từ kết quả: trước khi trừ 5 là bao nhiêu?",
+          "explanation": "Trước khi trừ 5: 15 + 5 = 20. Số cộng với chính nó bằng 20 là 10 (10 + 10 = 20)."
+        },
+        {
+          "id": "k12-b5-06",
+          "type": "reveal_match",
+          "timeLimit": 60,
+          "prompt": "Lật từng ô rồi chạm vào đáp án đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "Số liền sau của 99"
+              },
+              "back": {
+                "text": "100"
+              }
+            },
+            {
+              "front": {
+                "text": "5 × 7"
+              },
+              "back": {
+                "text": "35"
+              }
+            },
+            {
+              "front": {
+                "text": "2 dm = ? cm"
+              },
+              "back": {
+                "text": "20"
+              }
+            },
+            {
+              "front": {
+                "text": "45 : 5"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "1 giờ = ? phút"
+              },
+              "back": {
+                "text": "60"
+              }
+            }
+          ],
+          "method": "Nhớ lại bảng nhân, chia 5 và các đơn vị đo đã học.",
+          "explanation": "Liền sau 99 là 100. 5 × 7 = 35. 2 dm = 20 cm. 45 : 5 = 9. 1 giờ = 60 phút."
+        },
+        {
+          "id": "k12-b5-07",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các phép tính có kết quả bằng 20.",
+          "options": [
+            {
+              "text": "13 + 8"
+            },
+            {
+              "text": "5 × 4"
+            },
+            {
+              "text": "30 : 5"
+            },
+            {
+              "text": "45 − 25"
+            },
+            {
+              "text": "2 × 10"
+            },
+            {
+              "text": "50 − 20"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            4
+          ],
+          "method": "Tính từng phép tính rồi so sánh với 20.",
+          "explanation": "5 × 4 = 20; 45 − 25 = 20; 2 × 10 = 20.\nLưu ý: 13 + 8 = 21 (gần 20 nhưng thừa 1); 30 : 5 = 6; 50 − 20 = 30."
+        },
+        {
+          "id": "k12-b5-08",
+          "type": "order",
+          "timeLimit": 60,
+          "prompt": "Xếp các phép tính theo kết quả từ BÉ đến LỚN.",
+          "items": [
+            {
+              "text": "50 : 5"
+            },
+            {
+              "text": "2 × 6"
+            },
+            {
+              "text": "5 × 3"
+            },
+            {
+              "text": "2 × 9"
+            },
+            {
+              "text": "5 × 5"
+            }
+          ],
+          "method": "Tính kết quả từng phép tính trước, rồi mới sắp xếp.",
+          "explanation": "50 : 5 = 10; 2 × 6 = 12; 5 × 3 = 15; 2 × 9 = 18; 5 × 5 = 25. Thứ tự: 10 < 12 < 15 < 18 < 25."
+        },
+        {
+          "id": "k12-b5-09",
+          "type": "choice",
+          "prompt": "Số nào KHÔNG cùng nhóm với các số còn lại?\n12, 16, 15, 14",
+          "options": [
+            {
+              "text": "12"
+            },
+            {
+              "text": "16"
+            },
+            {
+              "text": "15"
+            },
+            {
+              "text": "14"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử xem số nào có trong bảng nhân 2.",
+          "explanation": "12 = 2 × 6, 16 = 2 × 8, 14 = 2 × 7 đều có trong bảng nhân 2. Chỉ có 15 không có trong bảng nhân 2 (15 = 5 × 3, ở bảng nhân 5).\nLưu ý: 12, 16, 14 đều cùng có trong bảng nhân 2 nên không phải số khác nhóm."
+        },
+        {
+          "id": "k12-b5-10",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "sentence": "Bé có 20 nghìn đồng. Bé mua 1 quyển vở giá 8 nghìn đồng và 1 cây bút giá 5 nghìn đồng. Bé đã tiêu [[13]] nghìn đồng và còn lại [[7]] nghìn đồng.",
+          "choices": [
+            "13",
+            "7",
+            "12",
+            "33"
+          ],
+          "method": "Tính tổng số tiền đã mua trước, rồi lấy số tiền có trừ đi.",
+          "explanation": "Đã tiêu: 8 + 5 = 13 nghìn đồng. Còn lại: 20 − 13 = 7 nghìn đồng."
+        }
+      ]
+    }
+  ]
+}

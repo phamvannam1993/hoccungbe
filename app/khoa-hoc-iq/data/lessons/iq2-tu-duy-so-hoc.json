@@ -1,0 +1,1248 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Tính nhẩm nhanh trong phạm vi 100",
+      "emoji": "⚡",
+      "description": "Nhẩm thật nhanh như tia chớp, bé thử sức ngay nào!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k02-b1-01",
+          "type": "choice",
+          "prompt": "Tính nhẩm:\n38 + 27 = ?",
+          "options": [
+            {
+              "text": "55"
+            },
+            {
+              "text": "65"
+            },
+            {
+              "text": "515"
+            },
+            {
+              "text": "64"
+            }
+          ],
+          "answer": 1,
+          "method": "Cộng hàng đơn vị trước, nhớ đừng quên số nhớ sang hàng chục.",
+          "explanation": "8 + 7 = 15, viết 5 nhớ 1. 3 + 2 = 5, thêm 1 nhớ là 6. Vậy 38 + 27 = 65.\nLưu ý: 55 là do quên số nhớ; 515 là do viết rời 5 và 15; 64 là do cộng nhầm 8 + 7 = 14."
+        },
+        {
+          "id": "k02-b1-02",
+          "type": "input",
+          "prompt": "Tính nhẩm:\n100 − 37 = ?",
+          "answers": [
+            "63"
+          ],
+          "method": "Nghĩ xem 37 cần thêm bao nhiêu nữa thì tròn 100.",
+          "explanation": "37 + 3 = 40, 40 + 60 = 100, nên 37 cần thêm 3 + 60 = 63 để được 100. Vậy 100 − 37 = 63."
+        },
+        {
+          "id": "k02-b1-03",
+          "type": "choice",
+          "prompt": "Tính nhanh:\n19 + 26 + 1 + 4 = ?",
+          "options": [
+            {
+              "text": "40"
+            },
+            {
+              "text": "49"
+            },
+            {
+              "text": "50"
+            },
+            {
+              "text": "60"
+            }
+          ],
+          "answer": 2,
+          "method": "Ghép những số cộng với nhau ra số tròn chục trước.",
+          "explanation": "Ghép (19 + 1) + (26 + 4) = 20 + 30 = 50.\nLưu ý: 49 là do quên cộng số 1; 40 và 60 là do cộng nhầm hàng chục."
+        },
+        {
+          "id": "k02-b1-04",
+          "type": "input",
+          "prompt": "Tính nhẩm:\n73 − 29 = ?",
+          "answers": [
+            "44"
+          ],
+          "method": "29 gần với 30, hãy trừ 30 trước rồi bù lại.",
+          "explanation": "73 − 30 = 43. Vì trừ thừa 1 nên cộng lại 1: 43 + 1 = 44. Thử lại: 44 + 29 = 73."
+        },
+        {
+          "id": "k02-b1-05",
+          "type": "choice",
+          "prompt": "Số nào cộng với chính nó thì bằng 46?",
+          "options": [
+            {
+              "text": "23"
+            },
+            {
+              "text": "26"
+            },
+            {
+              "text": "21"
+            },
+            {
+              "text": "13"
+            }
+          ],
+          "answer": 0,
+          "method": "Chia 46 thành hai phần bằng nhau: chia đôi hàng chục và hàng đơn vị.",
+          "explanation": "40 chia đôi được 20, 6 chia đôi được 3, nên số đó là 23. Thử lại: 23 + 23 = 46.\nLưu ý: 26 + 26 = 52; 21 + 21 = 42; 13 + 13 = 26 — đều không bằng 46."
+        },
+        {
+          "id": "k02-b1-06",
+          "type": "match",
+          "prompt": "Nối mỗi phép tính với kết quả đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "25 + 25"
+              },
+              "right": {
+                "text": "50"
+              }
+            },
+            {
+              "left": {
+                "text": "90 − 45"
+              },
+              "right": {
+                "text": "45"
+              }
+            },
+            {
+              "left": {
+                "text": "36 + 28"
+              },
+              "right": {
+                "text": "64"
+              }
+            },
+            {
+              "left": {
+                "text": "81 − 19"
+              },
+              "right": {
+                "text": "62"
+              }
+            },
+            {
+              "left": {
+                "text": "47 + 13"
+              },
+              "right": {
+                "text": "60"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Nhẩm từng phép tính, chú ý các phép có nhớ.",
+          "explanation": "25 + 25 = 50; 90 − 45 = 45; 36 + 28 = 64; 81 − 19 = 62; 47 + 13 = 60."
+        },
+        {
+          "id": "k02-b1-07",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô để xem phép tính, rồi chạm vào kết quả đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "60 − 25"
+              },
+              "back": {
+                "text": "35"
+              }
+            },
+            {
+              "front": {
+                "text": "18 + 19"
+              },
+              "back": {
+                "text": "37"
+              }
+            },
+            {
+              "front": {
+                "text": "100 − 52"
+              },
+              "back": {
+                "text": "48"
+              }
+            },
+            {
+              "front": {
+                "text": "44 + 44"
+              },
+              "back": {
+                "text": "88"
+              }
+            },
+            {
+              "front": {
+                "text": "70 − 8"
+              },
+              "back": {
+                "text": "62"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Ghi nhớ ô vừa lật và tìm kết quả thật nhanh.",
+          "explanation": "60 − 25 = 35; 18 + 19 = 37; 100 − 52 = 48; 44 + 44 = 88; 70 − 8 = 62."
+        },
+        {
+          "id": "k02-b1-08",
+          "type": "order",
+          "prompt": "Xếp các phép tính theo kết quả từ bé đến lớn.",
+          "items": [
+            {
+              "text": "29 + 16"
+            },
+            {
+              "text": "70 − 23"
+            },
+            {
+              "text": "38 + 11"
+            },
+            {
+              "text": "100 − 48"
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Tính kết quả từng phép rồi so sánh.",
+          "explanation": "29 + 16 = 45; 70 − 23 = 47; 38 + 11 = 49; 100 − 48 = 52. Thứ tự từ bé đến lớn: 45, 47, 49, 52."
+        },
+        {
+          "id": "k02-b1-09",
+          "type": "pick_order",
+          "prompt": "Chạm lần lượt các thẻ để viết phép tính:\n\"83 trừ 26 bằng bao nhiêu?\"",
+          "items": [
+            "83",
+            "−",
+            "26",
+            "=",
+            "57"
+          ],
+          "distractors": [
+            "67",
+            "+"
+          ],
+          "timeLimit": 40,
+          "method": "Viết số bị trừ trước, rồi dấu trừ, số trừ, dấu bằng và kết quả.",
+          "explanation": "83 − 26 = 57 (vì 83 − 20 = 63, 63 − 6 = 57). Thẻ 67 là bẫy quên trừ số nhớ; thẻ + là sai dấu."
+        },
+        {
+          "id": "k02-b1-10",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các phép tính có kết quả bằng 50.",
+          "options": [
+            {
+              "text": "26 + 24"
+            },
+            {
+              "text": "72 − 22"
+            },
+            {
+              "text": "35 + 25"
+            },
+            {
+              "text": "91 − 41"
+            },
+            {
+              "text": "18 + 23"
+            },
+            {
+              "text": "100 − 55"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Nhẩm từng phép tính rồi so với 50.",
+          "explanation": "26 + 24 = 50; 72 − 22 = 50; 91 − 41 = 50.\nLưu ý: 35 + 25 = 60; 18 + 23 = 41; 100 − 55 = 45."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Tìm số bí mật",
+      "emoji": "🕵️",
+      "description": "Một con số đang trốn, bé hãy lần theo manh mối để tìm ra nó!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "k02-b2-01",
+          "type": "input",
+          "prompt": "Số bí mật cộng thêm 18 thì được 50.\nSố bí mật là bao nhiêu?",
+          "answers": [
+            "32"
+          ],
+          "method": "Muốn tìm số chưa biết, lấy kết quả trừ đi số đã cộng thêm.",
+          "explanation": "Số bí mật = 50 − 18 = 32. Thử lại: 32 + 18 = 50."
+        },
+        {
+          "id": "k02-b2-02",
+          "type": "choice",
+          "prompt": "Số bí mật có hai chữ số.\nTổng hai chữ số là 9.\nChữ số hàng chục hơn chữ số hàng đơn vị 5.\nĐó là số nào?",
+          "options": [
+            {
+              "text": "63"
+            },
+            {
+              "text": "72"
+            },
+            {
+              "text": "27"
+            },
+            {
+              "text": "81"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm hai số cộng lại bằng 9 và hơn kém nhau 5.",
+          "explanation": "Hai chữ số cộng lại bằng 9 và hơn kém nhau 5 là 7 và 2. Hàng chục lớn hơn nên số đó là 72.\nLưu ý: 27 là bẫy đảo ngược (hàng chục bé hơn); 63 có 6 − 3 = 3; 81 có 8 − 1 = 7."
+        },
+        {
+          "id": "k02-b2-03",
+          "type": "fill_blank",
+          "prompt": "Tìm các số bí mật và điền vào chỗ trống.",
+          "sentence": "[[45]] − 17 = 28\n36 + [[19]] = 55",
+          "choices": [
+            "45",
+            "19",
+            "11",
+            "21"
+          ],
+          "timeLimit": 40,
+          "method": "Số bị trừ = hiệu + số trừ; số hạng chưa biết = tổng − số hạng đã biết.",
+          "explanation": "28 + 17 = 45 nên 45 − 17 = 28. 55 − 36 = 19 nên 36 + 19 = 55."
+        },
+        {
+          "id": "k02-b2-04",
+          "type": "choice",
+          "prompt": "Số bí mật trừ đi 25 thì được 38.\nSố bí mật là bao nhiêu?",
+          "options": [
+            {
+              "text": "13"
+            },
+            {
+              "text": "63"
+            },
+            {
+              "text": "53"
+            },
+            {
+              "text": "73"
+            }
+          ],
+          "answer": 1,
+          "method": "Số bị trừ = hiệu + số trừ: lấy 38 cộng với 25.",
+          "explanation": "Số bí mật = 38 + 25 = 63. Thử lại: 63 − 25 = 38.\nLưu ý: 13 là bẫy thấy chữ \"trừ\" liền trừ (38 − 25); 53 là do quên số nhớ (8 + 5 = 13, nhớ 1 sang hàng chục); 73 là do cộng thừa 1 chục."
+        },
+        {
+          "id": "k02-b2-05",
+          "type": "input",
+          "prompt": "Số bí mật có hai chữ số giống nhau.\nSố đó lớn hơn 50, bé hơn 70.\nTổng hai chữ số của nó bằng 12.\nSố bí mật là bao nhiêu?",
+          "answers": [
+            "66"
+          ],
+          "method": "Liệt kê các số có hai chữ số giống nhau nằm giữa 50 và 70, rồi cộng hai chữ số của từng số.",
+          "explanation": "Các số có hai chữ số giống nhau: 11, 22, 33, 44, 55, 66, 77, 88, 99. Lớn hơn 50 và bé hơn 70 chỉ có 55 và 66. 5 + 5 = 10, còn 6 + 6 = 12. Vậy số bí mật là 66."
+        },
+        {
+          "id": "k02-b2-06",
+          "type": "match",
+          "prompt": "Nối mỗi câu đố với số bí mật của nó.",
+          "pairs": [
+            {
+              "left": {
+                "text": "Thêm 9 vào số bí mật được 30"
+              },
+              "right": {
+                "text": "21"
+              }
+            },
+            {
+              "left": {
+                "text": "Số bí mật bớt đi 9 được 30"
+              },
+              "right": {
+                "text": "39"
+              }
+            },
+            {
+              "left": {
+                "text": "Lấy 30 bớt đi số bí mật được 12"
+              },
+              "right": {
+                "text": "18"
+              }
+            },
+            {
+              "left": {
+                "text": "Số bí mật nhân 5 được 30"
+              },
+              "right": {
+                "text": "6"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Đọc kĩ xem số bí mật đứng ở đâu trong phép tính rồi mới chọn cộng hay trừ.",
+          "explanation": "Thêm 9 được 30: 30 − 9 = 21. Bớt 9 được 30: 30 + 9 = 39. 30 bớt số bí mật được 12: 30 − 12 = 18. Nhân 5 được 30: 5 × 6 = 30 nên là 6."
+        },
+        {
+          "id": "k02-b2-07",
+          "type": "multi_choice",
+          "prompt": "Bé nghĩ một số. Lấy số đó cộng với 7 thì được một số bé hơn 15.\nChọn TẤT CẢ các số bé có thể đã nghĩ.",
+          "options": [
+            {
+              "text": "8"
+            },
+            {
+              "text": "5"
+            },
+            {
+              "text": "9"
+            },
+            {
+              "text": "7"
+            },
+            {
+              "text": "10"
+            },
+            {
+              "text": "3"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            5
+          ],
+          "method": "Thử cộng 7 vào từng số rồi so với 15.",
+          "explanation": "5 + 7 = 12; 7 + 7 = 14; 3 + 7 = 10 — đều bé hơn 15.\nLưu ý: 8 + 7 = 15 là bằng chứ không bé hơn 15 (bẫy dễ mắc nhất); 9 + 7 = 16 và 10 + 7 = 17 đều lớn hơn 15."
+        },
+        {
+          "id": "k02-b2-08",
+          "type": "pick_order",
+          "prompt": "Số bí mật cộng với 26 thì được 61.\nChạm thẻ để viết phép tính tìm số bí mật (kết quả là số bí mật).",
+          "items": [
+            "61",
+            "−",
+            "26",
+            "=",
+            "35"
+          ],
+          "distractors": [
+            "+",
+            "45"
+          ],
+          "timeLimit": 45,
+          "method": "Số hạng chưa biết = tổng − số hạng đã biết.",
+          "explanation": "Số bí mật = 61 − 26 = 35 (61 − 20 = 41, 41 − 6 = 35). Thử lại: 35 + 26 = 61. Thẻ 45 là bẫy quên mượn khi trừ hàng đơn vị; thẻ + là sai dấu."
+        },
+        {
+          "id": "k02-b2-09",
+          "type": "choice",
+          "prompt": "An nghĩ một số, cộng thêm 15, rồi lại trừ đi 15.\nKết quả là 40. Số An nghĩ là bao nhiêu?",
+          "options": [
+            {
+              "text": "70"
+            },
+            {
+              "text": "10"
+            },
+            {
+              "text": "40"
+            },
+            {
+              "text": "55"
+            }
+          ],
+          "answer": 2,
+          "method": "Cộng thêm 15 rồi lại trừ đi 15 thì số ban đầu có thay đổi không?",
+          "explanation": "Cộng 15 rồi trừ 15 thì trở về đúng số ban đầu, nên số An nghĩ là 40. Thử lại: 40 + 15 = 55, 55 − 15 = 40.\nLưu ý: 70 là cộng cả hai lần 15; 10 là trừ cả hai lần 15; 55 là kết quả sau bước cộng, chưa phải số An nghĩ."
+        },
+        {
+          "id": "k02-b2-10",
+          "type": "order",
+          "prompt": "Tìm từng số bí mật rồi xếp các câu đố theo số bí mật từ bé đến lớn.",
+          "items": [
+            {
+              "text": "Số cộng với chính nó được 34"
+            },
+            {
+              "text": "40 trừ đi số đó được 12"
+            },
+            {
+              "text": "Số đó thêm 20 được 50"
+            },
+            {
+              "text": "Số đó bớt 10 được 25"
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Tìm số bí mật của từng câu rồi mới so sánh.",
+          "explanation": "Số cộng với chính nó được 34 là 17 (17 + 17 = 34); 40 − 12 = 28; 50 − 20 = 30; 25 + 10 = 35. Thứ tự từ bé đến lớn: 17, 28, 30, 35."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Điền dấu và phép tính còn thiếu",
+      "emoji": "➕",
+      "description": "Dấu cộng, dấu trừ hay dấu nhân đang bị lạc, bé giúp tìm về nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k02-b3-01",
+          "type": "fill_blank",
+          "prompt": "Điền dấu + hoặc − vào chỗ trống để được phép tính đúng.",
+          "sentence": "15 [[−]] 7 [[+]] 4 = 12",
+          "choices": [
+            "+",
+            "−",
+            "×"
+          ],
+          "timeLimit": 45,
+          "method": "Thử từng cách điền dấu rồi tính từ trái sang phải.",
+          "explanation": "15 − 7 = 8, 8 + 4 = 12. Các cách khác: 15 + 7 − 4 = 18; 15 + 7 + 4 = 26; 15 − 7 − 4 = 4 — đều không bằng 12."
+        },
+        {
+          "id": "k02-b3-02",
+          "type": "choice",
+          "prompt": "Điền dấu nào vào ô trống?\n2 ☐ 9 = 20 − 2",
+          "options": [
+            {
+              "text": "+"
+            },
+            {
+              "text": "−"
+            },
+            {
+              "text": "×"
+            },
+            {
+              "text": ":"
+            }
+          ],
+          "answer": 2,
+          "method": "Tính vế phải trước, rồi thử từng dấu ở vế trái.",
+          "explanation": "Vế phải: 20 − 2 = 18. Thử: 2 × 9 = 18. Vậy điền dấu ×.\nLưu ý: 2 + 9 = 11; 9 lớn hơn 2 nên không trừ được; 2 : 9 không có trong bảng chia 2, bảng chia 5."
+        },
+        {
+          "id": "k02-b3-03",
+          "type": "input",
+          "prompt": "Điền số còn thiếu:\n5 × ? = 35",
+          "answers": [
+            "7"
+          ],
+          "method": "Đọc lại bảng nhân 5 xem 5 nhân mấy bằng 35.",
+          "explanation": "Bảng nhân 5: 5 × 7 = 35. Vậy số còn thiếu là 7 (cũng có thể tính 35 : 5 = 7)."
+        },
+        {
+          "id": "k02-b3-04",
+          "type": "choice",
+          "prompt": "Điền dấu vào hai ô trống (tính từ trái sang phải):\n5 ☐ 4 ☐ 2 = 22",
+          "options": [
+            {
+              "text": "+ và +"
+            },
+            {
+              "text": "× và −"
+            },
+            {
+              "text": "+ và ×"
+            },
+            {
+              "text": "× và +"
+            }
+          ],
+          "answer": 3,
+          "method": "22 khá lớn, hãy thử dùng phép nhân trước.",
+          "explanation": "5 × 4 = 20, 20 + 2 = 22. Vậy điền × rồi +.\nLưu ý: + và + cho 5 + 4 + 2 = 11; × và − cho 20 − 2 = 18; + và × cho 5 + 4 = 9, rồi 9 nhân 2 là 9 + 9 = 18 — đều không bằng 22."
+        },
+        {
+          "id": "k02-b3-05",
+          "type": "input",
+          "prompt": "Điền số còn thiếu:\n47 + ? = 100 − 18",
+          "answers": [
+            "35"
+          ],
+          "method": "Tính vế phải trước, rồi tìm số cộng với 47 ra kết quả đó.",
+          "explanation": "Vế phải: 100 − 18 = 82. Số còn thiếu: 82 − 47 = 35. Thử lại: 47 + 35 = 82."
+        },
+        {
+          "id": "k02-b3-06",
+          "type": "match",
+          "prompt": "Nối mỗi phép tính với dấu đúng cần điền vào ô trống.",
+          "pairs": [
+            {
+              "left": {
+                "text": "2 ☐ 8 = 16"
+              },
+              "right": {
+                "text": "×"
+              }
+            },
+            {
+              "left": {
+                "text": "8 ☐ 2 = 10"
+              },
+              "right": {
+                "text": "+"
+              }
+            },
+            {
+              "left": {
+                "text": "8 ☐ 2 = 6"
+              },
+              "right": {
+                "text": "−"
+              }
+            },
+            {
+              "left": {
+                "text": "8 ☐ 2 = 4"
+              },
+              "right": {
+                "text": ":"
+              }
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Thử lần lượt bốn dấu với hai số đã cho.",
+          "explanation": "2 × 8 = 16; 8 + 2 = 10; 8 − 2 = 6; 8 : 2 = 4 (vì 2 × 4 = 8)."
+        },
+        {
+          "id": "k02-b3-07",
+          "type": "pick_order",
+          "prompt": "Chạm thẻ để viết phép tính đúng có kết quả bằng 18.\nSố bé viết trước, kết quả viết ở cuối.",
+          "items": [
+            "2",
+            "×",
+            "9",
+            "=",
+            "18"
+          ],
+          "distractors": [
+            "+",
+            "20"
+          ],
+          "timeLimit": 45,
+          "method": "Số nào nhân với 2 thì được 18?",
+          "explanation": "Bảng nhân 2: 2 × 9 = 18. Thẻ + là bẫy vì 2 + 9 = 11; thẻ 20 là bẫy nhân nhầm 2 × 10."
+        },
+        {
+          "id": "k02-b3-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các phép tính đúng khi điền dấu × vào ô trống.",
+          "options": [
+            {
+              "text": "2 ☐ 7 = 9"
+            },
+            {
+              "text": "5 ☐ 6 = 30"
+            },
+            {
+              "text": "2 ☐ 2 = 4"
+            },
+            {
+              "text": "5 ☐ 1 = 6"
+            },
+            {
+              "text": "2 ☐ 10 = 12"
+            },
+            {
+              "text": "5 ☐ 10 = 50"
+            }
+          ],
+          "answers": [
+            1,
+            2,
+            5
+          ],
+          "method": "Điền dấu × vào từng phép rồi tính thử.",
+          "explanation": "5 × 6 = 30; 2 × 2 = 4; 5 × 10 = 50 — đều đúng.\nLưu ý: với 2 ☐ 2 = 4, điền dấu + cũng đúng, nhưng đề chỉ hỏi điền dấu × có đúng không; vì 2 × 2 = 4 nên vẫn chọn; 2 ☐ 7 = 9, 5 ☐ 1 = 6, 2 ☐ 10 = 12 phải điền dấu + mới đúng (2 × 7 = 14, 5 × 1 = 5, 2 × 10 = 20)."
+        },
+        {
+          "id": "k02-b3-09",
+          "type": "input",
+          "prompt": "Điền số còn thiếu:\n60 − ? + 15 = 50",
+          "answers": [
+            "25"
+          ],
+          "method": "Đi ngược: trước khi cộng 15 thì kết quả là bao nhiêu?",
+          "explanation": "Trước khi cộng 15, kết quả là 50 − 15 = 35. Vậy 60 − ? = 35, nên ? = 60 − 35 = 25. Thử lại: 60 − 25 = 35, 35 + 15 = 50."
+        },
+        {
+          "id": "k02-b3-10",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô để xem phép tính có ô trống, rồi chạm vào số cần điền.",
+          "pairs": [
+            {
+              "front": {
+                "text": "? + 27 = 60"
+              },
+              "back": {
+                "text": "33"
+              }
+            },
+            {
+              "front": {
+                "text": "? − 18 = 45"
+              },
+              "back": {
+                "text": "63"
+              }
+            },
+            {
+              "front": {
+                "text": "2 × ? = 16"
+              },
+              "back": {
+                "text": "8"
+              }
+            },
+            {
+              "front": {
+                "text": "? : 5 = 6"
+              },
+              "back": {
+                "text": "30"
+              }
+            },
+            {
+              "front": {
+                "text": "84 − ? = 40"
+              },
+              "back": {
+                "text": "44"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Dùng phép tính ngược: cộng thì thử bằng trừ, nhân thì thử bằng chia.",
+          "explanation": "60 − 27 = 33; 45 + 18 = 63; 2 × 8 = 16; 5 × 6 = 30 nên 30 : 5 = 6; 84 − 40 = 44."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "So sánh các biểu thức",
+      "emoji": "⚖️",
+      "description": "Bên nào nặng hơn? Bé hãy tính và so sánh thật tinh mắt!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k02-b4-01",
+          "type": "match_multi",
+          "prompt": "Nối mỗi phép tính vào đúng nhóm theo kết quả so với 50.",
+          "groups": [
+            {
+              "emoji": "⬆️",
+              "text": "Lớn hơn 50"
+            },
+            {
+              "emoji": "⚖️",
+              "text": "Bằng 50"
+            },
+            {
+              "emoji": "⬇️",
+              "text": "Bé hơn 50"
+            }
+          ],
+          "items": [
+            {
+              "text": "27 + 25",
+              "group": 0
+            },
+            {
+              "text": "80 − 30",
+              "group": 1
+            },
+            {
+              "text": "5 × 10",
+              "group": 1
+            },
+            {
+              "text": "61 − 13",
+              "group": 2
+            },
+            {
+              "text": "33 + 18",
+              "group": 0
+            },
+            {
+              "text": "45 + 4",
+              "group": 2
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Tính từng phép tính rồi so với 50.",
+          "explanation": "27 + 25 = 52 và 33 + 18 = 51 lớn hơn 50. 80 − 30 = 50 và 5 × 10 = 50 bằng 50. 61 − 13 = 48 và 45 + 4 = 49 bé hơn 50."
+        },
+        {
+          "id": "k02-b4-02",
+          "type": "choice",
+          "prompt": "Điền dấu thích hợp:\n46 + 28 ☐ 28 + 47",
+          "options": [
+            {
+              "text": ">"
+            },
+            {
+              "text": "<"
+            },
+            {
+              "text": "="
+            }
+          ],
+          "answer": 1,
+          "method": "Hai vế đều có 28, chỉ cần so sánh phần còn lại.",
+          "explanation": "Hai vế cùng cộng 28, mà 46 < 47 nên 46 + 28 < 28 + 47 (74 < 75).\nLưu ý: chọn \"=\" là bẫy vì thấy cả hai vế đều có 28; chọn \">\" là do nhìn số 46 đứng đầu."
+        },
+        {
+          "id": "k02-b4-03",
+          "type": "fill_blank",
+          "prompt": "Điền dấu >, < hoặc = vào chỗ trống.",
+          "sentence": "38 + 15 [[>]] 52\n90 − 45 [[=]] 5 × 9",
+          "choices": [
+            ">",
+            "=",
+            "<"
+          ],
+          "timeLimit": 45,
+          "method": "Tính kết quả từng vế rồi mới so sánh.",
+          "explanation": "38 + 15 = 53, mà 53 > 52. 90 − 45 = 45 và 5 × 9 = 45, nên hai vế bằng nhau."
+        },
+        {
+          "id": "k02-b4-04",
+          "type": "input",
+          "prompt": "Điền số LỚN NHẤT có thể vào ô trống:\n35 + ☐ < 42",
+          "answers": [
+            "6"
+          ],
+          "method": "Tìm số cộng với 35 bằng đúng 42, rồi lùi lại một chút.",
+          "explanation": "35 + 7 = 42, nhưng đề cần bé hơn 42 nên ô trống phải bé hơn 7. Số lớn nhất bé hơn 7 là 6: 35 + 6 = 41 < 42."
+        },
+        {
+          "id": "k02-b4-05",
+          "type": "choice",
+          "prompt": "Không cần tính, điền dấu thích hợp:\n57 − 19 ☐ 57 − 21",
+          "options": [
+            {
+              "text": "<"
+            },
+            {
+              "text": "="
+            },
+            {
+              "text": ">"
+            }
+          ],
+          "answer": 2,
+          "method": "Cùng một số 57, trừ đi số bé hơn thì còn lại nhiều hơn hay ít hơn?",
+          "explanation": "Cùng lấy từ 57, trừ đi 19 (ít hơn) thì còn lại nhiều hơn trừ đi 21. Kiểm tra: 57 − 19 = 38 và 57 − 21 = 36, mà 38 > 36.\nLưu ý: \"<\" là bẫy vì thấy 19 < 21 liền điền theo; \"=\" là bẫy vì thấy hai vế cùng có 57."
+        },
+        {
+          "id": "k02-b4-06",
+          "type": "order",
+          "prompt": "Xếp các biểu thức theo giá trị từ LỚN đến BÉ.",
+          "items": [
+            {
+              "text": "19 + 18"
+            },
+            {
+              "text": "100 − 64"
+            },
+            {
+              "text": "5 × 7"
+            },
+            {
+              "text": "50 − 16"
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Tính giá trị từng biểu thức rồi so sánh.",
+          "explanation": "19 + 18 = 37; 100 − 64 = 36; 5 × 7 = 35; 50 − 16 = 34. Thứ tự từ lớn đến bé: 37, 36, 35, 34."
+        },
+        {
+          "id": "k02-b4-07",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các biểu thức có giá trị LỚN HƠN 5 × 6.",
+          "options": [
+            {
+              "text": "45 − 14"
+            },
+            {
+              "text": "2 × 10"
+            },
+            {
+              "text": "16 + 14"
+            },
+            {
+              "text": "18 + 13"
+            },
+            {
+              "text": "60 − 32"
+            },
+            {
+              "text": "5 × 7"
+            }
+          ],
+          "answers": [
+            0,
+            3,
+            5
+          ],
+          "method": "Tính 5 × 6 trước, rồi so từng biểu thức với kết quả đó.",
+          "explanation": "5 × 6 = 30. 45 − 14 = 31; 18 + 13 = 31; 5 × 7 = 35 — đều lớn hơn 30.\nLưu ý: 16 + 14 = 30 là bằng chứ không lớn hơn; 2 × 10 = 20 và 60 − 32 = 28 bé hơn 30."
+        },
+        {
+          "id": "k02-b4-08",
+          "type": "choice",
+          "prompt": "Biểu thức nào có giá trị LỚN NHẤT?",
+          "options": [
+            {
+              "text": "29 + 17"
+            },
+            {
+              "text": "5 × 9"
+            },
+            {
+              "text": "51 − 7"
+            },
+            {
+              "text": "100 − 53"
+            }
+          ],
+          "answer": 3,
+          "method": "Tính hết các biểu thức rồi mới so sánh, đừng vội nhìn số to.",
+          "explanation": "29 + 17 = 46; 5 × 9 = 45; 51 − 7 = 44; 100 − 53 = 47. Lớn nhất là 100 − 53 = 47.\nLưu ý: 29 + 17 = 46 chỉ kém 1; 5 × 9 = 45 dễ chọn vì là phép nhân; 51 − 7 có số 51 lớn nhưng kết quả chỉ là 44."
+        },
+        {
+          "id": "k02-b4-09",
+          "type": "input",
+          "prompt": "Có bao nhiêu số tròn chục điền được vào ô trống?\n25 + 15 < ☐ < 100 − 20",
+          "answers": [
+            "3"
+          ],
+          "method": "Tính hai vế ở hai bên trước, rồi liệt kê các số tròn chục nằm giữa.",
+          "explanation": "25 + 15 = 40 và 100 − 20 = 80. Số tròn chục lớn hơn 40 và bé hơn 80 là 50, 60, 70. Có 3 số. (40 và 80 không được vì dấu là \"bé hơn\" chứ không phải \"bằng\".)"
+        },
+        {
+          "id": "k02-b4-10",
+          "type": "match",
+          "prompt": "Nối hai biểu thức có giá trị bằng nhau.",
+          "pairs": [
+            {
+              "left": {
+                "text": "5 × 4"
+              },
+              "right": {
+                "text": "12 + 8"
+              }
+            },
+            {
+              "left": {
+                "text": "2 × 7"
+              },
+              "right": {
+                "text": "20 − 6"
+              }
+            },
+            {
+              "left": {
+                "text": "5 × 6"
+              },
+              "right": {
+                "text": "45 − 15"
+              }
+            },
+            {
+              "left": {
+                "text": "2 × 9"
+              },
+              "right": {
+                "text": "9 + 9"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Tính giá trị từng biểu thức ở cả hai bên rồi nối các giá trị bằng nhau.",
+          "explanation": "5 × 4 = 20 = 12 + 8; 2 × 7 = 14 = 20 − 6; 5 × 6 = 30 = 45 − 15; 2 × 9 = 18 = 9 + 9."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Tư duy phép nhân và phép chia",
+      "emoji": "✖️",
+      "description": "Nhân và chia với bảng 2, bảng 5 thật vui, bé cùng thử nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k02-b5-01",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô để xem phép tính, rồi chạm vào kết quả đúng.",
+          "pairs": [
+            {
+              "front": {
+                "text": "5 × 3"
+              },
+              "back": {
+                "text": "15"
+              }
+            },
+            {
+              "front": {
+                "text": "2 × 8"
+              },
+              "back": {
+                "text": "16"
+              }
+            },
+            {
+              "front": {
+                "text": "20 : 5"
+              },
+              "back": {
+                "text": "4"
+              }
+            },
+            {
+              "front": {
+                "text": "18 : 2"
+              },
+              "back": {
+                "text": "9"
+              }
+            },
+            {
+              "front": {
+                "text": "5 × 9"
+              },
+              "back": {
+                "text": "45"
+              }
+            },
+            {
+              "front": {
+                "text": "14 : 2"
+              },
+              "back": {
+                "text": "7"
+              }
+            }
+          ],
+          "timeLimit": 60,
+          "method": "Dùng bảng nhân 2, bảng nhân 5 để tìm cả kết quả phép chia.",
+          "explanation": "5 × 3 = 15; 2 × 8 = 16; 20 : 5 = 4 (vì 5 × 4 = 20); 18 : 2 = 9 (vì 2 × 9 = 18); 5 × 9 = 45; 14 : 2 = 7 (vì 2 × 7 = 14)."
+        },
+        {
+          "id": "k02-b5-02",
+          "type": "choice",
+          "prompt": "Mỗi con gà có 2 chân.\nĐàn gà dưới đây có tất cả bao nhiêu chân?",
+          "visual": {
+            "emoji": "🐔🐔🐔🐔🐔🐔🐔"
+          },
+          "options": [
+            {
+              "text": "12"
+            },
+            {
+              "text": "16"
+            },
+            {
+              "text": "14"
+            },
+            {
+              "text": "9"
+            }
+          ],
+          "answer": 2,
+          "method": "Đếm số con gà rồi lấy 2 nhân với số con.",
+          "explanation": "Có 7 con gà, mỗi con 2 chân: 2 × 7 = 14 chân.\nLưu ý: 12 là đếm thiếu 1 con; 16 là đếm thừa 1 con; 9 là lấy 7 + 2."
+        },
+        {
+          "id": "k02-b5-03",
+          "type": "input",
+          "prompt": "Một số nhân với 5 rồi cộng thêm 3 thì được 38.\nSố đó là bao nhiêu?",
+          "answers": [
+            "7"
+          ],
+          "method": "Đi ngược lại: bớt 3 trước, rồi xem 5 nhân mấy bằng kết quả.",
+          "explanation": "38 − 3 = 35. 5 × 7 = 35 nên số đó là 7. Thử lại: 5 × 7 = 35, 35 + 3 = 38."
+        },
+        {
+          "id": "k02-b5-04",
+          "type": "choice",
+          "prompt": "Mỗi bàn tay có 5 ngón.\n4 bạn có tất cả bao nhiêu ngón tay?",
+          "options": [
+            {
+              "text": "20"
+            },
+            {
+              "text": "40"
+            },
+            {
+              "text": "10"
+            },
+            {
+              "text": "9"
+            }
+          ],
+          "answer": 1,
+          "method": "Mỗi bạn có mấy bàn tay? Tìm số ngón tay của một bạn trước.",
+          "explanation": "Mỗi bạn có 2 bàn tay nên có 5 × 2 = 10 ngón tay. 4 bạn có 10 + 10 + 10 + 10 = 40 ngón tay.\nLưu ý: 20 là bẫy quên mỗi bạn có 2 bàn tay (5 × 4); 10 là số ngón tay của 1 bạn; 9 là lấy 4 + 5."
+        },
+        {
+          "id": "k02-b5-05",
+          "type": "input",
+          "prompt": "Một số chia cho 2, rồi nhân với 5 thì được 35.\nSố đó là bao nhiêu?",
+          "answers": [
+            "14"
+          ],
+          "method": "Đi ngược: nhân thành chia, chia thành nhân.",
+          "explanation": "Trước khi nhân 5, số đó là 35 : 5 = 7. Trước khi chia 2, số đó là 2 × 7 = 14. Thử lại: 14 : 2 = 7, 5 × 7 = 35."
+        },
+        {
+          "id": "k02-b5-06",
+          "type": "match_vertical",
+          "prompt": "Nối mỗi hình với phép nhân đúng.",
+          "pairs": [
+            {
+              "left": {
+                "text": "🍊🍊 🍊🍊 🍊🍊"
+              },
+              "right": {
+                "text": "2 × 3"
+              }
+            },
+            {
+              "left": {
+                "text": "🍊🍊🍊🍊🍊 🍊🍊🍊🍊🍊"
+              },
+              "right": {
+                "text": "5 × 2"
+              }
+            },
+            {
+              "left": {
+                "text": "🍊🍊 🍊🍊 🍊🍊 🍊🍊"
+              },
+              "right": {
+                "text": "2 × 4"
+              }
+            },
+            {
+              "left": {
+                "text": "🍊🍊🍊🍊🍊 🍊🍊🍊🍊🍊 🍊🍊🍊🍊🍊"
+              },
+              "right": {
+                "text": "5 × 3"
+              }
+            }
+          ],
+          "timeLimit": 50,
+          "method": "Xem mỗi nhóm có mấy quả và có mấy nhóm như vậy.",
+          "explanation": "3 nhóm, mỗi nhóm 2 quả: 2 × 3 = 6. 2 nhóm, mỗi nhóm 5 quả: 5 × 2 = 10. 4 nhóm, mỗi nhóm 2 quả: 2 × 4 = 8. 3 nhóm, mỗi nhóm 5 quả: 5 × 3 = 15."
+        },
+        {
+          "id": "k02-b5-07",
+          "type": "fill_blank",
+          "prompt": "Có 20 cây bút chì xếp đều vào các hộp. Điền số vào chỗ trống.",
+          "sentence": "Nếu mỗi hộp 5 cây thì được [[4]] hộp. Nếu mỗi hộp 2 cây thì được [[10]] hộp.",
+          "choices": [
+            "4",
+            "10",
+            "15",
+            "18"
+          ],
+          "timeLimit": 45,
+          "method": "Chia 20 cây thành các nhóm bằng nhau: lấy 20 chia cho số cây mỗi hộp.",
+          "explanation": "20 : 5 = 4 hộp (vì 5 × 4 = 20). 20 : 2 = 10 hộp (vì 2 × 10 = 20). Thẻ 15 và 18 là bẫy lấy 20 − 5 và 20 − 2."
+        },
+        {
+          "id": "k02-b5-08",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các phép tính có kết quả bằng 8.",
+          "options": [
+            {
+              "text": "5 × 2"
+            },
+            {
+              "text": "16 : 2"
+            },
+            {
+              "text": "20 : 5"
+            },
+            {
+              "text": "40 : 5"
+            },
+            {
+              "text": "18 : 2"
+            },
+            {
+              "text": "2 × 4"
+            }
+          ],
+          "answers": [
+            1,
+            3,
+            5
+          ],
+          "method": "Dùng bảng nhân 2 và bảng nhân 5 để tính cả phép chia.",
+          "explanation": "16 : 2 = 8 (vì 2 × 8 = 16); 40 : 5 = 8 (vì 5 × 8 = 40); 2 × 4 = 8.\nLưu ý: 5 × 2 = 10; 20 : 5 = 4; 18 : 2 = 9."
+        },
+        {
+          "id": "k02-b5-09",
+          "type": "choice",
+          "prompt": "Hoa có 5 túi kẹo, mỗi túi 2 viên. Hoa cho em 1 túi.\nHỏi Hoa còn bao nhiêu viên kẹo?",
+          "options": [
+            {
+              "text": "9"
+            },
+            {
+              "text": "3"
+            },
+            {
+              "text": "8"
+            },
+            {
+              "text": "10"
+            }
+          ],
+          "answer": 2,
+          "method": "Đọc kĩ: Hoa cho em 1 viên hay 1 túi?",
+          "explanation": "Hoa cho em 1 túi nên còn 5 − 1 = 4 túi. 4 túi, mỗi túi 2 viên: 2 × 4 = 8 viên.\nLưu ý: 9 là bẫy hiểu nhầm cho em 1 viên (10 − 1); 10 là số kẹo lúc đầu; 3 là do lấy 5 − 2."
+        },
+        {
+          "id": "k02-b5-10",
+          "type": "pick_order",
+          "prompt": "Có 45 cái kẹo chia đều cho 5 bạn.\nChạm thẻ để viết phép chia theo thứ tự: số kẹo, chia cho số bạn, bằng số kẹo mỗi bạn.",
+          "items": [
+            "45",
+            ":",
+            "5",
+            "=",
+            "9"
+          ],
+          "distractors": [
+            "×",
+            "8"
+          ],
+          "timeLimit": 45,
+          "method": "Chia đều cho 5 bạn nghĩa là lấy 45 chia cho 5.",
+          "explanation": "45 : 5 = 9 vì 5 × 9 = 45. Mỗi bạn được 9 cái kẹo. Thẻ × là sai dấu; thẻ 8 là bẫy nhớ nhầm bảng nhân (5 × 8 = 40)."
+        }
+      ]
+    }
+  ]
+}

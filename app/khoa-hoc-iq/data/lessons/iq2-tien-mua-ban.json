@@ -1,0 +1,1231 @@
+{
+  "lessons": [
+    {
+      "id": "bai-1",
+      "title": "Nhận biết và cộng tiền",
+      "emoji": "💵",
+      "description": "Bé làm quen với các tờ tiền Việt Nam và cộng tiền thật giỏi nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k08-b1-01",
+          "type": "choice",
+          "prompt": "Bé có 1 tờ 10 000 đồng và 1 tờ 5 000 đồng.\nBé có tất cả bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "6 000 đồng"
+            },
+            {
+              "text": "15 000 đồng"
+            },
+            {
+              "text": "105 000 đồng"
+            },
+            {
+              "text": "50 000 đồng"
+            }
+          ],
+          "answer": 1,
+          "method": "Đọc theo nghìn: 10 nghìn cộng 5 nghìn.",
+          "explanation": "10 000 đồng + 5 000 đồng = 15 000 đồng.\nLưu ý: 6 000 đồng là lấy nhầm 1 + 5; 105 000 đồng là viết ghép hai số cạnh nhau; 50 000 đồng là nhân nhầm 5 × 10."
+        },
+        {
+          "id": "k08-b1-02",
+          "type": "input",
+          "prompt": "Mẹ có 2 tờ 20 000 đồng và 1 tờ 10 000 đồng.\nMẹ có tất cả bao nhiêu nghìn đồng?",
+          "answers": [
+            "50"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Cộng hai tờ 20 nghìn trước, rồi cộng thêm 10 nghìn.",
+          "explanation": "20 + 20 = 40 (nghìn), 40 + 10 = 50 (nghìn). Mẹ có 50 000 đồng."
+        },
+        {
+          "id": "k08-b1-03",
+          "type": "choice",
+          "prompt": "Tờ tiền nào có giá trị bằng 5 tờ 2 000 đồng?",
+          "options": [
+            {
+              "text": "5 000 đồng"
+            },
+            {
+              "text": "20 000 đồng"
+            },
+            {
+              "text": "10 000 đồng"
+            },
+            {
+              "text": "2 000 đồng"
+            }
+          ],
+          "answer": 2,
+          "method": "5 tờ 2 nghìn là 2 nghìn lấy 5 lần.",
+          "explanation": "2 000 × 5 = 10 000 đồng, bằng 1 tờ 10 000 đồng.\nLưu ý: 5 000 đồng là chỉ nhìn số tờ; 20 000 đồng là của 10 tờ 2 000 đồng chứ không phải 5 tờ; 2 000 đồng chỉ là giá trị của 1 tờ."
+        },
+        {
+          "id": "k08-b1-04",
+          "type": "input",
+          "prompt": "Bà cho bé 3 tờ 5 000 đồng.\nBé có bao nhiêu nghìn đồng?",
+          "answers": [
+            "15"
+          ],
+          "unit": "nghìn đồng",
+          "method": "5 nghìn lấy 3 lần.",
+          "explanation": "5 × 3 = 15 (nghìn). Bé có 15 000 đồng."
+        },
+        {
+          "id": "k08-b1-05",
+          "type": "match",
+          "prompt": "Nối mỗi nhóm tiền với tổng số tiền đúng.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "text": "2 tờ 5 000 đồng"
+              },
+              "right": {
+                "text": "10 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "1 tờ 20 000 đồng và 1 tờ 2 000 đồng"
+              },
+              "right": {
+                "text": "22 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "5 tờ 1 000 đồng"
+              },
+              "right": {
+                "text": "5 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "2 tờ 50 000 đồng"
+              },
+              "right": {
+                "text": "100 000 đồng"
+              }
+            }
+          ],
+          "method": "Tính từng nhóm theo nghìn rồi tìm kết quả ở bên phải.",
+          "explanation": "5 + 5 = 10 nghìn; 20 + 2 = 22 nghìn; 1 + 1 + 1 + 1 + 1 = 5 nghìn; 50 + 50 = 100 nghìn."
+        },
+        {
+          "id": "k08-b1-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các cách có đúng 20 000 đồng.",
+          "options": [
+            {
+              "text": "2 tờ 10 000 đồng"
+            },
+            {
+              "text": "4 tờ 5 000 đồng"
+            },
+            {
+              "text": "1 tờ 10 000 đồng và 1 tờ 5 000 đồng"
+            },
+            {
+              "text": "10 tờ 2 000 đồng"
+            },
+            {
+              "text": "2 tờ 5 000 đồng và 1 tờ 2 000 đồng"
+            }
+          ],
+          "answers": [
+            0,
+            1,
+            3
+          ],
+          "method": "Tính tổng từng cách theo nghìn, cách nào ra 20 nghìn thì chọn.",
+          "explanation": "2 tờ 10 000 = 20 000; 4 tờ 5 000 = 20 000; 10 tờ 2 000 = 20 000.\nLưu ý: 10 000 + 5 000 chỉ được 15 000 đồng; 5 000 + 5 000 + 2 000 chỉ được 12 000 đồng."
+        },
+        {
+          "id": "k08-b1-07",
+          "type": "order",
+          "prompt": "Xếp các nhóm tiền theo thứ tự từ ít tiền đến nhiều tiền.",
+          "timeLimit": 50,
+          "items": [
+            {
+              "text": "2 tờ 1 000 đồng"
+            },
+            {
+              "text": "1 tờ 5 000 đồng"
+            },
+            {
+              "text": "3 tờ 2 000 đồng"
+            },
+            {
+              "text": "1 tờ 10 000 đồng"
+            },
+            {
+              "text": "3 tờ 5 000 đồng"
+            }
+          ],
+          "method": "Tính mỗi nhóm được bao nhiêu nghìn rồi mới so sánh, đừng chỉ đếm số tờ.",
+          "explanation": "2 tờ 1 000 = 2 000; 1 tờ 5 000 = 5 000; 3 tờ 2 000 = 6 000; 1 tờ 10 000 = 10 000; 3 tờ 5 000 = 15 000. Xếp từ ít đến nhiều: 2 000 < 5 000 < 6 000 < 10 000 < 15 000."
+        },
+        {
+          "id": "k08-b1-08",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 40,
+          "sentence": "Tờ 50 000 đồng bằng [[5]] tờ 10 000 đồng, và cũng bằng [[10]] tờ 5 000 đồng.",
+          "choices": [
+            "5",
+            "10",
+            "2",
+            "25"
+          ],
+          "method": "Đếm cách 10 nghìn và cách 5 nghìn cho tới 50 nghìn.",
+          "explanation": "Đếm cách 10: 10, 20, 30, 40, 50 – là 5 tờ 10 000 đồng. Đếm cách 5: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 – là 10 tờ 5 000 đồng."
+        },
+        {
+          "id": "k08-b1-09",
+          "type": "pick_order",
+          "prompt": "Bé có 20 000 đồng, bà cho thêm 50 000 đồng.\nChạm lần lượt các thẻ để ghép phép tính số tiền bé có.",
+          "timeLimit": 45,
+          "items": [
+            "20 000",
+            "+",
+            "50 000",
+            "=",
+            "70 000"
+          ],
+          "distractors": [
+            "30 000"
+          ],
+          "method": "\"Cho thêm\" thì ta làm phép cộng.",
+          "explanation": "20 000 + 50 000 = 70 000 đồng. Thẻ 30 000 là kết quả nếu trừ nhầm 50 000 − 20 000."
+        },
+        {
+          "id": "k08-b1-10",
+          "type": "choice",
+          "prompt": "Nam có đúng 3 tờ tiền, cộng lại được 25 000 đồng.\nĐó là những tờ nào?",
+          "options": [
+            {
+              "text": "20 000 + 2 000 + 1 000"
+            },
+            {
+              "text": "20 000 + 5 000"
+            },
+            {
+              "text": "10 000 + 5 000 + 5 000"
+            },
+            {
+              "text": "10 000 + 10 000 + 5 000"
+            }
+          ],
+          "answer": 3,
+          "method": "Kiểm tra cả hai điều: đủ 3 tờ và tổng bằng 25 000 đồng.",
+          "explanation": "10 000 + 10 000 + 5 000 = 25 000 đồng và có đúng 3 tờ.\nLưu ý: 20 000 + 2 000 + 1 000 chỉ được 23 000 đồng; 20 000 + 5 000 tuy bằng 25 000 đồng nhưng chỉ có 2 tờ; 10 000 + 5 000 + 5 000 chỉ được 20 000 đồng."
+        }
+      ]
+    },
+    {
+      "id": "bai-2",
+      "title": "Mua hàng và tính tiền thừa",
+      "emoji": "🛒",
+      "description": "Đi chợ cùng mẹ và tính xem cô bán hàng trả lại bao nhiêu tiền nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k08-b2-01",
+          "type": "choice",
+          "prompt": "Bé mua cái bút giá 8 000 đồng và đưa cô bán hàng tờ 10 000 đồng.\nCô trả lại bé bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "18 000 đồng"
+            },
+            {
+              "text": "2 000 đồng"
+            },
+            {
+              "text": "8 000 đồng"
+            },
+            {
+              "text": "3 000 đồng"
+            }
+          ],
+          "answer": 1,
+          "method": "Tiền trả lại = tiền đưa − tiền hàng.",
+          "explanation": "10 000 − 8 000 = 2 000 đồng.\nLưu ý: 18 000 đồng là cộng nhầm; 8 000 đồng là giá cái bút; 3 000 đồng là trừ sai."
+        },
+        {
+          "id": "k08-b2-02",
+          "type": "input",
+          "prompt": "Mẹ mua bó rau giá 15 000 đồng và đưa tờ 20 000 đồng.\nMẹ được trả lại bao nhiêu nghìn đồng?",
+          "answers": [
+            "5"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Lấy 20 nghìn trừ 15 nghìn.",
+          "explanation": "20 − 15 = 5 (nghìn). Mẹ được trả lại 5 000 đồng."
+        },
+        {
+          "id": "k08-b2-03",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào số tiền được trả lại.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "front": {
+                "text": "Đưa 10 000 đồng, mua hết 6 000 đồng"
+              },
+              "back": {
+                "text": "4 000 đồng"
+              }
+            },
+            {
+              "front": {
+                "text": "Đưa 20 000 đồng, mua hết 12 000 đồng"
+              },
+              "back": {
+                "text": "8 000 đồng"
+              }
+            },
+            {
+              "front": {
+                "text": "Đưa 50 000 đồng, mua hết 30 000 đồng"
+              },
+              "back": {
+                "text": "20 000 đồng"
+              }
+            },
+            {
+              "front": {
+                "text": "Đưa 100 000 đồng, mua hết 90 000 đồng"
+              },
+              "back": {
+                "text": "10 000 đồng"
+              }
+            }
+          ],
+          "method": "Mỗi ô: lấy tiền đưa trừ tiền mua.",
+          "explanation": "10 − 6 = 4 nghìn; 20 − 12 = 8 nghìn; 50 − 30 = 20 nghìn; 100 − 90 = 10 nghìn."
+        },
+        {
+          "id": "k08-b2-04",
+          "type": "choice",
+          "prompt": "Bé mua 2 cái kẹo, mỗi cái giá 2 000 đồng.\nBé đưa tờ 5 000 đồng. Cô trả lại bé bao nhiêu tiền?",
+          "visual": {
+            "emoji": "🍬🍬"
+          },
+          "options": [
+            {
+              "text": "4 000 đồng"
+            },
+            {
+              "text": "3 000 đồng"
+            },
+            {
+              "text": "9 000 đồng"
+            },
+            {
+              "text": "1 000 đồng"
+            }
+          ],
+          "answer": 3,
+          "method": "Tính tiền 2 cái kẹo trước, rồi lấy tiền đưa trừ đi.",
+          "explanation": "2 cái kẹo: 2 000 × 2 = 4 000 đồng. Trả lại: 5 000 − 4 000 = 1 000 đồng.\nLưu ý: 4 000 đồng là tiền kẹo chứ không phải tiền trả lại; 3 000 đồng là quên rằng mua 2 cái kẹo (chỉ trừ 2 000); 9 000 đồng là cộng nhầm 5 000 + 4 000."
+        },
+        {
+          "id": "k08-b2-05",
+          "type": "input",
+          "prompt": "Bin mua quả bóng giá 35 000 đồng và đưa tờ 50 000 đồng.\nBin được trả lại bao nhiêu nghìn đồng?",
+          "answers": [
+            "15"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Lấy 50 nghìn trừ 35 nghìn.",
+          "explanation": "50 − 35 = 15 (nghìn). Bin được trả lại 15 000 đồng."
+        },
+        {
+          "id": "k08-b2-06",
+          "type": "choice",
+          "prompt": "An đưa cô bán hàng tờ 20 000 đồng và được trả lại 3 000 đồng.\nMón hàng An mua giá bao nhiêu?",
+          "options": [
+            {
+              "text": "23 000 đồng"
+            },
+            {
+              "text": "3 000 đồng"
+            },
+            {
+              "text": "17 000 đồng"
+            },
+            {
+              "text": "13 000 đồng"
+            }
+          ],
+          "answer": 2,
+          "method": "Giá món hàng = tiền đưa − tiền được trả lại.",
+          "explanation": "20 000 − 3 000 = 17 000 đồng. Kiểm tra: mua 17 000 đồng, đưa 20 000 đồng thì được trả lại 3 000 đồng. Đúng!\nLưu ý: 23 000 đồng là cộng nhầm (món hàng không thể đắt hơn tiền đã đưa); 3 000 đồng là tiền trả lại; 13 000 đồng là trừ sai."
+        },
+        {
+          "id": "k08-b2-07",
+          "type": "match",
+          "prompt": "Nối mỗi lần mua hàng với số tiền được trả lại.",
+          "timeLimit": 50,
+          "pairs": [
+            {
+              "left": {
+                "text": "Giá 45 000 đồng, đưa 50 000 đồng"
+              },
+              "right": {
+                "text": "5 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Giá 14 000 đồng, đưa 20 000 đồng"
+              },
+              "right": {
+                "text": "6 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Giá 70 000 đồng, đưa 100 000 đồng"
+              },
+              "right": {
+                "text": "30 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Giá 9 000 đồng, đưa 10 000 đồng"
+              },
+              "right": {
+                "text": "1 000 đồng"
+              }
+            }
+          ],
+          "method": "Mỗi ô: tiền đưa trừ giá tiền, tính theo nghìn cho nhanh.",
+          "explanation": "50 − 45 = 5 nghìn; 20 − 14 = 6 nghìn; 100 − 70 = 30 nghìn; 10 − 9 = 1 nghìn."
+        },
+        {
+          "id": "k08-b2-08",
+          "type": "pick_order",
+          "prompt": "Bé mua gói bánh giá 7 000 đồng và đưa tờ 10 000 đồng.\nChạm lần lượt các thẻ để ghép phép tính số tiền được trả lại.",
+          "timeLimit": 45,
+          "items": [
+            "10 000",
+            "-",
+            "7 000",
+            "=",
+            "3 000"
+          ],
+          "distractors": [
+            "17 000"
+          ],
+          "method": "Tiền trả lại = tiền đưa − tiền hàng.",
+          "explanation": "10 000 − 7 000 = 3 000 đồng. Thẻ 17 000 là kết quả nếu cộng nhầm 10 000 + 7 000."
+        },
+        {
+          "id": "k08-b2-09",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "Mẹ mua cá hết 35 000 đồng và rau hết 5 000 đồng, tất cả hết [[40 000]] đồng. Mẹ đưa tờ 100 000 đồng nên được trả lại [[60 000]] đồng.",
+          "choices": [
+            "40 000",
+            "60 000",
+            "30 000",
+            "140 000"
+          ],
+          "method": "Cộng tiền cá và tiền rau trước, rồi lấy tiền đưa trừ đi.",
+          "explanation": "35 000 + 5 000 = 40 000 đồng. 100 000 − 40 000 = 60 000 đồng."
+        },
+        {
+          "id": "k08-b2-10",
+          "type": "order",
+          "prompt": "Xếp các lần mua theo số tiền được trả lại, từ ít đến nhiều.",
+          "timeLimit": 55,
+          "items": [
+            {
+              "text": "Đưa 5 000 đồng, mua hết 4 000 đồng"
+            },
+            {
+              "text": "Đưa 10 000 đồng, mua hết 5 000 đồng"
+            },
+            {
+              "text": "Đưa 20 000 đồng, mua hết 13 000 đồng"
+            },
+            {
+              "text": "Đưa 50 000 đồng, mua hết 40 000 đồng"
+            }
+          ],
+          "method": "Tính tiền trả lại của từng lần rồi mới so sánh, đừng chỉ nhìn số tiền đưa.",
+          "explanation": "Tiền trả lại lần lượt là: 1 000 đồng, 5 000 đồng, 7 000 đồng, 10 000 đồng. Xếp từ ít đến nhiều: 1 000 < 5 000 < 7 000 < 10 000."
+        }
+      ]
+    },
+    {
+      "id": "bai-3",
+      "title": "Chọn cách trả tiền",
+      "emoji": "👛",
+      "description": "Bé chọn những tờ tiền nào để trả vừa đủ, không cần thối lại nhé!",
+      "timeLimit": 25,
+      "questions": [
+        {
+          "id": "k08-b3-01",
+          "type": "choice",
+          "prompt": "Quyển vở giá 7 000 đồng.\nCách nào trả vừa đúng 7 000 đồng?",
+          "options": [
+            {
+              "text": "1 tờ 5 000 đồng và 1 tờ 1 000 đồng"
+            },
+            {
+              "text": "2 tờ 5 000 đồng"
+            },
+            {
+              "text": "1 tờ 5 000 đồng và 1 tờ 2 000 đồng"
+            },
+            {
+              "text": "3 tờ 2 000 đồng"
+            }
+          ],
+          "answer": 2,
+          "method": "Cộng từng cách, cách nào ra đúng 7 nghìn thì chọn.",
+          "explanation": "5 000 + 2 000 = 7 000 đồng, vừa đúng giá quyển vở.\nLưu ý: 5 000 + 1 000 chỉ được 6 000 đồng (thiếu); 2 tờ 5 000 là 10 000 đồng (thừa, phải trả lại); 3 tờ 2 000 chỉ được 6 000 đồng (thiếu)."
+        },
+        {
+          "id": "k08-b3-02",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các cách trả vừa đúng 30 000 đồng.",
+          "options": [
+            {
+              "text": "1 tờ 20 000 đồng và 1 tờ 10 000 đồng"
+            },
+            {
+              "text": "1 tờ 20 000 đồng và 2 tờ 2 000 đồng"
+            },
+            {
+              "text": "3 tờ 10 000 đồng"
+            },
+            {
+              "text": "1 tờ 50 000 đồng"
+            },
+            {
+              "text": "6 tờ 5 000 đồng"
+            }
+          ],
+          "answers": [
+            0,
+            2,
+            4
+          ],
+          "method": "Tính tổng từng cách theo nghìn rồi so với 30 nghìn.",
+          "explanation": "20 000 + 10 000 = 30 000; 3 tờ 10 000 = 30 000; 6 tờ 5 000 = 30 000.\nLưu ý: 20 000 + 2 000 + 2 000 chỉ được 24 000 đồng; 1 tờ 50 000 đồng là trả thừa 20 000 đồng."
+        },
+        {
+          "id": "k08-b3-03",
+          "type": "input",
+          "prompt": "Hộp sữa giá 9 000 đồng. Lan đã đưa 1 tờ 5 000 đồng.\nLan cần đưa thêm mấy tờ 2 000 đồng để trả vừa đủ?",
+          "answers": [
+            "2"
+          ],
+          "unit": "tờ",
+          "method": "Tìm số tiền còn thiếu trước, rồi xem cần mấy tờ 2 000 đồng.",
+          "explanation": "Còn thiếu 9 000 − 5 000 = 4 000 đồng. 4 000 đồng = 2 000 + 2 000, nên cần thêm 2 tờ 2 000 đồng."
+        },
+        {
+          "id": "k08-b3-04",
+          "type": "input",
+          "prompt": "Bé cần trả vừa đúng 18 000 đồng bằng ÍT tờ tiền nhất.\nBé cần dùng mấy tờ?",
+          "answers": [
+            "4"
+          ],
+          "unit": "tờ",
+          "method": "Luôn chọn tờ có giá trị lớn nhất mà chưa vượt quá số tiền còn phải trả.",
+          "explanation": "18 000 = 10 000 + 5 000 + 2 000 + 1 000, tức 4 tờ. Không thể dùng 3 tờ: thử 10 000 + 5 000 + 2 000 = 17 000 (thiếu), 10 000 + 5 000 + 5 000 = 20 000 (thừa), 10 000 + 2 000 + 2 000 = 14 000 (thiếu)."
+        },
+        {
+          "id": "k08-b3-05",
+          "type": "choice",
+          "prompt": "Hộp bút màu giá 12 000 đồng.\nBé có 1 tờ 10 000 đồng, 1 tờ 5 000 đồng, 1 tờ 2 000 đồng và 1 tờ 1 000 đồng.\nBé đưa những tờ nào để trả vừa đúng?",
+          "options": [
+            {
+              "text": "10 000 + 1 000"
+            },
+            {
+              "text": "5 000 + 2 000 + 1 000"
+            },
+            {
+              "text": "10 000 + 2 000"
+            },
+            {
+              "text": "10 000 + 5 000"
+            }
+          ],
+          "answer": 2,
+          "method": "Bắt đầu từ tờ lớn nhất không vượt quá 12 000 đồng, rồi tìm phần còn thiếu.",
+          "explanation": "10 000 + 2 000 = 12 000 đồng, vừa đúng.\nLưu ý: 10 000 + 1 000 chỉ được 11 000 đồng (thiếu); 5 000 + 2 000 + 1 000 chỉ được 8 000 đồng dù dùng nhiều tờ; 10 000 + 5 000 = 15 000 đồng (thừa)."
+        },
+        {
+          "id": "k08-b3-06",
+          "type": "match_multi",
+          "prompt": "Gói kẹo giá 15 000 đồng.\nMỗi cách đưa tiền dưới đây là thiếu, vừa đủ hay thừa? Nối vào đúng nhóm.",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Thiếu",
+              "emoji": "😟"
+            },
+            {
+              "text": "Vừa đủ",
+              "emoji": "✅"
+            },
+            {
+              "text": "Thừa",
+              "emoji": "💰"
+            }
+          ],
+          "items": [
+            {
+              "text": "10 000 + 5 000",
+              "group": 1
+            },
+            {
+              "text": "10 000 + 2 000",
+              "group": 0
+            },
+            {
+              "text": "20 000",
+              "group": 2
+            },
+            {
+              "text": "5 000 + 5 000 + 5 000",
+              "group": 1
+            },
+            {
+              "text": "10 000 + 2 000 + 2 000",
+              "group": 0
+            },
+            {
+              "text": "10 000 + 5 000 + 1 000",
+              "group": 2
+            }
+          ],
+          "method": "Cộng từng cách theo nghìn rồi so sánh với 15 nghìn.",
+          "explanation": "Thiếu: 10 000 + 2 000 = 12 000; 10 000 + 2 000 + 2 000 = 14 000. Vừa đủ: 10 000 + 5 000 = 15 000; 5 000 × 3 = 15 000. Thừa: 20 000; 10 000 + 5 000 + 1 000 = 16 000."
+        },
+        {
+          "id": "k08-b3-07",
+          "type": "fill_blank",
+          "prompt": "Điền số thích hợp vào chỗ trống.",
+          "timeLimit": 45,
+          "sentence": "Trả 40 000 đồng mà dùng cả hai loại tờ 20 000 đồng và 10 000 đồng thì cần [[1]] tờ 20 000 đồng và [[2]] tờ 10 000 đồng. Nếu chỉ dùng tờ 5 000 đồng thì cần [[8]] tờ.",
+          "choices": [
+            "1",
+            "2",
+            "8",
+            "4"
+          ],
+          "method": "Thử với 1 tờ 20 000 đồng trước, rồi tính phần còn thiếu.",
+          "explanation": "1 tờ 20 000 đồng còn thiếu 20 000 đồng = 2 tờ 10 000 đồng (nếu dùng 2 tờ 20 000 đồng thì đã đủ, không còn chỗ cho tờ 10 000 đồng). Đếm cách 5 nghìn đến 40 nghìn: 5, 10, 15, 20, 25, 30, 35, 40 – là 8 tờ."
+        },
+        {
+          "id": "k08-b3-08",
+          "type": "reveal_match",
+          "prompt": "Lật từng ô rồi chạm vào cách trả vừa đúng bằng 2 tờ tiền.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "front": {
+                "text": "Trả 6 000 đồng"
+              },
+              "back": {
+                "text": "5 000 + 1 000"
+              }
+            },
+            {
+              "front": {
+                "text": "Trả 4 000 đồng"
+              },
+              "back": {
+                "text": "2 000 + 2 000"
+              }
+            },
+            {
+              "front": {
+                "text": "Trả 60 000 đồng"
+              },
+              "back": {
+                "text": "50 000 + 10 000"
+              }
+            },
+            {
+              "front": {
+                "text": "Trả 25 000 đồng"
+              },
+              "back": {
+                "text": "20 000 + 5 000"
+              }
+            },
+            {
+              "front": {
+                "text": "Trả 3 000 đồng"
+              },
+              "back": {
+                "text": "2 000 + 1 000"
+              }
+            }
+          ],
+          "method": "Cộng hai tờ ở mỗi thẻ kết quả xem có bằng số tiền cần trả không.",
+          "explanation": "5 000 + 1 000 = 6 000; 2 000 + 2 000 = 4 000; 50 000 + 10 000 = 60 000; 20 000 + 5 000 = 25 000; 2 000 + 1 000 = 3 000."
+        },
+        {
+          "id": "k08-b3-09",
+          "type": "pick_order",
+          "prompt": "Gấu bông giá 70 000 đồng. Bé trả vừa đúng bằng 2 tờ tiền.\nChạm lần lượt các thẻ để ghép phép tính (viết tờ có giá trị lớn hơn trước).",
+          "timeLimit": 45,
+          "items": [
+            "50 000",
+            "+",
+            "20 000",
+            "=",
+            "70 000"
+          ],
+          "distractors": [
+            "10 000"
+          ],
+          "method": "Tìm tờ lớn nhất không vượt quá 70 000 đồng, rồi tìm tờ còn thiếu.",
+          "explanation": "Tờ lớn nhất không vượt quá 70 000 đồng là 50 000 đồng, còn thiếu 20 000 đồng – đúng bằng 1 tờ 20 000 đồng. Vậy 50 000 + 20 000 = 70 000. Thẻ 10 000 không dùng vì 50 000 + 10 000 chỉ được 60 000 đồng."
+        },
+        {
+          "id": "k08-b3-10",
+          "type": "choice",
+          "prompt": "Bé chỉ có 3 tờ tiền: 10 000 đồng, 5 000 đồng và 2 000 đồng.\nBé KHÔNG thể trả vừa đúng số tiền nào dưới đây?",
+          "options": [
+            {
+              "text": "12 000 đồng"
+            },
+            {
+              "text": "7 000 đồng"
+            },
+            {
+              "text": "13 000 đồng"
+            },
+            {
+              "text": "17 000 đồng"
+            }
+          ],
+          "answer": 2,
+          "method": "Thử cộng các tờ theo từng cặp và cả ba tờ.",
+          "explanation": "Các số tiền trả vừa đúng được: 10 000 + 2 000 = 12 000; 5 000 + 2 000 = 7 000; 10 000 + 5 000 + 2 000 = 17 000. Không có cách nào ra 13 000 đồng.\nLưu ý: 12 000, 7 000 và 17 000 đồng đều ghép được từ các tờ bé có, nên không phải đáp án."
+        }
+      ]
+    },
+    {
+      "id": "bai-4",
+      "title": "So sánh giá và số lượng",
+      "emoji": "🏷️",
+      "description": "Món nào rẻ hơn, món nào đắt hơn? Bé cùng so sánh nhé!",
+      "timeLimit": 20,
+      "questions": [
+        {
+          "id": "k08-b4-01",
+          "type": "choice",
+          "prompt": "Bút chì giá 3 000 đồng, thước kẻ giá 5 000 đồng, cục tẩy giá 2 000 đồng.\nMón nào rẻ nhất?",
+          "options": [
+            {
+              "text": "Bút chì"
+            },
+            {
+              "text": "Thước kẻ"
+            },
+            {
+              "text": "Cục tẩy"
+            }
+          ],
+          "answer": 2,
+          "method": "Món rẻ nhất là món có giá tiền nhỏ nhất.",
+          "explanation": "So sánh: 2 000 < 3 000 < 5 000, nên cục tẩy rẻ nhất.\nLưu ý: bút chì đắt hơn cục tẩy 1 000 đồng; thước kẻ là món đắt nhất."
+        },
+        {
+          "id": "k08-b4-02",
+          "type": "order",
+          "prompt": "Xếp các món hàng theo giá từ rẻ đến đắt.",
+          "timeLimit": 45,
+          "items": [
+            {
+              "text": "Kẹo: 2 000 đồng"
+            },
+            {
+              "text": "Bánh: 5 000 đồng"
+            },
+            {
+              "text": "Sữa: 8 000 đồng"
+            },
+            {
+              "text": "Truyện: 20 000 đồng"
+            }
+          ],
+          "method": "So sánh số nghìn đồng của từng món.",
+          "explanation": "2 000 < 5 000 < 8 000 < 20 000, nên thứ tự là kẹo, bánh, sữa, truyện."
+        },
+        {
+          "id": "k08-b4-03",
+          "type": "match_vertical",
+          "prompt": "Mua nhiều món cùng giá. Nối mỗi phép tính với tổng số tiền.",
+          "timeLimit": 45,
+          "pairs": [
+            {
+              "left": {
+                "text": "2 000 đồng × 2"
+              },
+              "right": {
+                "text": "4 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "5 000 đồng × 3"
+              },
+              "right": {
+                "text": "15 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "5 000 đồng × 2"
+              },
+              "right": {
+                "text": "10 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "2 000 đồng × 10"
+              },
+              "right": {
+                "text": "20 000 đồng"
+              }
+            }
+          ],
+          "method": "Giá một món nhân với số món, tính theo nghìn cho nhanh.",
+          "explanation": "2 × 2 = 4 nghìn; 5 × 3 = 15 nghìn; 5 × 2 = 10 nghìn; 2 × 10 = 20 nghìn."
+        },
+        {
+          "id": "k08-b4-04",
+          "type": "choice",
+          "prompt": "2 cái bánh giá 10 000 đồng.\n2 cái kẹo giá 4 000 đồng.\nMột cái bánh đắt hơn một cái kẹo bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "6 000 đồng"
+            },
+            {
+              "text": "3 000 đồng"
+            },
+            {
+              "text": "5 000 đồng"
+            },
+            {
+              "text": "2 000 đồng"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm giá của 1 cái bánh và 1 cái kẹo trước rồi mới so sánh.",
+          "explanation": "1 cái bánh: 10 000 : 2 = 5 000 đồng. 1 cái kẹo: 4 000 : 2 = 2 000 đồng. Bánh đắt hơn kẹo: 5 000 − 2 000 = 3 000 đồng.\nLưu ý: 6 000 đồng là so sánh giá của 2 cái chứ không phải 1 cái; 5 000 đồng là giá 1 cái bánh; 2 000 đồng là giá 1 cái kẹo."
+        },
+        {
+          "id": "k08-b4-05",
+          "type": "input",
+          "prompt": "Gói đôi: 2 gói bánh giá 10 000 đồng.\nMua lẻ: 1 gói bánh giá 6 000 đồng.\nMua lẻ 2 gói thì đắt hơn mua gói đôi bao nhiêu nghìn đồng?",
+          "answers": [
+            "2"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Tính tiền mua lẻ 2 gói rồi so với giá gói đôi.",
+          "explanation": "Mua lẻ 2 gói: 6 000 + 6 000 = 12 000 đồng. Đắt hơn gói đôi: 12 000 − 10 000 = 2 000 đồng, tức 2 nghìn đồng."
+        },
+        {
+          "id": "k08-b4-06",
+          "type": "multi_choice",
+          "prompt": "Chọn TẤT CẢ các món đắt hơn 10 000 đồng.",
+          "options": [
+            {
+              "text": "Truyện: 12 000 đồng"
+            },
+            {
+              "text": "Bút: 9 000 đồng"
+            },
+            {
+              "text": "Hộp màu: 10 000 đồng"
+            },
+            {
+              "text": "Quả bóng: 20 000 đồng"
+            },
+            {
+              "text": "Búp bê: 50 000 đồng"
+            },
+            {
+              "text": "Thước: 5 000 đồng"
+            }
+          ],
+          "answers": [
+            0,
+            3,
+            4
+          ],
+          "method": "So sánh giá từng món với 10 000 đồng; bằng nhau thì không phải đắt hơn.",
+          "explanation": "12 000, 20 000 và 50 000 đều lớn hơn 10 000 đồng.\nLưu ý: hộp màu giá đúng 10 000 đồng là bằng chứ không đắt hơn; bút 9 000 đồng và thước 5 000 đồng rẻ hơn 10 000 đồng."
+        },
+        {
+          "id": "k08-b4-07",
+          "type": "match",
+          "prompt": "Kẹo rẻ nhất. Quả bóng đắt nhất. Bút đắt hơn vở.\nNối mỗi món với giá của nó.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "emoji": "🍬",
+                "text": "Kẹo"
+              },
+              "right": {
+                "text": "2 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "emoji": "📒",
+                "text": "Vở"
+              },
+              "right": {
+                "text": "5 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "emoji": "🖊️",
+                "text": "Bút"
+              },
+              "right": {
+                "text": "8 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "emoji": "⚽",
+                "text": "Quả bóng"
+              },
+              "right": {
+                "text": "30 000 đồng"
+              }
+            }
+          ],
+          "method": "Xếp 4 giá tiền từ rẻ đến đắt, rồi dùng các gợi ý để đặt từng món.",
+          "explanation": "Giá từ rẻ đến đắt: 2 000 < 5 000 < 8 000 < 30 000. Kẹo rẻ nhất → 2 000 đồng. Quả bóng đắt nhất → 30 000 đồng. Còn 5 000 và 8 000: bút đắt hơn vở nên bút 8 000 đồng, vở 5 000 đồng."
+        },
+        {
+          "id": "k08-b4-08",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "Bút giá 5 000 đồng, thước giá 2 000 đồng. Bút đắt hơn thước [[3 000]] đồng. Mua 2 cây bút hết [[10 000]] đồng.",
+          "choices": [
+            "3 000",
+            "10 000",
+            "7 000",
+            "4 000"
+          ],
+          "method": "\"Đắt hơn bao nhiêu\" thì trừ; mua nhiều món cùng giá thì nhân.",
+          "explanation": "5 000 − 2 000 = 3 000 đồng. 5 000 × 2 = 10 000 đồng."
+        },
+        {
+          "id": "k08-b4-09",
+          "type": "match_multi",
+          "prompt": "Mỗi ô là tổng số tiền mua hàng.\nNối mỗi ô vào đúng nhóm: rẻ hơn hay đắt hơn 20 000 đồng?",
+          "timeLimit": 55,
+          "groups": [
+            {
+              "text": "Rẻ hơn 20 000 đồng",
+              "emoji": "🟢"
+            },
+            {
+              "text": "Đắt hơn 20 000 đồng",
+              "emoji": "🔴"
+            }
+          ],
+          "items": [
+            {
+              "text": "5 000 đồng × 3",
+              "group": 0
+            },
+            {
+              "text": "5 000 đồng × 5",
+              "group": 1
+            },
+            {
+              "text": "5 000 đồng × 8",
+              "group": 1
+            },
+            {
+              "text": "2 000 đồng × 5",
+              "group": 0
+            },
+            {
+              "text": "5 000 đồng × 6",
+              "group": 1
+            },
+            {
+              "text": "2 000 đồng × 9",
+              "group": 0
+            }
+          ],
+          "method": "Tính từng ô ra số nghìn rồi so với 20 nghìn.",
+          "explanation": "Rẻ hơn: 5 × 3 = 15 nghìn; 2 × 5 = 10 nghìn; 2 × 9 = 18 nghìn. Đắt hơn: 5 × 5 = 25 nghìn; 5 × 8 = 40 nghìn; 5 × 6 = 30 nghìn."
+        },
+        {
+          "id": "k08-b4-10",
+          "type": "choice",
+          "prompt": "Hộp bút giá 8 000 đồng.\nThước kẻ rẻ hơn hộp bút 3 000 đồng.\nMua cả hộp bút và thước kẻ hết bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "11 000 đồng"
+            },
+            {
+              "text": "5 000 đồng"
+            },
+            {
+              "text": "19 000 đồng"
+            },
+            {
+              "text": "13 000 đồng"
+            }
+          ],
+          "answer": 3,
+          "method": "Tìm giá thước kẻ trước (rẻ hơn thì trừ), rồi cộng hai món.",
+          "explanation": "Thước kẻ: 8 000 − 3 000 = 5 000 đồng. Cả hai: 8 000 + 5 000 = 13 000 đồng.\nLưu ý: 11 000 đồng là cộng nhầm 8 000 + 3 000; 5 000 đồng mới chỉ là giá thước kẻ; 19 000 đồng là tưởng \"rẻ hơn\" thì cộng (thước 11 000 đồng)."
+        }
+      ]
+    },
+    {
+      "id": "bai-5",
+      "title": "Bài toán mua bán nhiều bước",
+      "emoji": "🧮",
+      "description": "Thử sức với những bài toán mua bán cần suy nghĩ nhiều bước nhé bé!",
+      "timeLimit": 30,
+      "questions": [
+        {
+          "id": "k08-b5-01",
+          "type": "choice",
+          "prompt": "Bé có 50 000 đồng. Bé mua quyển truyện giá 20 000 đồng và hộp bút giá 15 000 đồng.\nBé còn lại bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "35 000 đồng"
+            },
+            {
+              "text": "5 000 đồng"
+            },
+            {
+              "text": "85 000 đồng"
+            },
+            {
+              "text": "15 000 đồng"
+            }
+          ],
+          "answer": 3,
+          "method": "Tính tổng tiền đã mua, rồi lấy tiền có trừ đi.",
+          "explanation": "Đã mua hết 20 000 + 15 000 = 35 000 đồng. Còn lại 50 000 − 35 000 = 15 000 đồng.\nLưu ý: 35 000 đồng là số tiền đã tiêu; 85 000 đồng là cộng nhầm tất cả; 5 000 đồng là trừ sai."
+        },
+        {
+          "id": "k08-b5-02",
+          "type": "input",
+          "prompt": "Mẹ mua 2 gói bánh, mỗi gói 5 000 đồng, và 1 hộp sữa 8 000 đồng.\nMẹ đưa tờ 20 000 đồng. Mẹ được trả lại bao nhiêu nghìn đồng?",
+          "answers": [
+            "2"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Bước 1: tính tiền bánh. Bước 2: cộng tiền sữa. Bước 3: lấy tiền đưa trừ đi.",
+          "explanation": "Tiền bánh: 5 × 2 = 10 (nghìn). Tổng: 10 + 8 = 18 (nghìn). Trả lại: 20 − 18 = 2 (nghìn), tức 2 000 đồng."
+        },
+        {
+          "id": "k08-b5-03",
+          "type": "fill_blank",
+          "prompt": "Điền vào chỗ trống cho đúng.",
+          "timeLimit": 45,
+          "sentence": "Mẹ đưa Bin 20 000 đồng. Bin mua 3 quyển vở, mỗi quyển 5 000 đồng, hết [[15 000]] đồng. Bin còn lại [[5 000]] đồng.",
+          "choices": [
+            "15 000",
+            "5 000",
+            "25 000",
+            "8 000"
+          ],
+          "method": "Tính tiền 3 quyển vở trước, rồi trừ vào số tiền Bin có.",
+          "explanation": "3 quyển vở: 5 000 × 3 = 15 000 đồng. Còn lại: 20 000 − 15 000 = 5 000 đồng."
+        },
+        {
+          "id": "k08-b5-04",
+          "type": "choice",
+          "prompt": "Lan có 2 tờ 10 000 đồng. Lan mua 3 cái kẹo mút, mỗi cái 2 000 đồng, và 1 gói bánh giá 5 000 đồng.\nLan còn lại bao nhiêu tiền?",
+          "options": [
+            {
+              "text": "13 000 đồng"
+            },
+            {
+              "text": "9 000 đồng"
+            },
+            {
+              "text": "14 000 đồng"
+            },
+            {
+              "text": "11 000 đồng"
+            }
+          ],
+          "answer": 1,
+          "method": "Bước 1: tính tiền Lan có. Bước 2: tính tiền kẹo và bánh. Bước 3: trừ.",
+          "explanation": "Lan có 10 000 + 10 000 = 20 000 đồng. Tiền kẹo: 2 000 × 3 = 6 000 đồng. Đã tiêu: 6 000 + 5 000 = 11 000 đồng. Còn lại: 20 000 − 11 000 = 9 000 đồng.\nLưu ý: 13 000 đồng là quên mua 3 cái kẹo (chỉ trừ 2 000); 14 000 đồng là quên trừ gói bánh; 11 000 đồng là số tiền đã tiêu."
+        },
+        {
+          "id": "k08-b5-05",
+          "type": "input",
+          "prompt": "Bin có 50 000 đồng. Bin mua 2 quyển truyện, mỗi quyển 20 000 đồng.\nSau đó mẹ cho Bin thêm 5 000 đồng.\nBây giờ Bin có bao nhiêu nghìn đồng?",
+          "answers": [
+            "15"
+          ],
+          "unit": "nghìn đồng",
+          "method": "Mua thì bớt đi, được cho thì thêm vào – làm lần lượt từng bước.",
+          "explanation": "2 quyển truyện: 20 + 20 = 40 (nghìn). Sau khi mua: 50 − 40 = 10 (nghìn). Mẹ cho thêm: 10 + 5 = 15 (nghìn). Bin có 15 000 đồng."
+        },
+        {
+          "id": "k08-b5-06",
+          "type": "match",
+          "prompt": "Nối mỗi bạn với số tiền còn lại.",
+          "timeLimit": 55,
+          "pairs": [
+            {
+              "left": {
+                "text": "Có 20 000 đồng, mua 2 cây bút, mỗi cây 5 000 đồng"
+              },
+              "right": {
+                "text": "10 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 10 000 đồng, được cho thêm 5 000 đồng, rồi mua hết 8 000 đồng"
+              },
+              "right": {
+                "text": "7 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 50 000 đồng, mua hết 20 000 đồng rồi mua tiếp hết 10 000 đồng"
+              },
+              "right": {
+                "text": "20 000 đồng"
+              }
+            },
+            {
+              "left": {
+                "text": "Có 100 000 đồng, mua 10 món, mỗi món 5 000 đồng"
+              },
+              "right": {
+                "text": "50 000 đồng"
+              }
+            }
+          ],
+          "method": "Làm lần lượt từng bước: thêm thì cộng, mua thì trừ, nhiều món cùng giá thì nhân.",
+          "explanation": "Bạn thứ nhất: 5 × 2 = 10 nghìn, còn 20 − 10 = 10 nghìn. Bạn thứ hai: 10 + 5 = 15, rồi 15 − 8 = 7 nghìn. Bạn thứ ba: 50 − 20 = 30, rồi 30 − 10 = 20 nghìn. Bạn thứ tư: 5 × 10 = 50 nghìn, còn 100 − 50 = 50 nghìn."
+        },
+        {
+          "id": "k08-b5-07",
+          "type": "order",
+          "prompt": "Mẹ mua 2 kg cam, mỗi ki-lô-gam giá 20 000 đồng. Mẹ đưa tờ 50 000 đồng.\nXếp các bước giải theo đúng thứ tự để tìm tiền được trả lại.",
+          "timeLimit": 55,
+          "items": [
+            {
+              "text": "Tính tiền 2 kg cam: 20 000 + 20 000 = 40 000 đồng"
+            },
+            {
+              "text": "Lấy tiền đưa trừ tiền cam: 50 000 − 40 000 = 10 000 đồng"
+            },
+            {
+              "text": "Trả lời: Mẹ được trả lại 10 000 đồng"
+            }
+          ],
+          "method": "Bước sau luôn phải dùng kết quả của bước trước.",
+          "explanation": "Phải biết tiền cam (40 000 đồng) thì mới trừ được, và có kết quả phép trừ thì mới viết được câu trả lời."
+        },
+        {
+          "id": "k08-b5-08",
+          "type": "multi_choice",
+          "prompt": "Bé có 20 000 đồng.\nChọn TẤT CẢ cách mua mà bé có đủ tiền để trả.",
+          "options": [
+            {
+              "text": "5 quyển vở, mỗi quyển 5 000 đồng"
+            },
+            {
+              "text": "2 quyển truyện, mỗi quyển 8 000 đồng"
+            },
+            {
+              "text": "1 quả bóng 15 000 đồng và 1 gói kẹo 5 000 đồng"
+            },
+            {
+              "text": "1 quyển truyện 12 000 đồng và 1 hộp màu 10 000 đồng"
+            },
+            {
+              "text": "4 cây bút, mỗi cây 5 000 đồng"
+            }
+          ],
+          "answers": [
+            1,
+            2,
+            4
+          ],
+          "method": "Tính tổng tiền từng cách, cách nào không quá 20 000 đồng thì đủ tiền.",
+          "explanation": "8 000 + 8 000 = 16 000 đồng (đủ, còn thừa 4 000 đồng); 15 000 + 5 000 = 20 000 đồng (vừa đủ); 5 000 × 4 = 20 000 đồng (vừa đủ).\nLưu ý: 5 000 × 5 = 25 000 đồng và 12 000 + 10 000 = 22 000 đồng đều nhiều hơn 20 000 đồng nên không đủ tiền."
+        },
+        {
+          "id": "k08-b5-09",
+          "type": "pick_order",
+          "prompt": "Mẹ mua 2 hộp sữa, mỗi hộp 4 000 đồng, và đưa tờ 20 000 đồng.\nHai hộp sữa hết 4 000 + 4 000 = 8 000 đồng.\nChạm lần lượt các thẻ để ghép phép tính tìm tiền được trả lại.",
+          "timeLimit": 50,
+          "items": [
+            "20 000",
+            "-",
+            "8 000",
+            "=",
+            "12 000"
+          ],
+          "distractors": [
+            "4 000",
+            "28 000"
+          ],
+          "method": "Đã có tiền 2 hộp sữa, giờ lấy tiền đưa trừ đi.",
+          "explanation": "20 000 − 8 000 = 12 000 đồng. Thẻ 4 000 là giá 1 hộp (trừ thiếu một hộp); thẻ 28 000 là kết quả nếu cộng nhầm."
+        },
+        {
+          "id": "k08-b5-10",
+          "type": "choice",
+          "prompt": "Bút giá 5 000 đồng một cây. Cứ mua 2 cây bút thì được tặng thêm 1 cây.\nBé có 20 000 đồng thì có được nhiều nhất bao nhiêu cây bút (tính cả bút tặng)?",
+          "options": [
+            {
+              "text": "4 cây"
+            },
+            {
+              "text": "6 cây"
+            },
+            {
+              "text": "5 cây"
+            },
+            {
+              "text": "8 cây"
+            }
+          ],
+          "answer": 1,
+          "method": "Tìm số bút mua được bằng 20 000 đồng, rồi tính số bút được tặng.",
+          "explanation": "20 000 đồng mua được 4 cây bút (5 000 × 4 = 20 000). 4 cây là 2 lần \"mua 2 cây\", nên được tặng 2 cây. Tất cả: 4 + 2 = 6 cây.\nLưu ý: 4 cây là quên bút tặng; 5 cây là chỉ tính được tặng 1 cây; 8 cây là tưởng mỗi cây mua được tặng 1 cây."
+        }
+      ]
+    }
+  ]
+}

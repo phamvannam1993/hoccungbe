@@ -1,0 +1,167 @@
+{
+  "bai-1": {
+    "concept": "Hình tròn có viền cong, không có góc. Hình tam giác có 3 cạnh, 3 góc; hình vuông và hình chữ nhật có 4 cạnh, 4 góc.",
+    "examples": [
+      {
+        "prompt": "Đếm xem có mấy hình vuông?\n(Hình vuông có thể có nhiều màu.)",
+        "visual": {
+          "emoji": "🟥🔵🟩🔺🟨"
+        },
+        "answer": "Vuông đỏ 🟥, vuông xanh lá 🟩 và vuông vàng 🟨 đều là hình vuông, khác màu vẫn là hình vuông. Có 3 hình vuông."
+      },
+      {
+        "prompt": "Có 1 hình tròn 🔵 và 1 hình chữ nhật.\nCả hai hình có tất cả mấy góc?",
+        "answer": "Hình tròn không có góc, hình chữ nhật có 4 góc. 0 + 4 = 4 góc."
+      }
+    ],
+    "steps": [
+      "Nhìn viền hình: cong hay thẳng.",
+      "Đếm số cạnh và số góc của hình.",
+      "So các cạnh: dài bằng nhau hay có cạnh dài, cạnh ngắn.",
+      "Gọi tên hình rồi chọn đáp án."
+    ],
+    "tips": [
+      "Màu không quan trọng, chỉ nhìn hình dạng thôi!",
+      "Vuông: 4 cạnh bằng nhau. Chữ nhật: 2 dài, 2 ngắn."
+    ]
+  },
+  "bai-2": {
+    "concept": "Tam giác hướng lên 🔺 và tam giác ngược 🔻 (nhọn hướng xuống) đều là hình tam giác, chỉ quay khác chiều. Khi hình được kẻ thêm nét, bé đếm cả tam giác nhỏ lẫn tam giác to.",
+    "examples": [
+      {
+        "prompt": "Đếm xem có mấy hình tam giác?",
+        "visual": {
+          "emoji": "🔻🔵🔺🟦🔻"
+        },
+        "answer": "Tam giác hướng lên 🔺 có 1 hình, tam giác hướng xuống 🔻 có 2 hình. 1 + 2 = 3 hình tam giác."
+      },
+      {
+        "prompt": "Hình tam giác to được kẻ 2 nét thẳng từ góc trên cùng xuống đáy.\nCó tất cả bao nhiêu hình tam giác?",
+        "answer": "Có 3 tam giác nhỏ, 2 tam giác ghép từ 2 hình nhỏ cạnh nhau và 1 tam giác to. 3 + 2 + 1 = 6 hình tam giác."
+      }
+    ],
+    "steps": [
+      "Chỉ tay vào từng hình, đếm lần lượt từ trái sang phải.",
+      "Đếm cả tam giác hướng lên 🔺 và tam giác ngược 🔻 (nhọn hướng xuống).",
+      "Đếm tam giác nhỏ trước, rồi đến tam giác ghép và tam giác to.",
+      "Kiểm tra lại xem có bỏ sót hình nào không."
+    ],
+    "tips": [
+      "Nhỏ trước, to sau, không sót hình nào!",
+      "Que tính dùng chung chỉ đếm 1 lần thôi."
+    ]
+  },
+  "bai-3": {
+    "concept": "Nhiều ô vuông nhỏ ghép lại có thể thành hình vuông to hoặc hình chữ nhật. Hình dài bằng rộng là hình vuông, dài hơn rộng là hình chữ nhật.",
+    "examples": [
+      {
+        "prompt": "Ba ô vuông xếp thành 1 hàng như hình dưới.\nCó mấy hình chữ nhật ghép từ ĐÚNG 2 ô?",
+        "visual": {
+          "grid": [
+            [
+              "🟩",
+              "🟩",
+              "🟩"
+            ]
+          ]
+        },
+        "answer": "Ô thứ nhất ghép với ô thứ hai, ô thứ hai ghép với ô thứ ba. Có 2 hình chữ nhật."
+      },
+      {
+        "prompt": "Đếm xem có mấy hình vuông?\n(Vuông vàng 🟨, vuông đỏ 🟥, vuông xanh 🟦 đều là hình vuông.)",
+        "visual": {
+          "emoji": "🟨🔺🟥🔵🟨🟦"
+        },
+        "answer": "Hình vuông là 2 hình vàng 🟨, 1 hình đỏ 🟥 và 1 hình xanh 🟦. Có 4 hình vuông."
+      }
+    ],
+    "steps": [
+      "Đếm từng ô vuông nhỏ trước.",
+      "Tìm các hình to ghép từ nhiều ô nhỏ.",
+      "Xem hình ghép: dài bằng rộng là vuông, dài hơn rộng là chữ nhật.",
+      "Đếm cả các cặp nằm ngang và các cặp nằm dọc.",
+      "Cộng tất cả lại."
+    ],
+    "tips": [
+      "Đừng quên hình to bao bên ngoài, nhưng xem kỹ nó vuông hay chữ nhật!",
+      "Dài hơn rộng là chữ nhật, dài bằng rộng mới là vuông."
+    ]
+  },
+  "bai-4": {
+    "concept": "Nhiều mảnh nhỏ ghép lại thành một hình to. Muốn biết cần mấy mảnh, bé đếm số mảnh ở mỗi hàng rồi cộng lại.",
+    "examples": [
+      {
+        "prompt": "Bé ghép hình gồm 3 hàng, mỗi hàng 2 ô vuông.\nBé cần tất cả bao nhiêu ô vuông?",
+        "visual": {
+          "grid": [
+            [
+              "🟧",
+              "🟧"
+            ],
+            [
+              "🟧",
+              "🟧"
+            ],
+            [
+              "🟧",
+              "🟧"
+            ]
+          ]
+        },
+        "answer": "Mỗi hàng 2 ô, có 3 hàng. 2 + 2 + 2 = 6 ô vuông."
+      },
+      {
+        "prompt": "Bé dùng 3 que tính xếp được 1 hình tam giác.\nBé xếp thêm 1 hình tam giác dính sát bên cạnh, dùng chung 1 que.\nBé cần thêm mấy que?",
+        "answer": "Hình mới cần 3 que, nhưng dùng chung 1 que với hình cũ. Bé chỉ cần thêm 3 − 1 = 2 que."
+      }
+    ],
+    "steps": [
+      "Đếm số mảnh ở một hàng.",
+      "Đếm xem có mấy hàng.",
+      "Cộng số mảnh của các hàng lại.",
+      "Bớt đi phần dùng chung hoặc phần đã ghép xong."
+    ],
+    "tips": [
+      "Que dùng chung chỉ tính 1 lần nhé!",
+      "Cắt ra rồi ghép lại như cũ thì được đúng hình lúc đầu."
+    ]
+  },
+  "bai-5": {
+    "concept": "Dãy hình lặp lại theo một nhóm, tìm ra nhóm đó là biết hình tiếp theo. Hình khác biệt là hình không giống các hình kia về dạng, màu hoặc số lượng.",
+    "examples": [
+      {
+        "prompt": "Mỗi hàng, mỗi cột đều có đủ hình vuông 🟦 và tam giác 🔺.\nHình nào thay vào dấu ?",
+        "visual": {
+          "grid": [
+            [
+              "🟦",
+              "🔺"
+            ],
+            [
+              "🔺",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Hàng dưới đã có tam giác 🔺, còn thiếu hình vuông 🟦. Cột bên phải cũng đã có tam giác, nên đáp án là hình vuông 🟦."
+      },
+      {
+        "prompt": "Dãy hình: 🔵🔵🔺🔵🔵🔺🔵 …\nHình tiếp theo là hình gì?",
+        "visual": {
+          "emoji": "🔵🔵🔺🔵🔵🔺🔵"
+        },
+        "answer": "Dãy lặp lại nhóm 🔵🔵🔺 (hai hình tròn, một tam giác). Sau hình tròn cuối cùng là một hình tròn 🔵 nữa."
+      }
+    ],
+    "steps": [
+      "Tìm nhóm hình lặp lại trong dãy.",
+      "Đọc tiếp nhóm đó để tìm hình còn thiếu.",
+      "Kiểm tra hàng và cột không bị trùng hình.",
+      "So dạng, màu, số lượng để tìm hình khác biệt."
+    ],
+    "tips": [
+      "Cùng màu chưa chắc cùng hình, nhìn kỹ hình dạng nhé!",
+      "Điền xong, đọc lại cả dãy xem có đúng nhóm lặp không."
+    ]
+  }
+}

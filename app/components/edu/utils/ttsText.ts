@@ -62,6 +62,26 @@ export function preprocessTTS(text: string): string {
     .replace(/\?/g, '')
     .replace(/(?<!\d)(\d)[-−–](\d)/g, '$1 đến $2')
     .replace(/[+＋]/g, ' cộng ')
+    /* ĐƠN VỊ ĐO VIẾT TẮT → ĐỌC THÀNH CHỮ. Soát 1.682 câu của khoá IQ (17/10/2026):
+     * 110 chỗ "cm", 55 "kg", 20 "dm", cùng km/mm/ml/cm². Để nguyên thì máy đánh vần
+     * từng chữ cái. Chỉ đổi khi đứng SAU MỘT CON SỐ — nếu không "m"/"l" nuốt mọi chữ
+     * cái lẻ trong câu. */
+    .replace(/(?<=\d\s{0,2})(cm|dm|mm|km|kg|ml|l|m)(²|2)?(?![\p{L}\d])/gu, (_m, dv, mu) => {
+      const ten: Record<string, string> = { cm: 'xăng ti mét', dm: 'đề xi mét', mm: 'mi li mét', km: 'ki lô mét', kg: 'ki lô gam', ml: 'mi li lít', l: 'lít', m: 'mét' };
+      return ` ${ten[String(dv).toLowerCase()] ?? dv}${mu ? ' vuông' : ''} `;
+    })
+    /* PHÂN SỐ "1/4" → "một phần tư". Trước luật chia, để "/" không thành phép chia. */
+    .replace(/(?<![\d/])(\d{1,2})\s*\/\s*(\d{1,2})(?![\d/])/g, (_m, a, b) => {
+      const mau: Record<string, string> = { '2': 'hai', '3': 'ba', '4': 'tư', '5': 'năm', '6': 'sáu', '8': 'tám', '10': 'mười' };
+      return ` ${numToVi(parseInt(String(a)))} phần ${mau[String(b)] ?? numToVi(parseInt(String(b)))} `;
+    })
+    /* GẠCH NỐI GIỮA HAI CHỮ CÁI LÀ TỪ GHÉP, KHÔNG PHẢI PHÉP TRỪ: "xăng-ti-mét" bị
+     * đọc thành "xăng trừ ti trừ mét" (thầy nghe 17/10/2026). Phải chạy TRƯỚC luật
+     * phép trừ ngay dưới.
+     *
+     * BẢN NÀY PHẢI GIỐNG HỆT `api-hoccungbe/src/modules/tts/tts-preprocess.ts`:
+     * `cacheKey` tính từ kết quả của phép này, lệch một ký tự là tra trượt hết. */
+    .replace(/(?<=\p{L})[-−–](?=\p{L})/gu, ' ')
     .replace(/[-−–]/g, ' trừ ')
     .replace(/[×✕*＊·]/g, ' nhân ')
     // Dấu chia toán: "x : 6" / "12 : 3" → "chia" (chỉ khi ":" có space 2 bên, không phải nhãn).

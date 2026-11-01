@@ -204,7 +204,7 @@ export default function RootLayout({
     inLanguage: 'vi-VN',
     areaServed: { '@type': 'Country', name: 'Vietnam' },
     sameAs: [
-      'https://www.facebook.com/behayhoc',
+      'https://www.facebook.com/profile.php?id=61593302216660',
       'https://www.youtube.com/@behayhoc',
     ],
     contactPoint: {
@@ -218,6 +218,14 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${nunito.variable} ${baloo2.variable} ${quicksand.variable} ${andika.variable}`}>
       <head>
+        {/* Bắt sớm sự kiện cài app của Chrome/Android: nó thường bắn TRƯỚC khi React chạy xong,
+            nếu chỉ nghe trong PWARegister thì hay bị lỡ → nút "Cài App" không cài thẳng được. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__bhhInstall=e;window.dispatchEvent(new Event('bhh:install-ready'))});window.addEventListener('appinstalled',function(){window.__bhhInstall=null})",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -228,6 +236,12 @@ export default function RootLayout({
       <body className="min-h-screen bg-[#f8fafc] font-sans text-slate-900 antialiased">
         <SiteShell>{children}</SiteShell>
         <PWARegister />
+
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3236340785559696"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
 
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0SJ6BCCVGN"

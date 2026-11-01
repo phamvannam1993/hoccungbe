@@ -1,0 +1,168 @@
+{
+  "bai-1": {
+    "concept": "Tính nhẩm nhanh là tìm cách biến phép tính khó thành dễ: làm tròn số gần tròn trăm rồi bù lại, hoặc ghép các số cộng lại tròn trăm.",
+    "examples": [
+      {
+        "prompt": "Tính nhanh:\n397 + 245 = ?",
+        "answer": "397 gần 400. Lấy 400 + 245 = 645, vì đã cộng thừa 3 nên trừ lại 3: 645 − 3 = 642."
+      },
+      {
+        "prompt": "Tính nhanh:\n150 + 63 + 250 + 37 = ?",
+        "visual": {
+          "grid": [
+            [
+              "150",
+              "+",
+              "250",
+              "=",
+              "?"
+            ],
+            [
+              "63",
+              "+",
+              "37",
+              "=",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Ghép cặp tròn trăm: 150 + 250 = 400 và 63 + 37 = 100. Vậy tổng là 400 + 100 = 500."
+      }
+    ],
+    "steps": [
+      "Tìm số gần tròn trăm, như 199, 298 hay 401.",
+      "Làm tròn số đó rồi tính cho nhanh.",
+      "Bù lại phần đã thêm hoặc đã bớt.",
+      "Ghép các cặp số cộng lại tròn chục, tròn trăm.",
+      "Thử lại bằng phép tính ngược nếu còn thời gian."
+    ],
+    "tips": [
+      "Cộng thừa thì trừ lại, trừ thừa thì cộng lại!",
+      "Trừ đi 298 là trừ 300 rồi CỘNG thêm 2, đừng trừ thêm 2.",
+      "Nhìn qua tưởng tròn trăm chưa chắc đã tròn — tính kỹ từng hàng."
+    ]
+  },
+  "bai-2": {
+    "concept": "Số bí mật được tìm bằng nhiều manh mối. Mỗi manh mối giúp loại bớt các số không hợp, cuối cùng chỉ còn một số đúng với tất cả manh mối.",
+    "examples": [
+      {
+        "prompt": "Số bí mật có hai chữ số, nằm trong bảng nhân 8.\nChữ số hàng chục hơn chữ số hàng đơn vị 2.\nĐó là số nào?",
+        "answer": "Bảng nhân 8 có các số hai chữ số: 16, 24, 32, 40, 48, 56, 64, 72, 80. Chỉ có 64 có 6 − 4 = 2. Số bí mật là 64."
+      },
+      {
+        "prompt": "Số bí mật lớn hơn 20 và bé hơn 30.\nChia số đó cho 4 thì dư 1.\nSố đó chia hết cho 3.\nĐó là số nào?",
+        "visual": {
+          "grid": [
+            [
+              "21",
+              "25",
+              "29"
+            ]
+          ]
+        },
+        "answer": "Các số chia 4 dư 1 nằm giữa 20 và 30 là 21, 25, 29. Thử chia cho 3: 21 : 3 = 7 (chia hết), 25 và 29 chia 3 đều còn dư. Số bí mật là 21."
+      }
+    ],
+    "steps": [
+      "Đọc từng manh mối, gạch chân các điều kiện.",
+      "Bắt đầu từ manh mối cho ít số nhất, liệt kê hết các số đó.",
+      "Thử từng số với các manh mối còn lại, gạch bỏ số không hợp.",
+      "Kiểm tra số còn lại đúng với TẤT CẢ manh mối."
+    ],
+    "tips": [
+      "Số có ba chữ số thì chữ số hàng trăm không bao giờ là 0.",
+      "Coi chừng đảo ngược: hàng chục hơn hàng đơn vị khác với hàng đơn vị hơn hàng chục!",
+      "Chưa chắc chia hết cho 2 không? Cứ chia thử là biết ngay."
+    ]
+  },
+  "bai-3": {
+    "concept": "Phép nhân là gộp các nhóm bằng nhau, phép chia là chia thành các nhóm bằng nhau. Nhân và chia là hai phép ngược nhau: biết phép này sẽ tìm được phép kia.",
+    "examples": [
+      {
+        "prompt": "Tính nhanh:\n4 × 5 − 4 × 2 = ?",
+        "visual": {
+          "emoji": "🍎🍎🍎🍎 🍎🍎🍎🍎 🍎🍎🍎🍎 🍎🍎🍎🍎 🍎🍎🍎🍎"
+        },
+        "answer": "4 × 5 là 5 nhóm 4, bớt đi 4 × 2 là 2 nhóm 4, còn 3 nhóm 4: 4 × 3 = 12. Kiểm tra: 20 − 8 = 12."
+      },
+      {
+        "prompt": "Tính:\n13 × 4 = ?",
+        "answer": "4 × 3 = 12, viết 2 nhớ 1. 4 × 1 = 4, thêm 1 bằng 5. Vậy 13 × 4 = 52."
+      }
+    ],
+    "steps": [
+      "Tìm thừa số giống nhau trong phép tính.",
+      "Gộp hoặc bớt số nhóm để tính cho nhanh.",
+      "Muốn chia, nhẩm xem số chia nhân mấy thì ra số bị chia.",
+      "Nhân hàng đơn vị trước, nhớ sang hàng chục.",
+      "Thử lại bằng phép tính ngược."
+    ],
+    "tips": [
+      "Đôi bạn thân: 6 × 7 = 42 thì 42 : 7 = 6 và 42 : 6 = 7.",
+      "Nhân có nhớ thì đừng quên cộng số nhớ!",
+      "Đổi chỗ các thừa số, tích vẫn y nguyên."
+    ]
+  },
+  "bai-4": {
+    "concept": "Số có ba chữ số gồm hàng trăm, hàng chục, hàng đơn vị, và chữ số hàng trăm phải khác 0. Muốn được số lớn nhất, xếp chữ số lớn nhất vào hàng trăm; muốn được số bé nhất, xếp chữ số bé nhất khác 0 vào hàng trăm.",
+    "examples": [
+      {
+        "prompt": "Dùng cả ba thẻ 6, 0, 3 (mỗi thẻ dùng một lần).\nLập số lớn nhất và số bé nhất có ba chữ số.",
+        "visual": {
+          "emoji": "6️⃣ 0️⃣ 3️⃣"
+        },
+        "answer": "Số lớn nhất: xếp từ lớn đến bé được 630. Số bé nhất: 0 không đứng đầu được nên hàng trăm là 3, được 306."
+      },
+      {
+        "prompt": "Dùng cả ba thẻ 2, 2, 7 (mỗi thẻ dùng một lần).\nLập được bao nhiêu số có ba chữ số?",
+        "visual": {
+          "emoji": "2️⃣ 2️⃣ 7️⃣"
+        },
+        "answer": "Hàng trăm là 2: 227, 272. Hàng trăm là 7: 722. Hai thẻ 2 đổi chỗ vẫn ra cùng số nên chỉ có 3 số."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề: dùng mấy thẻ, mỗi thẻ dùng mấy lần.",
+      "Xếp chữ số lớn nhất vào hàng trăm để được số lớn nhất.",
+      "Xếp chữ số bé nhất khác 0 vào hàng trăm để được số bé nhất.",
+      "Liệt kê lần lượt theo từng chữ số hàng trăm để không sót số nào."
+    ],
+    "tips": [
+      "Số 0 đứng đầu thì không còn là số có ba chữ số!",
+      "Hai thẻ giống nhau đổi chỗ vẫn ra cùng một số, đừng đếm hai lần."
+    ]
+  },
+  "bai-5": {
+    "concept": "Muốn so sánh hai biểu thức, bé tính giá trị từng vế rồi mới chọn dấu >, < hoặc =. Nhớ thứ tự: trong ngoặc làm trước, rồi nhân chia trước, cộng trừ sau.",
+    "examples": [
+      {
+        "prompt": "Chọn dấu thích hợp:\n3 × 8 ? 5 × 5",
+        "visual": {
+          "grid": [
+            [
+              "3 × 8",
+              "?",
+              "5 × 5"
+            ]
+          ]
+        },
+        "answer": "3 × 8 = 24 và 5 × 5 = 25. Vì 24 < 25 nên chọn dấu <."
+      },
+      {
+        "prompt": "Chọn dấu thích hợp:\n2 + 3 × 4 ? (2 + 3) × 4",
+        "answer": "Vế trái: nhân trước, 2 + 12 = 14. Vế phải: tính ngoặc trước, 5 × 4 = 20. Vì 14 < 20 nên chọn dấu <."
+      }
+    ],
+    "steps": [
+      "Nhớ thứ tự: ngoặc trước, nhân chia trước, cộng trừ sau.",
+      "Tính giá trị vế trái.",
+      "Tính giá trị vế phải.",
+      "So sánh hai kết quả rồi chọn dấu >, < hoặc =."
+    ],
+    "tips": [
+      "Đừng thấy một số to mà đoán dấu — phải tính cả hai vế!",
+      "Cùng các số nhưng có ngoặc hay không, kết quả có thể khác xa nhau.",
+      "Tìm số lớn nhất cho ô trống: thử lần lượt, vượt quá thì lùi lại một số."
+    ]
+  }
+}

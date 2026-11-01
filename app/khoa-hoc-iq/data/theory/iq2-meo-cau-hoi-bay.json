@@ -1,0 +1,142 @@
+{
+  "bai-1": {
+    "concept": "Câu hỏi bẫy thường giấu những chữ dễ đọc nhầm như \"tất cả, trừ…\", \"ít hơn\", \"đã ăn\", hay dấu phép tính. Bé đọc chậm từng chữ và gạch chân câu hỏi cuối để biết đề thật sự hỏi gì.",
+    "examples": [
+      {
+        "prompt": "Bé có 9 quả bóng bay.\nTất cả, trừ 4 quả, đều bị bay mất.\nBé còn lại mấy quả bóng?",
+        "visual": {
+          "emoji": "🎈🎈🎈🎈🎈🎈🎈🎈🎈"
+        },
+        "answer": "\"Tất cả, trừ 4 quả\" bị bay mất nghĩa là chỉ 4 quả không bay. Bé còn 4 quả bóng."
+      },
+      {
+        "prompt": "Minh có 15 cái nhãn vở. Minh có ít hơn Tú 6 cái.\nTú có bao nhiêu cái nhãn vở?",
+        "answer": "Minh ít hơn Tú nghĩa là Tú nhiều hơn Minh 6 cái.\nTú có: 15 + 6 = 21 (cái)."
+      }
+    ],
+    "steps": [
+      "Đọc đề thật chậm, từng chữ một.",
+      "Gạch chân câu hỏi cuối: đề hỏi gì?",
+      "Khoanh các chữ bẫy: trừ, ít hơn, nhiều hơn, dấu phép tính.",
+      "Vẽ nhanh ra nháp nếu cần.",
+      "Thử lại đáp án với đề bài."
+    ],
+    "tips": [
+      "Đề hỏi gì, trả lời nấy!",
+      "\"A ít hơn B\" nghĩa là B nhiều hơn A.",
+      "Cắt dây thẳng thành mấy đoạn thì số lần cắt ít hơn số đoạn 1."
+    ]
+  },
+  "bai-2": {
+    "concept": "Khi đếm người, con vật, đồ vật, bé phải tránh đếm trùng (một người có thể vừa là bố vừa là con) và tránh đếm thiếu. Gà, vịt có 2 chân; chó, mèo, thỏ có 4 chân; cá, rắn không có chân.",
+    "examples": [
+      {
+        "prompt": "Trong sân có 4 con vịt và 1 con mèo.\nCó tất cả bao nhiêu cái chân?",
+        "visual": {
+          "emoji": "🦆🦆🦆🦆 🐱"
+        },
+        "answer": "4 con vịt: 2 × 4 = 8 chân. 1 con mèo: 4 chân.\n8 + 4 = 12 chân."
+      },
+      {
+        "prompt": "Có 6 cái cột đứng thẳng một hàng.\nGiữa hai cột đứng cạnh nhau căng 1 sợi dây.\nCó mấy sợi dây?",
+        "answer": "6 cột thẳng hàng có 5 khoảng ở giữa, mỗi khoảng 1 sợi dây. Có 5 sợi dây (không phải 6)."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ từng người, từng con được nhắc tới.",
+      "Kiểm tra có ai được nhắc hai lần không.",
+      "Nhớ số chân của mỗi loại con vật.",
+      "Vẽ nhanh ra nháp rồi đếm từng cái.",
+      "Cộng lại và thử lại với đề."
+    ],
+    "tips": [
+      "Gà vịt hai chân, chó mèo bốn chân, cá rắn không chân!",
+      "Một người có thể vừa là bố, vừa là con.",
+      "Đồ vật thẳng hàng: số khoảng ở giữa ít hơn số đồ vật 1."
+    ]
+  },
+  "bai-3": {
+    "concept": "Thêm vào rồi bớt đi đúng số đó thì trở về như cũ. Bạn này cho bạn kia thì số của mỗi bạn thay đổi, nhưng tổng số của hai bạn không đổi; làm mất thì tổng mới ít đi. Muốn tìm số lúc đầu, bé đi ngược từ cuối lên: thêm đổi thành bớt, bớt đổi thành thêm.",
+    "examples": [
+      {
+        "prompt": "Bé có 8 cái kẹo. Bé cho em 3 cái, em ăn hết 1 cái.\nHỏi BÉ còn mấy cái kẹo?",
+        "visual": {
+          "emoji": "🍬🍬🍬🍬🍬🍬🍬🍬"
+        },
+        "answer": "Bé cho em 3 cái: 8 − 3 = 5 (cái). Em ăn kẹo của em nên số kẹo của bé không đổi.\nBé còn 5 cái kẹo."
+      },
+      {
+        "prompt": "Lúc đầu Mai có một số con tem.\nMai được tặng 7 con tem, rồi cho bạn 4 con. Lúc này Mai có 20 con tem.\nLúc đầu Mai có mấy con tem?",
+        "answer": "Đi ngược: trước khi cho bạn có 20 + 4 = 24 (con). Trước khi được tặng có 24 − 7 = 17 (con).\nLúc đầu Mai có 17 con tem."
+      }
+    ],
+    "steps": [
+      "Ghi số lúc đầu ra nháp.",
+      "Tính lần lượt từng lần thêm, bớt theo đúng thứ tự.",
+      "Xem đồ vật chỉ đổi chỗ, đổi chủ hay mất thật.",
+      "Tìm số lúc đầu thì đi ngược từ cuối lên.",
+      "Đọc lại câu hỏi: hỏi số nào, của ai."
+    ],
+    "tips": [
+      "Thêm bao nhiêu, bớt bấy nhiêu — về như cũ!",
+      "Đi ngược: thêm đổi thành bớt, bớt đổi thành thêm.",
+      "Cho nhau: người cho ít đi, người nhận nhiều lên, tổng hai bạn vẫn vậy."
+    ]
+  },
+  "bai-4": {
+    "concept": "Vị trí tính từ trái và vị trí tính từ phải của cùng một bạn cộng lại bằng số bạn trong hàng cộng thêm 1. Khi đổi chỗ, chỉ những bạn được nhắc tới di chuyển, các bạn khác đứng yên.",
+    "examples": [
+      {
+        "prompt": "Một hàng ngang có 9 bạn.\nNga đứng thứ 4 tính từ trái sang.\nNga đứng thứ mấy tính từ phải sang?",
+        "visual": {
+          "emoji": "🧒🧒🧒👧🧒🧒🧒🧒🧒"
+        },
+        "answer": "Bên phải Nga có 9 − 4 = 5 bạn. Đếm từ phải: 5 bạn rồi đến Nga, nên Nga đứng thứ 6."
+      },
+      {
+        "prompt": "Bé đứng thứ 3 tính từ trái và thứ 5 tính từ phải.\nHàng có mấy bạn?",
+        "answer": "Bên trái bé có 2 bạn, bên phải bé có 4 bạn.\nCả hàng: 2 + 1 + 4 = 7 bạn."
+      }
+    ],
+    "steps": [
+      "Vẽ hàng bằng các chấm tròn.",
+      "Đánh dấu bạn cần tìm.",
+      "Đếm số bạn bên trái và bên phải bạn ấy.",
+      "Khi đổi chỗ, chỉ di chuyển đúng các bạn được nhắc tới.",
+      "Đếm lại vị trí theo chiều đề hỏi."
+    ],
+    "tips": [
+      "Từ trái + từ phải = số bạn + 1.",
+      "Vượt qua bạn nào thì mình đứng vào đúng chỗ của bạn ấy.",
+      "Đừng đếm chính mình hai lần!"
+    ]
+  },
+  "bai-5": {
+    "concept": "Có câu đố nhìn qua tưởng chỉ cần cộng các số, nhưng phải nghĩ kỹ: việc làm cùng lúc thì không cộng thời gian; leo cầu thang thì đếm số đoạn, không đếm số tầng; \"chữ số khác nhau\" thì không được lặp chữ số.",
+    "examples": [
+      {
+        "prompt": "Phơi khô 1 cái áo mất 2 giờ.\nMẹ phơi 4 cái áo cùng lúc trên dây.\nPhơi khô cả 4 cái áo hết mấy giờ?",
+        "visual": {
+          "emoji": "👕👕👕👕"
+        },
+        "answer": "4 cái áo được phơi cùng lúc nên cùng khô sau 2 giờ. Đáp án: 2 giờ (không phải 2 + 2 + 2 + 2 = 8 giờ)."
+      },
+      {
+        "prompt": "Số lớn nhất có hai chữ số mà hai chữ số cộng lại bằng 5 là số nào?",
+        "answer": "Hàng chục lấy lớn nhất có thể là 5, hàng đơn vị là 0 (5 + 0 = 5). Số đó là 50."
+      }
+    ],
+    "steps": [
+      "Đọc đề, đừng vội trả lời theo cảm giác.",
+      "Tự hỏi: các việc làm lần lượt hay cùng lúc?",
+      "Viết ra từng bước, từng ngày nếu cần.",
+      "Đếm khoảng, đếm đoạn thay vì đếm điểm khi cần.",
+      "Thử lại đáp án với đề bài."
+    ],
+    "tips": [
+      "Làm cùng lúc thì không cộng thời gian.",
+      "Từ tầng 1 lên tầng 3 chỉ đi 2 đoạn cầu thang.",
+      "Thấy chữ \"khác nhau\" thì không lặp chữ số!"
+    ]
+  }
+}

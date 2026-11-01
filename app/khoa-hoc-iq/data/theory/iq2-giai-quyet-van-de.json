@@ -1,0 +1,168 @@
+{
+  "bai-1": {
+    "concept": "Chia đều là chia thành các phần bằng nhau. Bé dùng bảng chia 2, bảng chia 5 hoặc cộng lặp lại để tìm số nhóm. Khi xếp vào hộp mà còn thừa, phần thừa vẫn cần thêm một hộp nữa.",
+    "examples": [
+      {
+        "prompt": "Có 12 quả cam. Xếp vào túi, mỗi túi nhiều nhất 5 quả.\nCần ít nhất bao nhiêu túi?",
+        "visual": {
+          "emoji": "🍊🍊🍊🍊🍊 🍊🍊🍊🍊🍊 🍊🍊"
+        },
+        "answer": "2 túi đầy chứa 5 + 5 = 10 quả, còn thừa 2 quả phải cho vào túi thứ ba. Cần 3 túi."
+      },
+      {
+        "prompt": "Có 16 cái kẹo chia đều cho 2 bạn.\nMỗi bạn được mấy cái?",
+        "answer": "16 : 2 = 8. Mỗi bạn được 8 cái (thử lại: 8 + 8 = 16)."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: chia đều, hay xếp vào hộp có giới hạn.",
+      "Tìm phép chia trong bảng 2, 5 hoặc cộng lặp lại.",
+      "Xem còn thừa không; thừa thì thêm một hộp.",
+      "Thử lại bằng phép nhân hoặc phép cộng."
+    ],
+    "tips": [
+      "Thừa dù chỉ 1 cái cũng cần thêm 1 hộp!",
+      "Chia đều là vừa hết, không thừa, không thiếu."
+    ]
+  },
+  "bai-2": {
+    "concept": "Vị trí trong hàng có thể đếm từ đầu hàng hoặc từ cuối hàng. Số bạn cả hàng = số bạn đứng trước + 1 bạn đó + số bạn đứng sau. Bé vẽ hàng bằng các chấm tròn để dễ đếm.",
+    "examples": [
+      {
+        "prompt": "Tí đứng thứ 3 tính từ đầu hàng và thứ 5 tính từ cuối hàng.\nHàng có bao nhiêu bạn?",
+        "visual": {
+          "emoji": "🧒🧒👧🧒🧒🧒🧒"
+        },
+        "answer": "Trước Tí có 2 bạn, sau Tí có 4 bạn. Cả hàng: 2 + 1 + 4 = 7 bạn."
+      },
+      {
+        "prompt": "Hàng có 7 bạn. Na đứng thứ 2 tính từ đầu hàng.\nNa đứng thứ mấy tính từ cuối hàng?",
+        "answer": "Sau Na có 7 − 2 = 5 bạn. Tính từ cuối, Na đứng thứ 5 + 1 = 6."
+      }
+    ],
+    "steps": [
+      "Vẽ hàng bằng chấm tròn, đánh dấu bạn cần tìm.",
+      "Đếm số bạn đứng trước và đứng sau bạn đó.",
+      "Cộng thêm 1 cho chính bạn đó.",
+      "Kiểm tra bằng cách đếm lại trên hình vẽ."
+    ],
+    "tips": [
+      "Đừng đếm bạn ấy hai lần: thứ 2 từ đầu và thứ 2 từ cuối thì hàng chỉ có 3 bạn!",
+      "Giữa thứ 3 và thứ 7 chỉ có thứ 4, 5, 6 — không đếm hai bạn ở hai đầu."
+    ]
+  },
+  "bai-3": {
+    "concept": "Quãng đường đi rồi quay về thì cộng cả lượt đi và lượt về. Trồng cây thẳng hàng: số khoảng cách ít hơn số cây 1. Nhớ đổi về cùng đơn vị: 1 m = 10 dm = 100 cm.",
+    "examples": [
+      {
+        "prompt": "Bên đường có 4 cây thẳng hàng, hai cây cạnh nhau cách nhau 5 m.\nTừ cây đầu đến cây cuối dài bao nhiêu mét?",
+        "visual": {
+          "emoji": "🌳 🌳 🌳 🌳"
+        },
+        "answer": "4 cây tạo ra 3 khoảng cách. Mỗi khoảng 5 m: 5 + 5 + 5 = 15 m."
+      },
+      {
+        "prompt": "Nhà Na cách chợ 400 m. Na đi chợ rồi về nhà.\nNa đi bao nhiêu mét?",
+        "answer": "Lượt đi 400 m, lượt về 400 m: 400 + 400 = 800 m."
+      }
+    ],
+    "steps": [
+      "Vẽ đoạn thẳng, ghi tên các điểm và độ dài.",
+      "Đánh dấu đường đi, cả đoạn quay lại.",
+      "Đổi các số đo về cùng đơn vị.",
+      "Cộng hoặc trừ các đoạn rồi ghi đơn vị."
+    ],
+    "tips": [
+      "Trồng cây đếm khoảng: số khoảng = số cây bớt 1.",
+      "Đi rồi về là hai lượt, đừng quên lượt về!"
+    ]
+  },
+  "bai-4": {
+    "concept": "Mỗi năm, ai cũng thêm 1 tuổi. Vì vậy số tuổi hơn kém của hai người không bao giờ thay đổi. Tổng số tuổi của hai người thì mỗi năm thêm 2 tuổi.",
+    "examples": [
+      {
+        "prompt": "Năm nay em 4 tuổi, chị 9 tuổi.\n6 năm nữa chị hơn em mấy tuổi?",
+        "answer": "Chị hơn em 9 − 4 = 5 tuổi. Cả hai cùng thêm 6 tuổi nên chị vẫn hơn em 5 tuổi."
+      },
+      {
+        "prompt": "Năm nay con 5 tuổi, bố 30 tuổi.\nKhi con 9 tuổi thì bố bao nhiêu tuổi?",
+        "visual": {
+          "grid": [
+            [
+              "",
+              "Bây giờ",
+              "4 năm nữa"
+            ],
+            [
+              "Con",
+              "5",
+              "9"
+            ],
+            [
+              "Bố",
+              "30",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Từ 5 tuổi đến 9 tuổi là 9 − 5 = 4 năm. Bố cũng thêm 4 tuổi: 30 + 4 = 34 tuổi."
+      }
+    ],
+    "steps": [
+      "Tìm số tuổi hơn kém bằng phép trừ.",
+      "Tính số năm trôi qua hoặc lùi lại.",
+      "Cộng hoặc trừ số năm cho cả hai người.",
+      "Kiểm tra: số tuổi hơn kém vẫn như cũ."
+    ],
+    "tips": [
+      "Tuổi hơn kém đứng yên, năm nào cũng vậy!",
+      "Sau 3 năm, tổng tuổi hai người thêm 3 + 3 = 6 tuổi."
+    ]
+  },
+  "bai-5": {
+    "concept": "Vẽ sơ đồ đoạn thẳng hoặc vẽ hình giúp bé thấy rõ bài toán. Bài toán hai bước: tìm số chưa biết trước, rồi mới tính điều đề hỏi. Khi chưa biết làm, bé có thể thử lần lượt từng số.",
+    "examples": [
+      {
+        "prompt": "Mai có 8 nhãn vở. Hoa nhiều hơn Mai 3 nhãn vở.\nCả hai bạn có bao nhiêu nhãn vở?",
+        "visual": {
+          "emoji": "🟦🟦🟦🟦🟦🟦🟦🟦\n🟦🟦🟦🟦🟦🟦🟦🟦🟨🟨🟨"
+        },
+        "answer": "Sơ đồ: đoạn của Hoa bằng đoạn của Mai và thêm 3 ô. Hoa có 8 + 3 = 11 nhãn. Cả hai có 8 + 11 = 19 nhãn."
+      },
+      {
+        "prompt": "Trong lồng có gà và thỏ: 3 cái đầu và 10 cái chân.\nCó mấy con thỏ?",
+        "visual": {
+          "grid": [
+            [
+              "Thỏ",
+              "Gà",
+              "Số chân"
+            ],
+            [
+              "1",
+              "2",
+              "8"
+            ],
+            [
+              "2",
+              "1",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Thử lần lượt: 1 thỏ, 2 gà có 4 + 2 + 2 = 8 chân (chưa đủ). 2 thỏ, 1 gà có 4 + 4 + 2 = 10 chân (đúng). Có 2 con thỏ."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ đề, gạch dưới số đã biết và câu hỏi.",
+      "Vẽ sơ đồ đoạn thẳng hoặc hình đồ vật.",
+      "Tìm số chưa biết ở bước một.",
+      "Tính điều đề hỏi ở bước hai.",
+      "Thử lại kết quả với đề bài."
+    ],
+    "tips": [
+      "Cưa khúc gỗ: muốn 4 đoạn chỉ cần 3 nhát.",
+      "Một con vật có thể đúng với nhiều câu tả cùng lúc — vẽ ra rồi đếm, đừng vẽ thừa!"
+    ]
+  }
+}

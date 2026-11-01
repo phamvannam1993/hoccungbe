@@ -1,0 +1,184 @@
+{
+  "bai-1": {
+    "concept": "Hình tam giác có 3 cạnh và 3 góc. Hình có 4 cạnh, 4 góc gọi là hình tứ giác; hình vuông và hình chữ nhật cũng là hình tứ giác. Hình tròn là đường cong khép kín nên không có cạnh thẳng, không có góc.",
+    "examples": [
+      {
+        "prompt": "Bé có 1 hình vuông và 2 hình tam giác.\nCả ba hình có tất cả bao nhiêu góc?",
+        "visual": {
+          "emoji": "🟦 🔺🔺"
+        },
+        "answer": "Hình vuông có 4 góc, mỗi hình tam giác có 3 góc.\n4 + 3 + 3 = 10 góc."
+      },
+      {
+        "prompt": "Một tờ giấy hình tam giác.\nBé cắt đi 1 góc bằng một nhát kéo thẳng (nhát cắt đi qua 2 cạnh).\nPhần giấy còn lại có mấy góc?",
+        "answer": "Mất 1 góc cũ nên còn 2 góc cũ. Hai đầu nhát cắt tạo thêm 2 góc mới.\n2 + 2 = 4 góc."
+      }
+    ],
+    "steps": [
+      "Gọi tên từng hình mà đề nhắc tới.",
+      "Nhớ lại số cạnh, số góc của mỗi hình.",
+      "So sánh các cạnh xem có dài bằng nhau không.",
+      "Cộng số cạnh hoặc số góc nếu đề hỏi tất cả."
+    ],
+    "tips": [
+      "Tam giác ba, tứ giác bốn, hình tròn trơn tru chẳng có góc nào!",
+      "Hình vuông, hình chữ nhật đều có 4 cạnh — đừng quên khi chọn hình tứ giác.",
+      "Cắt bỏ 1 góc: mất 1 góc cũ nhưng thêm 2 góc mới."
+    ]
+  },
+  "bai-2": {
+    "concept": "Muốn đếm hình tam giác, bé đếm tam giác nhỏ trước, rồi đếm tam giác ghép từ 2, 3… phần nhỏ, cuối cùng là tam giác lớn bao ngoài. Khi từ đỉnh kẻ các đoạn thẳng xuống đáy, đáy chia mấy phần thì cộng từ số đó lùi dần về 1.",
+    "examples": [
+      {
+        "prompt": "Vẽ một hình tam giác lớn.\nTừ đỉnh trên cùng, kẻ 5 đoạn thẳng xuống cạnh đáy.\nHình vẽ có tất cả bao nhiêu hình tam giác?",
+        "visual": {
+          "emoji": "🔺"
+        },
+        "answer": "Kẻ 5 đoạn thì cạnh đáy chia làm 6 phần.\n6 + 5 + 4 + 3 + 2 + 1 = 21 hình tam giác."
+      },
+      {
+        "prompt": "Vẽ một hình tam giác lớn, từ đỉnh kẻ 1 đoạn thẳng xuống đáy.\nKẻ thêm 2 đoạn nằm ngang, mỗi đoạn cắt qua cả 2 cạnh bên và đoạn vừa kẻ.\nHình vẽ có bao nhiêu hình tam giác?",
+        "answer": "Mỗi đoạn nằm ngang (và cả cạnh đáy) đều chia làm 2 phần: 2 + 1 = 3 tam giác.\nCó 3 đường như vậy: 3 + 3 + 3 = 9 hình tam giác."
+      }
+    ],
+    "steps": [
+      "Vẽ hình ra nháp và đánh số từng phần nhỏ.",
+      "Đếm các tam giác nhỏ nhất trước.",
+      "Đếm tiếp tam giác ghép từ 2, 3… phần liền nhau.",
+      "Đếm tam giác lớn bao ngoài rồi cộng tất cả lại.",
+      "Kiểm tra lại để mỗi hình chỉ đếm một lần."
+    ],
+    "tips": [
+      "Nhỏ trước, ghép sau, lớn bao ngoài — không sót hình nào!",
+      "Đáy chia mấy phần thì cộng từ số đó lùi về 1.",
+      "Phần ở giữa có nhiều hơn 3 cạnh thì không phải tam giác — đếm cạnh trước khi đếm hình."
+    ]
+  },
+  "bai-3": {
+    "concept": "Các ô vuông liền nhau ghép thành hình vuông hoặc hình chữ nhật. Ghép được bao nhiêu hàng mà mỗi hàng có bấy nhiêu ô (số hàng bằng số ô mỗi hàng) thì được hình vuông. Một hàng có mấy ô thì đếm hình 1 ô, 2 ô, 3 ô… liền nhau rồi cộng lại.",
+    "examples": [
+      {
+        "prompt": "Một hình chữ nhật chia thành 2 hàng, mỗi hàng 5 ô vuông như hình dưới.\nCó tất cả bao nhiêu hình VUÔNG?",
+        "visual": {
+          "grid": [
+            [
+              "⬜",
+              "⬜",
+              "⬜",
+              "⬜",
+              "⬜"
+            ],
+            [
+              "⬜",
+              "⬜",
+              "⬜",
+              "⬜",
+              "⬜"
+            ]
+          ]
+        },
+        "answer": "Hình vuông nhỏ (1 ô): 5 + 5 = 10.\nHình vuông to gồm 4 ô (2 hàng, mỗi hàng 2 ô) trượt từ trái sang phải được 4 vị trí.\n10 + 4 = 14 hình vuông."
+      },
+      {
+        "prompt": "Một hàng có 7 ô vuông xếp liền nhau.\nCó tất cả bao nhiêu hình vuông và hình chữ nhật?",
+        "visual": {
+          "grid": [
+            [
+              "🟦",
+              "🟦",
+              "🟦",
+              "🟦",
+              "🟦",
+              "🟦",
+              "🟦"
+            ]
+          ]
+        },
+        "answer": "Hình 1 ô: 7, hình 2 ô: 6, hình 3 ô: 5, … hình 7 ô: 1.\n7 + 6 + 5 + 4 + 3 + 2 + 1 = 28 hình."
+      }
+    ],
+    "steps": [
+      "Đếm số hàng và số ô mỗi hàng.",
+      "Đếm các hình 1 ô trước.",
+      "Đếm hình ghép từ 2, 3… ô liền nhau, cả nằm ngang lẫn đứng dọc.",
+      "Chỉ giữ lại loại hình mà đề hỏi.",
+      "Cộng tất cả số đã đếm."
+    ],
+    "tips": [
+      "Số hàng bằng số ô mỗi hàng thì là hình vuông.",
+      "Đọc kỹ đề hỏi hình vuông, hình chữ nhật hay cả hai.",
+      "Ô bị khoét thì hình nào chứa ô đó đều không còn trọn vẹn."
+    ]
+  },
+  "bai-4": {
+    "concept": "Ghép hình là đặt các mảnh sát nhau, cạnh trùng cạnh, rồi nhìn đường viền ngoài để biết được hình gì. Tách hình là cắt một hình ra nhiều mảnh; đường cắt thẳng đi qua mảnh nào thì chia đôi mảnh đó.",
+    "examples": [
+      {
+        "prompt": "Bé dùng que tính xếp 3 hình vuông nằm thành một hàng, hai hình cạnh nhau chung 1 cạnh.\nMỗi cạnh là 1 que. Bé cần bao nhiêu que tính?",
+        "visual": {
+          "emoji": "🟦🟦🟦"
+        },
+        "answer": "3 hình vuông rời nhau cần 4 + 4 + 4 = 12 que.\nCó 2 cạnh dùng chung nên bớt 2 que: 12 − 2 = 10 que."
+      },
+      {
+        "prompt": "Cần bao nhiêu ô vuông nhỏ cạnh 1 cm để ghép thành hình chữ nhật dài 4 cm, rộng 2 cm?",
+        "visual": {
+          "grid": [
+            [
+              "🟨",
+              "🟨",
+              "🟨",
+              "🟨"
+            ],
+            [
+              "🟨",
+              "🟨",
+              "🟨",
+              "🟨"
+            ]
+          ]
+        },
+        "answer": "Hình chữ nhật đó có 2 hàng, mỗi hàng 4 ô.\n4 + 4 = 8 ô vuông nhỏ."
+      }
+    ],
+    "steps": [
+      "Tưởng tượng hoặc vẽ các mảnh đặt sát nhau.",
+      "Đi một vòng theo đường viền ngoài, đổi hướng là sang cạnh mới.",
+      "Vẽ đường cắt rồi nhìn hình dạng từng mảnh.",
+      "Trừ đi cạnh dùng chung khi đếm que tính."
+    ],
+    "tips": [
+      "Cạnh dùng chung chỉ cần 1 que thôi!",
+      "Cắt 1 nhát thẳng qua 1 tờ giấy chỉ được 2 mảnh, mép cắt thẳng chứ không cong.",
+      "Hai hình vuông ghép lại thành hình chữ nhật, chưa phải hình vuông to."
+    ]
+  },
+  "bai-5": {
+    "concept": "Hình có đường gấp chia thành 2 nửa trùng khít như soi gương thì gấp đôi trùng khít được. Xoay theo chiều kim đồng hồ là đi: trên, phải, dưới, trái; xoay nửa vòng thì hình lộn ngược đầu. Soi gương làm đổi bên trái thành bên phải.",
+    "examples": [
+      {
+        "prompt": "Gấp đôi tờ giấy theo đường DỌC ở chính giữa chữ cái.\nTrong ba chữ U, K, J, chữ nào có 2 nửa trùng khít?",
+        "answer": "Chữ U có nửa trái giống hệt nửa phải soi gương nên gấp dọc trùng khít.\nChữ K và chữ J có nét lệch về một bên nên không trùng."
+      },
+      {
+        "prompt": "Mũi tên chỉ sang trái ⬅️ xoay theo chiều kim đồng hồ 1 lần (giống kim phút đi 15 phút).\nMũi tên trở thành mũi tên nào?",
+        "visual": {
+          "emoji": "⬅️ ➡️ ⬆️ ⬇️"
+        },
+        "answer": "Theo chiều kim đồng hồ: trên → phải → dưới → trái → trên.\nSau \"trái\" là \"trên\", nên mũi tên chỉ sang trái ⬅️ thành mũi tên chỉ lên ⬆️."
+      }
+    ],
+    "steps": [
+      "Tìm đường gấp chia hình thành 2 nửa.",
+      "So nửa trái với nửa phải xem có giống soi gương không.",
+      "Xác định chiều xoay: xuôi hay ngược chiều kim đồng hồ.",
+      "Đếm số lần xoay; nửa vòng là lộn ngược hẳn lại.",
+      "Khi soi gương, đổi trái thành phải, giữ nguyên trên dưới."
+    ],
+    "tips": [
+      "Xuôi chiều kim đồng hồ: trên, phải, dưới, trái.",
+      "Gương đổi trái với phải, không đổi trên với dưới.",
+      "Xoay nửa vòng thì chữ số vừa lộn ngược vừa đổi chỗ, số 6 thành số 9."
+    ]
+  }
+}

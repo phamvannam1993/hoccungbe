@@ -1,0 +1,173 @@
+{
+  "bai-1": {
+    "concept": "Dãy số có quy luật là dãy mà các số nối tiếp nhau theo một bí mật chung, ví dụ cứ đếm thêm cùng một số, hoặc khoảng cách giữa hai số lớn dần. Muốn tìm số còn thiếu, bé so sánh hai số đứng cạnh nhau.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n7, 11, 15, 19, ?",
+        "visual": {
+          "grid": [
+            [
+              "7",
+              "11",
+              "15",
+              "19",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Mỗi số hơn số đứng trước 4 đơn vị (dãy đếm thêm 4). Vậy số tiếp theo là 19 + 4 = 23."
+      },
+      {
+        "prompt": "Tìm số tiếp theo:\n5, 6, 8, 11, 15, ?",
+        "answer": "Khoảng cách lớn dần: +1, +2, +3, +4, nên lần tiếp theo là +5. Số tiếp theo là 15 + 5 = 20."
+      }
+    ],
+    "steps": [
+      "Tính xem hai số đứng cạnh nhau hơn kém nhau bao nhiêu.",
+      "Xem khoảng cách đứng yên, lớn dần hay bé dần.",
+      "Dùng quy luật vừa tìm để tính số còn thiếu.",
+      "Thử lại quy luật với tất cả các số trong dãy."
+    ],
+    "tips": [
+      "Đừng chỉ nhìn hai số đầu — kiểm tra quy luật với cả dãy nhé!",
+      "Dãy tăng dần thì thêm vào, dãy giảm dần thì bớt đi.",
+      "Số sau bằng số trước cộng chính nó? Đó cũng là một quy luật đấy!"
+    ]
+  },
+  "bai-2": {
+    "concept": "Dãy tăng giảm xen kẽ là dãy lúc tăng, lúc giảm và lặp lại đều đặn, ví dụ cộng 4 rồi trừ 2, cộng 4 rồi trừ 2, cứ thế lặp lại. Bé cũng có thể tách thành hai dãy nhỏ: các số ở vị trí thứ nhất, thứ ba, thứ năm và các số ở vị trí thứ hai, thứ tư, thứ sáu.",
+    "examples": [
+      {
+        "prompt": "Tìm số tiếp theo:\n6, 10, 8, 12, 10, 14, ?",
+        "visual": {
+          "grid": [
+            [
+              "6",
+              "10",
+              "8",
+              "12",
+              "10",
+              "14",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Quy luật: cộng 4 rồi trừ 2, lặp lại. Sau 14 đến lượt trừ 2, nên số tiếp theo là 14 − 2 = 12."
+      },
+      {
+        "prompt": "Tìm số tiếp theo:\n40, 37, 39, 36, 38, ?",
+        "answer": "Quy luật: trừ 3 rồi cộng 2, lặp lại. Sau 38 đến lượt trừ 3, nên số tiếp theo là 38 − 3 = 35."
+      }
+    ],
+    "steps": [
+      "Ghi dấu + hoặc − và số giữa mỗi cặp số cạnh nhau.",
+      "Tìm cặp bước lặp lại, ví dụ +4 rồi −2.",
+      "Xem bước tiếp theo đến lượt cộng hay trừ.",
+      "Tính số cần tìm rồi thử lại với cả dãy."
+    ],
+    "tips": [
+      "Lên rồi xuống như tàu lượn — nhớ xem đến lượt nào nhé!",
+      "Bẫy hay gặp: cứ tăng mãi, hoặc cộng hai lần liền.",
+      "Mỗi cặp \"lên 5, xuống 2\" thật ra chỉ lên được 3."
+    ]
+  },
+  "bai-3": {
+    "concept": "Dãy hình có quy luật thường có một nhóm hình lặp đi lặp lại, hoặc số hình lớn dần sau mỗi lần. Tìm ra nhóm lặp lại, bé sẽ đoán được hình ở bất kì vị trí nào.",
+    "examples": [
+      {
+        "prompt": "Hình tiếp theo là hình nào?",
+        "visual": {
+          "emoji": "🐸🐸🍀🐸🐸🍀🐸 ?"
+        },
+        "answer": "Nhóm lặp lại là ếch, ếch, cỏ ba lá (🐸🐸🍀), gồm 3 hình. Hình thứ 7 là ếch 🐸 mở đầu nhóm thứ ba, nên hình tiếp theo là ếch 🐸."
+      },
+      {
+        "prompt": "Dãy hình lặp lại mãi như sau.\nHình thứ 8 là hình nào?",
+        "visual": {
+          "emoji": "🍓🍋🍊🍓🍋🍊 …"
+        },
+        "answer": "Nhóm dâu, chanh, cam (🍓🍋🍊) có 3 hình. Quả chanh 🍋 đứng ở vị trí 2, 5, 8, … (cứ thêm 3). Vậy hình thứ 8 là quả chanh 🍋."
+      }
+    ],
+    "steps": [
+      "Tìm nhóm hình lặp lại và đếm xem nhóm có mấy hình.",
+      "Ghi vị trí của từng hình trong nhóm đầu tiên.",
+      "Đếm thêm theo số hình của nhóm để tới vị trí cần tìm.",
+      "Nếu hình lớn dần, xem mỗi lần thêm mấy ô."
+    ],
+    "tips": [
+      "Đếm vị trí từ hình đầu tiên, đừng đếm thừa hay thiếu 1!",
+      "Hình không có trong dãy chắc chắn là bẫy."
+    ]
+  },
+  "bai-4": {
+    "concept": "Màu sắc và chỗ đứng cũng có quy luật: màu lặp lại theo nhóm, mỗi hàng mỗi cột đủ màu không trùng, hay đồ vật xếp theo trái, phải, trên, dưới, trước, sau. Bé đọc kĩ từng điều kiện rồi xếp từng bước.",
+    "examples": [
+      {
+        "prompt": "Mỗi hàng và mỗi cột đều có đủ 3 màu, không màu nào lặp lại.\nÔ ? là màu gì?",
+        "visual": {
+          "grid": [
+            [
+              "🟢",
+              "🟣",
+              "🟠"
+            ],
+            [
+              "🟠",
+              "🟢",
+              "🟣"
+            ],
+            [
+              "🟣",
+              "?",
+              "🟢"
+            ]
+          ]
+        },
+        "answer": "Hàng cuối đã có tím 🟣 và xanh 🟢, còn thiếu cam 🟠. Cột giữa đã có tím 🟣 và xanh 🟢, cũng thiếu cam 🟠. Vậy ô ? màu cam 🟠."
+      },
+      {
+        "prompt": "Thỏ 🐰, Gấu 🐻 và Mèo 🐱 xếp một hàng dọc. Thỏ đứng đầu hàng. Gấu không đứng ngay sau Thỏ.\nAi đứng ở giữa?",
+        "answer": "Thỏ đứng thứ nhất. Gấu không đứng ngay sau Thỏ nên Gấu đứng cuối. Chỗ ở giữa là của Mèo."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ từng điều kiện, chú ý các từ chỉ vị trí.",
+      "Đặt trước những thứ đã biết chắc chỗ.",
+      "Xếp phần còn lại sao cho đúng mọi điều kiện.",
+      "Kiểm tra lại từng điều kiện một lần nữa."
+    ],
+    "tips": [
+      "Đi vòng 4 góc theo chiều kim đồng hồ: đủ 4 bước là về chỗ cũ.",
+      "Bàn cờ: hai ô chung một cạnh luôn khác màu.",
+      "Đếm đủ các nhóm màu rồi, đừng quên mấy cái còn thừa ở cuối!"
+    ]
+  },
+  "bai-5": {
+    "concept": "Mỗi hình thay cho một con số. Bé tìm số của hình dễ nhất trước (dòng chỉ có một loại hình), rồi thay số đó vào các dòng khác để tìm tiếp.",
+    "examples": [
+      {
+        "prompt": "Cá 🐟 và Rùa 🐢 là hai số bí mật.\n🐟 + 🐟 = 4\n🐟 + 🐢 = 7\nVậy Rùa 🐢 = ?",
+        "answer": "Cá + cá = 4 nên Cá 🐟 = 2 (vì 2 + 2 = 4). 2 + Rùa = 7 nên Rùa 🐢 = 5."
+      },
+      {
+        "prompt": "Biết bông hoa 🌸 = 5 và cỏ ba lá 🍀 = 2.\nNhóm hình dưới đây có giá trị bằng bao nhiêu?",
+        "visual": {
+          "emoji": "🌸🍀🍀🍀"
+        },
+        "answer": "Có 1 bông hoa và 3 cỏ ba lá: 5 + 2 + 2 + 2 = 11."
+      }
+    ],
+    "steps": [
+      "Tìm dòng chỉ có một loại hình để tìm số của hình đó.",
+      "Không có dòng như thế thì thử từng số nhỏ cho một hình rồi kiểm tra.",
+      "Thay số vừa tìm vào dòng tiếp theo.",
+      "Tìm số của hình còn lại.",
+      "Thử lại tất cả các dòng với các số vừa tìm."
+    ],
+    "tips": [
+      "Đọc kỹ câu hỏi: hỏi một hình hay mấy hình cộng lại?",
+      "Hai hình giống nhau bằng 8 thì mỗi hình là 4, vì 4 + 4 = 8."
+    ]
+  }
+}

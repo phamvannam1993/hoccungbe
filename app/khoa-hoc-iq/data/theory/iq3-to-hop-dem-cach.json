@@ -1,0 +1,214 @@
+{
+  "bai-1": {
+    "concept": "Lập số từ các chữ số cho trước là chọn chữ số cho từng hàng: hàng trăm, hàng chục, hàng đơn vị. Chữ số 0 không được đứng ở hàng cao nhất. \"Khác nhau\" nghĩa là không có chữ số nào lặp lại.",
+    "examples": [
+      {
+        "prompt": "Từ bốn chữ số 2, 5, 7, 8, lập được bao nhiêu số có hai chữ số khác nhau?",
+        "visual": {
+          "grid": [
+            [
+              "Hàng chục",
+              "Các số lập được"
+            ],
+            [
+              "2",
+              "25, 27, 28"
+            ],
+            [
+              "5",
+              "52, 57, 58"
+            ],
+            [
+              "7",
+              "72, 75, 78"
+            ],
+            [
+              "8",
+              "82, 85, 87"
+            ]
+          ]
+        },
+        "answer": "Cố định chữ số hàng chục, ghép với 3 chữ số còn lại ở hàng đơn vị. Mỗi hàng chục có 3 số, 4 hàng chục có 4 × 3 = 12 số."
+      },
+      {
+        "prompt": "Từ các chữ số 6, 0, 3, 7, lập số bé nhất và số lớn nhất có ba chữ số khác nhau.",
+        "answer": "Số bé nhất: hàng trăm là chữ số bé nhất khác 0 (là 3), hàng chục là 0, hàng đơn vị là 6: số 306. Số lớn nhất: xếp chữ số từ lớn đến bé: 763."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: lập số có mấy chữ số, chữ số có được lặp lại không.",
+      "Chọn chữ số cho hàng cao nhất trước, nhớ bỏ chữ số 0.",
+      "Cố định hàng đó rồi đổi chỗ các chữ số còn lại.",
+      "Liệt kê theo thứ tự từ bé đến lớn để không sót.",
+      "Gạch bỏ số có chữ số lặp hoặc chữ số không có trong đề."
+    ],
+    "tips": [
+      "Số 0 đứng đầu — không thành số có hai hay ba chữ số đâu!",
+      "Muốn số lớn: chữ số to xếp trước. Muốn số bé: chữ số nhỏ (khác 0) xếp trước, số 0 ngồi ngay hàng thứ hai."
+    ]
+  },
+  "bai-2": {
+    "concept": "Khi phải chọn CẢ hai thứ (1 mũ VÀ 1 đôi giày), mỗi cái thứ nhất ghép được với tất cả cái thứ hai, nên ta nhân. Khi chỉ chọn MỘT món (bánh HOẶC nước), ta cộng. Chọn 2 bạn trong nhóm thì chọn An và Bình hay chọn Bình và An cũng chỉ là một cách.",
+    "examples": [
+      {
+        "prompt": "Bé có 3 cái mũ và 6 đôi giày.\nMỗi lần đi chơi, bé đội 1 mũ và mang 1 đôi giày.\nBé có bao nhiêu cách?",
+        "visual": {
+          "emoji": "🧢🎩👒  👟👟👟👟👟👟"
+        },
+        "answer": "Mỗi cái mũ ghép được với cả 6 đôi giày. Có 3 cái mũ nên có 6 + 6 + 6 = 18 cách, tức là 3 × 6 = 18 cách."
+      },
+      {
+        "prompt": "Có 6 bạn: Lan, Mai, Huệ, Cúc, Đào, Hồng.\nCô chọn 2 bạn trực nhật. Cô có bao nhiêu cách chọn?",
+        "answer": "Ghép Lan với 5 bạn sau, Mai với 4 bạn sau, Huệ với 3, Cúc với 2, Đào với Hồng: 5 + 4 + 3 + 2 + 1 = 15 cách. Lan – Mai và Mai – Lan là cùng một cách."
+      }
+    ],
+    "steps": [
+      "Đọc kỹ: chọn CẢ hai thứ hay chỉ chọn MỘT thứ.",
+      "Chọn cả hai thì ghép mỗi cái với tất cả cái kia rồi nhân.",
+      "Chỉ chọn một thứ thì cộng số cách của từng loại.",
+      "Chọn hai bạn cùng nhóm thì ghép lần lượt, không đếm đổi chỗ.",
+      "Liệt kê lại để chắc chắn không sót, không trùng."
+    ],
+    "tips": [
+      "Có chữ VÀ — nghĩ đến nhân; có chữ HOẶC — nghĩ đến cộng.",
+      "Đôi An và Bình hay đôi Bình và An cũng là một đôi bạn, chỉ đếm một lần! Nhưng cắm cờ cột trái, cột phải thì đổi chỗ là cách mới.",
+      "\"Lấy ít nhất 1\" là lấy 1, lấy 2, … đến lấy hết — đừng quên trường hợp lấy hết!"
+    ]
+  },
+  "bai-3": {
+    "concept": "Xếp các bạn vào hàng thì đổi chỗ hai bạn là được một cách MỚI. Chọn bạn cho vị trí đầu, rồi vị trí tiếp theo chỉ chọn trong các bạn chưa có chỗ. Có điều kiện thì đặt bạn bị ràng buộc vào chỗ trước.",
+    "examples": [
+      {
+        "prompt": "Bốn bạn Tí, Tèo, Na, Bi xếp một hàng ngang.\nTí đứng đầu hàng, Bi đứng cuối hàng.\nCó bao nhiêu cách xếp?",
+        "visual": {
+          "emoji": "🧒 ❔ ❔ 👦"
+        },
+        "answer": "Tí và Bi đã có chỗ, chỉ còn Tèo và Na đổi chỗ ở giữa: Tí – Tèo – Na – Bi và Tí – Na – Tèo – Bi. Có 2 cách."
+      },
+      {
+        "prompt": "Bốn bạn Tí, Tèo, Na, Bi ngồi 4 ghế số 1, 2, 3, 4 (từ trái sang phải).\n• Bi ngồi ghế số 2.\n• Tí ngồi ngay bên phải Bi.\n• Na không ngồi ghế số 1.\nAi ngồi ghế nào?",
+        "visual": {
+          "grid": [
+            [
+              "Ghế 1",
+              "Ghế 2",
+              "Ghế 3",
+              "Ghế 4"
+            ],
+            [
+              "?",
+              "Bi",
+              "?",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Đặt Bi ở ghế 2, Tí ở ngay bên phải là ghế 3. Còn ghế 1 và ghế 4; Na không ngồi ghế 1 nên Na ngồi ghế 4, Tèo ngồi ghế 1."
+      }
+    ],
+    "steps": [
+      "Đặt các bạn có vị trí chắc chắn vào chỗ trước.",
+      "Chọn bạn cho vị trí đầu, rồi chọn tiếp trong các bạn còn lại.",
+      "Nhớ: mỗi bạn chỉ đứng một chỗ, đổi chỗ là cách mới.",
+      "Gặp điều kiện \"không được\", đếm hết rồi bớt các cách sai.",
+      "Liệt kê theo thứ tự để kiểm tra lại."
+    ],
+    "tips": [
+      "Đổi chỗ là đổi cách — hàng mới, ảnh mới!",
+      "Ai bị ràng buộc thì xếp người đó trước.",
+      "Một bạn không thể đứng hai chỗ, nên đừng lấy 3 × 3."
+    ]
+  },
+  "bai-4": {
+    "concept": "Đi nối tiếp nhiều chặng (qua một điểm ở giữa) thì mỗi đường chặng trước nối được với mọi đường chặng sau: ta nhân. Có nhiều ngả riêng thì đếm từng ngả rồi cộng. Trên lưới ô, số đường đến một ô bằng số ở ô bên trái cộng số ở ô bên trên.",
+    "examples": [
+      {
+        "prompt": "Từ nhà đến chợ có 2 con đường, từ chợ đến công viên có 4 con đường.\nNgoài ra còn 2 con đường đi thẳng từ nhà đến công viên, không qua chợ.\nCó tất cả bao nhiêu cách đi từ nhà đến công viên?",
+        "visual": {
+          "emoji": "🏠 ➡️ 🏪 ➡️ 🌳"
+        },
+        "answer": "Đi qua chợ: 2 × 4 = 8 cách. Đi thẳng: 2 cách. Tất cả: 8 + 2 = 10 cách."
+      },
+      {
+        "prompt": "Kiến đi từ ô góc trên bên trái đến ô góc dưới bên phải của bảng 2 hàng, 3 cột.\nMỗi bước sang ô bên PHẢI hoặc ô ngay bên DƯỚI.\nMỗi ô ghi số đường đi đến ô đó. Tìm số ở ô ?",
+        "visual": {
+          "grid": [
+            [
+              "1",
+              "1",
+              "1"
+            ],
+            [
+              "1",
+              "2",
+              "?"
+            ]
+          ]
+        },
+        "answer": "Hàng trên và cột trái chỉ có 1 đường. Ô giữa hàng dưới: 1 + 1 = 2. Ô đích: 2 (ô bên trái) + 1 (ô bên trên) = 3 đường."
+      }
+    ],
+    "steps": [
+      "Vẽ sơ đồ các điểm và các đường nối.",
+      "Đi nối tiếp qua điểm giữa thì nhân số đường của từng chặng.",
+      "Có nhiều ngả riêng thì đếm từng ngả rồi cộng lại.",
+      "Trên lưới ô, ghi số từng ô: ô bên trái cộng ô bên trên.",
+      "Ô bị cấm thì ghi số 0 rồi tính tiếp."
+    ],
+    "tips": [
+      "Nối tiếp thì nhân, rẽ ngả thì cộng!",
+      "Đi rồi về: nhân số cách đi với số cách về.",
+      "Ô có biển cấm là ô số 0 — không đường nào đi qua."
+    ]
+  },
+  "bai-5": {
+    "concept": "Sơ đồ cây vẽ mỗi lần chọn thành một tầng nhánh; số cách bằng số nhánh cuối. Bảng ghép mỗi hàng với mỗi cột, mỗi ô là một cách. Có điều kiện thì gạch bỏ nhánh hoặc ô không hợp.",
+    "examples": [
+      {
+        "prompt": "Bé chọn 1 thú bông (gấu hoặc thỏ), 1 màu nơ (đỏ hoặc vàng) và 1 cái hộp (to hoặc nhỏ).\nBé có bao nhiêu cách chọn?",
+        "visual": {
+          "emoji": "🧸🐰 ➡️ 🔴🟡 ➡️ 📦🎁"
+        },
+        "answer": "Mỗi thú bông tỏa 2 nhánh màu nơ: 2 × 2 = 4 nhánh. Mỗi nhánh đó tỏa 2 nhánh hộp: 4 × 2 = 8 nhánh cuối, tức là 8 cách."
+      },
+      {
+        "prompt": "Túi thứ nhất có thẻ 1, 2. Túi thứ hai có thẻ 3, 4, 5.\nBé lấy mỗi túi 1 thẻ rồi cộng hai số.\nCó bao nhiêu cách lấy được tổng bằng 6?",
+        "visual": {
+          "grid": [
+            [
+              "+",
+              "3",
+              "4",
+              "5"
+            ],
+            [
+              "1",
+              "4",
+              "5",
+              "6"
+            ],
+            [
+              "2",
+              "5",
+              "6",
+              "7"
+            ]
+          ]
+        },
+        "answer": "Kẻ bảng cộng: hàng là thẻ túi thứ nhất, cột là thẻ túi thứ hai. Có 2 ô bằng 6 (1 + 5 và 2 + 4), vậy có 2 cách."
+      }
+    ],
+    "steps": [
+      "Xác định có mấy lần chọn, mỗi lần có mấy lựa chọn.",
+      "Vẽ sơ đồ cây: mỗi tầng là một lần chọn.",
+      "Hoặc kẻ bảng: hàng là loại này, cột là loại kia.",
+      "Gạch bỏ nhánh hoặc ô không hợp điều kiện.",
+      "Đếm các nhánh cuối hoặc các ô còn lại."
+    ],
+    "tips": [
+      "Đếm nhánh CUỐI, đừng đếm nhánh giữa!",
+      "Hai túi khác nhau: lấy 1 rồi 3 khác với lấy 3 rồi 1.",
+      "\"Lớn hơn 20\" thì không tính số 20."
+    ]
+  }
+}

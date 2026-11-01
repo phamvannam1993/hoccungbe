@@ -62,7 +62,7 @@ export default function InstallAppCard() {
         <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-black uppercase tracking-widest">
           <Download size={14} /> Miễn phí · không cần kho ứng dụng
         </span>
-        <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">Cài Bé Hay Học lên máy như một app</h2>
+        <h2 className="kid-display mt-4 text-3xl font-black leading-tight sm:text-4xl">Cài Bé Hay Học lên máy như một app</h2>
         <p className="mt-4 text-base leading-7 text-sky-50">
           Mở nhanh bằng một chạm từ màn hình chính, toàn màn hình không thanh địa chỉ, nhẹ máy và học được cả khi mạng yếu.
         </p>

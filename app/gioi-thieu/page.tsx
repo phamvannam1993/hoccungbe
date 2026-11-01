@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { CONG_CU_TOAN } from '../lib/congCuToan';
 import { gamesData } from '../components/edu/data/gamesData';
-import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, TONES, type Tone } from '../components/seo/kid';
+import { KidCrumb, KidFaq, TONES, type Tone } from '../components/seo/kid';
 
 // Trang giới thiệu toàn bộ tính năng: /gioi-thieu.
 // Khác /so-do-trang (chỉ là danh sách link): ở đây mỗi tính năng có một câu nói rõ bé
@@ -56,7 +58,7 @@ const GROUPS: Group[] = [
   },
   {
     id: 'toan-iq', emoji: '🧠', title: 'Khóa Toán IQ', tone: 'yellow',
-    intro: 'Khóa nâng cao dạng game cho bé thích thử thách. Mở khóa bằng mã kích hoạt.',
+    intro: 'Khóa nâng cao dạng game cho bé thích thử thách. Có phí theo tháng, mỗi khóa đều có bài học thử miễn phí.',
     items: [
       { href: '/khoa-hoc-iq', ten: 'Toán IQ theo lớp', emoji: '🏅', moTa: 'Mỗi lớp 12 khóa, 60 bài thử thách: quy luật, logic, đếm hình, thời gian, tiền bạc, đo lường.' },
       { href: '/khoa-hoc-iq', ten: 'Đếm ngược & gợi ý', emoji: '⏱️', moTa: 'Mỗi câu có đồng hồ đếm ngược, gợi ý cách làm và lời giải từng bước.' },
@@ -150,19 +152,28 @@ const GROUPS: Group[] = [
   },
 ];
 
+
 const HIGHLIGHTS = [
-  { emoji: '🆓', ten: 'Học miễn phí', moTa: 'Phần lớn nội dung mở cho mọi bé, nhiều công cụ không cần đăng nhập.' },
-  { emoji: '📘', ten: 'Bám chương trình', moTa: 'Bài học theo chương trình Bộ GD&ĐT, mẫu giáo đến lớp 5.' },
-  { emoji: '🔊', ten: 'Có nghe đọc', moTa: 'Gần như mọi chữ, từ, câu đều bấm nghe được — bé chưa đọc thạo vẫn tự học.' },
-  { emoji: '📱', ten: 'Cài như app', moTa: 'Thêm vào màn hình chính điện thoại, máy tính bảng; có trang ngoại tuyến khi mất mạng.' },
+  { emoji: '🆓', ten: 'Học miễn phí', moTa: 'Phần lớn nội dung mở cho mọi bé', mau: '#FFE4EE' },
+  { emoji: '📘', ten: 'Bám chương trình', moTa: 'Theo SGK Bộ GD&ĐT, mẫu giáo – lớp 5', mau: '#E0F2FE' },
+  { emoji: '🔊', ten: 'Bấm là nghe đọc', moTa: 'Bé chưa đọc thạo vẫn tự học được', mau: '#DCFCE7' },
+  { emoji: '📱', ten: 'Cài như app', moTa: 'Thêm vào màn hình chính điện thoại', mau: '#FEF3C7' },
 ];
 
 const FAQ = [
   { q: 'Bé Hay Học dành cho bé mấy tuổi?', a: 'Bé từ 3 đến 10 tuổi: mẫu giáo làm quen chữ và số, lớp 1–5 học theo chương trình tiểu học.' },
-  { q: 'Có phải trả phí không?', a: 'Khóa học, bài tập, đề thi, trò chơi và công cụ đều học miễn phí. Riêng khóa Toán IQ nâng cao mở bằng mã kích hoạt.' },
+  { q: 'Có phải trả phí không?', a: 'Khóa học, bài tập, đề thi, trò chơi và công cụ đều học miễn phí. Riêng khóa Toán IQ nâng cao có phí theo tháng, mỗi khóa đều có bài học thử miễn phí.' },
   { q: 'Có cần tạo tài khoản không?', a: 'Nhiều trang dùng được ngay. Tạo tài khoản để lưu tiến độ, sao thưởng, hồ sơ từng bé và nhận báo cáo tuần.' },
   { q: 'Một tài khoản dùng cho mấy bé?', a: 'Một tài khoản phụ huynh tạo được nhiều hồ sơ bé, tiến độ của mỗi bé tách riêng.' },
 ];
+
+const IQ_ANH = [
+  { src: '/assets/images/anh-khoa-hoc-iq/01-quan-sat-tim-quy-luat.webp', alt: 'Quan sát, tìm quy luật' },
+  { src: '/assets/images/anh-khoa-hoc-iq/05-logic-suy-luan-thong-minh.webp', alt: 'Logic và suy luận thông minh' },
+  { src: '/assets/images/anh-khoa-hoc-iq/04-tu-duy-hinh-hoc-dem-hinh.webp', alt: 'Tư duy hình học, đếm hình' },
+];
+
+const NUT_CHINH = 'kid-display inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-black transition active:translate-y-0.5';
 
 function FeatureGrid({ items, tone }: { items: Feature[]; tone: Tone }) {
   const t = TONES[tone];
@@ -172,13 +183,16 @@ function FeatureGrid({ items, tone }: { items: Feature[]; tone: Tone }) {
         <li key={it.href + i}>
           <Link
             href={it.href}
-            className="group flex h-full gap-3 rounded-2xl border-2 bg-white p-4 transition hover:-translate-y-0.5"
-            style={{ borderColor: t.border, boxShadow: `0 3px 0 ${t.border}` }}
+            className="group flex h-full items-start gap-3.5 rounded-2xl border-2 border-transparent bg-white p-4 shadow-[0_2px_10px_rgba(15,23,42,0.06)] ring-1 ring-slate-100 transition duration-200 hover:-translate-y-1 hover:shadow-[0_10px_24px_rgba(15,23,42,0.10)] hover:[border-color:var(--vien)]"
+            style={{ '--vien': t.border } as CSSProperties}
           >
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-xl" style={{ background: t.tint }} aria-hidden>{it.emoji}</span>
-            <span className="min-w-0">
-              <span className="block font-black text-slate-800 kid-display">{it.ten}</span>
-              <span className="mt-1 block text-sm leading-6 text-slate-600">{it.moTa}</span>
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl transition group-hover:scale-110" style={{ background: t.tint }} aria-hidden>{it.emoji}</span>
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-1.5 font-black leading-snug text-slate-800 kid-display">
+                {it.ten}
+                <span className="ml-auto text-base opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" style={{ color: t.c }} aria-hidden>→</span>
+              </span>
+              <span className="mt-1 block text-[13px] leading-[1.6] text-slate-500">{it.moTa}</span>
             </span>
           </Link>
         </li>
@@ -187,8 +201,65 @@ function FeatureGrid({ items, tone }: { items: Feature[]; tone: Tone }) {
   );
 }
 
+function GroupHeading({ g, so }: { g: Group; so: number }) {
+  const t = TONES[g.tone];
+  return (
+    <div className="mb-5 flex items-start gap-4">
+      <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[20px] text-3xl text-white shadow-md sm:h-16 sm:w-16" style={{ backgroundImage: t.grad }} aria-hidden>
+        {g.emoji}
+      </span>
+      <div className="min-w-0">
+        <p className="kid-display text-[11px] font-black uppercase tracking-[0.14em]" style={{ color: t.c }}>
+          Nhóm {so} · {new Set(g.items.map((x) => x.href)).size} tính năng
+        </p>
+        <h2 id={`${g.id}-tieu-de`} className="kid-display text-2xl font-black leading-tight text-slate-900 sm:text-3xl">{g.title}</h2>
+        <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">{g.intro}</p>
+      </div>
+    </div>
+  );
+}
+
+function IqBanner({ g, so }: { g: Group; so: number }) {
+  return (
+    <div className="overflow-hidden rounded-[28px] p-5 sm:p-8" style={{ background: 'linear-gradient(135deg,#FFF7D6 0%,#FFE8C2 55%,#FFD9E6 100%)' }}>
+      <div className="grid items-center gap-6 lg:grid-cols-[1.1fr_1fr]">
+        <div>
+          <span className="kid-display inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#a16207] shadow-sm">
+            Nhóm {so} · Nâng cao
+          </span>
+          <h2 id={`${g.id}-tieu-de`} className="kid-display mt-3 text-2xl font-black leading-tight text-slate-900 sm:text-3xl">{g.emoji} {g.title}</h2>
+          <p className="mt-2 leading-relaxed text-slate-700">{g.intro}</p>
+          <ul className="mt-4 space-y-2.5">
+            {g.items.map((it) => (
+              <li key={it.ten} className="flex items-start gap-3">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white text-lg shadow-sm" aria-hidden>{it.emoji}</span>
+                <span className="text-sm leading-relaxed text-slate-700"><b className="text-slate-900">{it.ten}.</b> {it.moTa}</span>
+              </li>
+            ))}
+          </ul>
+          <Link href="/khoa-hoc-iq" className={`${NUT_CHINH} mt-6 text-[#7a4a00]`} style={{ background: 'linear-gradient(180deg,#ffd452 0%,#f7b731 100%)', boxShadow: '0 5px 0 #d99a12' }}>
+            Xem các khóa Toán IQ →
+          </Link>
+        </div>
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+          {IQ_ANH.map((a, i) => (
+            <Image key={a.src} src={a.src} alt={a.alt} width={374} height={320}
+              className={`h-auto w-full rounded-2xl bg-white object-cover shadow-md ring-4 ring-white ${i === 1 ? 'lg:-translate-y-4' : 'lg:translate-y-3'}`} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
   const total = GROUPS.reduce((n, g) => n + new Set(g.items.map((x) => x.href)).size, 0);
+  const stats = [
+    { so: `${Math.floor(total / 10) * 10}+`, nhan: 'tính năng' },
+    { so: `${GAMES.length}`, nhan: 'trò chơi' },
+    { so: `${GROUPS.find((g) => g.id === 'toan')!.items.length}`, nhan: 'công cụ Toán' },
+    { so: '1–5', nhan: 'lớp tiểu học' },
+  ];
 
   const breadcrumb = {
     '@context': 'https://schema.org',
@@ -200,57 +271,126 @@ export default function Page() {
   };
 
   return (
-    <KidShell max="5xl">
+    <div className="kid-bg min-h-screen pb-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Giới thiệu' }]} />
 
-      <KidHero emoji="🌈" eyebrow="Giới thiệu" title="Bé Hay Học có gì?" tone="pink"
-        description={<>Nền tảng học tập và trò chơi giáo dục cho bé 3–10 tuổi: Toán, Tiếng Việt, Tiếng Anh và tư duy qua bài học ngắn, trực quan. Dưới đây là <b>hơn {total} tính năng</b>, gom theo {GROUPS.length} nhóm — bấm vào bất kỳ mục nào để dùng thử.</>}>
-        <div className="mt-5 flex flex-wrap gap-2.5">
-          <Link href="/dang-ky" className="rounded-2xl px-5 py-2.5 font-black text-white kid-display" style={{ backgroundImage: TONES.pink.grad, boxShadow: `0 4px 0 ${TONES.pink.border}` }}>
-            Tạo tài khoản miễn phí
-          </Link>
-          <Link href="/huong-dan" className="rounded-2xl border-2 bg-white px-5 py-2.5 font-black kid-display" style={{ borderColor: TONES.pink.border, color: TONES.pink.c }}>
-            Cách bắt đầu →
-          </Link>
-        </div>
-      </KidHero>
+      <div className="mx-auto max-w-6xl px-4 pt-5 sm:px-6">
+        <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Giới thiệu' }]} />
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {HIGHLIGHTS.map((h) => (
-          <div key={h.ten} className="rounded-3xl border-2 bg-white p-4" style={{ borderColor: TONES.purple.border }}>
-            <span className="text-2xl" aria-hidden>{h.emoji}</span>
-            <p className="mt-1 font-black text-slate-800 kid-display">{h.ten}</p>
-            <p className="mt-1 text-sm leading-6 text-slate-600">{h.moTa}</p>
+        {/* ── HERO: cùng nền trời và cặp màu xanh – cam với hero trang chủ để hai trang trông là một nhà. */}
+        <section className="relative overflow-hidden rounded-[32px] px-5 pb-6 pt-7 shadow-[0_14px_40px_rgba(30,90,168,0.14)] sm:px-10 sm:pt-10"
+          style={{ background: 'linear-gradient(180deg,#bfe9ff 0%,#daf3ff 50%,#eaf9e6 100%)' }}>
+          <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
+            <span className="absolute left-[4%] top-[8%] text-4xl opacity-70">☁️</span>
+            <span className="absolute right-[38%] top-[5%] hidden text-3xl opacity-60 sm:block">☁️</span>
+            <span className="absolute right-[6%] top-[10%] text-2xl opacity-70 sm:hidden">⭐</span>
           </div>
-        ))}
+
+          <div className="relative grid items-end gap-4 lg:grid-cols-[1.35fr_1fr]">
+            <div className="pb-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-[11px] font-black text-slate-600 shadow-sm">
+                🌈 Giới thiệu Bé Hay Học
+              </span>
+              <h1 className="kid-display mt-3 text-[34px] font-black leading-[1.08] sm:text-5xl">
+                <span className="block text-[#1e5aa8]">Mọi thứ bé cần</span>
+                <span className="block text-[#f5911e]">để học vui mỗi ngày</span>
+              </h1>
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-slate-600 sm:text-base">
+                Nền tảng học tập và trò chơi giáo dục cho bé 3–10 tuổi: Toán, Tiếng Việt, Tiếng Anh và tư duy
+                qua bài học ngắn, trực quan. Dưới đây là toàn bộ tính năng, gom theo {GROUPS.length} nhóm — bấm vào mục nào cũng dùng thử được ngay.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/dang-ky" className={`${NUT_CHINH} text-[#7a4a00]`} style={{ background: 'linear-gradient(180deg,#ffd452 0%,#f7b731 100%)', boxShadow: '0 5px 0 #d99a12' }}>
+                  ▶ Tạo tài khoản miễn phí
+                </Link>
+                <Link href="/huong-dan" className={`${NUT_CHINH} bg-white text-[#1e5aa8]`} style={{ boxShadow: '0 5px 0 #b6d9f2' }}>
+                  Cách bắt đầu
+                </Link>
+              </div>
+            </div>
+            <div className="relative mx-auto hidden w-full max-w-[300px] lg:block">
+              <Image src="/assets/images/01-mascot-tiger-trophy.webp" alt="Hổ Con – linh vật Bé Hay Học" width={374} height={420} priority className="bhh-float h-auto w-full drop-shadow-xl" />
+            </div>
+          </div>
+
+          <dl className="relative mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+            {stats.map((s) => (
+              <div key={s.nhan} className="rounded-2xl bg-white/90 px-4 py-3 text-center shadow-sm backdrop-blur">
+                <dt className="sr-only">{s.nhan}</dt>
+                <dd className="kid-display text-2xl font-black leading-none text-[#1e5aa8] sm:text-3xl">{s.so}</dd>
+                <dd className="mt-1 text-xs font-bold text-slate-500">{s.nhan}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* ── ĐIỂM MẠNH: một dải gọn như trang chủ, không phải bốn thẻ to. */}
+        <ul className="mt-5 grid grid-cols-1 gap-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-slate-100">
+          {HIGHLIGHTS.map((h) => (
+            <li key={h.ten} className="flex items-center gap-3 px-2">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-xl" style={{ background: h.mau }} aria-hidden>{h.emoji}</span>
+              <span className="min-w-0 text-xs leading-snug text-slate-500">
+                <span className="kid-display block text-sm font-black text-slate-800">{h.ten}</span>
+                {h.moTa}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <nav aria-label="Các nhóm tính năng" className="mt-6 flex flex-wrap gap-2">
-        {GROUPS.map((g) => {
-          const t = TONES[g.tone];
-          return (
-            <a key={g.id} href={`#${g.id}`} className="rounded-2xl border-2 bg-white px-3.5 py-1.5 text-sm font-black kid-display" style={{ borderColor: t.border, color: t.c }}>
-              {g.emoji} {g.title}
-            </a>
-          );
-        })}
+      {/* ── MỤC LỤC: dính đầu màn khi cuộn; mobile vuốt ngang thay vì xuống dòng thành 4–5 hàng. */}
+      <nav aria-label="Các nhóm tính năng" className="sticky top-0 z-20 mt-6 border-y border-white/60 bg-white/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:px-6 [&::-webkit-scrollbar]:hidden">
+          {GROUPS.map((g) => {
+            const t = TONES[g.tone];
+            return (
+              <a key={g.id} href={`#${g.id}`} className="kid-display shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-black transition hover:brightness-95" style={{ background: t.tint, color: t.c }}>
+                {g.emoji} {g.title}
+              </a>
+            );
+          })}
+        </div>
       </nav>
 
-      <div className="mt-6 space-y-5">
-        {GROUPS.map((g) => (
-          <div key={g.id} id={g.id} className="scroll-mt-24">
-            <KidCard emoji={g.emoji} title={g.title} tone={g.tone} badge={g.items.length}>
-              <p className="mb-4 leading-7 text-slate-600">{g.intro}</p>
-              <FeatureGrid items={g.items} tone={g.tone} />
-            </KidCard>
-          </div>
+      <div className="mx-auto max-w-6xl space-y-6 px-4 pt-6 sm:px-6">
+        {GROUPS.map((g, i) => (
+          <section key={g.id} id={g.id} className="scroll-mt-20" aria-labelledby={`${g.id}-tieu-de`}>
+            {g.id === 'toan-iq' ? (
+              <IqBanner g={g} so={i + 1} />
+            ) : (
+              <div className="rounded-[28px] bg-white/60 p-4 ring-1 ring-white sm:p-7">
+                <GroupHeading g={g} so={i + 1} />
+                <FeatureGrid items={g.items} tone={g.tone} />
+              </div>
+            )}
+          </section>
         ))}
 
-        <KidCard emoji="💡" title="Câu hỏi nhanh" tone="purple">
+        <section className="rounded-[28px] bg-white/60 p-4 ring-1 ring-white sm:p-7">
+          <h2 className="kid-display mb-4 text-2xl font-black text-slate-900 sm:text-3xl">💡 Ba mẹ hay hỏi</h2>
           <KidFaq items={FAQ} />
-        </KidCard>
+        </section>
+
+        {/* ── LỜI MỜI CUỐI TRANG */}
+        <section className="relative overflow-hidden rounded-[32px] px-6 py-8 text-white shadow-[0_14px_40px_rgba(255,107,157,0.30)] sm:px-10 sm:py-10"
+          style={{ backgroundImage: 'linear-gradient(135deg,#FF6B9D 0%,#FF9F45 100%)' }}>
+          <div className="relative grid items-center gap-6 sm:grid-cols-[1fr_auto]">
+            <div>
+              <h2 className="kid-display text-2xl font-black leading-tight sm:text-4xl">Bắt đầu cùng bé ngay hôm nay</h2>
+              <p className="mt-2 max-w-xl text-white/90">Chọn lớp của bé một lần, Bé Hay Học gợi ý bài phù hợp mỗi ngày và gửi báo cáo cho ba mẹ.</p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/dang-ky" className={`${NUT_CHINH} bg-white text-[#c81e5b]`} style={{ boxShadow: '0 5px 0 rgba(0,0,0,0.12)' }}>
+                  Tạo tài khoản miễn phí
+                </Link>
+                <Link href="/khoa-hoc" className={`${NUT_CHINH} bg-white/15 text-white ring-2 ring-white/70`}>
+                  Xem khóa học →
+                </Link>
+              </div>
+            </div>
+            <Image src="/assets/images/01-mascot-tiger-trophy.webp" alt="" width={374} height={420} className="bhh-float mx-auto hidden h-auto w-40 drop-shadow-xl sm:block" />
+          </div>
+        </section>
       </div>
-    </KidShell>
+    </div>
   );
 }

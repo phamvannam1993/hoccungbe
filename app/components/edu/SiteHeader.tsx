@@ -4,151 +4,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, Menu, X, Coffee } from 'lucide-react';
-import { isGuest, listChildren, type Child } from '../../lib/childData';
-import { CONG_CU_TOAN } from '../../lib/congCuToan';
-import { ChildAvatar } from './KidIcon';
+import { ChevronDown, Coffee, Menu, X } from 'lucide-react';
+import { ACCOUNT_LINKS, GRADES, NAV_MENU, SUBJECTS, useAccount, useCourseSlugs } from './navData';
 import FramedAvatar from './FramedAvatar';
 import NotificationBell from './NotificationBell';
 import HeaderStreak from './HeaderStreak';
 import StarWallet from './StarWallet';
 
-/** `wideOnly`: chỉ hiện trên menu ngang từ 1280px (màn vừa không đủ chỗ; vẫn có trong menu mobile). */
-type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades'; wideOnly?: boolean };
-
-const GRADES = [1, 2, 3, 4, 5] as const;
-const SUBJECTS = [
-  { slug: 'toan', label: 'Toán', emoji: '🔢', color: '#FF6B9D' },
-  { slug: 'tieng-viet', label: 'Tiếng Việt', emoji: '📖', color: '#4ECDC4' },
-];
-
-const NAV_MENU: NavItem[] = [
-  // Logo đã dẫn về trang chủ → ở màn 1024–1279px bỏ mục này để menu không chạm nút Đăng ký.
-  { href: '/', label: 'Trang chủ', wideOnly: true },
-  { href: '/khoa-hoc', label: 'Lớp học', mega: 'grades' },
-  {
-    // Gom công cụ Toán vào một nhóm — danh sách lấy từ app/lib/congCuToan.ts
-    // để thêm công cụ mới chỉ phải sửa một chỗ.
-    href: '/hoc-toan',
-    label: 'Toán',
-    children: [
-      { href: '/hoc-toan', label: 'Tất cả công cụ Toán' },
-      ...CONG_CU_TOAN.map((c) => ({ href: c.href, label: `${c.emoji} ${c.ten}` })),
-    ],
-  },
-  {
-    // Khu bán khóa Toán IQ (app/khoa-hoc-iq) — 12 khóa mỗi lớp, mở theo gói.
-    href: '/khoa-hoc-iq',
-    label: 'Toán IQ',
-    children: [
-      { href: '/khoa-hoc-iq', label: '🧠 Tất cả khóa Toán IQ' },
-      { href: '/khoa-hoc-iq?lop=lop-1', label: '1️⃣ Toán IQ lớp 1' },
-      { href: '/khoa-hoc-iq?lop=lop-2', label: '2️⃣ Toán IQ lớp 2' },
-      { href: '/khoa-hoc-iq?lop=lop-3', label: '3️⃣ Toán IQ lớp 3' },
-    ],
-  },
-  { href: '/tro-choi', label: 'Game' },
-  {
-    href: '/tu-vung-tieng-anh',
-    label: 'Tiếng Anh',
-    children: [
-      { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề' },
-      { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái A–Z' },
-      { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc' },
-      { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA' },
-      { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng' },
-      { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp' },
-      { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống' },
-      { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh' },
-      { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
-    ],
-  },
-  {
-    // Gom các sân chơi thi đấu vào một nhóm — thêm mục cấp 1 nữa thì thanh menu
-    // quá chật trên màn hình vừa.
-    href: '/thi-tai',
-    label: 'Thi tài',
-    children: [
-      { href: '/thi-tai', label: 'Thi Tài giành huy chương' },
-      { href: '/trieu-phu-nhi', label: 'Ai Là Triệu Phú Nhí' },
-      { href: '/kham-pha', label: 'Đố vui khám phá' },
-    ],
-  },
-  { href: '/de-thi', label: 'Ôn thi' },
-  // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
-  { href: '/bai-viet', label: 'Blog' },
-];
-
-// Khu vực phụ huynh — chỉ hiện khi đã đăng nhập.
-const ACCOUNT_LINKS = [
-  { href: '/hoc-hom-nay', label: 'Học hôm nay', emoji: '📅' },
-  { href: '/bo-suu-tap', label: 'Bộ sưu tập', emoji: '⭐' },
-  { href: '/bao-cao', label: 'Báo cáo tuần', emoji: '📊' },
-  { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
-  { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
-  { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
-  { href: '/on-tap-cau-sai', label: 'Ôn câu sai', emoji: '🔁' },
-  { href: '/chung-nhan', label: 'Chứng nhận', emoji: '🏆' },
-];
-
-export default function SiteHeader() {
+export default function SiteHeader({ menuOpen, onMenu }: { menuOpen: boolean; onMenu: () => void }) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [accountOpen, setAccountOpen] = useState(false);
   const [activeGrade, setActiveGrade] = useState<number>(1);
-  const [user, setUser] = useState<{ fullName: string } | null>(null);
-  // Khách (chưa đăng nhập) nhưng đã tạo bé → hồ sơ bé để mở menu phụ huynh.
-  const [guestChild, setGuestChild] = useState<Child | null>(null);
+  const { user, guestChild, logout: handleLogout } = useAccount();
   const accountRef = useRef<HTMLDivElement>(null);
-  const mobileAccountRef = useRef<HTMLDivElement>(null);
-  // Map: "subject-grade" → actual course slug (vd "toan-1" → "toan-hoc-lop-1")
-  const [courseSlugs, setCourseSlugs] = useState<Record<string, string>>({});
+  const courseSlugs = useCourseSlugs();
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Fetch courses thật để link đúng slug, tránh 404
   useEffect(() => {
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-    fetch(`${API}/api/courses`)
-      .then((r) => r.ok ? r.json() : [])
-      .then((courses: { slug: string; title: string }[]) => {
-        const map: Record<string, string> = {};
-        for (const c of courses) {
-          const s = c.slug.toLowerCase();
-          const m = s.match(/lop-?(\d)/);
-          if (!m) continue;
-          const grade = m[1];
-          if (s.includes('toan')) map[`toan-${grade}`] = c.slug;
-          else if (s.includes('tieng-viet')) map[`tieng-viet-${grade}`] = c.slug;
-        }
-        setCourseSlugs(map);
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    const raw = localStorage.getItem('bhh_user');
-    if (raw) {
-      try { setUser(JSON.parse(raw)); } catch { /* ignore */ }
-      setGuestChild(null);
-      return;
-    }
-    setUser(null);
-    // Khách: nếu đã tạo bé (local) → hiện menu phụ huynh theo tên bé đang chọn.
-    if (isGuest()) {
-      listChildren()
-        .then((arr) => {
-          if (!arr.length) { setGuestChild(null); return; }
-          const stored = Number(localStorage.getItem('bhh_child_id') || '0');
-          const cur = arr.find((c) => c.id === stored) ?? arr[0];
-          setGuestChild(cur);
-        })
-        .catch(() => setGuestChild(null));
-    }
-  }, [pathname]);
-
-  useEffect(() => {
-    setMobileOpen(false);
     setOpenMenu(null);
     setAccountOpen(false);
   }, [pathname]);
@@ -156,10 +29,7 @@ export default function SiteHeader() {
   useEffect(() => {
     if (!accountOpen) return;
     function handler(e: MouseEvent) {
-      const t = e.target as Node;
-      const inDesktop = accountRef.current?.contains(t);
-      const inMobile = mobileAccountRef.current?.contains(t);
-      if (!inDesktop && !inMobile) setAccountOpen(false);
+      if (!accountRef.current?.contains(e.target as Node)) setAccountOpen(false);
     }
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -173,13 +43,6 @@ export default function SiteHeader() {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [openMenu]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('bhh_token');
-    localStorage.removeItem('bhh_user');
-    setUser(null);
-    window.location.href = '/';
-  };
 
   return (
     <header className="border-b border-slate-100 bg-white">
@@ -403,162 +266,46 @@ export default function SiteHeader() {
           </div>
         </div>
 
-        {/* Mobile: auth + hamburger */}
-        <div className="flex lg:hidden items-center gap-1.5">
+        {/* Điện thoại: kiểu thanh trên của app Facebook — huy hiệu, Đăng nhập, rồi nút Menu (ảnh đại diện
+            kèm huy hiệu ba gạch nếu đã có tài khoản). Tài khoản, khu phụ huynh và mọi mục menu nằm trong
+            trang Menu toàn màn hình (MobileMenu) thay cho danh sách dài xổ xuống trước đây. */}
+        <div className="flex items-center gap-1.5 lg:hidden">
           <HeaderStreak />
           <StarWallet />
           <NotificationBell compact />
-          {(user || guestChild) ? (
-            <div className="relative shrink-0" ref={mobileAccountRef}>
-              {/*
-                Trên điện thoại KHÔNG hiện tên. Hàng này đã có streak, ví sao và
-                chuông thông báo chen nhau, nút bị ép lại nên tên dài bao nhiêu
-                cũng cụt thành "B…" — nới max-width không cứu được vì flex vẫn
-                co. Ảnh đại diện đã đủ nhận ra là bé nào, tên đầy đủ hiện trong
-                menu khi bấm mở.
-              */}
-              <button
-                onClick={() => setAccountOpen((v) => !v)}
-                aria-label={`Tài khoản của ${user?.fullName ?? guestChild?.nickname ?? guestChild?.fullName ?? 'bé'}`}
-                className="flex shrink-0 items-center gap-0.5 rounded-full bg-white py-1 pl-1 pr-1.5 shadow-md ring-1 ring-black/5"
-              >
-                {user ? (
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[#fdecea] text-sm">👋</span>
-                ) : (
-                  <FramedAvatar child={guestChild} className="h-7 w-7" />
-                )}
-                <ChevronDown size={13} className={`shrink-0 text-[#c0392b] transition-transform ${accountOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {accountOpen && (
-                <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                  {/* Tên hiện ở đây thay cho chỗ trên nút — có đủ chỗ để không cắt. */}
-                  <div className="flex items-center gap-2 px-4 pb-2 pt-1">
-                    {user ? (
-                      <span className="grid h-8 w-8 place-items-center rounded-full bg-[#fdecea] text-base">👋</span>
-                    ) : (
-                      <FramedAvatar child={guestChild} className="h-8 w-8" />
-                    )}
-                    <span className="min-w-0 truncate text-sm font-bold text-gray-800">
-                      {user?.fullName ?? guestChild?.nickname ?? guestChild?.fullName}
-                    </span>
-                  </div>
-                  <div className="border-t border-gray-100 px-4 pb-1.5 pt-2 text-[11px] font-bold uppercase tracking-wide text-gray-400">Khu vực phụ huynh</div>
-                  {ACCOUNT_LINKS.map((l) => (
-                    <Link key={l.href} href={l.href} onClick={() => setAccountOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-[#fdecea] hover:text-[#c0392b] transition-colors">
-                      <span className="text-base">{l.emoji}</span>
-                      {l.label}
-                    </Link>
-                  ))}
-                  <div className="border-t border-gray-100 mt-1 pt-1">
-                    {user ? (
-                      <button onClick={handleLogout}
-                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
-                        <span className="text-base">🚪</span>
-                        Đăng xuất
-                      </button>
-                    ) : (
-                      <Link href="/dang-nhap" onClick={() => setAccountOpen(false)}
-                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-[#c0392b] hover:bg-[#fdecea] transition-colors">
-                        <span className="text-base">🔑</span>
-                        Đăng nhập để đồng bộ
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link href="/dang-nhap" className="whitespace-nowrap rounded-full bg-[#2563eb] px-3 py-1 text-xs font-bold text-white">Đăng nhập</Link>
+          {!user && !guestChild && (
+            <Link href="/dang-nhap" className="whitespace-nowrap rounded-full bg-[#2563eb] px-3.5 py-1.5 text-xs font-bold text-white">
+              Đăng nhập
+            </Link>
           )}
           <button
-            className="p-2 rounded-lg text-gray-700 hover:bg-white/20"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Menu"
+            type="button"
+            data-menu-tab
+            onClick={onMenu}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
+            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-100 text-slate-800 transition active:scale-95 active:bg-slate-200"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            {menuOpen ? (
+              <X size={20} />
+            ) : user || guestChild ? (
+              <>
+                {user ? (
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-blue-50 text-base">👋</span>
+                ) : (
+                  <FramedAvatar child={guestChild ?? undefined} className="h-9 w-9" />
+                )}
+                <span className="absolute -bottom-0.5 -right-0.5 grid h-4 w-4 place-items-center rounded-full bg-white text-slate-700 shadow ring-1 ring-slate-200">
+                  <Menu size={10} strokeWidth={3} />
+                </span>
+              </>
+            ) : (
+              <Menu size={20} />
+            )}
           </button>
         </div>
       </div>
-
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-white/20 shadow-lg">
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1">
-            {/* CTA Ủng hộ — nổi bật ở đầu menu mobile */}
-            <Link
-              href="/ung-ho"
-              onClick={() => setMobileOpen(false)}
-              className="mb-1 flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-2.5 text-sm font-bold text-white shadow-sm"
-            >
-              <Coffee size={16} /> Ủng hộ dự án
-            </Link>
-            {NAV_MENU.map((item) => (
-              <div key={item.href}>
-                <Link href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2
-                    ${pathname === item.href ? 'bg-[#c0392b] text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                  <NavIcon label={item.label} />
-                  {item.label}
-                </Link>
-                {item.mega === 'grades' && (
-                  <div className="ml-6 mt-1 mb-2 grid grid-cols-2 gap-1">
-                    {GRADES.flatMap((g) => SUBJECTS.map((s) => {
-                      const realSlug = courseSlugs[`${s.slug}-${g}`];
-                      if (!realSlug) return null;
-                      return (
-                        <Link
-                          key={`${g}-${s.slug}`}
-                          href={`/khoa-hoc/${realSlug}`}
-                          onClick={() => setMobileOpen(false)}
-                          className="px-3 py-1.5 text-xs text-gray-600 hover:text-[#c0392b] hover:bg-[#fdecea] rounded"
-                        >
-                          {s.emoji} {s.label} L{g}
-                        </Link>
-                      );
-                    }))}
-                  </div>
-                )}
-                {item.children && item.children.length > 0 && (
-                  <div className="ml-6 mt-1 mb-2 flex flex-col gap-1">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-1.5 text-xs text-gray-600 hover:text-[#c0392b] hover:bg-[#fdecea] rounded"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            {(user || guestChild) && (
-              <div className="mt-2 pt-2 border-t border-gray-100">
-                <div className="flex items-center gap-1.5 px-4 pb-1 text-[11px] font-bold uppercase tracking-wide text-gray-400">
-                  Khu vực phụ huynh
-                  {!user && guestChild && <><span>·</span><ChildAvatar child={guestChild} className="h-4 w-4" /><span className="normal-case">{guestChild.fullName}</span></>}
-                </div>
-                {ACCOUNT_LINKS.map((l) => (
-                  <Link key={l.href} href={l.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 text-gray-700 hover:bg-gray-100">
-                    <span className="text-base">{l.emoji}</span>
-                    {l.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-            <div className="pt-2 border-t border-gray-100 flex gap-2 text-xs text-gray-500">
-              <Link href="/ho-tro" className="hover:underline">Câu hỏi thường gặp</Link>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

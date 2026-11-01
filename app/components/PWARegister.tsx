@@ -32,6 +32,11 @@ function isInAppBrowser(): boolean {
   return /FBAN|FBAV|FB_IAB|Instagram|Messenger|Zalo|Line\/|MicroMessenger|TikTok|BytedanceWebview|GSA\//i.test(ua);
 }
 
+// Dưới 1024px nằm trên thanh tab dưới (cao ~60px) thay vì đè lên nó; ẩn khi đang mở trang Menu
+// (MobileMenu đánh dấu body[data-menu-open]). `!hidden` để thắng display:flex trong style.
+const BANNER =
+  'bottom-[calc(72px+env(safe-area-inset-bottom))] lg:bottom-[calc(12px+env(safe-area-inset-bottom))] [body[data-menu-open]_&]:!hidden';
+
 export default function PWARegister() {
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
   // 'manual': trình duyệt chưa cho cài bằng 1 nút → hướng dẫn mở menu trình duyệt.
@@ -150,7 +155,6 @@ export default function PWARegister() {
     position: 'fixed',
     left: 12,
     right: 12,
-    bottom: `calc(12px + env(safe-area-inset-bottom))`,
     zIndex: 60,
     margin: '0 auto',
     maxWidth: 440,
@@ -168,7 +172,7 @@ export default function PWARegister() {
   if (mode === 'ios') {
     const inApp = isInAppBrowser();
     return (
-      <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học trên iPhone" style={shell}>
+      <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học trên iPhone" className={BANNER} style={shell}>
         <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên iPhone</div>
@@ -205,7 +209,7 @@ export default function PWARegister() {
   // Trình duyệt chưa cho cài bằng 1 nút (Firefox, Safari trên máy tính, hoặc Chrome chưa sẵn sàng).
   if (mode === 'manual') {
     return (
-      <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" style={shell}>
+      <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" className={BANNER} style={shell}>
         <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên máy</div>
@@ -228,7 +232,7 @@ export default function PWARegister() {
 
   // Android/Chrome: nút cài trực tiếp
   return (
-    <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" style={shell}>
+    <div role="dialog" aria-label="Cài ứng dụng Bé Hay Học" className={BANNER} style={shell}>
       <img src="/icon-192x192.png?v=20260828" alt="" width={44} height={44} style={{ borderRadius: 12, flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 800, color: '#0f172a', fontSize: 15 }}>Cài Bé Hay Học lên máy</div>

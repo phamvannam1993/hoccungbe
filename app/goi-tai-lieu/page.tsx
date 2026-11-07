@@ -5,7 +5,7 @@ import { PACKS, packKey, type Pack } from './packs';
 import BuyPack from './[slug]/BuyPack';
 
 export const metadata: Metadata = {
-  title: 'Gói tài liệu in: bộ đề ôn thi học kỳ 1, card Phonics',
+  title: 'Gói tài liệu in: bộ đề ôn thi học kỳ 1, 30 đề giữa kì lớp 1, card Phonics',
   description:
     'Bộ đề ôn thi học kỳ 1 lớp 1–5 (Toán, Tiếng Việt, Tiếng Anh) in A4 kèm đáp án và lời giải; trọn bộ card Phonics tiếng Anh in sẵn. Mua một lần, in trong 12 tháng.',
   alternates: { canonical: '/goi-tai-lieu' },
@@ -56,7 +56,7 @@ function PackCard({ pack, until }: { pack: Pack; until: number | null }) {
 export default async function GoiTaiLieuPage() {
   const access = await getAccess();
   const phonics = PACKS.filter((p) => p.kind === 'phonics');
-  const exams = PACKS.filter((p) => p.kind === 'de-hk1');
+  const exams = PACKS.filter((p) => p.kind === 'de-hk1' || p.kind === 'thi-lop-1');
   const until = (p: Pack) => access[packKey(p.slug)] ?? null;
 
   return (

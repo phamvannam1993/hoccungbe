@@ -4,6 +4,7 @@ import { parseExamDbSlug } from './examNav';
 import { getCourseTopics, topicLastmod } from './topicSeo';
 import { publishableCategories } from './gameCategories';
 import { publishableVocabTopics } from './vocab';
+import { THI_LOP_1 } from '../thi-lop-1/de';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
@@ -89,6 +90,8 @@ const STATIC_PATHS: [string, string][] = [
   ['/cong-cu/chuyen-giong-noi-thanh-van-ban', '2026-06-24'],
   ['/bai-tap', '2026-08-10'],
   ['/phieu-bai-tap', '2026-08-19'],
+  ['/thi-lop-1', '2026-11-07'],
+  ...THI_LOP_1.map((e): [string, string] => [`/thi-lop-1/${e.slug}`, '2026-11-07']),
   ['/luyen-viet-chu-dep', '2026-09-14'],
   ['/luyen-viet-chu-dep/net-co-ban', '2026-09-14'],
   ['/luyen-viet-chu-dep/chu-thuong', '2026-09-14'],

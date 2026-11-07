@@ -76,6 +76,7 @@ export const NAV_MENU: NavItem[] = [
     label: 'Ôn thi',
     children: [
       { href: '/de-thi', label: '📝 Đề thi có chấm điểm' },
+      { href: '/thi-lop-1', label: '🏆 Thi thử lớp 1 (Toán – TV)' },
       { href: '/bai-tap', label: '✏️ Bài tập theo chủ đề' },
       { href: '/phieu-bai-tap', label: '🖨️ Phiếu bài tập PDF' },
       { href: '/goi-tai-lieu', label: '🎁 Gói tài liệu in' },

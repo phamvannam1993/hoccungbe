@@ -17,7 +17,7 @@ export const PHONICS_COUNTS = {
   flowers: WORD_FAMILIES.length,
 };
 
-export type PackKind = 'de-hk1' | 'phonics';
+export type PackKind = 'de-hk1' | 'phonics' | 'thi-lop-1';
 
 export type Pack = {
   slug: string;
@@ -78,6 +78,63 @@ export const PACKS: Pack[] = [
       'Card âm ghép: digraph, vowel team, r-controlled, blends',
       'In một lần cả bộ, có đường cắt, dùng 12 tháng',
     ],
+  },
+  {
+    // Bản in đề giữa kì của khu /thi-lop-1 (tờ đề vẽ lại từ bộ đề giấy) — làm online vẫn miễn phí
+    slug: 'thi-giua-ki-1-lop-1',
+    codePrefix: 'DLGK1L1',
+    kind: 'thi-lop-1',
+    title: 'Bộ 30 đề kiểm tra giữa kì 1 Toán lớp 1',
+    subtitle: '30 đề kiểm tra giữa kì 1 môn Toán lớp 1 (Đề 1 → Đề 30), in A4 như đề thật, kèm đáp án',
+    price: 29000,
+    oldPrice: 199000,
+    emoji: '🏆',
+    bullets: [
+      '30 đề Kiểm tra giữa kì 1 môn Toán (Đề 1 → Đề 30)',
+      'Đủ dạng bài: đếm hình, so sánh, tách – gộp, tính, viết phép tính theo tranh',
+      'Trình bày y như đề giấy: tranh, ô điểm, chỗ ghi tên',
+      'Phần đáp án ở cuối bộ, in bao nhiêu lần cũng được trong 12 tháng',
+    ],
+    grade: 1,
+    subjects: ['toan'],
+  },
+  {
+    // Bản in phiếu ôn tập học kì 1 của khu /thi-lop-1
+    slug: 'on-thi-hoc-ki-1-lop-1',
+    codePrefix: 'DLONHK1L1',
+    kind: 'thi-lop-1',
+    title: 'Ôn thi học kỳ 1 lớp 1 – phiếu ôn tập',
+    subtitle: '10 phiếu ôn tập học kì 1 môn Toán và 4 phiếu Tiếng Việt (chính tả, ôn giữa kì), in A4 như phiếu thật, kèm đáp án',
+    price: 29000,
+    oldPrice: 149000,
+    emoji: '📚',
+    bullets: [
+      '10 phiếu Ôn tập học kì 1 môn Toán: tính, tìm số, điền dấu, viết phép tính theo tranh',
+      '4 phiếu Tiếng Việt: chính tả g/gh, x/s, ua/ưa, ch/tr và phiếu ôn giữa kì',
+      'Trình bày y như phiếu giấy, có tranh minh hoạ',
+      'Phần đáp án ở cuối bộ, in bao nhiêu lần cũng được trong 12 tháng',
+    ],
+    grade: 1,
+    subjects: ['toan', 'tieng-viet'],
+  },
+  {
+    // Bản in 23 đề Kiểm tra học kì 1 Tiếng Việt lớp 1 của khu /thi-lop-1
+    slug: 'de-tieng-viet-hk1-lop-1',
+    codePrefix: 'DLTVHK1L1',
+    kind: 'thi-lop-1',
+    title: 'Bộ 23 đề kiểm tra học kì 1 Tiếng Việt lớp 1',
+    subtitle: '23 đề kiểm tra học kì 1 môn Tiếng Việt lớp 1: đọc thành tiếng, đọc hiểu, chính tả, bài tập — in A4 có tranh, kèm đáp án',
+    price: 29000,
+    oldPrice: 199000,
+    emoji: '📝',
+    bullets: [
+      '23 đề Kiểm tra học kì 1 môn Tiếng Việt (Đề 1 → Đề 23)',
+      'Đủ phần: đọc thành tiếng, đọc hiểu, chính tả, bài tập',
+      'Có tranh minh hoạ, ô li để bé tập chép',
+      'Phần đáp án ở cuối bộ, in bao nhiêu lần cũng được trong 12 tháng',
+    ],
+    grade: 1,
+    subjects: ['tieng-viet'],
   },
   hk1(1, ['toan', 'tieng-viet', 'tieng-anh'], 29000, 199000),
   hk1(2, ['toan', 'tieng-viet'], 29000, 149000),

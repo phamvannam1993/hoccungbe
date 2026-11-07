@@ -8,6 +8,7 @@ import BuyPack from './BuyPack';
 import ExamBook from './ExamBook';
 import PackToolbar from './PackToolbar';
 import PhonicsPrintSheet from './PhonicsPrintSheet';
+import ThiLop1Book from './ThiLop1Book';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -43,6 +44,8 @@ export default async function PackPrintPage({ params }: Props) {
       <p className="font-bold text-amber-900">
         {pack.kind === 'phonics'
           ? `Bản xem thử: ${PHONICS_PREVIEW} card mỗi phần. Mua gói để in trọn bộ.`
+          : pack.kind === 'thi-lop-1'
+            ? 'Bản xem thử: tờ đầu tiên, chưa kèm đáp án. Mua gói để in trọn bộ kèm phần đáp án.'
           : 'Bản xem thử: Đề 1, chưa kèm đáp án. Mua gói để in đủ bộ đề, kèm đáp án và lời giải.'}
       </p>
       <div className="mt-3">
@@ -55,6 +58,16 @@ export default async function PackPrintPage({ params }: Props) {
     return (
       <div className="min-h-screen bg-slate-100 pb-10 print:bg-white print:pb-0">
         <PhonicsPrintSheet fallback={buildVocabFallback(VOCAB_TOPICS)} limit={unlocked ? null : PHONICS_PREVIEW} locked={unlocked ? null : locked} />
+      </div>
+    );
+  }
+
+  if (pack.kind === 'thi-lop-1') {
+    return (
+      <div className="min-h-screen bg-slate-100 pb-10 print:bg-white print:pb-0">
+        <style>{BOOK_CSS}</style>
+        <PackToolbar />
+        <ThiLop1Book pack={pack} unlocked={unlocked} locked={locked} />
       </div>
     );
   }

@@ -91,6 +91,9 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
   const [unlocked, setUnlocked] = useState(false);
   const [copied, setCopied] = useState(false);
   const label = accessLabel(target.months);
+  // Gói tài liệu in (mã DL…, mua ở /goi-tai-lieu) không phải khóa học
+  const goi = /^DL/.test(target.codePrefix);
+  const ten = goi ? 'gói tài liệu' : 'khóa học';
 
   // Bấm "Mua" → tạo (hoặc lấy lại) đơn chờ duyệt kèm mã kích hoạt.
   useEffect(() => {
@@ -150,7 +153,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
 
   const header = (
     <>
-      <p className="mr-8 rounded-[30px] bg-[#1ea3cf] py-2 text-center text-sm font-extrabold text-white">MUA KHÓA HỌC</p>
+      <p className="mr-8 rounded-[30px] bg-[#1ea3cf] py-2 text-center text-sm font-extrabold text-white">{goi ? 'MUA GÓI TÀI LIỆU' : 'MUA KHÓA HỌC'}</p>
       <h2 className="mt-4 text-xl font-black text-slate-800">{order?.title ?? target.title}</h2>
       <p className="text-2xl font-black text-[#e34a4a]">
         {formatVnd(order?.amount ?? target.price)} <span className="text-base font-bold text-slate-500">/ {label}</span>
@@ -163,8 +166,8 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
       <Modal onClose={onClose}>
         {header}
         <div className="mt-5 text-center">
-          <p className="font-bold text-slate-700">{state && !state.ok ? state.message : 'Bố mẹ đăng nhập tài khoản để mua khóa học nhé.'}</p>
-          <p className="mt-2 text-sm text-slate-500">Khóa học gắn với tài khoản: đăng nhập trên điện thoại, máy tính bảng hay máy tính đều học được.</p>
+          <p className="font-bold text-slate-700">{state && !state.ok ? state.message : `Bố mẹ đăng nhập tài khoản để mua ${ten} nhé.`}</p>
+          <p className="mt-2 text-sm text-slate-500">{goi ? 'Gói tài liệu' : 'Khóa học'} gắn với tài khoản: đăng nhập trên điện thoại, máy tính bảng hay máy tính đều {goi ? 'in / tải' : 'học'} được.</p>
           <a href={authHref('login')} className="khv-btn-buy mt-5 block w-full">
             ĐĂNG NHẬP
           </a>
@@ -253,7 +256,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           )}
         </div>
         <p className="mt-4 text-center text-sm text-slate-600">
-          Chuyển khoản xong, khóa học <b>tự mở trong vài giây</b> — học {label} tính từ lúc kích hoạt (còn hạn thì cộng nối tiếp). Không cần gửi ảnh chuyển khoản.
+          Chuyển khoản xong, {ten} <b>tự mở trong vài giây</b> — {goi ? 'dùng' : 'học'} {label} tính từ lúc kích hoạt (còn hạn thì cộng nối tiếp). Không cần gửi ảnh chuyển khoản.
         </p>
         <p className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-amber-50 py-2 text-sm font-bold text-amber-700">
           <span className="khv-pulse inline-block h-2 w-2 rounded-full bg-amber-500" /> Đang chờ thanh toán…
@@ -303,7 +306,7 @@ function BuyModal({ shop, target, onClose, onActivate }: { shop: ShopInfo; targe
           </div>
         </li>
         <li>
-          <b>Bước 2.</b> Chờ admin xác nhận tiền về. Duyệt xong mã được kích hoạt và khóa học <b>tự mở</b> trên tài khoản, học {label} tính
+          <b>Bước 2.</b> Chờ admin xác nhận tiền về. Duyệt xong mã được kích hoạt và {ten} <b>tự mở</b> trên tài khoản, {goi ? 'dùng' : 'học'} {label} tính
           từ lúc kích hoạt. Cần nhanh hơn, bố mẹ gửi ảnh chuyển khoản qua Zalo{' '}
           <a href={`https://zalo.me/${shop.zalo}`} target="_blank" rel="noreferrer" className="font-bold text-sky-600 underline">
             {shop.zalo}

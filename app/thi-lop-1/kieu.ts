@@ -1,7 +1,7 @@
 // Kiểu dữ liệu tờ đề /thi-lop-1 và bước biên dịch: mẫu chữ có [[k:đáp án]] → đoạn chữ + ô trống có id,
 // gom mọi ô vào `blanks` (id → loại, đáp án, bài) để PhieuThi chấm điểm. Module thường (không 'use client').
 
-export type Kind = 'n' | 'c' | 's' | 'd' | 't' | 'w' | 'mc' | 'eq' | 'match';
+export type Kind = 'n' | 'c' | 's' | 'd' | 't' | 'w' | 'g' | 'mc' | 'eq' | 'match';
 export type Blank = { id: string; kind: Kind; box: boolean; ans: string[]; opts?: string[]; bai: number; any?: boolean };
 export type Seg = string | { b: string };
 export type Tpl = Seg[];
@@ -24,6 +24,8 @@ export type RawBlock =
   | { t: 'pyramid'; rows: string[][] }
   | { t: 'cards'; items: { img: string; word: string }[]; cols: number; numbered?: boolean }
   | { t: 'row'; cols: RawBlock[][]; widths?: string[] }
+  /** Gạch chân: bấm các từ trong `cau`; đúng khi chọn đủ và chỉ các từ thuộc các cụm trong `dung`. */
+  | { t: 'gach'; cau: string; dung: string[] }
   | { t: 'img'; src: string; w?: number }
   /** Phần viết tự do (tập chép, viết câu): ô li để viết tay, không chấm trên máy. `mau`: chữ mẫu. */
   | { t: 'viet'; dong: number; mau?: string; cursive?: boolean }
@@ -60,6 +62,7 @@ export type Block =
   | { t: 'pyramid'; rows: Tpl[][] }
   | { t: 'cards'; items: { img: string; word: Tpl }[]; cols: number; numbered?: boolean }
   | { t: 'row'; cols: Block[][]; widths?: string[] }
+  | { t: 'gach'; tu: string[]; b: string }
   | { t: 'img'; src: string; w?: number }
   /** Phần viết tự do (tập chép, viết câu): ô li để viết tay, không chấm trên máy. `mau`: chữ mẫu. */
   | { t: 'viet'; dong: number; mau?: string; cursive?: boolean }
@@ -92,7 +95,8 @@ export function compile(raw: RawPhieu): Phieu {
       if (k === 't') {
         const [a, o] = m[2].split('/');
         ans = [a];
-        opts = o.split(',');
+        // Lựa chọn có chứa dấu phẩy (vd. dấu câu) → ngăn bằng "|"
+        opts = o.includes('|') ? o.split('|') : o.split(',');
       }
       if (k === 's') ans = ans.map((a) => (a === '-' ? '−' : a));
       out.push({ b: add({ kind: k, box, ans, opts }) });
@@ -155,6 +159,24 @@ export function compile(raw: RawPhieu): Phieu {
         return { ...r, items: r.items.map((i) => ({ img: i.img, word: tpl(i.word) })) };
       case 'row':
         return { t: 'row', widths: r.widths, cols: r.cols.map((c) => c.map(block)) };
+      case 'gach': {
+        const tu = r.cau.split(/\s+/).filter(Boolean);
+        const sach = (x: string) => x.replace(/[.,!?:;“”"()]/g, '').toLowerCase();
+        const chon = new Set<number>();
+        for (const cum of r.dung) {
+          const c = cum.toLowerCase().split(/\s+/);
+          let hit = false;
+          for (let i = 0; i + c.length <= tu.length; i++) {
+            if (c.every((w, k) => sach(tu[i + k]) === w)) {
+              c.forEach((_, k) => chon.add(i + k));
+              hit = true;
+              break;
+            }
+          }
+          if (!hit) throw new Error(`Không thấy "${cum}" trong: ${r.cau}`);
+        }
+        return { t: 'gach', tu, b: add({ kind: 'g', box: false, ans: [[...chon].sort((a, b) => a - b).join(',')] }) };
+      }
       case 'img':
       case 'nhom':
       case 'viet':
@@ -179,6 +201,35 @@ export function compile(raw: RawPhieu): Phieu {
 /** Chuẩn hoá câu trả lời số/chữ để so. */
 export const chuan = (s: string) => s.normalize('NFC').trim().replace(/−/g, '-').replace(/\s+/g, ' ').replace(/[.!?,]+$/, '').toLowerCase();
 
+/** Số bé gõ: "17/6", "2 5/6" (hỗn số), "12", "3,50" → [tử, mẫu] nguyên (thập phân → mẫu 10ⁿ); không hiểu → null. */
+function docSo(s: string): [number, number] | null {
+  const t = s.trim().replace(/\s+/g, ' ');
+  let m = /^(\d+) (\d+)\/(\d+)$/.exec(t);
+  if (m) return +m[3] ? [+m[1] * +m[3] + +m[2], +m[3]] : null;
+  m = /^(\d+)\/(\d+)$/.exec(t);
+  if (m) return +m[2] ? [+m[1], +m[2]] : null;
+  m = /^(\d+)(?:,(\d+))?$/.exec(t);
+  if (m) return [Number(m[1] + (m[2] ?? '')), 10 ** (m[2]?.length ?? 0)];
+  return null;
+}
+const luyThua10 = (n: number) => /^10*$/.test(String(n)) && n >= 10;
+
+/**
+ * Ô số so theo giá trị (lớp 5):
+ * - đáp án phân số → nhận phân số chưa rút gọn, hỗn số "2 5/6", số thập phân bằng nhau;
+ *   riêng đáp án là phân số thập phân (mẫu 10, 100…) thì bé cũng phải viết phân số có mẫu 10ⁿ;
+ * - đáp án số thập phân → nhận "87,640" = "87,64" nhưng không nhận phân số ("viết dưới dạng số thập phân").
+ */
+function bangGiaTri(a: string, v: string): boolean {
+  const x = docSo(a);
+  const y = docSo(v);
+  if (!x || !y || x[0] * y[1] !== y[0] * x[1]) return false;
+  const vPhanSo = v.includes('/');
+  if (a.includes('/')) return !luyThua10(x[1]) || (vPhanSo && luyThua10(y[1]));
+  if (a.includes(',')) return !vPhanSo && v.includes(',');
+  return false;
+}
+
 /** Ô `b` với câu trả lời `v` có đúng không. */
 export function dungO(b: Blank, v: string | undefined): boolean {
   if (v === undefined || v === '') return false;
@@ -190,7 +241,11 @@ export function dungO(b: Blank, v: string | undefined): boolean {
     if (b.any) return true;
     return b.ans.includes(`${Number(a)}${op === '+' ? '+' : '-'}${Number(x)}=${Number(r)}`);
   }
+  // Ô bấm chọn (dấu, Đ/S, âm/vần): so khớp nguyên văn — chuan() bỏ dấu câu cuối nên "," và "." sẽ bị coi là như nhau
+  if (b.kind === 't' || b.kind === 'c' || b.kind === 'd' || b.kind === 's') return b.ans.includes(v);
   // Ô chữ tự do: "~x" = câu trả lời chứa x (vd. "tưới cây", "đang tưới hoa")
   if (b.kind === 'w') return b.ans.some((a) => (a.startsWith('~') ? chuan(v).includes(chuan(a.slice(1))) : chuan(a) === chuan(v)));
+  // Ô số: lớp 5 có số thập phân "3,5"; đáp án số nguyên thì dấu phẩy/chấm bé gõ là phân cách hàng nghìn → bỏ
+  if (b.kind === 'n') return b.ans.some((a) => chuan(a) === chuan(a.includes(',') ? v : v.replace(/,/g, '')) || bangGiaTri(a, v));
   return b.ans.some((a) => chuan(a) === chuan(v));
 }

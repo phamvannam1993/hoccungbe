@@ -2,7 +2,13 @@
 // rồi soát slug trùng, tranh thiếu file, bài không có ô nào, điểm vượt thang.
 // Chạy: npx tsx scripts/kiem-thi-lop-1.ts
 import { existsSync } from 'node:fs';
-import { THI_LOP_1 } from '../app/thi-lop-1/de';
+import { THI_LOP_1 as L1 } from '../app/thi-lop-1/de';
+import { THI_LOP_2 } from '../app/thi-lop-2/de';
+import { THI_LOP_3 } from '../app/thi-lop-3/de';
+import { THI_LOP_4 } from '../app/thi-lop-4/de';
+import { THI_LOP_5 } from '../app/thi-lop-5/de';
+
+const THI_LOP_1 = [...L1, ...THI_LOP_2, ...THI_LOP_3, ...THI_LOP_4, ...THI_LOP_5];
 
 let loi = 0;
 const bao = (m: string) => {
@@ -14,7 +20,7 @@ for (const p of THI_LOP_1) {
   if (slugs.has(p.slug)) bao(`slug trùng: ${p.slug}`);
   slugs.add(p.slug);
   const json = JSON.stringify(p.bai);
-  for (const m of json.matchAll(/"(?:img|src)":"([^"]+)"/g)) if (!existsSync(`public/thi-lop-1/${m[1]}.webp`)) bao(`${p.slug}: thiếu tranh ${m[1]}`);
+  for (const m of json.matchAll(/"(?:img|src)":"([^"]+)"/g)) if (!existsSync(m[1].startsWith('/') ? `public${m[1]}.webp` : `public/thi-lop-1/${m[1]}.webp`)) bao(`${p.slug}: thiếu tranh ${m[1]}`);
   const max = p.bai.reduce((s, b) => s + b.diem, 0);
   if (max > 10.001) bao(`${p.slug}: tổng điểm ${max} > 10`);
   p.bai.forEach((b, i) => {

@@ -5,6 +5,10 @@ import { getCourseTopics, topicLastmod } from './topicSeo';
 import { publishableCategories } from './gameCategories';
 import { publishableVocabTopics } from './vocab';
 import { THI_LOP_1 } from '../thi-lop-1/de';
+import { THI_LOP_2 } from '../thi-lop-2/de';
+import { THI_LOP_3 } from '../thi-lop-3/de';
+import { THI_LOP_4 } from '../thi-lop-4/de';
+import { THI_LOP_5 } from '../thi-lop-5/de';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.behayhoc.com';
 
@@ -92,6 +96,14 @@ const STATIC_PATHS: [string, string][] = [
   ['/phieu-bai-tap', '2026-08-19'],
   ['/thi-lop-1', '2026-11-07'],
   ...THI_LOP_1.map((e): [string, string] => [`/thi-lop-1/${e.slug}`, '2026-11-07']),
+  ['/thi-lop-2', '2026-11-09'],
+  ...THI_LOP_2.map((e): [string, string] => [`/thi-lop-2/${e.slug}`, '2026-11-09']),
+  ['/thi-lop-3', '2026-11-09'],
+  ...THI_LOP_3.map((e): [string, string] => [`/thi-lop-3/${e.slug}`, '2026-11-09']),
+  ['/thi-lop-4', '2026-11-09'],
+  ...THI_LOP_4.map((e): [string, string] => [`/thi-lop-4/${e.slug}`, '2026-11-09']),
+  ['/thi-lop-5', '2026-11-09'],
+  ...THI_LOP_5.map((e): [string, string] => [`/thi-lop-5/${e.slug}`, '2026-11-09']),
   ['/luyen-viet-chu-dep', '2026-09-14'],
   ['/luyen-viet-chu-dep/net-co-ban', '2026-09-14'],
   ['/luyen-viet-chu-dep/chu-thuong', '2026-09-14'],

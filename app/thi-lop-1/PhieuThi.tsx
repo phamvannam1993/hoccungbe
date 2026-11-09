@@ -8,7 +8,8 @@
 import { createContext, useCallback, useContext, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { dungO, type Bai, type Blank, type Block, type Item, type Nhom, type Phieu, type Tpl } from './kieu';
 
-const IMG = (n: string) => `/thi-lop-1/${n}.webp`;
+/** Tên tranh: tương đối → public/thi-lop-1; bắt đầu bằng "/" → đường dẫn tuyệt đối (vd. /thi-lop-2/…). */
+const IMG = (n: string) => (n.startsWith('/') ? `${n}.webp` : `/thi-lop-1/${n}.webp`);
 
 type Ctx = {
   blanks: Record<string, Blank>;
@@ -47,7 +48,7 @@ function O({ id, bare, style }: { id: string; bare?: boolean; style?: CSSPropert
       <span className="inline-flex items-baseline">
         <input
           value={v}
-          onChange={(e) => set(id, e.target.value.slice(0, 40))}
+          onChange={(e) => set(id, e.target.value.slice(0, 120))}
           disabled={nop}
           aria-label="Điền chữ"
           className="text-center font-semibold outline-none focus:bg-amber-50"
@@ -62,12 +63,13 @@ function O({ id, bare, style }: { id: string; bare?: boolean; style?: CSSPropert
       <span className={`inline-flex items-baseline ${b.box || bare ? 'align-middle' : ''}`} style={bare ? { width: '100%', height: '100%' } : undefined}>
         <input
           value={v}
-          onChange={(e) => set(id, e.target.value.replace(/[^\d]/g, '').slice(0, 2))}
+          onChange={(e) => set(id, e.target.value.replace(/\./g, ',').replace(/[^\d,/ ]/g, '').replace(/ +/g, ' ').replace(/^ /, '').slice(0, 14))}
           disabled={nop}
-          inputMode="numeric"
+          // Bàn phím điện thoại: ô phân số cần "/", ô thập phân cần ","; bàn phím numeric của iPhone chỉ có chữ số
+          inputMode={b.ans.some((a) => a.includes('/')) ? 'text' : b.ans.some((a) => a.includes(',')) ? 'decimal' : 'numeric'}
           aria-label="Điền số"
           className="text-center font-bold outline-none focus:bg-amber-50"
-          style={{ ...khung, color: mau ?? '#1d4ed8', width: bare ? '100%' : b.box ? '2.1em' : `${Math.max(2.6, v.length * 0.7 + 1.6)}em`, ...style }}
+          style={{ ...khung, color: mau ?? '#1d4ed8', width: bare ? '100%' : b.box ? `${Math.max(2.1, v.length * 0.62 + 0.9)}em` : `${Math.max(2.6, v.length * 0.7 + 1.6)}em`, ...style }}
         />
         {sai}
       </span>
@@ -96,10 +98,29 @@ function O({ id, bare, style }: { id: string; bare?: boolean; style?: CSSPropert
   );
 }
 
+/** Chữ có phân số viết `{a/b}` (lớp 5) → phân số xếp chồng; hỗn số viết liền: `2{3/4}`. */
+function Chu({ s }: { s: string }) {
+  if (!s.includes('{')) return <>{s}</>;
+  const out: ReactNode[] = [];
+  let last = 0;
+  for (const m of s.matchAll(/\{([^{}/]+)\/([^{}]+)\}/g)) {
+    if (m.index! > last) out.push(s.slice(last, m.index));
+    out.push(
+      <span key={m.index} className="mx-[0.1em] inline-flex flex-col items-center align-middle text-[0.9em] leading-[1.1]">
+        <span className="px-[0.15em]">{m[1]}</span>
+        <span className="w-full border-t-[1.5px] border-current px-[0.15em]">{m[2]}</span>
+      </span>,
+    );
+    last = m.index! + m[0].length;
+  }
+  if (last < s.length) out.push(s.slice(last));
+  return <>{out}</>;
+}
+
 function T({ tpl, bare }: { tpl: Tpl; bare?: boolean }) {
   return (
     <>
-      {tpl.map((s, i) => (typeof s === 'string' ? <span key={i} className="whitespace-pre-wrap">{s}</span> : <O key={i} id={s.b} bare={bare && tpl.length === 1} />))}
+      {tpl.map((s, i) => (typeof s === 'string' ? <span key={i} className="whitespace-pre-wrap"><Chu s={s} /></span> : <O key={i} id={s.b} bare={bare && tpl.length === 1} />))}
     </>
   );
 }
@@ -149,6 +170,42 @@ function NhomTranh({ nhom }: { nhom: Nhom[] }) {
         </span>
       ))}
     </div>
+  );
+}
+
+/* ─────────── Gạch chân từ ─────────── */
+
+function Gach({ b }: { b: Extract<Block, { t: 'gach' }> }) {
+  const { ans, set, nop, blanks } = useC();
+  const chon = new Set((ans[b.b] ?? '').split(',').filter(Boolean).map(Number));
+  const dung = new Set(blanks[b.b].ans[0].split(',').filter(Boolean).map(Number));
+  const bam = (i: number) => {
+    if (nop) return;
+    const n = new Set(chon);
+    if (n.has(i)) n.delete(i);
+    else n.add(i);
+    set(b.b, [...n].sort((x, y) => x - y).join(','));
+  };
+  return (
+    <p className="py-1 leading-[2.2]">
+      {b.tu.map((w, i) => {
+        const on = chon.has(i);
+        // Sau khi nộp: từ đúng đã gạch → xanh; gạch nhầm → đỏ; từ cần gạch mà bỏ sót → chữ đỏ gạch chân
+        const mau = nop ? (dung.has(i) ? (on ? XANH : DO) : on ? DO : undefined) : on ? '#2563eb' : undefined;
+        return (
+          <span key={i}>
+            <button
+              type="button"
+              disabled={nop}
+              onClick={() => bam(i)}
+              className="rounded px-0.5 hover:bg-amber-50"
+              style={{ textDecoration: mau ? 'underline' : 'none', textDecorationColor: mau, textDecorationThickness: 3, textUnderlineOffset: 5, color: nop && dung.has(i) && !on ? DO : undefined }}>
+              {w}
+            </button>{' '}
+          </span>
+        );
+      })}
+    </p>
   );
 }
 
@@ -218,7 +275,7 @@ function Mc({ b }: { b: Extract<Block, { t: 'mc' }> }) {
                 {'ABCDEFG'[i]}
               </span>
               {/* Lựa chọn chỉ là chữ cái (tranh A, B, C, D ở trên) → không lặp "A . A" */}
-              {o && o !== 'ABCDEFG'[i] ? <span className="-ml-1" style={{ color: mau }}>.&nbsp;{o}</span> : null}
+              {o && o !== 'ABCDEFG'[i] ? <span className="-ml-1" style={{ color: mau }}>.&nbsp;<Chu s={o} /></span> : null}
             </button>
           );
         })}
@@ -563,6 +620,8 @@ function BlockView({ b }: { b: Block }) {
       return <Pyramid b={b} />;
     case 'cards':
       return <Cards b={b} />;
+    case 'gach':
+      return <Gach b={b} />;
     case 'nhom':
       return (
         <div className="flex justify-center py-1">
@@ -632,7 +691,7 @@ function BaiView({ bai: b0, kieu }: { bai: Bai; kieu: Phieu['kieu'] }) {
   if (kieu === 'on-tap')
     return (
       <section className="mb-3">
-        <h3 className="mb-1 font-bold" style={{ color: '#d9480f', fontFamily: 'inherit', fontSize: 'inherit' }}>{bai.title}</h3>
+        <h3 className="mb-1 font-bold" style={{ color: '#d9480f', fontFamily: 'inherit', fontSize: 'inherit' }}><Chu s={bai.title} /></h3>
         <div className="rounded-lg border-2 border-dashed px-3 py-2" style={{ borderColor: '#0e7490' }}>
           {bai.blocks.map((b, i) => (
             <BlockView key={i} b={b} />
@@ -651,7 +710,7 @@ function BaiView({ bai: b0, kieu }: { bai: Bai; kieu: Phieu['kieu'] }) {
     );
   return (
     <section className="mb-3">
-      <h3 className="font-bold" style={{ fontFamily: 'inherit', fontSize: 'inherit' }}>{bai.title}</h3>
+      <h3 className="font-bold" style={{ fontFamily: 'inherit', fontSize: 'inherit' }}><Chu s={bai.title} /></h3>
       <div className="pl-1">
         {bai.blocks.map((b, i) => (
           <BlockView key={i} b={b} />
@@ -697,7 +756,7 @@ export default function PhieuThi({ phieu, mode = 'lam' }: { phieu: Phieu; mode?:
 
   const ctx: Ctx = { blanks: phieu.blanks, ans, set: mode === 'lam' ? set : () => {}, nop, kieu: phieu.kieu, mode };
   const diemHien = nop && mode === 'lam' ? Math.round(ketQua.diem * 2) / 2 : null;
-  const coDauBam = Object.values(phieu.blanks).some((b) => ['c', 's', 'd', 't'].includes(b.kind));
+  const coDauBam = Object.values(phieu.blanks).some((b) => ['c', 's', 'd', 't', 'g'].includes(b.kind));
 
   const noiDung = (
     <>
@@ -825,7 +884,7 @@ export default function PhieuThi({ phieu, mode = 'lam' }: { phieu: Phieu; mode?:
       <style>{`.tl1-cot{grid-template-columns:repeat(var(--c),minmax(0,1fr))}@media (max-width:640px){.tl1-cot{grid-template-columns:repeat(var(--cm),minmax(0,1fr))}}`}</style>
       <div className="mx-auto w-full max-w-3xl px-2 pb-28 pt-4 sm:px-4">
         {coDauBam && !nop ? (
-          <p className="mb-2 rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">💡 Ô số: gõ số. Ô dấu / Đ-S / chữ: bấm vào ô để đổi lựa chọn.</p>
+          <p className="mb-2 rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">💡 Ô số: gõ số. Ô dấu / Đ-S / chữ: bấm vào ô để đổi lựa chọn. Câu gạch chân: bấm vào từ để gạch.</p>
         ) : null}
         {nop ? (
           <div className="mb-3 rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-3 text-center">

@@ -1,12 +1,16 @@
-// Bản in hai gói lớp 1 (đề giữa kì · phiếu ôn tập HK1): bìa, mỗi tờ một trang A4 (vẽ bằng PhieuThi như
+// Bản in các gói đề /thi-lop-1…5 (đề giữa kì, học kì, phiếu ôn tập): bìa, mỗi tờ một trang A4 (vẽ bằng PhieuThi như
 // trang làm bài /thi-lop-1), phần đáp án ở cuối. Chưa mua: chỉ tờ đầu, không có đáp án.
 
 import { TO_THEO_GOI } from '../../thi-lop-1/de';
+import { TO_THEO_GOI_L2 } from '../../thi-lop-2/de';
+import { TO_THEO_GOI_L3 } from '../../thi-lop-3/de';
+import { TO_THEO_GOI_L4 } from '../../thi-lop-4/de';
+import { TO_THEO_GOI_L5 } from '../../thi-lop-5/de';
 import type { Pack } from '../packs';
 import PhieuThi from '../../thi-lop-1/PhieuThi';
 
 export default function ThiLop1Book({ pack, unlocked, locked }: { pack: Pack; unlocked: boolean; locked: React.ReactNode }) {
-  const tatCa = TO_THEO_GOI[pack.slug] ?? [];
+  const tatCa = TO_THEO_GOI[pack.slug] ?? TO_THEO_GOI_L2[pack.slug] ?? TO_THEO_GOI_L3[pack.slug] ?? TO_THEO_GOI_L4[pack.slug] ?? TO_THEO_GOI_L5[pack.slug] ?? [];
   const to = unlocked ? tatCa : tatCa.slice(0, 1);
   const dem = (mon: string) => tatCa.filter((p) => p.mon === mon).length;
   return (
@@ -30,12 +34,14 @@ export default function ThiLop1Book({ pack, unlocked, locked }: { pack: Pack; un
       <section className="page keep rounded-2xl bg-white p-10 text-center shadow print:rounded-none print:shadow-none">
         <p className="text-sm font-bold uppercase tracking-[0.3em] text-pink-500">Bé Hay Học</p>
         <h1 className="mt-4 text-4xl font-black text-slate-800">{pack.title}</h1>
-        <p className="mt-2 text-xl font-bold text-slate-600">Toán – Tiếng Việt · Học kì 1</p>
+        <p className="mt-2 text-xl font-bold text-slate-600">
+          {[dem('toan') && 'Toán', dem('tieng-viet') && 'Tiếng Việt'].filter(Boolean).join(' – ')} · Lớp {pack.grade ?? 1}
+        </p>
         <ul className="mx-auto mt-8 max-w-md space-y-2 text-left text-lg">
-          <li>🔢 <b>Toán</b> — {dem('toan')} tờ</li>
-          <li>📖 <b>Tiếng Việt</b> — {dem('tieng-viet')} tờ</li>
+          {dem('toan') ? <li>🔢 <b>Toán</b> — {dem('toan')} tờ</li> : null}
+          {dem('tieng-viet') ? <li>📖 <b>Tiếng Việt</b> — {dem('tieng-viet')} tờ</li> : null}
         </ul>
-        <p className="mt-10 text-sm text-slate-500">Đáp án ở cuối bộ đề. Làm bài trực tuyến, có chấm điểm: behayhoc.com/thi-lop-1</p>
+        <p className="mt-10 text-sm text-slate-500">Đáp án ở cuối bộ đề. Làm bài trực tuyến, có chấm điểm: behayhoc.com/thi-lop-{pack.grade ?? 1}</p>
       </section>
 
       {!unlocked ? <div className="no-print">{locked}</div> : null}

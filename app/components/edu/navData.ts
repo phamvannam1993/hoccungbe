@@ -77,6 +77,10 @@ export const NAV_MENU: NavItem[] = [
     children: [
       { href: '/de-thi', label: '📝 Đề thi có chấm điểm' },
       { href: '/thi-lop-1', label: '🏆 Thi thử lớp 1 (Toán – TV)' },
+      { href: '/thi-lop-2', label: '🏆 Thi thử lớp 2 (Toán – TV)' },
+      { href: '/thi-lop-3', label: '🏆 Thi thử lớp 3 (Toán)' },
+      { href: '/thi-lop-4', label: '🏆 Thi thử lớp 4 (Toán)' },
+      { href: '/thi-lop-5', label: '🏆 Thi thử lớp 5 (Toán)' },
       { href: '/bai-tap', label: '✏️ Bài tập theo chủ đề' },
       { href: '/phieu-bai-tap', label: '🖨️ Phiếu bài tập PDF' },
       { href: '/goi-tai-lieu', label: '🎁 Gói tài liệu in' },

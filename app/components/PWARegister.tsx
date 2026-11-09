@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { clearPendingInstall, INSTALL_EVENT, INSTALL_READY_EVENT, pendingInstall } from '../lib/pwa';
 
@@ -35,7 +36,10 @@ function isInAppBrowser(): boolean {
 // Dưới 1024px nằm trên thanh tab dưới (cao ~60px) thay vì đè lên nó; ẩn khi đang mở trang Menu
 // (MobileMenu đánh dấu body[data-menu-open]). `!hidden` để thắng display:flex trong style.
 const BANNER =
-  'bottom-[calc(72px+env(safe-area-inset-bottom))] lg:bottom-[calc(12px+env(safe-area-inset-bottom))] [body[data-menu-open]_&]:!hidden';
+  'bottom-[calc(72px+env(safe-area-inset-bottom))] lg:bottom-[calc(12px+env(safe-area-inset-bottom))] [body[data-menu-open]_&]:!hidden print:!hidden';
+
+/** Trang làm đề / bản in: lời mời cài app che mất tờ đề (và lọt vào bản in) → không hiện. */
+const AN_O = ['/thi-lop-', '/goi-tai-lieu/'];
 
 export default function PWARegister() {
   const [deferred, setDeferred] = useState<BIPEvent | null>(null);
@@ -43,6 +47,7 @@ export default function PWARegister() {
   const [mode, setMode] = useState<'android' | 'ios' | 'manual' | null>(null);
   const deferredRef = useRef<BIPEvent | null>(null);
   const [hidden, setHidden] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     // 1) Đăng ký service worker (offline + cài như app) — CHỈ ở production.
@@ -127,7 +132,7 @@ export default function PWARegister() {
     };
   }, []);
 
-  if (hidden || !mode) return null;
+  if (hidden || !mode || AN_O.some((p) => pathname?.startsWith(p))) return null;
 
   const install = async () => {
     if (!deferred) return;

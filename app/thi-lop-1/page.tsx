@@ -41,8 +41,8 @@ export default function ThiLop1Page() {
             </h1>
           </div>
           <p className="text-sm font-medium leading-7 text-purple-700/90 sm:text-base">
-            <strong>{soToan} đề Toán</strong> (kiểm tra giữa kì 1 và phiếu ôn tập học kì 1) cùng <strong>{soTV} phiếu Tiếng Việt</strong> (chính tả g/gh, x/s,
-            ua/ưa, ch/tr và ôn giữa kì 1) — trình bày y như tờ đề giấy. Bé điền thẳng vào tờ đề, nối bằng đường kẻ, viết phép tính dưới tranh;
+            <strong>{soToan} đề Toán</strong> (kiểm tra giữa kì 1 và phiếu ôn tập học kì 1) cùng <strong>{soTV} phiếu Tiếng Việt</strong> (đề kiểm tra học kì 1, đề cuối kì 1,
+            chính tả g/gh, x/s, ua/ưa, ch/tr và ôn giữa kì 1) — trình bày y như tờ đề giấy. Bé điền thẳng vào tờ đề, nối bằng đường kẻ, viết phép tính dưới tranh;
             nộp bài là có điểm trong ô &quot;Điểm&quot; và đáp án từng ô.
           </p>
         </div>
@@ -51,6 +51,7 @@ export default function ThiLop1Page() {
           <PackUpsell slug="thi-giua-ki-1-lop-1" spot="thi-lop-1-hub" title="In 30 đề giữa kì 1 Toán lớp 1, kèm đáp án" />
           <PackUpsell slug="on-thi-hoc-ki-1-lop-1" spot="thi-lop-1-hub" title="In phiếu ôn thi học kỳ 1, kèm đáp án" />
           <PackUpsell slug="de-tieng-viet-hk1-lop-1" spot="thi-lop-1-hub" title="In 23 đề kiểm tra học kì 1 Tiếng Việt, kèm đáp án" />
+          <PackUpsell slug="de-tieng-viet-cuoi-ki-1-lop-1" spot="thi-lop-1-hub" title="In 20 đề kiểm tra cuối kì 1 Tiếng Việt, kèm đáp án" />
         </div>
 
         {NHOM_DE.map((nhom) => (

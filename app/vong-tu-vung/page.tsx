@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <NenGameNghe
+      href="/vong-tu-vung"
       nhan="🎡 Từ vựng tiếng Anh"
       tieuDe="Vòng tròn từ vựng"
       moTa={`Chọn lớp và chủ đề, bấm vào từng ô để nghe phát âm, xem phiên âm và nghĩa. Hơn ${soTu.toLocaleString('vi-VN')} từ chia theo ${soChuDe} chủ đề.`}

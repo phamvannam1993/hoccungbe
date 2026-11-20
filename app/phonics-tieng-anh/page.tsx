@@ -3,7 +3,8 @@ import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { PHONICS_GROUPS, totalPhonicsWords } from '../lib/phonics';
 import { WORD_FAMILIES } from '../lib/wordFamilies';
 import { DIGRAPHS } from '../lib/digraphs';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import PhonicsClient from './PhonicsClient';
 import PackUpsell from '../components/upsell/PackUpsell';
 import { VOCAB_TOPICS } from '../lib/vocab';
@@ -57,13 +58,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Phonics tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/phonics-tieng-anh"
+        crumbLabel="Phonics tiếng Anh"
         emoji="🔉"
         eyebrow="Tiếng Anh · Tập đọc"
         title="Phonics – Ghép vần đọc tiếng Anh"
-        tone="purple"
         description={
           <>
             Học <strong>âm của cả 26 chữ cái A–Z</strong> rồi tập đọc <strong>{totalPhonicsWords()} từ CVC</strong>{' '}
@@ -77,20 +77,6 @@ export default function Page() {
 
       <PhonicsClient imageFallback={IMAGE_FALLBACK} />
       <PackUpsell slug="the-phonics" spot="phonics" className="mt-8" title="Tải trọn bộ card Phonics để in cho bé" />
-
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình đọc tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
-              { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA – 44 âm', emoji: '🗣️' },
-              { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp tiếng Anh', emoji: '💬' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
 
       <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp về Phonics" tone="orange">
@@ -110,6 +96,13 @@ export default function Page() {
       />
       {/* nhóm hiện có: {PHONICS_GROUPS.length} nguyên âm ngắn */}
       <span className="sr-only">{PHONICS_GROUPS.length} nhóm nguyên âm ngắn</span>
+
+      <HocTiep href="/phonics-tieng-anh" links={[
+        { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+        { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA – 44 âm', emoji: '🗣️' },
+        { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp tiếng Anh', emoji: '💬' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

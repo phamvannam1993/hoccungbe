@@ -3,10 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
+import { PARENT_LINKS } from './navData';
+import { ALL_GRADES, gradeHref, gradeName } from '../../lib/catalog';
 
 const quickLinks = [
-  { label: 'Trang chủ', href: '/' },
+  { label: 'Tiếng Việt', href: '/tieng-viet' },
+  { label: 'Học Toán – bộ công cụ', href: '/hoc-toan' },
+  { label: 'Tiếng Anh', href: '/tu-vung-tieng-anh' },
+  { label: 'Đề thi có chấm điểm', href: '/de-thi' },
+  { label: 'Sân chơi Trí tuệ', href: '/san-choi-tri-tue' },
+  { label: 'Tài liệu in', href: '/tai-lieu-in' },
   { label: 'Khóa học cho bé', href: '/khoa-hoc' },
   { label: 'Kho trò chơi giáo dục', href: '/tro-choi' },
   { label: 'Bài tập theo chủ đề', href: '/bai-tap' },
@@ -50,13 +57,13 @@ const quickLinks = [
   { label: 'Tiến độ học tập', href: '/tien-do' },
 ];
 
+// Góc phụ huynh: cùng danh sách với menu tài khoản (navData.PARENT_LINKS), cộng hồ sơ bé, chứng nhận.
 const parentLinks = [
-  { label: 'Góc phụ huynh', href: '/bai-viet' },
+  ...PARENT_LINKS.map((l) => ({ label: l.label, href: l.href })),
+  { label: 'Hồ sơ bé', href: '/ho-so-be' },
+  { label: 'Chứng nhận', href: '/chung-nhan' },
   { label: 'Công cụ miễn phí', href: '/cong-cu' },
   { label: 'Gói tài liệu in', href: '/goi-tai-lieu' },
-  { label: 'Giới thiệu tính năng', href: '/gioi-thieu' },
-  { label: 'Cách bắt đầu', href: '/huong-dan' },
-  { label: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },
   { label: 'Hỗ trợ', href: '/ho-tro' },
 ];
 
@@ -87,7 +94,8 @@ export default function Footer() {
   }, []);
   return (
     <footer data-nosnippet className="bg-[#e8735a] border-t border-white/20">
-      <div className="mx-auto max-w-[1440px] px-4 py-7 sm:px-6 sm:py-9">
+      {/* Dưới lg có thanh tab cố định ở đáy (~60px + vùng an toàn): chừa đáy (cả chỗ linh vật Hổ Con ngồi ngay trên thanh tab) để dòng bản quyền/điều khoản không bị che. */}
+      <div className="mx-auto max-w-[1440px] px-4 pt-7 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-9 lg:pb-9">
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-8 lg:grid-cols-12">
           <div className="col-span-2 lg:col-span-4">
             <Link href="/" aria-label="Về trang chủ Bé Hay Học">
@@ -136,10 +144,10 @@ export default function Footer() {
 
           <div className="col-span-1 lg:col-span-2">
             <h2 className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">
-              Phụ huynh
+              Góc phụ huynh
             </h2>
             <ul className="mt-4 space-y-2">
-              {[...parentLinks, ...legalLinks].map((item) => (
+              {parentLinks.map((item) => (
                 <li key={item.href + item.label}>
                   <Link href={item.href} className="text-[13px] text-white/90 transition hover:text-white sm:text-sm">
                     {item.label}
@@ -179,6 +187,16 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
+        {/* Học theo lớp — lối vào chính của cấu trúc mới */}
+        <nav aria-label="Học theo lớp" className="mt-6 flex flex-wrap items-center gap-2 sm:mt-8">
+          <span className="text-[11px] font-black uppercase tracking-[0.12em] text-white sm:text-sm">Học theo lớp</span>
+          {ALL_GRADES.map((g) => (
+            <Link key={g} href={gradeHref(g)} className="rounded-full bg-white/15 px-3 py-1 text-[13px] font-bold text-white transition hover:bg-white/25">
+              {gradeName(g)}
+            </Link>
+          ))}
+        </nav>
 
         <div className="mt-6 border-t border-white/20 pt-4 sm:mt-8 sm:pt-5">
           <div className="flex flex-col gap-2.5 text-[12px] text-white/80 sm:flex-row sm:items-center sm:justify-between sm:text-sm">

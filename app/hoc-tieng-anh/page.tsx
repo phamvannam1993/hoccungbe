@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import LessonClient from './LessonClient';
 
 export const revalidate = 86400;
@@ -28,12 +29,12 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <KidShell max="3xl">
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Học tiếng Anh (game)' }]} />
-      <KidHero
+      <PageHeader
+        href="/hoc-tieng-anh"
+        crumbLabel="Học tiếng Anh (game)"
         emoji="🦉"
         eyebrow="Tiếng Anh · Game bài học"
         title="Học tiếng Anh vui như chơi game"
-        tone="green"
         description={
           <>
             Bài học ngắn kiểu <strong>Duolingo</strong>: nghe chọn tranh, chọn nghĩa, ghép cặp, chọn từ đúng. Có <strong>tim ❤️</strong>,
@@ -42,6 +43,8 @@ export default function Page() {
         }
       />
       <LessonClient />
+
+      <HocTiep href="/hoc-tieng-anh" />
     </KidShell>
   );
 }

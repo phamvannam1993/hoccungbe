@@ -21,12 +21,16 @@ const ROUTE_KEY_TO_SLUG: Record<string, string> = {
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
   'bubble-vocabulary': 'bat-bong-tu-vung',
   'puzzle-game': 'ghep-hinh-rung',
+  'word-guess': 'nhin-hinh-doan-chu',
+  'word-search': 'tim-tu',
 };
 
 type GameStructuredDataProps = {
   /** Accepts English folder name, routeKey, data page key, or canonical Vietnamese slug. */
   slug: string;
   imageUrl?: string;
+  /** Ẩn breadcrumb hiển thị (trang tự vẽ breadcrumb kiểu kid) — schema vẫn giữ. */
+  hideBreadcrumb?: boolean;
 };
 
 export function resolveGame(input: string) {
@@ -49,7 +53,7 @@ function ageBounds(ageGroup: string) {
   };
 }
 
-export default function GameStructuredData({ slug, imageUrl }: GameStructuredDataProps) {
+export default function GameStructuredData({ slug, imageUrl, hideBreadcrumb }: GameStructuredDataProps) {
   const game = resolveGame(slug);
   if (!game) return null;
 
@@ -106,7 +110,7 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(gameSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Breadcrumb hiển thị — khớp với BreadcrumbList schema, hỗ trợ điều hướng & SEO. */}
-      <nav
+      {!hideBreadcrumb && (<nav
         aria-label="Đường dẫn"
         className="mx-auto max-w-[1440px] px-4 pt-4 pb-4 text-sm text-slate-500 sm:px-6"
       >
@@ -121,7 +125,7 @@ export default function GameStructuredData({ slug, imageUrl }: GameStructuredDat
           <li aria-hidden="true" className="text-slate-300">›</li>
           <li aria-current="page" className="font-semibold text-slate-700">{game.title}</li>
         </ol>
-      </nav>
+      </nav>)}
       {/* SSR block — crawlable by search engines even when the game UI is client-rendered. */}
       <div className="sr-only">
         {/* H1 thật là tiêu đề hiển thị trong component game → dùng h2 ở đây để mỗi trang chỉ có 1 H1. */}

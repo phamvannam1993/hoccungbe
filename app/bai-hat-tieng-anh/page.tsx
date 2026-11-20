@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { SONGS, totalSongLines } from '../lib/songs';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import SongClient from './SongClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bài hát tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bai-hat-tieng-anh"
+        crumbLabel="Bài hát tiếng Anh"
         emoji="🎵"
         eyebrow="Tiếng Anh · Nghe & hát"
         title="Bài hát tiếng Anh cho bé"
-        tone="pink"
         description={
           <>
             {SONGS.length} bài hát và đồng dao quen thuộc (ABC Song, Twinkle Twinkle, Days of the Week…) với{' '}
@@ -58,20 +58,13 @@ export default function Page() {
 
       <SongClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình học tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
-              { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
-              { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
-              { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tiếng Anh', emoji: '🗣️' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/bai-hat-tieng-anh" links={[
+        { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+        { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
+        { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
+        { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tiếng Anh', emoji: '🗣️' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

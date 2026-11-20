@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAccess } from '../khoa-hoc-iq/lib/access';
-import { PACKS, packKey, type Pack } from './packs';
+import { chaoBan, PACKS, packKey, type Pack } from './packs';
 import BuyPack from './[slug]/BuyPack';
 
 export const metadata: Metadata = {
@@ -56,8 +56,9 @@ function PackCard({ pack, until }: { pack: Pack; until: number | null }) {
 export default async function GoiTaiLieuPage() {
   const access = await getAccess();
   const phonics = PACKS.filter((p) => p.kind === 'phonics');
-  const exams = PACKS.filter((p) => p.kind === 'de-hk1' || p.kind === 'thi-lop-1');
   const until = (p: Pack) => access[packKey(p.slug)] ?? null;
+  // Gói tạm ẩn (chaoBan = false) chỉ hiện với người đã mua, để họ vẫn mở được
+  const exams = PACKS.filter((p) => (p.kind === 'de-hk1' || p.kind === 'thi-lop-1') && (chaoBan(p) || until(p)));
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-16 pt-8">
@@ -67,7 +68,7 @@ export default async function GoiTaiLieuPage() {
         Mua một lần, in hoặc lưu PDF bao nhiêu lần cũng được trong 12 tháng. Thanh toán bằng QR ngân hàng, gói tự mở ngay khi tiền về.
       </p>
 
-      <h2 className="mt-8 text-xl font-black text-slate-800">📝 Ôn thi học kỳ 1</h2>
+      <h2 className="mt-8 text-xl font-black text-slate-800">📝 Đề kiểm tra giữa kì 1 · cuối kì 1</h2>
       <div className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {exams.map((p) => (
           <PackCard key={p.slug} pack={p} until={until(p)} />

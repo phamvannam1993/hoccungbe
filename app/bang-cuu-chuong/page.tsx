@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList, TONES, type Tone } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq, TONES, type Tone } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import BangCuuChuongGame from './BangCuuChuongGame';
 
 // Trang chuyên đề evergreen: /bang-cuu-chuong — keyword "bảng cửu chương" traffic rất cao.
@@ -66,13 +67,12 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bảng cửu chương' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bang-cuu-chuong"
+        crumbLabel="Bảng cửu chương"
         emoji="🔢"
         eyebrow="Chuyên đề"
         title="Bảng cửu chương từ 2 đến 9"
-        tone="pink"
         description="Bảng cửu chương (bảng nhân) từ 2 đến 9 đầy đủ, trình bày rõ ràng, dễ đọc và in được để bé học thuộc mỗi ngày. Bên dưới có mẹo ghi nhớ nhanh cùng bài tập và trò chơi nhân chia miễn phí."
       />
 
@@ -119,19 +119,12 @@ export default function Page() {
         </KidCard>
       </div>
 
-      <div className="mt-6">
-        <KidCard emoji="⭐" title="Luyện tập thêm" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/khoa-hoc/toan-lop-3', label: 'Khóa học Toán lớp 3', emoji: '📚' },
-              { href: '/bai-tap/toan-lop-3', label: 'Bài tập Toán lớp 3', emoji: '✏️' },
-              { href: '/phieu-bai-tap/lop/toan-lop-3', label: 'Phiếu bài tập Toán lớp 3', emoji: '📄' },
-              { href: '/toan-tu-duy-lop-3', label: 'Toán tư duy lớp 3', emoji: '🧠' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/bang-cuu-chuong" links={[
+        { href: '/khoa-hoc/toan-lop-3', label: 'Khóa học Toán lớp 3', emoji: '📚' },
+        { href: '/bai-tap/toan-lop-3', label: 'Bài tập Toán lớp 3', emoji: '✏️' },
+        { href: '/phieu-bai-tap/lop/toan-lop-3', label: 'Phiếu bài tập Toán lớp 3', emoji: '📄' },
+        { href: '/toan-tu-duy-lop-3', label: 'Toán tư duy lớp 3', emoji: '🧠' },
+      ]} />
     </KidShell>
   );
 }

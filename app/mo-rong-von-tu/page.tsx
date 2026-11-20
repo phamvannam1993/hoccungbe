@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { VON_TU_TOPICS, totalVonTu } from '../lib/vonTu';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import VonTuClient from './VonTuClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Mở rộng vốn từ' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/mo-rong-von-tu"
+        crumbLabel="Mở rộng vốn từ"
         emoji="📚"
         eyebrow="Tiếng Việt · Vốn từ"
         title="Mở rộng vốn từ theo chủ đề"
-        tone="purple"
         description={
           <>
             Bé học thêm <strong>{totalVonTu()} từ ngữ</strong> theo {VON_TU_TOPICS.length} chủ đề quen thuộc (con vật, nghề
@@ -58,19 +58,12 @@ export default function Page() {
 
       <VonTuClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
-              { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
-              { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
-              { href: '/dong-dao-ca-dao', label: 'Đồng dao, ca dao', emoji: '🎶' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/mo-rong-von-tu" links={[
+        { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
+        { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
+        { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
+        { href: '/dong-dao-ca-dao', label: 'Đồng dao, ca dao', emoji: '🎶' },
+      ]} />
     </KidShell>
   );
 }

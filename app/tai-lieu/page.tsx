@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import DocumentsListClient from './DocumentsListClient';
 import { DEFAULT_OG_IMAGE } from '../lib/seo';
 
@@ -37,6 +38,12 @@ export default function DocumentsPage() {
           đề ôn luyện và tài liệu tham khảo các môn Toán, Tiếng Việt và Tiếng Anh. Phụ huynh
           có thể xem trực tuyến hoặc tải về in cho bé thực hành mỗi ngày.
         </p>
+        {/* Trang gom mọi tài liệu in (phiếu miễn phí, phiếu tập viết, gói in) — lọc theo lớp/môn. */}
+        <Link href="/tai-lieu-in" className="mt-4 flex items-center gap-3 rounded-2xl border-2 border-amber-200 bg-amber-50 px-4 py-3 font-bold text-amber-900 hover:bg-amber-100">
+          <span className="text-2xl" aria-hidden>🖨️</span>
+          <span className="min-w-0 flex-1">Tìm phiếu in theo lớp và môn: phiếu bài tập, phiếu tập viết, bộ đề A4</span>
+          <span aria-hidden>→</span>
+        </Link>
       </section>
       <DocumentsListClient />
     </>

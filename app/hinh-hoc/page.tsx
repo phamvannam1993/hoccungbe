@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { HINH_PHANG, KHOI, MUC_DO } from '../lib/hinhHoc';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import HinhHocClient from './HinhHocClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Hình học' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/hinh-hoc"
+        crumbLabel="Hình học"
         emoji="🔷"
         eyebrow="Toán · Hình học"
         title="Hình học – nhìn hình, tự tô, tự đếm"
-        tone="sky"
         description={
           <>
             Ba việc: <strong>nhận tên hình</strong> (hình vẽ có xoay, buộc bé đếm cạnh chứ không nhớ tư thế),{' '}
@@ -104,20 +104,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="orange">
-          <KidLinkList
-            tone="orange"
-            items={[
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
-              { href: '/phan-so', label: 'Phân số trực quan', emoji: '🍕' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -133,6 +119,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/hinh-hoc" links={[
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
+        { href: '/phan-so', label: 'Phân số trực quan', emoji: '🍕' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+      ]} />
     </KidShell>
   );
 }

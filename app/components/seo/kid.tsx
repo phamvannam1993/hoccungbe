@@ -6,14 +6,24 @@ import type { ReactNode } from 'react';
 
 export type Tone = 'pink' | 'purple' | 'blue' | 'orange' | 'green' | 'sky' | 'yellow';
 
+// Màu đọc từ token trong app/globals.css (--hue-*, --grad-*) — cùng nguồn với PALETTE của catalog.ts.
+// `blue` của bộ kid là xanh ngọc (= màu Tiếng Anh), `yellow` là vàng hổ phách.
+const tone = (hue: string, grad: string, shadow: string) => ({
+  c: `var(--hue-${hue})`,
+  border: `var(--hue-${hue}-line)`,
+  tint: `var(--hue-${hue}-soft)`,
+  grad: `var(--grad-${grad})`,
+  shadow,
+});
+
 export const TONES: Record<Tone, { c: string; border: string; tint: string; grad: string; shadow: string }> = {
-  pink: { c: '#c81e5b', border: '#FBCFE8', tint: '#FFF1F6', grad: 'linear-gradient(135deg,#FF6B9D,#FF9F45)', shadow: 'rgba(255,107,157,0.22)' },
-  purple: { c: '#6d28d9', border: '#E9D5FF', tint: '#F6F0FF', grad: 'linear-gradient(135deg,#A06CD5,#4ECDC4)', shadow: 'rgba(160,108,213,0.22)' },
-  blue: { c: '#0d7a74', border: '#99F6E4', tint: '#ECFEFB', grad: 'linear-gradient(135deg,#4ECDC4,#87CEEB)', shadow: 'rgba(78,205,196,0.25)' },
-  orange: { c: '#c2410c', border: '#FED7AA', tint: '#FFF7ED', grad: 'linear-gradient(135deg,#FF9F45,#FFD93D)', shadow: 'rgba(255,159,69,0.25)' },
-  green: { c: '#15803d', border: '#BBF7D0', tint: '#F0FDF4', grad: 'linear-gradient(135deg,#6BCB77,#4ECDC4)', shadow: 'rgba(107,203,119,0.25)' },
-  sky: { c: '#0369a1', border: '#BAE6FD', tint: '#F0F9FF', grad: 'linear-gradient(135deg,#87CEEB,#4ECDC4)', shadow: 'rgba(135,206,235,0.28)' },
-  yellow: { c: '#a16207', border: '#FDE68A', tint: '#FEFCE8', grad: 'linear-gradient(135deg,#FFD93D,#FF9F45)', shadow: 'rgba(255,217,61,0.3)' },
+  pink: tone('pink', 'pink', 'rgba(255,107,157,0.22)'),
+  purple: tone('purple', 'purple', 'rgba(160,108,213,0.22)'),
+  blue: tone('teal', 'teal', 'rgba(78,205,196,0.25)'),
+  orange: tone('orange', 'orange', 'rgba(255,159,69,0.25)'),
+  green: tone('green', 'green', 'rgba(107,203,119,0.25)'),
+  sky: tone('sky', 'sky', 'rgba(135,206,235,0.28)'),
+  yellow: tone('amber', 'amber', 'rgba(255,217,61,0.3)'),
 };
 
 const CYCLE: Tone[] = ['pink', 'blue', 'orange', 'purple', 'green', 'sky', 'yellow'];

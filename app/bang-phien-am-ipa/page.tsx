@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { IPA, NHOM_IPA, CAP_THANH, amTheoNhom } from '../lib/ipa';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import IpaClient from './IpaClient';
 
 export const revalidate = 86400;
@@ -63,13 +64,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bảng phiên âm IPA' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bang-phien-am-ipa"
+        crumbLabel="Bảng phiên âm IPA"
         emoji="🔤"
         eyebrow="Tiếng Anh · Phát âm"
         title="Bảng phiên âm IPA – 44 âm tiếng Anh"
-        tone="sky"
         description={
           <>
             Đầy đủ <strong>{IPA.length} âm</strong>: {amTheoNhom('don').length} nguyên âm đơn,{' '}
@@ -119,20 +119,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/phonics-tieng-anh', label: 'Phonics – ghép vần đọc tiếng Anh', emoji: '🔉' },
-              { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
-              { href: '/vong-tu-vung', label: 'Vòng tròn từ vựng tiếng Anh', emoji: '🎡' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp về IPA" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -148,6 +134,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/bang-phien-am-ipa" links={[
+        { href: '/phonics-tieng-anh', label: 'Phonics – ghép vần đọc tiếng Anh', emoji: '🔉' },
+        { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+        { href: '/vong-tu-vung', label: 'Vòng tròn từ vựng tiếng Anh', emoji: '🎡' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

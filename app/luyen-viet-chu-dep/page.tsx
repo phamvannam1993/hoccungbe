@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidFaq } from '../components/seo/kid';
+import { KidShell, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import { CAC_BO, taoTrang, nhomTheoDoCao, NET_CO_BAN } from '../lib/luyenViet';
 
 export const revalidate = 86400;
@@ -45,13 +46,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Luyện viết chữ đẹp' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/luyen-viet-chu-dep"
+        crumbLabel="Luyện viết chữ đẹp"
         emoji="✍️"
         eyebrow="Vở tập viết in tại nhà"
         title="Luyện viết chữ đẹp cho bé"
-        tone="blue"
         description={
           <>
             {tong} trang phiếu tập viết trên <strong>khung ô li 5mm</strong> đúng như vở tập viết ở lớp. Mỗi dòng có
@@ -68,7 +68,7 @@ export default function Page() {
         >
           ✍️ Chưa có máy in? Chơi trò tô chữ trên màn hình
         </Link>
-      </KidHero>
+      </PageHeader>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {bos.map((b) => (
@@ -156,6 +156,8 @@ export default function Page() {
           ]}
         />
       </div>
+
+      <HocTiep href="/luyen-viet-chu-dep" />
     </KidShell>
   );
 }

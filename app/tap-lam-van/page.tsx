@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { TAP_LAM_VAN } from '../lib/tapLamVan';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import TapLamVanClient from './TapLamVanClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Tập làm văn' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/tap-lam-van"
+        crumbLabel="Tập làm văn"
         emoji="✍️"
         eyebrow="Tiếng Việt · Lớp 2–3"
         title="Tập làm văn cho bé"
-        tone="green"
         description={
           <>
             {TAP_LAM_VAN.length} đề tập làm văn quen thuộc (tả con vật, cây cối, người thân, đồ vật; kể chuyện). Mỗi đề có{' '}
@@ -57,19 +57,12 @@ export default function Page() {
 
       <TapLamVanClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
-              { href: '/mo-rong-von-tu', label: 'Mở rộng vốn từ', emoji: '📚' },
-              { href: '/truyen-co-tich', label: 'Truyện cổ tích Việt Nam', emoji: '📖' },
-              { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/tap-lam-van" links={[
+        { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
+        { href: '/mo-rong-von-tu', label: 'Mở rộng vốn từ', emoji: '📚' },
+        { href: '/truyen-co-tich', label: 'Truyện cổ tích Việt Nam', emoji: '📖' },
+        { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
+      ]} />
     </KidShell>
   );
 }

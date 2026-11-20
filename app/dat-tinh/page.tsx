@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO } from '../lib/datTinh';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import DatTinhClient from './DatTinhClient';
 
 export const revalidate = 86400;
@@ -66,13 +67,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Đặt tính rồi tính' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/dat-tinh"
+        crumbLabel="Đặt tính rồi tính"
         emoji="🧮"
         eyebrow="Toán · Tính cột dọc"
         title="Đặt tính rồi tính – chấm từng cột"
-        tone="purple"
         description={
           <>
             Bé điền từng chữ số như làm trên giấy, có <strong>ô ghi số nhớ</strong> ở trên. Máy chấm{' '}
@@ -93,21 +93,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/tien-viet-nam', label: 'Học tiêu tiền Việt Nam', emoji: '💵' },
-              { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
-              { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
-              { href: '/xem-dong-ho', label: 'Xem đồng hồ – kéo kim để học', emoji: '🕐' },
-              { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm', emoji: '⚡' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -123,6 +108,14 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/dat-tinh" links={[
+        { href: '/tien-viet-nam', label: 'Học tiêu tiền Việt Nam', emoji: '💵' },
+        { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
+        { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
+        { href: '/xem-dong-ho', label: 'Xem đồng hồ – kéo kim để học', emoji: '🕐' },
+        { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm', emoji: '⚡' },
+      ]} />
     </KidShell>
   );
 }

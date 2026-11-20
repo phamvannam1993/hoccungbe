@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList, TONES, type Tone } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq, TONES, type Tone } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 
 export const revalidate = 604800;
 
@@ -56,13 +57,12 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bảng chữ cái' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bang-chu-cai"
+        crumbLabel="Bảng chữ cái"
         emoji="🔤"
         eyebrow="Chuyên đề"
         title="Bảng chữ cái tiếng Việt 29 chữ"
-        tone="blue"
         description="Bảng chữ cái tiếng Việt gồm 29 chữ cái, kèm nguyên âm, phụ âm và 6 dấu thanh — giúp bé lớp 1 làm quen mặt chữ và bắt đầu đánh vần. Bên dưới có bài học và trò chơi luyện chữ miễn phí."
       />
 
@@ -97,21 +97,14 @@ export default function Page() {
         </KidCard>
       </div>
 
-      <div className="mt-6">
-        <KidCard emoji="⭐" title="Học thêm cho bé lớp 1" tone="sky">
-          <KidLinkList
-            tone="sky"
-            items={[
-              { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
-              { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
-              { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa học Tiếng Việt lớp 1', emoji: '📚' },
-              { href: '/luyen-viet-chu', label: 'Luyện viết chữ cho bé', emoji: '✍️' },
-              { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '✏️' },
-              { href: '/tro-choi', label: 'Trò chơi học chữ', emoji: '🎮' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/bang-chu-cai" links={[
+        { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
+        { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
+        { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa học Tiếng Việt lớp 1', emoji: '📚' },
+        { href: '/luyen-viet-chu', label: 'Luyện viết chữ cho bé', emoji: '✍️' },
+        { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '✏️' },
+        { href: '/tro-choi', label: 'Trò chơi học chữ', emoji: '🎮' },
+      ]} />
     </KidShell>
   );
 }

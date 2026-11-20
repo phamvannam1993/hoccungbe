@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <NenGameNghe
+      href="/nghe-doan-tu"
       nhan="🕵️ Luyện nghe"
       tieuDe="Nghe đoán từ"
       moTa="Nhìn hình, nghe từ tiếng Anh rồi chọn đúng cách viết."

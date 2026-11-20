@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <NenGameNghe
+      href="/vong-tron-am"
       nhan="🎡 Tập đánh vần"
       tieuDe="Vòng tròn âm vần"
       moTa="Chọn một âm, bấm vào từng ô để nghe đọc và tập đánh vần theo đúng cách dạy lớp 1."

@@ -4,7 +4,10 @@
 // sáng mờ, vài hình trang trí trôi, tiêu đề đổ màu. Chép ra bốn bản là bốn chỗ
 // phải sửa mỗi lần đổi giao diện — và trước đó đã có hai bản chép tay rồi.
 
+import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { HocTiep } from '../khung/HocTiep';
+import { framePalette, frameItem, hopLopLabel, hubOf } from '../khung/meta';
 
 // Toạ độ hình trang trí đặt CỐ ĐỊNH (không random) để bản dựng ở máy chủ và ở
 // trình duyệt giống hệt nhau — random ở đây từng gây lỗi lệch hydration.
@@ -16,8 +19,10 @@ const CHO_DUNG = [
 ];
 
 export function NenGameNghe({
-  nhan, tieuDe, moTa, nen, trangTri, children,
+  nhan, tieuDe, moTa, nen, trangTri, href, children,
 }: {
+  /** URL trang (khoá sổ đăng ký) — có thì thêm breadcrumb, chip "Hợp lớp …" và khối "Học tiếp" của khung chung. */
+  href?: string;
   nhan: string;
   tieuDe: string;
   moTa: string;
@@ -27,6 +32,12 @@ export function NenGameNghe({
   trangTri: string[];
   children: ReactNode;
 }) {
+  const khung = href
+    ? (() => {
+        const item = frameItem(href);
+        return { item, pal: framePalette(item.subject), hub: hubOf(item.subject), hop: hopLopLabel(item.grades) };
+      })()
+    : null;
   return (
     // Nền phủ HAI chỗ: min-h-screen cho khớp <main> của SiteShell (cũng
     // min-h-screen), và -mb-24/pb-32 cho phần đệm chừa thanh nav dưới ở mobile.
@@ -42,6 +53,17 @@ export function NenGameNghe({
       </div>
 
       <header className="relative mx-auto max-w-2xl px-4 pt-7 text-center">
+        {khung && (
+          <nav aria-label="Breadcrumb" className="mb-3">
+            <ol className="flex flex-wrap items-center justify-center gap-1.5 text-small font-bold">
+              <li><Link href="/" className="hover:underline" style={{ color: khung.pal.c }}>🏠 Trang chủ</Link></li>
+              <li aria-hidden className="text-ink-muted/60">›</li>
+              <li><Link href={khung.hub.href} className="hover:underline" style={{ color: khung.pal.c }}>{khung.hub.label}</Link></li>
+              <li aria-hidden className="text-ink-muted/60">›</li>
+              <li className="text-ink-muted" aria-current="page">{khung.item.title || tieuDe}</li>
+            </ol>
+          </nav>
+        )}
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3.5 py-1 text-[11px] font-black uppercase tracking-widest text-sky-600 shadow-sm backdrop-blur">
           {nhan}
         </span>
@@ -49,9 +71,19 @@ export function NenGameNghe({
           {tieuDe}
         </h1>
         <p className="mx-auto mt-2 max-w-md text-sm font-bold text-slate-500">{moTa}</p>
+        {khung?.hop && (
+          <span className="mt-2 inline-flex items-center rounded-chip px-2.5 py-0.5 text-chip font-black" style={{ background: khung.pal.soft, color: khung.pal.c }}>
+            🎒 {khung.hop}
+          </span>
+        )}
       </header>
 
       <div className="relative">{children}</div>
+      {href && (
+        <div className="relative mx-auto max-w-4xl px-4">
+          <HocTiep href={href} />
+        </div>
+      )}
     </div>
   );
 }

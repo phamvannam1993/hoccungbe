@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { DONG_DAO } from '../lib/dongDao';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import DongDaoClient from './DongDaoClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Đồng dao, ca dao' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/dong-dao-ca-dao"
+        crumbLabel="Đồng dao, ca dao"
         emoji="🎶"
         eyebrow="Tiếng Việt · Văn hóa dân gian"
         title="Đồng dao & ca dao cho bé"
-        tone="orange"
         description={
           <>
             {DONG_DAO.length} bài <strong>đồng dao, ca dao</strong> dân gian quen thuộc — vừa vui, vừa dạy bé điều hay. Bé{' '}
@@ -58,19 +58,12 @@ export default function Page() {
 
       <DongDaoClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
-              { href: '/hoc-doc-tieng-viet', label: 'Học đọc (đánh vần)', emoji: '🔤' },
-              { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
-              { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/dong-dao-ca-dao" links={[
+        { href: '/tap-doc-tieng-viet', label: 'Tập đọc tiếng Việt', emoji: '📖' },
+        { href: '/hoc-doc-tieng-viet', label: 'Học đọc (đánh vần)', emoji: '🔤' },
+        { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
+        { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
+      ]} />
     </KidShell>
   );
 }

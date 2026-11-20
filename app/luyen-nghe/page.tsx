@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
+import { HocTiep } from '../components/khung';
 
 // Trang gom các game luyện nghe tiếng Anh.
 //
@@ -95,6 +96,10 @@ export default function Page() {
         Ba hình sai trong mỗi câu đều lấy cùng một chủ đề với hình đúng — để bé phải nghe ra từ,
         chứ không đoán được bằng cách loại trừ.
       </p>
+
+      <div className="relative mx-auto max-w-4xl px-4">
+        <HocTiep href="/luyen-nghe" />
+      </div>
     </div>
   );
 }

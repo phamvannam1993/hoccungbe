@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidFaq, KidLinkList } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 
 export const revalidate = 604800;
 
@@ -59,9 +60,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Luyện viết chữ' }]} />
-
-      <KidHero emoji="✍️" eyebrow="Chuyên đề" title="Luyện viết chữ cho bé lớp 1" tone="green"
+      <PageHeader href="/luyen-viet-chu" crumbLabel="Luyện viết chữ" emoji="✍️" eyebrow="Chuyên đề" title="Luyện viết chữ cho bé lớp 1"
         description="Hướng dẫn luyện viết chữ đẹp, đúng nét cho bé lớp 1 kèm trò chơi tô chữ tương tác. Bé vừa chơi vừa nhớ hình dạng và thứ tự nét của từng chữ cái tiếng Việt.">
         <div className="mt-5">
           <Link
@@ -80,7 +79,7 @@ export default function Page() {
             🖨 In vở tập viết ô li
           </Link>
         </div>
-      </KidHero>
+      </PageHeader>
 
       <div className="mt-6">
         <KidCard emoji="📝" title="5 bước giúp bé viết chữ đẹp" tone="orange">
@@ -101,19 +100,12 @@ export default function Page() {
         </KidCard>
       </div>
 
-      <div className="mt-6">
-        <KidCard emoji="⭐" title="Học thêm" tone="sky">
-          <KidLinkList
-            tone="sky"
-            items={[
-              { href: '/tro-choi/tap-viet-chu', label: 'Trò chơi tập viết chữ', emoji: '🎮' },
-              { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🔤' },
-              { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa học Tiếng Việt lớp 1', emoji: '📚' },
-              { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '✏️' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/luyen-viet-chu" links={[
+        { href: '/tro-choi/tap-viet-chu', label: 'Trò chơi tập viết chữ', emoji: '🎮' },
+        { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🔤' },
+        { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa học Tiếng Việt lớp 1', emoji: '📚' },
+        { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '✏️' },
+      ]} />
     </KidShell>
   );
 }

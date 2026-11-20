@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import SituationsClient from './SituationsClient';
 
 export const revalidate = 86400;
@@ -28,12 +29,12 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <KidShell max="3xl">
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Tình huống tiếng Anh' }]} />
-      <KidHero
+      <PageHeader
+        href="/tinh-huong-tieng-anh"
+        crumbLabel="Tình huống tiếng Anh"
         emoji="🗣️"
         eyebrow="Tiếng Anh · Giao tiếp cùng con"
         title="Chưa biết nói gì tiếng Anh với con?"
-        tone="pink"
         description={
           <>
             Bắt đầu với <strong>360 tình huống</strong> hằng ngày — buổi sáng, giờ ăn, tắm rửa, vui chơi, an toàn, lễ phép, sức khỏe, ở trường, đi ngủ… Mỗi câu có
@@ -42,6 +43,8 @@ export default function Page() {
         }
       />
       <SituationsClient />
+
+      <HocTiep href="/tinh-huong-tieng-anh" />
     </KidShell>
   );
 }

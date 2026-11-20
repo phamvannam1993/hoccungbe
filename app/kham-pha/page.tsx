@@ -1,3 +1,4 @@
+import SanChoiTabs from '../components/edu/SanChoiTabs';
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { KidShell, KidCrumb, KidHero, KidCard } from '../components/seo/kid';
@@ -41,6 +42,7 @@ export default function Page() {
     <KidShell max="3xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Đố vui khám phá' }]} />
+      <SanChoiTabs className="mb-5" />
       <KidHero
         emoji="🔎"
         eyebrow="Phát triển trí tuệ"

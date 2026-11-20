@@ -1,5 +1,5 @@
 /* ─── Forest Theme Colors ───────────────────────────────────────────────── */
-:root {
+.container {
   --forest-dark-green: #2d5016;
   --forest-green: #3d6b1f;
   --forest-light-green: #5a9d3e;

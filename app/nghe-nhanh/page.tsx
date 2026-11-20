@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <NenGameNghe
+      href="/nghe-nhanh"
       nhan="⚡ Luyện nghe"
       tieuDe="Nghe nhanh 60 giây"
       moTa="Nghe từ, chọn hình thật nhanh. Đúng liền 3 câu thì được nhân đôi điểm."

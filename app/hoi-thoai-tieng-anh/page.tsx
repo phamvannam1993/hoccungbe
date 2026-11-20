@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { DIALOGUES, totalDialogueLines } from '../lib/dialogues';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import DialogueClient from './DialogueClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Hội thoại tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/hoi-thoai-tieng-anh"
+        crumbLabel="Hội thoại tiếng Anh"
         emoji="🗣️"
         eyebrow="Tiếng Anh · Giao tiếp"
         title="Hội thoại tiếng Anh theo tình huống"
-        tone="sky"
         description={
           <>
             Bé tập <strong>nghe và nói</strong> qua {DIALOGUES.length} đoạn hội thoại quen thuộc: làm quen, ở lớp, ở nhà,
@@ -57,19 +57,12 @@ export default function Page() {
 
       <DialogueClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình học tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
-              { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
-              { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh', emoji: '🎵' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/hoi-thoai-tieng-anh" links={[
+        { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
+        { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
+        { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh', emoji: '🎵' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

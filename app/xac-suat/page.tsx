@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO } from '../lib/xacSuat';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import XacSuatClient from './XacSuatClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Xác suất' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/xac-suat"
+        crumbLabel="Xác suất"
         emoji="🎲"
         eyebrow="Toán · Khả năng xảy ra"
         title="Chắc chắn – có thể – không thể"
-        tone="pink"
         description={
           <>
             Nhìn hộp bóng màu rồi trả lời: lấy được màu này là <strong>chắc chắn</strong>,{' '}
@@ -98,20 +98,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/bieu-do', label: 'Biểu đồ – đọc và vẽ', emoji: '📊' },
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/cau-tao-so', label: 'Cấu tạo số – hàng và lớp', emoji: '🔢' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -127,6 +113,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/xac-suat" links={[
+        { href: '/bieu-do', label: 'Biểu đồ – đọc và vẽ', emoji: '📊' },
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/cau-tao-so', label: 'Cấu tạo số – hàng và lớp', emoji: '🔢' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+      ]} />
     </KidShell>
   );
 }

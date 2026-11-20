@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { SENTENCE_PATTERNS, totalSentences } from '../lib/sentencePatterns';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import SentenceClient from './SentenceClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Mẫu câu tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/mau-cau-tieng-anh"
+        crumbLabel="Mẫu câu tiếng Anh"
         emoji="💬"
         eyebrow="Tiếng Anh · Tập nói"
         title="Mẫu câu giao tiếp tiếng Anh"
-        tone="orange"
         description={
           <>
             Sau khi biết từ vựng, bé tập <strong>ghép thành câu</strong> với {totalSentences()} mẫu câu quen thuộc:{' '}
@@ -58,18 +58,11 @@ export default function Page() {
 
       <SentenceClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình học tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
-              { href: '/phonics-tieng-anh', label: 'Ghép vần đọc tiếng Anh (Phonics)', emoji: '🔉' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/mau-cau-tieng-anh" links={[
+        { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+        { href: '/phonics-tieng-anh', label: 'Ghép vần đọc tiếng Anh (Phonics)', emoji: '🔉' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

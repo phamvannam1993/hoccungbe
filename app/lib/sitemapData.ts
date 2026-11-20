@@ -112,11 +112,15 @@ const STATIC_PATHS: [string, string][] = [
   ['/luyen-viet-chu-dep/van', '2026-09-14'],
   ['/luyen-viet-chu-dep/tu-ngu', '2026-09-14'],
   ['/luyen-viet-chu-dep/cau-ngan', '2026-09-14'],
-  ['/lop-1', '2026-08-19'],
-  ['/lop-2', '2026-08-19'],
-  ['/lop-3', '2026-08-19'],
-  ['/lop-4', '2026-08-19'],
-  ['/lop-5', '2026-08-19'],
+  ['/lop-1', '2026-11-19'],
+  ['/lop-2', '2026-11-19'],
+  ['/lop-3', '2026-11-19'],
+  ['/lop-4', '2026-11-19'],
+  ['/lop-5', '2026-11-19'],
+  ['/lop/mau-giao', '2026-11-19'],
+  // Trang gom của cấu trúc mới (19/11/2026)
+  ['/tieng-viet', '2026-11-19'],
+  ['/tai-lieu-in', '2026-11-19'],
   ['/hoc-toan', '2026-09-11'],
   ['/do-luong', '2026-09-12'],
   ['/hinh-hoc', '2026-09-12'],
@@ -156,6 +160,9 @@ const STATIC_PATHS: [string, string][] = [
   ['/hoc-tieng-anh', '2026-08-27'],
   ['/tinh-huong-tieng-anh', '2026-08-29'],
   ['/thi-tai', '2026-08-30'],
+  ['/san-choi-tri-tue', '2026-11-12'],
+  ['/san-choi-tri-tue/phong', '2026-11-12'],
+  ['/thu-thach-iq', '2026-11-12'],
   ['/trieu-phu-nhi', '2026-09-06'],
   ['/vong-tron-am', '2026-09-06'],
   ['/noi-am-van', '2026-09-06'],
@@ -276,9 +283,7 @@ export async function examEntries(): Promise<SitemapEntry[]> {
   const now = new Date();
   const entries: SitemapEntry[] = [];
   const seenAgg = new Set<string>();
-  const grades = new Set<number>();
   for (const e of unwrapData<ExamItem>(res)) {
-    if (typeof e.grade === 'number' && e.grade >= 1 && e.grade <= 5) grades.add(e.grade);
     if (!e.slug) continue;
     const p = parseExamDbSlug(e.slug);
     if (!p) continue;
@@ -292,10 +297,7 @@ export async function examEntries(): Promise<SitemapEntry[]> {
     // Trang đề chi tiết
     entries.push({ loc: `${SITE_URL}${aggPath}/de-${p.n}`, lastmod });
   }
-  // Hub đề thi theo lớp /de-thi-lop-{g} — chỉ lớp THỰC SỰ có đề (trang notFound nếu rỗng).
-  for (const g of [...grades].sort()) {
-    entries.push({ loc: `${SITE_URL}/de-thi-lop-${g}`, lastmod: safeDate('2026-08-19') });
-  }
+  // Hub /de-thi-lop-{g} tạm tắt (chuyển sang /thi-lop-{g}, đã có trong STATIC_PATHS) — không đưa vào sitemap.
   return entries;
 }
 

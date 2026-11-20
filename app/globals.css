@@ -5,6 +5,117 @@
   --foreground: #171717;
 }
 
+/* ───────────────────────── DESIGN TOKENS (một chỗ duy nhất) ─────────────────────────
+   Mọi màu / bo góc / bóng / khoảng cách / cỡ chữ dùng chung cho các trang học đặt ở đây.
+   - Trong TS/inline style: dùng chuỗi var(--…) (catalog.ts PALETTE đọc thẳng các biến này).
+   - Trong className: dùng tiện ích Tailwind sinh từ khối @theme bên dưới
+     (text-toan, bg-toan-soft, border-toan-line, bg-surface, text-ink, rounded-card, shadow-card, text-h1…).
+   Màu theo môn (bản thiết kế "cấu trúc mới"): Toán tím · Tiếng Việt hồng · Tiếng Anh xanh ngọc · Thi cam.
+   Mỗi tông có 3 mức: chữ/nhấn (đủ tương phản trên nền trắng) · soft (nền nhạt) · line (viền).
+   Không có dark mode — xem ghi chú bên dưới. */
+:root {
+  /* Thương hiệu */
+  --brand-pink: #ff6b9d;
+  --brand-pink-ink: #c81e5b;
+  --brand-purple: #a06cd5;
+  --brand-purple-ink: #6d28d9;
+  --brand-grad: linear-gradient(135deg, #ff6b9d 0%, #a06cd5 100%);
+
+  /* Thang màu (tông → chữ / soft / line) */
+  --hue-purple: #6d28d9; --hue-purple-soft: #f3ecff; --hue-purple-line: #e2d4fb;
+  --hue-pink:   #c81e5b; --hue-pink-soft:   #ffeef4; --hue-pink-line:   #fbcfe0;
+  --hue-teal:   #0f766e; --hue-teal-soft:   #e6f7f5; --hue-teal-line:   #b5e8e2;
+  --hue-orange: #c2410c; --hue-orange-soft: #fff3e6; --hue-orange-line: #fed7aa;
+  --hue-sky:    #0369a1; --hue-sky-soft:    #eaf6ff; --hue-sky-line:    #bae6fd;
+  --hue-green:  #15803d; --hue-green-soft:  #eefbf2; --hue-green-line:  #bbf7d0;
+  --hue-amber:  #a16207; --hue-amber-soft:  #fff9e0; --hue-amber-line:  #fde68a;
+  --hue-slate:  #475569; --hue-slate-soft:  #f1f5f9; --hue-slate-line:  #e2e8f0;
+
+  /* Gradient tiêu đề cũ (KidHero) — giữ để trang chưa chuyển khung không đổi diện mạo */
+  --grad-pink: linear-gradient(135deg, #ff6b9d, #ff9f45);
+  --grad-purple: linear-gradient(135deg, #a06cd5, #4ecdc4);
+  --grad-teal: linear-gradient(135deg, #4ecdc4, #87ceeb);
+  --grad-orange: linear-gradient(135deg, #ff9f45, #ffd93d);
+  --grad-green: linear-gradient(135deg, #6bcb77, #4ecdc4);
+  --grad-sky: linear-gradient(135deg, #87ceeb, #4ecdc4);
+  --grad-amber: linear-gradient(135deg, #ffd93d, #ff9f45);
+
+  /* Màu theo môn / loại trang */
+  --mon-toan: var(--hue-purple);  --mon-toan-soft: var(--hue-purple-soft);  --mon-toan-line: var(--hue-purple-line);
+  --mon-tv: var(--hue-pink);      --mon-tv-soft: var(--hue-pink-soft);      --mon-tv-line: var(--hue-pink-line);
+  --mon-ta: var(--hue-teal);      --mon-ta-soft: var(--hue-teal-soft);      --mon-ta-line: var(--hue-teal-line);
+  --mon-thi: var(--hue-orange);   --mon-thi-soft: var(--hue-orange-soft);   --mon-thi-line: var(--hue-orange-line);
+  --mon-tu-duy: var(--hue-sky);   --mon-tu-duy-soft: var(--hue-sky-soft);   --mon-tu-duy-line: var(--hue-sky-line);
+  --mon-choi: var(--hue-green);   --mon-choi-soft: var(--hue-green-soft);   --mon-choi-line: var(--hue-green-line);
+  --mon-in: var(--hue-amber);     --mon-in-soft: var(--hue-amber-soft);     --mon-in-line: var(--hue-amber-line);
+
+  /* Trung tính & bề mặt */
+  --ink: #0f172a;          /* tiêu đề */
+  --ink-2: #334155;        /* chữ thường */
+  --ink-muted: #64748b;    /* chữ phụ */
+  --surface: #ffffff;      /* thẻ */
+  --surface-muted: #f8fafc;
+  --line: #e2e8f0;         /* viền trung tính */
+
+  /* Bo góc */
+  --r-chip: 9999px;
+  --r-sm: 0.75rem;   /* 12px — nút nhỏ */
+  --r-md: 1rem;      /* 16px — ô icon */
+  --r-card: 1.5rem;  /* 24px — thẻ */
+  --r-panel: 1.75rem; /* 28px — khối lớn, header trang */
+
+  /* Bóng — kiểu "phím nổi" của site: bóng đặc 3px cùng màu viền */
+  --sh-card: 0 3px 0 var(--line);
+  --sh-raised: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  /* Khoảng cách */
+  --sp-gutter: 1rem;      /* lề hai bên trên điện thoại */
+  --sp-block: 2rem;       /* giữa các khối trong trang học */
+  --page-max: 64rem;      /* bề ngang tối đa trang học (max-w-5xl) */
+
+  /* Cỡ chữ */
+  --fs-h1: clamp(1.625rem, 1.2rem + 1.6vw, 2.25rem);
+  --fs-h2: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --fs-body: 1rem;
+  --fs-small: 0.8125rem;
+  --fs-chip: 0.75rem;
+}
+
+@theme inline {
+  /* Ánh xạ token → tiện ích Tailwind */
+  --color-brand-pink: var(--brand-pink);
+  --color-brand-pink-ink: var(--brand-pink-ink);
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-ink: var(--brand-purple-ink);
+  --color-toan: var(--mon-toan);
+  --color-toan-soft: var(--mon-toan-soft);
+  --color-toan-line: var(--mon-toan-line);
+  --color-tv: var(--mon-tv);
+  --color-tv-soft: var(--mon-tv-soft);
+  --color-tv-line: var(--mon-tv-line);
+  --color-ta: var(--mon-ta);
+  --color-ta-soft: var(--mon-ta-soft);
+  --color-ta-line: var(--mon-ta-line);
+  --color-thi: var(--mon-thi);
+  --color-thi-soft: var(--mon-thi-soft);
+  --color-thi-line: var(--mon-thi-line);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-muted: var(--ink-muted);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-line: var(--line);
+  --radius-chip: var(--r-chip);
+  --radius-card: var(--r-card);
+  --radius-panel: var(--r-panel);
+  --shadow-card: var(--sh-card);
+  --shadow-raised: var(--sh-raised);
+  --text-h1: var(--fs-h1);
+  --text-h2: var(--fs-h2);
+  --text-small: var(--fs-small);
+  --text-chip: var(--fs-chip);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

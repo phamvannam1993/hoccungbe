@@ -118,6 +118,25 @@ export const PACKS: Pack[] = [
     subjects: ['toan', 'tieng-viet'],
   },
   {
+    // Bản in 20 đề Kiểm tra cuối kì 1 Tiếng Việt lớp 1 (Qbooks) của khu /thi-lop-1
+    slug: 'de-tieng-viet-cuoi-ki-1-lop-1',
+    codePrefix: 'DLTVCK1L1',
+    kind: 'thi-lop-1',
+    title: 'Bộ 20 đề kiểm tra cuối kì 1 Tiếng Việt lớp 1',
+    subtitle: '20 đề kiểm tra cuối kì 1 môn Tiếng Việt lớp 1: đọc thành tiếng, chính tả, đọc hiểu, bài tập — in A4 có tranh, kèm đáp án',
+    price: 29000,
+    oldPrice: 199000,
+    emoji: '🏁',
+    bullets: [
+      '20 đề Kiểm tra cuối kì 1 môn Tiếng Việt (Đề 1 → Đề 20)',
+      'Đủ phần: đọc thành tiếng, chính tả, đọc hiểu, điền âm – vần, nối, xếp câu',
+      'Có tranh minh hoạ, ô li để bé viết chính tả',
+      'Phần đáp án ở cuối bộ, in bao nhiêu lần cũng được trong 12 tháng',
+    ],
+    grade: 1,
+    subjects: ['tieng-viet'],
+  },
+  {
     // Bản in 23 đề Kiểm tra học kì 1 Tiếng Việt lớp 1 của khu /thi-lop-1
     slug: 'de-tieng-viet-hk1-lop-1',
     codePrefix: 'DLTVHK1L1',
@@ -269,7 +288,16 @@ export const packKey = (slug: string) => `goi:${slug}`;
 
 export const getPack = (slug: string) => PACKS.find((p) => p.slug === slug);
 
+/**
+ * Gói "Bộ đề ôn thi HK1 lớp N" (kind 'de-hk1', đề lấy từ API /exams của /de-thi cũ) TẠM ẨN: đề thi giờ ở các
+ * khu /thi-lop-N và các gói 'thi-lop-1'. Vẫn giữ trong PACKS để mã kích hoạt / thanh toán / trang in của người
+ * đã mua còn chạy — chỉ không chào bán (không có trên /goi-tai-lieu với người chưa mua, không mời mua, không vào sitemap).
+ * Đặt false để bán lại như cũ.
+ */
+export const GOI_CU_TAM_AN = true;
+export const chaoBan = (p: Pack) => !(GOI_CU_TAM_AN && p.kind === 'de-hk1');
+
 /** Gói bộ đề HK1 chứa đề của môn/lớp này (để mời mua ở trang làm đề). */
 export const hk1PackFor = (grade: number, subject: string) =>
-  PACKS.find((p) => p.kind === 'de-hk1' && p.grade === grade && p.subjects?.includes(subject));
+  PACKS.find((p) => p.kind === 'de-hk1' && chaoBan(p) && p.grade === grade && p.subjects?.includes(subject));
 export const packForPrefix = (prefix: string) => PACKS.find((p) => p.codePrefix === prefix);

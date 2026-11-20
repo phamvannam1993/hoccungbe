@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { DANG_THEO_LOP, TEN_DANG } from '../lib/soDoDoanThang';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import SoDoClient from './SoDoClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Sơ đồ đoạn thẳng' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/so-do-doan-thang"
+        crumbLabel="Sơ đồ đoạn thẳng"
         emoji="📏"
         eyebrow="Toán · Giải toán có lời văn"
         title="Sơ đồ đoạn thẳng – nhìn là hiểu đề"
-        tone="green"
         description={
           <>
             Bé giải theo <strong>hai bước</strong>: nhìn sơ đồ <strong>chọn phép tính</strong> trước, rồi mới{' '}
@@ -88,21 +88,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/dat-tinh', label: 'Đặt tính rồi tính – chấm từng cột', emoji: '🧮' },
-              { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
-              { href: '/xem-dong-ho', label: 'Xem đồng hồ – kéo kim để học', emoji: '🕐' },
-              { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm cộng trừ nhân chia', emoji: '⚡' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -118,6 +103,14 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/so-do-doan-thang" links={[
+        { href: '/dat-tinh', label: 'Đặt tính rồi tính – chấm từng cột', emoji: '🧮' },
+        { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
+        { href: '/xem-dong-ho', label: 'Xem đồng hồ – kéo kim để học', emoji: '🕐' },
+        { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm cộng trừ nhân chia', emoji: '⚡' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+      ]} />
     </KidShell>
   );
 }

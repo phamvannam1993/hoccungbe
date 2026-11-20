@@ -18,7 +18,8 @@ const label = 'hidden text-[14px] font-bold sm:inline';
 
 /**
  * Cụm nút nổi góc phải: Ủng hộ · Cài App · Hướng dẫn · Liên hệ (mở bảng Zalo / Messenger / Fanpage / Form).
- * Trên điện thoại chỉ hiện biểu tượng tròn, đặt cao hơn thanh điều hướng dưới.
+ * Điện thoại (<768px): ẨN hẳn — cụm nút che thẻ nội dung và thanh tab dưới; các việc này đã chuyển vào trang
+ * Menu "Tôi" (MobileMenu → khối "Hỗ trợ & liên hệ"). Máy tính bảng: chỉ biểu tượng tròn, trên thanh tab.
  */
 export default function FloatingActions() {
   const [open, setOpen] = useState(false);
@@ -41,7 +42,7 @@ export default function FloatingActions() {
   }, [open]);
 
   return (
-    <div ref={boxRef} className="fixed bottom-24 right-3 z-40 flex flex-col items-end gap-2.5 lg:bottom-6 lg:right-5">
+    <div ref={boxRef} className="fixed bottom-24 right-3 z-40 hidden flex-col md:flex items-end gap-2.5 lg:bottom-6 lg:right-5">
       {open && (
         <div
           role="dialog"

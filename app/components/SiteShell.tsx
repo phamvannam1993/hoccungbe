@@ -14,6 +14,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   const [menuAt, setMenuAt] = useState<string | null>(null);
   const menuOpen = menuAt === pathname;
   const closeMenu = useCallback(() => setMenuAt(null), []);
+  const toggleMenu = () => setMenuAt(menuOpen ? null : pathname);
   const isAdmin = pathname.startsWith('/admin');
   // Quiz play pages: /[lessonSlug]/[exercise] — two segments, second is bai-tap-*
   const segments = pathname.split('/').filter(Boolean);
@@ -44,13 +45,13 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     );
   return (
     <>
-      <SiteHeader menuOpen={menuOpen} onMenu={() => setMenuAt(menuOpen ? null : pathname)} />
+      <SiteHeader menuOpen={menuOpen} onMenu={toggleMenu} />
       {/* pb-24 trên mobile để thanh điều hướng dưới không che nội dung.
           Trang làm bài tự chừa bên trong nền gradient của nó → tránh lòi nền teal của body. */}
       <main className={`min-h-screen ${isQuizPlay ? '' : 'pb-24 lg:pb-0'}`}>{children}</main>
       {/* Trang làm bài: bỏ footer để bé thấy trọn bài, không phải cuộn qua footer dài */}
       {!isQuizPlay && <Footer />}
-      <BottomNav />
+      <BottomNav menuOpen={menuOpen} onMenu={toggleMenu} />
       <MobileMenu open={menuOpen} onClose={closeMenu} />
       {!isQuizPlay && <Mascot />}
       {!isQuizPlay && <FloatingActions />}

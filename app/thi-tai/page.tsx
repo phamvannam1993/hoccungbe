@@ -1,3 +1,4 @@
+import SanChoiTabs from '../components/edu/SanChoiTabs';
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import Link from 'next/link';
@@ -29,7 +30,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <KidShell max="5xl">
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Đấu Trường' }]} />
+      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Sân chơi Trí tuệ', href: '/san-choi-tri-tue' }, { label: 'Thi Tài' }]} />
+      <SanChoiTabs className="mb-5" />
       <ThiTaiClient />
 
       {/*

@@ -2,6 +2,8 @@
 import { DE_TOAN } from './de-toan';
 import { DE_TOAN_THEM } from './de-toan-them';
 import { DE_TV } from './de-tv';
+import { DE_TV_CK1_A } from './de-tv-ck1-a';
+import { DE_TV_CK1_B } from './de-tv-ck1-b';
 import { DE_TV_HK1 } from './de-tv-hk1';
 import { compile, type Phieu } from './kieu';
 
@@ -9,17 +11,21 @@ import { compile, type Phieu } from './kieu';
 const soDe = (slug: string) => Number(/giua-ki-1-de-(\d+)$/.exec(slug)?.[1] ?? 999);
 export const THI_LOP_1: Phieu[] = [...DE_TOAN, ...DE_TOAN_THEM]
   .sort((a, b) => soDe(a.slug) - soDe(b.slug))
-  .concat(DE_TV, DE_TV_HK1)
+  .concat(DE_TV, DE_TV_HK1, DE_TV_CK1_A, DE_TV_CK1_B)
   .map(compile);
 
 export const deTheoSlug = (slug: string) => THI_LOP_1.find((e) => e.slug === slug) ?? null;
 
 /** Tờ đề thuộc gói in nào (khớp slug trong goi-tai-lieu/packs.ts). */
 export const giuaKi = (p: Phieu) => /^toan-giua-ki-1-de-\d+$/.test(p.slug);
+/** Bộ đề Tiếng Việt riêng (gói in riêng) — không lẫn vào phiếu ôn tập / chính tả. */
+const tvHk1 = (p: Phieu) => p.slug.startsWith('tieng-viet-hk1-');
+const tvCk1 = (p: Phieu) => p.slug.startsWith('tieng-viet-cuoi-ki-1-');
 export const TO_THEO_GOI: Record<string, Phieu[]> = {
   'thi-giua-ki-1-lop-1': THI_LOP_1.filter(giuaKi),
-  'on-thi-hoc-ki-1-lop-1': THI_LOP_1.filter((p) => !giuaKi(p) && !p.slug.startsWith('tieng-viet-hk1-')),
-  'de-tieng-viet-hk1-lop-1': THI_LOP_1.filter((p) => p.slug.startsWith('tieng-viet-hk1-')),
+  'on-thi-hoc-ki-1-lop-1': THI_LOP_1.filter((p) => !giuaKi(p) && !tvHk1(p) && !tvCk1(p)),
+  'de-tieng-viet-hk1-lop-1': THI_LOP_1.filter(tvHk1),
+  'de-tieng-viet-cuoi-ki-1-lop-1': THI_LOP_1.filter(tvCk1),
 };
 
 export const NHOM_DE: { key: string; title: string; icon: string; desc: string; items: Phieu[] }[] = [
@@ -45,10 +51,17 @@ export const NHOM_DE: { key: string; title: string; icon: string; desc: string; 
     items: THI_LOP_1.filter((e) => e.slug.startsWith('tieng-viet-hk1-')),
   },
   {
+    key: 'tieng-viet-cuoi-ki-1',
+    title: 'Tiếng Việt – Kiểm tra cuối kì 1 (20 đề)',
+    icon: '🏁',
+    desc: 'Đọc hiểu đoạn văn, điền c/k, g/gh, ng/ngh và vần, nối từ với tranh, sắp xếp từ thành câu; phần đọc thành tiếng và chính tả để người lớn chấm.',
+    items: THI_LOP_1.filter(tvCk1),
+  },
+  {
     key: 'tieng-viet',
     title: 'Tiếng Việt – Chính tả & Ôn giữa kì 1',
     icon: '📖',
     desc: 'Phân biệt g/gh, x/s, ua/ưa, ch/tr, nối từ với tranh và đọc hiểu.',
-    items: THI_LOP_1.filter((e) => e.mon === 'tieng-viet' && !e.slug.startsWith('tieng-viet-hk1-')),
+    items: THI_LOP_1.filter((e) => e.mon === 'tieng-viet' && !tvHk1(e) && !tvCk1(e)),
   },
 ];

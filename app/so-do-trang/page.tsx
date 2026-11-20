@@ -27,6 +27,10 @@ const HUBS = [
   { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh' },
   { href: '/cong-cu', label: 'Công cụ miễn phí' },
   { href: '/bai-viet', label: 'Góc phụ huynh' },
+  { href: '/tieng-viet', label: 'Tiếng Việt' },
+  { href: '/tai-lieu-in', label: 'Tài liệu in' },
+  { href: '/san-choi-tri-tue', label: 'Sân chơi Trí tuệ' },
+  { href: '/lop/mau-giao', label: 'Mẫu giáo' },
 ];
 const CHUYEN_DE = [
   { href: '/hoc-toan', label: 'Học Toán – bộ công cụ' },

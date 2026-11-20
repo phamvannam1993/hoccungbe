@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { TAP_DOC } from '../lib/tapDoc';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import TapDocClient from './TapDocClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Tập đọc tiếng Việt' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/tap-doc-tieng-viet"
+        crumbLabel="Tập đọc tiếng Việt"
         emoji="📖"
         eyebrow="Tiếng Việt · Đọc hiểu"
         title="Tập đọc tiếng Việt"
-        tone="sky"
         description={
           <>
             {TAP_DOC.length} bài đọc ngắn cho bé lớp 1–2 theo chủ đề quen thuộc. Bé <strong>nghe đọc mẫu từng câu</strong>,{' '}
@@ -57,19 +57,12 @@ export default function Page() {
 
       <TapDocClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/hoc-doc-tieng-viet', label: 'Học đọc tiếng Việt (đánh vần)', emoji: '📖' },
-              { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
-              { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
-              { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '📝' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/tap-doc-tieng-viet" links={[
+        { href: '/hoc-doc-tieng-viet', label: 'Học đọc tiếng Việt (đánh vần)', emoji: '📖' },
+        { href: '/chinh-ta-tieng-viet', label: 'Chính tả phân biệt', emoji: '✍️' },
+        { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
+        { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '📝' },
+      ]} />
     </KidShell>
   );
 }

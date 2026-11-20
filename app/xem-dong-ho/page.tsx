@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO } from '../lib/dongHo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import XemDongHoClient from './XemDongHoClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Xem đồng hồ' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/xem-dong-ho"
+        crumbLabel="Xem đồng hồ"
         emoji="🕐"
         eyebrow="Toán · Thời gian"
         title="Xem đồng hồ – kéo kim để học"
-        tone="blue"
         description={
           <>
             Ba dạng bài đi từ dễ đến khó: <strong>đọc giờ</strong>, <strong>tự quay kim</strong> theo đề bài, và{' '}
@@ -89,22 +89,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
-              { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
-              { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm cộng trừ nhân chia', emoji: '⚡' },
-              { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-              { href: '/trieu-phu-nhi', label: 'Game Triệu Phú Nhí', emoji: '💎' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp về học xem giờ" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -120,6 +104,15 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/xem-dong-ho" links={[
+        { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
+        { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
+        { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm cộng trừ nhân chia', emoji: '⚡' },
+        { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+        { href: '/trieu-phu-nhi', label: 'Game Triệu Phú Nhí', emoji: '💎' },
+      ]} />
     </KidShell>
   );
 }

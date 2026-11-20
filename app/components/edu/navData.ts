@@ -5,113 +5,163 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { CONG_CU_TOAN } from '../../lib/congCuToan';
 import { isGuest, listChildren, type Child } from '../../lib/childData';
+import { ALL_GRADES, GRADE_AGE, SCHOOL_GRADES, byHref, gradeHref, gradeName } from '../../lib/catalog';
 
-/** `wideOnly`: chỉ hiện trên menu ngang từ 1280px; 'xxl': từ 1400px (màn vừa không đủ chỗ; vẫn có trong menu mobile). */
-export type NavItem = { href: string; label: string; children?: NavItem[]; mega?: 'grades'; wideOnly?: boolean | 'xxl' };
+// Menu 5 mục theo bản thiết kế "cấu trúc mới" (19/11/2026): Lớp của bé · Môn học · Thi & ôn tập ·
+// Chơi & thi đấu · Tài liệu in. Nhãn và emoji lấy từ sổ đăng ký app/lib/catalog.ts (byHref) để menu,
+// trang lớp và trang chủ gọi cùng một tên.
 
-export const GRADES = [1, 2, 3, 4, 5] as const;
+export type NavLink = { href: string; label: string; emoji?: string; desc?: string };
+export type NavGroup = { title: string; href?: string; emoji?: string; links: NavLink[] };
+/**
+ * `align`: neo bảng xổ xuống — 'start' (mép trái của mục), 'end' (mép phải), 'nav' (mép trái cả thanh menu,
+ * dùng cho bảng rộng nhiều cột để không tràn ra ngoài màn 1024px).
+ */
+export type NavItem = { id: string; href: string; label: string; emoji: string; groups?: NavGroup[]; align?: 'start' | 'end' | 'nav' };
+
+/** Link từ sổ đăng ký: tên + emoji đúng như trang lớp hiển thị. */
+const reg = (href: string, label?: string): NavLink => {
+  const it = byHref(href);
+  return { href, label: label ?? it?.title ?? href, emoji: it?.emoji };
+};
+
+export const GRADES = SCHOOL_GRADES;
 export const SUBJECTS = [
   { slug: 'toan', label: 'Toán', emoji: '🔢', color: '#FF6B9D' },
   { slug: 'tieng-viet', label: 'Tiếng Việt', emoji: '📖', color: '#4ECDC4' },
 ];
 
 export const NAV_MENU: NavItem[] = [
-  // Logo đã dẫn về trang chủ → ở màn 1024–1279px bỏ mục này để menu không chạm nút Đăng ký.
-  { href: '/', label: 'Trang chủ', wideOnly: 'xxl' },
-  { href: '/khoa-hoc', label: 'Lớp học', mega: 'grades' },
   {
-    // Gom công cụ Toán vào một nhóm — danh sách lấy từ app/lib/congCuToan.ts
-    // để thêm công cụ mới chỉ phải sửa một chỗ.
+    id: 'lop',
+    href: '/lop-1',
+    label: 'Lớp của bé',
+    emoji: '🎒',
+    align: 'start',
+    groups: [
+      {
+        title: 'Chọn lớp — mọi thứ của lớp ở một trang',
+        links: ALL_GRADES.map((g) => ({ href: gradeHref(g), label: gradeName(g), emoji: g === 0 ? '🧸' : ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'][g - 1], desc: GRADE_AGE[g] })),
+      },
+    ],
+  },
+  {
+    id: 'mon',
     href: '/hoc-toan',
-    label: 'Toán',
-    children: [
-      { href: '/hoc-toan', label: 'Tất cả công cụ Toán' },
-      ...CONG_CU_TOAN.map((c) => ({ href: c.href, label: `${c.emoji} ${c.ten}` })),
+    label: 'Môn học',
+    emoji: '📚',
+    align: 'nav',
+    groups: [
+      {
+        title: 'Toán',
+        href: '/hoc-toan',
+        emoji: '🔢',
+        links: [
+          { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🧰' },
+          { href: '/khoa-hoc-iq', label: 'Toán IQ lớp 1–3', emoji: '💡' },
+          reg('/toan-tu-duy', 'Toán tư duy'),
+          reg('/bang-cuu-chuong'),
+          reg('/luyen-tinh-nham'),
+          reg('/dat-tinh'),
+          reg('/xem-dong-ho'),
+          reg('/phan-so'),
+        ],
+      },
+      {
+        title: 'Tiếng Việt',
+        href: '/tieng-viet',
+        emoji: '📖',
+        links: [
+          { href: '/tieng-viet', label: 'Tất cả Tiếng Việt', emoji: '🧰' },
+          reg('/hoc-doc-tieng-viet'),
+          reg('/tap-doc-tieng-viet'),
+          reg('/luyen-viet-chu'),
+          reg('/chinh-ta-tieng-viet'),
+          reg('/luyen-tu-va-cau'),
+          reg('/tap-lam-van'),
+          reg('/truyen-co-tich'),
+        ],
+      },
+      {
+        title: 'Tiếng Anh',
+        href: '/tu-vung-tieng-anh',
+        emoji: '🌍',
+        links: [
+          reg('/tu-vung-tieng-anh'),
+          reg('/bang-chu-cai-tieng-anh'),
+          reg('/phonics-tieng-anh'),
+          reg('/bang-phien-am-ipa'),
+          reg('/sight-words-tieng-anh'),
+          reg('/mau-cau-tieng-anh'),
+          reg('/hoi-thoai-tieng-anh'),
+          reg('/bai-hat-tieng-anh'),
+          reg('/ngu-phap-tieng-anh'),
+        ],
+      },
     ],
   },
   {
-    // Khu bán khóa Toán IQ (app/khoa-hoc-iq) — 12 khóa mỗi lớp, mở theo gói.
-    href: '/khoa-hoc-iq',
-    label: 'Toán IQ',
-    children: [
-      { href: '/khoa-hoc-iq', label: '🧠 Tất cả khóa Toán IQ' },
-      { href: '/khoa-hoc-iq?lop=lop-1', label: '1️⃣ Toán IQ lớp 1' },
-      { href: '/khoa-hoc-iq?lop=lop-2', label: '2️⃣ Toán IQ lớp 2' },
-      { href: '/khoa-hoc-iq?lop=lop-3', label: '3️⃣ Toán IQ lớp 3' },
-    ],
-  },
-  { href: '/tro-choi', label: 'Game' },
-  {
-    href: '/tu-vung-tieng-anh',
-    label: 'Tiếng Anh',
-    children: [
-      { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề' },
-      { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái A–Z' },
-      { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc' },
-      { href: '/bang-phien-am-ipa', label: 'Bảng phiên âm IPA' },
-      { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng' },
-      { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp' },
-      { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống' },
-      { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh' },
-      { href: '/ngu-phap-tieng-anh', label: 'Ngữ pháp qua trò chơi' },
-    ],
-  },
-  {
-    // Gom các sân chơi thi đấu vào một nhóm — thêm mục cấp 1 nữa thì thanh menu
-    // quá chật trên màn hình vừa.
-    href: '/thi-tai',
-    label: 'Thi tài',
-    children: [
-      { href: '/thi-tai', label: 'Thi Tài giành huy chương' },
-      { href: '/trieu-phu-nhi', label: 'Ai Là Triệu Phú Nhí' },
-      { href: '/kham-pha', label: 'Đố vui khám phá' },
-    ],
-  },
-  {
-    // Luyện đề và tài liệu in gom một nhóm: thêm Gói tài liệu thành mục cấp 1
-    // thì thanh menu tràn ở màn 1280px.
+    id: 'thi',
     href: '/de-thi',
-    label: 'Ôn thi',
-    children: [
-      { href: '/de-thi', label: '📝 Đề thi có chấm điểm' },
-      { href: '/thi-lop-1', label: '🏆 Thi thử lớp 1 (Toán – TV)' },
-      { href: '/thi-lop-2', label: '🏆 Thi thử lớp 2 (Toán – TV)' },
-      { href: '/thi-lop-3', label: '🏆 Thi thử lớp 3 (Toán)' },
-      { href: '/thi-lop-4', label: '🏆 Thi thử lớp 4 (Toán)' },
-      { href: '/thi-lop-5', label: '🏆 Thi thử lớp 5 (Toán)' },
-      { href: '/bai-tap', label: '✏️ Bài tập theo chủ đề' },
-      { href: '/phieu-bai-tap', label: '🖨️ Phiếu bài tập PDF' },
-      { href: '/goi-tai-lieu', label: '🎁 Gói tài liệu in' },
+    label: 'Thi & ôn tập',
+    emoji: '📝',
+    align: 'start',
+    groups: [
+      {
+        title: 'Đề thi có chấm điểm',
+        href: '/de-thi',
+        links: [{ href: '/de-thi', label: 'Đề thi lớp 1–5', emoji: '📝' }, ...SCHOOL_GRADES.map((g) => reg(`/thi-lop-${g}`))],
+      },
+      { title: 'Ôn tập', links: [reg('/bai-tap'), reg('/ky-nang'), reg('/on-tap-cau-sai')] },
     ],
   },
-  { href: '/luyen-viet-chu-dep', label: 'Tập viết', wideOnly: 'xxl' },
-  // { href: '/tai-lieu', label: 'KHO TÀI LIỆU' },  // tạm ẩn
   {
-    // Thay ô Blog bằng nhóm Giới thiệu để trang /gioi-thieu hiện ở mọi bề ngang
-    // mà không thêm mục cấp 1 (thanh menu đã sát nút Đăng nhập ở 1280px).
-    href: '/gioi-thieu',
-    label: 'Giới thiệu',
-    children: [
-      { href: '/gioi-thieu', label: '🌈 Giới thiệu tính năng' },
-      { href: '/huong-dan', label: '🚀 Hướng dẫn bắt đầu' },
-      { href: '/bai-viet', label: '📰 Blog – Góc phụ huynh' },
-      { href: '/cau-hoi-thuong-gap', label: '❓ Câu hỏi thường gặp' },
+    id: 'choi',
+    href: '/tro-choi',
+    label: 'Chơi & thi đấu',
+    emoji: '🏆',
+    align: 'end',
+    groups: [
+      {
+        title: 'Trò chơi học tập',
+        href: '/tro-choi',
+        links: [
+          { href: '/tro-choi', label: 'Kho trò chơi', emoji: '🎮' },
+          { href: '/tro-choi/toan', label: 'Trò chơi Toán', emoji: '🔢' },
+          { href: '/tro-choi/tieng-viet', label: 'Trò chơi chữ', emoji: '🔤' },
+          reg('/hoc-tieng-anh'),
+          reg('/luyen-nghe'),
+        ],
+      },
+      {
+        title: 'Sân chơi Trí tuệ',
+        href: '/san-choi-tri-tue',
+        links: [reg('/san-choi-tri-tue'), reg('/thu-thach-iq'), reg('/thi-tai'), reg('/trieu-phu-nhi'), reg('/kham-pha'), reg('/san-choi-tri-tue/phong')],
+      },
     ],
   },
+  { id: 'in', href: '/tai-lieu-in', label: 'Tài liệu in', emoji: '🖨️' },
 ];
 
-// Khu vực phụ huynh — chỉ hiện khi đã đăng nhập (hoặc khách đã tạo bé).
+// Menu tài khoản: việc của bé + góc phụ huynh (trước đây chiếm chỗ trên thanh menu).
 export const ACCOUNT_LINKS = [
   { href: '/hoc-hom-nay', label: 'Học hôm nay', emoji: '📅' },
   { href: '/bo-suu-tap', label: 'Bộ sưu tập', emoji: '⭐' },
-  { href: '/bao-cao', label: 'Báo cáo tuần', emoji: '📊' },
-  { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📊' },
-  { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
-  { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
   { href: '/on-tap-cau-sai', label: 'Ôn câu sai', emoji: '🔁' },
+  { href: '/ho-so-be', label: 'Hồ sơ bé', emoji: '👶' },
   { href: '/chung-nhan', label: 'Chứng nhận', emoji: '🏆' },
+];
+
+/** Góc phụ huynh — menu tài khoản, trang Menu điện thoại và chân trang. */
+export const PARENT_LINKS = [
+  { href: '/bao-cao', label: 'Báo cáo tuần', emoji: '📊' },
+  { href: '/dashboard', label: 'Bảng theo dõi', emoji: '📋' },
+  { href: '/tien-do', label: 'Tiến độ học tập', emoji: '📈' },
+  { href: '/bai-viet', label: 'Bài viết cho ba mẹ', emoji: '📰' },
+  { href: '/huong-dan', label: 'Hướng dẫn bắt đầu', emoji: '🚀' },
+  { href: '/cau-hoi-thuong-gap', label: 'Câu hỏi thường gặp', emoji: '❓' },
+  { href: '/gioi-thieu', label: 'Giới thiệu Bé Hay Học', emoji: '🌈' },
 ];
 
 /** Người dùng đăng nhập, hoặc bé đang chọn của khách đã tạo hồ sơ bé (lưu trên máy). */

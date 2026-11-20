@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { CAP_BAN_CUA_10 } from '../lib/bangCongTru';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import BangCongTruClient from './BangCongTruClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bảng cộng trừ' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bang-cong-tru"
+        crumbLabel="Bảng cộng trừ"
         emoji="➕"
         eyebrow="Toán · Lớp 1"
         title="Bảng cộng trừ – bấm để thấy quy luật"
-        tone="pink"
         description={
           <>
             Bảng trong phạm vi <strong>10 và 20</strong>. Bấm một ô là nghe đọc phép đó, và{' '}
@@ -88,20 +88,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
-              { href: '/dat-tinh', label: 'Đặt tính rồi tính – chấm từng cột', emoji: '🧮' },
-              { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm', emoji: '⚡' },
-              { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -117,6 +103,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/bang-cong-tru" links={[
+        { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
+        { href: '/dat-tinh', label: 'Đặt tính rồi tính – chấm từng cột', emoji: '🧮' },
+        { href: '/luyen-tinh-nham', label: 'Luyện tính nhẩm', emoji: '⚡' },
+        { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
+      ]} />
     </KidShell>
   );
 }

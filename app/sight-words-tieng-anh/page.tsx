@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { SIGHT_WORD_GROUPS, totalSightWords } from '../lib/sightWords';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import SightWordsClient from './SightWordsClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Sight words tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/sight-words-tieng-anh"
+        crumbLabel="Sight words tiếng Anh"
         emoji="⚡"
         eyebrow="Tiếng Anh · Đọc trôi chảy"
         title="Sight words – Từ thông dụng"
-        tone="green"
         description={
           <>
             <strong>Sight words</strong> là những từ xuất hiện nhiều nhất trong sách thiếu nhi (the, and, is, you…). Bé cần{' '}
@@ -58,21 +58,14 @@ export default function Page() {
 
       <SightWordsClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình học tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
-              { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
-              { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
-              { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tiếng Anh', emoji: '🗣️' },
-              { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh', emoji: '🎵' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/sight-words-tieng-anh" links={[
+        { href: '/bang-chu-cai-tieng-anh', label: 'Bảng chữ cái tiếng Anh A–Z', emoji: '🔤' },
+        { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
+        { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
+        { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tiếng Anh', emoji: '🗣️' },
+        { href: '/bai-hat-tieng-anh', label: 'Bài hát tiếng Anh', emoji: '🎵' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

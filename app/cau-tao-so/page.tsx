@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { HANG, MUC_DO, docSo, phanTich, vietSo } from '../lib/cauTaoSo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import CauTaoSoClient from './CauTaoSoClient';
 
 export const revalidate = 86400;
@@ -60,13 +61,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Cấu tạo số' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/cau-tao-so"
+        crumbLabel="Cấu tạo số"
         emoji="🔢"
         eyebrow="Toán · Số học"
         title="Cấu tạo số – chữ số đứng đâu đáng bấy nhiêu"
-        tone="blue"
         description={
           <>
             Ba việc: đọc <strong>hàng và lớp</strong> của từng chữ số, <strong>viết số thành tổng</strong> các hàng,
@@ -108,20 +108,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="orange">
-          <KidLinkList
-            tone="orange"
-            items={[
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/dat-tinh', label: 'Đặt tính rồi tính', emoji: '🧮' },
-              { href: '/so-thap-phan', label: 'Số thập phân trực quan', emoji: '🔟' },
-              { href: '/tim-x', label: 'Tìm x – cân thăng bằng', emoji: '⚖️' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -137,6 +123,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/cau-tao-so" links={[
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/dat-tinh', label: 'Đặt tính rồi tính', emoji: '🧮' },
+        { href: '/so-thap-phan', label: 'Số thập phân trực quan', emoji: '🔟' },
+        { href: '/tim-x', label: 'Tìm x – cân thăng bằng', emoji: '⚖️' },
+      ]} />
     </KidShell>
   );
 }

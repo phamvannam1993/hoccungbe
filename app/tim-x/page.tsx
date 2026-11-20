@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO, QUY_TAC, TEN_THANH_PHAN } from '../lib/timX';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import TimXClient from './TimXClient';
 
 export const revalidate = 86400;
@@ -67,13 +68,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Tìm x' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/tim-x"
+        crumbLabel="Tìm x"
         emoji="⚖️"
         eyebrow="Toán · Tìm thành phần chưa biết"
         title="Tìm x – nhìn cân là hiểu vì sao"
-        tone="purple"
         description={
           <>
             Đủ sáu dạng: số hạng, số bị trừ, số trừ, thừa số, số bị chia, số chia. Mỗi bài nói rõ{' '}
@@ -106,20 +106,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/dat-tinh', label: 'Đặt tính rồi tính', emoji: '🧮' },
-              { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
-              { href: '/bieu-do', label: 'Biểu đồ – đọc và vẽ', emoji: '📊' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -135,6 +121,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/tim-x" links={[
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/dat-tinh', label: 'Đặt tính rồi tính', emoji: '🧮' },
+        { href: '/so-do-doan-thang', label: 'Giải toán lời văn bằng sơ đồ đoạn thẳng', emoji: '📏' },
+        { href: '/bieu-do', label: 'Biểu đồ – đọc và vẽ', emoji: '📊' },
+      ]} />
     </KidShell>
   );
 }

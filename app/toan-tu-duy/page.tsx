@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GRADES, TOAN_TU_DUY } from './data';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, TONES, type Tone } from '../components/seo/kid';
+import { KidShell, KidCard, TONES, type Tone } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 
 export const revalidate = 86400;
 
@@ -34,9 +35,7 @@ export default function Page() {
   return (
     <KidShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Toán tư duy' }]} />
-
-      <KidHero emoji="🧠" eyebrow="Chuyên đề" title="Toán tư duy lớp 1–5" tone="purple" description={DESCRIPTION} />
+      <PageHeader href="/toan-tu-duy" crumbLabel="Toán tư duy" emoji="🧠" eyebrow="Chuyên đề" title="Toán tư duy lớp 1–5" description={DESCRIPTION} />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {GRADES.map((g, i) => {
@@ -69,6 +68,8 @@ export default function Page() {
           </p>
         </KidCard>
       </div>
+
+      <HocTiep href="/toan-tu-duy" />
     </KidShell>
   );
 }

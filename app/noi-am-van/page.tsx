@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import GameNoiAmVan from './GameNoiAmVan';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
+import { HocTiep } from '../components/khung';
 
 const title = 'Game nối âm vần: bé nhìn hình đoán chữ, tập đọc mà như chơi';
 const description =
@@ -70,6 +71,10 @@ export default function Page() {
 
       <div className="relative">
         <GameNoiAmVan />
+      </div>
+
+      <div className="relative mx-auto max-w-4xl px-4">
+        <HocTiep href="/noi-am-van" />
       </div>
     </div>
   );

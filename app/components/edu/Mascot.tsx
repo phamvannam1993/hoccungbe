@@ -52,9 +52,10 @@ export default function Mascot() {
       }
       if (!alive) return;
       setShown(true);
+      // Điện thoại (<768px): chỉ hiện linh vật thu gọn, KHÔNG tự bật bong bóng — bong bóng từng che thẻ nội dung
+      // và thanh tab dưới. Bé chạm vào Hổ Con thì mới nói.
+      if (!window.matchMedia?.('(min-width: 768px)').matches) return;
       setMsg(greeting);
-      // Tự thu bong bóng sau 8s (linh vật vẫn ở lại, nhỏ gọn).
-      setTimeout(() => alive && setMsg(null), 8000);
     }, 1200);
     return () => {
       alive = false;
@@ -62,12 +63,20 @@ export default function Mascot() {
     };
   }, [pathname]);
 
+  // Tự thu bong bóng sau 8s (linh vật vẫn ở lại, nhỏ gọn) — cả lời chào lẫn lời bé chạm ra.
+  useEffect(() => {
+    if (!msg) return;
+    const t = setTimeout(() => setMsg(null), 8000);
+    return () => clearTimeout(t);
+  }, [msg]);
+
   if (!shown) return null;
 
-  const tap = () => setMsg((cur) => pickOther(GENERAL, cur ?? GENERAL[0]));
+  const tap = () => setMsg((cur) => pickOther(GENERAL, cur ?? GENERAL[GENERAL.length - 1]));
 
   return (
-    <div className="pointer-events-none fixed bottom-20 left-3 z-40 flex items-end gap-2 lg:bottom-6">
+    // Đặt trên thanh tab dưới (cao ~60px + vùng an toàn) — không đè lên thanh tab.
+    <div className="pointer-events-none fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-2 z-40 flex items-end gap-2 md:left-3 lg:bottom-6">
       <button
         type="button"
         onClick={tap}
@@ -78,13 +87,13 @@ export default function Mascot() {
         <img
           src="/assets/images/01-mascot-tiger-trophy.webp"
           alt="Hổ Con — bạn đồng hành của bé"
-          className="h-14 w-14 drop-shadow-md sm:h-16 sm:w-16"
+          className="h-11 w-11 drop-shadow-md md:h-16 md:w-16"
           draggable={false}
         />
       </button>
 
       {msg && (
-        <div className="pointer-events-auto relative mb-2 max-w-[220px] rounded-2xl rounded-bl-sm border-2 border-orange-100 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-lg animate-in fade-in slide-in-from-left-2 duration-200">
+        <div className="pointer-events-auto relative mb-2 max-w-[min(220px,calc(100vw-5rem))] rounded-2xl rounded-bl-sm border-2 border-orange-100 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-lg animate-in fade-in slide-in-from-left-2 duration-200">
           {msg}
           <button
             type="button"

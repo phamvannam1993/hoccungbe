@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { VN_LETTERS, totalVan } from '../lib/vietReading';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import VietReadingClient from './VietReadingClient';
 
 export const revalidate = 86400;
@@ -46,13 +47,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Học đọc tiếng Việt' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/hoc-doc-tieng-viet"
+        crumbLabel="Học đọc tiếng Việt"
         emoji="📖"
         eyebrow="Tiếng Việt · Tập đọc lớp 1"
         title="Học đọc tiếng Việt"
-        tone="pink"
         description={
           <>
             Bé tập đọc theo đúng thứ tự: <strong>{VN_LETTERS.length} chữ cái</strong> có phát âm →{' '}
@@ -70,23 +70,6 @@ export default function Page() {
         </KidCard>
       </div>
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
-              { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
-              { href: '/tro-choi/tieng-viet-lop-1', label: 'Game Học Tiếng Việt lớp 1', emoji: '🎮' },
-              { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🅰️' },
-              { href: '/luyen-viet-chu', label: 'Luyện viết chữ', emoji: '✍️' },
-              { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa Tiếng Việt lớp 1', emoji: '🎒' },
-              { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '📝' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -97,6 +80,16 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/hoc-doc-tieng-viet" links={[
+        { href: '/vong-tron-am', label: 'Vòng tròn âm vần — tập đánh vần', emoji: '🎡' },
+        { href: '/noi-am-van', label: 'Game nối âm vần', emoji: '🔗' },
+        { href: '/tro-choi/tieng-viet-lop-1', label: 'Game Học Tiếng Việt lớp 1', emoji: '🎮' },
+        { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🅰️' },
+        { href: '/luyen-viet-chu', label: 'Luyện viết chữ', emoji: '✍️' },
+        { href: '/khoa-hoc/tieng-viet-lop-1', label: 'Khóa Tiếng Việt lớp 1', emoji: '🎒' },
+        { href: '/bai-tap/tieng-viet-lop-1', label: 'Bài tập Tiếng Việt lớp 1', emoji: '📝' },
+      ]} />
     </KidShell>
   );
 }

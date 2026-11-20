@@ -48,8 +48,47 @@ export const LEVELS = [
 export function levelOf(best: number) { return [...LEVELS].reverse().find((l) => best >= l.min)!; }
 export function nextLevel(best: number) { return LEVELS.find((l) => l.min > best); }
 
+// Nguồn ngẫu nhiên của engine. Mặc định Math.random (Thi Tài giữ nguyên hành vi);
+// Sân chơi Trí tuệ tạm thay bằng PRNG có seed theo ngày qua `withSeededRandom` để
+// mọi bé cùng ngày nhận cùng một bộ câu.
+let rand: () => number = Math.random;
 function randInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(rand() * (max - min + 1)) + min;
+}
+// Xáo Fisher–Yates (thay cho sort(() => randInt(-1, 1)): kết quả phụ thuộc thuật toán
+// sort của từng trình duyệt, nên không tái lập được giữa các máy dù cùng seed).
+function shuffleArr<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = randInt(0, i);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/** mulberry32: PRNG 32-bit nhỏ gọn, cùng seed → cùng dãy số trên mọi trình duyệt. */
+export function mulberry32(seed: number): () => number {
+  let t = seed >>> 0;
+  return () => {
+    t = (t + 0x6d2b79f5) >>> 0;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Băm chuỗi (vd "2026-11-12") thành seed số 32-bit. */
+export function seedFromString(s: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return h;
+}
+
+/** Chạy `fn` với nguồn ngẫu nhiên tất định `rng`, xong trả lại Math.random. */
+export function withSeededRandom<T>(rng: () => number, fn: () => T): T {
+  const prev = rand;
+  rand = rng;
+  try { return fn(); } finally { rand = prev; }
 }
 
 const KHAM_PHA_ALL = KHAM_PHA_TOPICS.flatMap((t) => t.questions);
@@ -129,7 +168,7 @@ function numOptions(answer: number): { options: string[]; correctIndex: number }
     const cand = answer + randInt(-spread, spread);
     if (cand >= 0 && cand !== answer) nums.add(cand);
   }
-  const arr = [...nums].sort(() => randInt(-1, 1));
+  const arr = shuffleArr([...nums]);
   return { options: arr.map(String), correctIndex: arr.indexOf(answer) };
 }
 function mcqNum(prompt: string, answer: number): ThiQ {
@@ -207,7 +246,7 @@ function makeEnglish(): ThiQ {
     const d = EN_WORDS[randInt(0, EN_WORDS.length - 1)];
     if (d.vi !== w.vi) opts.add(d.vi);
   }
-  const arr = [...opts].sort(() => randInt(-1, 1));
+  const arr = shuffleArr([...opts]);
   return { prompt: `Nghĩa của “${w.en}” là gì?`, options: arr, correctIndex: arr.indexOf(w.vi) };
 }
 
@@ -296,7 +335,7 @@ export function buildThiTai(subject: ThiSubject, grade: number, n = 12): ThiQ[] 
   // Môn Toán: NẠP TOÀN BỘ câu tư duy của lớp trước (xáo thứ tự), tối đa n câu.
   if (subject === 'toan') {
     const g = Math.min(5, Math.max(1, grade));
-    const tuduy = [...(TUDUY_BY_GRADE[g] || [])].sort(() => randInt(-1, 1));
+    const tuduy = shuffleArr(TUDUY_BY_GRADE[g] || []);
     for (const q of tuduy) {
       if (out.length >= n) break;
       const t = rawToThi(q);

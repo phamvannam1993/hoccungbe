@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { CHINH_TA_TOPICS, totalChinhTaQuestions } from '../lib/chinhTa';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import ChinhTaClient from './ChinhTaClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Chính tả tiếng Việt' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/chinh-ta-tieng-viet"
+        crumbLabel="Chính tả tiếng Việt"
         emoji="✍️"
         eyebrow="Tiếng Việt · Chính tả"
         title="Chính tả phân biệt cho bé"
-        tone="pink"
         description={
           <>
             Sửa các lỗi chính tả hay gặp nhất của trẻ Việt qua <strong>trò chơi chọn đáp án</strong>: phân biệt{' '}
@@ -58,19 +58,12 @@ export default function Page() {
 
       <ChinhTaClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/hoc-doc-tieng-viet', label: 'Học đọc tiếng Việt (đánh vần)', emoji: '📖' },
-              { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🅰️' },
-              { href: '/luyen-viet-chu', label: 'Luyện viết chữ', emoji: '✍️' },
-              { href: '/bai-tap/tieng-viet-lop-2', label: 'Bài tập Tiếng Việt lớp 2', emoji: '📝' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/chinh-ta-tieng-viet" links={[
+        { href: '/hoc-doc-tieng-viet', label: 'Học đọc tiếng Việt (đánh vần)', emoji: '📖' },
+        { href: '/bang-chu-cai', label: 'Bảng chữ cái tiếng Việt', emoji: '🅰️' },
+        { href: '/luyen-viet-chu', label: 'Luyện viết chữ', emoji: '✍️' },
+        { href: '/bai-tap/tieng-viet-lop-2', label: 'Bài tập Tiếng Việt lớp 2', emoji: '📝' },
+      ]} />
     </KidShell>
   );
 }

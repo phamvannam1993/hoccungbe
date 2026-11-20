@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import ThreeWaysToLearn from './ThreeWaysToLearn';
-import ChonLop from './ChonLop';
 import Image from 'next/image';
-import type { ApiCourse, ApiMiniGame } from '../../lib/api';
+import type { ApiCourse } from '../../lib/api';
 import HomeCourseSection from './HomeCourseSection';
+import HomeTheoLop, { type GradeBlock, type HomeTheoLopData } from './HomeTheoLop';
+import { ALL_GRADES, type CatalogItem, type Grade } from '../../lib/catalog';
+import { examSummary, queryCatalog, upcomingTerm } from '../../lib/catalogFull';
 
 interface Article {
   id: number; title: string; slug: string;
@@ -21,37 +22,6 @@ async function fetchArticles(): Promise<Article[]> {
   } catch { return []; }
 }
 
-async function fetchHomepageGames(): Promise<ApiMiniGame[]> {
-  try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-    const res = await fetch(`${base}/api/mini-games/homepage`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : [];
-  } catch {
-    return [];
-  }
-}
-
-// Deterministic color mapping based on groupKey
-const GROUP_COLORS: Record<string, { color: string; bg: string }> = {
-  'math-counting': { color: '#1a3a6b', bg: 'linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)' },
-  'math-logic':    { color: '#7C3AED', bg: 'linear-gradient(135deg, #EDE9FE 0%, #C4B5FD 100%)' },
-  'language':      { color: '#FF6B9D', bg: 'linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 100%)' },
-  'memory':        { color: '#8B5CF6', bg: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)' },
-  'listening':     { color: '#059669', bg: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)' },
-  'thinking-observation': { color: '#38BDF8', bg: 'linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)' },
-  'english':       { color: '#6BCB77', bg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)' },
-};
-
-const FALLBACK_GAMES = [
-  { slug: 'ghep-hinh-rung', routeKey: 'puzzle-game', emoji: '🧩', title: 'Ghép Hình', age: '3–6 tuổi', groupKey: 'thinking-observation' },
-  { slug: 'doan-tau-toan-hoc', routeKey: 'train-complete-lessons', emoji: '🚂', title: 'Đoàn tàu toán học', age: '4–8 tuổi', groupKey: 'math-counting' },
-  { slug: 'day-so', routeKey: 'number-sequence', emoji: '🔢', title: 'Dãy số', age: '5–8 tuổi', groupKey: 'math-logic' },
-  { slug: 'dem-chim', routeKey: 'bird-count', emoji: '🐦', title: 'Đếm chim', age: '3–6 tuổi', groupKey: 'math-counting' },
-  { slug: 'keo-cot-so', routeKey: 'column-lift-drag', emoji: '📊', title: 'Kéo cột số', age: '5–8 tuổi', groupKey: 'math-logic' },
-];
-
 async function fetchCourses(): Promise<ApiCourse[]> {
   try {
     const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -66,6 +36,34 @@ async function fetchCourses(): Promise<ApiCourse[]> {
 
 
 
+// ── Dữ liệu khối "theo lớp" (đọc sổ đăng ký app/lib/catalog.ts) ──
+// Mục hợp ĐÚNG lớp (ít lớp) xếp trước mục dùng chung nhiều lớp.
+const narrowFirst = (xs: CatalogItem[]) => [...xs].sort((a, b) => a.grades.length - b.grades.length);
+
+function buildTheoLop(): HomeTheoLopData {
+  const pool: Record<string, CatalogItem> = {};
+  const take = (xs: CatalogItem[], n: number) =>
+    xs.slice(0, n).map((x) => {
+      pool[x.href] = x;
+      return x.href;
+    });
+  const block = (g: Grade | null): GradeBlock => {
+    const sort = g == null ? (x: CatalogItem[]) => x : narrowFirst;
+    const exam = g == null ? null : examSummary(g);
+    return {
+      toan: take(sort(queryCatalog({ grade: g, subject: ['toan', 'tu-duy'], kind: ['cong-cu', 'khoa-hoc'] })), 4),
+      tv: take(sort(queryCatalog({ grade: g, subject: 'tieng-viet', kind: 'cong-cu' })), 4),
+      ta: take(sort(queryCatalog({ grade: g, subject: 'tieng-anh', kind: 'cong-cu' })), 4),
+      games: take(sort(queryCatalog({ grade: g, kind: 'tro-choi' })), 8),
+      packs: g == null || g === 0 ? [] : take(queryCatalog({ grade: g, kind: 'tai-lieu' }).filter((x) => x.paid), 2),
+      exam: exam && { href: exam.href, toan: exam.toan, tiengViet: exam.tiengViet, total: exam.total },
+    };
+  };
+  const byGrade: Record<string, GradeBlock> = {};
+  for (const g of ALL_GRADES) byGrade[String(g)] = block(g);
+  return { pool, byGrade, general: block(null), term: upcomingTerm() };
+}
+
 // Dải cam kết — trả lời câu hỏi "vì sao nên dùng" ngay trên màn hình đầu.
 const DIEM_MANH = [
   { emoji: '⭐', d1: 'Nội dung bám sát', d2: 'chương trình của Bộ GD&ĐT', mau: '#fef3c7' },
@@ -79,11 +77,15 @@ const DIEM_MANH = [
 // link về các trang money-keyword. Trước đây trang chủ chỉ link /khoa-hoc + /tro-choi.
 const HUBS = [
   { href: '/khoa-hoc', emoji: '📚', label: 'Khóa học', c: '#FF6B9D' },
+  { href: '/tieng-viet', emoji: '📖', label: 'Tiếng Việt', c: '#c81e5b' },
+  { href: '/hoc-toan', emoji: '🔢', label: 'Công cụ Toán', c: '#6d28d9' },
+  { href: '/tai-lieu-in', emoji: '🖨️', label: 'Tài liệu in', c: '#a16207' },
   { href: '/bai-tap', emoji: '✏️', label: 'Bài tập theo chủ đề', c: '#FF9F45' },
   { href: '/phieu-bai-tap', emoji: '📄', label: 'Phiếu bài tập PDF', c: '#4ECDC4' },
   { href: '/de-thi', emoji: '📝', label: 'Đề thi có chấm điểm', c: '#A06CD5' },
   { href: '/tro-choi', emoji: '🎮', label: 'Trò chơi học tập', c: '#38BDF8' },
   { href: '/kham-pha', emoji: '🔎', label: 'Đố vui khám phá', c: '#22C55E' },
+  { href: '/san-choi-tri-tue', emoji: '🎯', label: 'Sân chơi Trí tuệ', c: '#7C3AED' },
   { href: '/thi-tai', emoji: '🏆', label: 'Thi Tài giành huy chương', c: '#F97316' },
   { href: '/trieu-phu-nhi', emoji: '👑', label: 'Ai Là Triệu Phú Nhí', c: '#FFC42E' },
   { href: '/vong-tron-am', emoji: '🎡', label: 'Vòng tròn âm vần', c: '#EF4444' },
@@ -98,17 +100,13 @@ const HUBS = [
 ];
 
 export default async function HomePage() {
-  const [courses, articles, apiGames] = await Promise.all([fetchCourses(), fetchArticles(), fetchHomepageGames()]);
-  const homepageGames = apiGames.length > 0 ? apiGames : FALLBACK_GAMES;
+  const [courses, articles] = await Promise.all([fetchCourses(), fetchArticles()]);
+  const theoLop = buildTheoLop();
 
   return (
     <main className="kid-bg relative overflow-hidden">
-      {/* Decorative floating emojis */}
-      <span aria-hidden className="pointer-events-none select-none absolute top-10 left-4 text-4xl opacity-70" style={{ animation: 'wiggle 3s ease-in-out infinite' }}>⭐</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-20 right-8 text-5xl opacity-70" style={{ animation: 'bounce-pop 2.4s ease-in-out infinite' }}>🎈</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-72 left-10 text-3xl opacity-60" style={{ animation: 'wiggle 4s ease-in-out infinite' }}>💖</span>
-      <span aria-hidden className="pointer-events-none select-none absolute top-96 right-6 text-4xl opacity-60" style={{ animation: 'bounce-pop 3s ease-in-out infinite' }}>🌈</span>
-
+      {/* Banner giữ nguyên như trước (người dùng 20/11/2026: "banner không được thay đổi"); sau banner là khối
+          "cấu trúc mới": hỏi lớp → hôm nay của bé → ba môn của lớp → sắp thi → trò chơi hợp lớp → khóa học, bài viết, tài liệu. */}
       {/* ── HERO ──
           Ảnh banner đã vẽ sẵn cả chữ lẫn nút, tỉ lệ 1536×370 (rất ngang). Dùng
           thẳng ảnh ở màn rộng thì đẹp đúng như bản thiết kế; nhưng ở màn hẹp
@@ -158,31 +156,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── MỘT CÂU HỎI: bé học lớp mấy? ──
-          Thay cho dải 5 môn trước đây. Bày sẵn mọi môn của mọi lớp thì người vào
-          phải tự lọc; hỏi một câu rồi chỉ mở phần của lớp đó thì bé bấm được ngay. */}
-      <ChonLop />
-
-      {/* ── DẢI CAM KẾT ── */}
-      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6" aria-label="Vì sao chọn Bé Hay Học">
-        <ul className="grid grid-cols-1 gap-x-2 gap-y-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-slate-100 lg:grid-cols-5">
-          {DIEM_MANH.map((d) => (
-            <li key={d.d1} className="flex items-center gap-2.5 px-2">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-lg"
-                style={{ background: d.mau }} aria-hidden>{d.emoji}</span>
-              <span className="min-w-0 text-[11px] font-bold leading-tight text-slate-600 sm:text-xs">
-                <span className="block text-slate-800">{d.d1}</span>
-                {d.d2}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <ThreeWaysToLearn />
+      <HomeTheoLop data={theoLop} />
 
       {/* ── COURSES ── */}
-      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6">
         <div className="bg-white rounded-3xl border-4 border-pink-200 p-4 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(255,107,157,0.20)' }}>
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="min-w-0">
@@ -199,39 +176,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── GAMES ── */}
-      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
-        <div className="bg-white rounded-3xl border-4 border-purple-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(160,108,213,0.20)' }}>
-          <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest mb-1 kid-display" style={{ color: '#A06CD5' }}>🎮 Trò chơi giáo dục</p>
-              <h2 className="text-2xl sm:text-3xl font-black kid-display" style={{ background: 'linear-gradient(135deg, #A06CD5, #4ECDC4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Vừa chơi vừa học mỗi ngày</h2>
-            </div>
-            <Link href="/tro-choi" className="text-sm font-black kid-display px-4 py-2 rounded-full text-white shrink-0" style={{ background: 'linear-gradient(135deg, #A06CD5, #FF6B9D)', boxShadow: '0 3px 0 #7c3aed' }}>
-              Xem tất cả →
-            </Link>
-          </div>
-          <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
-            {homepageGames.map((g) => {
-              const scheme = GROUP_COLORS[g.groupKey] ?? { color: '#A06CD5', bg: 'linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)' };
-              return (
-                <Link key={g.slug} href={`/tro-choi/${g.slug}`}
-                  className="group rounded-3xl p-5 kid-card-hover flex flex-col snap-start shrink-0"
-                  style={{ width: 180, background: scheme.bg, border: `3px solid ${scheme.color}`, boxShadow: `0 4px 0 ${scheme.color}66` }}>
-                  <div className="text-5xl mb-3">{g.emoji}</div>
-                  <h3 className="font-black text-base leading-snug kid-display" style={{ color: scheme.color }}>{g.title}</h3>
-                  <p className="mt-1 text-xs font-bold text-slate-600">{g.age}</p>
-                  <span className="mt-4 text-xs font-black px-3 py-1.5 rounded-full text-white w-fit kid-display" style={{ background: scheme.color, boxShadow: `0 2px 0 ${scheme.color}99` }}>Chơi ngay »</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ── BÀI VIẾT ── */}
       {articles.length > 0 && (
-        <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
+        <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6">
           <div className="bg-white rounded-3xl border-4 border-cyan-200 p-6 sm:p-8" style={{ boxShadow: '0 8px 30px rgba(78,205,196,0.20)' }}>
             <div className="flex items-end justify-between mb-6 flex-wrap gap-2">
               <div>
@@ -273,11 +220,42 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ── TÀI LIỆU IN ── */}
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6" aria-labelledby="tai-lieu-in-h">
+        <div className="flex flex-col gap-3 rounded-[28px] border-2 border-amber-200 bg-white p-5 sm:flex-row sm:items-center">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-amber-50 text-2xl" aria-hidden>🖨️</span>
+          <div className="min-w-0 flex-1">
+            <h2 id="tai-lieu-in-h" className="kid-display text-lg font-black text-slate-900 sm:text-xl">Tài liệu in cho bé</h2>
+            <p className="text-sm text-slate-600">Phiếu bài tập miễn phí, phiếu tập viết ô li và bộ đề in A4 kèm đáp án — lọc theo lớp, theo môn.</p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Link href="/tai-lieu-in" className="kid-display rounded-full bg-amber-500 px-4 py-2 text-sm font-black text-white shadow-[0_3px_0_#b45309]">Xem tài liệu in →</Link>
+            <Link href="/goi-tai-lieu" className="kid-display rounded-full bg-amber-50 px-4 py-2 text-sm font-black text-amber-800">Gói tài liệu</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DẢI CAM KẾT ── */}
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6" aria-label="Vì sao chọn Bé Hay Học">
+        <ul className="grid grid-cols-1 gap-x-2 gap-y-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:grid-cols-3 sm:divide-x sm:divide-slate-100 lg:grid-cols-5">
+          {DIEM_MANH.map((d) => (
+            <li key={d.d1} className="flex items-center gap-2.5 px-2">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-lg"
+                style={{ background: d.mau }} aria-hidden>{d.emoji}</span>
+              <span className="min-w-0 text-[11px] font-bold leading-tight text-slate-600 sm:text-xs">
+                <span className="block text-slate-800">{d.d1}</span>
+                {d.d2}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* ── KHÁM PHÁ — GẤP LẠI ──
           17 lối vào này cần cho tìm kiếm (dồn liên kết nội bộ từ trang mạnh nhất),
           nhưng bày hết ra đầu trang thì người vào rối, không biết bắt đầu từ đâu.
           Gấp vào một thẻ mở-đóng: ai cần thì mở, ai không thì không thấy. */}
-      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6" aria-label="Khám phá Bé Hay Học">
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6" aria-label="Khám phá Bé Hay Học">
         <details className="bg-white rounded-3xl border-4 border-sky-200 p-4 sm:p-6" style={{ boxShadow: '0 8px 30px rgba(56,189,248,0.18)' }}>
           <summary className="cursor-pointer text-lg sm:text-2xl font-black kid-display text-slate-900">Xem tất cả nội dung của Bé Hay Học</summary>
           <div className="h-4" />
@@ -298,6 +276,7 @@ export default async function HomePage() {
           {/* Học theo lớp: link tới hub /lop-1…5 (gom cả 3 môn của từng lớp) */}
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <span className="text-sm font-black text-slate-700 kid-display">Học theo lớp:</span>
+            <Link href="/lop/mau-giao" className="rounded-full bg-slate-100 px-4 py-1.5 text-sm font-black text-slate-700 hover:bg-sky-100 hover:text-sky-700 kid-display">Mẫu giáo</Link>
             {['1', '2', '3', '4', '5'].map((gr) => (
               <Link
                 key={gr}
@@ -325,7 +304,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6">
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-5 sm:px-6">
         <div className="rounded-[32px] px-8 py-10 text-center text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FFD93D 50%, #4ECDC4 100%)', boxShadow: '0 12px 40px rgba(255,107,157,0.35)' }}>
           <span aria-hidden className="absolute top-4 left-6 text-4xl opacity-80" style={{ animation: 'wiggle 3s infinite' }}>🚀</span>
           <span aria-hidden className="absolute bottom-4 right-6 text-4xl opacity-80" style={{ animation: 'bounce-pop 2.5s infinite' }}>🌟</span>

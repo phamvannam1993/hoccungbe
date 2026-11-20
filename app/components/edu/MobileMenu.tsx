@@ -1,27 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { ChevronDown, ChevronRight, LogOut, Search, X } from 'lucide-react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
+import { BookOpen, ChevronDown, ChevronRight, Download, Heart, LogOut, Mail, MessageCircle, Search, ThumbsUp, X } from 'lucide-react';
+import { CONTACT, zaloLink } from '../../lib/contact';
+import { INSTALL_EVENT } from '../../lib/pwa';
 import FramedAvatar from './FramedAvatar';
-import { ACCOUNT_LINKS, GRADES, NAV_MENU, SUBJECTS, useAccount, useCourseSlugs } from './navData';
+import { ACCOUNT_LINKS, NAV_MENU, PARENT_LINKS, useAccount } from './navData';
+import { ALL_GRADES, gradeHref, gradeShort } from '../../lib/catalog';
+import { useLopCuaBe } from '../../lib/lopCuaBe';
 
 // Trang "Menu" trên điện thoại (mở từ nút ba gạch trên header), dựng theo tab Menu của app Facebook: nền xám nhạt, thẻ hồ sơ
 // ở đầu, lưới lối tắt 2 cột, rồi các nhóm xổ xuống cho danh sách dài. Thay cho menu ba gạch cũ
 // (một cột link dài, mục con chữ nhỏ khó bấm).
 
-/** Biểu tượng + màu nền cho từng ô lối tắt, theo href của mục cấp 1 trong NAV_MENU. */
-const TILE: Record<string, { emoji: string; bg: string; label?: string }> = {
-  '/khoa-hoc': { emoji: '📚', bg: '#e0f2fe' },
-  '/hoc-toan': { emoji: '🔢', bg: '#ffe4e6', label: 'Công cụ Toán' },
-  '/khoa-hoc-iq': { emoji: '🧠', bg: '#ede9fe' },
-  '/tro-choi': { emoji: '🎮', bg: '#fce7f3', label: 'Trò chơi' },
-  '/tu-vung-tieng-anh': { emoji: '🔤', bg: '#dcfce7' },
-  '/thi-tai': { emoji: '🏆', bg: '#fef3c7' },
-  '/de-thi': { emoji: '📝', bg: '#e0e7ff' },
-  '/luyen-viet-chu-dep': { emoji: '✍️', bg: '#fef9c3' },
-  '/gioi-thieu': { emoji: '🌈', bg: '#fce7f3' },
-};
+/** Lối tắt: các trang gom chính của menu mới. Màu nền = token theo môn (globals.css). */
+const TILES = [
+  { href: '/hoc-toan', emoji: '🔢', bg: 'var(--mon-toan-soft)', label: 'Toán' },
+  { href: '/tieng-viet', emoji: '📖', bg: 'var(--mon-tv-soft)', label: 'Tiếng Việt' },
+  { href: '/tu-vung-tieng-anh', emoji: '🌍', bg: 'var(--mon-ta-soft)', label: 'Tiếng Anh' },
+  { href: '/de-thi', emoji: '📝', bg: 'var(--mon-thi-soft)', label: 'Đề thi' },
+  { href: '/tro-choi', emoji: '🎮', bg: 'var(--mon-choi-soft)', label: 'Trò chơi' },
+  { href: '/san-choi-tri-tue', emoji: '🏆', bg: 'var(--mon-tu-duy-soft)', label: 'Sân chơi Trí tuệ' },
+  { href: '/tai-lieu-in', emoji: '🖨️', bg: 'var(--mon-in-soft)', label: 'Tài liệu in' },
+  { href: '/khoa-hoc-iq', emoji: '💡', bg: 'var(--hue-purple-soft)', label: 'Toán IQ' },
+];
+
+const subscribeNoop = () => () => {};
+const isStandalone = () =>
+  window.matchMedia?.('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true;
 
 type Section = { id: string; emoji: string; label: string; links: { href: string; label: string }[] };
 
@@ -32,7 +39,7 @@ export default function MobileMenu({ open, onClose }: { open: boolean; onClose: 
 
 function Sheet({ onClose }: { onClose: () => void }) {
   const { user, guestChild, logout } = useAccount();
-  const courseSlugs = useCourseSlugs();
+  const [lop] = useLopCuaBe();
   const [expanded, setExpanded] = useState<string[]>([]);
   const hasAccount = Boolean(user || guestChild);
   const name = user?.fullName ?? guestChild?.nickname ?? guestChild?.fullName ?? '';
@@ -51,33 +58,19 @@ function Sheet({ onClose }: { onClose: () => void }) {
     };
   }, [onClose]);
 
-  const tiles = NAV_MENU.filter((i) => TILE[i.href]);
-  const gradeLinks = GRADES.flatMap((g) =>
-    SUBJECTS.flatMap((s) => {
-      const slug = courseSlugs[`${s.slug}-${g}`];
-      return slug ? [{ href: `/khoa-hoc/${slug}`, label: `${s.emoji} ${s.label} lớp ${g}` }] : [];
-    }),
-  );
   const sections: Section[] = [
     ...(hasAccount
-      ? [{ id: 'phu-huynh', emoji: '👨‍👩‍👧', label: 'Khu vực phụ huynh', links: ACCOUNT_LINKS.map((l) => ({ href: l.href, label: `${l.emoji} ${l.label}` })) }]
+      ? [{ id: 'cua-be', emoji: '🧒', label: 'Của bé', links: ACCOUNT_LINKS.map((l) => ({ href: l.href, label: `${l.emoji} ${l.label}` })) }]
       : []),
-    ...(gradeLinks.length ? [{ id: 'lop', emoji: '🎒', label: 'Học theo lớp', links: gradeLinks }] : []),
-    ...NAV_MENU.filter((i) => i.children?.length).map((i) => ({
-      id: i.href,
-      emoji: TILE[i.href]?.emoji ?? '📌',
-      label: TILE[i.href]?.label ?? i.label,
-      links: i.children!,
-    })),
-    {
-      id: 'ho-tro',
-      emoji: '❓',
-      label: 'Trợ giúp & hỗ trợ',
-      links: [
-        { href: '/ho-tro', label: '💬 Câu hỏi thường gặp' },
-        { href: '/ung-ho', label: '☕ Ủng hộ dự án' },
-      ],
-    },
+    { id: 'phu-huynh', emoji: '👨‍👩‍👧', label: 'Góc phụ huynh', links: PARENT_LINKS.map((l) => ({ href: l.href, label: `${l.emoji} ${l.label}` })) },
+    ...NAV_MENU.filter((i) => i.id !== 'lop').flatMap((i) =>
+      (i.groups ?? []).map((g) => ({
+        id: `${i.id}-${g.title}`,
+        emoji: g.emoji ?? i.emoji,
+        label: g.title,
+        links: g.links.map((l) => ({ href: l.href, label: `${l.emoji ? `${l.emoji} ` : ''}${l.label}` })),
+      })),
+    ),
   ];
   const toggle = (id: string) => setExpanded((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
 
@@ -89,7 +82,7 @@ function Sheet({ onClose }: { onClose: () => void }) {
       aria-label="Menu"
       // z-[55]: phủ cả thanh tab dưới, nút nổi và linh vật (z-40).
       className="fixed inset-0 z-[55] overflow-y-auto overscroll-contain bg-[#f0f2f5] animate-[menu-sheet-in_.18s_ease-out] lg:hidden"
-      style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
+      style={{ paddingBottom: 'calc(5.5rem + env(safe-area-inset-bottom))' }}
       // Bấm vào bất kỳ link nào là đóng — kể cả link tới đúng trang đang xem (pathname không đổi).
       onClick={(e) => (e.target as HTMLElement).closest('a') && onClose()}
     >
@@ -135,15 +128,31 @@ function Sheet({ onClose }: { onClose: () => void }) {
           </div>
         )}
 
+        {/* Lớp của bé */}
+        <h3 className="mb-2 mt-5 text-[15px] font-black text-slate-600">Lớp của bé</h3>
+        <div className="grid grid-cols-6 gap-1.5">
+          {ALL_GRADES.map((g) => (
+            <Link key={g} href={gradeHref(g)} aria-label={g === 0 ? 'Mẫu giáo' : `Lớp ${g}`}
+              className={`kid-display grid h-12 place-items-center rounded-2xl text-base font-black shadow-sm ring-1 ring-black/5 ${lop === g ? 'bg-pink-500 text-white' : 'bg-white text-pink-600 active:bg-pink-50'}`}>
+              {gradeShort(g)}
+            </Link>
+          ))}
+        </div>
+
         {/* Lối tắt */}
         <h3 className="mb-2 mt-5 text-[15px] font-black text-slate-600">Lối tắt</h3>
         <div className="grid grid-cols-2 gap-2">
           {hasAccount && <Tile href="/hoc-hom-nay" emoji="📅" bg="#ffedd5" label="Học hôm nay" />}
           {hasAccount && <Tile href="/bao-cao" emoji="📊" bg="#cffafe" label="Báo cáo tuần" />}
-          {tiles.map((i) => (
-            <Tile key={i.href} href={i.href} emoji={TILE[i.href].emoji} bg={TILE[i.href].bg} label={TILE[i.href].label ?? i.label} />
+          {TILES.map((t) => (
+            <Tile key={t.href} {...t} />
           ))}
         </div>
+
+        {/* Hỗ trợ & liên hệ — trước đây là cụm nút nổi góc phải (FloatingActions), trên điện thoại cụm đó che
+            nội dung và thanh tab nên chuyển hẳn vào đây. */}
+        <h3 className="mb-2 mt-5 text-[15px] font-black text-slate-600">Hỗ trợ & liên hệ</h3>
+        <HoTro onClose={onClose} />
 
         {/* Nhóm xổ xuống */}
         <div className="mt-5 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
@@ -200,5 +209,55 @@ function Tile({ href, emoji, bg, label }: { href: string; emoji: string; bg: str
       </span>
       <span className="text-[15px] font-bold leading-tight text-slate-800">{label}</span>
     </Link>
+  );
+}
+
+function HoTro({ onClose }: { onClose: () => void }) {
+  // Đã cài app (mở từ màn hình chính) thì không cần nút Cài App. Server luôn coi là chưa cài.
+  const installed = useSyncExternalStore(subscribeNoop, isStandalone, () => false);
+  const row = 'flex min-w-0 items-center gap-2.5 rounded-2xl bg-white p-2.5 text-left shadow-sm ring-1 ring-black/5 active:bg-slate-50';
+  const chip = 'grid h-9 w-9 shrink-0 place-items-center rounded-full';
+  const txt = 'min-w-0 truncate text-[14px] font-bold text-slate-800';
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <Link href={CONTACT.donatePath} className={`${row} bg-gradient-to-r from-amber-400 to-orange-500 ring-orange-300/60`}>
+        <span className={`${chip} bg-white/25 text-white`}><Heart size={18} className="fill-white" /></span>
+        <span className="min-w-0 truncate text-[14px] font-bold text-white">Ủng hộ</span>
+      </Link>
+      {!installed && (
+        <button
+          type="button"
+          className={row}
+          // Đóng menu trước: lúc menu mở, banner cài app bị ẩn (body[data-menu-open]).
+          onClick={() => {
+            onClose();
+            setTimeout(() => window.dispatchEvent(new Event(INSTALL_EVENT)), 0);
+          }}
+        >
+          <span className={`${chip} bg-sky-50 text-sky-600`}><Download size={18} /></span>
+          <span className={txt}>Cài App</span>
+        </button>
+      )}
+      <Link href={CONTACT.guidePath} className={row}>
+        <span className={`${chip} bg-violet-50 text-violet-600`}><BookOpen size={18} /></span>
+        <span className={txt}>Hướng dẫn</span>
+      </Link>
+      <a href={zaloLink()} target="_blank" rel="noopener noreferrer" className={row}>
+        <span className={`${chip} bg-blue-600 text-[11px] font-black text-white`}>Zalo</span>
+        <span className={txt}>Chat Zalo</span>
+      </a>
+      <a href={CONTACT.messenger} target="_blank" rel="noopener noreferrer" className={row}>
+        <span className={`${chip} bg-sky-50 text-sky-600`}><MessageCircle size={18} /></span>
+        <span className={txt}>Messenger</span>
+      </a>
+      <a href={CONTACT.facebookPage} target="_blank" rel="noopener noreferrer" className={row}>
+        <span className={`${chip} bg-indigo-50 text-indigo-600`}><ThumbsUp size={18} /></span>
+        <span className={txt}>Fanpage</span>
+      </a>
+      <Link href={CONTACT.supportPath} className={row}>
+        <span className={`${chip} bg-teal-50 text-teal-600`}><Mail size={18} /></span>
+        <span className={txt}>Gửi liên hệ</span>
+      </Link>
+    </div>
   );
 }

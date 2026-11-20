@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO } from '../lib/bieuDo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import BieuDoClient from './BieuDoClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Biểu đồ' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bieu-do"
+        crumbLabel="Biểu đồ"
         emoji="📊"
         eyebrow="Toán · Thống kê"
         title="Biểu đồ – đọc được và vẽ được"
-        tone="purple"
         description={
           <>
             Hai chiều của cùng một kỹ năng: <strong>đọc biểu đồ</strong> tranh và cột để trả lời câu hỏi, rồi{' '}
@@ -84,20 +84,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/chu-vi-dien-tich', label: 'Chu vi và diện tích', emoji: '📏' },
-              { href: '/hinh-hoc', label: 'Hình học – nhận hình, đối xứng', emoji: '🔷' },
-              { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="orange">
           <KidFaq items={faq} tone="orange" />
         </KidCard>
@@ -113,6 +99,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/bieu-do" links={[
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/chu-vi-dien-tich', label: 'Chu vi và diện tích', emoji: '📏' },
+        { href: '/hinh-hoc', label: 'Hình học – nhận hình, đối xứng', emoji: '🔷' },
+        { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
+      ]} />
     </KidShell>
   );
 }

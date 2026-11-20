@@ -2,6 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { VOCAB_TOPICS, publishableVocabTopics, totalVocabWords } from '../lib/vocab';
+import { byHref, type CatalogItem } from '../lib/catalog';
+import { PageHeader, HocTiep } from '../components/khung';
+import { ItemGrid } from '../components/catalog/CatalogCards';
+
+/** Lộ trình học đọc: chữ cái → ghép vần → mẫu câu (thẻ chung, dữ liệu từ sổ đăng ký). */
+const LO_TRINH = ['/vong-tu-vung', '/luyen-nghe', '/bang-chu-cai-tieng-anh', '/phonics-tieng-anh', '/mau-cau-tieng-anh']
+  .map((h) => byHref(h))
+  .filter((x): x is CatalogItem => Boolean(x));
 
 const TITLE = 'Từ vựng tiếng Anh cho bé theo chủ đề';
 const DESCRIPTION =
@@ -51,29 +59,19 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
-        <ol className="flex flex-wrap items-center gap-1">
-          <li><Link href="/" className="hover:text-sky-700">Trang chủ</Link></li>
-          <li aria-hidden>›</li>
-          <li className="font-medium text-slate-700">Từ vựng tiếng Anh</li>
-        </ol>
-      </nav>
-
-      <header className="relative mt-4 overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-500 via-fuchsia-500 to-sky-500 p-6 text-white shadow-lg sm:p-8">
-        <span className="pointer-events-none absolute -right-2 -top-8 text-[10rem] opacity-20 sm:text-[13rem]" aria-hidden>🔤</span>
-        <div className="relative">
-          <h1 className="text-2xl font-black drop-shadow sm:text-4xl">🔤 Từ vựng tiếng Anh cho bé</h1>
-          <p className="mt-3 max-w-2xl text-sm font-medium text-white/90 sm:text-base">
+      <PageHeader
+        href="/tu-vung-tieng-anh"
+        crumbLabel="Từ vựng tiếng Anh"
+        emoji="🔤"
+        eyebrow="Tiếng Anh · Từ vựng theo chủ đề"
+        title="Từ vựng tiếng Anh cho bé"
+        description={
+          <>
             Bộ từ vựng chia theo <strong>{topics.length} chủ đề</strong> quen thuộc, tổng cộng <strong>{totalVocabWords()}+ từ</strong>.
             Mỗi từ có phiên âm, nghĩa tiếng Việt, hình minh hoạ và nút nghe phát âm chuẩn. Chọn một chủ đề để bắt đầu!
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-full bg-white/25 px-3 py-1 text-sm font-bold backdrop-blur">{topics.length} chủ đề</span>
-            <span className="rounded-full bg-white/25 px-3 py-1 text-sm font-bold backdrop-blur">{totalVocabWords()}+ từ vựng</span>
-            <span className="rounded-full bg-white/25 px-3 py-1 text-sm font-bold backdrop-blur">🔊 Có phát âm</span>
-          </div>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map((t, i) => {
@@ -101,38 +99,22 @@ export default function Page() {
       </ul>
 
       <section className="mt-12">
-        <h2 className="text-xl font-black text-slate-900">🚀 Lộ trình học đọc tiếng Anh</h2>
+        <h2 className="kid-display text-h2 font-black text-ink">🚀 Lộ trình học đọc tiếng Anh</h2>
         <p className="mt-1 text-sm font-semibold text-slate-500">Không chỉ học từ — bé học đọc và ghép câu theo thứ tự: chữ cái → ghép vần → mẫu câu.</p>
-        <ul className="mt-4 grid gap-4 sm:grid-cols-3">
-          {[
-            { href: '/vong-tu-vung', emoji: '🎡', title: 'Vòng tròn từ vựng', desc: 'Bánh xe theo lớp & chủ đề', c: 'from-sky-400 to-cyan-400' },
-            { href: '/luyen-nghe', emoji: '🎧', title: 'Luyện nghe tiếng Anh', desc: '3 game nghe theo lớp', c: 'from-violet-400 to-purple-400' },
-            { href: '/bang-chu-cai-tieng-anh', emoji: '🔤', title: 'Bảng chữ cái A–Z', desc: 'Tên chữ, âm & từ mẫu', c: 'from-pink-400 to-rose-400' },
-            { href: '/phonics-tieng-anh', emoji: '🔉', title: 'Phonics ghép vần', desc: 'Đọc từ CVC: cat, dog, sun', c: 'from-violet-400 to-fuchsia-400' },
-            { href: '/mau-cau-tieng-anh', emoji: '💬', title: 'Mẫu câu giao tiếp', desc: 'This is a…, I like…, I can…', c: 'from-amber-400 to-orange-400' },
-          ].map((x) => (
-            <li key={x.href}>
-              <Link href={x.href} className="group flex h-full items-center gap-3 rounded-3xl border-2 border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-transparent hover:shadow-xl">
-                <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-3xl shadow-inner transition group-hover:scale-110 ${x.c}`} aria-hidden>{x.emoji}</span>
-                <span className="min-w-0">
-                  <span className="block font-black text-slate-900">{x.title}</span>
-                  <span className="block text-sm font-semibold text-slate-400">{x.desc} →</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-4">
+          <ItemGrid items={LO_TRINH} />
+        </div>
       </section>
 
-      <section className="mt-10 rounded-2xl border-2 border-slate-200 bg-white p-5">
-        <h2 className="text-lg font-bold text-slate-900">⭐ Có thể bé thích</h2>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-          <li><Link href="/tro-choi" className="text-sky-700 hover:underline">Trò chơi học tập</Link></li>
-          <li><Link href="/bai-tap" className="text-sky-700 hover:underline">Bài tập theo chủ đề</Link></li>
-          <li><Link href="/cong-cu" className="text-sky-700 hover:underline">Công cụ miễn phí</Link></li>
-          <li><Link href="/bai-viet" className="text-sky-700 hover:underline">Bài viết cho phụ huynh</Link></li>
-        </ul>
-      </section>
+      <HocTiep
+        href="/tu-vung-tieng-anh"
+        links={[
+          { href: '/tro-choi', label: 'Trò chơi học tập', emoji: '🎮' },
+          { href: '/bai-tap', label: 'Bài tập theo chủ đề', emoji: '✏️' },
+          { href: '/cong-cu', label: 'Công cụ miễn phí', emoji: '🧰' },
+          { href: '/bai-viet', label: 'Bài viết cho phụ huynh', emoji: '📰' },
+        ]}
+      />
     </div>
   );
 }

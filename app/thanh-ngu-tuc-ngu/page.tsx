@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { THANH_NGU_GROUPS, totalThanhNgu } from '../lib/thanhNgu';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import ThanhNguClient from './ThanhNguClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Thành ngữ, tục ngữ' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/thanh-ngu-tuc-ngu"
+        crumbLabel="Thành ngữ, tục ngữ"
         emoji="🧧"
         eyebrow="Tiếng Việt · Văn hóa"
         title="Thành ngữ, tục ngữ cho bé"
-        tone="orange"
         description={
           <>
             Học {totalThanhNgu()} câu <strong>thành ngữ, tục ngữ</strong> quen thuộc theo chủ đề (chăm chỉ, đoàn kết, biết
@@ -57,19 +57,12 @@ export default function Page() {
 
       <ThanhNguClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp tiếng Việt" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/dong-dao-ca-dao', label: 'Đồng dao, ca dao', emoji: '🎶' },
-              { href: '/truyen-co-tich', label: 'Truyện cổ tích Việt Nam', emoji: '📖' },
-              { href: '/mo-rong-von-tu', label: 'Mở rộng vốn từ', emoji: '📚' },
-              { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/thanh-ngu-tuc-ngu" links={[
+        { href: '/dong-dao-ca-dao', label: 'Đồng dao, ca dao', emoji: '🎶' },
+        { href: '/truyen-co-tich', label: 'Truyện cổ tích Việt Nam', emoji: '📖' },
+        { href: '/mo-rong-von-tu', label: 'Mở rộng vốn từ', emoji: '📚' },
+        { href: '/luyen-tu-va-cau', label: 'Luyện từ và câu', emoji: '🧩' },
+      ]} />
     </KidShell>
   );
 }

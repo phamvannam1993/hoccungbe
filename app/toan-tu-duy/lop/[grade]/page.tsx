@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { GRADES, getTuDuyGrade, type TuDuyQuestion } from '../../data';
 import { SITE_NAME, SITE_URL, canonical } from '../../../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidPills, KidLinkList, TONES } from '../../../components/seo/kid';
+import { KidShell, KidCard, KidPills, TONES } from '../../../components/seo/kid';
+import { PageHeader, HocTiep } from '../../../components/khung';
 import TuDuyQuiz from './TuDuyQuiz';
 
 // /toan-tu-duy-lop-1 … 5. Câu hỏi lấy từ DB (iq_questions) qua API; rỗng → fallback data.ts.
@@ -128,16 +129,14 @@ export default async function Page({ params }: { params: Promise<{ grade: string
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       {quizLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(quizLd) }} />}
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Toán tư duy', href: '/toan-tu-duy' }, { label: `Lớp ${g}` }]} />
-
-      <KidHero emoji="🧠" eyebrow="Chuyên đề" title={`Toán tư duy lớp ${g}`} tone="purple" description={data.intro} />
+      <PageHeader href={`/toan-tu-duy-lop-${g}`} emoji="🧠" eyebrow="Chuyên đề" title={`Toán tư duy lớp ${g}`} description={data.intro} />
 
       <div className="mt-6">
         <KidCard emoji="🧩" title={`Các dạng bài toán tư duy lớp ${g}`} tone="orange" badge={data.topics.length}>
           <ul className="grid gap-2.5 sm:grid-cols-2">
             {data.topics.map((t) => (
-              <li key={t} className="flex items-start gap-2 rounded-2xl px-3 py-2 text-slate-700" style={{ background: '#FFF7ED' }}>
-                <span aria-hidden style={{ color: '#FF9F45' }}>◆</span>
+              <li key={t} className="flex items-start gap-2 rounded-2xl px-3 py-2 text-slate-700" style={{ background: 'var(--hue-orange-soft)' }}>
+                <span aria-hidden style={{ color: 'var(--kid-orange)' }}>◆</span>
                 <span>{t}</span>
               </li>
             ))}
@@ -179,19 +178,15 @@ export default async function Page({ params }: { params: Promise<{ grade: string
         </KidCard>
       </div>
 
-      <div className="mt-6">
-        <KidCard emoji="⭐" title={`Học thêm cho lớp ${g}`} tone="sky">
-          <KidLinkList
-            tone="sky"
-            items={[
-              { href: `/khoa-hoc/toan-lop-${g}`, label: `Khóa học Toán lớp ${g}`, emoji: '📚' },
-              { href: `/bai-tap/toan-lop-${g}`, label: `Bài tập Toán lớp ${g}`, emoji: '✏️' },
-              { href: `/de-thi-lop-${g}`, label: `Đề thi lớp ${g}`, emoji: '📝' },
-              { href: `/lop-${g}`, label: `Tổng hợp học lớp ${g}`, emoji: '🎒' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep
+        href={`/toan-tu-duy-lop-${g}`}
+        links={[
+          { href: `/khoa-hoc/toan-lop-${g}`, label: `Khóa học Toán lớp ${g}`, emoji: '📚' },
+          { href: `/bai-tap/toan-lop-${g}`, label: `Bài tập Toán lớp ${g}`, emoji: '✏️' },
+          { href: `/de-thi-lop-${g}`, label: `Đề thi lớp ${g}`, emoji: '📝' },
+          { href: `/lop-${g}`, label: `Tổng hợp học lớp ${g}`, emoji: '🎒' },
+        ]}
+      />
     </KidShell>
   );
 }

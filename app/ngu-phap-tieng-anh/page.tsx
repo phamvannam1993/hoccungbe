@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { GRAMMAR_TOPICS, totalGrammarQuestions } from '../lib/grammar';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import GrammarClient from './GrammarClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Ngữ pháp tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/ngu-phap-tieng-anh"
+        crumbLabel="Ngữ pháp tiếng Anh"
         emoji="🧩"
         eyebrow="Tiếng Anh · Ngữ pháp"
         title="Ngữ pháp tiếng Anh cơ bản"
-        tone="green"
         description={
           <>
             Học {GRAMMAR_TOPICS.length} chủ điểm ngữ pháp nền tảng qua <strong>trò chơi chọn đáp án</strong>: a/an, số
@@ -58,20 +58,13 @@ export default function Page() {
 
       <GrammarClient />
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Lộ trình học tiếng Anh" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
-              { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống', emoji: '🗣️' },
-              { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
-              { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/ngu-phap-tieng-anh" links={[
+        { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp', emoji: '💬' },
+        { href: '/hoi-thoai-tieng-anh', label: 'Hội thoại tình huống', emoji: '🗣️' },
+        { href: '/sight-words-tieng-anh', label: 'Sight words – Từ thông dụng', emoji: '⚡' },
+        { href: '/phonics-tieng-anh', label: 'Phonics – Ghép vần đọc', emoji: '🔉' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng theo chủ đề', emoji: '📚' },
+      ]} />
     </KidShell>
   );
 }

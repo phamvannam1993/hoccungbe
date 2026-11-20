@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO } from '../lib/soThapPhan';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import ThapPhanClient from './ThapPhanClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Số thập phân' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/so-thap-phan"
+        crumbLabel="Số thập phân"
         emoji="🔢"
         eyebrow="Toán · Số thập phân"
         title="Số thập phân – nhìn thanh là hiểu"
-        tone="sky"
         description={
           <>
             Ba việc: <strong>đọc số</strong> từ thanh chia 10 phần và lưới 100 ô, <strong>so sánh</strong> bằng cách
@@ -85,20 +85,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="orange">
-          <KidLinkList
-            tone="orange"
-            items={[
-              { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
-              { href: '/tim-x', label: 'Tìm x – cân thăng bằng', emoji: '⚖️' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -114,6 +100,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/so-thap-phan" links={[
+        { href: '/phan-so', label: 'Phân số trực quan – tô bánh để hiểu', emoji: '🍕' },
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
+        { href: '/tim-x', label: 'Tìm x – cân thăng bằng', emoji: '⚖️' },
+      ]} />
     </KidShell>
   );
 }

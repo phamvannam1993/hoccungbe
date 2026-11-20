@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { ENGLISH_ALPHABET } from '../lib/englishAlphabet';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell, KidCard } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import EnglishAlphabetClient from './EnglishAlphabetClient';
 
 export const revalidate = 86400;
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Bảng chữ cái tiếng Anh' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/bang-chu-cai-tieng-anh"
+        crumbLabel="Bảng chữ cái tiếng Anh"
         emoji="🔤"
         eyebrow="Tiếng Anh · Nền tảng tập đọc"
         title="Bảng chữ cái tiếng Anh A–Z"
-        tone="pink"
         description={
           <>
             Làm quen 26 chữ cái tiếng Anh: <strong>tên chữ</strong>, <strong>âm phonics</strong> và một{' '}
@@ -59,20 +59,6 @@ export default function Page() {
       <EnglishAlphabetClient />
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp lộ trình đọc" tone="blue">
-          <KidLinkList
-            tone="blue"
-            items={[
-              { href: '/phonics-tieng-anh', label: 'Ghép vần đọc tiếng Anh (Phonics)', emoji: '🔉' },
-              { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp tiếng Anh', emoji: '💬' },
-              { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
-              { href: '/bang-chu-cai', label: 'Bảng chữ cái Tiếng Việt', emoji: '🅰️' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="📝" title={`26 chữ cái với ${ENGLISH_ALPHABET.length} từ mẫu`} tone="green">
           <p className="leading-7 text-slate-600">
             Mỗi chữ đi kèm một từ tiếng Anh bắt đầu bằng chữ đó (A – apple, B – ball, C – cat…) giúp bé vừa nhớ mặt chữ
@@ -81,6 +67,13 @@ export default function Page() {
           </p>
         </KidCard>
       </div>
+
+      <HocTiep href="/bang-chu-cai-tieng-anh" links={[
+        { href: '/phonics-tieng-anh', label: 'Ghép vần đọc tiếng Anh (Phonics)', emoji: '🔉' },
+        { href: '/mau-cau-tieng-anh', label: 'Mẫu câu giao tiếp tiếng Anh', emoji: '💬' },
+        { href: '/tu-vung-tieng-anh', label: 'Từ vựng tiếng Anh theo chủ đề', emoji: '📚' },
+        { href: '/bang-chu-cai', label: 'Bảng chữ cái Tiếng Việt', emoji: '🅰️' },
+      ]} />
     </KidShell>
   );
 }

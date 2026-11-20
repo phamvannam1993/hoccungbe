@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { DON_VI, MUC_DO } from '../lib/doLuong';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import DoLuongClient from './DoLuongClient';
 
 export const revalidate = 86400;
@@ -65,13 +66,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Đo lường' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/do-luong"
+        crumbLabel="Đo lường"
         emoji="📐"
         eyebrow="Toán · Đo lường"
         title="Đo lường – thước, cân và đổi đơn vị"
-        tone="orange"
         description={
           <>
             Ba việc bé tự làm: <strong>đọc số đo trên thước kẻ</strong> (có bài đặt lệch vạch 0),{' '}
@@ -105,20 +105,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="green">
-          <KidLinkList
-            tone="green"
-            items={[
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/dat-tinh', label: 'Đặt tính rồi tính – cộng trừ nhân chia', emoji: '🧮' },
-              { href: '/xem-dong-ho', label: 'Xem đồng hồ', emoji: '🕐' },
-              { href: '/tien-viet-nam', label: 'Học tiêu tiền Việt Nam', emoji: '💵' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -134,6 +120,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/do-luong" links={[
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/dat-tinh', label: 'Đặt tính rồi tính – cộng trừ nhân chia', emoji: '🧮' },
+        { href: '/xem-dong-ho', label: 'Xem đồng hồ', emoji: '🕐' },
+        { href: '/tien-viet-nam', label: 'Học tiêu tiền Việt Nam', emoji: '💵' },
+      ]} />
     </KidShell>
   );
 }

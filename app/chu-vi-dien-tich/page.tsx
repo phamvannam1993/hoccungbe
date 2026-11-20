@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { MUC_DO, TEN_HINH, congThuc } from '../lib/chuViDienTich';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import ChuViClient from './ChuViClient';
 
 export const revalidate = 86400;
@@ -58,13 +59,12 @@ export default function Page() {
   return (
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Chu vi và diện tích' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/chu-vi-dien-tich"
+        crumbLabel="Chu vi và diện tích"
         emoji="📏"
         eyebrow="Toán · Hình học đo lường"
         title="Chu vi và diện tích – kéo để thấy"
-        tone="green"
         description={
           <>
             Bé <strong>kéo cạnh hình chữ nhật</strong> trên lưới ô vuông, chu vi và diện tích đổi theo tay kéo — hiểu
@@ -101,20 +101,6 @@ export default function Page() {
       </div>
 
       <div className="mt-8">
-        <KidCard emoji="👉" title="Học tiếp phần nào?" tone="orange">
-          <KidLinkList
-            tone="orange"
-            items={[
-              { href: '/hinh-hoc', label: 'Hình học – nhận hình, đối xứng, khối 3D', emoji: '🔷' },
-              { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
-              { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-            ]}
-          />
-        </KidCard>
-      </div>
-
-      <div className="mt-8">
         <KidCard emoji="❓" title="Câu hỏi thường gặp" tone="purple">
           <KidFaq items={faq} tone="purple" />
         </KidCard>
@@ -130,6 +116,13 @@ export default function Page() {
           }),
         }}
       />
+
+      <HocTiep href="/chu-vi-dien-tich" links={[
+        { href: '/hinh-hoc', label: 'Hình học – nhận hình, đối xứng, khối 3D', emoji: '🔷' },
+        { href: '/do-luong', label: 'Đo lường – thước, cân, đổi đơn vị', emoji: '📐' },
+        { href: '/hoc-toan', label: 'Tất cả công cụ Toán', emoji: '🔢' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+      ]} />
     </KidShell>
   );
 }

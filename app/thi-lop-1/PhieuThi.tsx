@@ -816,11 +816,12 @@ export default function PhieuThi({ phieu, mode = 'lam' }: { phieu: Phieu; mode?:
             <p className="mt-2 italic">Thứ……… ngày….. tháng ….năm ………</p>
           </div>
         </div>
-        <div className="mt-3 grid grid-cols-[1fr_auto] gap-3">
-          <div className="rounded-[1.4rem] border-[3px] px-4 py-2 text-center" style={{ borderColor: '#f0954a', fontFamily: '"Times New Roman", Times, serif' }}>
+        {/* minmax(0,1fr) + cắt dòng chấm: trên điện thoại hàng chấm không đẩy tờ đề tràn ngang */}
+        <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-3">
+          <div className="min-w-0 overflow-hidden rounded-[1.4rem] border-[3px] px-4 py-2 text-center" style={{ borderColor: '#f0954a', fontFamily: '"Times New Roman", Times, serif' }}>
             <p className="font-bold">Nhận xét của giáo viên</p>
-            <p className="mt-2 tracking-widest text-slate-500">……………………………………………………</p>
-            <p className="tracking-widest text-slate-500">……………………………………………………</p>
+            <p className="mt-2 overflow-hidden whitespace-nowrap tracking-widest text-slate-500">……………………………………………………</p>
+            <p className="overflow-hidden whitespace-nowrap tracking-widest text-slate-500">……………………………………………………</p>
           </div>
           <DiemBox diem={diemHien} max={ketQua.max} />
         </div>

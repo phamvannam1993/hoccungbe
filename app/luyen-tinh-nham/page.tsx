@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
-import { KidShell, KidCrumb, KidHero, KidCard, KidLinkList } from '../components/seo/kid';
+import { KidShell, KidCard } from '../components/seo/kid';
+import { PageHeader, HocTiep } from '../components/khung';
 import LuyenTinhNhamClient from './LuyenTinhNhamClient';
 import TinhNhanhClient from './TinhNhanhClient';
 
@@ -40,13 +41,12 @@ export default function Page() {
     <KidShell max="3xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
 
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Luyện tính nhẩm' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/luyen-tinh-nham"
+        crumbLabel="Luyện tính nhẩm"
         emoji="⚡"
         eyebrow="Toán · Tính nhẩm"
         title="Luyện tính nhẩm nhanh"
-        tone="blue"
         description={
           <>
             Bé luyện <strong>cộng, trừ, nhân, chia</strong> theo từng mức (trong 10/20/100, bảng nhân, bảng chia). Có{' '}
@@ -125,19 +125,12 @@ export default function Page() {
         </KidCard>
       </div>
 
-      <div className="mt-8">
-        <KidCard emoji="👉" title="Học Toán tiếp" tone="pink">
-          <KidLinkList
-            tone="pink"
-            items={[
-              { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
-              { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
-              { href: '/bai-tap/toan-lop-1', label: 'Bài tập Toán lớp 1', emoji: '📝' },
-              { href: '/de-thi', label: 'Đề thi Toán có chấm điểm', emoji: '🏆' },
-            ]}
-          />
-        </KidCard>
-      </div>
+      <HocTiep href="/luyen-tinh-nham" links={[
+        { href: '/bang-cuu-chuong', label: 'Bảng cửu chương', emoji: '✖️' },
+        { href: '/toan-tu-duy', label: 'Toán tư duy lớp 1–5', emoji: '🧠' },
+        { href: '/bai-tap/toan-lop-1', label: 'Bài tập Toán lớp 1', emoji: '📝' },
+        { href: '/de-thi', label: 'Đề thi Toán có chấm điểm', emoji: '🏆' },
+      ]} />
     </KidShell>
   );
 }

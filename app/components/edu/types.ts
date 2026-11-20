@@ -44,6 +44,8 @@ export type PageKey =
   | 'trace-sentence'
   | 'doc-van-ghep-chu'
   | 'vietnamese-first-grade'
+  | 'word-guess'
+  | 'word-search'
 
   // ─── Ghi nhớ & tập trung ──────────────────────────────────
   | 'san-hinh-ghi-nho'

@@ -2,9 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_NAME, SITE_URL, canonical } from '../lib/seo';
 import { CONG_CU_TOAN, congCuTheoLop } from '../lib/congCuToan';
-import { KidShell, KidCrumb, KidHero, KidCard, KidFaq } from '../components/seo/kid';
+import { KidShell, KidCard, KidFaq } from '../components/seo/kid';
+import { PageHeader } from '../components/khung';
+import { ItemGrid } from '../components/catalog/CatalogCards';
+import { byHref, type CatalogItem } from '../lib/catalog';
 
 export const revalidate = 86400;
+
+/** Công cụ theo đúng thứ tự của congCuToan.ts, lấy bản ghi trong sổ đăng ký để dùng thẻ chung. */
+const TOOLS = CONG_CU_TOAN.map((c) => byHref(c.href)).filter((x): x is CatalogItem => Boolean(x));
 
 const TITLE = 'Học Toán tiểu học – bộ công cụ trực quan cho bé lớp 1 đến lớp 5';
 const DESCRIPTION =
@@ -67,13 +73,14 @@ export default function Page() {
     <KidShell max="5xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(danhSach) }} />
-      <KidCrumb items={[{ label: 'Trang chủ', href: '/' }, { label: 'Học Toán' }]} />
-
-      <KidHero
+      <PageHeader
+        href="/hoc-toan"
+        crumbLabel="Học Toán"
+        subject="toan"
+        grades={[1, 2, 3, 4, 5]}
         emoji="🔢"
         eyebrow="Toán tiểu học"
         title="Học Toán bằng tay, không chỉ bằng mắt"
-        tone="blue"
         description={
           <>
             <strong>{CONG_CU_TOAN.length} công cụ bấm được</strong> cho bé lớp 1 đến lớp 5: kéo kim đồng hồ, tô miếng
@@ -83,35 +90,9 @@ export default function Page() {
         }
       />
 
-      {/* Lưới công cụ */}
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {CONG_CU_TOAN.map((c) => (
-          <Link
-            key={c.href}
-            href={c.href}
-            className="group flex items-start gap-3 rounded-3xl border-2 bg-white p-4 transition hover:-translate-y-0.5"
-            style={{ borderColor: `${c.mau}33`, boxShadow: `0 4px 0 ${c.mau}22` }}
-          >
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl"
-                  style={{ background: `${c.mau}1a` }} aria-hidden>
-              {c.emoji}
-            </span>
-            <span className="min-w-0">
-              <span className="flex items-center gap-2">
-                <b className="text-base text-slate-900">{c.ten}</b>
-                {c.moi && (
-                  <span className="rounded-full px-2 py-0.5 text-[10px] font-black text-white" style={{ background: c.mau }}>
-                    MỚI
-                  </span>
-                )}
-              </span>
-              <span className="mt-0.5 block text-sm leading-6 text-slate-600">{c.moTa}</span>
-              <span className="mt-1 block text-xs font-bold" style={{ color: c.mau }}>
-                Lớp {c.lop.join(', ')}
-              </span>
-            </span>
-          </Link>
-        ))}
+      {/* Lưới công cụ — thẻ chung (CatalogCards), dữ liệu từ sổ đăng ký */}
+      <div className="mt-6">
+        <ItemGrid items={TOOLS} cols={2} />
       </div>
 
       {/* Gợi ý theo lớp — phần chữ này cũng để máy tìm kiếm đọc được */}
@@ -121,7 +102,7 @@ export default function Page() {
             <ul className="space-y-1.5 text-sm leading-6 text-slate-700">
               {congCuTheoLop(lop).map((c) => (
                 <li key={c.href}>
-                  <Link href={c.href} className="font-bold text-sky-700 hover:underline">{c.emoji} {c.ten}</Link>
+                  <Link href={c.href} className="font-bold text-toan hover:underline">{c.emoji} {c.ten}</Link>
                 </li>
               ))}
             </ul>

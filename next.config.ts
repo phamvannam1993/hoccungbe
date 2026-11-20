@@ -22,6 +22,8 @@ const GAME_MAP: Record<string, string> = {
   'doc-van-ghep-chu': 'ghep-chu-thanh-van',
   'bubble-vocabulary': 'bat-bong-tu-vung',
   'vietnamese-first-grade': 'tieng-viet-lop-1',
+  'word-guess': 'nhin-hinh-doan-chu',
+  'word-search': 'tim-tu',
 
   // Tư duy
   'puzzle-game': 'ghep-hinh-rung',
@@ -85,6 +87,11 @@ const nextConfig: NextConfig = {
       permanent: true,
     }));
     return [
+      // Đề thi cũ (API /exams) TẠM TẮT — đề thi giờ ở các khu /thi-lop-1…5 (dạng mới, chấm điểm trên trang).
+      // 307 (permanent: false) để còn bật lại; bỏ 3 dòng này + khôi phục app/de-thi/TrangDeThiCu.tsx là quay về như cũ.
+      { source: '/de-thi-lop-:grade(\\d)', destination: '/thi-lop-:grade', permanent: false },
+      { source: '/de-thi/lop/:grade(\\d)', destination: '/thi-lop-:grade', permanent: false },
+      { source: '/de-thi/:slug', destination: '/de-thi', permanent: false },
       { source: '/games', destination: '/tro-choi', permanent: true },
       // Gỡ Đấu Trường cũ — thay bằng Thi Tài (301, giữ link/sitemap đã index).
       { source: '/dau-truong', destination: '/thi-tai', permanent: true },
@@ -122,6 +129,9 @@ const nextConfig: NextConfig = {
       { source: '/tro-choi/ca-trong-ho', destination: '/tro-choi/ca-trong-ho-boi', permanent: true },
       { source: '/tro-choi/hai-tao-hoc', destination: '/tro-choi/hai-tao-hoc-toan', permanent: true },
       { source: '/tro-choi/tau-hoc-toan', destination: '/tro-choi/doan-tau-toan-hoc', permanent: true },
+      // Đường dẫn ngắn của 2 game chữ (Sân chơi trí tuệ) → URL chuẩn trong kho trò chơi.
+      { source: '/nhin-hinh-doan-chu', destination: '/tro-choi/nhin-hinh-doan-chu', permanent: true },
+      { source: '/tim-tu', destination: '/tro-choi/tim-tu', permanent: true },
       // Bỏ trang liên hệ riêng — gộp về trang hỗ trợ (301).
       { source: '/lien-he', destination: '/ho-tro', permanent: true },
       { source: '/contact', destination: '/ho-tro', permanent: true },
